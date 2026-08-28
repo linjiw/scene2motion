@@ -162,6 +162,74 @@ class Grid:
         return out
 
 
+def _diagnose_refusal(scene: Scene, grid: "Grid", modes: tuple[BodyMode, ...]) -> dict:
+    """Which physical bound blocked the scene, and by how much.
+
+    For every obstacle, compare what the best available mode offers against what the geometry
+    demands. The binding one is the obstacle with the smallest deficit -- the closest the
+    planner came to a solution -- since that is the one worth recalibrating or relaxing.
+
+    Two things this must not get wrong, both found by reading its first output:
+      * A floor-standing obstacle TALLER than any step-over is not a step problem. Treating a
+        2.6 m wall panel as one reported "step_height short by 257 cm", which is true and
+        useless. Above `MAX_PLAUSIBLE_STEP` the obstacle simply blocks, and the question
+        becomes lateral.
+      * Lateral clearance is a property of the free CHANNEL at an x-column, not of one box.
+        Computing it per-obstacle cannot see the slot between two wall panels, which is
+        exactly the geometry `narrow_gap` is made of. It is measured off the grid instead.
+    """
+    MAX_PLAUSIBLE_STEP = 0.60
+    best_top = min(m.top for m in modes)
+    best_hw = min(m.half_width for m in modes)
+    best_step = max(m.max_step for m in modes)
+
+    def free_channel_at(x: float) -> float:
+        """Widest contiguous GEOMETRIC gap in the column nearest `x`, metres.
+
+        Measured for a point, not for a body. Using an inflated occupancy here reports the
+        gap as 0.00 m whenever the narrowest mode does not fit -- true, and unreadable: the
+        whole point of the diagnostic is to say "the gap is 0.50 m and you need 0.54 m",
+        which requires the gap itself.
+        """
+        xi = float(np.clip(x, grid.x0, grid.x0 + (grid.nx - 1) * grid.res))
+        ys = grid.y0 + grid.res * np.arange(grid.ny)
+        blocked = np.zeros(grid.ny, bool)
+        for b in scene.boxes:
+            lo, hi = b.lo, b.hi
+            if not (lo[0] <= xi <= hi[0]) or hi[2] <= 0.02:
+                continue
+            blocked |= (ys >= lo[1]) & (ys <= hi[1])
+        best = run = 0
+        for v in ~blocked:
+            run = run + 1 if v else 0
+            best = max(best, run)
+        return best * grid.res
+
+    worst = None
+    for b in scene.boxes:
+        if b.label.startswith("wall_"):
+            continue
+        lo, hi = b.lo, b.hi
+        cands = []
+        if lo[2] > 0.02:
+            cands.append(("overhead_clearance", float(best_top - lo[2]),
+                          float(lo[2]), float(best_top)))
+        elif hi[2] <= MAX_PLAUSIBLE_STEP:
+            cands.append(("step_height", float(hi[2] - best_step),
+                          float(hi[2]), float(best_step)))
+        channel = free_channel_at(float(b.center[0]))
+        cands.append(("lateral_clearance", float(2 * best_hw - channel),
+                      float(channel), float(2 * best_hw)))
+        for name, deficit, demanded, offered in cands:
+            if deficit > 0 and (worst is None or deficit < worst["deficit_m"]):
+                worst = {"functional": name, "deficit_m": round(deficit, 4),
+                         "scene_value_m": round(demanded, 4),
+                         "best_available_m": round(offered, 4),
+                         "obstacle": b.label, "obstacle_x": float(b.center[0])}
+    return worst or {"functional": "unreachable", "deficit_m": float("nan"),
+                     "note": "no single obstacle binds; start or goal may be enclosed"}
+
+
 _NB = [(1, 0, 1.0), (-1, 0, 1.0), (0, 1, 1.0), (0, -1, 1.0),
        (1, 1, 1.4142), (1, -1, 1.4142), (-1, 1, 1.4142), (-1, -1, 1.4142)]
 
@@ -254,6 +322,12 @@ class Plan:
     planner: str
     feasible: bool
     note: str = ""
+    # Why the scene was refused, when it was. A planner that can only say "no" is much less
+    # useful than one that says which physical bound stopped it and by how much: the deficit
+    # distinguishes "3 cm short of a certified duck" (recalibrate, or accept the risk) from
+    # "22 cm of box against a 3 cm step" (a real limit of the prior). EXP-005c found 32 of 40
+    # refusals are the second kind, and this is what makes that claim checkable per scene.
+    refusal: dict | None = None
 
     @property
     def length(self) -> float:
@@ -339,7 +413,9 @@ def plan(scene: Scene, planner: str = "adaptive", res: float = 0.05,
 
     path = _astar(grid, s, t, modes)
     if path is None:
-        return Plan(np.zeros((0, 2)), [], planner, False, "no path in this planner's C-space")
+        return Plan(np.zeros((0, 2)), [], planner, False,
+                    "no path in this planner's C-space",
+                    refusal=_diagnose_refusal(scene, grid, modes))
     xy = np.array([grid.world(i, j) for i, j, _ in path])
     used = [modes[mi] for _, _, mi in path]
     return Plan(xy, used, planner, True)

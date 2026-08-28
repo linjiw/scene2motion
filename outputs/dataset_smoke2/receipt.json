@@ -1,0 +1,34 @@
+{
+  "n_scenes": 40,
+  "n_candidates": 57,
+  "n_valid": 52,
+  "validation_rate": 0.9122807017543859,
+  "candidates_per_scene": {
+    "0": 6,
+    "1": 14,
+    "2": 17,
+    "3": 3
+  },
+  "valid_per_scene": {
+    "0": 6,
+    "1": 16,
+    "2": 18
+  },
+  "multimodal_scenes": 18,
+  "dim_c": 39,
+  "model": "ARDY-G1-RP-25FPS-Horizon52",
+  "fps": 25.0,
+  "seed0": 1000000,
+  "enrich": [
+    0.5,
+    0.35,
+    0.15
+  ],
+  "enriched_mix": {
+    "multi": 20,
+    "none": 6,
+    "uni": 14
+  },
+  "note": "scene marginal is enriched for multimodality; the conditional p(C|S) is what is learned and evaluation stays on the unenriched ladders",
+  "wall_clock_s": 74.3
+}

@@ -1,0 +1,23 @@
+{
+  "n_scenes": 40,
+  "n_candidates": 33,
+  "n_valid": 31,
+  "validation_rate": 0.9393939393939394,
+  "candidates_per_scene": {
+    "0": 16,
+    "1": 17,
+    "2": 5,
+    "3": 2
+  },
+  "valid_per_scene": {
+    "0": 16,
+    "1": 17,
+    "2": 7
+  },
+  "multimodal_scenes": 7,
+  "dim_c": 39,
+  "model": "ARDY-G1-RP-25FPS-Horizon52",
+  "fps": 25.0,
+  "seed0": 1000000,
+  "wall_clock_s": 42.0
+}

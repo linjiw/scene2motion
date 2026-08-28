@@ -1,0 +1,102 @@
+{
+  "experiment": "exp002_planner_contrast",
+  "model": "ARDY-G1-RP-25FPS-Horizon52",
+  "fps": 25.0,
+  "planners": [
+    "pelvis",
+    "standing",
+    "adaptive"
+  ],
+  "prompt": "A person walks forward.",
+  "speed_mps": 0.9,
+  "goal_tol_m": 0.5,
+  "seeds_per_rung": 1,
+  "n_scenes": 6,
+  "n_rows": 29,
+  "diffusion_steps": 10,
+  "body_modes": {
+    "modes": [
+      {
+        "name": "stand",
+        "half_width": 0.34,
+        "top": 1.298,
+        "pelvis_y": 0.78,
+        "cost": 1.0,
+        "tuck": 0.0,
+        "sidle_deg": 0.0,
+        "max_step": 0.0,
+        "source": "exp001 duck=0.0, worst of 3 seeds"
+      },
+      {
+        "name": "duck_light",
+        "half_width": 0.32,
+        "top": 1.176,
+        "pelvis_y": 0.63,
+        "cost": 1.2,
+        "tuck": 0.0,
+        "sidle_deg": 0.0,
+        "max_step": 0.0,
+        "source": "exp001 duck=0.15, worst of 3 seeds"
+      },
+      {
+        "name": "duck",
+        "half_width": 0.335,
+        "top": 1.087,
+        "pelvis_y": 0.53,
+        "cost": 1.45,
+        "tuck": 0.0,
+        "sidle_deg": 0.0,
+        "max_step": 0.0,
+        "source": "exp001 duck=0.25, worst of 3 seeds"
+      },
+      {
+        "name": "duck_deep",
+        "half_width": 0.457,
+        "top": 0.977,
+        "pelvis_y": 0.43,
+        "cost": 1.8,
+        "tuck": 0.0,
+        "sidle_deg": 0.0,
+        "max_step": 0.0,
+        "source": "exp001 duck=0.35, worst of 3 seeds"
+      },
+      {
+        "name": "duck_max",
+        "half_width": 0.304,
+        "top": 0.782,
+        "pelvis_y": 0.28,
+        "cost": 2.4,
+        "tuck": 0.0,
+        "sidle_deg": 0.0,
+        "max_step": 0.0,
+        "source": "exp001 duck=0.5, worst of 3 seeds"
+      },
+      {
+        "name": "narrow",
+        "half_width": 0.222,
+        "top": 1.301,
+        "pelvis_y": 0.78,
+        "cost": 1.6,
+        "tuck": 0.85,
+        "sidle_deg": 0.0,
+        "max_step": 0.0,
+        "source": "exp001b sidle=0 tuck=0.85 prompt=walk, worst of 3 seeds"
+      },
+      {
+        "name": "step_over",
+        "half_width": 0.34,
+        "top": 1.298,
+        "pelvis_y": 0.78,
+        "cost": 1.7,
+        "tuck": 0.0,
+        "sidle_deg": 0.0,
+        "lift": 0.45,
+        "max_step": 0.07,
+        "control_max_step": 0.0,
+        "source": "exp001c cond=both lift=0.45, worst seed"
+      }
+    ],
+    "note": "half_width and top are WORST-CASE over seeds; a planner must not assume better than the prior reliably delivers."
+  },
+  "wall_clock_s": 9.7
+}

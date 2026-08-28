@@ -1,0 +1,126 @@
+{
+  "experiment": "exp001b_min_halfwidth",
+  "model": "ARDY-G1-RP-25FPS-Horizon52",
+  "fps": 25.0,
+  "duration_s": 8.0,
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "arm_joints": [
+    "left_shoulder_roll_skel",
+    "left_elbow_skel",
+    "left_wrist_roll_skel",
+    "left_hand_roll_skel",
+    "right_shoulder_roll_skel",
+    "right_elbow_skel",
+    "right_wrist_roll_skel",
+    "right_hand_roll_skel"
+  ],
+  "grid": [
+    [
+      0,
+      0.0,
+      "A person walks forward."
+    ],
+    [
+      0,
+      0.7,
+      "A person walks forward."
+    ],
+    [
+      0,
+      0.85,
+      "A person walks forward."
+    ],
+    [
+      45,
+      0.0,
+      "A person walks forward."
+    ],
+    [
+      45,
+      0.7,
+      "A person walks forward."
+    ],
+    [
+      45,
+      0.85,
+      "A person walks forward."
+    ],
+    [
+      60,
+      0.0,
+      "A person walks forward."
+    ],
+    [
+      60,
+      0.7,
+      "A person walks forward."
+    ],
+    [
+      60,
+      0.85,
+      "A person walks forward."
+    ],
+    [
+      75,
+      0.0,
+      "A person walks forward."
+    ],
+    [
+      75,
+      0.7,
+      "A person walks forward."
+    ],
+    [
+      75,
+      0.85,
+      "A person walks forward."
+    ],
+    [
+      90,
+      0.0,
+      "A person walks forward."
+    ],
+    [
+      90,
+      0.7,
+      "A person walks forward."
+    ],
+    [
+      90,
+      0.85,
+      "A person walks forward."
+    ],
+    [
+      90,
+      0.0,
+      "A person steps sideways through a narrow gap."
+    ],
+    [
+      90,
+      0.7,
+      "A person steps sideways through a narrow gap."
+    ],
+    [
+      90,
+      0.85,
+      "A person steps sideways through a narrow gap."
+    ],
+    [
+      75,
+      0.85,
+      "A person steps sideways through a narrow gap."
+    ],
+    [
+      60,
+      0.85,
+      "A person steps sideways through a narrow gap."
+    ]
+  ],
+  "control_halfwidth_m": 0.30507850606376347,
+  "n_rows": 60,
+  "wall_clock_s": 13.3
+}

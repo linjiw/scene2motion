@@ -1,0 +1,22 @@
+{
+  "experiment": "exp001c_step_over",
+  "model": "ARDY-G1-RP-25FPS-Horizon52",
+  "fps": 25.0,
+  "obstacle_x": 3.8,
+  "lifts": [
+    0.0,
+    0.15,
+    0.25,
+    0.35,
+    0.45,
+    0.55
+  ],
+  "seeds": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "n_rows": 68,
+  "wall_clock_s": 31.1
+}

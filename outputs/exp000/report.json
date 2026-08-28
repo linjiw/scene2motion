@@ -1,0 +1,90 @@
+{
+  "experiment": "exp000_geometry_audit",
+  "xml": "/home/linjiw/ardy/ardy/assets/skeletons/g1skel34/xml/g1.xml",
+  "source_motion": "/home/linjiw/ardy/smoke/g1_walk.npz",
+  "head_vs_joint": {
+    "top_of_robot_m": 1.3138557186622715,
+    "highest_ardy_joint_m": 1.0782291889190674,
+    "gap_m": 0.23562652974320408,
+    "head_geom": "head_collision",
+    "head_center_z_m": 1.2317669955558155
+  },
+  "capsule_coverage": {
+    "n_visual_meshes": 38,
+    "n_collision_primitives": 33,
+    "max_protrusion_m": 0.03564083851164819,
+    "worst_links": [
+      {
+        "body": "left_ankle_roll_link",
+        "mesh": "left_ankle_roll_link",
+        "protrusion_m": 0.03564083851164819
+      },
+      {
+        "body": "right_ankle_roll_link",
+        "mesh": "right_ankle_roll_link",
+        "protrusion_m": 0.03564083748227962
+      },
+      {
+        "body": "right_hip_yaw_link",
+        "mesh": "right_hip_yaw_link",
+        "protrusion_m": 0.034589045139118736
+      },
+      {
+        "body": "left_hip_yaw_link",
+        "mesh": "left_hip_yaw_link",
+        "protrusion_m": 0.034588912707048745
+      },
+      {
+        "body": "waist_yaw_link",
+        "mesh": "waist_yaw_link",
+        "protrusion_m": 0.034347914551493705
+      },
+      {
+        "body": "torso_link",
+        "mesh": "head_link",
+        "protrusion_m": 0.032915834472763195
+      },
+      {
+        "body": "right_wrist_yaw_link",
+        "mesh": "right_rubber_hand",
+        "protrusion_m": 0.03191527437970873
+      },
+      {
+        "body": "torso_link",
+        "mesh": "torso_link",
+        "protrusion_m": 0.02793248862727203
+      }
+    ]
+  },
+  "qpos_residual": {
+    "n_joints_matched": 29,
+    "n_frames": 150,
+    "mean_m": 0.0012929682195219978,
+    "p95_m": 0.004562851467809363,
+    "max_m": 0.01623178293423649,
+    "worst_joints": [
+      [
+        "right_ankle_roll_link",
+        0.01623178293423649
+      ],
+      [
+        "right_ankle_pitch_link",
+        0.015738855109169815
+      ],
+      [
+        "left_ankle_roll_link",
+        0.011960574301532351
+      ],
+      [
+        "left_ankle_pitch_link",
+        0.011724482107274321
+      ],
+      [
+        "right_knee_link",
+        0.0064397908244809895
+      ]
+    ]
+  },
+  "recommended_body_margin_m": 0.04,
+  "wall_clock_s": 0.4
+}

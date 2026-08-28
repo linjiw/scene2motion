@@ -1,0 +1,4 @@
+outputs/**/qpos_*.npy
+outputs/text_cache.npz
+__pycache__/
+*.pyc

@@ -1,0 +1,59 @@
+{
+  "experiment": "exp001_capability_envelope",
+  "model": "ARDY-G1-RP-25FPS-Horizon52",
+  "fps": 25.0,
+  "duration_s": 8.0,
+  "diffusion_steps": 10,
+  "prompt": "A person walks forward.",
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "n_conditions": 87,
+  "ducks": [
+    0.0,
+    0.05,
+    0.1,
+    0.15,
+    0.2,
+    0.25,
+    0.3,
+    0.35,
+    0.4,
+    0.45,
+    0.5
+  ],
+  "tucks": [
+    0.0,
+    0.2,
+    0.4,
+    0.5,
+    0.6,
+    0.7,
+    0.8
+  ],
+  "sidles": [
+    0,
+    15,
+    30,
+    45,
+    60,
+    75,
+    90
+  ],
+  "arm_joints": [
+    "left_shoulder_roll_skel",
+    "left_elbow_skel",
+    "left_hand_roll_skel",
+    "right_shoulder_roll_skel",
+    "right_elbow_skel",
+    "right_hand_roll_skel"
+  ],
+  "measure_window": [
+    0.42,
+    0.58
+  ],
+  "git_ardy": "693f74d13b3d04a0a22ce127ee79c929dd89756b",
+  "wall_clock_s": 19.2
+}

@@ -1,0 +1,84 @@
+{
+  "modes": [
+    {
+      "name": "stand",
+      "half_width": 0.38,
+      "top": 1.338,
+      "pelvis_y": 0.78,
+      "cost": 1.0,
+      "tuck": 0.0,
+      "sidle_deg": 0.0,
+      "max_step": 0.0,
+      "source": "exp001 duck=0.0, worst of 3 seeds"
+    },
+    {
+      "name": "duck_light",
+      "half_width": 0.36,
+      "top": 1.216,
+      "pelvis_y": 0.63,
+      "cost": 1.2,
+      "tuck": 0.0,
+      "sidle_deg": 0.0,
+      "max_step": 0.0,
+      "source": "exp001 duck=0.15, worst of 3 seeds"
+    },
+    {
+      "name": "duck",
+      "half_width": 0.375,
+      "top": 1.127,
+      "pelvis_y": 0.53,
+      "cost": 1.45,
+      "tuck": 0.0,
+      "sidle_deg": 0.0,
+      "max_step": 0.0,
+      "source": "exp001 duck=0.25, worst of 3 seeds"
+    },
+    {
+      "name": "duck_deep",
+      "half_width": 0.497,
+      "top": 1.017,
+      "pelvis_y": 0.43,
+      "cost": 1.8,
+      "tuck": 0.0,
+      "sidle_deg": 0.0,
+      "max_step": 0.0,
+      "source": "exp001 duck=0.35, worst of 3 seeds"
+    },
+    {
+      "name": "duck_max",
+      "half_width": 0.344,
+      "top": 0.822,
+      "pelvis_y": 0.28,
+      "cost": 2.4,
+      "tuck": 0.0,
+      "sidle_deg": 0.0,
+      "max_step": 0.0,
+      "source": "exp001 duck=0.5, worst of 3 seeds"
+    },
+    {
+      "name": "narrow",
+      "half_width": 0.262,
+      "top": 1.341,
+      "pelvis_y": 0.78,
+      "cost": 1.6,
+      "tuck": 0.85,
+      "sidle_deg": 0.0,
+      "max_step": 0.0,
+      "source": "exp001b sidle=0 tuck=0.85 prompt=walk, worst of 3 seeds"
+    },
+    {
+      "name": "step_over",
+      "half_width": 0.38,
+      "top": 1.338,
+      "pelvis_y": 0.78,
+      "cost": 1.7,
+      "tuck": 0.0,
+      "sidle_deg": 0.0,
+      "lift": 0.45,
+      "max_step": 0.028,
+      "control_max_step": 0.0,
+      "source": "exp001c cond=both lift=0.45, worst seed"
+    }
+  ],
+  "note": "half_width and top are WORST-CASE over seeds; a planner must not assume better than the prior reliably delivers."
+}

@@ -387,40 +387,13 @@ def _dilate_channel(v: np.ndarray, w: int, most: str) -> np.ndarray:
     return out
 
 
-def plan_to_spec(p: Plan, fps: float, nominal: dict, joint_names: list[str],
-                 speed: float = 0.9, duration: float | None = None,
-                 lead_s: float = 0.8) -> ConstraintSpec:
-    """The ADAPTED request: the mode schedule rendered into ARDY constraint channels.
+def _limb_targets(root_xz, tuck, lift, nominal, joint_names, fps):
+    """Sparse joint-position targets that render a tuck and/or a step-over lift.
 
-    Each mode contributes the channel it was calibrated on:
-      pelvis_y   -> root_y_pos                       (duck)
-      tuck       -> arm joint-position targets       (narrow)
-      sidle_deg  -> heading offset from path tangent (narrow, when calibrated with one)
-      lift       -> swing-leg joint-position targets (step_over)
-
-    The schedule is smoothed before it is sent. The planner emits a step function over
-    modes; handed a discontinuity the prior resolves it as a stumble, which then shows up
-    as a collision or a tracking failure and gets blamed on the method.
+    Shared by the planner renderer and the constraint-program decoder so both reach ARDY
+    through identical machinery -- a program and the oracle plan it was fitted to must not
+    differ because they took different code paths to the same request.
     """
-    T = _n_frames(p, fps, speed, duration)
-    xy, modes = _resample(p.xy, p.modes, T)
-    root_xz, heading = _path_channels(xy, fps)
-
-    # ANTICIPATION. A* labels only the cells physically under the obstacle, so a naive
-    # rendering asks the prior to crouch during the ~0.3 s it spends beneath a beam. The body
-    # cannot change envelope that fast and clips the obstacle on the way in. Dilating each
-    # adaptation backwards and forwards by `lead_s` is what a person does: you duck BEFORE
-    # the beam. EXP-004b measures the dose-response -- 0.2 s takes beam scenes from 69% to
-    # 100% collision-free and more does not help -- so this is calibrated, not guessed.
-    w = int(round(lead_s * fps))
-    ry_win = max(3, int(0.6 * fps) | 1)
-    root_y = _smooth(_dilate_channel(np.array([m.pelvis_y for m in modes]), w, "min"), ry_win)
-    tuck = _smooth(_dilate_channel(np.array([m.tuck for m in modes]), w, "max"), ry_win)
-    lift = _smooth(_dilate_channel(np.array([m.lift for m in modes]), w, "max"), ry_win)
-    sidle = _smooth(
-        _dilate_channel(np.array([np.deg2rad(m.sidle_deg) for m in modes]), w, "max"), ry_win)
-    heading = heading + sidle
-
     idx = {n: i for i, n in enumerate(joint_names)}
     nom_j = nominal["posed_joints"]           # (Tn, J, 3) ardy frame
     nom_r = nominal["smooth_root_pos"]        # (Tn, 3)
@@ -474,6 +447,46 @@ def plan_to_spec(p: Plan, fps: float, nominal: dict, joint_names: list[str],
             height,
             root_xz[want][:, None, 1] + off[:, :, 2] * shrink,
         ], -1)
+
+    return pos_frames, pos_joints, pos_targets
+
+
+def plan_to_spec(p: Plan, fps: float, nominal: dict, joint_names: list[str],
+                 speed: float = 0.9, duration: float | None = None,
+                 lead_s: float = 0.8) -> ConstraintSpec:
+    """The ADAPTED request: the mode schedule rendered into ARDY constraint channels.
+
+    Each mode contributes the channel it was calibrated on:
+      pelvis_y   -> root_y_pos                       (duck)
+      tuck       -> arm joint-position targets       (narrow)
+      sidle_deg  -> heading offset from path tangent (narrow, when calibrated with one)
+      lift       -> swing-leg joint-position targets (step_over)
+
+    The schedule is smoothed before it is sent. The planner emits a step function over
+    modes; handed a discontinuity the prior resolves it as a stumble, which then shows up
+    as a collision or a tracking failure and gets blamed on the method.
+    """
+    T = _n_frames(p, fps, speed, duration)
+    xy, modes = _resample(p.xy, p.modes, T)
+    root_xz, heading = _path_channels(xy, fps)
+
+    # ANTICIPATION. A* labels only the cells physically under the obstacle, so a naive
+    # rendering asks the prior to crouch during the ~0.3 s it spends beneath a beam. The body
+    # cannot change envelope that fast and clips the obstacle on the way in. Dilating each
+    # adaptation backwards and forwards by `lead_s` is what a person does: you duck BEFORE
+    # the beam. EXP-004b measures the dose-response -- 0.2 s takes beam scenes from 69% to
+    # 100% collision-free and more does not help -- so this is calibrated, not guessed.
+    w = int(round(lead_s * fps))
+    ry_win = max(3, int(0.6 * fps) | 1)
+    root_y = _smooth(_dilate_channel(np.array([m.pelvis_y for m in modes]), w, "min"), ry_win)
+    tuck = _smooth(_dilate_channel(np.array([m.tuck for m in modes]), w, "max"), ry_win)
+    lift = _smooth(_dilate_channel(np.array([m.lift for m in modes]), w, "max"), ry_win)
+    sidle = _smooth(
+        _dilate_channel(np.array([np.deg2rad(m.sidle_deg) for m in modes]), w, "max"), ry_win)
+    heading = heading + sidle
+
+    pos_frames, pos_joints, pos_targets = _limb_targets(
+        root_xz, tuck, lift, nominal, joint_names, fps)
 
     return ConstraintSpec(root_xz=root_xz, heading=heading, root_y=root_y,
                           pos_frames=pos_frames, pos_joints=pos_joints,

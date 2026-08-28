@@ -98,5 +98,5 @@
     ],
     "note": "half_width and top are WORST-CASE over seeds; a planner must not assume better than the prior reliably delivers."
   },
-  "wall_clock_s": 147.1
+  "wall_clock_s": 129.5
 }

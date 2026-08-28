@@ -39,8 +39,8 @@ envelopes the prior was measured to reach, aggregated **worst-case over seeds**.
 
 ## Headline numbers
 
-- Whole-body traversal end-to-end success: **55.5 %**, against 21.1 % (pelvis-only) and 31.2 % (standing) (EXP-002, 128 scenes).
-- On overhead-beam scenes specifically: **0 % → 83 %**.
+- Whole-body traversal end-to-end success: **68.8 %**, against 24.2 % (pelvis-only) and 31.2 % (standing) (EXP-002, 128 scenes). Adaptive is **100 % collision-free on every feasible plan** — the remaining failure is refusing scenes, never colliding in them.
+- On overhead-beam scenes: 12.5 % → **83.3 %**; on `beam_and_gap` (two adaptations in sequence): 0 % → **100 %**.
 - Handed either of two enumerated strategies for the same aperture, the frozen prior
   instantiates both: **2.00 distinct strategies realised per ambiguous scene**, every seed
   (EXP-003). The strategies come from constrained re-planning, not from sampling.

@@ -32,6 +32,7 @@ failure, not a measurement of it, and merging them would overstate what has been
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import sys
 import time
@@ -119,14 +120,19 @@ def main() -> None:
             # 1. matched control: the route, no body adaptation
             ctrl_specs = [plan_to_path_spec(p, fps, SPEED, duration=T / fps)
                           for _, p, _, _ in chunk]
+            # Per-sample seeds derived from the scene id: a clip's noise no longer depends
+            # on which other clips happened to share its batch, so the table is reproducible
+            # regardless of how the suite is chunked.
+            sseeds = [int(hashlib.sha1(sc.scene_id.encode()).hexdigest()[:8], 16) % (2**31)
+                      for sc, _, _, _ in chunk]
             ctrls = runner.generate([PROMPT] * len(chunk), ctrl_specs, T,
-                                    args.diffusion_steps, seed=0)
+                                    args.diffusion_steps, seeds=sseeds)
             # 2. adapted: the same route plus the mode schedule
             adapt_specs = [plan_to_spec(p, fps, c, runner.joint_names, SPEED,
                                         duration=T / fps)
                            for (_, p, _, _), c in zip(chunk, ctrls)]
             adapts = runner.generate([PROMPT] * len(chunk), adapt_specs, T,
-                                     args.diffusion_steps, seed=0)
+                                     args.diffusion_steps, seeds=sseeds)
 
             for (sc, p, base, _), ctrl, adapt, cspec in zip(chunk, ctrls, adapts, ctrl_specs):
                 body = G1Body(sc)

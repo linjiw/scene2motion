@@ -182,12 +182,20 @@ modes calibrated in §4, worst-case over seeds). 112 scenes, 5 families, 4 seeds
 
 | planner | variant | plan feasible | goal | collision-free | **end-to-end** |
 |---|---|---|---|---|---|
-| PELVIS | either | 75.0 % | 100 % | **28.1 %** | 21.1 % |
+| PELVIS | either | 75.0 % | 100 % | **32.3 %** | 24.2 % |
 | STANDING | either | **31.2 %** | 100 % | 100 % | 31.2 % |
-| ADAPTIVE | path only | 68.8 % | 100 % | 51.1 % | 35.2 % |
-| ADAPTIVE | **adapted** | 68.8 % | 100 % | **80.7 %** | **55.5 %** |
+| ADAPTIVE | path only | 68.8 % | 100 % | 52.3 % | 35.9 % |
+| ADAPTIVE | **adapted** | 68.8 % | 100 % | **100.0 %** | **68.8 %** |
 
-128 scenes, 6 families, 4 seeds/rung, 608 rows, 141 s wall clock.
+128 scenes, 6 families, 4 seeds/rung, 608 rows. Per-sample noise seeding, per-channel
+dilation, and the EXP-004b-calibrated 0.25 s lead. These numbers supersede an earlier run
+(80.7 % / 55.5 %) taken before the dilation defect in §10 was found.
+
+**The failure mode has moved.** ADAPTIVE is now collision-free on *every* feasible plan, so
+end-to-end success is bounded purely by plan feasibility (68.8 %). The system no longer
+proposes motions that hit things; it declines scenes it cannot certify. That is the correct
+direction for the error to lie, and it means the remaining headroom is in the conservatism of
+the calibrated envelopes rather than in execution.
 
 Each baseline fails in its own characteristic way and they fail to opposite sides: PELVIS
 plans confidently and walks the body into obstacles (mean penetration 7.9 cm, mean minimum
@@ -201,18 +209,18 @@ evidence that the capability map is real:
 
 | family | PELVIS e2e | STANDING e2e | ADAPTIVE e2e | matches |
 |---|---|---|---|---|
-| `overhead_beam` | **0 %** | 0 % | **83.3 %** | strong duck channel |
+| `overhead_beam` | 12.5 % | 0 % | **83.3 %** | strong duck channel |
 | `partial_beam` | 25.0 % | 100 % | **100 %** | duckable *or* avoidable |
-| `beam_and_gap` | 0 % | 0 % | **43.8 %** | duck + narrow in sequence |
-| `pillar` (control) | 79.2 % | 100 % | 95.8 % | needs no body adaptation |
-| `narrow_gap` | 16.7 % | 0 % | 16.7 % | saturated lateral channel |
-| `low_obstacle` | 0 % (100 % plan feasible, 0 % collision-free) | 0 % | 4.2 % | weak step-over channel |
+| `beam_and_gap` | 0 % | 0 % | **100 %** | duck + narrow in sequence |
+| `pillar` (control) | 87.5 % | 100 % | **100 %** | needs no body adaptation |
+| `narrow_gap` | 12.5 % | 0 % | 33.3 % | saturated lateral channel |
+| `low_obstacle` | 0 % (100 % plan feasible, 0 % collision-free) | 0 % | 16.7 % | weak step-over channel |
 
-**Reproducibility caveat.** `torch.manual_seed` is set per generation *batch*, so a sample's
-noise depends on its position in the batch, and changing the scene suite changes batch
-composition. Between the two EXP-002 runs this flipped one `pillar` scene (83.3 % -> 79.2 %
-for PELVIS). Per-sample seeding would remove the wobble and is worth doing before any
-headline number is quoted to a decimal place.
+`beam_and_gap` went 43.8 % → 100 % on the dilation fix alone: it is the one family needing
+two different adaptations, and it was the family the defect destroyed.
+
+**Reproducibility.** Fixed: clips are now seeded per sample from a hash of the scene id, so
+the table does not depend on how the suite is chunked into batches (§11).
 
 ### Anticipation is not optional
 

@@ -28,19 +28,31 @@ both had hardware.
 
 What survives, and what this codebase is now aimed at:
 
-1. **Multimodality of traversal strategy from a large prior.** Every scene-aware humanoid
-   competitor is a single deterministic policy: one geometry, one behaviour. Nobody has
-   shown a pretrained prior yielding a *distribution* over topologically distinct
-   strategies for the same aperture — duck vs. go around vs. turn sideways — nor scored
-   that set. An RL policy structurally cannot produce this. → **EXP-003**.
+1. **Explicit, enumerable, controllable traversal strategies.** Current scene-aware
+   humanoid systems optimise *execution of a single locally selected behaviour*; they do
+   not explicitly construct and evaluate a set of topologically and morphologically
+   distinct whole-body strategies for the same scene, start and goal. → **EXP-003**.
+
+   **Do not claim that an RL policy *cannot* be multimodal** — a stochastic policy
+   `a_t ~ π(a|s)`, a latent-conditioned policy `π(a|s,z)`, and hierarchical/mixture
+   policies all can be, and a reviewer will kill the stronger claim on sight. The
+   defensible contribution is that here the strategies are
+   **explicit + enumerable + measurable + controllable**, rather than latent accidents of
+   policy noise.
 2. **Deliberative long-horizon whole-body planning vs. reactive local control.** Gallant
    perceives ±0.8 m; 2604.17335 predicts 0.5 s replanned at 4 Hz; the only true
    confined-space whole-body planner (2608.10220) takes 2–6 min/solve and is sim-only.
    ARDY's `future_constraints_proj` accepts constraints beyond the current generation
    window at 33 ms/step. → the anticipation result in §5 is the first evidence for this.
-3. **Joint text-semantic + 3D-geometric control on a physically tracked robot.** No robot
-   system in the survey accepts language (Gallant: goal position; 2604.17335: a heading
-   *vector only*; HumanoidPF: goal point). That cell is empty.
+3. **Language as strategy *preference*, not goal specification.** The
+   language-conditioned-humanoid cell is **not empty** — TANGO (whole-body VLA for
+   language-conditioned traversal in cluttered indoor scenes), WOLF-VLA (2606.25591) and
+   Humanoid-LLA already occupy it, so "first language-controlled humanoid navigation" is
+   not available. What those systems express poorly is language that selects among
+   *physically distinct ways of getting there* at fixed geometry and fixed goal:
+   "take the shortest way" → duck under; "stay upright" → go around; "keep your arms free"
+   → avoid the tucked passage. Formally, language modifies a cost over strategies,
+   `J(C; l)`, rather than naming the goal.
 
 ---
 
@@ -233,7 +245,17 @@ Two findings make (3) less attractive than it first looked. SONIC is **blind to 
 map casts rays straight down, "so an overhead beam is invisible by construction". And
 SceneBot (2606.27581) measures SONIC at **15 %** on terrain scene-interaction and **5 %**
 on object scene-interaction. Reporting (1) as if it were (3) would be the easiest way to
-write a paper that does not replicate, so the metric tables keep them in separate columns.
+write a paper that does not replicate, so the metric tables keep
+**kinematic success / tracking success / hardware success** in separate columns
+permanently.
+
+**Correction (2026-08-28).** An earlier draft said SONIC had never run on this machine.
+That was true of the `groot-wbc-sonic-sim-trackb` checkout the recon pass examined, and
+false of the box: `/home/linjiw/isaaclab-install/env_isaaclab` drives
+`/home/linjiw/lucid/GR00T-WholeBodyControl` and was observed running curriculum-robustness
+evaluations on the GPU. A working IsaacLab+SONIC path therefore exists here; wiring an
+ARDY reference into it is an integration task, not a bring-up. It should still be developed
+**decoupled from the planner work**, so tracker debugging cannot stall EXP-004/005.
 
 ---
 
@@ -245,9 +267,11 @@ write a paper that does not replicate, so the metric tables keep them in separat
 | EXP-001/b/c | what body envelopes can the frozen prior reach, per channel? | **done** |
 | EXP-002 | PELVIS vs STANDING vs ADAPTIVE, end to end | **done** |
 | EXP-003 | how many topologically distinct strategies does the prior realise per aperture? | **done** |
-| EXP-004 | counterfactual locality: raise a beam, everything else fixed — does only the crouch change? | next |
-| EXP-005 | learned `f_φ(S, s, g) → C` (V1) vs the ADAPTIVE oracle | after 003/004 |
-| EXP-006 | physics critic from tracker rollouts — blocked on the SONIC invocation | deferred |
+| EXP-003b | how few numbers does a strategy take, and can the prior recover one from a distal goal? | **done** |
+| EXP-004 | counterfactual locality and temporal anticipation | running |
+| EXP-005 | learned **`p_φ(C \| S, s, g)`** — a *distribution* over constraint programs — vs the ADAPTIVE oracle | designing |
+| EXP-006 | prior independence: the same constraint programs through Kimodo, as an external-validity baseline | planned |
+| EXP-007 | physics: an ARDY reference through the working IsaacLab+SONIC path, decoupled from the planner work | planned |
 
 ---
 
@@ -274,16 +298,66 @@ physically distinct traversals of the same aperture:
 | `around` | **0.756 m** | **0.578 m** | 8.46 m |
 
 One frozen prior, one scene, two collision-free goal-reaching solutions that differ by
-34 cm of crouch and 55 cm of lateral displacement, each realised on every seed. **A single
-deterministic policy — which is what every scene-aware humanoid competitor in §0 is —
-scores 1 here by construction.** This is the cleanest evidence so far for surviving claim
-(1), and unlike the ducking figure it is not something the prior-art systems can produce at
-all.
+34 cm of crouch and 55 cm of lateral displacement, each realised on every seed.
+
+**State this carefully.** The result is *not* that ARDY's sampling discovers the two
+strategies — the strategies were supplied by constrained re-planning, and EXP-003b measures
+what sampling alone does. It is also *not* that a competing policy could not be multimodal.
+The claim is that here the alternatives are explicit, enumerable, and selectable, and that
+the frozen prior faithfully instantiates whichever one it is handed. That is what licenses
+putting the strategy variable **above** the prior rather than hoping to find it inside.
 
 Caveat worth keeping: `pillar`'s left/right asymmetry (79 % vs 97 %) is real and
 unexplained — the two routes should be near-mirror-images, so something in either the
 scene construction or the prior's turning behaviour is not symmetric. That is EXP-004's
 first job.
+
+---
+
+## 9. How few numbers is a strategy? — EXP-003b
+
+The generator's output space had to be sized before it could be designed, so each enumerated
+strategy was rendered at decreasing waypoint counts and regenerated. `dense` constrains every
+frame (~215 at 25 fps); `wpN` constrains N evenly spaced frames; `goal_only` constrains the
+last 0.4 s and nothing else. 704 clips, 177 s.
+
+| program | numbers | duck strategy: collision-free | detour strategy: homotopy kept |
+|---|---|---|---|
+| dense | 860 | 100 % | 100 % |
+| wp32 | 128 | 100 % | 100 % |
+| wp16 | 64 | 97 % | 100 % |
+| wp10 | 40 | 97 % | 100 % |
+| **wp8** | **32** | **94 %** | **100 %** |
+| wp6 | 24 | 84 % | 100 % |
+| wp5 | 20 | **16 %** | 100 % |
+| wp4 | 16 | 0 % | 100 % |
+| wp2 | 8 | 0 % | 25 % |
+| goal_only | 40 | 0 % | 50 % |
+
+**The route is cheap; the body profile is expensive — the opposite of the naive assumption.**
+Which side of the obstacle the robot passes survives down to 4 waypoints. The pelvis-height
+profile that makes the duck actually work collapses between wp6 and wp5: 84 % → 16 %, with the
+achieved minimum pelvis height rising from 0.354 m to 0.493 m as the crouch is averaged away.
+At 25 fps over ~8.6 s clips, wp8 is one control point per ~1.1 s and wp6 per ~1.4 s, so the
+adaptation needs a control point roughly every second and tolerates nothing sparser.
+
+**Design consequence.** `p(C|S,s,g)` should emit on the order of **8–16 waypoints, 32–64
+numbers** — 13–27× smaller than the dense program at ≥94 % of its collision-free rate. That is
+a small enough object for a flow model to represent multimodally on a few thousand examples,
+which is the whole reason for putting the generator in constraint space rather than motion
+space.
+
+**Commitment, measured.** Given only a distal goal (`goal_only`), the prior reaches the goal
+every time and preserves the intended strategy only **50 %** of the time, collision-free **0 %**
+— it walks the straight line and takes the beam with it. ARDY cannot recover a homotopy class
+from a distal goal, which is the empirical case for making the strategy variable explicit
+*above* the prior rather than hoping to elicit it from sampling.
+
+One methodological trap found here and worth keeping: with a sparse program whose first
+constrained frame is late in the clip, ARDY's `first_heading_angle` must NOT be read off
+`heading[0]` — that is the heading at the first *constrained* frame, and importing it rotates
+the whole clip to match a pose the robot should only reach at the end. `ConstraintSpec` now
+carries `first_heading` separately.
 
 ---
 

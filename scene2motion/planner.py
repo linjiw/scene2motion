@@ -222,11 +222,16 @@ class Plan:
 
 def plan(scene: Scene, planner: str = "adaptive", res: float = 0.05,
          allow_modes: tuple[str, ...] | None = None,
-         forbid_y: tuple[float, float] | None = None) -> Plan:
+         forbid_y: tuple[float, float] | list[tuple[float, float]] | None = None,
+         forbid_boxes: list[tuple[float, float, float, float]] | None = None) -> Plan:
     """Plan a traversal of `scene` under one of the three body-volume assumptions.
 
-    `allow_modes` and `forbid_y` exist to ENUMERATE strategies rather than take the single
-    cheapest one. Forbidding every duck mode forces the planner to find a route around an
+    `allow_modes`, `forbid_y` and `forbid_boxes` exist to ENUMERATE strategies rather than
+    take the single cheapest one. `forbid_y` blocks a lateral band over the WHOLE corridor;
+    `forbid_boxes` blocks (x_lo, x_hi, y_lo, y_hi) rectangles, which is what diverse
+    re-planning needs -- a global band through the middle makes every alternative infeasible
+    when start and goal both sit on the centre line, because the path can no longer leave and
+    return to it. Forbidding every duck mode forces the planner to find a route around an
     obstacle; forbidding the lateral band that contains the bypass forces it to go under.
     Whether both then survive generation and collision checking is the multimodality
     question -- a single deterministic controller has only ever one answer to give.
@@ -251,10 +256,27 @@ def plan(scene: Scene, planner: str = "adaptive", res: float = 0.05,
             return Plan(np.zeros((0, 2)), [], planner, False, "no modes left after filtering")
 
     if forbid_y is not None:
-        lo, hi = forbid_y
-        band = (grid.Y >= lo) & (grid.Y <= hi)
+        bands = [forbid_y] if isinstance(forbid_y[0], (int, float)) else list(forbid_y)
+        band = np.zeros_like(grid.X, dtype=bool)
+        for lo, hi in bands:
+            band |= (grid.Y >= lo) & (grid.Y <= hi)
+        # Never forbid the start or the goal cell itself, or every re-plan is trivially
+        # infeasible once a band happens to cover an endpoint.
+        for wx, wy in (scene.start, scene.goal):
+            i, j = grid.cell(wx, wy)
+            band[max(0, i - 3):i + 4, max(0, j - 3):j + 4] = False
         for m in modes:
             grid._blocked_cache[m.name] = grid.blocked(m) | band
+
+    if forbid_boxes:
+        box = np.zeros_like(grid.X, dtype=bool)
+        for xl, xh, yl, yh in forbid_boxes:
+            box |= (grid.X >= xl) & (grid.X <= xh) & (grid.Y >= yl) & (grid.Y <= yh)
+        for wx, wy in (scene.start, scene.goal):
+            i, j = grid.cell(wx, wy)
+            box[max(0, i - 3):i + 4, max(0, j - 3):j + 4] = False
+        for m in modes:
+            grid._blocked_cache[m.name] = grid.blocked(m) | box
 
     path = _astar(grid, s, t, modes)
     if path is None:
@@ -305,7 +327,8 @@ def plan_to_path_spec(p: Plan, fps: float, speed: float = 0.9,
     xy, _ = _resample(p.xy, p.modes, T)
     root_xz, heading = _path_channels(xy, fps)
     return ConstraintSpec(root_xz=root_xz, heading=heading,
-                          root_y=np.full(T, MODE_BY_NAME["stand"].pelvis_y))
+                          root_y=np.full(T, MODE_BY_NAME["stand"].pelvis_y),
+                          first_heading=float(heading[0]))
 
 
 def _dilate(modes: list[BodyMode], w: int) -> list[BodyMode]:
@@ -416,7 +439,7 @@ def plan_to_spec(p: Plan, fps: float, nominal: dict, joint_names: list[str],
 
     return ConstraintSpec(root_xz=root_xz, heading=heading, root_y=root_y,
                           pos_frames=pos_frames, pos_joints=pos_joints,
-                          pos_targets=pos_targets)
+                          pos_targets=pos_targets, first_heading=float(heading[0]))
 
 
 def _n_frames(p: Plan, fps: float, speed: float, duration: float | None) -> int:

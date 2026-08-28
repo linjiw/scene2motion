@@ -52,20 +52,36 @@ class ConstraintSpec:
     scene-conditioned planner, and the prior turns it into motion.
     """
 
-    root_xz: np.ndarray                     # (T, 2) pelvis ground path
-    heading: np.ndarray | None = None       # (T,) radians from +Z; None -> free
-    root_y: np.ndarray | None = None        # (T,) pelvis height; None -> free (duck channel)
+    root_xz: np.ndarray                     # (N, 2) pelvis ground path
+    heading: np.ndarray | None = None       # (N,) radians from +Z; None -> free
+    root_y: np.ndarray | None = None        # (N,) pelvis height; None -> free (duck channel)
     # Sparse joint position targets: which frames, which joints, and the world targets.
     pos_frames: np.ndarray | None = None    # (K,) frame indices
     pos_joints: np.ndarray | None = None    # (J,) joint indices (root is added automatically)
     pos_targets: np.ndarray | None = None   # (K, J, 3) world positions, ARDY frame
+    # SPARSE ROOT. When given, root_xz/heading/root_y hold values AT these frames rather than
+    # at every frame, and `n_frames` is the clip length. ARDY treats unconstrained frames as
+    # free, so a sparse program is a genuinely weaker request -- which is the point: how few
+    # numbers does a strategy actually take to specify? (EXP-003b)
+    root_frames: np.ndarray | None = None   # (N,) frame indices, strictly increasing
+    n_frames: int | None = None             # clip length; required when root_frames is given
+    # Heading the clip STARTS from. ARDY needs this separately from the heading channel:
+    # for a sparse program whose first constrained frame is late in the clip, reading the
+    # initial heading off heading[0] would rotate the entire motion to match a pose the
+    # robot should only reach at the end.
+    first_heading: float | None = None
 
     def __post_init__(self):
-        T = len(self.root_xz)
+        N = len(self.root_xz)
         for name in ("heading", "root_y"):
             v = getattr(self, name)
-            if v is not None and len(v) != T:
-                raise ValueError(f"{name} has length {len(v)}, expected {T}")
+            if v is not None and len(v) != N:
+                raise ValueError(f"{name} has length {len(v)}, expected {N}")
+        if self.root_frames is not None:
+            if len(self.root_frames) != N:
+                raise ValueError("root_frames must match root_xz length")
+            if self.n_frames is None:
+                raise ValueError("n_frames is required when root_frames is given")
         if (self.pos_frames is None) != (self.pos_targets is None):
             raise ValueError("pos_frames and pos_targets must be given together")
         if self.pos_frames is not None:
@@ -79,7 +95,8 @@ class ConstraintSpec:
 
     @property
     def T(self) -> int:
-        return len(self.root_xz)
+        """Clip length in frames (not the number of constrained frames)."""
+        return int(self.n_frames) if self.n_frames is not None else len(self.root_xz)
 
 
 class ArdyConstraintSet:
@@ -102,7 +119,8 @@ class ArdyConstraintSet:
 
     def update_constraints(self, data_dict: dict, index_dict: dict) -> None:
         s = self.spec
-        fi = torch.arange(s.T, device=self.device)
+        fi = (self._t(s.root_frames, torch.long) if s.root_frames is not None
+              else torch.arange(s.T, device=self.device))
 
         data_dict["root_2d"].append(self._t(s.root_xz))
         index_dict["root_2d"].append(fi)

@@ -41,7 +41,8 @@ envelopes the prior was measured to reach, aggregated **worst-case over seeds**.
 
 - Whole-body traversal end-to-end success: **55.5 %**, against 21.1 % (pelvis-only) and 31.2 % (standing) (EXP-002, 128 scenes).
 - On overhead-beam scenes specifically: **0 % → 83 %**.
-- The prior realises **2.00 topologically distinct strategies per ambiguous scene**, each
-  on every seed (EXP-003) — a deterministic policy scores 1 by construction.
+- Handed either of two enumerated strategies for the same aperture, the frozen prior
+  instantiates both: **2.00 distinct strategies realised per ambiguous scene**, every seed
+  (EXP-003). The strategies come from constrained re-planning, not from sampling.
 - Duck is worth **43–53 cm** of overhead clearance; the lateral channel is saturated at
   **~5 cm**; step-over reaches ~16 cm mean but 2.8 cm worst-case.

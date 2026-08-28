@@ -1,0 +1,72 @@
+{
+  "experiment": "exp003b_program_sparsity",
+  "model": "ARDY-G1-RP-25FPS-Horizon52",
+  "fps": 25.0,
+  "levels": [
+    [
+      "dense",
+      "None",
+      "False"
+    ],
+    [
+      "wp32",
+      "32",
+      "False"
+    ],
+    [
+      "wp16",
+      "16",
+      "False"
+    ],
+    [
+      "wp12",
+      "12",
+      "False"
+    ],
+    [
+      "wp10",
+      "10",
+      "False"
+    ],
+    [
+      "wp8",
+      "8",
+      "False"
+    ],
+    [
+      "wp6",
+      "6",
+      "False"
+    ],
+    [
+      "wp5",
+      "5",
+      "False"
+    ],
+    [
+      "wp4",
+      "4",
+      "False"
+    ],
+    [
+      "wp2",
+      "2",
+      "False"
+    ],
+    [
+      "goal_only",
+      "10",
+      "True"
+    ]
+  ],
+  "seeds": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "n_scenes": 8,
+  "n_rows": 704,
+  "goal_tol_m": 0.5,
+  "wall_clock_s": 176.9
+}

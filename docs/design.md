@@ -287,7 +287,8 @@ ARDY reference into it is an integration task, not a bring-up. It should still b
 | EXP-005b | does the mean of two valid strategies collide? (decides the model class) | **done** |
 | EXP-005c | is the refusal boundary conservatism or physics? | **done** — 11.7 % recoverable |
 | EXP-005d | **ORACLE@K — the kill gate** | **done — FIRED.** See §18 |
-| EXP-005e | is the enumerator incomplete on harder scenes? (tests exit (b)'s premise) | next |
+| EXP-005e | is the enumerator incomplete on harder scenes? | **done** — recall 0.325, and 93.6 % of misses are body-diversity at equal cost |
+| EXP-005f | re-measure the gate's coverage half with a finer realised morphology signature | next |
 | EXP-005 | learned **`p_φ(C \| S, s, g)`** — a *distribution* over constraint programs — vs the ADAPTIVE oracle | designing |
 | EXP-006 | prior independence: the same constraint programs through Kimodo, as an external-validity baseline | planned |
 | EXP-007 | physics: an ARDY reference through the working IsaacLab+SONIC path, decoupled from the planner work | planned |
@@ -768,6 +769,73 @@ Exit (b) rests on a premise that has not been tested: that the enumerator *is* i
 harder scenes. On this suite it is near-complete, which is exactly why the gate fired. That
 premise is cheap to test on CPU and should be tested before it is adopted — adopting it
 untested would repeat the mistake the gate was built to prevent.
+
+---
+
+## 19. EXP-005e: the enumerator is blind to BODY diversity, not to routes
+
+Exit (b) said "move to scenes where enumeration is incomplete". That was a premise, so it was
+tested: 150 harder scenes (1–5 obstacles, tighter corridors), the shipped heuristic against a
+deliberately expensive reference search (40 restarts with random exclusions, random mode
+subsets), both scored by the same signature.
+
+| obstacles | scenes | heuristic finds | reference finds | recall |
+|---|---|---|---|---|
+| 1 | 23 | 1.43 | 4.48 | 0.314 |
+| 2 | 15 | 1.73 | 4.33 | 0.371 |
+| 3 | 10 | 1.50 | 5.30 | 0.319 |
+| 4 | 12 | 1.42 | 5.00 | 0.339 |
+| 5 | 4 | 1.50 | 7.25 | 0.185 |
+| **all** | **150** | | | **0.325** |
+
+**The misses are not contrived detours.** A random-restart reference can manufacture
+technically-distinct-but-absurd routes, which would inflate incompleteness in exactly the
+direction that keeps a learned model alive, so the cost of every miss was measured against the
+best route in its scene: median ratio **1.005**, **73.5 % within 1.02×**, maximum 1.155 — and
+the heuristic's *own* kept plans run p50 1.009, p95 1.136. The strategies it misses are, if
+anything, cheaper than the ones it keeps. (The 1.35× "useful" filter turned out too loose to
+discriminate at all; the raw distribution is the answer.)
+
+### What is actually missing
+
+Classifying 172 misses by what makes them new:
+
+| | share |
+|---|---|
+| **new BODY, same route** | **93.6 %** |
+| new combination of known parts | 3.5 % |
+| new route AND new body | 2.3 % |
+| new route only | 0.6 % |
+
+The enumerator's exclusion rule operates on *corridors* — spatial regions — so it is built to
+find different routes and is near-complete at that (2.9 % of misses involve a new route). It
+is structurally blind to **a different body adaptation along the same route**, because A\* over
+`(x, y, mode)` returns the cost-minimal mode assignment per route and never enumerates the
+other assignments that also work.
+
+That is precisely the axis this whole project is about, and precisely the axis a constraint
+program covers by construction: `dip`, `tuck` and `lift` are continuous fields in C, while A\*
+picks one point from a discrete lattice.
+
+### This qualifies my own gate result, and I should say so plainly
+
+EXP-005d concluded that coverage saturates at 1.93 and therefore a learned proposer has
+nothing to win. That conclusion used `metrics.realised_signature`, which encodes body
+diversity as **one bit** — ducked or not. On a two-route scene it can express at most four
+values. It cannot see the axis EXP-005e just showed the enumerator is blind to.
+
+So the gate splits:
+
+* **Traversal-success half: fired, robustly.** The 75.0 % ceiling is real (32 of 40 refusals
+  are physics), and `ORACLE-RELAXED@8` reaches exactly 75.0 %. No proposer beats it.
+* **Coverage half: not settled.** It was measured with a signature too coarse to resolve
+  body-adaptation diversity, which is where the incompleteness lives.
+
+The fix is a finer *realised* morphology signature — achieved dip / tuck / lift quantised into
+bands and read off the motion, not the label — and a re-run of the coverage arm. Until that is
+done, the honest statement is that end-to-end traversal success is a dead end for a learned
+model, and the strategy-coverage claim is **open**, with EXP-005e giving a concrete reason to
+expect the enumerator to fall short on it.
 
 ---
 

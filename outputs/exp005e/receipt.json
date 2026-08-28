@@ -1,0 +1,61 @@
+{
+  "experiment": "exp005e_enumerator_completeness",
+  "n_restarts_reference": 40,
+  "n_scenes": 150,
+  "by_n_obstacles": {
+    "1": {
+      "n_scenes": 23,
+      "mean_heuristic": 1.434782608695652,
+      "mean_reference": 4.478260869565218,
+      "mean_missed": 3.1739130434782608,
+      "mean_missed_useful": 3.1739130434782608,
+      "frac_scenes_with_a_useful_miss": 1.0,
+      "recall": 0.31364734299516905,
+      "recall_useful": 0.33155624568668046
+    },
+    "2": {
+      "n_scenes": 15,
+      "mean_heuristic": 1.7333333333333334,
+      "mean_reference": 4.333333333333333,
+      "mean_missed": 2.8,
+      "mean_missed_useful": 2.8,
+      "frac_scenes_with_a_useful_miss": 1.0,
+      "recall": 0.3714285714285714,
+      "recall_useful": 0.3912698412698413
+    },
+    "3": {
+      "n_scenes": 10,
+      "mean_heuristic": 1.5,
+      "mean_reference": 5.3,
+      "mean_missed": 4.0,
+      "mean_missed_useful": 4.0,
+      "frac_scenes_with_a_useful_miss": 0.9,
+      "recall": 0.31916666666666665,
+      "recall_useful": 0.34750000000000003
+    },
+    "4": {
+      "n_scenes": 12,
+      "mean_heuristic": 1.4166666666666667,
+      "mean_reference": 5.0,
+      "mean_missed": 3.6666666666666665,
+      "mean_missed_useful": 3.6666666666666665,
+      "frac_scenes_with_a_useful_miss": 0.9166666666666666,
+      "recall": 0.3387896825396825,
+      "recall_useful": 0.34771825396825395
+    },
+    "5": {
+      "n_scenes": 4,
+      "mean_heuristic": 1.5,
+      "mean_reference": 7.25,
+      "mean_missed": 6.0,
+      "mean_missed_useful": 6.0,
+      "frac_scenes_with_a_useful_miss": 1.0,
+      "recall": 0.18522727272727274,
+      "recall_useful": 0.20416666666666664
+    }
+  },
+  "overall_recall": 0.324740147005772,
+  "overall_recall_useful": 0.3431113591269841,
+  "useful_bloat_threshold": 1.35,
+  "wall_clock_s": 95.1
+}

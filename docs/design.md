@@ -285,8 +285,9 @@ ARDY reference into it is an integration task, not a bring-up. It should still b
 | EXP-001d | the envelope as a calibrated function with a real coverage bound | **done** |
 | EXP-005a | is a 39-number constraint program expressive enough to be worth learning? | **done** |
 | EXP-005b | does the mean of two valid strategies collide? (decides the model class) | **done** |
-| EXP-005c | is the refusal boundary conservatism or physics? | running |
-| EXP-005d | **ORACLE@K — the kill gate.** Does the enumerator already do what a learned model would? | next |
+| EXP-005c | is the refusal boundary conservatism or physics? | **done** — 11.7 % recoverable |
+| EXP-005d | **ORACLE@K — the kill gate** | **done — FIRED.** See §18 |
+| EXP-005e | is the enumerator incomplete on harder scenes? (tests exit (b)'s premise) | next |
 | EXP-005 | learned **`p_φ(C \| S, s, g)`** — a *distribution* over constraint programs — vs the ADAPTIVE oracle | designing |
 | EXP-006 | prior independence: the same constraint programs through Kimodo, as an external-validity baseline | planned |
 | EXP-007 | physics: an ARDY reference through the working IsaacLab+SONIC path, decoupled from the planner work | planned |
@@ -712,6 +713,61 @@ Two bugs in the first version, both of the *technically true and useless* kind, 
 by reading its own output rather than by a test: it called a 2.6 m wall panel a step-over
 problem short by 257 cm, and it measured lateral clearance per-obstacle so it could not see
 the channel *between* two wall panels — which is exactly the geometry `narrow_gap` is made of.
+
+---
+
+## 18. The gate fired — EXP-005d
+
+128 scenes, calibrated certificate, budget spread across each proposer's enumerated
+strategies, every clip generated and verified against the robot's own collision geometry, and
+strategy coverage measured from the MOTION rather than the commanded label.
+
+| | K=1 | K=2 | K=4 | K=8 |
+|---|---|---|---|---|
+| **ORACLE-ENUMERATE** traversal success | 65.6 % | 65.6 % | 65.6 % | 65.6 % |
+| **ORACLE-ENUMERATE** distinct verified strategies | 1.00 | **1.93** | 1.93 | 1.93 |
+| **ORACLE-RELAXED** traversal success | 65.6 % | 71.1 % | 73.4 % | **75.0 %** |
+| **ORACLE-RELAXED** distinct verified strategies | 0.94 | 1.69 | 1.83 | 1.89 |
+
+The pre-committed kill criterion was: *if `ORACLE-ENUMERATE@8` already achieves the learned
+model's plausible traversal success and its strategy coverage, then `p_phi` is distillation of
+a 0.13 s planner into a network and is not a contribution.*
+
+Both halves are met, and by a wide margin.
+
+* **Traversal success is capped at 75.0 %** by EXP-005c — 32 of 40 refusals are physics, not
+  conservatism. `ORACLE-RELAXED@8` reaches exactly 75.0 %. There is no headroom above it for
+  any proposer, learned or otherwise.
+* **Strategy coverage saturates at K=2.** `ORACLE-ENUMERATE` reaches **1.93 distinct verified
+  strategies** on the 30 ambiguous scenes at K=2 and does not improve with four times the
+  budget. Since an ambiguous scene has at least two strategies by construction, 1.93 is
+  ~96 % of what is available.
+
+Note also that traversal success for the certified enumerator is **flat in K**. Extra samples
+buy nothing: a certified plan either works at K=1 or the scene is refused, and no budget
+rescues a refusal. Sampling only helps the *relaxed* arm, and only because relaxation trades
+the guarantee for reach.
+
+**So a learned `p_phi(C | S, s, g)` has nothing left to win on this suite, on either axis.**
+That is the result the gate existed to produce, and producing it cost 20 minutes of GPU
+instead of three hours of dataset plus a training run.
+
+### The two pre-committed exits
+
+**(a) Re-aim at what is already in hand and needs no training**: the conformal capability
+calibration and the finding that the previous certificate was optimistic by 16.6 cm on the
+mode that does the most work (§16); refusal-with-a-reason (§17); and language as a re-ranker
+over enumerated strategies, which is cheap because the motion set does not depend on the
+instruction.
+
+**(b) Move to scenes where enumeration is expensive or incomplete** — four or more obstacles,
+dead ends, non-monotone routes — and show `p_phi` covers strategies the enumerator's exclusion
+heuristic misses.
+
+Exit (b) rests on a premise that has not been tested: that the enumerator *is* incomplete on
+harder scenes. On this suite it is near-complete, which is exactly why the gate fired. That
+premise is cheap to test on CPU and should be tested before it is adopted — adopting it
+untested would repeat the mistake the gate was built to prevent.
 
 ---
 

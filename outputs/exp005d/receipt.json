@@ -1,0 +1,61 @@
+{
+  "experiment": "exp005d_oracle_at_k",
+  "n_scenes": 128,
+  "Ks": [
+    1,
+    2,
+    4,
+    8
+  ],
+  "relax": [
+    0.08,
+    0.05
+  ],
+  "arms": {
+    "enumerate": {
+      "per_k": {
+        "1": {
+          "K4_traversal_success": 0.65625,
+          "B1_distinct_verified_signatures": 1.0
+        },
+        "2": {
+          "K4_traversal_success": 0.65625,
+          "B1_distinct_verified_signatures": 1.9333333333333333
+        },
+        "4": {
+          "K4_traversal_success": 0.65625,
+          "B1_distinct_verified_signatures": 1.9333333333333333
+        },
+        "8": {
+          "K4_traversal_success": 0.65625,
+          "B1_distinct_verified_signatures": 1.9333333333333333
+        }
+      },
+      "n_ambiguous": 30,
+      "mean_strategies": 0.984375
+    },
+    "relaxed": {
+      "per_k": {
+        "1": {
+          "K4_traversal_success": 0.65625,
+          "B1_distinct_verified_signatures": 0.9444444444444444
+        },
+        "2": {
+          "K4_traversal_success": 0.7109375,
+          "B1_distinct_verified_signatures": 1.6944444444444444
+        },
+        "4": {
+          "K4_traversal_success": 0.734375,
+          "B1_distinct_verified_signatures": 1.8333333333333333
+        },
+        "8": {
+          "K4_traversal_success": 0.75,
+          "B1_distinct_verified_signatures": 1.8888888888888888
+        }
+      },
+      "n_ambiguous": 36,
+      "mean_strategies": 1.03125
+    }
+  },
+  "wall_clock_s": 683.3
+}

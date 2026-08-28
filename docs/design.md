@@ -361,6 +361,97 @@ carries `first_heading` separately.
 
 ---
 
+## 10. Locality and anticipation — EXP-004 / EXP-004b
+
+### Locality: the adaptation is surgical, and the metric can tell
+
+Matched ladder rungs differ in one clearance parameter; a good planner should change its
+behaviour only where the geometry demanded it. Differencing raw collision-primitive positions
+does **not** measure that — it gives SNR < 1, because two clips of the same walk drift out of
+gait phase and a swinging wrist moves further than a 10 cm beam change moves the body.
+
+The metric is therefore the **clearance envelope** — top height, lateral half-width, pelvis
+height — which is phase-robust and is exactly what an obstacle constrains. The null is the
+same scene with the obstacle nudged 12 cm sideways: a scene edit that changes nothing about
+what the body must do.
+
+| family | variant | locality ratio | share of change inside the window |
+|---|---|---|---|
+| `overhead_beam` | adaptive | **4.32** | 0.41 |
+| `overhead_beam` | global-duck strawman | 0.72 | 0.13 |
+| `partial_beam` | adaptive | **3.86** | 0.36 |
+| `partial_beam` | global-duck strawman | 0.61 | 0.11 |
+
+The interaction window is 0.17 of the clip, so a uniformly smeared difference scores 1.0. The
+adaptive renderer concentrates change ~4× inside the window; the strawman that ducks for the
+whole clip scores *below* 1.0, i.e. anti-local. The metric separates them, which is the test
+it had to pass.
+
+### Anticipation: measured causally, not by onset
+
+Onset detection is the wrong instrument here. `plan_to_spec` dilates the schedule by a
+constant, ARDY hard-infills the root slice, and achieved onset therefore tracks commanded
+onset to within a frame — it reads back our own constant. Worse, the global-duck strawman
+scores a *larger* lead (3.75 s vs 1.31 s) purely by ducking throughout, so a bigger onset is
+not even better.
+
+So sweep the lead and watch collisions instead. Everything except `lead_s` is held fixed,
+including the noise draw:
+
+| lead_s | `overhead_beam` collision-free | `beam_and_gap` collision-free |
+|---|---|---|
+| 0.0 | 71 % | 64 % |
+| 0.1 | 87 % | 75 % |
+| **0.2** | **100 %** | 94 % |
+| **0.3** | 100 % | **100 %** |
+| 0.4 – 1.4 | 100 % | 100 % |
+| 2.0 | 100 % | 75 % |
+
+**0.2–0.3 s of lead is necessary and sufficient**, on top of the 0.6 s smoothing the renderer
+already applies — so the ±0.8 s constant EXP-002 adopted sits comfortably on the plateau
+rather than being load-bearing. The plateau is broad but not unbounded: at 2.0 s of lead
+`beam_and_gap` degrades to 75 %, because its two adaptations are only ~3.1 s apart and begin
+to blur into each other. Anticipation has an optimum, not a monotone benefit.
+
+### A bug this experiment caught
+
+The first run of the sweep showed `beam_and_gap` collapsing from 94 % at 0.2 s to 39 % at
+0.3 s and beyond. The cause was in the renderer, not the prior: dilation operated on whole
+*modes*, ranked by "most demanding", so any duck outranked a tuck and spreading a duck near
+the gap **deleted the squeeze** — tuck frames went 16 → 6 → 0 as lead went 0.0 → 0.2 → 0.3 s.
+An adaptation was being silently replaced by a different one. Dilation is now per-channel
+(pelvis takes the window minimum, tuck/lift/sidle the maximum), tuck frames now grow 10 → 44
+with lead, and the curve above is monotone. One of the EXP-005 design agents independently
+found the same defect in 24 of 88 plans.
+
+---
+
+## 11. Infrastructure that had to be fixed first
+
+**Per-sample noise seeding.** ARDY seeds once per generation *call*, so a sample's noise
+depended on its position in the batch. Three independent analyses put the resulting floor at
+the scale of the effects being measured — a 0.085 m null against a 0.137 m signal, and the
+same nominal condition yielding worst-of-3 half-widths of 0.281 m in EXP-001b and 0.380 m in
+EXP-001. Since ARDY's sampler is deterministic DDIM (η = 0), the only stochastic input is one
+`torch.randn` for the initial latent, so `generate(seeds=[...])` now intercepts exactly that
+call and fills it per sample. Verified identical across batch slots, different across seeds,
+and reproducible across batch sizes.
+
+**Cache-first text encoding.** The Llama-3-8B encoder is ~14 GB as a CPU service and ~16 GB
+of VRAM locally, and ARDY's default `auto` mode falls back from one to the other *silently*.
+When unrelated IsaacLab jobs took the GPU, the kernel OOM-killed the CPU service and two
+experiments then died several minutes in on a CUDA OOM. The prompt cache is now
+authoritative: no encoder is loaded unless a genuinely new prompt appears, and `encode`
+raises with instructions rather than grabbing the GPU. Startup went 30 s → 3 s at 926 MB.
+
+**Planner speed**, needed for the EXP-005 oracle. A\* expanded 8·M successors per pop (every
+neighbour × every mode); splitting into *move* and *switch-in-place* gives 8 + (M−1) with no
+loss of expressiveness. A necessary-condition flood fill now short-circuits infeasible scenes,
+which is where essentially all the time went. A single plan is 0.01 s, and strategy
+enumeration results are unchanged.
+
+---
+
 ### A note on V2, if it happens
 
 The original plan assumed scene cross-attention adapters. **ARDY has no cross-attention

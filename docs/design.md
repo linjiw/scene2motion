@@ -284,6 +284,7 @@ ARDY reference into it is an integration task, not a bring-up. It should still b
 | EXP-004 | counterfactual locality and temporal anticipation | running |
 | EXP-001d | the envelope as a calibrated function with a real coverage bound | **done** |
 | EXP-005a | is a 39-number constraint program expressive enough to be worth learning? | **done** |
+| EXP-005b | does the mean of two valid strategies collide? (decides the model class) | **done** |
 | EXP-005 | learned **`p_φ(C \| S, s, g)`** — a *distribution* over constraint programs — vs the ADAPTIVE oracle | designing |
 | EXP-006 | prior independence: the same constraint programs through Kimodo, as an external-validity baseline | planned |
 | EXP-007 | physics: an ARDY reference through the working IsaacLab+SONIC path, decoupled from the planner work | planned |
@@ -549,6 +550,39 @@ Its weakest link is stated in the module: the two axes were calibrated *separate
 combining them assumes the tuck credit measured at nominal pelvis height still applies while
 crouching. EXP-001's duck+tuck cells hint it does not fully. A joint 2-D sweep is the honest
 way to settle it and has not been run.
+
+---
+
+## 14. What the model may be — EXP-005b
+
+Flow matching in constraint space is the obvious choice for `p_phi(C | S, s, g)`, and a review
+pass argued against it with a specific empirical claim: the arithmetic mean of two valid
+strategies is *in collision*, so any objective whose conditional optimum is a mean emits an
+infeasible program. That decides the architecture, so it was measured here rather than taken
+on faith. Every corpus scene with two validated programs, interpolated between them:
+
+| mix | 0.0 (strategy A) | 0.25 | **0.50 (mean)** | 0.75 | 1.0 (strategy B) |
+|---|---|---|---|---|---|
+| goal-reaching and collision-free | 94 % | 56 % | **33 %** | 44 % | 83 % |
+
+Endpoints 89 %, midpoint **33 %**. The claim holds, and the failure is not a narrow band at
+exactly 0.5 — it covers most of the interior. **The straight line between two ways through a
+scene is mostly not a way through the scene**, which is what one would expect when the two
+differ by a homotopy class.
+
+State the consequence carefully, because the strong version is wrong. Flow matching and
+diffusion are *not* mean-seeking at convergence; they model the full distribution and sample
+from modes. What this measures is that the interpolation path is largely infeasible, so a
+generative model over C must resolve its modes **sharply** rather than smear across them — a
+set predictor with Hungarian matching gets that structurally, while a flow has to earn it from
+data, and at 10³ pairs a smoothed velocity field will put terminal mass in exactly the gap
+above. That is an argument about sample efficiency and inductive bias, not an impossibility
+proof, and the cheap way to settle it is to train both heads on the same encoder and compare.
+
+*Caveat on the endpoints.* They are 94 % and 83 % rather than 100 % because every mix shares
+one nominal limb reference (from the scene's own adaptive plan) so the comparison is clean,
+which costs each endpoint the reference it was validated against. The contrast is measured
+within the same setup and is unaffected.
 
 ---
 

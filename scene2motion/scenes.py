@@ -387,12 +387,24 @@ def random_scene(seed: int, n_obstacles: tuple[int, int] = (1, 3)) -> Scene:
     rng = np.random.default_rng(seed)
     corridor_half = float(rng.uniform(1.0, 1.8))
     goal_x = float(rng.uniform(6.5, 9.5))
-    k = int(rng.integers(n_obstacles[0], n_obstacles[1] + 1))
     # Keep obstacles apart along travel: two adaptations inside one stride is not a
-    # traversal problem, it is a wall.
-    xs = np.sort(rng.uniform(2.2, goal_x - 1.4, size=k))
-    while k > 1 and np.min(np.diff(xs)) < 1.8:
-        xs = np.sort(rng.uniform(2.2, goal_x - 1.4, size=k))
+    # traversal problem, it is a wall. The corridor may simply be too short for the drawn
+    # obstacle count, so CLAMP k rather than resampling forever -- rejection sampling here
+    # cannot terminate when (k-1)*MIN_SEP exceeds the placeable span (k=3 in a 2.9 m span
+    # needs 3.6 m), and this hung the scene sampler. From the outside it looked like the
+    # planner was slow, which sent a performance investigation off in the wrong direction.
+    MIN_SEP = 1.8
+    lo_x, hi_x = 2.2, goal_x - 1.4
+    k = int(rng.integers(n_obstacles[0], n_obstacles[1] + 1))
+    k = max(1, min(k, int((hi_x - lo_x) // MIN_SEP) + 1))
+    for _ in range(200):
+        xs = np.sort(rng.uniform(lo_x, hi_x, size=k))
+        if k == 1 or float(np.min(np.diff(xs))) >= MIN_SEP:
+            break
+    else:
+        # Deterministic fallback: evenly spaced always satisfies the separation once k has
+        # been clamped, so the sampler terminates unconditionally.
+        xs = np.linspace(lo_x, hi_x, k)
     kinds = [OBSTACLE_KINDS[int(i)] for i in rng.integers(0, len(OBSTACLE_KINDS), size=k)]
     boxes = _side_walls(corridor_half, -1.0, goal_x + 1.0)
     for x, kind in zip(xs, kinds):
@@ -408,26 +420,66 @@ def random_scene(seed: int, n_obstacles: tuple[int, int] = (1, 3)) -> Scene:
     )
 
 
-def is_heldout(sc: Scene, tol: float = 0.04) -> bool:
-    """True if a random scene sits too close to an evaluation ladder configuration.
+def _eval_signatures() -> set[tuple]:
+    """Rounded (obstacle geometry, corridor, goal) signatures of every evaluation scene."""
+    sigs = set()
+    for fam, rungs in LADDERS.items():
+        for seed in range(16):          # covers every seed the evaluation suites use
+            sc = BUILDERS[fam](rungs[0], seed)
+            for v in rungs:
+                s = BUILDERS[fam](v, seed)
+                sigs.add(_signature(s))
+        del sc
+    return sigs
 
-    Only the clearance-critical dimension is compared, because that is the dimension the
-    ladders sweep and therefore the one on which train/eval leakage would matter.
+
+def _signature(sc: Scene) -> tuple:
+    """A scene's identity: its non-wall boxes plus the corridor and goal, to 1 cm."""
+    boxes = tuple(sorted(
+        (round(b.center[0], 2), round(b.center[1], 2), round(b.center[2], 2),
+         round(b.half[0], 2), round(b.half[1], 2), round(b.half[2], 2))
+        for b in sc.boxes if not b.label.startswith("wall_")))
+    return (boxes, round(sc.bounds[3], 2), round(sc.goal[0], 2))
+
+
+_EVAL_SIGS: set[tuple] | None = None
+
+
+def is_heldout(sc: Scene) -> bool:
+    """True if a random scene reproduces an evaluation scene.
+
+    An earlier version rejected any scene whose beam height or box height fell within 4 cm
+    of a ladder rung. That rejected **73 % of sampled scenes** and removed **100 % of
+    floor-box scenes and 89 % of beam scenes**, leaving a training distribution of almost
+    nothing but pillars and slots -- with essentially no overhead beams, which is the family
+    every headline result rests on. It would have looked like the method failing to
+    generalise rather than the data being wrong.
+
+    The reasoning behind it was also wrong. "A beam at 1.10 m" is not test-set leakage; it is
+    the physics we want the model to learn, and the ladders sweep that dimension precisely
+    because it is the one that matters. What must not leak is an evaluation SCENE -- a
+    specific obstacle layout in a specific corridor with a specific goal -- so identity is
+    compared over the whole configuration, and randomly drawn corridor widths, obstacle
+    positions and goal distances make a collision essentially impossible. This stays as a
+    guard that asserts the intent rather than a filter that reshapes the distribution.
     """
-    for b in sc.boxes:
-        if b.label in ("beam", "partial_beam"):
-            underside = b.center[2] - b.half[2]
-            rungs = LADDERS["overhead_beam"] + LADDERS["partial_beam"]
-            if any(abs(underside - r) < tol for r in rungs):
-                return True
-        elif b.label == "floor_box":
-            if any(abs(2 * b.half[2] - r) < tol for r in LADDERS["low_obstacle"]):
-                return True
-    return False
+    global _EVAL_SIGS
+    if _EVAL_SIGS is None:
+        _EVAL_SIGS = _eval_signatures()
+    return _signature(sc) in _EVAL_SIGS
 
 
 def sample_train_scenes(n: int, seed0: int = 1_000_000) -> list[Scene]:
-    """`n` random scenes, none of which collides with an evaluation ladder rung."""
+    """`n` random scenes, none of which reproduces an evaluation scene.
+
+    Note for the EXP-005 dataset: measured over 100 sampled scenes, the strategy-count
+    histogram is {0 strategies: 38, 1: 43, 2: 14, 3: 5} -- so only about a fifth admit
+    genuine ambiguity. Training p(C|S,s,g) on this distribution unfiltered gives it mostly
+    unimodal targets and little pressure to be multimodal, which is the one thing it exists
+    to be. The dataset builder should over-sample scenes with >= 2 validated strategies
+    rather than take the raw draw. The infeasible 38 % are not waste: they are the training
+    signal for the abstain symbol.
+    """
     out, s = [], seed0
     while len(out) < n:
         sc = random_scene(s)

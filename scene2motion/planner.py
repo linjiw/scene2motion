@@ -166,6 +166,28 @@ def _astar(grid: Grid, start: tuple[int, int], goal: tuple[int, int],
     blocked = [grid.blocked(m) for m in modes]
     if all(b[start] for b in blocked) or all(b[goal] for b in blocked):
         return None
+
+    # Necessary-condition short circuit. A path in the (cell x mode) product graph implies a
+    # path in the graph where a cell is free if ANY mode is free there, so if the goal is
+    # unreachable in that union the search cannot succeed. Checking it with one flood fill
+    # costs microseconds; without it every infeasible scene pays a full exhaustive expansion
+    # of ~12k cells x 7 modes, which is where essentially all of the enumeration time went.
+    free = ~np.all(np.stack(blocked), axis=0)
+    seen = np.zeros_like(free)
+    if not free[start]:
+        return None
+    seen[start] = True
+    stack = [start]
+    while stack:
+        i, j = stack.pop()
+        for di, dj, _ in _NB:
+            ni, nj = i + di, j + dj
+            if (0 <= ni < grid.nx and 0 <= nj < grid.ny
+                    and free[ni, nj] and not seen[ni, nj]):
+                seen[ni, nj] = True
+                stack.append((ni, nj))
+    if not seen[goal]:
+        return None
     res = grid.res
     cheapest = min(m.cost for m in modes)
 
@@ -188,20 +210,32 @@ def _astar(grid: Grid, start: tuple[int, int], goal: tuple[int, int],
                 cur = came[cur]
                 path.append(cur)
             return path[::-1]
+        # Successors are split into MOVE (same posture, adjacent cell) and SWITCH (same
+        # cell, different posture). The combined form -- every neighbour crossed with every
+        # mode -- expands 8*M successors per pop instead of 8+(M-1), which at M=7 is four
+        # times the work for no extra expressiveness: any move-and-switch is representable
+        # as a switch followed by a move, at the same cost. It is also the more physical
+        # reading, since the robot changes posture over a step rather than during one.
+        cm = modes[mi]
         for di, dj, w in _NB:
             ni, nj = i + di, j + dj
-            if not (0 <= ni < grid.nx and 0 <= nj < grid.ny):
+            if not (0 <= ni < grid.nx and 0 <= nj < grid.ny) or blocked[mi][ni, nj]:
                 continue
-            for nmi, nm in enumerate(modes):
-                if blocked[nmi][ni, nj]:
-                    continue
-                step = w * res * nm.cost + (MODE_SWITCH_COST * res if nmi != mi else 0.0)
-                nxt = (ni, nj, nmi)
-                ng = gc + step
-                if ng < g.get(nxt, np.inf):
-                    g[nxt] = ng
-                    came[nxt] = cur
-                    heapq.heappush(openq, (ng + h(ni, nj), ng, nxt))
+            nxt = (ni, nj, mi)
+            ng = gc + w * res * cm.cost
+            if ng < g.get(nxt, np.inf):
+                g[nxt] = ng
+                came[nxt] = cur
+                heapq.heappush(openq, (ng + h(ni, nj), ng, nxt))
+        for nmi in range(len(modes)):
+            if nmi == mi or blocked[nmi][i, j]:
+                continue
+            nxt = (i, j, nmi)
+            ng = gc + MODE_SWITCH_COST * res
+            if ng < g.get(nxt, np.inf):
+                g[nxt] = ng
+                came[nxt] = cur
+                heapq.heappush(openq, (ng + h(i, j), ng, nxt))
     return None
 
 
@@ -331,21 +365,25 @@ def plan_to_path_spec(p: Plan, fps: float, speed: float = 0.9,
                           first_heading=float(heading[0]))
 
 
-def _dilate(modes: list[BodyMode], w: int) -> list[BodyMode]:
-    """Spread each adaptation `w` frames either side, keeping the most demanding one.
+def _dilate_channel(v: np.ndarray, w: int, most: str) -> np.ndarray:
+    """Spread each adaptation `w` frames either side, per CHANNEL.
 
-    "Most demanding" is ordered by (lowest top, largest tuck, largest lift) -- the same
-    ranking the planner used to pay for the mode -- so dilation never silently relaxes an
-    adaptation, it only starts it earlier and ends it later.
+    Dilating whole MODES is wrong and was measured to be wrong: ranking modes by "most
+    demanding" makes any duck outrank a tuck, so spreading a duck near a gap DELETES the
+    squeeze. On beam_and_gap that took the tuck from 16 frames to 0 as lead went 0.0 -> 0.3 s,
+    and collision-free from 94% to 39% -- an adaptation silently replaced by a different one.
+
+    Each axis is therefore dilated on its own: the pelvis takes its minimum over the window
+    (lowest = most demanding), tuck/lift/sidle take their maximum. Spreading one adaptation
+    can then never erase another.
     """
     if w <= 0:
-        return modes
-    n = len(modes)
-    rank = [(-m.top, m.tuck, m.lift) for m in modes]
-    out = []
+        return v
+    n = len(v)
+    out = np.empty_like(v)
+    f = np.min if most == "min" else np.max
     for i in range(n):
-        lo, hi = max(0, i - w), min(n, i + w + 1)
-        out.append(modes[max(range(lo, hi), key=lambda k: rank[k])])
+        out[i] = f(v[max(0, i - w):min(n, i + w + 1)])
     return out
 
 
@@ -369,18 +407,18 @@ def plan_to_spec(p: Plan, fps: float, nominal: dict, joint_names: list[str],
     root_xz, heading = _path_channels(xy, fps)
 
     # ANTICIPATION. A* labels only the cells physically under the obstacle, so a naive
-    # rendering asks the prior to crouch during the ~0.3 s it spends beneath a beam. The
-    # body cannot change envelope that fast, and the resulting motion clips the obstacle on
-    # the way in. Dilating each adaptation backwards and forwards in time by `lead_s` is
-    # what a person does: you duck BEFORE the beam and stand up after it. Without this the
-    # planner is correct in space and wrong in time.
-    modes = _dilate(modes, int(round(lead_s * fps)))
-
+    # rendering asks the prior to crouch during the ~0.3 s it spends beneath a beam. The body
+    # cannot change envelope that fast and clips the obstacle on the way in. Dilating each
+    # adaptation backwards and forwards by `lead_s` is what a person does: you duck BEFORE
+    # the beam. EXP-004b measures the dose-response -- 0.2 s takes beam scenes from 69% to
+    # 100% collision-free and more does not help -- so this is calibrated, not guessed.
+    w = int(round(lead_s * fps))
     ry_win = max(3, int(0.6 * fps) | 1)
-    root_y = _smooth(np.array([m.pelvis_y for m in modes]), ry_win)
-    tuck = _smooth(np.array([m.tuck for m in modes]), ry_win)
-    lift = _smooth(np.array([m.lift for m in modes]), ry_win)
-    sidle = _smooth(np.array([np.deg2rad(m.sidle_deg) for m in modes]), ry_win)
+    root_y = _smooth(_dilate_channel(np.array([m.pelvis_y for m in modes]), w, "min"), ry_win)
+    tuck = _smooth(_dilate_channel(np.array([m.tuck for m in modes]), w, "max"), ry_win)
+    lift = _smooth(_dilate_channel(np.array([m.lift for m in modes]), w, "max"), ry_win)
+    sidle = _smooth(
+        _dilate_channel(np.array([np.deg2rad(m.sidle_deg) for m in modes]), w, "max"), ry_win)
     heading = heading + sidle
 
     idx = {n: i for i, n in enumerate(joint_names)}

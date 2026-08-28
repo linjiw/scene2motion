@@ -1,0 +1,30 @@
+{
+  "experiment": "exp004b_anticipation_dose",
+  "model": "ARDY-G1-RP-25FPS-Horizon52",
+  "fps": 25.0,
+  "duration_s": 10.0,
+  "leads_s": [
+    0.0,
+    0.1,
+    0.2,
+    0.3,
+    0.4,
+    0.6,
+    0.8,
+    1.0,
+    1.4,
+    2.0
+  ],
+  "sample_seeds": [
+    11,
+    12,
+    13
+  ],
+  "families": [
+    "overhead_beam",
+    "beam_and_gap"
+  ],
+  "per_sample_noise": true,
+  "n_rows": 810,
+  "wall_clock_s": 259.2
+}

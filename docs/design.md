@@ -586,6 +586,13 @@ one nominal limb reference (from the scene's own adaptive plan) so the compariso
 which costs each endpoint the reference it was validated against. The contrast is measured
 within the same setup and is unaffected.
 
+*Caveat on the parameterisation.* These numbers were taken on the 39-dimensional program,
+before the design-spec corrections (§15) took it to 43 dimensions with arc-length decoding.
+The conclusion is about geometry — the straight line between two homotopy classes leaves the
+free space — so it should survive the reparameterisation, but the exact percentages are from
+the old space and the experiment is queued for a re-run. The corresponding artefacts under
+`outputs/` carry a `STALE.txt`.
+
 ---
 
 ## 15. What the EXP-005 design pass changed — and it is not a detail

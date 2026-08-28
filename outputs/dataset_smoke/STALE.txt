@@ -1,0 +1,1 @@
+built with DIM_C=39; superseded by the 43-dim program (commit applying the design-spec corrections). Regenerate before use.

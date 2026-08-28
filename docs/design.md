@@ -159,9 +159,14 @@ is instructive enough to be worth recording:
   width it just removed. Sidling only helps combined with tucking, and even then the best
   measured configuration (sidle 90° + tuck 0.85) reaches 21.9 cm half-width vs 20.5 cm for
   tucking alone. **The lateral channel is essentially saturated.**
-- **"Ducking makes you wider" was an artefact.** EXP-001 first compared each clip against
-  its own opening window; a gait's opening arm swing is simply wider than its steady state.
-  Under matched control the effect vanishes — duck and width are roughly decoupled.
+- **"Ducking makes you wider" — retracted, then re-confirmed.** EXP-001 first compared each
+  clip against its own opening window, which is not a valid control (a gait's opening arm
+  swing is wider than its steady state), and under matched control at n = 3 the effect
+  vanished. That retraction was itself wrong. EXP-001d re-measured at **n = 20** and the
+  coupling is real: mean half-width rises monotonically 0.310 m → 0.403 m across dip 0 →
+  0.50, and the 90 % bound rises 0.378 m → 0.510 m. It was invisible at n = 3 because the
+  per-level standard deviation is 4–7 cm and the effect is ~9 cm. Three seeds could neither
+  establish it nor refute it, and treating the null as a finding was the mistake.
 - **Step-over first measured ~0 cm at every requested lift height.** Not because the
   channel fails — targets are followed and overshot — but because only the *nearest* swing
   was lifted, leaving the trailing foot to walk through the obstacle. Lifting both legs
@@ -277,6 +282,7 @@ ARDY reference into it is an integration task, not a bring-up. It should still b
 | EXP-003 | how many topologically distinct strategies does the prior realise per aperture? | **done** |
 | EXP-003b | how few numbers does a strategy take, and can the prior recover one from a distal goal? | **done** |
 | EXP-004 | counterfactual locality and temporal anticipation | running |
+| EXP-001d | the envelope as a calibrated function with a real coverage bound | **done** |
 | EXP-005a | is a 39-number constraint program expressive enough to be worth learning? | **done** |
 | EXP-005 | learned **`p_φ(C \| S, s, g)`** — a *distribution* over constraint programs — vs the ADAPTIVE oracle | designing |
 | EXP-006 | prior independence: the same constraint programs through Kimodo, as an external-validity baseline | planned |
@@ -495,14 +501,54 @@ where 16 uniform chord knots over an 8 m path under-resolve the turn. That is a 
 understood limitation with an obvious fix (more knots, or non-uniform placement near
 obstacles) if it ever binds.
 
-**Open tension, not yet resolved.** Making `dip` continuous invalidates A*'s lateral
-feasibility certificate: the certificate uses the discrete mode's `half_width`, and the
-measured half-widths are non-monotone in dip (`duck_deep` 0.497 m against `stand` 0.380 m).
-That non-monotonicity is almost certainly a worst-case-over-3-seeds artefact — one sample
-flinging its arms out — which argues for re-measuring the envelope as a calibrated *function*
-of dip with enough seeds to bound it, rather than five quantised points from three. Until
-that is done, the continuous parameterisation and the capability guarantee are not fully
-consistent, and the guarantee is the weaker of the two claims.
+**Tension resolved — and my diagnosis of it was wrong.** Making `dip` continuous appeared to
+invalidate A*'s lateral certificate, because the tabulated half-widths were non-monotone in
+dip (`duck_deep` 0.497 m against `stand` 0.380 m). I predicted that was a worst-of-3-seeds
+artefact. EXP-001d re-measured at n = 20 and it is not: half-width rises monotonically with
+dip, 0.378 m → 0.510 m at the 90 % bound. Ducking really does make the robot wider. The
+non-monotonicity in the old table was noise; the underlying *trend* was real and had the
+opposite sign to what a "spurious outlier" story implied.
+
+The fix is therefore not to discard the coupling but to model it. §13.
+
+---
+
+## 13. The capability envelope as a calibrated function — EXP-001d
+
+`outputs/body_modes.json` was the worst of three seeds per mode. That is not a bound: it is a
+36.8 %-content tolerance interval at 95 % confidence, and the same nominal condition produced
+worst-of-3 half-widths of 0.281 m and 0.380 m in two experiments purely from which draws were
+taken. So both axes were re-swept at **20 independent samples per level** and summarised by a
+**split conformal upper bound** — the ⌈(n+1)(1−α)⌉-th order statistic, which is valid for a
+fresh exchangeable sample. n = 20 supports a genuine 90 % bound; n = 3 supports none.
+
+| dip (m) | top, mean | top, 90 % bound | half-width, mean | half-width, 90 % bound | sd |
+|---|---|---|---|---|---|
+| 0.00 | 1.314 | 1.336 | 0.310 | 0.378 | 0.044 |
+| 0.15 | 1.147 | 1.220 | 0.323 | 0.402 | 0.052 |
+| 0.30 | 1.021 | 1.072 | 0.327 | 0.411 | 0.054 |
+| 0.45 | 0.885 | 0.931 | 0.379 | 0.453 | 0.063 |
+| 0.50 | 0.823 | 0.879 | 0.403 | 0.510 | 0.074 |
+
+`top(dip)` is monotone decreasing and clean. `half_width(dip)` is monotone **increasing** —
+the arms come out for balance — by ~9 cm in the mean and ~13 cm at the bound. A deep duck
+therefore needs a **1.02 m corridor**, not the 0.76 m a standing envelope implies, and the
+planner must carry that coupling rather than treating the axes as independent.
+
+Tuck is the opposite and is the axis worth spending on when a gap is tight: the bound falls
+0.378 → 0.272 m and the standard deviation falls 0.044 → 0.012, so tucking makes the robot
+both narrower *and* more repeatable.
+
+`scene2motion/envelope.py` exposes this as `top(dip)` and `half_width(dip, tuck)` with
+monotonicity enforced. **The claim it licenses, exactly:** for a request drawn from the
+calibration distribution, the body's envelope exceeds the bound at most 10 % of the time. It
+is a statement about the *envelope*, not about collision-freeness — the per-instance guarantee
+remains the MuJoCo check, which is why those stay in separate columns.
+
+Its weakest link is stated in the module: the two axes were calibrated *separately*, so
+combining them assumes the tuck credit measured at nominal pelvis height still applies while
+crouching. EXP-001's duck+tuck cells hint it does not fully. A joint 2-D sweep is the honest
+way to settle it and has not been run.
 
 ---
 

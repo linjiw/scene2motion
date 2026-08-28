@@ -662,6 +662,59 @@ The compressed program now *beats* the oracle plan it compresses, and geometric 
 
 ---
 
+## 16. The certificate was optimistic, and fixing it costs 3 points
+
+Rebuilding the mode table from the EXP-001d envelope rather than worst-of-3-seeds exposed
+that the old table was not conservative at all — it was wrong in **both** directions, and the
+dangerous direction landed on exactly the modes that do the work:
+
+| mode | half-width, old → calibrated | top, old → calibrated |
+|---|---|---|
+| `duck_light` | 0.360 → 0.402 | 1.216 → 1.220 |
+| `duck` | 0.375 → 0.420 | 1.127 → 1.120 |
+| `duck_deep` | 0.497 → 0.420 | 1.017 → 1.034 |
+| **`duck_max`** | **0.344 → 0.510** | **0.822 → 0.879** |
+
+The planner was certifying `duck_max` against a 0.344 m half-width when the 90 % bound is
+0.510 m — **16.6 cm optimistic** — and a 0.822 m top against 0.879 m. It has not produced
+collisions, since EXP-002 is 100 % collision-free on feasible plans, but that is the *mean*
+behaviour and a certificate is meant to bound the tail. A guarantee that holds on average is
+not a guarantee.
+
+Correcting it costs feasibility, as it must: **68.8 % → 65.6 %** on the 128-scene suite,
+`beam_and_gap` 16/16 → 12/16. The earlier number rested in part on an optimistic bound; 65.6 %
+is the one that comes with a coverage statement. A headline moving *down* under scrutiny is
+the direction that should increase confidence in it.
+
+`experiments/derive_modes.py`, which builds the old table, now refuses to run rather than
+silently restoring a guarantee the system does not have.
+
+**Process note.** That file was edited while the ORACLE@K gate was running. `MODES` loads at
+import, so the in-flight run held the old table — a config a running experiment depends on
+should not be edited mid-flight, and the gate was re-run rather than its result reused.
+
+## 17. Refusal with a reason
+
+Since every remaining failure is a refusal (§15), a refusal that names its cause is worth more
+than one that does not. `Plan.refusal` reports the binding functional and the deficit:
+
+| binding functional | refused scenes | example |
+|---|---|---|
+| `lateral_clearance` | 20 | `narrow_gap w=0.30`: scene offers 0.30 m, body needs 0.54 m — short 24.4 cm |
+| `step_height` | 16 | `low_obstacle h=0.08`: box is 0.08 m, best certified step is 0.03 m — short 5.2 cm |
+| `overhead_clearance` | 8 | `overhead_beam h=0.80`: clearance 0.80 m, body needs 0.88 m — short 7.9 cm |
+
+The deficit is what separates "2.9 cm short of a certified duck" (recalibrate, or accept the
+risk) from "0.30 m gap against a 0.54 m body" (a real limit of the prior), and it makes
+EXP-005c's 32-of-40 claim checkable per scene rather than only in aggregate.
+
+Two bugs in the first version, both of the *technically true and useless* kind, and both found
+by reading its own output rather than by a test: it called a 2.6 m wall panel a step-over
+problem short by 257 cm, and it measured lateral clearance per-obstacle so it could not see
+the channel *between* two wall panels — which is exactly the geometry `narrow_gap` is made of.
+
+---
+
 ### A note on V2, if it happens
 
 The original plan assumed scene cross-attention adapters. **ARDY has no cross-attention

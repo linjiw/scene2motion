@@ -11,7 +11,7 @@ construct it here.
 
 Two proposers, identical downstream:
 
-  ORACLE-ENUMERATE   the certified (worst-of-seeds) envelope
+  ORACLE-ENUMERATE   the certified envelope (90 % split-conformal, n=20, EXP-001d)
   ORACLE-RELAXED     `relaxed_modes(top-0.08, width-0.05)`, deliberately uncertified
 
 Two numbers per proposer:
@@ -47,30 +47,13 @@ from scene2motion.planner import plan_to_path_spec, plan_to_spec  # noqa: E402
 from scene2motion.robot import G1Body  # noqa: E402
 from scene2motion.runner import ArdyRunner  # noqa: E402
 from scene2motion.scenes import build_suite  # noqa: E402
+from scene2motion.metrics import realised_signature  # noqa: E402
 from scene2motion.strategies import enumerate_strategies  # noqa: E402
 
 PROMPT = "A person walks forward."
 SPEED, GOAL_TOL, MAX_DURATION = 0.9, 0.5, 14.0
 KS = [1, 2, 4, 8]
 RELAX = (0.08, 0.05)
-
-
-def realised_signature(qpos: np.ndarray, scene) -> tuple:
-    """What the GENERATED motion actually did, read off the motion rather than the label.
-
-    Using the commanded strategy name would make coverage a tautology — it would count what we
-    asked for, not what the prior delivered. The signature is (which side of each choice
-    obstacle the body passed, did it duck under anything), both measured from qpos.
-    """
-    from scene2motion.strategies import _choice_obstacles
-    homotopy = []
-    for x, oy in _choice_obstacles(scene):
-        i = int(np.argmin(np.abs(qpos[:, 0] - x)))
-        lo, hi = max(0, i - 12), min(len(qpos), i + 13)
-        d = float(np.mean(qpos[lo:hi, 1])) - oy
-        homotopy.append(0 if abs(d) < 0.12 else int(np.sign(d)))
-    ducked = int(qpos[:, 2].min() < 0.68)      # pelvis well below its standing height
-    return (tuple(homotopy), ducked)
 
 
 def main() -> None:
@@ -102,25 +85,36 @@ def main() -> None:
                 # two strategies takes four seeds of each. A budget spent entirely on the
                 # cheapest plan would measure the sampler, not the proposer.
                 assign = [(strats[i % len(strats)], i) for i in range(Kmax)]
+                # Group by clip length so the whole budget for a scene is 2 batched calls
+                # instead of 2*Kmax single-sample ones.
+                by_T: dict[int, list] = {}
                 for st, i in assign:
                     T = min(int(MAX_DURATION * fps),
                             max(int(2 * fps), int(round(st.plan.length / SPEED * fps))))
-                    seed = (base + i) % (2 ** 20)
-                    ctrl = runner.generate(
-                        [PROMPT], [plan_to_path_spec(st.plan, fps, SPEED, duration=T / fps)],
-                        T, args.diffusion_steps, seeds=[seed])[0]
-                    spec = plan_to_spec(st.plan, fps, ctrl, runner.joint_names, SPEED,
-                                        duration=T / fps)
-                    o = runner.generate([PROMPT], [spec], T, args.diffusion_steps,
-                                        seeds=[seed])[0]
-                    q = runner.to_qpos(o)
-                    r = body.trajectory_report(q)
-                    goal = bool(np.linalg.norm(q[-1, :2] - np.asarray(sc.goal)) < GOAL_TOL)
-                    rec["samples"].append({
-                        "strategy": st.name, "ok": bool(goal and r["collision_free"]),
-                        "signature": list(map(list, [realised_signature(q, sc)[0]]))[0]
-                                     + [realised_signature(q, sc)[1]],
-                        "max_pen_m": r["max_penetration_m"]})
+                    by_T.setdefault(T, []).append((st, i))
+                slots: dict[int, dict] = {}
+                for T, group in by_T.items():
+                    seeds = [(base + i) % (2 ** 20) for _, i in group]
+                    ctrls = runner.generate(
+                        [PROMPT] * len(group),
+                        [plan_to_path_spec(st.plan, fps, SPEED, duration=T / fps)
+                         for st, _ in group],
+                        T, args.diffusion_steps, seeds=seeds)
+                    specs = [plan_to_spec(st.plan, fps, c, runner.joint_names, SPEED,
+                                          duration=T / fps)
+                             for (st, _), c in zip(group, ctrls)]
+                    outs = runner.generate([PROMPT] * len(group), specs, T,
+                                           args.diffusion_steps, seeds=seeds)
+                    for (st, i), o in zip(group, outs):
+                        q = runner.to_qpos(o)
+                        r = body.trajectory_report(q)
+                        goal = bool(np.linalg.norm(q[-1, :2] - np.asarray(sc.goal)) < GOAL_TOL)
+                        homo, duck = realised_signature(q, sc)
+                        slots[i] = {"strategy": st.name,
+                                    "ok": bool(goal and r["collision_free"]),
+                                    "signature": list(homo) + [duck],
+                                    "max_pen_m": r["max_penetration_m"]}
+                rec["samples"] = [slots[i] for i in range(Kmax) if i in slots]
             rows.append(rec)
         print(f"  arm {arm} done ({time.time()-t0:.0f}s)", flush=True)
 

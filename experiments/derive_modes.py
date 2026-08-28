@@ -1,4 +1,17 @@
-"""Derive the planner's body-mode table from measured envelopes.
+"""SUPERSEDED by derive_modes_calibrated.py. Kept for provenance; do not run.
+
+This built the mode table as the WORST OF THREE SEEDS per mode. EXP-001d showed that is not
+a bound -- it is a 36.8 %-content tolerance interval at 95 % confidence -- and that it was
+OPTIMISTIC by up to 16.6 cm of half-width and 5.7 cm of top height on `duck_max`, the mode
+that does the most work. Running this again would silently replace the calibrated table with
+the optimistic one and quietly restore a guarantee the system does not have.
+
+Use `experiments/derive_modes_calibrated.py`, which builds from the 90 % split-conformal
+envelope at n = 20.
+
+--- original docstring follows ---
+
+Derive the planner's body-mode table from measured envelopes.
 
 The planner may only claim envelopes the prior actually reaches. Aggregation is the WORST
 case over seeds, not the mean: a planner that assumes the average clearance will route the
@@ -33,6 +46,11 @@ def worst(rows: list[dict], key: str, agg=max) -> float:
 
 
 def main() -> None:
+    raise SystemExit(
+        "derive_modes.py is superseded by derive_modes_calibrated.py and refuses to run: it "
+        "would overwrite the conformally-calibrated mode table with worst-of-3-seeds values "
+        "that are optimistic by up to 16.6 cm on duck_max. See the module docstring.")
+
     duck = load(ROOT / "outputs/exp001/rows.jsonl")
     lat = load(ROOT / "outputs/exp001b/rows.jsonl")
     step = load(ROOT / "outputs/exp001c/rows.jsonl")

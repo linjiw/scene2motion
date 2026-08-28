@@ -1,0 +1,61 @@
+{
+  "experiment": "exp005d_oracle_at_k",
+  "n_scenes": 32,
+  "Ks": [
+    1,
+    2,
+    4,
+    8
+  ],
+  "relax": [
+    0.08,
+    0.05
+  ],
+  "arms": {
+    "enumerate": {
+      "per_k": {
+        "1": {
+          "K4_traversal_success": 0.65625,
+          "B1_distinct_verified_signatures": 1.0
+        },
+        "2": {
+          "K4_traversal_success": 0.65625,
+          "B1_distinct_verified_signatures": 2.0
+        },
+        "4": {
+          "K4_traversal_success": 0.65625,
+          "B1_distinct_verified_signatures": 2.0
+        },
+        "8": {
+          "K4_traversal_success": 0.65625,
+          "B1_distinct_verified_signatures": 2.0
+        }
+      },
+      "n_ambiguous": 7,
+      "mean_strategies": 0.90625
+    },
+    "relaxed": {
+      "per_k": {
+        "1": {
+          "K4_traversal_success": 0.65625,
+          "B1_distinct_verified_signatures": 1.0
+        },
+        "2": {
+          "K4_traversal_success": 0.75,
+          "B1_distinct_verified_signatures": 1.6666666666666667
+        },
+        "4": {
+          "K4_traversal_success": 0.75,
+          "B1_distinct_verified_signatures": 1.7777777777777777
+        },
+        "8": {
+          "K4_traversal_success": 0.75,
+          "B1_distinct_verified_signatures": 1.8888888888888888
+        }
+      },
+      "n_ambiguous": 9,
+      "mean_strategies": 1.03125
+    }
+  },
+  "wall_clock_s": 169.3
+}

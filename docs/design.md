@@ -277,6 +277,7 @@ ARDY reference into it is an integration task, not a bring-up. It should still b
 | EXP-003 | how many topologically distinct strategies does the prior realise per aperture? | **done** |
 | EXP-003b | how few numbers does a strategy take, and can the prior recover one from a distal goal? | **done** |
 | EXP-004 | counterfactual locality and temporal anticipation | running |
+| EXP-005a | is a 39-number constraint program expressive enough to be worth learning? | **done** |
 | EXP-005 | learned **`p_φ(C \| S, s, g)`** — a *distribution* over constraint programs — vs the ADAPTIVE oracle | designing |
 | EXP-006 | prior independence: the same constraint programs through Kimodo, as an external-validity baseline | planned |
 | EXP-007 | physics: an ARDY reference through the working IsaacLab+SONIC path, decoupled from the planner work | planned |
@@ -457,6 +458,51 @@ neighbour × every mode); splitting into *move* and *switch-in-place* gives 8 + 
 loss of expressiveness. A necessary-condition flood fill now short-circuits infeasible scenes,
 which is where essentially all the time went. A single plan is 0.01 s, and strategy
 enumeration results are unchanged.
+
+---
+
+## 12. Is 39 numbers enough? — EXP-005a
+
+`p_phi(C | S, s, g)` can only be as good as C. If compressing an oracle plan into a small
+program loses enough fidelity that the decoded version no longer traverses the scene, a
+perfect generator over that space is still useless. So this ran before any training code was
+written — the cheapest experiment that could falsify the whole EXP-005 design.
+
+Every evaluation scene, every enumerated strategy, rendered twice from the *same* plan and
+the *same* noise seed: once through `plan_to_spec` and once through
+`encode → 39 numbers → decode`. Both paths share `_limb_targets`, `_dilate_channel` and
+`LEAD_S`, so any difference is compression, not two code paths disagreeing.
+
+| family | n | oracle succeeds | program succeeds | mean route error |
+|---|---|---|---|---|
+| `overhead_beam` | 15 | 100 % | 100 % | 0.007 m |
+| `beam_and_gap` | 12 | 100 % | 100 % | 0.012 m |
+| `narrow_gap` | 6 | 100 % | 100 % | 0.079 m |
+| `partial_beam` | 28 | 96 % | 96 % | 0.092 m |
+| `pillar` | 34 | 91 % | 91 % | 0.138 m |
+| `low_obstacle` | 3 | 67 % | 100 % | 0.007 m |
+| **overall** | **98** | **94.9 %** | **95.9 %** | |
+
+**Agreement 96.9 %, and of the three disagreements two favour the program.** The single case
+where compression hurts is `pillar_off0.60 duck_light:R`, the largest route error in the set
+(0.289 m), which produces 0.5 cm of penetration.
+
+The lesson is about the metric, not the model. The compressed request differs from the oracle
+by up to 0.29 m in L-infinity, which sounds disqualifying and is not: 13 cm is irrelevant in a
+1.4 m corridor and fatal in a 0.5 m gap, and only generation plus collision checking can tell
+which. Route error is concentrated on `pillar`, the family with the largest lateral detours,
+where 16 uniform chord knots over an 8 m path under-resolve the turn. That is a bounded and
+understood limitation with an obvious fix (more knots, or non-uniform placement near
+obstacles) if it ever binds.
+
+**Open tension, not yet resolved.** Making `dip` continuous invalidates A*'s lateral
+feasibility certificate: the certificate uses the discrete mode's `half_width`, and the
+measured half-widths are non-monotone in dip (`duck_deep` 0.497 m against `stand` 0.380 m).
+That non-monotonicity is almost certainly a worst-case-over-3-seeds artefact — one sample
+flinging its arms out — which argues for re-measuring the envelope as a calibrated *function*
+of dip with enough seeds to bound it, rather than five quantised points from three. Until
+that is done, the continuous parameterisation and the capability guarantee are not fully
+consistent, and the guarantee is the weaker of the two claims.
 
 ---
 

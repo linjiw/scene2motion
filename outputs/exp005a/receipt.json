@@ -1,0 +1,17 @@
+{
+  "experiment": "exp005a_program_expressivity",
+  "model": "ARDY-G1-RP-25FPS-Horizon52",
+  "fps": 25.0,
+  "families": [
+    "overhead_beam",
+    "partial_beam",
+    "beam_and_gap",
+    "pillar",
+    "narrow_gap",
+    "low_obstacle"
+  ],
+  "dim_c": 39,
+  "seeds_per_rung": 3,
+  "n_rows": 98,
+  "wall_clock_s": 156.2
+}

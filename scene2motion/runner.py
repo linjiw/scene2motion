@@ -16,12 +16,60 @@ from __future__ import annotations
 
 import hashlib
 import os
+from contextlib import nullcontext as contextlib_nullcontext
 from pathlib import Path
 
 import numpy as np
 import torch
 
+from contextlib import contextmanager
+
 from .constraints import ConstraintSpec, build_conditions
+
+
+@contextmanager
+def _per_sample_noise(seeds: list[int], device: str):
+    """Make each batch element's initial noise depend only on its own seed.
+
+    ARDY seeds once per generation call, so a sample's noise depends on its POSITION in the
+    batch. That silently breaks every matched-pair measurement in this repo: two clips that
+    differ only in scene geometry also differ in their noise draw unless they happen to land
+    in the same slot, and three separate analyses measured the resulting floor at a scale
+    comparable to the effect being studied (a 0.085 m null against a 0.137 m signal; the same
+    nominal condition yielding worst-of-3 half-widths of 0.281 m and 0.380 m in two
+    experiments).
+
+    Its sampler is deterministic DDIM (eta = 0), so the only stochastic input to a generation
+    is a single `torch.randn(shape)` for the initial latent (ardy/model/ardy_model.py:481).
+    Intercepting exactly that call — the one whose leading dimension is the batch size — and
+    filling it row by row from per-sample generators makes sample i reproducible from seed i
+    alone, independent of what else shares its batch.
+    """
+    real = torch.randn
+    B = len(seeds)
+
+    def patched(*args, **kwargs):
+        shape = args[0] if len(args) == 1 and not isinstance(args[0], int) else args
+        try:
+            shape = tuple(int(x) for x in shape)
+        except TypeError:
+            return real(*args, **kwargs)
+        if not shape or shape[0] != B:
+            return real(*args, **kwargs)
+        dev = kwargs.get("device", device)
+        rows = []
+        for sd in seeds:
+            g = torch.Generator(device=dev)
+            g.manual_seed(int(sd))
+            rows.append(real(shape[1:], device=dev, generator=g,
+                             dtype=kwargs.get("dtype")))
+        return torch.stack(rows, 0)
+
+    torch.randn = patched
+    try:
+        yield
+    finally:
+        torch.randn = real
 
 
 def _key(text: str) -> str:
@@ -109,7 +157,8 @@ class ArdyRunner:
     def generate(self, prompts: list[str], specs: list[ConstraintSpec | None],
                  num_frames: int, diffusion_steps: int = 10,
                  cfg_weight: tuple[float, float] = (2.0, 2.0),
-                 seed: int | None = None) -> list[dict]:
+                 seed: int | None = None,
+                 seeds: list[int] | None = None) -> list[dict]:
         """Generate one motion per (prompt, spec). Returns per-sample numpy output dicts.
 
         Batched: every sample shares `num_frames` but may carry a different constraint spec,
@@ -158,9 +207,15 @@ class ArdyRunner:
 
         h0 = torch.tensor([_first_heading(s) for s in specs], device=dev)
 
+        # `seeds` gives each sample its own noise, independent of batch position; `seed`
+        # keeps the old whole-batch behaviour for code that does not need pairing.
+        if seeds is not None and len(seeds) != B:
+            raise ValueError(f"seeds has length {len(seeds)}, expected {B}")
         if seed is not None:
             torch.manual_seed(seed)
-        with torch.no_grad():
+        ctx = (_per_sample_noise(seeds, dev) if seeds is not None
+               else contextlib_nullcontext())
+        with ctx, torch.no_grad():
             motion = self.model(
                 prompts, num_frames, num_denoising_steps=diffusion_steps,
                 pad_mask=pad_mask, first_heading_angle=h0,

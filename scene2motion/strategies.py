@@ -151,3 +151,68 @@ def enumerate_strategies(scene: Scene, max_k: int = 6, res: float = 0.05) -> lis
 
 def summarise(strats: list[Strategy]) -> str:
     return " | ".join(f"{s.name} {s.plan.length:.2f}m (+{s.detour_m:.2f})" for s in strats)
+
+
+# --------------------------------------------------------------------------------------
+# Validation.
+#
+# A* liking a plan is not evidence the frozen prior can execute it. EXP-002 measured the gap
+# directly: on the same plans, the path-only rendering was 51% collision-free and the adapted
+# rendering 81% -- so roughly a fifth of accepted plans still produce a body that hits
+# something. Training p(C|S,s,g) on unvalidated plans would teach it to propose exactly those.
+#
+# So a candidate becomes a label only after it has been generated and checked. This is the
+# expensive half of the oracle (~0.2 s of GPU per candidate) and the reason the dataset is
+# built once and cached.
+# --------------------------------------------------------------------------------------
+
+DEFAULT_PROMPT = "A person walks forward."
+
+
+def validate_strategies(runner, scene: Scene, strats: list[Strategy], *,
+                        speed: float = 0.9, prompt: str = DEFAULT_PROMPT,
+                        goal_tol: float = 0.5, diffusion_steps: int = 10,
+                        n_samples: int = 1, max_duration: float = 14.0) -> list[dict]:
+    """Generate each strategy through the frozen prior and score it against the scene.
+
+    Returns one record per (strategy, sample) with the rendered ConstraintSpec and whether it
+    is fit to be a training label. `n_samples > 1` exposes strategies that only work
+    sometimes, which should not be labelled as reliably achievable.
+    """
+    from .planner import plan_to_path_spec, plan_to_spec
+    from .robot import G1Body
+
+    fps = runner.fps
+    body = G1Body(scene)
+    out: list[dict] = []
+    for st in strats:
+        T = min(int(max_duration * fps),
+                max(int(2 * fps), int(round(st.plan.length / speed * fps))))
+        ctrl = runner.generate([prompt],
+                               [plan_to_path_spec(st.plan, fps, speed, duration=T / fps)],
+                               T, diffusion_steps, seed=0)[0]
+        spec = plan_to_spec(st.plan, fps, ctrl, runner.joint_names, speed, duration=T / fps)
+        outs = runner.generate([prompt] * n_samples, [spec] * n_samples, T,
+                               diffusion_steps, seed=0)
+        for i, o in enumerate(outs):
+            q = runner.to_qpos(o)
+            rep = body.trajectory_report(q)
+            end = q[-1, :2]
+            goal_ok = bool(np.linalg.norm(end - np.asarray(scene.goal)) < goal_tol)
+            out.append({
+                "scene_id": scene.scene_id, "strategy": st.name, "sample": i,
+                "homotopy": list(st.homotopy), "morphology": list(st.morphology),
+                "plan_length_m": st.plan.length, "detour_m": st.detour_m,
+                "n_frames": int(T),
+                "goal_reached": goal_ok,
+                "collision_free": rep["collision_free"],
+                "max_penetration_m": rep["max_penetration_m"],
+                "min_clearance_m": rep["min_clearance_m"],
+                "min_pelvis_z_m": float(q[:, 2].min()),
+                "max_abs_y_m": float(np.abs(q[:, 1]).max()),
+                "foot_floor_pen_m": rep["max_foot_floor_penetration_m"],
+                # The label itself: only accepted candidates are training targets.
+                "valid": bool(goal_ok and rep["collision_free"]),
+                "spec": spec,
+            })
+    return out

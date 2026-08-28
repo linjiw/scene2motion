@@ -331,3 +331,107 @@ def save_scenes(path: str, scenes: list[Scene]) -> None:
 def load_scenes(path: str) -> list[Scene]:
     with open(path) as fh:
         return [Scene.from_dict(json.loads(line)) for line in fh if line.strip()]
+
+
+# --------------------------------------------------------------------------------------
+# Randomised scenes for TRAINING.
+#
+# The six families above are counterfactual ladders: one clearance dimension swept with
+# everything else pinned. That is exactly what evaluation needs and exactly what training
+# must not be limited to -- a generator trained on six shapes learns six shapes.
+#
+# So training scenes draw their obstacle set and every dimension continuously. Evaluation
+# stays on the ladders, and `is_heldout` keeps the two disjoint: any sampled scene that lands
+# close to an evaluation configuration is rejected, so a train/eval overlap cannot be
+# mistaken for generalisation.
+# --------------------------------------------------------------------------------------
+
+OBSTACLE_KINDS = ("beam", "partial_beam", "pillar", "slot", "floor_box")
+
+
+def _rand_obstacle(rng: np.random.Generator, kind: str, x: float,
+                   corridor_half: float) -> list[Box]:
+    """One obstacle of `kind` centred at `x`, spanning what that kind spans."""
+    if kind == "beam":
+        h = float(rng.uniform(0.80, 1.45))
+        return [Box((x, 0.0, h + 0.125), (0.12, corridor_half, 0.125), "beam")]
+    if kind == "partial_beam":
+        h = float(rng.uniform(0.80, 1.30))
+        edge = float(rng.uniform(-0.45, 0.45))
+        side = 1 if rng.random() < 0.5 else -1
+        outer = side * (corridor_half + WALL_T)
+        cy, hy = 0.5 * (edge + outer), 0.5 * abs(outer - edge)
+        return [Box((x, cy, h + 0.125), (0.12, hy, 0.125), "partial_beam")]
+    if kind == "pillar":
+        r = float(rng.uniform(0.18, 0.38))
+        y = float(rng.uniform(-corridor_half + r, corridor_half - r))
+        return [Box((x, y, ROOM_H / 2), (r, r, ROOM_H / 2), "pillar")]
+    if kind == "slot":
+        w = float(rng.uniform(0.40, 1.10))
+        y = float(rng.uniform(-0.4, 0.4))
+        out = []
+        for sign, nm in ((+1, "slotwall_left"), (-1, "slotwall_right")):
+            inner, outer = y + sign * w / 2, sign * (corridor_half + WALL_T)
+            if abs(outer - inner) < 1e-3:
+                continue
+            out.append(Box((x, 0.5 * (inner + outer), ROOM_H / 2),
+                           (WALL_T / 2, 0.5 * abs(outer - inner), ROOM_H / 2), nm))
+        return out
+    h = float(rng.uniform(0.02, 0.30))
+    return [Box((x, 0.0, h / 2), (float(rng.uniform(0.09, 0.16)), corridor_half, h / 2),
+                "floor_box")]
+
+
+def random_scene(seed: int, n_obstacles: tuple[int, int] = (1, 3)) -> Scene:
+    """A randomised corridor traversal problem, for training only."""
+    rng = np.random.default_rng(seed)
+    corridor_half = float(rng.uniform(1.0, 1.8))
+    goal_x = float(rng.uniform(6.5, 9.5))
+    k = int(rng.integers(n_obstacles[0], n_obstacles[1] + 1))
+    # Keep obstacles apart along travel: two adaptations inside one stride is not a
+    # traversal problem, it is a wall.
+    xs = np.sort(rng.uniform(2.2, goal_x - 1.4, size=k))
+    while k > 1 and np.min(np.diff(xs)) < 1.8:
+        xs = np.sort(rng.uniform(2.2, goal_x - 1.4, size=k))
+    kinds = [OBSTACLE_KINDS[int(i)] for i in rng.integers(0, len(OBSTACLE_KINDS), size=k)]
+    boxes = _side_walls(corridor_half, -1.0, goal_x + 1.0)
+    for x, kind in zip(xs, kinds):
+        boxes += _rand_obstacle(rng, kind, float(x), corridor_half)
+    return Scene(
+        f"rand_{seed:06d}", "random", boxes,
+        start=(0.0, float(rng.uniform(-0.25, 0.25))),
+        goal=(goal_x, float(rng.uniform(-0.35, 0.35))), start_heading=0.0,
+        param_name="", param_value=0.0, required_adaptation="none",
+        bounds=(-1.0, goal_x + 1.0, -corridor_half - 0.3, corridor_half + 0.3),
+        meta={"corridor_half": corridor_half, "kinds": kinds,
+              "obstacle_xs": [float(x) for x in xs]},
+    )
+
+
+def is_heldout(sc: Scene, tol: float = 0.04) -> bool:
+    """True if a random scene sits too close to an evaluation ladder configuration.
+
+    Only the clearance-critical dimension is compared, because that is the dimension the
+    ladders sweep and therefore the one on which train/eval leakage would matter.
+    """
+    for b in sc.boxes:
+        if b.label in ("beam", "partial_beam"):
+            underside = b.center[2] - b.half[2]
+            rungs = LADDERS["overhead_beam"] + LADDERS["partial_beam"]
+            if any(abs(underside - r) < tol for r in rungs):
+                return True
+        elif b.label == "floor_box":
+            if any(abs(2 * b.half[2] - r) < tol for r in LADDERS["low_obstacle"]):
+                return True
+    return False
+
+
+def sample_train_scenes(n: int, seed0: int = 1_000_000) -> list[Scene]:
+    """`n` random scenes, none of which collides with an evaluation ladder rung."""
+    out, s = [], seed0
+    while len(out) < n:
+        sc = random_scene(s)
+        s += 1
+        if not is_heldout(sc):
+            out.append(sc)
+    return out

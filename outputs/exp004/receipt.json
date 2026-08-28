@@ -1,0 +1,15 @@
+{
+  "experiment": "exp004_locality",
+  "model": "ARDY-G1-RP-25FPS-Horizon52",
+  "fps": 25.0,
+  "duration_s": 10.0,
+  "families": [
+    "overhead_beam",
+    "partial_beam"
+  ],
+  "interaction_half_width_m": 0.7,
+  "null_shift_m": 0.12,
+  "metric": "clearance envelope (top, halfwidth, pelvis)",
+  "n_rows": 42,
+  "wall_clock_s": 155.5
+}

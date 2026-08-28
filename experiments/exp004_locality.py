@@ -3,40 +3,46 @@
 The question success rate cannot ask
 ------------------------------------
 Two systems can both reach 83% on the beam family and be doing completely different things.
-One raises the beam by 10 cm and adjusts the crouch by a few centimetres over the half-second
-it spends underneath. The other re-solves from scratch and produces an unrelated trajectory
-that also happens to work. Only the first has understood *which part of its behaviour the
-geometry required it to change*.
+One raises the beam by 10 cm and adjusts the crouch over the half-second it spends underneath.
+The other re-solves from scratch and produces an unrelated trajectory that also happens to
+work. Only the first has understood *which part of its behaviour the geometry required it to
+change*.
 
-So: take matched scenes that differ in exactly one clearance parameter (the families in
-scene2motion/scenes.py are built as ladders — same family, same seed, one swept dimension) and
-measure where the motion difference goes.
+So: take matched scenes differing in exactly one clearance parameter (the families in
+scene2motion/scenes.py are ladders — same family, same seed, one swept dimension) and measure
+where the motion difference goes.
 
-    LOCALITY      is the difference concentrated in the interaction interval, or smeared?
-    ANTICIPATION  how long before the encounter does the difference become detectable?
+Measuring the right thing
+-------------------------
+A first version of this experiment differenced raw collision-primitive positions and produced
+SNR < 1: the sample-to-sample noise floor (18 cm) exceeded the effect of a 10 cm beam-height
+change (16 cm), and anticipation read 0.00 s everywhere. The cause was not that adaptation is
+absent — it is that two clips of the same walk drift out of gait phase, and a swinging wrist
+moves tens of centimetres between phases. Limb position is dominated by a nuisance variable.
 
-Anticipation is not a nicety here. EXP-002 found that rendering the adaptation only where A*
-labelled it — physically under the obstacle — collided on 4 of 6 beam heights, and dilating it
-+/-0.8 s took penetration from 18.9 cm to 0.0 cm. The lead time is doing real work, and this
-experiment measures it rather than assuming the dilation constant was right.
+What the geometry actually acts on is the **clearance envelope**: how tall the body is, how
+wide it is across the corridor, where the pelvis sits. Those are near-invariant to gait phase
+and are exactly what an obstacle constrains. So the per-frame difference is
+
+    d(t) = |top_A(t) - top_B(t)| + |halfwidth_A(t) - halfwidth_B(t)| + |pelvis_A(t) - pelvis_B(t)|
 
 The control that makes it mean anything
 ---------------------------------------
-A motion difference between two rungs has two sources: the geometry changed, and the sample
-changed. Without separating them the metric measures nothing. So every geometric difference is
-compared against a NOISE FLOOR measured on the *same* scene across seeds:
+Differencing two rungs conflates "the geometry demanded a change" with "any scene edit moves
+the sample around". So each adaptation-forcing change is compared against a NULL PERTURBATION:
+the obstacle nudged 12 cm sideways, which changes the scene without changing what the body must
+do. Both are generated at the same batch position, so the noise draw is shared.
 
-    d_geom(t) = || body(t; h+delta) - body(t; h) ||     same seed, adjacent rungs
-    d_noise(t) = || body(t; h, seed_i) - body(t; h, seed_j) ||   same rung, different seeds
+    d_geom  adjacent rungs   — the clearance parameter changed
+    d_null  obstacle nudged  — the scene changed, the requirement did not
 
-Anticipation onset is the first frame where d_geom exceeds the noise floor by a margin, not the
-first frame where d_geom is merely nonzero.
+A locality or anticipation number is only meaningful where d_geom clears d_null.
 
 Strawman baseline
 -----------------
-`global` applies the deepest mode the scene requires over the WHOLE clip instead of only where
-needed. It should reach the goal collision-free just as often — and score badly on locality.
-If the locality metric does not separate `global` from `adaptive`, the metric is broken.
+`global` holds the deepest mode the scene requires over the WHOLE clip. It should reach the
+goal collision-free just as often, and score badly on locality. If the metric does not
+separate `global` from `adaptive`, the metric is broken.
 """
 
 from __future__ import annotations
@@ -45,6 +51,7 @@ import argparse
 import json
 import sys
 import time
+from copy import deepcopy
 from pathlib import Path
 
 import numpy as np
@@ -52,43 +59,35 @@ import numpy as np
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from scene2motion.constraints import ConstraintSpec  # noqa: E402
-from scene2motion.planner import (plan, plan_to_path_spec,  # noqa: E402
-                                  plan_to_spec)
+from scene2motion.planner import plan, plan_to_path_spec, plan_to_spec  # noqa: E402
 from scene2motion.robot import G1Body  # noqa: E402
 from scene2motion.runner import ArdyRunner  # noqa: E402
-from scene2motion.scenes import LADDERS, BUILDERS  # noqa: E402
+from scene2motion.scenes import BUILDERS, LADDERS  # noqa: E402
 
 PROMPT = "A person walks forward."
 SPEED = 0.9
-# These index BATCH POSITIONS, not torch seeds. ARDY seeds per generation call, so several
-# copies of one spec in a single batch are genuinely independent samples -- which is exactly
-# what a noise floor needs. Calling them "seeds" would misdescribe how they were drawn.
-N_SAMPLES = 4
-# Fixed duration across a whole ladder so frame t means the same thing in every rung.
-# Without this, matched motions drift out of phase and every difference looks like adaptation.
-DURATION = 10.0
-FAMILIES = ["overhead_beam", "partial_beam", "narrow_gap"]
+DURATION = 10.0            # fixed across a ladder so frame t means the same thing in each rung
+FAMILIES = ["overhead_beam", "partial_beam"]
 INTERACTION_HALF_WIDTH = 0.7   # m either side of the obstacle, along travel
+NULL_SHIFT = 0.12              # m of lateral obstacle shift for the null perturbation
+LATERAL = np.array([0.0, 1.0, 0.0])
 
 
-def body_track(body: G1Body, qpos: np.ndarray) -> np.ndarray:
-    """(T, G, 3) world positions of every collision primitive."""
-    out = []
-    for q in qpos:
-        body.fk(q)
-        out.append(body.data.geom_xpos[body.robot_geoms].copy())
-    return np.asarray(out)
+def envelope(body: G1Body, qpos: np.ndarray) -> np.ndarray:
+    """(T, 3) clearance envelope: top height, lateral half-width, pelvis height.
+
+    Phase-robust by construction: these are extrema over the whole body, so a swinging limb
+    changes them far less than it changes its own position.
+    """
+    out = np.empty((len(qpos), 3))
+    for i, q in enumerate(qpos):
+        out[i] = (body.top_height(q), body.half_width(q, LATERAL), q[2])
+    return out
 
 
-def diff_series(a: np.ndarray, b: np.ndarray, root_relative: bool = False) -> np.ndarray:
-    """Per-frame mean body displacement between two aligned motions, metres."""
+def diff_series(a: np.ndarray, b: np.ndarray) -> np.ndarray:
     n = min(len(a), len(b))
-    a, b = a[:n], b[:n]
-    if root_relative:
-        # Subtracting the pelvis separates "held itself differently" from "went elsewhere".
-        a = a - a[:, :1]
-        b = b - b[:, :1]
-    return np.linalg.norm(a - b, axis=-1).mean(axis=1)
+    return np.abs(a[:n] - b[:n]).sum(axis=1)
 
 
 def obstacle_x(sc) -> float:
@@ -96,6 +95,30 @@ def obstacle_x(sc) -> float:
         if k in sc.meta:
             return float(sc.meta[k])
     return float(0.5 * (sc.start[0] + sc.goal[0]))
+
+
+def shifted(sc, dy: float):
+    """The same scene with its non-wall obstacles nudged laterally: the null perturbation."""
+    out = deepcopy(sc)
+    for b in out.boxes:
+        if not b.label.startswith("wall_"):
+            b.center = (b.center[0], b.center[1] + dy, b.center[2])
+    out.scene_id = sc.scene_id + f"_null{dy:+.2f}"
+    return out
+
+
+def strategy_plan(sc, family: str):
+    """The plan whose adaptation the ladder is supposed to modulate.
+
+    For `partial_beam` the cheapest plan walks AROUND the beam at every rung, so differencing
+    free plans compares two identical motions and measures exactly nothing — the first run of
+    this experiment reported d = 0.00 for that family for precisely this reason. The locality
+    question there is about the ducking strategy, so it is requested explicitly.
+    """
+    if family == "partial_beam":
+        ch, edge = sc.meta["corridor_half"], sc.meta["beam_edge_y"]
+        return plan(sc, "adaptive", forbid_y=(-ch - 0.4, edge - 0.05))
+    return plan(sc, "adaptive")
 
 
 def main() -> None:
@@ -111,109 +134,87 @@ def main() -> None:
     runner = ArdyRunner(cache_path="outputs/text_cache.npz")
     fps = runner.fps
     T = int(DURATION * fps)
-    rows, pairs = [], []
+    rows = []
+
+    def render(sc, variant: str):
+        """(qpos, envelope, report, min requested pelvis) for one scene under one variant."""
+        p = strategy_plan(sc, sc.family)
+        if not p.feasible:
+            return None
+        ctrl = runner.generate([PROMPT], [plan_to_path_spec(p, fps, SPEED, duration=DURATION)],
+                               T, args.diffusion_steps, seed=0)[0]
+        spec = plan_to_spec(p, fps, ctrl, runner.joint_names, SPEED, duration=DURATION)
+        if variant == "global":
+            deepest = float(np.min(spec.root_y))
+            spec = ConstraintSpec(root_xz=spec.root_xz.copy(), heading=spec.heading.copy(),
+                                  root_y=np.full_like(spec.root_y, deepest),
+                                  first_heading=spec.first_heading)
+        o = runner.generate([PROMPT], [spec], T, args.diffusion_steps, seed=0)[0]
+        q = runner.to_qpos(o)
+        body = G1Body(sc)
+        return q, envelope(body, q), body.trajectory_report(q), float(np.min(spec.root_y))
 
     for fam in FAMILIES:
         for sseed in range(args.seeds_per_rung):
-            # One ladder: the same nuisance parameters, one swept clearance dimension.
-            ladder = {}
+            ladder, nulls = {}, {}
             for v in LADDERS[fam]:
                 sc = BUILDERS[fam](v, sseed)
-                p = plan(sc, "adaptive")
-                if not p.feasible:
+                r = render(sc, "adaptive")
+                if r is None:
                     continue
-                body = G1Body(sc)
-                ctrl = runner.generate(
-                    [PROMPT], [plan_to_path_spec(p, fps, SPEED, duration=DURATION)], T,
-                    args.diffusion_steps, seed=0)[0]
-                dense = plan_to_spec(p, fps, ctrl, runner.joint_names, SPEED, duration=DURATION)
-
-                # Strawman: hold the deepest requested pelvis height for the ENTIRE clip.
-                # Limb targets are dropped rather than kept at their nominal heights, so the
-                # arm is not left in a pose that contradicts a permanently lowered pelvis --
-                # the contrast we want is purely "adapt where needed" vs "adapt throughout".
-                deepest = float(np.min(dense.root_y))
-                glob = ConstraintSpec(
-                    root_xz=dense.root_xz.copy(), heading=dense.heading.copy(),
-                    root_y=np.full_like(dense.root_y, deepest),
-                    first_heading=dense.first_heading)
-
-                # One call: N independent samples of the adapted spec plus the strawman.
-                specs = [dense] * N_SAMPLES + [glob]
-                outs = runner.generate([PROMPT] * len(specs), specs, T,
-                                       args.diffusion_steps, seed=0)
-                tracks = {}
-                for j in range(N_SAMPLES):
-                    q = runner.to_qpos(outs[j])
-                    tracks[("adaptive", j)] = (q, body_track(body, q),
-                                               body.trajectory_report(q))
-                qg = runner.to_qpos(outs[N_SAMPLES])
-                tracks[("global", 0)] = (qg, body_track(body, qg),
-                                         body.trajectory_report(qg))
-                ladder[v] = {"scene": sc, "tracks": tracks, "ox": obstacle_x(sc),
-                             "min_root_y": deepest}
+                ladder[v] = {"scene": sc, "adaptive": r, "ox": obstacle_x(sc)}
+                g = render(sc, "global")
+                if g is not None:
+                    ladder[v]["global"] = g
+                n = render(shifted(sc, NULL_SHIFT), "adaptive")
+                if n is not None:
+                    nulls[v] = n
             if len(ladder) < 2:
                 continue
 
             vals = sorted(ladder)
             for lo, hi in zip(vals[:-1], vals[1:]):
                 A, B = ladder[lo], ladder[hi]
-                # ONE noise floor per rung pair, measured on the adaptive samples and shared
-                # by both arms. Giving each arm its own threshold would make the locality and
-                # anticipation numbers incomparable -- the strawman would be scored against a
-                # floor of zero and look infinitely anticipatory.
-                noise = [diff_series(A["tracks"][("adaptive", i)][1],
-                                     A["tracks"][("adaptive", j)][1])
-                         for i in range(N_SAMPLES) for j in range(i + 1, N_SAMPLES)]
-                d_noise = np.mean(noise, axis=0)
-                floor = float(np.percentile(d_noise, 90))
+                ox = A["ox"]
+                # Null floor: the same rung with the obstacle nudged sideways. Shared by both
+                # arms so their locality and anticipation numbers stay comparable.
+                d_null = (diff_series(A["adaptive"][1], nulls[lo][1])
+                          if lo in nulls else np.zeros(T))
+                floor = float(np.percentile(d_null, 90))
 
                 for variant in ("adaptive", "global"):
-                    ka = (variant, 0)
-                    if ka not in A["tracks"] or ka not in B["tracks"]:
+                    if variant not in A or variant not in B:
                         continue
-                    qa, ta, repa = A["tracks"][ka]
-                    qb, tb, repb = B["tracks"][ka]
-                    d_geom = diff_series(ta, tb)
-                    d_geom_rel = diff_series(ta, tb, root_relative=True)
-                    ox = A["ox"]
-                    n = len(d_geom)
+                    qa, ea, repa, ry_a = A[variant]
+                    qb, eb, repb, ry_b = B[variant]
+                    d = diff_series(ea, eb)
+                    n = len(d)
                     inside = np.abs(qa[:n, 0] - ox) <= INTERACTION_HALF_WIDTH
                     if inside.sum() < 3 or (~inside).sum() < 3:
                         continue
-                    # Locality: how much more the body differs inside the interaction window
-                    # than outside it. 1.0 = uniformly smeared, high = surgical.
-                    locality = float(d_geom[inside].mean() / max(d_geom[~inside].mean(), 1e-6))
-                    inside_share = float(d_geom[inside].sum() / max(d_geom.sum(), 1e-9))
-
-                    # Anticipation: first frame before the encounter where the geometric
-                    # difference clears the sampling noise floor and stays clear.
+                    locality = float(d[inside].mean() / max(d[~inside].mean(), 1e-6))
                     cross = int(np.argmin(np.abs(qa[:n, 0] - ox)))
-                    above = d_geom > (floor * 1.5 + 1e-4)
+                    thresh = max(floor * 1.5, 0.01)      # 1 cm of envelope change, minimum
                     onset = cross
                     for t in range(cross, -1, -1):
-                        if above[t]:
+                        if d[t] > thresh:
                             onset = t
                         else:
                             break
                     rows.append({
                         "family": fam, "ladder_seed": sseed, "variant": variant,
-                        "n_samples_for_floor": N_SAMPLES,
                         "rung_lo": lo, "rung_hi": hi,
                         "locality_ratio": locality,
-                        "inside_share": inside_share,
+                        "inside_share": float(d[inside].sum() / max(d.sum(), 1e-9)),
                         "inside_fraction_of_clip": float(inside.mean()),
                         "anticipation_s": float((cross - onset) / fps),
-                        "d_geom_mean_m": float(d_geom.mean()),
-                        "d_geom_peak_m": float(d_geom.max()),
-                        "d_geom_rel_peak_m": float(d_geom_rel.max()),
-                        "noise_floor_m": floor,
-                        "snr": float(d_geom.max() / max(floor, 1e-6)),
+                        "d_geom_mean_m": float(d.mean()), "d_geom_peak_m": float(d.max()),
+                        "d_null_peak_m": float(d_null.max()), "null_floor_m": floor,
+                        "snr": float(d.max() / max(floor, 1e-6)),
+                        "requested_pelvis_lo": ry_a, "requested_pelvis_hi": ry_b,
                         "collision_free_lo": repa["collision_free"],
                         "collision_free_hi": repb["collision_free"],
-                        "min_root_y_lo": A["min_root_y"], "min_root_y_hi": B["min_root_y"],
                     })
-            pairs.append((fam, sseed, len(ladder)))
             print(f"  {fam} seed {sseed}: {len(ladder)} rungs ({time.time()-t0:.0f}s)",
                   flush=True)
 
@@ -222,10 +223,12 @@ def main() -> None:
             fh.write(json.dumps(r) + "\n")
     with open(out / "receipt.json", "w") as fh:
         json.dump({"experiment": "exp004_locality", "model": runner.model_name, "fps": fps,
-                   "duration_s": DURATION, "families": FAMILIES, "n_samples": N_SAMPLES,
+                   "duration_s": DURATION, "families": FAMILIES,
                    "interaction_half_width_m": INTERACTION_HALF_WIDTH,
-                   "ladders": pairs, "n_rows": len(rows),
-                   "wall_clock_s": round(time.time() - t0, 1)}, fh, indent=2)
+                   "null_shift_m": NULL_SHIFT,
+                   "metric": "clearance envelope (top, halfwidth, pelvis)",
+                   "n_rows": len(rows), "wall_clock_s": round(time.time() - t0, 1)}, fh,
+                  indent=2)
     print(f"wrote {len(rows)} rows in {time.time()-t0:.0f}s")
 
 

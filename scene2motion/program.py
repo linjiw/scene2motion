@@ -37,13 +37,16 @@ from dataclasses import dataclass, field
 import numpy as np
 
 from .constraints import ConstraintSpec
-from .planner import MODE_BY_NAME, Plan, _dilate_channel, _path_channels, _resample, _smooth
+from .planner import (LEAD_S, MODE_BY_NAME, Plan, _dilate_channel, _limb_targets,
+                      _path_channels, _resample, _smooth)
 
 N_LAT, M_SLOT = 16, 4
 DIM_C = (N_LAT - 2) + M_SLOT * 6 + 1                      # 39
 
 NOMINAL_PELVIS = MODE_BY_NAME["stand"].pelvis_y
-LEAD_S = 0.25          # EXP-004b: 0.2-0.3 s of lead is necessary and sufficient
+# Lead time is shared with the planner renderer (planner.LEAD_S) so a program and the oracle
+# plan it was fitted to are rendered identically. EXP-004b measured the requirement at
+# 0.2-0.3 s; 0.8 s sits mid-plateau.
 SMOOTH_S = 0.6
 
 # Ranges are the MEASURED reachable extents, so a program in [-1, 1] cannot ask for an
@@ -209,7 +212,6 @@ def decode(prog: ConstraintProgram, scene, fps: float, nominal: dict | None = No
     pos_frames = pos_joints = pos_targets = None
     if nominal is not None and joint_names is not None and (tuck.max() > ACTIVE["tuck"]
                                                             or lift.max() > ACTIVE["lift"]):
-        from .planner import _limb_targets
         pos_frames, pos_joints, pos_targets = _limb_targets(
             root_xz, tuck, lift, nominal, joint_names, fps)
 

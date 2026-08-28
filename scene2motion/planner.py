@@ -82,6 +82,12 @@ MODE_BY_NAME = {m.name: m for m in MODES}
 # the counterfactual metric measures.
 MODE_SWITCH_COST = 2.5
 
+# How far ahead of an obstacle an adaptation is started. EXP-004b sweeps this and finds
+# 0.2-0.3 s necessary and sufficient (beam scenes 71% -> 100% collision-free), a plateau out
+# to ~1.4 s, and degradation at 2.0 s once neighbouring adaptations blur together. 0.8 s sits
+# mid-plateau and is what EXP-002 validated end to end.
+LEAD_S = 0.8
+
 PELVIS_BAND = (0.60, 0.95)  # what an (x, y, theta) navigation planner implicitly protects
 
 
@@ -453,7 +459,7 @@ def _limb_targets(root_xz, tuck, lift, nominal, joint_names, fps):
 
 def plan_to_spec(p: Plan, fps: float, nominal: dict, joint_names: list[str],
                  speed: float = 0.9, duration: float | None = None,
-                 lead_s: float = 0.8) -> ConstraintSpec:
+                 lead_s: float = LEAD_S) -> ConstraintSpec:
     """The ADAPTED request: the mode schedule rendered into ARDY constraint channels.
 
     Each mode contributes the channel it was calibrated on:

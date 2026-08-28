@@ -260,10 +260,29 @@ class Plan:
         return float(np.linalg.norm(np.diff(self.xy, axis=0), axis=1).sum()) if len(self.xy) > 1 else 0.0
 
 
+def relaxed_modes(top_relax: float = 0.08, width_relax: float = 0.05
+                  ) -> tuple[BodyMode, ...]:
+    """The calibrated modes with their certified envelopes shaved.
+
+    The certified envelope is a WORST-CASE-over-seeds bound, so a scene it refuses may still
+    be traversable most of the time. Relaxing it is not a bug fix, it is the control that
+    separates "the planner is conservative" from "the physics forbids it": if a refused scene
+    becomes reachable and the generated motion then verifies, the refusal was conservatism.
+
+    This is deliberately NOT the default. A planner that plans against an uncertified envelope
+    has no guarantee left; it exists so the headroom above the guarantee can be measured.
+    """
+    from dataclasses import replace
+    return tuple(replace(m, top=m.top - top_relax,
+                         half_width=max(m.half_width - width_relax, 0.05))
+                 for m in MODES)
+
+
 def plan(scene: Scene, planner: str = "adaptive", res: float = 0.05,
          allow_modes: tuple[str, ...] | None = None,
          forbid_y: tuple[float, float] | list[tuple[float, float]] | None = None,
-         forbid_boxes: list[tuple[float, float, float, float]] | None = None) -> Plan:
+         forbid_boxes: list[tuple[float, float, float, float]] | None = None,
+         relax: tuple[float, float] | None = None) -> Plan:
     """Plan a traversal of `scene` under one of the three body-volume assumptions.
 
     `allow_modes`, `forbid_y` and `forbid_boxes` exist to ENUMERATE strategies rather than
@@ -286,7 +305,7 @@ def plan(scene: Scene, planner: str = "adaptive", res: float = 0.05,
     elif planner == "standing":
         modes = (MODE_BY_NAME["stand"],)
     elif planner == "adaptive":
-        modes = MODES
+        modes = relaxed_modes(*relax) if relax else MODES
     else:
         raise ValueError(f"unknown planner {planner!r}")
 

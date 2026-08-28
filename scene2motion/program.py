@@ -25,9 +25,13 @@
 #                    endpoints pinned to 0. Translation- and rotation-invariant by
 #                    construction, and left-vs-right homotopy is just the sign of the
 #                    middle knots.
-#     slot   (4, 6)  four adaptation slots, each [s_mid, s_half, dip, tuck, lift, sidle],
-#                    where s_* are positions along the path in [0, 1]. An inactive slot is
-#                    one whose intensities are ~0, so slot activity needs no discrete head.
+#     slot   (4, 5)  four adaptation slots, each [s_mid, s_half, dip, tuck, lift], where s_*
+#                    are positions along the path in [0, 1]. An inactive slot is one whose
+#                    intensities are ~0, so slot activity needs no discrete head.
+#                    There is no `sidle` field: it was identically 0.000 in all 278 corpus
+#                    programs (every calibrated mode has sidle_deg = 0), and EXP-001b measured
+#                    that sidling makes G1 WIDER rather than narrower. A channel that is
+#                    always zero is capacity the generator would spend learning to emit zero.
 #     speed  ()      traversal speed, which sets the clip duration.
 
 from __future__ import annotations
@@ -40,8 +44,11 @@ from .constraints import ConstraintSpec
 from .planner import (LEAD_S, MODE_BY_NAME, Plan, _dilate_channel, _limb_targets,
                       _path_channels, _resample, _smooth)
 
-N_LAT, M_SLOT = 16, 4
-DIM_C = (N_LAT - 2) + M_SLOT * 6 + 1                      # 39
+# N_LAT=24 halves the geometric route error against 16 for eight extra numbers; 32 buys only
+# another 2 cm. Measured Hausdorff p95 over all rungs x strategies: 0.117 (16) / 0.076 (24) /
+# 0.056 (32).
+N_LAT, M_SLOT, N_AX = 24, 4, 5
+DIM_C = (N_LAT - 2) + M_SLOT * N_AX + 1                   # 22 + 20 + 1 = 43
 
 NOMINAL_PELVIS = MODE_BY_NAME["stand"].pelvis_y
 # Lead time is shared with the planner renderer (planner.LEAD_S) so a program and the oracle
@@ -52,10 +59,14 @@ SMOOTH_S = 0.6
 # Ranges are the MEASURED reachable extents, so a program in [-1, 1] cannot ask for an
 # envelope the prior was never shown to produce (EXP-001 dip 0-0.50, EXP-001b tuck 0-0.85,
 # EXP-001c lift 0-0.55).
-LAT_SCALE, DIP_MAX, TUCK_MAX, LIFT_MAX = 0.60, 0.50, 0.85, 0.55
-SIDLE_MAX, SHALF_MAX = np.pi / 2, 0.35
+# LAT_SCALE is 1.50, not 0.60: measured max |lateral offset| over the corpus is 1.458 m
+# (p95 = 1.00), so 0.60 pushed to_vec() to [-2.17, +2.08] and broke the [-1, 1] contract the
+# generator's output activation depends on.
+LAT_SCALE, DIP_MAX, TUCK_MAX, LIFT_MAX = 1.50, 0.50, 0.85, 0.55
+SHALF_MAX = 0.35
 SPEED_MID, SPEED_HALF = 0.9, 0.4                          # -> [0.5, 1.3] m/s
-ACTIVE = {"dip": 0.03, "tuck": 0.05, "lift": 0.05, "sidle": np.deg2rad(3.0)}
+ACTIVE = {"dip": 0.03, "tuck": 0.05, "lift": 0.05}
+_ARC_SAMPLES = 2048
 
 
 @dataclass
@@ -63,13 +74,13 @@ class ConstraintProgram:
     """A whole-body traversal strategy as 39 numbers."""
 
     lat: np.ndarray = field(default_factory=lambda: np.zeros(N_LAT - 2))
-    slot: np.ndarray = field(default_factory=lambda: np.zeros((M_SLOT, 6)))
+    slot: np.ndarray = field(default_factory=lambda: np.zeros((M_SLOT, N_AX)))
     speed: float = 0.9
 
     # -- generator interface ------------------------------------------------------------
 
     def to_vec(self) -> np.ndarray:
-        """(39,) in [-1, 1]."""
+        """(DIM_C,) in [-1, 1]."""
         s = self.slot
         return np.concatenate([
             self.lat / LAT_SCALE,
@@ -77,22 +88,23 @@ class ConstraintProgram:
                       2 * s[:, 1] / SHALF_MAX - 1,
                       2 * s[:, 2] / DIP_MAX - 1,
                       2 * s[:, 3] / TUCK_MAX - 1,
-                      2 * s[:, 4] / LIFT_MAX - 1,
-                      s[:, 5] / SIDLE_MAX], -1).ravel(),
+                      2 * s[:, 4] / LIFT_MAX - 1], -1).ravel(),
             [(self.speed - SPEED_MID) / SPEED_HALF],
         ]).astype(np.float32)
 
     @staticmethod
     def from_vec(v: np.ndarray) -> "ConstraintProgram":
-        v = np.asarray(v, float)
+        # The box IS the capability set: every axis is normalised by a MEASURED reachable
+        # extent, so clipping to [-1, 1] is what makes an out-of-envelope program
+        # unrepresentable rather than merely discouraged.
+        v = np.clip(np.asarray(v, float), -1.0, 1.0)
         i = N_LAT - 2
-        s = v[i:i + M_SLOT * 6].reshape(M_SLOT, 6)
+        s = v[i:i + M_SLOT * N_AX].reshape(M_SLOT, N_AX)
         slot = np.stack([(s[:, 0] + 1) / 2,
                          (s[:, 1] + 1) / 2 * SHALF_MAX,
                          (s[:, 2] + 1) / 2 * DIP_MAX,
                          (s[:, 3] + 1) / 2 * TUCK_MAX,
-                         (s[:, 4] + 1) / 2 * LIFT_MAX,
-                         s[:, 5] * SIDLE_MAX], -1)
+                         (s[:, 4] + 1) / 2 * LIFT_MAX], -1)
         return ConstraintProgram(lat=v[:i] * LAT_SCALE, slot=slot,
                                  speed=float(v[-1] * SPEED_HALF + SPEED_MID))
 
@@ -101,8 +113,7 @@ class ConstraintProgram:
         """Slots asking for a real adaptation, by the measured activity thresholds."""
         return [k for k in range(M_SLOT)
                 if (self.slot[k, 2] > ACTIVE["dip"] or self.slot[k, 3] > ACTIVE["tuck"]
-                    or self.slot[k, 4] > ACTIVE["lift"]
-                    or abs(self.slot[k, 5]) > ACTIVE["sidle"])]
+                    or self.slot[k, 4] > ACTIVE["lift"])]
 
 
 # ---------------------------------------------------------------------------------------
@@ -143,11 +154,10 @@ def encode(plan: Plan, scene, fps: float, speed: float = 0.9) -> ConstraintProgr
         NOMINAL_PELVIS - np.array([m.pelvis_y for m in modes]),     # dip
         np.array([m.tuck for m in modes]),
         np.array([m.lift for m in modes]),
-        np.array([np.deg2rad(m.sidle_deg) for m in modes]),
     ], -1)
-    active = (axes[:, 0] > ACTIVE["dip"]) | (axes[:, 1] > ACTIVE["tuck"]) | \
-             (axes[:, 2] > ACTIVE["lift"]) | (np.abs(axes[:, 3]) > ACTIVE["sidle"])
-    slot = np.zeros((M_SLOT, 6))
+    active = ((axes[:, 0] > ACTIVE["dip"]) | (axes[:, 1] > ACTIVE["tuck"])
+              | (axes[:, 2] > ACTIVE["lift"]))
+    slot = np.zeros((M_SLOT, N_AX))
     runs, i = [], 0
     while i < T:
         if active[i]:
@@ -158,14 +168,16 @@ def encode(plan: Plan, scene, fps: float, speed: float = 0.9) -> ConstraintProgr
             i = j + 1
         else:
             i += 1
-    # Keep the strongest runs when there are more than the program has slots for.
+    # Keep the strongest runs when there are more than slots, then order the KEPT runs by
+    # position. Sorting slots by intensity makes slot identity unstable -- a deep duck before
+    # a shallow tuck swaps rows against the same scene with the intensities reversed -- and a
+    # set predictor matching slots to targets would be fighting that permutation.
     runs.sort(key=lambda r: -axes[r[0]:r[1] + 1].max())
-    for k, (a, b) in enumerate(runs[:M_SLOT]):
+    for k, (a, b) in enumerate(sorted(runs[:M_SLOT])):
         mid, half = (a + b) / 2 / max(T - 1, 1), (b - a) / 2 / max(T - 1, 1)
         v = axes[a:b + 1].max(axis=0)
         slot[k] = [mid, min(half, SHALF_MAX), min(v[0], DIP_MAX),
-                   min(v[1], TUCK_MAX), min(v[2], LIFT_MAX),
-                   float(np.clip(axes[a:b + 1, 3].mean(), -SIDLE_MAX, SIDLE_MAX))]
+                   min(v[1], TUCK_MAX), min(v[2], LIFT_MAX)]
     return ConstraintProgram(lat=lat[1:-1], slot=slot, speed=speed)
 
 
@@ -182,32 +194,41 @@ def decode(prog: ConstraintProgram, scene, fps: float, nominal: dict | None = No
     T = max(int(2 * fps),
             int(round((duration if duration is not None else L / max(prog.speed, 0.1)) * fps)))
 
+    # The knots are uniform in CHORD abscissa; the plan they were fitted to is uniform in
+    # ARC LENGTH. Sampling the decode uniformly in abscissa therefore lags the plan by up to
+    # 0.30 m wherever the route bends, and no number of knots removes it -- it is a
+    # parameterisation mismatch, not a resolution one. So render densely, then resample by
+    # arc length to match how the planner lays frames along a path.
     knots = np.linspace(0, 1, N_LAT)
     lat = np.concatenate([[0.0], prog.lat, [0.0]])
-    u = np.linspace(0, 1, T)
-    xy = origin + np.outer(u * L, tangent) + np.outer(np.interp(u, knots, lat), normal)
+    a = np.linspace(0, 1, _ARC_SAMPLES)
+    dense = origin + np.outer(a * L, tangent) + np.outer(np.interp(a, knots, lat), normal)
+    seg = np.linalg.norm(np.diff(dense, axis=0), axis=1)
+    arc = np.concatenate([[0.0], np.cumsum(seg)])
+    want = np.linspace(0.0, arc[-1], T)
+    xy = np.stack([np.interp(want, arc, dense[:, 0]),
+                   np.interp(want, arc, dense[:, 1])], -1)
     root_xz, heading = _path_channels(xy, fps)
 
     # Slots -> per-frame axes, then the same channel dilation and smoothing the planner
     # renderer uses, so a program and an oracle plan reach ARDY through identical machinery.
+    u = np.linspace(0, 1, T)
     dip = np.zeros(T)
     tuck = np.zeros(T)
     lift = np.zeros(T)
-    sidle = np.zeros(T)
     for k in prog.active_slots:
-        mid, half, d, tk, lf, sd = prog.slot[k]
+        mid, half, d, tk, lf = prog.slot[k]
         m = np.abs(u - mid) <= max(half, 1.0 / T)
         dip[m] = np.maximum(dip[m], d)
         tuck[m] = np.maximum(tuck[m], tk)
         lift[m] = np.maximum(lift[m], lf)
-        sidle[m] = np.where(np.abs(sidle[m]) > abs(sd), sidle[m], sd)
 
     w = int(round(LEAD_S * fps))
     sm = max(3, int(SMOOTH_S * fps) | 1)
     root_y = _smooth(NOMINAL_PELVIS - _dilate_channel(dip, w, "max"), sm)
     tuck = _smooth(_dilate_channel(tuck, w, "max"), sm)
     lift = _smooth(_dilate_channel(lift, w, "max"), sm)
-    heading = heading + _smooth(_dilate_channel(sidle, w, "max"), sm)
+
 
     pos_frames = pos_joints = pos_targets = None
     if nominal is not None and joint_names is not None and (tuck.max() > ACTIVE["tuck"]

@@ -110,7 +110,8 @@ def signature_of(p: Plan, scene: Scene, dead_zone: float = 0.12) -> tuple[tuple[
     return tuple(homotopy), morphology
 
 
-def enumerate_strategies(scene: Scene, max_k: int = 6, res: float = 0.05) -> list[Strategy]:
+def enumerate_strategies(scene: Scene, max_k: int = 6, res: float = 0.05,
+                        relax: tuple[float, float] | None = None) -> list[Strategy]:
     """All distinct strategies for `scene`, by iterated diverse re-planning.
 
     Returns them ordered by plan cost proxy (path length), so `[0]` is what a plain
@@ -127,7 +128,7 @@ def enumerate_strategies(scene: Scene, max_k: int = 6, res: float = 0.05) -> lis
         forbidden: list[tuple[float, float, float, float]] = []
         for _ in range(max_k):
             p = plan(scene, "adaptive", res=res, allow_modes=modes,
-                     forbid_boxes=forbidden or None)
+                     forbid_boxes=forbidden or None, relax=relax)
             if not p.feasible:
                 break
             homotopy, morphology = signature_of(p, scene)

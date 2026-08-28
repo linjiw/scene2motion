@@ -11,8 +11,8 @@
   "speed_mps": 0.9,
   "goal_tol_m": 0.5,
   "seeds_per_rung": 4,
-  "n_scenes": 112,
-  "n_rows": 484,
+  "n_scenes": 128,
+  "n_rows": 608,
   "diffusion_steps": 10,
   "body_modes": {
     "modes": [
@@ -98,5 +98,5 @@
     ],
     "note": "half_width and top are WORST-CASE over seeds; a planner must not assume better than the prior reliably delivers."
   },
-  "wall_clock_s": 105.1
+  "wall_clock_s": 147.1
 }

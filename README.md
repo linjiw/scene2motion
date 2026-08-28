@@ -39,7 +39,7 @@ envelopes the prior was measured to reach, aggregated **worst-case over seeds**.
 
 ## Headline numbers
 
-- Whole-body traversal end-to-end success: **21.4 % → 44.6 %** vs both baselines (EXP-002).
+- Whole-body traversal end-to-end success: **55.5 %**, against 21.1 % (pelvis-only) and 31.2 % (standing) (EXP-002, 128 scenes).
 - On overhead-beam scenes specifically: **0 % → 83 %**.
 - The prior realises **2.00 topologically distinct strategies per ambiguous scene**, each
   on every seed (EXP-003) — a deterministic policy scores 1 by construction.

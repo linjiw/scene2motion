@@ -170,27 +170,37 @@ modes calibrated in §4, worst-case over seeds). 112 scenes, 5 families, 4 seeds
 
 | planner | variant | plan feasible | goal | collision-free | **end-to-end** |
 |---|---|---|---|---|---|
-| PELVIS | either | 60.7 % | 100 % | **35.3 %** | 21.4 % |
-| STANDING | either | **21.4 %** | 100 % | 100 % | 21.4 % |
-| ADAPTIVE | path only | 50.0 % | 100 % | 48.2 % | 24.1 % |
-| ADAPTIVE | **adapted** | 50.0 % | 100 % | **89.3 %** | **44.6 %** |
+| PELVIS | either | 75.0 % | 100 % | **28.1 %** | 21.1 % |
+| STANDING | either | **31.2 %** | 100 % | 100 % | 31.2 % |
+| ADAPTIVE | path only | 68.8 % | 100 % | 51.1 % | 35.2 % |
+| ADAPTIVE | **adapted** | 68.8 % | 100 % | **80.7 %** | **55.5 %** |
+
+128 scenes, 6 families, 4 seeds/rung, 608 rows, 141 s wall clock.
 
 Each baseline fails in its own characteristic way and they fail to opposite sides: PELVIS
 plans confidently and walks the body into obstacles (mean penetration 7.9 cm, mean minimum
-clearance **−1.4 cm**); STANDING never collides and declares four scenes in five
-infeasible. ADAPTIVE roughly doubles end-to-end success over both. The adaptation itself is
-what does it — on the *same* plans, path-only is 48.2 % collision-free and adapted is
-89.3 %.
+clearance **−4.3 cm**); STANDING never collides and declares two scenes in three
+infeasible. ADAPTIVE is 2.6x PELVIS and 1.8x STANDING end to end. The adaptation itself is
+what does it — on the *same* plans, path-only is 51.1 % collision-free and adapted is
+80.7 %.
 
 Per family, the §4 calibration **predicts** the outcome, which is the strongest internal
 evidence that the capability map is real:
 
 | family | PELVIS e2e | STANDING e2e | ADAPTIVE e2e | matches |
 |---|---|---|---|---|
-| `overhead_beam` | **0 %** (67 % plan feasible, 0 % collision-free) | 0 % | **83 %** | strong duck channel |
-| `pillar` (control) | 83 % | 100 % | 96 % | needs no body adaptation |
-| `narrow_gap` | 17 % | 0 % | 17 % | saturated lateral channel |
-| `low_obstacle` | 0 % (100 % feasible, 0 % collision-free) | 0 % | 12 % | weak step-over channel |
+| `overhead_beam` | **0 %** | 0 % | **83.3 %** | strong duck channel |
+| `partial_beam` | 25.0 % | 100 % | **100 %** | duckable *or* avoidable |
+| `beam_and_gap` | 0 % | 0 % | **43.8 %** | duck + narrow in sequence |
+| `pillar` (control) | 79.2 % | 100 % | 95.8 % | needs no body adaptation |
+| `narrow_gap` | 16.7 % | 0 % | 16.7 % | saturated lateral channel |
+| `low_obstacle` | 0 % (100 % plan feasible, 0 % collision-free) | 0 % | 4.2 % | weak step-over channel |
+
+**Reproducibility caveat.** `torch.manual_seed` is set per generation *batch*, so a sample's
+noise depends on its position in the batch, and changing the scene suite changes batch
+composition. Between the two EXP-002 runs this flipped one `pillar` scene (83.3 % -> 79.2 %
+for PELVIS). Per-sample seeding would remove the wobble and is worth doing before any
+headline number is quoted to a decimal place.
 
 ### Anticipation is not optional
 

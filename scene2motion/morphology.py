@@ -175,9 +175,16 @@ def active_set(delta: np.ndarray, noise_q99: np.ndarray) -> tuple:
     tuck = on(1, "dw_left") or on(2, "dw_right")
     liftL, liftR = on(3, "dz_foot_left"), on(4, "dz_foot_right")
     yaw = on(7, "dpsi")
-    # Lift ORDER distinguishes left-foot-first from right-foot-first step-overs, which are
-    # genuinely different strategies rather than a relabelling.
-    order = 0 if not (liftL and liftR) else (1 if delta[3] >= delta[4] else -1)
+    # Lift ORDER distinguishes left-foot-first from right-foot-first step-overs. It is only
+    # meaningful when the two feet differ by MORE than the noise on the foot channels: a bare
+    # sign comparison assigns an order to every clip, and since which foot is higher near an
+    # obstacle depends mostly on gait phase, that turns seed noise into a strategy label. It
+    # was inflating the distinct-active-set count before this threshold was added.
+    order = 0
+    if liftL and liftR:
+        gap = abs(delta[3] - delta[4])
+        if gap > max(noise_q99[3], noise_q99[4]):
+            order = 1 if delta[3] >= delta[4] else -1
     return (duck, tuck, liftL, liftR, order, yaw)
 
 

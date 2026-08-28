@@ -288,7 +288,8 @@ ARDY reference into it is an integration task, not a bring-up. It should still b
 | EXP-005c | is the refusal boundary conservatism or physics? | **done** — 11.7 % recoverable |
 | EXP-005d | **ORACLE@K — the kill gate** | **done — FIRED.** See §18 |
 | EXP-005e | is the enumerator incomplete on harder scenes? | **done** — recall 0.325, and 93.6 % of misses are body-diversity at equal cost |
-| EXP-005f | re-measure the gate's coverage half with a finer realised morphology signature | next |
+| EXP-005f | seed-noise floor; are the variants modes or a continuum? | **done** — 3.5 modes/scene; tuck and foot-order are below noise |
+| EXP-005g | **BODY-ENUMERATE@K** — can a classical same-route enumerator cover them? | building |
 | EXP-005 | learned **`p_φ(C \| S, s, g)`** — a *distribution* over constraint programs — vs the ADAPTIVE oracle | designing |
 | EXP-006 | prior independence: the same constraint programs through Kimodo, as an external-validity baseline | planned |
 | EXP-007 | physics: an ARDY reference through the working IsaacLab+SONIC path, decoupled from the planner work | planned |
@@ -836,6 +837,74 @@ bands and read off the motion, not the label — and a re-run of the coverage ar
 done, the honest statement is that end-to-end traversal success is a dead end for a learned
 model, and the strategy-coverage claim is **open**, with EXP-005e giving a concrete reason to
 expect the enumerator to fall short on it.
+
+---
+
+## 20. EXP-005f: the seed-noise floor, and two axes that turn out to be unusable
+
+Before any morphology coverage number can mean anything, three things have to be separated:
+different body strategies, different amplitudes of one strategy, and ARDY's own seed-to-seed
+scatter. The third sets the unit for the second, so it was measured first — 6 scenes x 36 body
+programs (dip x tuck x lift over the reachable box) x 6 seeds, every quantity a paired delta
+against a neutral-body control on the **same route and the same seed**.
+
+### ARDY's sampling scatter is large
+
+| channel | seed noise (q99 of \|delta − program mean\|) |
+|---|---|
+| `dh_top` | **0.122 m** |
+| `dw_left` / `dw_right` | 0.175 / 0.158 m |
+| `dz_foot_left` / `dz_foot_right` | 0.341 / 0.364 m |
+| `t_lead` / `t_duration` | 2.29 s / 3.26 s |
+| `dpsi` | 0.462 rad (26°) |
+
+A body program does **not** reliably produce a specific envelope. 12 cm of scatter in achieved
+top height is ~45 % of the strongest adaptation the prior offers (dip 0.30 gives 0.274 m), and
+it is exactly why the capability calibration in §13 needed a conformal bound rather than a mean.
+
+### Two axes are below their own noise
+
+**Tuck never fires, in any scene, at any amplitude.** EXP-001b measured the lateral channel at
+~5 cm; the seed noise on width is 16–18 cm. So the lateral adaptation is not merely weak — it
+is **smaller than ARDY's own sample-to-sample width variation**, and no thresholding can
+recover it. That retires the tuck axis as a controllable strategy dimension.
+
+**Foot order is not controllable either.** The first version of the active-set signature
+assigned left-first / right-first from a bare sign comparison, which gives every clip an order
+and turns gait phase into a strategy label — it was inflating the distinct-strategy count from
+3.5 to 4.2 per scene. Requiring the two feet to differ by more than the foot-channel noise
+before assigning an order makes `order` **0 everywhere**: the prior does not controllably
+choose which foot leads.
+
+### What is actually there
+
+| scene | valid programs | discrete strategies | eps-net @3σ | stability |
+|---|---|---|---|---|
+| `overhead_beam` 1.10 | 13 | 3 | 5 | 0.83 |
+| `overhead_beam` 0.90 | 2 | 1 | 2 | 1.00 |
+| `partial_beam` 1.05 | 22 | 6 | 14 | 0.89 |
+| `narrow_gap` 0.70 | 17 | 3 | 6 | 0.90 |
+| `beam_and_gap` 1.10 | 9 | 2 | 6 | 0.78 |
+| `pillar` 0.30 | 21 | 6 | 9 | 0.90 |
+| **mean** | **14.0** | **3.5** | **7.0** | **0.88** |
+
+**A 36-program ladder collapses to 14 valid, then 7 distinguishable at 3σ, of which 3.5 are
+distinct discrete strategies.** The median nearest-neighbour distance between adjacent ladder
+points is 1.4–2.4σ, so the sweep samples finer than the prior can reliably deliver — precisely
+the artefact the guidance warned would make a densely-sampled continuum look like a set of
+strategies.
+
+The surviving alphabet is combinations of **(duck, lift, yaw)** only, and mean stability is
+0.88 with about three quarters of programs above the 0.8 addressability threshold.
+
+### What this predicts about the gate, stated before it runs
+
+This is a modest amount of morphological diversity: ~3.5 discrete modes per scene drawn from an
+alphabet of at most eight. Covering that does not obviously require a learned model — a
+classical enumerator that simply tries the (duck, lift, yaw) combinations at a fixed route
+would plausibly get most of it cheaply. **I expect BODY-ENUMERATE@K to do well**, which would
+push the project toward the guidance's Outcome 3: the contribution is the calibration, the
+refusal decomposition, and the morphology benchmark, not the generator. EXP-005g decides it.
 
 ---
 

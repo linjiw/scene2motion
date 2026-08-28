@@ -285,6 +285,8 @@ ARDY reference into it is an integration task, not a bring-up. It should still b
 | EXP-001d | the envelope as a calibrated function with a real coverage bound | **done** |
 | EXP-005a | is a 39-number constraint program expressive enough to be worth learning? | **done** |
 | EXP-005b | does the mean of two valid strategies collide? (decides the model class) | **done** |
+| EXP-005c | is the refusal boundary conservatism or physics? | running |
+| EXP-005d | **ORACLE@K — the kill gate.** Does the enumerator already do what a learned model would? | next |
 | EXP-005 | learned **`p_φ(C \| S, s, g)`** — a *distribution* over constraint programs — vs the ADAPTIVE oracle | designing |
 | EXP-006 | prior independence: the same constraint programs through Kimodo, as an external-validity baseline | planned |
 | EXP-007 | physics: an ARDY reference through the working IsaacLab+SONIC path, decoupled from the planner work | planned |
@@ -583,6 +585,73 @@ proof, and the cheap way to settle it is to train both heads on the same encoder
 one nominal limb reference (from the scene's own adaptive plan) so the comparison is clean,
 which costs each endpoint the reference it was validated against. The contrast is measured
 within the same setup and is unaffected.
+
+---
+
+## 15. What the EXP-005 design pass changed — and it is not a detail
+
+Thirteen agents designed the learned proposer and attacked each other's designs. The
+specification they produced re-measured this repo rather than trusting its documentation, and
+its opening section reframes what the project can claim.
+
+### The oracle no longer collides. It refuses.
+
+Grouping `outputs/exp002/rows.jsonl`: adaptive/adapted is **88/88 plan-feasible, 1.000
+collision-free, 1.000 goal-reaching**, and end-to-end success (68.8 %) *equals plan
+feasibility exactly*. All 40 failures are `plan(...).feasible == False`, concentrated in
+`low_obstacle h ≥ 0.08` (20), `narrow_gap w ≤ 0.50` (16), `overhead_beam h = 0.80` (4).
+
+So "how much better can any proposer be?" is entirely "how many refusals are recoverable?",
+and that was measured two independent ways. Relaxing the certified envelope by
+`top −0.08, width −0.05` and re-planning the 128-scene suite takes feasibility **68.8 % →
+75.0 %** — reproduced here exactly, with the gain in `overhead_beam` (20→24) and `narrow_gap`
+(8→12) and *none* in `low_obstacle`. Generating deliberately off-lattice programs on the
+refused scenes and MuJoCo-checking them agrees to the scene: `overhead_beam h=0.80` recovers
+12/12, `narrow_gap w=0.50` recovers 10/12, and `narrow_gap w ≤ 0.42` and `low_obstacle
+h ≥ 0.08` recover 0/36.
+
+**Eight of the forty refusals are conservatism; thirty-two are physics. The ceiling for any
+proposer on this suite is 75.0 %.**
+
+### Three consequences, all binding
+
+1. **End-to-end kinematic success cannot be the headline.** Six points of headroom, all of
+   which a two-line envelope relaxation plus resampling also takes. A table leading with
+   "learned 75 % vs oracle 68.8 %" would be dishonest by omission.
+2. **`ORACLE-RELAXED@K` is a mandatory control**: plan against the relaxed envelope, propose,
+   generate K seeds, keep any that verifies. It is about fifteen lines, and a reviewer will
+   build it mentally whether or not it is in the table. EXP-005d builds it.
+3. **The learned model's only structural advantages are** (i) it is a distribution with a
+   calibrated per-program validity score, so K samples buy *coverage* rather than repetition;
+   (ii) it can emit programs off the discrete mode lattice, which A\* structurally cannot;
+   (iii) it is a differentiable, language-addressable interface. Each is measurable, and each
+   has a stated result that kills it.
+
+### The gate before any training code
+
+If `ORACLE-ENUMERATE@8` already reaches the learned model's plausible traversal success *and*
+its strategy coverage, then `p_phi` is distillation of a 0.13 s planner into a network and is
+not a contribution. Two honest exits are pre-committed: re-aim at the calibration and
+refusal-with-a-reason results plus language re-ranking, which need no training at all; or move
+to scenes where enumeration is expensive or incomplete — four or more obstacles, dead ends,
+non-monotone routes — and show `p_phi` covers strategies the enumerator's exclusion heuristic
+misses. **That decision costs 20 minutes of GPU and is made before three hours of dataset.**
+
+### Step 0 and step 1, done
+
+Five measured defects in `program.py`, all corrected (`LAT_SCALE` 0.60 → 1.50 against a
+measured 1.458 m maximum; the `sidle` column dropped as identically zero; chord-abscissa
+sampling replaced by arc-length resampling, which was costing up to 0.30 m of along-track lag
+no number of knots could remove; `N_LAT` 16 → 24; slots ordered by position rather than
+intensity). `DIM_C` 39 → 43. Re-running EXP-005a:
+
+| | program succeeds | agreement | route error, max | `pillar` mean |
+|---|---|---|---|---|
+| N_LAT = 16 | 95.9 % | 96.9 % | 0.289 m | 0.138 m |
+| **N_LAT = 24** | **96.9 %** | **98.0 %** | **0.110 m** | **0.052 m** |
+
+The compressed program now *beats* the oracle plan it compresses, and geometric error is down
+62 %.
 
 ---
 

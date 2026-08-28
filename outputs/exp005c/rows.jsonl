@@ -1,0 +1,120 @@
+{"scene_id": "overhead_beam_h0.80_58d0671a", "family": "overhead_beam", "param_value": 0.8, "relaxed_plan_feasible": true, "n_ok": 8, "n_seeds": 8, "any_ok": true, "all_ok": true, "mean_max_pen_m": 0.0, "plan_length_m": 7.75}
+{"scene_id": "overhead_beam_h0.80_d36d4e43", "family": "overhead_beam", "param_value": 0.8, "relaxed_plan_feasible": true, "n_ok": 8, "n_seeds": 8, "any_ok": true, "all_ok": true, "mean_max_pen_m": 0.0, "plan_length_m": 8.450000000000001}
+{"scene_id": "overhead_beam_h0.80_9a321124", "family": "overhead_beam", "param_value": 0.8, "relaxed_plan_feasible": true, "n_ok": 8, "n_seeds": 8, "any_ok": true, "all_ok": true, "mean_max_pen_m": 0.0, "plan_length_m": 7.800000000000001}
+{"scene_id": "overhead_beam_h0.80_c72a3fd8", "family": "overhead_beam", "param_value": 0.8, "relaxed_plan_feasible": true, "n_ok": 7, "n_seeds": 8, "any_ok": true, "all_ok": false, "mean_max_pen_m": 0.007943684463913223, "plan_length_m": 7.75}
+{"scene_id": "narrow_gap_w0.50_5f9b7586", "family": "narrow_gap", "param_value": 0.5, "relaxed_plan_feasible": true, "n_ok": 0, "n_seeds": 8, "any_ok": false, "all_ok": false, "mean_max_pen_m": 0.024389656671577567, "plan_length_m": 7.9985281374238575}
+{"scene_id": "narrow_gap_w0.42_7e4b73c2", "family": "narrow_gap", "param_value": 0.42, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "narrow_gap_w0.36_7343fbe4", "family": "narrow_gap", "param_value": 0.36, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "narrow_gap_w0.30_394efd46", "family": "narrow_gap", "param_value": 0.3, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "narrow_gap_w0.50_576c7f80", "family": "narrow_gap", "param_value": 0.5, "relaxed_plan_feasible": true, "n_ok": 7, "n_seeds": 8, "any_ok": true, "all_ok": false, "mean_max_pen_m": 0.0005095589175520381, "plan_length_m": 8.657106781186549}
+{"scene_id": "narrow_gap_w0.42_774a8c14", "family": "narrow_gap", "param_value": 0.42, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "narrow_gap_w0.36_5156ea8d", "family": "narrow_gap", "param_value": 0.36, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "narrow_gap_w0.30_50ad1192", "family": "narrow_gap", "param_value": 0.3, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "narrow_gap_w0.50_a35f45d4", "family": "narrow_gap", "param_value": 0.5, "relaxed_plan_feasible": true, "n_ok": 2, "n_seeds": 8, "any_ok": true, "all_ok": false, "mean_max_pen_m": 0.007055941259082805, "plan_length_m": 7.965685424949239}
+{"scene_id": "narrow_gap_w0.42_bd22a6e6", "family": "narrow_gap", "param_value": 0.42, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "narrow_gap_w0.36_b464a5be", "family": "narrow_gap", "param_value": 0.36, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "narrow_gap_w0.30_7b621630", "family": "narrow_gap", "param_value": 0.3, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "narrow_gap_w0.50_43ec808e", "family": "narrow_gap", "param_value": 0.5, "relaxed_plan_feasible": true, "n_ok": 7, "n_seeds": 8, "any_ok": true, "all_ok": false, "mean_max_pen_m": 5.250934665745541e-05, "plan_length_m": 7.915685424949238}
+{"scene_id": "narrow_gap_w0.42_db31685b", "family": "narrow_gap", "param_value": 0.42, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "narrow_gap_w0.36_28239ee1", "family": "narrow_gap", "param_value": 0.36, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "narrow_gap_w0.30_45405df9", "family": "narrow_gap", "param_value": 0.3, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "low_obstacle_h0.08_a118deac", "family": "low_obstacle", "param_value": 0.08, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "low_obstacle_h0.15_fb816bf8", "family": "low_obstacle", "param_value": 0.15, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "low_obstacle_h0.22_654ac9ce", "family": "low_obstacle", "param_value": 0.22, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "low_obstacle_h0.30_9bf37b05", "family": "low_obstacle", "param_value": 0.3, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "low_obstacle_h0.38_ab09ee96", "family": "low_obstacle", "param_value": 0.38, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "low_obstacle_h0.08_34240e5e", "family": "low_obstacle", "param_value": 0.08, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "low_obstacle_h0.15_81c45715", "family": "low_obstacle", "param_value": 0.15, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "low_obstacle_h0.22_8f1171b0", "family": "low_obstacle", "param_value": 0.22, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "low_obstacle_h0.30_037273ab", "family": "low_obstacle", "param_value": 0.3, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "low_obstacle_h0.38_bee09dc4", "family": "low_obstacle", "param_value": 0.38, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "low_obstacle_h0.08_b5a59df5", "family": "low_obstacle", "param_value": 0.08, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "low_obstacle_h0.15_181e1ee2", "family": "low_obstacle", "param_value": 0.15, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "low_obstacle_h0.22_0a37f30e", "family": "low_obstacle", "param_value": 0.22, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "low_obstacle_h0.30_b09df294", "family": "low_obstacle", "param_value": 0.3, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "low_obstacle_h0.38_fb21b989", "family": "low_obstacle", "param_value": 0.38, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "low_obstacle_h0.08_4cdf1580", "family": "low_obstacle", "param_value": 0.08, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "low_obstacle_h0.15_bd39b0d9", "family": "low_obstacle", "param_value": 0.15, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "low_obstacle_h0.22_6345cf19", "family": "low_obstacle", "param_value": 0.22, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "low_obstacle_h0.30_d1388960", "family": "low_obstacle", "param_value": 0.3, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "low_obstacle_h0.38_2910ec39", "family": "low_obstacle", "param_value": 0.38, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "rand_5000002", "family": "random", "param_value": 0.0, "relaxed_plan_feasible": true, "n_ok": 6, "n_seeds": 8, "any_ok": true, "all_ok": false, "mean_max_pen_m": 0.008837860379791038, "plan_length_m": 9.307106781186548}
+{"scene_id": "rand_5000003", "family": "random", "param_value": 0.0, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "rand_5000005", "family": "random", "param_value": 0.0, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "rand_5000008", "family": "random", "param_value": 0.0, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "rand_5000011", "family": "random", "param_value": 0.0, "relaxed_plan_feasible": true, "n_ok": 0, "n_seeds": 8, "any_ok": false, "all_ok": false, "mean_max_pen_m": 0.03601582017459579, "plan_length_m": 8.757106781186549}
+{"scene_id": "rand_5000014", "family": "random", "param_value": 0.0, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "rand_5000017", "family": "random", "param_value": 0.0, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "rand_5000018", "family": "random", "param_value": 0.0, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "rand_5000021", "family": "random", "param_value": 0.0, "relaxed_plan_feasible": true, "n_ok": 1, "n_seeds": 8, "any_ok": true, "all_ok": false, "mean_max_pen_m": 0.03289892093048048, "plan_length_m": 7.265685424949238}
+{"scene_id": "rand_5000024", "family": "random", "param_value": 0.0, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "rand_5000029", "family": "random", "param_value": 0.0, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "rand_5000031", "family": "random", "param_value": 0.0, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "rand_5000032", "family": "random", "param_value": 0.0, "relaxed_plan_feasible": true, "n_ok": 5, "n_seeds": 8, "any_ok": true, "all_ok": false, "mean_max_pen_m": 0.004774646614386289, "plan_length_m": 8.804163056034263}
+{"scene_id": "rand_5000033", "family": "random", "param_value": 0.0, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "rand_5000034", "family": "random", "param_value": 0.0, "relaxed_plan_feasible": true, "n_ok": 2, "n_seeds": 8, "any_ok": true, "all_ok": false, "mean_max_pen_m": 0.016702630747436248, "plan_length_m": 8.564213562373094}
+{"scene_id": "rand_5000035", "family": "random", "param_value": 0.0, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "rand_5000036", "family": "random", "param_value": 0.0, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "rand_5000037", "family": "random", "param_value": 0.0, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "rand_5000041", "family": "random", "param_value": 0.0, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "rand_5000044", "family": "random", "param_value": 0.0, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "rand_5000047", "family": "random", "param_value": 0.0, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "rand_5000049", "family": "random", "param_value": 0.0, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "rand_5000050", "family": "random", "param_value": 0.0, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "rand_5000053", "family": "random", "param_value": 0.0, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "rand_5000054", "family": "random", "param_value": 0.0, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "rand_5000055", "family": "random", "param_value": 0.0, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "rand_5000056", "family": "random", "param_value": 0.0, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "rand_5000057", "family": "random", "param_value": 0.0, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "rand_5000058", "family": "random", "param_value": 0.0, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "rand_5000059", "family": "random", "param_value": 0.0, "relaxed_plan_feasible": true, "n_ok": 0, "n_seeds": 8, "any_ok": false, "all_ok": false, "mean_max_pen_m": 0.026396916325730328, "plan_length_m": 8.457716446627536}
+{"scene_id": "rand_5000061", "family": "random", "param_value": 0.0, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "rand_5000064", "family": "random", "param_value": 0.0, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "rand_5000065", "family": "random", "param_value": 0.0, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "rand_5000066", "family": "random", "param_value": 0.0, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "rand_5000068", "family": "random", "param_value": 0.0, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "rand_5000070", "family": "random", "param_value": 0.0, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "rand_5000072", "family": "random", "param_value": 0.0, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "rand_5000074", "family": "random", "param_value": 0.0, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "rand_5000075", "family": "random", "param_value": 0.0, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "rand_5000076", "family": "random", "param_value": 0.0, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "rand_5000077", "family": "random", "param_value": 0.0, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "rand_5000078", "family": "random", "param_value": 0.0, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "rand_5000082", "family": "random", "param_value": 0.0, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "rand_5000083", "family": "random", "param_value": 0.0, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "rand_5000086", "family": "random", "param_value": 0.0, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "rand_5000087", "family": "random", "param_value": 0.0, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "rand_5000088", "family": "random", "param_value": 0.0, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "rand_5000090", "family": "random", "param_value": 0.0, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "rand_5000093", "family": "random", "param_value": 0.0, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "rand_5000094", "family": "random", "param_value": 0.0, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "rand_5000096", "family": "random", "param_value": 0.0, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "rand_5000106", "family": "random", "param_value": 0.0, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "rand_5000108", "family": "random", "param_value": 0.0, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "rand_5000110", "family": "random", "param_value": 0.0, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "rand_5000112", "family": "random", "param_value": 0.0, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "rand_5000113", "family": "random", "param_value": 0.0, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "rand_5000114", "family": "random", "param_value": 0.0, "relaxed_plan_feasible": true, "n_ok": 0, "n_seeds": 8, "any_ok": false, "all_ok": false, "mean_max_pen_m": 0.04771643797178435, "plan_length_m": 8.13284271247462}
+{"scene_id": "rand_5000116", "family": "random", "param_value": 0.0, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "rand_5000118", "family": "random", "param_value": 0.0, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "rand_5000123", "family": "random", "param_value": 0.0, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "rand_5000134", "family": "random", "param_value": 0.0, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "rand_5000135", "family": "random", "param_value": 0.0, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "rand_5000137", "family": "random", "param_value": 0.0, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "rand_5000139", "family": "random", "param_value": 0.0, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "rand_5000140", "family": "random", "param_value": 0.0, "relaxed_plan_feasible": true, "n_ok": 2, "n_seeds": 8, "any_ok": true, "all_ok": false, "mean_max_pen_m": 0.007461455475206811, "plan_length_m": 8.486396103067893}
+{"scene_id": "rand_5000143", "family": "random", "param_value": 0.0, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "rand_5000146", "family": "random", "param_value": 0.0, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "rand_5000149", "family": "random", "param_value": 0.0, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "rand_5000152", "family": "random", "param_value": 0.0, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "rand_5000154", "family": "random", "param_value": 0.0, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "rand_5000156", "family": "random", "param_value": 0.0, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "rand_5000161", "family": "random", "param_value": 0.0, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "rand_5000168", "family": "random", "param_value": 0.0, "relaxed_plan_feasible": true, "n_ok": 4, "n_seeds": 8, "any_ok": true, "all_ok": false, "mean_max_pen_m": 0.019803434861856685, "plan_length_m": 7.5863961030678935}
+{"scene_id": "rand_5000169", "family": "random", "param_value": 0.0, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "rand_5000170", "family": "random", "param_value": 0.0, "relaxed_plan_feasible": true, "n_ok": 7, "n_seeds": 8, "any_ok": true, "all_ok": false, "mean_max_pen_m": 2.872327905744862e-05, "plan_length_m": 8.169238815542512}
+{"scene_id": "rand_5000171", "family": "random", "param_value": 0.0, "relaxed_plan_feasible": true, "n_ok": 0, "n_seeds": 8, "any_ok": false, "all_ok": false, "mean_max_pen_m": 0.017041540606402773, "plan_length_m": 9.344974746830584}
+{"scene_id": "rand_5000177", "family": "random", "param_value": 0.0, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "rand_5000180", "family": "random", "param_value": 0.0, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "rand_5000181", "family": "random", "param_value": 0.0, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}
+{"scene_id": "rand_5000185", "family": "random", "param_value": 0.0, "relaxed_plan_feasible": false, "n_ok": 0, "n_seeds": 0}

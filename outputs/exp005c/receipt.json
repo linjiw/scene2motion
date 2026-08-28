@@ -1,0 +1,39 @@
+{
+  "experiment": "exp005c_refusal_headroom",
+  "relax": [
+    0.08,
+    0.05
+  ],
+  "n_seeds": 8,
+  "n_refused": 120,
+  "recoverable_any": 14,
+  "recoverable_all": 3,
+  "recoverable_fraction_any": 0.11666666666666667,
+  "per_family": {
+    "low_obstacle": {
+      "n": 20,
+      "relaxed_feasible": 0,
+      "any_ok": 0,
+      "all_ok": 0
+    },
+    "narrow_gap": {
+      "n": 16,
+      "relaxed_feasible": 4,
+      "any_ok": 3,
+      "all_ok": 0
+    },
+    "overhead_beam": {
+      "n": 4,
+      "relaxed_feasible": 4,
+      "any_ok": 4,
+      "all_ok": 3
+    },
+    "random": {
+      "n": 80,
+      "relaxed_feasible": 11,
+      "any_ok": 7,
+      "all_ok": 0
+    }
+  },
+  "wall_clock_s": 52.7
+}

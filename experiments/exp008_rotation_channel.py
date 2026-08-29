@@ -64,7 +64,7 @@ import numpy as np
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from scene2motion.constraints import ConstraintSpec  # noqa: E402
+from scene2motion.constraints import ConstraintSpec, build_conditions, channel_usage  # noqa: E402
 from scene2motion.morphology import _signed_extents, heading_normal  # noqa: E402
 from scene2motion.robot import G1Body  # noqa: E402
 from scene2motion.runner import ArdyRunner  # noqa: E402
@@ -147,6 +147,20 @@ def main() -> None:
     grm = [np.asarray(o["global_rot_mats"]) for o in ctrl]
     print(f"global_rot_mats {grm[0].shape}", flush=True)
 
+    def audit_spec(label: str, spec: ConstraintSpec) -> dict:
+        """Did the request actually reach ARDY's conditioning mask?
+
+        `constraints.channel_usage` exists for exactly this and had never been run on a real
+        spec.  Without it a null result here is uninterpretable: "the rotation channel is no
+        better than the position channel" and "the rotation constraints were silently dropped
+        and ARDY generated freely" produce the same table.  A ROT spec MUST show a non-zero
+        count on global_rot_data, and a POS spec MUST show one on local_joints_positions.
+        """
+        _, mask = build_conditions(runner.model, spec, runner.device)
+        u = {k: v for k, v in channel_usage(runner.model, mask).items() if v}
+        print(f"    channels written by {label:16s}: {u}", flush=True)
+        return u
+
     rows = []
 
     def run(label: str, specs: list[ConstraintSpec], amp: float) -> None:
@@ -184,6 +198,12 @@ def main() -> None:
                         root_xz[frames][:, None, 1] + off[:, :, 2] * (1 - tuck)], -1)
         spec = ConstraintSpec(root_xz=root_xz, heading=heading, root_y=root_y,
                               pos_frames=frames, pos_joints=joints, pos_targets=tgt)
+        if tuck == TUCKS[1]:
+            used = audit_spec("POS", spec)
+            if not used.get("local_joints_positions"):
+                raise SystemExit("POS spec writes no local_joints_positions -- the position "
+                                 "request never reaches ARDY; every POS row would be a "
+                                 "free generation.")
         run("POS", [spec] * len(seeds), tuck)
 
     # ---- ROT: the channel the decoder poses from ----------------------------------------
@@ -207,6 +227,12 @@ def main() -> None:
                 specs.append(ConstraintSpec(root_xz=root_xz, heading=heading, root_y=root_y,
                                             rot_frames=frames, rot_joints=joints,
                                             rot_targets=tgt))
+            if deg == DEGS[1] and label == "ROT+":
+                used = audit_spec("ROT", specs[0])
+                if not used.get("global_rot_data"):
+                    raise SystemExit("ROT spec writes no global_rot_data -- the rotation "
+                                     "request never reaches ARDY, so a null result here would "
+                                     "mean nothing. Fix the constraint wiring first.")
             run(label, specs, deg)
 
     with open(out / "rows.jsonl", "w") as fh:

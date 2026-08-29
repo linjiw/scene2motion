@@ -1990,3 +1990,57 @@ What the result *does* establish without that ambiguity is the direction: the ki
 **overstates** capability, and the axis it overstates most is precisely the one the planner most
 needed for the family it already refuses. Every stage of this funnel has shrunk under scrutiny,
 and none has ever grown.
+
+---
+
+## 32. The collision-free certificate does not survive execution
+
+The planner certifies a traversal by checking the *generated* motion against the scene with
+exact MuJoCo geometry and a measured 40 mm correction for the collision primitives
+under-covering the meshes. EXP-011 now supplies the other half of that sum: the controller
+realises a ducked motion with a mean per-joint posture error of **83.4 mm**.
+
+Over the 5 479 valid, collision-free held-out clips in the gate ledger, the margin those
+certified plans actually leave:
+
+| quantile | min clearance |
+|---|---|
+| q05 | **26.2 mm** |
+| q10 | 46.1 mm |
+| q25 | 91.3 mm |
+| q50 | 151.7 mm |
+| mean | 163.8 mm |
+
+Cross the two:
+
+| tracked error | share of *certified-clear* clips with LESS margin than that |
+|---|---|
+| duck, `mpjpe_l` 83.4 mm | **22.9 %** |
+| duck, `mpjpe_pa` 77.5 mm | 21.6 % |
+| neutral walk, `mpjpe_l` 46.7 mm | 10.2 % |
+
+**Nearly one certified-collision-free plan in four leaves less clearance than the controller's
+own tracking error.** The certificate is a statement about a trajectory nobody executes. The
+median plan is comfortable at 152 mm; the fifth percentile is 26 mm, which is a third of the
+error the tracker will introduce.
+
+This is not an argument against the certificate — it is exact, it is conformally calibrated, and
+it correctly refuses `low_obstacle`. It is an argument that the margin it certifies against is
+the wrong one. The concrete fix is a one-line change of threshold with a well-defined quantity
+behind it: require
+
+    planned clearance  >=  BODY_MARGIN  +  q_alpha(tracked positional error)
+
+so the plan is certified against the motion that will actually be executed rather than the one
+that was generated. Everything needed to calibrate that quantile now exists — EXP-011 measures
+tracked error per requested body, and it is body-dependent (46.7 mm neutral, 83.4 mm duck,
+89.6 mm deep duck), so the correct margin *grows with the adaptation being requested*. A deep
+duck buys headroom and spends some of it back on execution error, and nothing in the pipeline
+priced that until now.
+
+**Two honest limits.** `mpjpe_l` averages over all joints, whereas what matters is the error at
+the single geom that comes closest to the obstacle — the mean is a proxy, and the right
+calibration would use the max over the geoms in contact. And tracking error is not independent
+of clearance: a clip planned tight may be tracked differently from one planned loose. Both push
+toward measuring the tracked clearance directly, which needs the achieved states that SONIC's
+eval callback does not currently save.

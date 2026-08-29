@@ -276,38 +276,48 @@ def main() -> None:
                                  "n_needed_to_certify": n_cert}
 
     # -- C. POOL-ORACLE -----------------------------------------------------------------
-    print("\n=== C. POOL-ORACLE@K -- is it support, or is it selection? ===")
-    per_scene, cont_ps = [], []
-    for sid, g in groups.items():
-        n_int = g[0]["n_interactions"]
-        W = pooled_whitener(g, n_int)
-        pool = [r for r in g if r["arm"] != "NULL-SEED" and r["heldout"]]
-        # one row per distinct program: two arms proposing the same program is one candidate
-        uniq = {r["prog_key"]: r for r in pool}
-        cand = list(uniq.values())
-        ref = [c for c in cand if addressable(block(c, "heldout"))]
-        ref_modes = {sig_key(block(c, "heldout")["signature"]) for c in ref}
-        if len(ref_modes) < 2:
-            continue
-        mus = np.array([block(c, "heldout")["mu"] for c in ref], float)
-        net = epsilon_net(mus, W, eps)
-        ref_mu = mus[net]
-        rec = {"scene_id": sid, "family": g[0]["family"], "n_cand": len(cand),
-               "n_ref_modes": len(ref_modes), "n_ref_net": len(ref_mu), "arms": {}, "oracle": {}}
-        for K in KS:
-            rec["oracle"][f"hindsight@{K}"] = greedy_oracle(cand, ref_modes, K,
-                                                            "heldout", "heldout")
-            rec["oracle"][f"crossfit@{K}"] = greedy_oracle(cand, ref_modes, K,
-                                                           "selection", "heldout")
-        for arm in ARMS_SCORED:
-            if not any(r["arm"] == arm for r in rows):
+    def run_C(keep_yaw: bool):
+        """Coverage and oracles, once with the pre-committed signature and once without yaw.
+
+        Running it both ways is not a robustness flourish -- it decides the gate's meaning.  If
+        no program can REQUEST a yaw (it cannot: program.py:31, and every candidate here shares
+        one route byte-for-byte), then reference modes that differ only in their yaw bit are
+        modes no proposer could ever be built to hit, and a coverage number that counts them
+        charges every arm for an impossibility.  If classical coverage jumps once the bit is
+        dropped, most of the gate's shortfall was an artefact of the alphabet, not a missing
+        capability.
+        """
+        per_scene = []
+        for sid, g in groups.items():
+            n_int = g[0]["n_interactions"]
+            W = pooled_whitener(g, n_int)
+            pool = [r for r in g if r["arm"] != "NULL-SEED" and r["heldout"]]
+            uniq = {r["prog_key"]: r for r in pool}
+            cand = list(uniq.values())
+            ref = [c for c in cand if addressable(block(c, "heldout"))]
+            ref_modes = {sig_key(block(c, "heldout")["signature"], keep_yaw) for c in ref}
+            if len(ref_modes) < 2:
                 continue
-            mine = [r for r in g if r["arm"] == arm and r["heldout"]]
-            mine = sorted(mine, key=lambda r: r["rank"])
-            rec["arms"][arm] = {f"@{K}": coverage(ref_modes, mine[:K], "heldout") for K in KS}
-            rec["arms"][arm]["cont@8"] = cont_coverage(ref_mu, mine[:8], "heldout", W, eps)
-        per_scene.append(rec)
-    report["C_pool_oracle"] = per_scene
+            mus = np.array([block(c, "heldout")["mu"] for c in ref], float)
+            ref_mu = mus[epsilon_net(mus, W, eps)]
+            rec = {"scene_id": sid, "family": g[0]["family"], "n_cand": len(cand),
+                   "n_ref_modes": len(ref_modes), "n_ref_net": len(ref_mu),
+                   "arms": {}, "oracle": {}}
+            for K in KS:
+                rec["oracle"][f"hindsight@{K}"] = greedy_oracle(cand, ref_modes, K, "heldout",
+                                                                "heldout", keep_yaw)
+                rec["oracle"][f"crossfit@{K}"] = greedy_oracle(cand, ref_modes, K, "selection",
+                                                               "heldout", keep_yaw)
+            for arm in ARMS_SCORED:
+                if not any(r["arm"] == arm for r in rows):
+                    continue
+                mine = sorted([r for r in g if r["arm"] == arm and r["heldout"]],
+                              key=lambda r: r["rank"])
+                rec["arms"][arm] = {f"@{K}": coverage(ref_modes, mine[:K], "heldout", keep_yaw)
+                                    for K in KS}
+                rec["arms"][arm]["cont@8"] = cont_coverage(ref_mu, mine[:8], "heldout", W, eps)
+            per_scene.append(rec)
+        return per_scene
 
     def boot_ci(v):
         v = np.asarray(v, float)
@@ -317,28 +327,38 @@ def main() -> None:
         idx = rng.integers(0, len(v), (args.boot, len(v)))
         return tuple(np.percentile(v[idx].mean(1), [2.5, 97.5]))
 
-    print(f"{len(per_scene)} scenes with >= 2 addressable reference modes "
-          f"(mean {np.mean([r['n_ref_modes'] for r in per_scene]):.1f} modes, "
-          f"{np.mean([r['n_cand'] for r in per_scene]):.0f} distinct candidates)")
-    print(f"\n{'':22s} {'@1':>7s} {'@2':>7s} {'@4':>7s} {'@8':>7s}   {'95 % CI @8':>16s}")
-    for lbl, key in (("POOL-ORACLE hindsight", "hindsight"), ("POOL-ORACLE cross-fit", "crossfit")):
-        v = [[r["oracle"][f"{key}@{K}"] for r in per_scene] for K in KS]
-        lo, hi = boot_ci(v[-1])
-        print(f"{lbl:22s} " + " ".join(f"{np.nanmean(x):7.3f}" for x in v)
-              + f"   [{lo:.3f}, {hi:.3f}]")
-    print("  " + "-" * 66)
-    for arm in ARMS_SCORED:
-        if not any(arm in r["arms"] for r in per_scene):
-            continue
-        v = [[r["arms"][arm][f"@{K}"] for r in per_scene] for K in KS]
-        lo, hi = boot_ci(v[-1])
-        print(f"{arm:22s} " + " ".join(f"{np.nanmean(x):7.3f}" for x in v)
-              + f"   [{lo:.3f}, {hi:.3f}]")
+    def print_C(per_scene, title):
+        print(f"\n=== C. POOL-ORACLE@K -- {title} ===")
+        print(f"{len(per_scene)} scenes with >= 2 addressable reference modes "
+              f"(mean {np.mean([r['n_ref_modes'] for r in per_scene]):.1f} modes, "
+              f"{np.mean([r['n_cand'] for r in per_scene]):.0f} distinct candidates)")
+        print(f"\n{'':22s} {'@1':>7s} {'@2':>7s} {'@4':>7s} {'@8':>7s}   {'95 % CI @8':>16s}")
+        for lbl, key in (("POOL-ORACLE hindsight", "hindsight"),
+                         ("POOL-ORACLE cross-fit", "crossfit")):
+            v = [[r["oracle"][f"{key}@{K}"] for r in per_scene] for K in KS]
+            lo, hi = boot_ci(v[-1])
+            print(f"{lbl:22s} " + " ".join(f"{np.nanmean(x):7.3f}" for x in v)
+                  + f"   [{lo:.3f}, {hi:.3f}]")
+        print("  " + "-" * 66)
+        for arm in ARMS_SCORED:
+            if not any(arm in r["arms"] for r in per_scene):
+                continue
+            v = [[r["arms"][arm][f"@{K}"] for r in per_scene] for K in KS]
+            lo, hi = boot_ci(v[-1])
+            print(f"{arm:22s} " + " ".join(f"{np.nanmean(x):7.3f}" for x in v)
+                  + f"   [{lo:.3f}, {hi:.3f}]")
+
+    per_scene = run_C(True)
+    print_C(per_scene, "PRIMARY, pre-committed signature (yaw counted)")
     print("  hindsight = best K chosen KNOWING the held-out outcome -> is the program in the "
           "pool at all?\n  cross-fit = best K chosen from SELECTION-seed outcomes, scored on "
-          "held-out -> could any\n  reranker trained on noisy probes reach it?  The gap between "
-          "the two rows is the price of\n  ARDY's own stochasticity; the gap from cross-fit "
-          "down to the best arm is what a learned\n  selector could win.")
+          "held-out -> could any\n  reranker trained on noisy probes reach it?  The gap "
+          "between the two rows is the price of\n  ARDY's own stochasticity; the gap from "
+          "cross-fit down to the best arm is what a learned\n  selector could win.")
+    per_scene_ny = run_C(False)
+    print_C(per_scene_ny, "SECONDARY, yaw dropped (no program can request it)")
+    report["C_pool_oracle"] = per_scene
+    report["C_pool_oracle_no_yaw"] = per_scene_ny
 
     # -- D. valid diversity yield --------------------------------------------------------
     print("\n=== D. ValidDiversityYield@B -- stable modes per ARDY clip, rejects included ===")

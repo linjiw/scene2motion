@@ -1145,3 +1145,54 @@ constraint interface, exercised across 36 deliberately spread requests, yields *
 reliably commandable whole-body strategies per scene**. And the last two arrows are the ones a
 reviewer will care about — they are where nominal interface dimensionality stops being
 capability.
+
+---
+
+## 23. Predictions, recorded before the diagnosis runs
+
+The last prediction I recorded (§20, "I expect BODY-ENUMERATE@K to do well") was wrong, and
+recording it is what made the gate informative rather than a number I could rationalise
+afterwards. So the same discipline applies to the five analyses now queued. These are written
+with the ledger still being generated.
+
+**EXP-005i §C, POOL-ORACLE@8.** The pool is ~40 distinct candidates per scene covering ~3.5
+reference modes; eight picks with hindsight should nearly saturate it.
+
+| | prediction | what it would mean |
+|---|---|---|
+| hindsight@8 | **0.85 – 0.95** | the programs exist; support is not the bottleneck |
+| cross-fit@8 | **0.65 – 0.80** | a perfect reranker on 4 noisy probe seeds recovers *some* of it |
+| best arm @8 | 0.59 *(known)* | |
+
+If the ordering comes out like that, the gap splits into two halves with different fixes: from
+0.59 to cross-fit is **selection**, learnable; from cross-fit to hindsight is **ARDY's own
+stochasticity**, which no proposer can learn away and which only more seeds or stronger guidance
+can buy back. That would put the project on the guidance's row 2 — *learn a selector/reranker* —
+and specifically **not** on "train a set-valued generative proposer".
+
+The failure mode I most expect to be wrong about: hindsight@8 coming in low (< 0.75), which
+would mean the union of five enumerators plus random restarts genuinely lacks the programs, and
+the answer is a mode-conditioned inverse model instead.
+
+**EXP-005i §C, yaw dropped.** Reference modes should fall by roughly a quarter and every arm's
+coverage should rise, because modes differing only in an uncommandable bit are modes no proposer
+could be built to hit. Prediction: best arm **0.59 → ~0.70**. If it rises much further than
+that, a meaningful part of the gate's headline shortfall was my own alphabet rather than a
+missing capability, and the gate needs restating.
+
+**EXP-005h, decision relevance.** With duck the only clean capability and ~2.2 commandable modes
+per scene, I expect this to land **near the 25 % kill threshold rather than comfortably above
+it** — 25–40 % of scenes with two different preference winners. This is the analysis most likely
+to kill the morphology-set framing outright, and the smoke run (2 scenes, both 0 %) is a warning
+rather than a reassurance.
+
+**EXP-007, certification.** The point estimate of 3.0 modes per scene rests on four seeds, which
+cannot certify τ = 0.8 at any confidence. Prediction: **1.5 – 2.0 certified**, and a 4-seed
+estimate biased *optimistic* against the 24-seed truth, because 3/4 rounds up to 0.75 and 4/4 to
+1.00.
+
+**EXP-006, inference sensitivity.** Prediction: stronger constraint guidance narrows the seed
+scatter **modestly, 10–25 %**, raises P(channel fires) for lift, and costs roughness — a real
+controllability–naturalness frontier, but not one that overturns the audit. The outcome that
+would genuinely change the project is scatter falling by more than half at acceptable quality;
+I put that below 20 %.

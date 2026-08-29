@@ -48,6 +48,7 @@ import numpy as np
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from scene2motion import planner as P  # noqa: E402
+from scene2motion import program as PG  # noqa: E402
 from scene2motion.planner import plan, plan_to_path_spec  # noqa: E402
 from scene2motion.program import ConstraintProgram, decode, encode  # noqa: E402
 from scene2motion.robot import G1Body  # noqa: E402
@@ -81,6 +82,13 @@ def main() -> None:
     runner = ArdyRunner(cache_path="outputs/text_cache.npz")
     fps = runner.fps
     seeds = list(range(700, 700 + args.n_seeds))
+    # `program.py:44` does `from .planner import _limb_targets`, a direct NAME BINDING, so
+    # patching planner._limb_targets does not reach program.decode -- which is what this
+    # experiment calls.  The first run of EXP-009 did exactly that and reported +0.000 on every
+    # row, and the null control PASSED, because a control that must be zero cannot tell
+    # "correctly isolated" from "nothing happened at all".  A one-sided control is not a
+    # control.  Both bindings are patched now, and a POSITIVE control below asserts the two
+    # renderers actually emit different targets before a single clip is generated.
     real = P._limb_targets
     rows = []
 
@@ -105,12 +113,31 @@ def main() -> None:
             prog = ConstraintProgram(lat=route.lat.copy(),
                                      slot=np.zeros_like(route.slot), speed=route.speed)
             prog.slot[0] = [0.5, 0.12, dip, tuck, lift]
+            specs = {}
             for arm, fn in (("OLD", old_limb_targets), ("NEW", real)):
-                P._limb_targets = fn
+                P._limb_targets = PG._limb_targets = fn
                 try:
-                    spec = decode(prog, sc, fps, ref, runner.joint_names, duration=T / fps)
+                    specs[arm] = decode(prog, sc, fps, ref, runner.joint_names,
+                                        duration=T / fps)
                 finally:
-                    P._limb_targets = real
+                    P._limb_targets = PG._limb_targets = real
+            # POSITIVE CONTROL: the manipulation must have taken effect.  A duck row whose two
+            # renderings are byte-identical means the patch did not land and the whole row is
+            # a comparison of a thing with itself.
+            a, b = specs["OLD"].pos_targets, specs["NEW"].pos_targets
+            same = (a is None and b is None) or (a is not None and b is not None
+                                                 and np.allclose(a, b))
+            want_same = dip <= 0.03                     # no duck -> nothing to shift
+            if same != want_same:
+                raise SystemExit(
+                    f"renderer isolation FAILED on '{label}' (dip={dip}): specs "
+                    f"{'identical' if same else 'differ'} but should "
+                    f"{'be identical' if want_same else 'differ'}.")
+            if a is not None and not want_same:
+                print(f"    {label:16s} height shift {1000*np.abs(a[..., 1] - b[..., 1]).max():.0f} mm",
+                      flush=True)
+            for arm in ("OLD", "NEW"):
+                spec = specs[arm]
                 outs = runner.generate([PROMPT] * len(seeds), [spec] * len(seeds), T,
                                        args.diffusion_steps, seeds=seeds)
                 for s, o in enumerate(outs):

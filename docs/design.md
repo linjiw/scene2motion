@@ -1544,3 +1544,140 @@ suspected to be, artefacts of how we asked rather than of what the model can do:
 pairing, the composed-program collapse, and possibly the whole body-channel bandwidth. That is
 the finding. It is also the reason the paper's contribution is a **capability-auditing
 methodology** rather than a number about ARDY.
+
+---
+
+## 27. Results: the channel, the diagnosis, and the matrix
+
+### EXP-008 — the position channel is a bad way to talk to this model
+
+Both requests provably arrive: `channel_usage` reports a POS spec writing 1 152
+`local_joints_positions` entries and a ROT spec writing 2 304 `global_rot_data` entries, so
+neither arm is a free generation. Six per-sample seeds, straight walk, no obstacle, paired
+against an unconstrained control at the same seed.
+
+| arm | amplitude | Δ half-width | sd | **&#124;effect&#124;/sd** |
+|---|---|---|---|---|
+| POS | 0.20 | −3.0 mm | 37.7 | 0.08 |
+| POS | 0.40 | +49.4 | 79.4 | 0.62 |
+| POS | 0.50 | +84.6 | 57.3 | 1.48 |
+| POS | 0.60 | +118.2 | 75.2 | **1.57** |
+| POS | 0.70 | +19.3 | 31.5 | 0.61 |
+| POS | 0.85 | −48.2 | 39.3 | 1.23 |
+| ROT+ | 10° | +47.5 | 30.1 | 1.58 |
+| ROT+ | 20° | +124.4 | 27.0 | 4.61 |
+| ROT+ | 30° | +194.0 | 24.3 | 7.99 |
+| ROT+ | 40° | +239.6 | 27.6 | **8.68** |
+| ROT− | 10° | −18.6 | 32.1 | 0.58 |
+| ROT− | 30° | −7.6 | 39.5 | 0.19 |
+
+**The rotation channel is 5.5× more addressable than the position channel**, and the difference
+is qualitative, not marginal. ROT+ is perfectly monotone — 47.5, 124.4, 194.0, 239.6 mm — with
+the spread *falling* as the effect grows (30.1 → 24.3). POS is non-monotone and **changes sign
+twice** across its ladder: a request to pull the arms in makes the robot wider at five of seven
+amplitudes. That is not weak control, it is not control.
+
+An unplanned control makes the point sharper. **POS at amplitude 0.00 asks for the arms' own
+nominal positions** — a no-op a faithful decoder would reproduce. It doesn't: top height moves
+−49.8 mm and half-width +17.9 mm. Merely *writing* the unread channel perturbs the motion by
+5 cm while requesting nothing.
+
+**But H1 and H2 are both right, in different places.** ROT+ (arms out) reaches 8.68 σ; ROT−
+(arms in) never exceeds 0.58 σ. Widening is enormously addressable; **narrowing is not**, and
+that asymmetry is exactly what the URDF predicts — the arms can swing out indefinitely but stop
+at the shoulder housing and thighs on the way in. So the encoder explains the *bandwidth*, and
+the robot's own geometry explains why the one direction a gap-traversal planner actually wants
+is the one that stays small.
+
+### EXP-005i §C — it is support, not selection, and my prediction was wrong again
+
+The union-reference table reproduces the audit's algebra digit for digit:
+
+| | @1 | @2 | @4 | @8 |
+|---|---|---|---|---|
+| "hindsight" | 0.268 | 0.537 | 0.881 | 1.000 |
+| saturation identity | 0.268 | 0.537 | 0.881 | 1.000 |
+
+Identical at every K, on real data. That is what section 23 pre-registered a prediction about.
+
+The honest table — REF-RANDOM defines the reference, the oracle picks only from deployable arms,
+19 scenes, 3.1 reference modes each:
+
+| | @8 | 95 % CI |
+|---|---|---|
+| POOL-ORACLE hindsight | **0.602** | [0.507, 0.705] |
+| POOL-ORACLE cross-fit | 0.547 | [0.475, 0.626] |
+| best arm (A-KBEST) | 0.524 | [0.453, 0.602] |
+
+My prediction was hindsight@8 ∈ [0.85, 0.95] → *"support is present, learn a reranker."* The
+measurement lands in the band I named as the **falsification**: hindsight@8 < 0.75 → the pool
+lacks the programs. Read the three gaps:
+
+* best arm → cross-fit: **+0.023.** A perfect reranker with access to noisy probe outcomes wins
+  two points. There is almost nothing for a selector to do.
+* cross-fit → hindsight: **+0.055.** ARDY's own stochasticity.
+* hindsight → 1.000: **0.398 unreachable.** Two fifths of the modes an independent random
+  search finds are *not in the deployable pool at all, under any selection rule.*
+
+By the guidance's decision table this is row 3 — learn a mode-conditioned inverse program, not a
+reranker. **I am not acting on it yet**, because the pool whose support is being measured was
+built by enumerators whose composed proposals the renderer was corrupting, and REF-RANDOM
+proposes almost nothing composed (0/8 affected in the smoke). The support deficit and the
+renderer bug are confounded, and EXP-009 is the experiment that separates them.
+
+### The commanded → realised matrix, on 5 852 held-out clips
+
+| requested | n | none | duck | lift(LR) | invalid | notes |
+|---|---|---|---|---|---|---|
+| neutral | 368 | **1.00** | 0.00 | 0.00 | 0.00 | |
+| **tuck** | 580 | **0.81** | 0.00 | 0.00 | 0.00 | yaw 0.19 |
+| **dip** | 1984 | 0.22 | **0.74** | 0.00 | 0.04 | |
+| **lift** | 32 | 0.00 | 0.00 | **0.78** | 0.22 | |
+| dip+tuck | 1952 | 0.39 | **0.20** | 0.00 | 0.24 | yaw 0.12 |
+| dip+lift | 388 | 0.00 | 0.01 | 0.52 | 0.36 | |
+| tuck+lift | 144 | 0.00 | 0.00 | 0.13 | **0.87** | |
+| dip+tuck+lift | 404 | 0.02 | 0.01 | 0.27 | **0.64** | |
+
+Four things a reviewer can read straight off it:
+
+1. **A tuck request produces nothing** — 81 % "no channel fired", 19 % an incidental yaw, never
+   a width change, over 580 clips. Measured now with a correct signature.
+2. **A duck request lands 74 % of the time.** The one working capability is not reliable either.
+3. **Adding a tuck to a duck destroys the duck**: 0.74 → **0.20**. That is precisely the
+   signature the `_limb_targets` contradiction predicts, and it is the mechanism EXP-009 tests.
+4. **Two limb-target axes at once are refused 87 % of the time.**
+
+### Failure decomposition, and it is family-specific
+
+| cause | share | the fix it implies |
+|---|---|---|
+| symbol never requested | **56.2 %** | improve enumeration |
+| requested, prior realised something else | 29.2 % | addressability model / channel / guidance |
+| mode realised but unstable | 12.5 % | more seeds, stronger guidance |
+| mode realised but collides | 2.1 % | feasibility model |
+
+and it splits cleanly by family: `overhead_beam` is **92 % "never requested"** — the enumerator
+does not even ask; `narrow_gap` is **89 % "requested, prior realised something else"** — it asks
+and the prior does something else. Those are two different projects, and averaging them into one
+"coverage" number was hiding it.
+
+### Two more of my own bugs, found by reading output that could not be true
+
+**The matrix was empty the first time it printed.** `sig_key([sg])` double-wraps a signature
+that is already per-interaction, so `duck` bound to the whole inner list, which is non-empty and
+therefore `True` for every clip. Every request appeared to realise a duck and nothing else. I
+caught it because a matrix in which the request does not change the outcome is not a believable
+measurement, not because a test failed.
+
+**EXP-009's first run was inert.** It reported +0.000 on every row — and its null control
+*passed*. `program.py:44` binds `_limb_targets` by name, so patching `planner._limb_targets`
+never reached `decode`: both arms ran the same renderer. A control that must be zero cannot
+distinguish "correctly isolated" from "nothing happened", and mine was one-sided. It now carries
+a **positive** control that compares the two rendered specs numerically before generating a
+single clip and aborts unless they differ exactly where a duck was commanded — which promptly
+caught a defect in my own fix, since anchoring the shift to the nominal clip's *realised* pelvis
+height perturbed even non-ducking programs. Anchored to the commanded baseline instead, the null
+rows are byte-identical and a 40 cm duck shifts the limb targets by exactly 400 mm.
+
+Twelve defects. Ten favoured the learned model. The two that did not were caught by controls
+built before the numbers were read.

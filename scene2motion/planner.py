@@ -550,8 +550,15 @@ def _limb_targets(root_xz, tuck, lift, nominal, joint_names, fps, root_y=None):
             shrink[:, arm_cols] = (1.0 - tuck[want])[:, None]
         height = nom_j[k][:, joints, 1].copy()
         if root_y is not None:
-            # ARDY frame is Y-up: shift limb heights by the commanded pelvis displacement.
-            height += (np.asarray(root_y)[want] - nom_r[k][:, 1])[:, None]
+            # ARDY frame is Y-up: shift limb heights by the COMMANDED pelvis displacement,
+            # which is `root_y - MODE_BY_NAME["stand"].pelvis_y` because that is exactly how
+            # the caller built root_y.  Anchoring to the NOMINAL CLIP's realised root height
+            # instead -- the first version of this fix -- shifts the targets even when no duck
+            # was requested, because a generated clip's pelvis is never exactly the standing
+            # value.  That silently perturbs every tuck-only and lift-only program and destroys
+            # the null row that EXP-009 needs to prove it is isolating the renderer at all.
+            stand = MODE_BY_NAME["stand"].pelvis_y
+            height += (np.asarray(root_y)[want] - stand)[:, None]
         for i, f in enumerate(want):
             for j, dy in lifts.get(int(f), {}).items():
                 col = int(np.where(joints == j)[0][0])

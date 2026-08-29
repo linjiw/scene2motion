@@ -559,7 +559,7 @@ def main() -> None:
             continue
         req = tuple(bool(x) for x in r["commanded"]["sym"])       # (dip, tuck, lift)
         for f, sg in zip(r["heldout"]["feasible"], r["heldout"]["signatures"]):
-            mat[req][sig_key([sg])[0] if f else "INVALID"] += 1
+            mat[req][sig_key(sg)[0] if f else "INVALID"] += 1
     cols = sorted({c for v in mat.values() for c in v if c != "INVALID"}, key=str)
     hdr = "  ".join(f"{''.join('DLRY'[i] for i, b in enumerate(c) if b) or 'none':>6s}"
                     for c in cols)
@@ -641,14 +641,14 @@ def main() -> None:
             # did the arm even ASK for the symbol?
             asked = any((c["commanded"]["sym"][0] == duck)
                         and (c["commanded"]["sym"][2] == want_lift) for c in mine)
-            realised_any = any(sig_key([s]) == (z[0],) for c in mine
+            realised_any = any(sig_key(s) == (z[0],) for c in mine
                                for s in block(c, "heldout")["signatures"])
             if not asked:
                 cause = "symbol never requested"
             elif not realised_any:
                 cause = "requested, prior realised something else"
             else:
-                hits = [c for c in mine if any(sig_key([s]) == (z[0],)
+                hits = [c for c in mine if any(sig_key(s) == (z[0],)
                                                for s in block(c, "heldout")["signatures"])]
                 if any(block(c, "heldout")["feasible_rate"] < MIN_FEAS for c in hits):
                     cause = "mode realised but collides"

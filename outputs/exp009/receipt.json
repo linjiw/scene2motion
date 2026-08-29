@@ -1,0 +1,69 @@
+{
+  "experiment": "exp009_renderer_ab",
+  "n_seeds": 6,
+  "n_rows": 432,
+  "requests": {
+    "tuck only  [null]": {
+      "old_valid": 0.5,
+      "new_valid": 0.5,
+      "delta": 0.0,
+      "old_goal": 1.0,
+      "new_goal": 1.0,
+      "old_coll_free": 0.5,
+      "new_coll_free": 0.5,
+      "n_per_arm": 36
+    },
+    "lift only  [null]": {
+      "old_valid": 0.16666666666666666,
+      "new_valid": 0.16666666666666666,
+      "delta": 0.0,
+      "old_goal": 1.0,
+      "new_goal": 1.0,
+      "old_coll_free": 0.16666666666666666,
+      "new_coll_free": 0.16666666666666666,
+      "n_per_arm": 36
+    },
+    "duck+tuck": {
+      "old_valid": 0.7777777777777778,
+      "new_valid": 0.7777777777777778,
+      "delta": 0.0,
+      "old_goal": 1.0,
+      "new_goal": 1.0,
+      "old_coll_free": 0.7777777777777778,
+      "new_coll_free": 0.7777777777777778,
+      "n_per_arm": 36
+    },
+    "duck+lift": {
+      "old_valid": 0.3611111111111111,
+      "new_valid": 0.3611111111111111,
+      "delta": 0.0,
+      "old_goal": 1.0,
+      "new_goal": 1.0,
+      "old_coll_free": 0.3611111111111111,
+      "new_coll_free": 0.3611111111111111,
+      "n_per_arm": 36
+    },
+    "duck+tuck+lift": {
+      "old_valid": 0.1388888888888889,
+      "new_valid": 0.1388888888888889,
+      "delta": 0.0,
+      "old_goal": 1.0,
+      "new_goal": 1.0,
+      "old_coll_free": 0.1388888888888889,
+      "new_coll_free": 0.1388888888888889,
+      "n_per_arm": 36
+    },
+    "deepduck+tuck": {
+      "old_valid": 0.6111111111111112,
+      "new_valid": 0.6111111111111112,
+      "delta": 0.0,
+      "old_goal": 1.0,
+      "new_goal": 1.0,
+      "old_coll_free": 0.6111111111111112,
+      "new_coll_free": 0.6111111111111112,
+      "n_per_arm": 36
+    }
+  },
+  "null_rows_pass": true,
+  "wall_clock_s": 107.3
+}

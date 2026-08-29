@@ -81,10 +81,20 @@ REQUESTS = [("neutral", 0.00, 0.00, 0.00),
             ("duck+lift", 0.35, 0.00, 0.35)]
 
 # (label, model, denoising steps, (w_text, w_cstr))
+#
+# MORE denoising steps is NOT a knob this checkpoint exposes, and the guidance's suggestion to
+# test it cannot be followed.  `diffusion.space_timesteps` builds the schedule as
+# `arange(num_base_steps) * frac_stride`, so it always returns exactly `num_base_steps` entries
+# -- 10 for ARDY-G1-RP-25FPS-Horizon52 -- while the sampler loops `num_denoising_steps` times
+# indexing those buffers.  Asking for 15 runs off the end and dies in an IndexKernel with
+# `index out of bounds`, a device-side assert rather than a checked error.  Verified: 10 works,
+# 15 fails.  So the schedule can only be made COARSER, and the ladder goes down from 10 rather
+# than up.  Constraint guidance and the horizon are still free.
 CONFIGS = [("base  s10 cfg2/2", "g1", 10, (2.0, 2.0)),
-           ("steps s25 cfg2/2", "g1", 25, (2.0, 2.0)),
+           ("fewer s5  cfg2/2", "g1", 5, (2.0, 2.0)),
            ("cstr  s10 cfg2/4", "g1", 10, (2.0, 4.0)),
            ("cstr  s10 cfg2/6", "g1", 10, (2.0, 6.0)),
+           ("cstr  s10 cfg2/9", "g1", 10, (2.0, 9.0)),
            ("horiz s10 cfg2/2 h8", "g18", 10, (2.0, 2.0))]
 
 # Which descriptor channel each request should move, if the channel works at all.
@@ -111,13 +121,23 @@ def main() -> None:
 
     for label, model, steps, cfg in configs:
         if model not in runners:
-            runners[model] = ArdyRunner(model_name=model, cache_path="outputs/text_cache.npz")
+            try:
+                runners[model] = ArdyRunner(model_name=model,
+                                            cache_path="outputs/text_cache.npz")
+            except Exception as e:
+                # Horizon8 is a different checkpoint and may not roll out to this clip length.
+                # One configuration failing must not cost the other four.
+                print(f"  {label}: cannot load {model} ({type(e).__name__}: {e}); skipped",
+                      flush=True)
+                continue
         runner = runners[model]
         fps = runner.fps
         for fam, val in SCENES:
             sc = BUILDERS[fam](val, 0)
             p = plan(sc, "adaptive")
             if not p.feasible:
+                continue
+            if any(r["config"] == label and r["scene"] == sc.scene_id for r in rows):
                 continue
             body = G1Body(sc)
             ox = float(sc.meta.get("beam_x") or sc.meta.get("wall_x")

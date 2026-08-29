@@ -1745,3 +1745,103 @@ is a measurement of an action space we now have good evidence is the wrong one.
 One thing that will not change when we do: **narrowing stays capped.** ROT− never exceeded
 0.58 σ and the URDF says why. A better channel buys a much better *duck* and a much better
 *arms-out*, and it does not buy a G1 that fits through a narrower gap.
+
+---
+
+## 29. EXP-006 and EXP-010: it is not "position vs rotation", it is HEIGHT vs LATERAL
+
+### EXP-006 — the inference settings are not hiding a better model
+
+Six configurations, families the gate never scored, 8 seeds, channel firing judged against the
+fixed EXP-005f quantiles so every row is read on one ruler.
+
+| configuration | P(valid) | duck fires | lift fires | tuck fires | seed scatter (× base) | roughness | jerk | s/clip |
+|---|---|---|---|---|---|---|---|---|
+| base s10 cfg 2/2 | 0.448 | 1.000 | 1.000 | 0.000 | 1.145 | 0.0081 | 29 | 0.183 |
+| **fewer s5 cfg 2/2** | **0.536** | 1.000 | 1.000 | 0.000 | **0.833** | 0.0073 | 27 | **0.097** |
+| cstr s10 cfg 2/4 | 0.453 | 1.000 | 1.000 | 0.000 | 1.516 | 0.0163 | 60 | 0.183 |
+| cstr s10 cfg 2/6 | 0.229 | 0.875 | 0.875 | 0.000 | 5.763 | 0.0369 | 140 | 0.184 |
+| cstr s10 cfg 2/9 | **0.021** | 0.469 | 0.594 | 0.219 | **41.9** | 0.248 | 715 | 0.183 |
+| Horizon8 | 0.521 | 1.000 | 1.000 | 0.000 | 0.949 | **0.0059** | **24** | 1.050 |
+
+**Stronger constraint guidance is strictly harmful, on every axis including the one it was
+supposed to help.** Pushing `w_cstr` from 2 to 9 takes validity from 0.448 to 0.021, roughness
+up 30×, jerk up 25×, and *increases* the seed scatter it was meant to suppress by **37×**. At
+cfg 2/9 a duck request produces a mean height change of **−0.92 m** — the robot gets taller when
+asked to crouch. There is no controllability–naturalness frontier to trade along here, because
+the controllable end does not deliver controllability. This is the guidance's outcome 1, more
+emphatically than it anticipated: the low addressability is not an inference-setting artefact.
+
+**And we have been overpaying for worse motion.** Five denoising steps beats ten on validity,
+scatter, roughness, jerk and contact consistency, at 1.9× the speed. Paired over the 192
+(scene, request, seed) triples the two share: validity 0.448 → 0.536, exact McNemar
+**p = 0.0023** (23 gained, 6 lost), and the achieved duck is *deeper*, 0.174 → 0.203 m. It is not
+trading fidelity for speed; it is strictly better. Every future measurement campaign should run
+at 5 steps, which roughly halves the GPU cost of the rebuild.
+
+Horizon8 is the quality winner (lowest roughness and jerk, deepest duck at 0.578 m) and 5.7×
+slower, because an 8-frame horizon must be rolled out 25 times for a 200-frame clip. Worth
+knowing; not worth adopting.
+
+### EXP-010 — and my sign control was invalid by construction
+
+| arm | amp | Δ foot peak | sd | **&#124;eff&#124;/sd** | Δ pelvis |
+|---|---|---|---|---|---|
+| POS | 0.25 | +377.7 mm | 38.1 | 9.91 | +59.7 |
+| POS | 0.55 | +489.7 | 46.0 | **10.64** | +122.1 |
+| ROT+ | 40° | +197.3 | 46.1 | 4.28 | −4.6 |
+| ROT− | 30° | +271.8 | **6.6** | **41.10** | −7.1 |
+| ROT− | 40° | +340.1 | 12.2 | 27.81 | −14.6 |
+
+First, the failure. **Both rotation signs raise the foot**, and my pre-declared criterion said
+that means the channel is not reaching the leg and no comparison holds. The criterion was wrong,
+not the data: rotating a chain that hangs *straight down* about a horizontal axis raises its
+endpoint by `L(1 − cos θ)`, which is **even in sign**. Predicted rises of 12/48/107/187 mm at
+10/20/30/40° track the ROT+ increments closely. The arm in EXP-008 has a lateral offset, so its
+sign control worked; the leg does not, so mine could not. A control has to be derived from the
+geometry it is controlling, and I reused one without checking it transferred. The ROT rows here
+measure "rotate the leg off vertical", not hip flexion, and their sign asymmetry is real but
+unattributable.
+
+Second, and much more important: **the position channel delivers a lift at 10.64 σ.** That flatly
+contradicts what section 27 concluded from EXP-008, where the same channel maxed at 1.57 σ and
+changed sign twice. The channel is not uniformly bad. It is excellent for one kind of request and
+useless for another, and `constraints.py:26` said which all along:
+
+    local_joints_positions[t, j] = global_pos[t, j] - pelvis_pos[t] + [0, pelvis_y[t], 0]
+
+**Root-relative in the ground plane, absolute in height.**
+
+| request | physical quantity | how the representation encodes it | &#124;eff&#124;/sd |
+|---|---|---|---|
+| duck | height, root | absolute | works |
+| **lift** | height, joint | **absolute** | **10.64** |
+| **tuck** | lateral extent | **root-relative, ground plane** | **1.57, sign-flipping** |
+
+A height request names a coordinate the feature vector holds directly. A lateral request names
+one the model must reconcile against the root path it is generating at the same time — and it
+does so badly. So the axis that separates the working capabilities from the broken ones is
+**height versus lateral**, not position versus rotation, and not the decoder-reads-it distinction
+from section 24 either. Section 24's observation is still true and still explains why writing an
+unread block perturbs a clip that requested nothing; it is not what separates duck and lift from
+tuck.
+
+Rotation still wins where it matters for *cleanliness*: ROT− at 30° buys 271.8 mm of foot
+clearance with the pelvis essentially still (−7.1 mm) and a seed spread of **6.6 mm** — the
+tightest control signal measured anywhere in this project. POS buys more raw height but takes up
+to 122 mm of it by raising the whole body, which is a hop, not a step-over.
+
+### Where this leaves the rebuild
+
+Section 27 said "rebuild the body action space on `global_joints_rots`". That is now too broad.
+
+* **duck** — already direct and already works. Leave it.
+* **lift** — the position channel is fine (10.64 σ); switch to rotation only for the pelvis
+  stillness and the 6× smaller spread, which matter for a step-over over a real obstacle.
+* **tuck** — the encoding is wrong *and* the robot caps it at ~32 mm. Rotation raised arm control
+  to 8.68 σ but only in the widening direction. This axis is not worth planning over on G1, and
+  now there are two independent reasons.
+* **all campaigns** — 5 denoising steps, not 10.
+
+The one claim that has survived every revision today: **narrowing is not available on this robot,
+by any channel, at any inference setting.** Everything else about the body action space has moved.

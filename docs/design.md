@@ -2245,3 +2245,66 @@ The methodological conclusion is not "be more careful". It is that **a capabilit
 only as strong as the best request anyone has tried**, and that a frozen prior gives you no
 signal at all about whether a better request exists. That is the honest limit of the audit
 methodology, and it belongs in the paper as prominently as the funnel does.
+
+---
+
+## 36. EXP-015: text reaches a capability the 43-dimensional constraint interface cannot
+
+Three arms. **A and B differ only in the prompt** — identical root constraints, identical
+per-sample seeds, no body slice written in either. C is the constraint interface's own attempt.
+
+| arm | Δ foot peak | sd | ground contacts | Δ pelvis | tracked success | accel_dist |
+|---|---|---|---|---|---|---|
+| A `"A person walks forward."` | +0.0 mm | — | 2.49 | +0.0 | **0.875** | 3.26 |
+| **B `"A person steps over an obstacle."`** | **+56.9 mm** | 44.9 | **2.80** | −2.0 | **0.625** | 8.86 |
+| C walk prompt + gated position lift | **+362.1 mm** | 33.7 | **0.12** | +2.6 | **0.000** | 14.45 |
+
+**Changing seven words raises the swing foot by 57 mm — 3.6 σ over 8 seeds — while *increasing*
+ground contact, and it tracks.** The constraint interface, asked for the same behaviour, produces
+six times the foot height, destroys ground contact, and is untrackable.
+
+### What it is worth
+
+The walk baseline peaks at ~0.117 m, so arm B reaches ~0.174 m. Against the `low_obstacle`
+ladder — heights `[0.02, 0.08, 0.15, 0.22, 0.30, 0.38]` — that clears the **bottom three rungs**
+(marginally the third, after the 40 mm collision margin). The conformal envelope refused
+`low_obstacle` **0/20**, and half of that refusal is now known to be wrong: not because the
+envelope miscalibrated, but because it was calibrated over an action space that could not express
+the motion.
+
+### What this does to the project's central premise
+
+The project's founding design decision was to steer a frozen prior through its **constraint API**
+— 5 channels, 43 program dimensions — with the text prompt held fixed at `"A person walks
+forward."` for every single experiment in 35 sections. That choice was never tested against the
+alternative until now.
+
+It was the wrong choice for at least one capability, and the failure mode is instructive: the
+constraint interface **over-delivers on the literal request and destroys the behaviour**. Asked
+for a foot 0.35 m higher, ARDY produces a foot 0.36 m higher and a robot in flight. The request
+was honoured; the *behaviour* was not, because "step over" means "raise one foot while the other
+stays planted" and the position channel has no way to say the second half. Text does, because the
+prior learned the whole coordinated behaviour from data.
+
+So the honest restatement of this project's headline:
+
+> **The 43-dimensional constraint interface exposes one cleanly executable body axis. The prior
+> itself has more, and its text conditioning reaches at least one capability the constraint
+> interface cannot express at all.**
+
+That is a different — and more useful — claim than "the frozen prior has ~1 executable strategy".
+The audit methodology, the noise calibration, the funnel and the defect ledger are all unaffected
+and all still stand. What changes is the object they were pointed at: they characterised **an
+interface**, and the interface is not the model.
+
+### The limits of this result, stated plainly
+
+* One prompt, one behaviour, 8 seeds. `"A person steps over an obstacle."` happened to be in the
+  embedding cache; nothing else was tried, and no prompt ablation was run.
+* +57 mm is real (3.6 σ) but modest, and its spread is large (sd 44.9 mm) — text gives a *less
+  precisely controllable* step-over than it gives a behaviour at all. It is not addressable in
+  the sense this project has used the word: you cannot ask for 12 cm.
+* Arm B tracks at 0.625 against A's 0.875, so it is not free.
+* This does not rescue the *composability* story. Text can request one named behaviour; the
+  scene-conditioned planner needs "duck by 0.31 m starting here, then step over that", and
+  nothing here shows text can be steered that precisely.

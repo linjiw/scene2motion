@@ -1,0 +1,45 @@
+{
+  "experiment": "exp015_text_elicited_stepover",
+  "n_seeds": 8,
+  "prompts": {
+    "A": "A person walks forward.",
+    "B": "A person steps over an obstacle."
+  },
+  "lift_for_C": 0.2,
+  "results": {
+    "A-walk-text": {
+      "returncode": 0,
+      "d_foot_mm": 0.0,
+      "d_foot_sd_mm": 0.0,
+      "contacts": 2.4916666666666667,
+      "d_pelvis_mm": 0.0,
+      "success_rate": 0.875,
+      "progress_rate": 0.9412688464,
+      "mpjpe_l": 44.743,
+      "accel_dist": 3.26
+    },
+    "B-stepover-text": {
+      "returncode": 0,
+      "d_foot_mm": 56.90504290813728,
+      "d_foot_sd_mm": 44.93560101412693,
+      "contacts": 2.802083333333333,
+      "d_pelvis_mm": -2.012208104133606,
+      "success_rate": 0.625,
+      "progress_rate": 0.6567211053,
+      "mpjpe_l": 50.398,
+      "accel_dist": 8.857
+    },
+    "C-walk-text+pos-lift": {
+      "returncode": 0,
+      "d_foot_mm": 362.0969412923888,
+      "d_foot_sd_mm": 33.67318158965378,
+      "contacts": 0.11875,
+      "d_pelvis_mm": 2.550944685935974,
+      "success_rate": 0.0,
+      "progress_rate": 0.3300879364,
+      "mpjpe_l": 44.31,
+      "accel_dist": 14.454
+    }
+  },
+  "wall_clock_s": 132.1
+}

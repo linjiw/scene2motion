@@ -1,0 +1,32 @@
+{
+  "experiment": "exp014_gated_lift_tracked",
+  "n_seeds": 8,
+  "lift_m": 0.35,
+  "results": {
+    "neutral": {
+      "returncode": 0,
+      "mean_contacts": 5.629166666666666,
+      "success_rate": 1.0,
+      "progress_rate": 1.0,
+      "mpjpe_l": 38.725,
+      "accel_dist": 1.711
+    },
+    "lift-BOTH": {
+      "returncode": 0,
+      "mean_contacts": 0.0,
+      "success_rate": 0.0,
+      "progress_rate": 0.07192211,
+      "mpjpe_l": 33.699,
+      "accel_dist": 24.544
+    },
+    "lift-GATED": {
+      "returncode": 0,
+      "mean_contacts": 0.05,
+      "success_rate": 0.0,
+      "progress_rate": 0.2977386923,
+      "mpjpe_l": 40.419,
+      "accel_dist": 11.818
+    }
+  },
+  "wall_clock_s": 107.3
+}

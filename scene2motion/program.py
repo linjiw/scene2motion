@@ -20,8 +20,8 @@
 #    duck-and-tuck at once — a real limitation, since `beam_and_gap` needs exactly that. The
 #    program therefore carries four CONTINUOUS adaptation axes and no discrete mode at all.
 #
-# Layout (39 emitted numbers, all normalised to [-1, 1] for the generator):
-#     lat    (14,)   signed lateral offset from the start->goal chord at 16 knots,
+# Layout (DIM_C = 43 emitted numbers, all normalised to [-1, 1] for the generator):
+#     lat    (22,)   signed lateral offset from the start->goal chord at 24 knots,
 #                    endpoints pinned to 0. Translation- and rotation-invariant by
 #                    construction, and left-vs-right homotopy is just the sign of the
 #                    middle knots.

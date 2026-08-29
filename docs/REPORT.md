@@ -294,9 +294,24 @@ rather than generated motion.
 
 ## 5. Methodology: the defect ledger
 
-Twelve measurement defects were found. **Ten biased results toward the hypothesis under test.**
-That direction is not bad luck — each sat where I had a hypothesis and the metric had freedom to
-agree with it.
+**First, a correction to this section's own headline.** The research log says "twelve defects,
+ten favouring". An independent audit of that claim found both numbers wrong. *Twelve* is a
+**running tally**, not a census: it was assembled from three places in the log and omits every
+defect found before or after those three windows. A proper census gives **~24 distinct
+measurement, metric, control and harness defects** at the same bundling, and ~32 if the bundles
+are split the way the log splits its own. *Ten* is also off by one against the log's own
+arithmetic, and the direction attribution of one bundle is wrong in the other direction — four of
+the five `program.py` defects made the *compressed program* look lossier than it is, which tilts
+**against** a learned proposer, not toward it.
+
+The corrected statement: **of roughly 24 measurement defects, about 15 biased results toward the
+hypothesis under test.** The skew is real and, at the census count, larger in absolute terms than
+the running tally suggested. What is *not* reliable is any precise ratio, and this report should
+not have quoted one — a tally accumulated across a research log is not a measurement, and I
+applied less rigour to counting my own errors than to any experiment in this report.
+
+That direction is not bad luck — each defect sat where I had a hypothesis and the metric had
+freedom to agree with it.
 
 | defect | direction | how it was caught |
 |---|---|---|
@@ -312,6 +327,9 @@ agree with it.
 | §I rescale divided out the correlation it tested | favours | multi-agent audit |
 | hardcoded 2.33σ threshold in the live gate | favours | audit's *dropped* rank-3 tail |
 | `sig_key([sg])` double-wrap emptied the matrix | favours | reading output that could not be true |
+
+*(The table lists the twelve from the running tally, which is what the log recorded as it went.
+It is a sample of the ~24, not the census.)*
 
 Plus one defect in **third-party code** — ARDY's `space_timesteps` returns a schedule of length
 `num_base_steps` regardless of what is requested, so asking for more than 10 denoising steps
@@ -332,8 +350,17 @@ cross-checkout import, and `gear_sonic/trl` shadowing the installed `trl`).
 4. **Identity checks.** Printing `min(K,M)/M` beside the POOL-ORACLE row made a tautology visible
    instead of publishable.
 5. **Adversarial multi-agent audit.** Five of twelve defects, including the worst.
-6. **Recording predictions before running.** Three pre-registered predictions, all wrong, each
+6. **Recording predictions before running.** Five pre-registered predictions, four wrong, each
    informative *because* it was written down.
+
+**And one claim in an earlier draft of this section was false.** It said the two defects that did
+not favour the hypothesis "were caught by controls built before the numbers were read". They were
+not. `sig_key` was caught by *disbelieving output* — a matrix in which the request does not change
+the outcome is not credible — and EXP-009's inert run was caught only after noticing its null
+control had **passed** while hiding the inertness, which is what prompted adding a positive
+control. Neither was caught by a control that existed in advance. The lesson is the opposite of
+the one I wrote: **a control you already have can hide the failure it was built to catch**, and
+what actually worked was refusing to believe a number.
 
 **The single highest-leverage engineering decision** was making experiments emit a
 **per-candidate ledger** of raw evidence rather than summary statistics. The gate's first run

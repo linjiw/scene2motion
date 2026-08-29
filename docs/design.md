@@ -1088,15 +1088,61 @@ channel only when one of them clears its `ACTIVE` floor (`program.py:234`) — s
 are the single place where a body request can turn a clip invalid. But the split above shows it
 is not the *channel* that is fragile: tuck alone costs 10 points of validity, lift alone costs
 44. Whether that is the prior refusing the posture or locomotion failing to reach the goal is a
-question the new ledger's `goal_err` and `pen_frac` features answer directly, and section 23
-reports it.
+question the new ledger's `goal_err` and `pen_frac` features answer directly.
+
+### Why tuck is dead — and it is not ARDY's fault
+
+"Tuck is a dead channel" is the wrong conclusion, and publishing it would have been an
+avoidable error. It attributes to the motion prior something that is a fact about the **robot**.
+
+`_limb_targets` renders a tuck by shrinking each arm joint's horizontal offset from the root by
+`(1 − tuck)`, so at `tuck = 0.85` the arms are asked to come in to 15 % of their nominal offset —
+a request far outside the natural range. The reason nothing measurable happens is that **G1's
+arms are not what makes G1 wide**. Measured directly on the collision model, along the robot's
+own lateral axis:
+
+| pose | half-width | geom that sets it |
+|---|---|---|
+| nominal stand | 0.2387 m | `left_hand_collision` |
+| arms tucked hard (shoulder roll 0.35, elbow 1.4) | **0.2131 m** | `left_shoulder_pitch_link` |
+| arms flung out (shoulder roll 0.9) | 0.3873 m | `left_hand_collision` |
+
+Tucking the arms all the way buys **25.6 mm** of half-width and then stops, because the shoulder
+housing (0.2131 m) and the thighs (0.2065 m) take over as the widest parts. Against a measured
+seed-noise standard deviation of **55 mm** on the width channel, the entire available effect is
+**0.47 σ**. No threshold choice rescues it; no amount of guidance strength rescues it. The
+capability is not weakly addressable, it is structurally almost absent.
+
+That is a much stronger claim than "the channel is dead", it is checkable on the URDF by anyone,
+and it generalises: *a body-adaptation axis is only worth planning over if the robot's
+articulated envelope actually dominates its structural envelope along that axis.* For G1,
+height does (ducking moves the top of the head a long way) and width does not.
+
+### One measurement defect, disclosed with its size
+
+`morphology.envelope_series` takes lateral extents along a **fixed world +y axis**, not along
+the robot's heading. That is wrong in principle: rotating a standing G1 by 26° — the q99 of the
+yaw channel — with no posture change at all moves the apparent left extent by **+11.6 cm**,
+while along the robot's own lateral axis it moves by exactly 0.0000 m.
+
+I expected this to be the dominant term in the 17.5 cm width noise and was ready to kill the
+running gate over it. It is not: regressing the width residual on the yaw residual over
+EXP-005f's 1 296 paired rows gives **R² = 0.021**, and removing the heading term reduces the q99
+by **3 %**. The static kinematic argument overestimated the effect because the descriptor's
+`dpsi` is a net change over the interaction window, and within-window heading excursions between
+seeds are far smaller than 26°.
+
+So the defect is real, it is worth fixing before the final 150-scene run, and it is *not* what
+makes tuck undetectable — the 0.47 σ ceiling above is. Recording both the prediction and its
+refutation, because the prediction was mine and checking it cost 30 seconds against a decision
+that would have cost 95 minutes of GPU.
 
 ### The audit so far
 
 | channel | commandable | measurable effect | cost to validity | verdict |
 |---|---|---|---|---|
 | dip / duck | yes | yes, large | **improves** it | the one solid capability |
-| tuck | yes | **none** above width noise | −10 pts | dead channel, negative control |
+| tuck | yes | ceiling is 0.47 σ of the noise — structural, not a prior limit | −10 pts | not worth planning over |
 | lift | yes | yes | **−44 pts** | real but expensive |
 | yaw | **no** | correlated with duck/lift | n/a | side effect, not a capability |
 | foot order | no | forced by a sign comparison | n/a | retired in EXP-005f |

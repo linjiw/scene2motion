@@ -79,6 +79,11 @@ def main() -> None:
     ap.add_argument("runs", nargs="+",
                     help="one or more outputs/<run> directories holding per_scene.json")
     ap.add_argument("--min_stability", type=float, default=0.8)
+    ap.add_argument("--q99_from", default=None,
+                    help="use THIS run's measured q99 as the threshold for every run. Each "
+                         "run's own q99 measures ADDRESSABILITY (a noisier configuration is "
+                         "genuinely less addressable) but confounds a behaviour change with a "
+                         "noise change; a common threshold isolates the behaviour.")
     ap.add_argument("--out", default=None)
     args = ap.parse_args()
 
@@ -87,10 +92,20 @@ def main() -> None:
     report = {}
     print(f"{'run':26s} {'alphabet':18s} {'req':>6s} {'valid':>7s} {'stable':>7s} {'modes':>7s}")
     print("-" * 76)
+    shared = None
+    if args.q99_from:
+        shared = np.array(json.load(open(Path(args.q99_from) / "receipt.json"))
+                          ["seed_noise_q99"], float)
+        print(f"common threshold from {Path(args.q99_from).name}: behaviour only, "
+              f"noise differences neutralised\n")
     for run in args.runs:
         d = Path(run)
         per = json.load(open(d / "per_scene.json"))
-        q99 = np.array(json.load(open(d / "receipt.json"))["seed_noise_q99"], float)
+        own = np.array(json.load(open(d / "receipt.json"))["seed_noise_q99"], float)
+        q99 = shared if shared is not None else own
+        if shared is not None:
+            print(f"{d.name[:26]:26s} own noise vs common: "
+                  f"x{np.mean(own[:5] / shared[:5]):.2f} over the body channels")
         report[run] = {"seed_noise_q99": q99.tolist(), "variants": {}}
         for label, drop in variants:
             f = funnel(per, q99, args.min_stability, drop)

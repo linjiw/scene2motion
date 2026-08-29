@@ -1,0 +1,241 @@
+{
+  "experiment": "exp005f_morphology_noise",
+  "n_seeds": 6,
+  "channels": [
+    "dh_top",
+    "dw_left",
+    "dw_right",
+    "dz_foot_left",
+    "dz_foot_right",
+    "t_lead",
+    "t_duration",
+    "dpsi"
+  ],
+  "seed_noise_q99": [
+    0.1578879298903186,
+    0.18751163258609554,
+    0.24201548735991496,
+    0.4291682280209273,
+    0.4152742509067805,
+    2.2206666666666663,
+    3.3923333333333274,
+    0.686916919643925
+  ],
+  "scenes": {
+    "overhead_beam_h1.10_80030051": {
+      "family": "overhead_beam",
+      "param": 1.1,
+      "n_valid_programs": 13,
+      "n_distinct_active_sets": 1,
+      "active_sets": [
+        [
+          "True",
+          "False",
+          "False",
+          "False",
+          "0",
+          "False"
+        ]
+      ],
+      "mean_stability": 0.8974358974358976,
+      "frac_stable_ge_0.8": 0.8461538461538461,
+      "epsilon_net_sizes": {
+        "1.0": 12,
+        "2.0": 9,
+        "3.0": 6,
+        "5.0": 3
+      },
+      "median_nn_distance_sigma": 1.6799023737526169
+    },
+    "overhead_beam_h0.90_4726d7b0": {
+      "family": "overhead_beam",
+      "param": 0.9,
+      "n_valid_programs": 6,
+      "n_distinct_active_sets": 1,
+      "active_sets": [
+        [
+          "True",
+          "False",
+          "False",
+          "False",
+          "0",
+          "False"
+        ]
+      ],
+      "mean_stability": 0.8888888888888888,
+      "frac_stable_ge_0.8": 0.8333333333333334,
+      "epsilon_net_sizes": {
+        "1.0": 6,
+        "2.0": 4,
+        "3.0": 3,
+        "5.0": 2
+      },
+      "median_nn_distance_sigma": 1.6799023737526169
+    },
+    "partial_beam_h1.05_fb4e2fa1": {
+      "family": "partial_beam",
+      "param": 1.05,
+      "n_valid_programs": 20,
+      "n_distinct_active_sets": 5,
+      "active_sets": [
+        [
+          "False",
+          "False",
+          "False",
+          "False",
+          "0",
+          "False"
+        ],
+        [
+          "False",
+          "False",
+          "False",
+          "False",
+          "0",
+          "True"
+        ],
+        [
+          "False",
+          "False",
+          "False",
+          "True",
+          "0",
+          "True"
+        ],
+        [
+          "False",
+          "False",
+          "True",
+          "True",
+          "0",
+          "True"
+        ],
+        [
+          "True",
+          "False",
+          "False",
+          "False",
+          "0",
+          "False"
+        ]
+      ],
+      "mean_stability": 0.9,
+      "frac_stable_ge_0.8": 0.75,
+      "epsilon_net_sizes": {
+        "1.0": 20,
+        "2.0": 15,
+        "3.0": 12,
+        "5.0": 8
+      },
+      "median_nn_distance_sigma": 2.1154891721480658
+    },
+    "narrow_gap_w0.70_fda02435": {
+      "family": "narrow_gap",
+      "param": 0.7,
+      "n_valid_programs": 11,
+      "n_distinct_active_sets": 2,
+      "active_sets": [
+        [
+          "False",
+          "False",
+          "False",
+          "False",
+          "0",
+          "False"
+        ],
+        [
+          "True",
+          "False",
+          "False",
+          "False",
+          "0",
+          "False"
+        ]
+      ],
+      "mean_stability": 0.9545454545454546,
+      "frac_stable_ge_0.8": 0.9090909090909091,
+      "epsilon_net_sizes": {
+        "1.0": 11,
+        "2.0": 6,
+        "3.0": 5,
+        "5.0": 4
+      },
+      "median_nn_distance_sigma": 1.5411568549161767
+    },
+    "beam_and_gap_h1.10_b20f2c9a": {
+      "family": "beam_and_gap",
+      "param": 1.1,
+      "n_valid_programs": 7,
+      "n_distinct_active_sets": 2,
+      "active_sets": [
+        [
+          "False",
+          "False",
+          "False",
+          "False",
+          "0",
+          "False"
+        ],
+        [
+          "True",
+          "False",
+          "False",
+          "False",
+          "0",
+          "False"
+        ]
+      ],
+      "mean_stability": 0.8809523809523808,
+      "frac_stable_ge_0.8": 1.0,
+      "epsilon_net_sizes": {
+        "1.0": 7,
+        "2.0": 5,
+        "3.0": 4,
+        "5.0": 2
+      },
+      "median_nn_distance_sigma": 1.3524381572981181
+    },
+    "pillar_off0.30_fcdddfe0": {
+      "family": "pillar",
+      "param": 0.3,
+      "n_valid_programs": 20,
+      "n_distinct_active_sets": 3,
+      "active_sets": [
+        [
+          "False",
+          "False",
+          "False",
+          "False",
+          "0",
+          "False"
+        ],
+        [
+          "False",
+          "False",
+          "True",
+          "True",
+          "0",
+          "False"
+        ],
+        [
+          "True",
+          "False",
+          "False",
+          "False",
+          "0",
+          "False"
+        ]
+      ],
+      "mean_stability": 0.8833333333333334,
+      "frac_stable_ge_0.8": 0.8,
+      "epsilon_net_sizes": {
+        "1.0": 20,
+        "2.0": 13,
+        "3.0": 9,
+        "5.0": 6
+      },
+      "median_nn_distance_sigma": 1.6252861393582714
+    }
+  },
+  "wall_clock_s": 361.5
+}

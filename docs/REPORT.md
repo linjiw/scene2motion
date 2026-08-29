@@ -402,8 +402,9 @@ root-relative-lateral), from the *robot* (the thighs cap narrowing), and from th
 (no yaw field), and **not** from anything one would call the model's competence.
 
 **For the original goal.** Scene-conditioned whole-body traversal on G1 is achievable for
-overhead clearance and nothing else. `low_obstacle` should be refused, and two independent
-methods agree it should be.
+overhead clearance, and — through text rather than through the constraint interface — for the
+lower half of the `low_obstacle` ladder. The 0/20 refusal of that family was correct *for the
+action space it was calibrated over* and wrong about the robot.
 
 **For the learned-model question.** Settled, negatively, three times over: a perfect reranker
 wins 0.023; the bottleneck is candidate *support* rather than selection; and the surviving
@@ -496,6 +497,25 @@ that a committed script cannot re-derive from a committed ledger. `funnel.py` an
 `audit_delta.py` are the model; most other numbers in this report are not yet re-derivable that
 way.
 
+### 8.2b The finding that reorders everything above
+
+§4.9 changes which experiments matter. If a text prompt reaches a capability the constraint
+interface cannot express, then the priority is no longer "audit the constraint interface more
+carefully" but **"map what the text conditioning can and cannot be asked for, and whether it can
+be steered precisely enough to plan with."** Three things follow, and they outrank (c) and (d):
+
+* **A prompt ablation.** One prompt was tried because one prompt was in the cache. Run a set —
+  duck, step over, sidle, crouch-and-walk, and compound requests — against a fixed root path, and
+  build the same commanded→realised matrix for the *text* channel that §4.3 built for the
+  constraint channels. This needs the CPU text-encoder service, which is the only infrastructure
+  cost in this entire list.
+* **Is text addressable?** +57 mm with sd 44.9 mm is a behaviour, not a control. The whole
+  apparatus of this project — paired deltas, noise calibration, stability — applies unchanged and
+  asks the sharper question: can you request *12 cm* of clearance, or only "step over"?
+* **Text × constraint composition.** The planner needs "duck here, then step over that". Text
+  names one behaviour; the root channels place it in space. Whether the two compose is the
+  question the original project premise assumed away.
+
 ### 8.3 Tier 3 — generalisation, and what the method is worth to anyone else
 
 **(f) A second prior, or failing that a second skeleton.** §4.2 makes the project's boldest
@@ -550,3 +570,33 @@ soften further.
 the scene suite labels only two adaptation types — was **false**: the 128-scene suite carries six
 (`none` 44, `duck` 32, `step_over` 20, `narrow` 16, `detour` 12, `sidle` 4). It was checked before
 being written down, which is the only reason it is not in this report as a finding.
+
+---
+
+## 4.9 (late addition) Text reaches what the constraint interface cannot
+
+Three arms; **A and B differ only in the prompt** — identical root constraints, identical
+per-sample seeds, no body slice written in either.
+
+| arm | Δ foot peak | sd | ground contacts | tracked success |
+|---|---|---|---|---|
+| A `"A person walks forward."` | +0.0 mm | — | 2.49 | **0.875** |
+| **B `"A person steps over an obstacle."`** | **+56.9 mm** | 44.9 | **2.80** | **0.625** |
+| C walk prompt + gated position lift | +362.1 mm | 33.7 | **0.12** | **0.000** |
+
+The walk baseline peaks at ~0.117 m, so arm B reaches ~0.174 m — clearing the bottom three rungs
+of the `low_obstacle` ladder (`0.02, 0.08, 0.15, 0.22, 0.30, 0.38`), the family the conformal
+envelope refused **0/20**.
+
+**The failure mode of the constraint interface is instructive.** Asked for a foot 0.35 m higher,
+ARDY delivers a foot 0.36 m higher *and a robot in flight*. The request is honoured; the
+**behaviour** is not — because "step over" means "raise one foot while the other stays planted",
+and the position channel has no way to say the second half. Text does, because the prior learned
+the coordinated behaviour from data.
+
+**Limits, plainly.** One prompt, one behaviour, 8 seeds, no ablation — it was tried because it
+happened to be in the embedding cache. +57 mm is real but modest and its spread is large (sd
+44.9), so text gives a *behaviour*, not an addressable control: you cannot ask for 12 cm. It
+tracks at 0.625 against the walk's 0.875, so it is not free. And it does not rescue composability
+— the planner needs "duck by 0.31 m here, then step over that", and nothing here shows text can
+be steered that precisely.

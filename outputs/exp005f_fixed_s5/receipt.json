@@ -1,0 +1,217 @@
+{
+  "experiment": "exp005f_morphology_noise",
+  "n_seeds": 6,
+  "channels": [
+    "dh_top",
+    "dw_left",
+    "dw_right",
+    "dz_foot_left",
+    "dz_foot_right",
+    "t_lead",
+    "t_duration",
+    "dpsi"
+  ],
+  "seed_noise_q99": [
+    0.12871818766143683,
+    0.185393903727599,
+    0.2052120173863141,
+    0.46343476546872747,
+    0.4390809643808454,
+    2.0336666666666665,
+    3.4156666666666644,
+    0.57611947231982
+  ],
+  "scenes": {
+    "overhead_beam_h1.10_80030051": {
+      "family": "overhead_beam",
+      "param": 1.1,
+      "n_valid_programs": 15,
+      "n_distinct_active_sets": 1,
+      "active_sets": [
+        [
+          "True",
+          "False",
+          "False",
+          "False",
+          "0",
+          "False"
+        ]
+      ],
+      "mean_stability": 0.8666666666666666,
+      "frac_stable_ge_0.8": 0.6666666666666666,
+      "epsilon_net_sizes": {
+        "1.0": 15,
+        "2.0": 11,
+        "3.0": 9,
+        "5.0": 4
+      },
+      "median_nn_distance_sigma": 1.5648969955897103
+    },
+    "overhead_beam_h0.90_4726d7b0": {
+      "family": "overhead_beam",
+      "param": 0.9,
+      "n_valid_programs": 7,
+      "n_distinct_active_sets": 1,
+      "active_sets": [
+        [
+          "True",
+          "False",
+          "False",
+          "False",
+          "0",
+          "False"
+        ]
+      ],
+      "mean_stability": 0.9285714285714286,
+      "frac_stable_ge_0.8": 0.8571428571428571,
+      "epsilon_net_sizes": {
+        "1.0": 7,
+        "2.0": 6,
+        "3.0": 5,
+        "5.0": 2
+      },
+      "median_nn_distance_sigma": 2.0442940341218283
+    },
+    "partial_beam_h1.05_fb4e2fa1": {
+      "family": "partial_beam",
+      "param": 1.05,
+      "n_valid_programs": 23,
+      "n_distinct_active_sets": 4,
+      "active_sets": [
+        [
+          "False",
+          "False",
+          "False",
+          "False",
+          "0",
+          "False"
+        ],
+        [
+          "False",
+          "False",
+          "False",
+          "False",
+          "0",
+          "True"
+        ],
+        [
+          "False",
+          "False",
+          "False",
+          "True",
+          "0",
+          "True"
+        ],
+        [
+          "True",
+          "False",
+          "False",
+          "False",
+          "0",
+          "False"
+        ]
+      ],
+      "mean_stability": 0.9347826086956522,
+      "frac_stable_ge_0.8": 0.9130434782608695,
+      "epsilon_net_sizes": {
+        "1.0": 22,
+        "2.0": 15,
+        "3.0": 13,
+        "5.0": 7
+      },
+      "median_nn_distance_sigma": 1.6731405287363075
+    },
+    "narrow_gap_w0.70_fda02435": {
+      "family": "narrow_gap",
+      "param": 0.7,
+      "n_valid_programs": 10,
+      "n_distinct_active_sets": 2,
+      "active_sets": [
+        [
+          "False",
+          "False",
+          "False",
+          "False",
+          "0",
+          "False"
+        ],
+        [
+          "True",
+          "False",
+          "False",
+          "False",
+          "0",
+          "False"
+        ]
+      ],
+      "mean_stability": 0.9666666666666666,
+      "frac_stable_ge_0.8": 0.9,
+      "epsilon_net_sizes": {
+        "1.0": 10,
+        "2.0": 7,
+        "3.0": 5,
+        "5.0": 3
+      },
+      "median_nn_distance_sigma": 1.3956103789381695
+    },
+    "beam_and_gap_h1.10_b20f2c9a": {
+      "family": "beam_and_gap",
+      "param": 1.1,
+      "n_valid_programs": 5,
+      "n_distinct_active_sets": 1,
+      "active_sets": [
+        [
+          "True",
+          "False",
+          "False",
+          "False",
+          "0",
+          "False"
+        ]
+      ],
+      "mean_stability": 0.8666666666666668,
+      "frac_stable_ge_0.8": 0.8,
+      "epsilon_net_sizes": {
+        "1.0": 5,
+        "2.0": 4,
+        "3.0": 4,
+        "5.0": 1
+      },
+      "median_nn_distance_sigma": 2.6188585447025967
+    },
+    "pillar_off0.30_fcdddfe0": {
+      "family": "pillar",
+      "param": 0.3,
+      "n_valid_programs": 19,
+      "n_distinct_active_sets": 2,
+      "active_sets": [
+        [
+          "False",
+          "False",
+          "False",
+          "False",
+          "0",
+          "False"
+        ],
+        [
+          "True",
+          "False",
+          "False",
+          "False",
+          "0",
+          "False"
+        ]
+      ],
+      "mean_stability": 0.8947368421052632,
+      "frac_stable_ge_0.8": 0.7894736842105263,
+      "epsilon_net_sizes": {
+        "1.0": 19,
+        "2.0": 12,
+        "3.0": 8,
+        "5.0": 6
+      },
+      "median_nn_distance_sigma": 1.3090140867835933
+    }
+  },
+  "wall_clock_s": 242.0
+}

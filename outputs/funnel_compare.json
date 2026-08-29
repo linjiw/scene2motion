@@ -1,0 +1,512 @@
+{
+  "outputs/exp005f": {
+    "seed_noise_q99": [
+      0.12210070662008021,
+      0.17529989761682102,
+      0.15763681975680693,
+      0.34076411438109755,
+      0.36390976862203395,
+      2.2936666666666663,
+      3.255999999999998,
+      0.4621076942749675
+    ],
+    "variants": {
+      "full alphabet": {
+        "per_scene": [
+          {
+            "scene": "overhead_beam_h1.10_80030051",
+            "requested": 36,
+            "valid": 13,
+            "stable": 7,
+            "modes": 1
+          },
+          {
+            "scene": "overhead_beam_h0.90_4726d7b0",
+            "requested": 36,
+            "valid": 2,
+            "stable": 2,
+            "modes": 1
+          },
+          {
+            "scene": "partial_beam_h1.05_fb4e2fa1",
+            "requested": 36,
+            "valid": 22,
+            "stable": 18,
+            "modes": 6
+          },
+          {
+            "scene": "narrow_gap_w0.70_fda02435",
+            "requested": 36,
+            "valid": 17,
+            "stable": 13,
+            "modes": 3
+          },
+          {
+            "scene": "beam_and_gap_h1.10_b20f2c9a",
+            "requested": 36,
+            "valid": 9,
+            "stable": 5,
+            "modes": 2
+          },
+          {
+            "scene": "pillar_off0.30_fcdddfe0",
+            "requested": 36,
+            "valid": 21,
+            "stable": 16,
+            "modes": 5
+          }
+        ],
+        "mean": {
+          "requested": 36.0,
+          "valid": 14.0,
+          "stable": 10.166666666666666,
+          "modes": 3.0
+        }
+      },
+      "no tuck": {
+        "per_scene": [
+          {
+            "scene": "overhead_beam_h1.10_80030051",
+            "requested": 36,
+            "valid": 13,
+            "stable": 7,
+            "modes": 1
+          },
+          {
+            "scene": "overhead_beam_h0.90_4726d7b0",
+            "requested": 36,
+            "valid": 2,
+            "stable": 2,
+            "modes": 1
+          },
+          {
+            "scene": "partial_beam_h1.05_fb4e2fa1",
+            "requested": 36,
+            "valid": 22,
+            "stable": 18,
+            "modes": 6
+          },
+          {
+            "scene": "narrow_gap_w0.70_fda02435",
+            "requested": 36,
+            "valid": 17,
+            "stable": 13,
+            "modes": 3
+          },
+          {
+            "scene": "beam_and_gap_h1.10_b20f2c9a",
+            "requested": 36,
+            "valid": 9,
+            "stable": 5,
+            "modes": 2
+          },
+          {
+            "scene": "pillar_off0.30_fcdddfe0",
+            "requested": 36,
+            "valid": 21,
+            "stable": 16,
+            "modes": 5
+          }
+        ],
+        "mean": {
+          "requested": 36.0,
+          "valid": 14.0,
+          "stable": 10.166666666666666,
+          "modes": 3.0
+        }
+      },
+      "no tuck, no yaw": {
+        "per_scene": [
+          {
+            "scene": "overhead_beam_h1.10_80030051",
+            "requested": 36,
+            "valid": 13,
+            "stable": 13,
+            "modes": 2
+          },
+          {
+            "scene": "overhead_beam_h0.90_4726d7b0",
+            "requested": 36,
+            "valid": 2,
+            "stable": 2,
+            "modes": 1
+          },
+          {
+            "scene": "partial_beam_h1.05_fb4e2fa1",
+            "requested": 36,
+            "valid": 22,
+            "stable": 20,
+            "modes": 4
+          },
+          {
+            "scene": "narrow_gap_w0.70_fda02435",
+            "requested": 36,
+            "valid": 17,
+            "stable": 14,
+            "modes": 2
+          },
+          {
+            "scene": "beam_and_gap_h1.10_b20f2c9a",
+            "requested": 36,
+            "valid": 9,
+            "stable": 6,
+            "modes": 2
+          },
+          {
+            "scene": "pillar_off0.30_fcdddfe0",
+            "requested": 36,
+            "valid": 21,
+            "stable": 18,
+            "modes": 3
+          }
+        ],
+        "mean": {
+          "requested": 36.0,
+          "valid": 14.0,
+          "stable": 12.166666666666666,
+          "modes": 2.3333333333333335
+        }
+      }
+    }
+  },
+  "outputs/exp005f_fixed_s10": {
+    "seed_noise_q99": [
+      0.12210070662008021,
+      0.17529989761682102,
+      0.15763681975680693,
+      0.34076411438109755,
+      0.36390976862203395,
+      2.2936666666666663,
+      3.255999999999998,
+      0.4621076942749675
+    ],
+    "variants": {
+      "full alphabet": {
+        "per_scene": [
+          {
+            "scene": "overhead_beam_h1.10_80030051",
+            "requested": 36,
+            "valid": 13,
+            "stable": 10,
+            "modes": 1
+          },
+          {
+            "scene": "overhead_beam_h0.90_4726d7b0",
+            "requested": 36,
+            "valid": 6,
+            "stable": 5,
+            "modes": 1
+          },
+          {
+            "scene": "partial_beam_h1.05_fb4e2fa1",
+            "requested": 36,
+            "valid": 20,
+            "stable": 15,
+            "modes": 4
+          },
+          {
+            "scene": "narrow_gap_w0.70_fda02435",
+            "requested": 36,
+            "valid": 11,
+            "stable": 9,
+            "modes": 2
+          },
+          {
+            "scene": "beam_and_gap_h1.10_b20f2c9a",
+            "requested": 36,
+            "valid": 7,
+            "stable": 6,
+            "modes": 1
+          },
+          {
+            "scene": "pillar_off0.30_fcdddfe0",
+            "requested": 36,
+            "valid": 20,
+            "stable": 15,
+            "modes": 4
+          }
+        ],
+        "mean": {
+          "requested": 36.0,
+          "valid": 12.833333333333334,
+          "stable": 10.0,
+          "modes": 2.1666666666666665
+        }
+      },
+      "no tuck": {
+        "per_scene": [
+          {
+            "scene": "overhead_beam_h1.10_80030051",
+            "requested": 36,
+            "valid": 13,
+            "stable": 10,
+            "modes": 1
+          },
+          {
+            "scene": "overhead_beam_h0.90_4726d7b0",
+            "requested": 36,
+            "valid": 6,
+            "stable": 5,
+            "modes": 1
+          },
+          {
+            "scene": "partial_beam_h1.05_fb4e2fa1",
+            "requested": 36,
+            "valid": 20,
+            "stable": 15,
+            "modes": 4
+          },
+          {
+            "scene": "narrow_gap_w0.70_fda02435",
+            "requested": 36,
+            "valid": 11,
+            "stable": 9,
+            "modes": 2
+          },
+          {
+            "scene": "beam_and_gap_h1.10_b20f2c9a",
+            "requested": 36,
+            "valid": 7,
+            "stable": 6,
+            "modes": 1
+          },
+          {
+            "scene": "pillar_off0.30_fcdddfe0",
+            "requested": 36,
+            "valid": 20,
+            "stable": 15,
+            "modes": 4
+          }
+        ],
+        "mean": {
+          "requested": 36.0,
+          "valid": 12.833333333333334,
+          "stable": 10.0,
+          "modes": 2.1666666666666665
+        }
+      },
+      "no tuck, no yaw": {
+        "per_scene": [
+          {
+            "scene": "overhead_beam_h1.10_80030051",
+            "requested": 36,
+            "valid": 13,
+            "stable": 12,
+            "modes": 1
+          },
+          {
+            "scene": "overhead_beam_h0.90_4726d7b0",
+            "requested": 36,
+            "valid": 6,
+            "stable": 6,
+            "modes": 1
+          },
+          {
+            "scene": "partial_beam_h1.05_fb4e2fa1",
+            "requested": 36,
+            "valid": 20,
+            "stable": 17,
+            "modes": 4
+          },
+          {
+            "scene": "narrow_gap_w0.70_fda02435",
+            "requested": 36,
+            "valid": 11,
+            "stable": 9,
+            "modes": 2
+          },
+          {
+            "scene": "beam_and_gap_h1.10_b20f2c9a",
+            "requested": 36,
+            "valid": 7,
+            "stable": 7,
+            "modes": 1
+          },
+          {
+            "scene": "pillar_off0.30_fcdddfe0",
+            "requested": 36,
+            "valid": 20,
+            "stable": 18,
+            "modes": 3
+          }
+        ],
+        "mean": {
+          "requested": 36.0,
+          "valid": 12.833333333333334,
+          "stable": 11.5,
+          "modes": 2.0
+        }
+      }
+    }
+  },
+  "outputs/exp005f_fixed_s5": {
+    "seed_noise_q99": [
+      0.12210070662008021,
+      0.17529989761682102,
+      0.15763681975680693,
+      0.34076411438109755,
+      0.36390976862203395,
+      2.2936666666666663,
+      3.255999999999998,
+      0.4621076942749675
+    ],
+    "variants": {
+      "full alphabet": {
+        "per_scene": [
+          {
+            "scene": "overhead_beam_h1.10_80030051",
+            "requested": 36,
+            "valid": 15,
+            "stable": 9,
+            "modes": 1
+          },
+          {
+            "scene": "overhead_beam_h0.90_4726d7b0",
+            "requested": 36,
+            "valid": 7,
+            "stable": 6,
+            "modes": 1
+          },
+          {
+            "scene": "partial_beam_h1.05_fb4e2fa1",
+            "requested": 36,
+            "valid": 23,
+            "stable": 20,
+            "modes": 4
+          },
+          {
+            "scene": "narrow_gap_w0.70_fda02435",
+            "requested": 36,
+            "valid": 10,
+            "stable": 9,
+            "modes": 2
+          },
+          {
+            "scene": "beam_and_gap_h1.10_b20f2c9a",
+            "requested": 36,
+            "valid": 5,
+            "stable": 4,
+            "modes": 1
+          },
+          {
+            "scene": "pillar_off0.30_fcdddfe0",
+            "requested": 36,
+            "valid": 19,
+            "stable": 15,
+            "modes": 2
+          }
+        ],
+        "mean": {
+          "requested": 36.0,
+          "valid": 13.166666666666666,
+          "stable": 10.5,
+          "modes": 1.8333333333333333
+        }
+      },
+      "no tuck": {
+        "per_scene": [
+          {
+            "scene": "overhead_beam_h1.10_80030051",
+            "requested": 36,
+            "valid": 15,
+            "stable": 9,
+            "modes": 1
+          },
+          {
+            "scene": "overhead_beam_h0.90_4726d7b0",
+            "requested": 36,
+            "valid": 7,
+            "stable": 6,
+            "modes": 1
+          },
+          {
+            "scene": "partial_beam_h1.05_fb4e2fa1",
+            "requested": 36,
+            "valid": 23,
+            "stable": 20,
+            "modes": 4
+          },
+          {
+            "scene": "narrow_gap_w0.70_fda02435",
+            "requested": 36,
+            "valid": 10,
+            "stable": 9,
+            "modes": 2
+          },
+          {
+            "scene": "beam_and_gap_h1.10_b20f2c9a",
+            "requested": 36,
+            "valid": 5,
+            "stable": 4,
+            "modes": 1
+          },
+          {
+            "scene": "pillar_off0.30_fcdddfe0",
+            "requested": 36,
+            "valid": 19,
+            "stable": 15,
+            "modes": 2
+          }
+        ],
+        "mean": {
+          "requested": 36.0,
+          "valid": 13.166666666666666,
+          "stable": 10.5,
+          "modes": 1.8333333333333333
+        }
+      },
+      "no tuck, no yaw": {
+        "per_scene": [
+          {
+            "scene": "overhead_beam_h1.10_80030051",
+            "requested": 36,
+            "valid": 15,
+            "stable": 12,
+            "modes": 1
+          },
+          {
+            "scene": "overhead_beam_h0.90_4726d7b0",
+            "requested": 36,
+            "valid": 7,
+            "stable": 7,
+            "modes": 1
+          },
+          {
+            "scene": "partial_beam_h1.05_fb4e2fa1",
+            "requested": 36,
+            "valid": 23,
+            "stable": 21,
+            "modes": 3
+          },
+          {
+            "scene": "narrow_gap_w0.70_fda02435",
+            "requested": 36,
+            "valid": 10,
+            "stable": 9,
+            "modes": 2
+          },
+          {
+            "scene": "beam_and_gap_h1.10_b20f2c9a",
+            "requested": 36,
+            "valid": 5,
+            "stable": 4,
+            "modes": 1
+          },
+          {
+            "scene": "pillar_off0.30_fcdddfe0",
+            "requested": 36,
+            "valid": 19,
+            "stable": 19,
+            "modes": 2
+          }
+        ],
+        "mean": {
+          "requested": 36.0,
+          "valid": 13.166666666666666,
+          "stable": 12.0,
+          "modes": 1.6666666666666667
+        }
+      }
+    }
+  }
+}

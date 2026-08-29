@@ -1,0 +1,9 @@
+{
+  "experiment": "exp011_tracked_addressability",
+  "returncode": 1,
+  "pkl": "outputs/exp011/ardy_bodies.pkl",
+  "n_clips_requested": 24,
+  "diffusion_steps": 5,
+  "summary_lines": [],
+  "wall_clock_s": 6.2
+}

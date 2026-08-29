@@ -1845,3 +1845,79 @@ Section 27 said "rebuild the body action space on `global_joints_rots`". That is
 
 The one claim that has survived every revision today: **narrowing is not available on this robot,
 by any channel, at any inference setting.** Everything else about the body action space has moved.
+
+---
+
+## 30. The funnel, re-measured on a corrected configuration — and what it decides
+
+Three runs of the *same* measurement code on the same six scenes with the same seeds, changing
+only the configuration. `experiments/funnel.py` computes all of them, so they are comparable
+because they came from one function rather than because I retyped it carefully three times.
+
+**Addressability** — each run thresholded on its own measured q99, which is the right primary
+because a noisier configuration genuinely *is* less addressable:
+
+| configuration | valid | stable | modes | modes (tuck & yaw dropped) |
+|---|---|---|---|---|
+| original: buggy renderer, 10 steps, as published | 14.00 | 10.17 | **3.00** | 2.33 |
+| fixed renderer, 10 steps | 12.83 | 10.67 | 1.83 | 1.83 |
+| **fixed renderer, 5 steps** | 13.17 | 10.83 | **1.67** | **1.50** |
+
+**Behaviour only** — one common threshold, so a noise change cannot masquerade as a behaviour
+change (the fixed runs came back 1.20–1.26× noisier, which on their own thresholds was costing
+them modes they had not actually lost):
+
+| configuration | valid | stable | modes |
+|---|---|---|---|
+| original | 14.00 | 10.17 | 3.00 |
+| fixed renderer, 10 steps | 12.83 | 10.00 | 2.17 |
+| fixed renderer, 5 steps | 13.17 | 10.50 | 1.83 |
+
+So the previously published 3.00 modes per scene decomposes into: **2.17 of behaviour** once the
+contradictory request is removed, and the rest a stale noise threshold. The corrected headline:
+
+    36 requested body programs
+      -> 13.2 kinematically valid          (goal reached, collision-free, > half the seeds)
+      -> 10.8 valid AND stable             (one modal active set on >= 80 % of seeds)
+      ->  1.7 distinct addressable modes
+      ->  1.5 once the channels nothing can request are removed
+
+**About one and a half reliably commandable whole-body strategies per scene**, out of a
+43-dimensional constraint interface exercised across 36 deliberately spread requests. The figure
+I reported earlier — 3.0, and 2.2 pruned — was roughly double.
+
+### This kills the morphology-set framing, and that is the result
+
+The project has been organised around producing a *set* of distinct whole-body strategies for a
+scene, with the open question being whether a learned proposer is needed to generate that set.
+That question is now moot in the cleanest possible way: **on most scenes there is not a set.
+There is one body, and sometimes two.** You cannot need a set-valued generator, a reranker, or a
+diversity objective for a median of 1.5 options.
+
+Every strand of evidence converges on it and they were collected independently:
+
+* **EXP-005i:** a perfect reranker with oracle access to probe outcomes wins **0.023**. Selection
+  is not the bottleneck because there is nothing to select among.
+* **EXP-006:** no inference setting recovers diversity; the one knob that was supposed to help
+  makes seed scatter **37× worse**.
+* **EXP-008 / EXP-010:** the encoding, not the model, separates the working axes from the broken
+  ones — height requests are absolute in the representation and land at 10.6 σ; lateral ones are
+  root-relative and land at 1.6 σ with the sign flipping.
+* **The robot:** narrowing is capped at ~32 mm by the shoulder housing and thighs, so the one
+  axis a gap-traversal planner most wants is unavailable at any fidelity.
+* **This section:** ~28 % of the diversity that survived all of that was manufactured by a
+  request that contradicted itself.
+
+The guidance's Outcome 3 applies, and it is worth stating without hedging: **the contribution is
+the calibration and the audit, not a generator.** What this project actually produced is a method
+for finding out what a frozen prior will reliably let you ask for, and a demonstration that the
+answer is far smaller than the interface suggests and is predictable from the *representation*
+rather than from the model's competence.
+
+### What remains open, and it is the honest next question
+
+Every number above is kinematic. The one thing that could still change the picture is EXP-011:
+if a tracked duck and a tracked neutral walk are physically distinguishable and both executable,
+then 1.5 modes is a real if small capability set; if the tracker collapses them, the count is
+lower still. That experiment can only remove capability, which is why it is the right place to
+stop adding claims and start checking the ones that survive.

@@ -1,0 +1,52 @@
+{
+  "dataset": "duck_dataset_v3_m018",
+  "dataset_hash": "0c63b0b0ce3c0eb1",
+  "model": "duck_model_v3_m018",
+  "train_counts": [
+    0,
+    1,
+    2
+  ],
+  "dip_max_m": 0.5,
+  "subsets": {
+    "interpolation: seen beam counts, unseen height/position": {
+      "n": 72,
+      "tcn_mae_m": 0.0028641503304243088,
+      "demand_only_mae_m": 0.04802256077528
+    },
+    "of which unseen gap-speed pairs": {
+      "n": 72,
+      "tcn_mae_m": 0.0028641503304243088,
+      "demand_only_mae_m": 0.04802256077528
+    },
+    "EXTRAPOLATION: 3 beams, a count absent from training": {
+      "n": 48,
+      "tcn_mae_m": 0.020175224170088768,
+      "demand_only_mae_m": 0.08350130915641785
+    },
+    "0_beam": {
+      "n": 12,
+      "trained_count": true,
+      "tcn_mae_m": 8.572563388042909e-07,
+      "demand_only_mae_m": 0.0
+    },
+    "1_beam": {
+      "n": 12,
+      "trained_count": true,
+      "tcn_mae_m": 0.0012795589864253998,
+      "demand_only_mae_m": 0.0404849573969841
+    },
+    "2_beam": {
+      "n": 48,
+      "trained_count": true,
+      "tcn_mae_m": 0.003976121544837952,
+      "demand_only_mae_m": 0.061912599951028824
+    },
+    "3_beam": {
+      "n": 48,
+      "trained_count": false,
+      "tcn_mae_m": 0.020175224170088768,
+      "demand_only_mae_m": 0.08350130915641785
+    }
+  }
+}

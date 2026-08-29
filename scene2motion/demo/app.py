@@ -24,6 +24,7 @@ import numpy as np
 from ..scenes import Scene
 from . import renderer
 from .cache import ClipCache
+from .schedules import LAYER_LABEL, all_schedules
 from .scene_builder import DEFAULTS, BeamParams, build
 from .strategy_planner import PREFERENCE_LABEL, PREFERENCES, evaluate, evaluate_all
 
@@ -36,11 +37,17 @@ _gen_lock = threading.Lock()
 # API
 # ---------------------------------------------------------------------------------------
 
-def api_plan(q: dict) -> dict:
-    params = BeamParams(
+def _params(q: dict) -> BeamParams:
+    return BeamParams(
         beam_height=float(q.get("height", [DEFAULTS["beam_height"]])[0]),
         beam_width=float(q.get("width", [DEFAULTS["beam_width"]])[0]),
+        n_beams=int(float(q.get("n_beams", [DEFAULTS["n_beams"]])[0])),
+        gap=float(q.get("gap", [DEFAULTS["gap"]])[0]),
     ).clamped()
+
+
+def api_plan(q: dict) -> dict:
+    params = _params(q)
     pref = q.get("preference", ["shortest"])[0]
     if pref not in PREFERENCES:
         pref = "shortest"
@@ -48,9 +55,12 @@ def api_plan(q: dict) -> dict:
     strategies = evaluate_all(scene)
     sel = strategies[pref]
     routes = {k: (s.plan.xy if s.feasible else None) for k, s in strategies.items()}
+    sched = all_schedules(scene, sel.plan) if sel.feasible else None
     return {
         "scene_id": scene.scene_id,
-        "params": {"beam_height": params.beam_height, "beam_width": params.beam_width},
+        "params": {"beam_height": params.beam_height, "beam_width": params.beam_width,
+                   "n_beams": params.n_beams, "gap": params.gap},
+        "schedules": sched,
         "preference": pref,
         "bev": renderer.bev(scene, routes, pref),
         "side": renderer.side(scene),
@@ -64,14 +74,11 @@ def api_plan(q: dict) -> dict:
 
 def api_generate(q: dict) -> dict:
     from .ardy_runner import generate
-    params = BeamParams(
-        beam_height=float(q.get("height", [DEFAULTS["beam_height"]])[0]),
-        beam_width=float(q.get("width", [DEFAULTS["beam_width"]])[0]),
-    ).clamped()
+    params = _params(q)
     pref = q.get("preference", ["shortest"])[0]
     allow = q.get("allow_generate", ["1"])[0] != "0"
     body_layer = q.get("body_layer", ["heuristic"])[0]
-    if body_layer not in ("heuristic", "learned"):
+    if body_layer not in ("heuristic", "learned", "optimized"):
         body_layer = "heuristic"
     scene = build(params)
     strat = evaluate(scene, pref)
@@ -231,8 +238,16 @@ svg{display:block;width:100%;height:auto;background:var(--panel);border:1px soli
     <h2>Scene &amp; routes</h2>
     <div class="controls">
       <div class="ctl">
+        <label>scene</label>
+        <div class="prefs" id="presets"></div>
+      </div>
+      <div class="ctl">
         <label>beam height <b><span id="hv">1.00</span> m</b></label>
         <input type="range" id="h" min="0.60" max="1.60" step="0.05" value="1.00">
+      </div>
+      <div class="ctl" id="gapctl" hidden>
+        <label>beam gap <b><span id="gv">3.00</span> m</b></label>
+        <input type="range" id="g" min="0.80" max="5.50" step="0.10" value="3.00">
       </div>
       <div class="ctl">
         <label>beam width <b><span id="wv">1.45</span> m</b></label>
@@ -265,6 +280,10 @@ svg{display:block;width:100%;height:auto;background:var(--panel);border:1px soli
       <span class="sub" id="frameno" style="color:var(--dim);font-size:11.5px"></span>
     </div>
     <svg id="bevbot" viewBox="0 0 560 150" role="img" aria-label="Bird's eye view of the robot during the motion" style="margin-top:10px"></svg>
+    <h2 style="margin-top:18px">Duck schedule</h2>
+    <svg id="sched" viewBox="0 0 560 170" role="img"
+         aria-label="Commanded duck depth against distance along the route"></svg>
+    <div class="legend" id="schedlegend"></div>
     <div class="hint">Shapes are the robot's own MuJoCo collision primitives — the same
       geometry the collision status refers to, not a decorative mesh.</div>
   </div>
@@ -280,16 +299,26 @@ svg{display:block;width:100%;height:auto;background:var(--panel);border:1px soli
 <script>
 const $=s=>document.querySelector(s), PREFS=[["shortest","Shortest Path"],["upright","Stay Upright"],["clearance","Maximum Clearance"]];
 let pref="shortest", layer="heuristic", planData=null, anim=null, playing=false, fi=0, timer=null;
-const LAYERS=[["heuristic","Heuristic Planner"],["learned","Learned Planner"]];
+const LAYERS=[["heuristic","Heuristic"],["learned","Phase-2 Learned"],["optimized","Phase-3 Optimized"]];
+const PRESETS_SCENE=[["single","Single Beam"],["two","Two Beams"]];
+let preset="single";
+const SCHED_COLOUR={heuristic:"#9aa3ad",learned:"#7aa2f7",optimizer:"#f0a04b",optimized:"#5bc8af"};
+const SCHED_LABEL={heuristic:"heuristic",learned:"Phase-2 learned",
+                   optimizer:"optimizer (teacher)",optimized:"Phase-3 optimized"};
 
 PREFS.forEach(([k,l])=>{const b=document.createElement("button");b.textContent=l;b.dataset.k=k;
   b.onclick=()=>{pref=k;syncPrefs();refresh();};$("#prefs").appendChild(b);});
 function syncPrefs(){[...$("#prefs").children].forEach(b=>b.setAttribute("aria-pressed",b.dataset.k===pref));}
 syncPrefs();
 LAYERS.forEach(([k,l])=>{const b=document.createElement("button");b.textContent=l;b.dataset.k=k;
-  b.onclick=()=>{layer=k;syncLayers();};$("#layers").appendChild(b);});
+  b.onclick=()=>{layer=k;syncLayers();if(planData)drawSched(planData.schedules);};$("#layers").appendChild(b);});
 function syncLayers(){[...$("#layers").children].forEach(b=>b.setAttribute("aria-pressed",b.dataset.k===layer));}
 syncLayers();
+PRESETS_SCENE.forEach(([k,l])=>{const b=document.createElement("button");b.textContent=l;b.dataset.k=k;
+  b.onclick=()=>{preset=k;syncPreset();refresh();};$("#presets").appendChild(b);});
+function syncPreset(){[...$("#presets").children].forEach(b=>b.setAttribute("aria-pressed",b.dataset.k===preset));
+  $("#gapctl").hidden = preset!=="two";}
+syncPreset();
 
 const fmt=(v,u="",d=2)=>v==null?"—":(typeof v==="number"?v.toFixed(d):v)+u;
 function rows(el,items){el.innerHTML=items.map(([k,v])=>
@@ -357,13 +386,49 @@ $("#play").onclick=()=>{playing=!playing;$("#play").textContent=playing?"❚❚"
   if(timer)clearInterval(timer); if(playing)timer=setInterval(tick,55);};
 $("#scrub").oninput=e=>{fi=+e.target.value;paint();};
 
+// ---- duck-schedule plot -------------------------------------------------------------
+function drawSched(sc){
+  const svg=$("#sched"),W=560,H=170,padL=46,padR=12,padT=12,padB=26;
+  if(!sc||!sc.schedules){svg.innerHTML="";$("#schedlegend").innerHTML="";return;}
+  const S=sc.s_m, L=sc.route_len_m||1;
+  let ymax=0.05; for(const v of Object.values(sc.schedules)) ymax=Math.max(ymax,...v);
+  ymax=Math.max(0.10,Math.ceil(ymax*20)/20);
+  const sx=v=>padL+(v/L)*(W-padL-padR), sy=v=>H-padB-(v/ymax)*(H-padT-padB);
+  let s=`<rect x="0" y="0" width="${W}" height="${H}" fill="#181c22"/>`;
+  // beam spans, so the reader can see the schedule leading the obstacle
+  for(const b of (sc.beams||[]))
+    s+=`<rect x="${sx(b.s_lo)}" y="${padT}" width="${Math.max(2,sx(b.s_hi)-sx(b.s_lo))}" height="${H-padT-padB}" fill="rgba(240,160,75,.18)"/>`;
+  s+=`<line x1="${padL}" y1="${sy(0)}" x2="${W-padR}" y2="${sy(0)}" stroke="#3a424c"/>`;
+  s+=`<line x1="${padL}" y1="${padT}" x2="${padL}" y2="${sy(0)}" stroke="#3a424c"/>`;
+  for(const f of [0,0.5,1]){const v=ymax*f;
+    s+=`<text x="${padL-6}" y="${sy(v)+4}" text-anchor="end" fill="#9aa3ad" font-size="10">${(v*100).toFixed(0)}</text>`;}
+  s+=`<text x="${padL-6}" y="${padT+2}" text-anchor="end" fill="#9aa3ad" font-size="9">cm</text>`;
+  for(let d=0; d<=L; d+=2)
+    s+=`<text x="${sx(d)}" y="${H-8}" text-anchor="middle" fill="#9aa3ad" font-size="10">${d}</text>`;
+  s+=`<text x="${W-padR}" y="${H-8}" text-anchor="end" fill="#9aa3ad" font-size="10">route distance (m)</text>`;
+  const order=["optimizer","heuristic","learned","optimized"];
+  for(const k of order){
+    const v=sc.schedules[k]; if(!v) continue;
+    const d=v.map((y,i)=>(i?"L":"M")+sx(S[i]).toFixed(1)+" "+sy(y).toFixed(1)).join(" ");
+    const sel=(k===layer)||(k==="optimizer"&&layer==="optimized"&&!sc.schedules.optimized);
+    const dash=(k==="heuristic")?'stroke-dasharray="5 4"':(k==="optimizer"?'stroke-dasharray="2 3"':"");
+    s+=`<path d="${d}" fill="none" stroke="${SCHED_COLOUR[k]}" stroke-width="${sel?2.6:1.3}" opacity="${sel?1:.65}" ${dash}/>`;
+  }
+  svg.innerHTML=s;
+  $("#schedlegend").innerHTML=order.filter(k=>sc.schedules[k]).map(k=>
+    `<span><i style="background:${SCHED_COLOUR[k]}"></i>${SCHED_LABEL[k]}${k===layer?" (selected)":""}</span>`).join("");
+}
+
 // ---- data -------------------------------------------------------------------------
 async function refresh(){
-  const h=$("#h").value,w=$("#w").value;
+  const h=$("#h").value,w=$("#w").value,g=$("#g").value;
+  const nb = preset==="two"?2:1;
   $("#hv").textContent=(+h).toFixed(2); $("#wv").textContent=(+w).toFixed(2);
-  const r=await fetch(`/api/plan?height=${h}&width=${w}&preference=${pref}`);
+  $("#gv").textContent=(+g).toFixed(2);
+  const r=await fetch(`/api/plan?height=${h}&width=${w}&n_beams=${nb}&gap=${g}&preference=${pref}`);
   planData=await r.json();
   drawBEV($("#bev"),planData.bev,420,260,false);
+  drawSched(planData.schedules);
   const p=planData.panel;
   const duck = !p.duck_required ? "not required"
     : (p.duck_held_throughout ? `held throughout (from ${fmt(p.duck_start_s,"s")})`
@@ -386,7 +451,7 @@ async function refresh(){
   anim=null; $("#scrub").max=0; $("#statebadge").innerHTML=""; paint();
   fetch("/api/cache").then(r=>r.json()).then(c=>{$("#cachestat").textContent=`cache: ${c.n_entries} clips`;});
 }
-$("#h").oninput=refresh; $("#w").oninput=refresh;
+$("#h").oninput=refresh; $("#w").oninput=refresh; $("#g").oninput=refresh;
 
 // Deep-linking: ?height=1.0&width=1.45&preference=shortest&auto=1 restores a state and can
 // auto-generate, so a specific view is linkable, screenshot-able and recordable.
@@ -396,7 +461,9 @@ function applyURL(){
   if(q.has("width"))  $("#w").value=q.get("width");
   if(q.has("preference")&&PREFS.some(([k])=>k===q.get("preference"))) pref=q.get("preference");
   if(q.has("body_layer")&&LAYERS.some(([k])=>k===q.get("body_layer"))) layer=q.get("body_layer");
-  syncPrefs(); syncLayers();
+  if(q.has("n_beams")) preset = q.get("n_beams")==="2" ? "two" : "single";
+  if(q.has("gap")) $("#g").value=q.get("gap");
+  syncPrefs(); syncLayers(); syncPreset();
   return {auto:q.get("auto")==="1", frame:q.has("frame")?+q.get("frame"):null};
 }
 
@@ -404,7 +471,8 @@ $("#gen").onclick=async()=>{
   const b=$("#gen"); b.disabled=true; b.textContent="Generating…";
   try{
     const h=$("#h").value,w=$("#w").value;
-    const r=await fetch(`/api/generate?height=${h}&width=${w}&preference=${pref}&body_layer=${layer}`);
+    const nb=preset==="two"?2:1, g=$("#g").value;
+    const r=await fetch(`/api/generate?height=${h}&width=${w}&n_beams=${nb}&gap=${g}&preference=${pref}&body_layer=${layer}`);
     const d=await r.json();
     if(!d.ok){$("#valid").innerHTML=`<span class="badge b-warn">no motion</span> ${d.reason}`;}
     else{

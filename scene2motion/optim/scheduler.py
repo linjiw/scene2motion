@@ -34,7 +34,13 @@ from .response import DuckResponse, alpha
 
 # Defaults, recorded in every result so a schedule can be reproduced from its artifact.
 W_EFFORT, W_D1, W_D2 = 1.0, 6.0, 25.0
-MARGIN_M = 0.12      # clearance headroom; must exceed the surrogate's own error (~70 mm)
+# Clearance headroom. NOT a round number and not a guess: `verify_margin.py` sweeps it against
+# the real prior over 40 clips, and 0.12 m -- which looked generous beside a 43 mm surrogate
+# holdout error -- produced actual collisions (80 % collision-free, worst clearance -18 mm).
+# The margin has to cover the surrogate error AND ARDY's own 30-74 mm per-seed scatter, and
+# 0.18 m is the smallest swept value that restores 100 % collision-free (worst clearance
+# +17 mm) at 24.3 cm of mean peak crouch. Raising it further only buys crouch depth.
+MARGIN_M = 0.18
 
 
 @dataclass
@@ -77,12 +83,36 @@ def _diff_matrices(n: int) -> tuple[np.ndarray, np.ndarray]:
 def solve(clearance: np.ndarray, resp: DuckResponse, dt: float,
           margin_m: float = MARGIN_M, w_effort: float = W_EFFORT,
           w_d1: float = W_D1, w_d2: float = W_D2,
-          tau: float | None = None) -> Schedule:
-    """Optimal commanded duck schedule for a clearance profile."""
+          tau: float | None = None, time_weighted: bool = False) -> Schedule:
+    """Optimal commanded duck schedule for a clearance profile.
+
+    `time_weighted` makes the objective a genuine time integral rather than a per-sample sum,
+    and it is the difference between a merge/split boundary that depends on walking speed and
+    one that does not. Minimising
+
+        integral( we q^2 + w1 (dq/dt)^2 + w2 (d2q/dt2)^2 ) dt
+
+    discretises to weights we*dt, w1/dt and w2/dt^3, because each derivative carries a 1/dt.
+    Summing raw differences instead -- the default here -- makes the cost of standing up
+    between two beams depend only on how many SAMPLES separate them, and the samples are laid
+    out in distance. Speed then cancels entirely, which is exactly what Experiment B measures:
+    an identical boundary at 4.0 m for 0.6, 0.9 and 1.2 m/s.
+
+    It defaults to OFF despite being the more principled form, and the reason is measured
+    rather than aesthetic: at dt ~ 0.2 s the jerk term picks up a 1/dt^3 factor of ~125, which
+    swamps the effort and first-difference terms and forces a merged crouch at every gap and
+    speed tested -- the boundary disappears entirely rather than moving. The weights W_D1 and
+    W_D2 were chosen for the per-sample form and would have to be re-tuned for the integral
+    form, and the dataset, the trained model and Experiment A were all produced under the
+    per-sample objective. Switching the default without re-deriving those would leave the
+    artifacts describing a teacher that no longer exists, which is the failure this phase has
+    already had once. Re-tuning is future work and the flag is here so it can be done.
+    """
     c = np.asarray(clearance, float)
     n = len(c)
     tau = resp.tau_s if tau is None else tau
-    weights = {"w_effort": w_effort, "w_d1": w_d1, "w_d2": w_d2}
+    weights = {"w_effort": w_effort, "w_d1": w_d1, "w_d2": w_d2,
+               "time_weighted": time_weighted, "dt": dt}
 
     need = c - margin_m
     # Refuse rather than saturate: a beam below the deepest reachable crouch is not a scene
@@ -97,7 +127,11 @@ def solve(clearance: np.ndarray, resp: DuckResponse, dt: float,
     z_req = resp.g_inv(need)
     L = lag_matrix(n, dt, tau)
     D1, D2 = _diff_matrices(n)
-    H = (w_effort * np.eye(n) + w_d1 * D1.T @ D1 + w_d2 * D2.T @ D2)
+    if time_weighted:
+        we, k1, k2 = w_effort * dt, w_d1 / dt, w_d2 / (dt ** 3)
+    else:
+        we, k1, k2 = w_effort, w_d1, w_d2
+    H = (we * np.eye(n) + k1 * D1.T @ D1 + k2 * D2.T @ D2)
 
     def f(q):
         return float(q @ H @ q)

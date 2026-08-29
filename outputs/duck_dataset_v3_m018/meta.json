@@ -1,0 +1,109 @@
+{
+  "splits": {
+    "train": {
+      "heights": [
+        0.95,
+        1.05,
+        1.15,
+        1.25
+      ],
+      "x0": [
+        3.0,
+        4.0
+      ],
+      "gaps": [
+        1.0,
+        2.0,
+        3.5,
+        5.0
+      ],
+      "speeds": [
+        0.7,
+        0.9,
+        1.1
+      ],
+      "counts": [
+        0,
+        1,
+        2
+      ]
+    },
+    "dev": {
+      "heights": [
+        1.0,
+        1.3
+      ],
+      "x0": [
+        3.5,
+        5.0
+      ],
+      "gaps": [
+        1.5,
+        3.0,
+        4.5
+      ],
+      "speeds": [
+        0.8,
+        1.05
+      ],
+      "counts": [
+        0,
+        1,
+        2
+      ]
+    },
+    "test": {
+      "heights": [
+        1.1,
+        1.2
+      ],
+      "x0": [
+        4.5
+      ],
+      "gaps": [
+        1.2,
+        2.5,
+        4.5,
+        6.0
+      ],
+      "speeds": [
+        0.6,
+        1.0,
+        1.2
+      ],
+      "counts": [
+        0,
+        1,
+        2,
+        3
+      ]
+    }
+  },
+  "repeats": 2,
+  "counts": {
+    "train": 286,
+    "dev": 78,
+    "test": 120
+  },
+  "margin_m": 0.18,
+  "tau_s": 0.18999999999999997,
+  "response": "outputs/duck_response/response.json",
+  "teacher": "convex QP (scheduler.solve)",
+  "files": {
+    "train": {
+      "n": 286,
+      "sha256_16": "08bdafa691b185bf"
+    },
+    "dev": {
+      "n": 78,
+      "sha256_16": "e9d9111349755121"
+    },
+    "test": {
+      "n": 120,
+      "sha256_16": "3717ca9656abc282"
+    }
+  },
+  "n_samples": 64,
+  "built_s": 206.5,
+  "dataset_hash": "0c63b0b0ce3c0eb1"
+}

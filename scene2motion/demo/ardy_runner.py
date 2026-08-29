@@ -52,6 +52,19 @@ def program_bytes(p: Plan, scene: Scene, fps: float) -> bytes:
             + np.round(np.float64(prog.speed), 5).tobytes())
 
 
+def _dip_for(scene: Scene, p: Plan, body_layer: str):
+    """The dip schedule a body layer would command, or None for the heuristic renderer."""
+    if body_layer not in ("learned", "optimized"):
+        return None
+    from ..learn.predictor import predict_dip
+    if body_layer == "optimized":
+        from .schedules import all_schedules, dip_for_layer
+        d = dip_for_layer(all_schedules(scene, p, speed=SPEED), "optimized")
+        if d is not None:
+            return d
+    return predict_dip(scene, p.xy, speed=SPEED)
+
+
 def generate(scene: Scene, p: Plan, preference: str, cache: ClipCache,
              seed: int = DEFAULT_SEED, allow_generate: bool = True,
              body_layer: str = "heuristic") -> dict:
@@ -66,8 +79,16 @@ def generate(scene: Scene, p: Plan, preference: str, cache: ClipCache,
     runner = get_runner()
     fps = runner.fps
     T = n_frames(p, fps)
+
+    # The cache key must cover the BODY SCHEDULE, not just the route program and the layer
+    # name. `program_bytes` describes the route, and "optimized" is a name whose meaning
+    # changes with the clearance margin, the response fit and the checkpoint -- so a clip
+    # generated at margin 0.12 would have been served for a 0.18 request under the same key.
+    # Hashing the schedule itself makes the key describe what was actually asked for.
+    dip = _dip_for(scene, p, body_layer)
+    dip_bytes = b"" if dip is None else np.round(dip, 5).tobytes()
     key = key_for(scene_id=scene.scene_id, preference=f"{preference}|{body_layer}",
-                  program_bytes=program_bytes(p, scene, fps),
+                  program_bytes=program_bytes(p, scene, fps) + dip_bytes,
                   model=runner.model_name, seed=seed, steps=DIFFUSION_STEPS,
                   fps=fps, n_frames=T)
     hit = cache.get(key)
@@ -83,10 +104,9 @@ def generate(scene: Scene, p: Plan, preference: str, cache: ClipCache,
     # rather than a pose invented from outside its manifold.
     ref = runner.generate([PROMPT], [plan_to_path_spec(p, fps, SPEED, duration=T / fps)],
                           T, DIFFUSION_STEPS, seeds=[seed])[0]
-    if body_layer == "learned":
-        from ..learn.predictor import predict_dip, spec_from_dip
-        spec = spec_from_dip(scene, p.xy, predict_dip(scene, p.xy, speed=SPEED), fps,
-                             speed=SPEED, duration=T / fps)
+    if dip is not None:
+        from ..learn.predictor import spec_from_dip
+        spec = spec_from_dip(scene, p.xy, dip, fps, speed=SPEED, duration=T / fps)
     else:
         spec = plan_to_spec(p, fps, ref, runner.joint_names, speed=SPEED,
                             duration=T / fps, lead_s=LEAD_S)

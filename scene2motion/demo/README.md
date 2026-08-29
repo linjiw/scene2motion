@@ -40,6 +40,44 @@ python -m pytest tests/test_demo.py -q          # 14 CPU-only tests, no ARDY
 python -m scene2motion.demo.acceptance          # 16 checks against the live HTTP API
 ```
 
+## V2: body planners and the schedule plot
+
+The **body layer** selector chooses who fills the duck channel. The route is identical in every
+case -- that is the route/body split, so any difference in the clip is attributable to the body
+layer alone.
+
+| layer | what it is |
+|---|---|
+| Heuristic | the calibrated mode lattice, dilated and smoothed by `plan_to_spec` |
+| Phase-2 Learned | a 3 185-param CNN trained to imitate the heuristic |
+| Phase-3 Optimized | a 14 k-param residual TCN distilling the convex-QP schedule optimiser |
+
+The **duck-schedule plot** under the animation shows all of them on one route-distance axis,
+with the beam spans shaded, the heuristic dashed, the QP teacher dotted and the selected layer
+solid. The plotted schedule is the one that generated the clip -- both come from
+`demo/schedules.py`, which exists so they cannot drift apart.
+
+The **scene preset** switches between one beam and two, with a gap slider. Two stable examples:
+
+* `?n_beams=2&gap=2.0` -- one continuous crouch across both beams;
+* `?n_beams=2&gap=5.0` -- duck, stand back up, duck again.
+
+Which of those happens is not a rule. The optimiser decides it by minimising crouch effort and
+jerk against a lag of 0.19 s, and the boundary lands where standing back up costs less than
+staying down.
+
+## Clearance margin
+
+`MARGIN_M` in `optim/scheduler.py` is 0.18 m and is not a round number. `optim/verify_margin.py`
+sweeps it against the real prior: 0.12 m looked generous beside a 43 mm surrogate holdout error
+and produced actual collisions (80 % collision-free, worst clearance -18 mm). 0.18 m is the
+smallest swept value restoring 100 % collision-free, at 24.3 cm of mean peak crouch. The margin
+has to cover the surrogate's error *and* ARDY's own 30-74 mm per-seed scatter.
+
+Model checkpoints are versioned by the margin they were trained for (`duck_model_v3_m018`), and
+`demo/schedules.py` refuses to serve a checkpoint whose recorded margin differs from the one the
+optimiser is solving with.
+
 ## What the three preferences are
 
 They are three argument sets to the *same* `planner.plan`, not three planners:

@@ -2,3 +2,10 @@ outputs/**/qpos_*.npy
 outputs/text_cache.npz
 __pycache__/
 *.pyc
+
+# Transient run logs from background jobs. Never committed: they are session-scoped and were
+# the source of a mixed-artifact confusion once already (a log describing a margin-0.18 build
+# sitting beside margin-0.12 metadata).
+*.log
+outputs/*.log
+outputs/.duck_dataset_v3_*.building/

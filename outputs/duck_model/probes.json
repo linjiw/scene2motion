@@ -83,26 +83,120 @@
       "label_events": 1,
       "pred_events": 1,
       "label_peak": 0.3499999940395355,
-      "pred_peak": 0.5034623742103577
-    },
-    {
-      "gap_m": 2.5,
-      "label_events": 1,
-      "pred_events": 1,
-      "label_peak": 0.3499999940395355,
-      "pred_peak": 0.4858871400356293
+      "pred_peak": 0.5335450768470764,
+      "event_count_correct": true
     },
     {
       "gap_m": 3.0,
       "label_events": 1,
+      "pred_events": 2,
+      "label_peak": 0.3499999940395355,
+      "pred_peak": 0.4850619435310364,
+      "event_count_correct": false
+    },
+    {
+      "gap_m": 4.0,
+      "label_events": 2,
       "pred_events": 1,
       "label_peak": 0.3499999940395355,
-      "pred_peak": 0.4127230942249298
+      "pred_peak": 0.3417395353317261,
+      "event_count_correct": false
+    },
+    {
+      "gap_m": 5.0,
+      "label_events": 2,
+      "pred_events": 2,
+      "label_peak": 0.3499999940395355,
+      "pred_peak": 0.32833418250083923,
+      "event_count_correct": true
+    },
+    {
+      "gap_m": 6.0,
+      "label_events": 2,
+      "pred_events": 2,
+      "label_peak": 0.3499999940395355,
+      "pred_peak": 0.4093025326728821,
+      "event_count_correct": true
+    }
+  ],
+  "excess_crouch": [
+    {
+      "beam_h": 0.95,
+      "needed_m": 0.3860000000000001,
+      "heuristic_peak_m": 0.5,
+      "learned_peak_m": 0.485493004322052,
+      "heuristic_excess_m": 0.11399999999999988,
+      "learned_excess_m": 0.09949300432205188
+    },
+    {
+      "beam_h": 1.0,
+      "needed_m": 0.3360000000000001,
+      "heuristic_peak_m": 0.5,
+      "learned_peak_m": 0.4433574676513672,
+      "heuristic_excess_m": 0.16399999999999992,
+      "learned_excess_m": 0.10735746765136711
+    },
+    {
+      "beam_h": 1.05,
+      "needed_m": 0.28600000000000003,
+      "heuristic_peak_m": 0.3499999940395355,
+      "learned_peak_m": 0.3967131972312927,
+      "heuristic_excess_m": 0.06399999403953549,
+      "learned_excess_m": 0.11071319723129269
+    },
+    {
+      "beam_h": 1.1,
+      "needed_m": 0.236,
+      "heuristic_peak_m": 0.3499999940395355,
+      "learned_peak_m": 0.3516373932361603,
+      "heuristic_excess_m": 0.11399999403953553,
+      "learned_excess_m": 0.11563739323616029
+    },
+    {
+      "beam_h": 1.15,
+      "needed_m": 0.18599999999999994,
+      "heuristic_peak_m": 0.25,
+      "learned_peak_m": 0.31042933464050293,
+      "heuristic_excess_m": 0.06400000000000006,
+      "learned_excess_m": 0.12442933464050299
+    },
+    {
+      "beam_h": 1.2,
+      "needed_m": 0.1359999999999999,
+      "heuristic_peak_m": 0.25,
+      "learned_peak_m": 0.26922115683555603,
+      "heuristic_excess_m": 0.1140000000000001,
+      "learned_excess_m": 0.13322115683555613
+    },
+    {
+      "beam_h": 1.25,
+      "needed_m": 0.08599999999999985,
+      "heuristic_peak_m": 0.15000000596046448,
+      "learned_peak_m": 0.23368121683597565,
+      "heuristic_excess_m": 0.06400000596046462,
+      "learned_excess_m": 0.1476812168359758
+    },
+    {
+      "beam_h": 1.3,
+      "needed_m": 0.03599999999999981,
+      "heuristic_peak_m": 0.15000000596046448,
+      "learned_peak_m": 0.21670153737068176,
+      "heuristic_excess_m": 0.11400000596046467,
+      "learned_excess_m": 0.18070153737068195
     }
   ],
   "latency": {
     "n": 40,
-    "heuristic_ms": 0.104,
-    "learned_ms": 0.304
+    "repeats": 7,
+    "heuristic_ms": 0.095,
+    "learned_ms": 0.299,
+    "heuristic_ms_range": [
+      0.095,
+      0.125
+    ],
+    "learned_ms_range": [
+      0.23,
+      0.435
+    ]
   }
 }

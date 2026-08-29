@@ -2339,7 +2339,7 @@ built in 14 s on CPU.
 
 ### Model
 
-A dilated 1-D CNN, **3 137 parameters**, trained in **1.4 s on CPU** (LUCID owned the GPU
+A dilated 1-D CNN, **3 185 parameters**, trained in **1.4 s on CPU** (LUCID owned the GPU
 throughout). Dilations 1/2/4 at kernel 5 give a 29-sample receptive field ≈ 3.6 m of route,
 comfortably wider than the anticipation lead.
 
@@ -2349,8 +2349,8 @@ comfortably wider than the anticipation lead.
 | peak-dip MAE | 11.4 mm | 21.3 mm | **22.4 mm** |
 | duck detection | 0.996 | 0.975 | **1.000** (no false, no missed) |
 
-An MLP baseline with the same task and 20× the parameters reaches test MAE 26.3 mm and peak MAE
-64.0 mm — 3.4× worse. The convolution is not a claim, it is the right shape for a local
+An MLP baseline on the same task with **37 056 parameters against the CNN's 3 185 — 11.6×** —
+reaches test MAE 26.3 mm and peak MAE 64.0 mm, 3.4× worse. The convolution is not a claim, it is the right shape for a local
 translation-equivariant map, and the baseline is there to show the choice was not free.
 
 ### Behavioural probes
@@ -2369,8 +2369,8 @@ channel.
 
 | | collision-free | goal reached | min clearance | schedule smoothness | body-layer latency |
 |---|---|---|---|---|---|
-| heuristic | **1.000** | **1.000** | 0.158 m | **0.0055** | **0.104 ms** |
-| learned | **1.000** | **1.000** | 0.135 m | 0.0178 | 0.304 ms |
+| heuristic | **1.000** | **1.000** | 0.158 m | **0.0055** | **0.095 ms** |
+| learned | **1.000** | **1.000** | 0.135 m | 0.0178 | 0.299 ms |
 
 ### What the learned model does *not* buy, stated plainly
 
@@ -2378,16 +2378,20 @@ It matches the heuristic on both safety metrics on geometry it never saw. It doe
 anything measured:
 
 * **not smoother** — 3.2× worse second-difference on the schedule;
-* **not faster** — 0.304 ms against 0.104 ms for the body layer;
+* **not faster** — 0.299 ms against 0.095 ms for the body layer, median of 7 passes over 40
+  routes with non-overlapping ranges ([0.23, 0.435] against [0.095, 0.125]);
 * **not more efficient in crouch depth.** I expected the discrete mode lattice (dips quantised
   to `{0, 0.15, 0.25, 0.35, 0.50}`) to make the heuristic over-duck between steps, and it does —
   its excess crouch sawtooths between 6.4 and 16.4 cm. But the learned model's mean excess is
-  **12.7 cm against the heuristic's 10.2 cm**: smooth and consistently conservative beats
-  sawtoothed and sometimes-tight. The continuous-geometry advantage I predicted is not there.
+  **12.7 cm against the heuristic's 10.2 cm** (`probe_excess_crouch`, 8 beam heights from 0.95
+  to 1.30 m): smooth and consistently conservative beats sawtoothed and sometimes-tight. The
+  continuous-geometry advantage I predicted is not there.
 
-**Two consecutive beams**, a configuration absent from training: event count is right at gaps of
-2, 5 and 6 m and wrong at 3 m (over-segments into two ducks) and 4 m (merges two into one), and
-peak depth is over-predicted by up to 18 cm at short gaps. 3 of 5.
+**Two consecutive beams**, a configuration absent from training (`TWO_BEAM_*` in `probes.py`:
+both beams at 1.05 m, first at 2.5 m, goal at 11 m, gaps 2/3/4/5/6 m): event count is right at
+gaps of 2, 5 and 6 m and wrong at 3 m (over-segments into two ducks) and 4 m (merges two into
+one) — **3 of 5** — and peak depth is over-predicted by up to 18.4 cm at the shortest gap
+(53.4 cm predicted against a 35.0 cm label).
 
 So the honest summary is that the learned layer is a **faithful distillation** — it reproduces
 anticipation, monotonicity and the no-beam null exactly, and generalises to unseen beam heights
@@ -2397,6 +2401,7 @@ usable result and it is not the one I expected to write.
 ### Evidence
 
 `outputs/duck_dataset/` (splits + meta), `outputs/duck_model/{cnn,mlp}.{pt,json}`,
-`outputs/duck_model/probes.json`, `outputs/duck_model/compare_test.json`,
+`outputs/duck_model/probes.json` (every probe above, including the five-gap two-beam ladder and
+the excess-crouch sweep), `outputs/duck_model/compare_test.json`,
 `scene2motion/demo_outputs/shots/learned_planner.png`. `tests/` 28 passed;
 `demo.acceptance` 16/16.

@@ -139,3 +139,49 @@ def test_spec_from_dip_writes_only_the_duck_channel():
     spec = spec_from_dip(sc, p.xy, predict_dip(sc, p.xy), fps=25.0)
     assert spec.root_y is not None and spec.pos_frames is None
     assert spec.root_y.min() < 0.78, "a duck must lower the pelvis"
+
+
+# ---- provenance ----------------------------------------------------------------------
+# Independent verification found two prose/artifact mismatches: a parameter count quoted as
+# 3137 when the model has 3185, and a two-beam ladder described with five gaps while the
+# committed probe ran three. Both were drift between what was run and what was written. These
+# assert the artifacts describe the code that produced them, which is the part a reader relies
+# on and the part that silently rots.
+
+ARTIFACTS = Path("outputs/duck_model")
+has_artifacts = pytest.mark.skipif(not (ARTIFACTS / "probes.json").exists(),
+                                   reason="probes not run")
+
+
+@needs_ckpt
+def test_committed_model_json_matches_the_live_model():
+    import json
+    from scene2motion.learn.model import DuckCNN, DuckMLP
+    for arch, cls in (("cnn", DuckCNN), ("mlp", DuckMLP)):
+        f = ARTIFACTS / f"{arch}.json"
+        if not f.exists():
+            continue
+        assert json.loads(f.read_text())["n_params"] == cls().n_params, (
+            f"{arch}.json records a parameter count the model no longer has")
+
+
+@has_artifacts
+def test_probes_artifact_matches_the_probe_configuration():
+    import json
+    from scene2motion.learn.probes import TWO_BEAM_GAPS
+    pr = json.loads((ARTIFACTS / "probes.json").read_text())
+    gaps = tuple(r["gap_m"] for r in pr["two_beams"])
+    assert gaps == TWO_BEAM_GAPS, (
+        f"probes.json ran gaps {gaps}, the probe now defines {TWO_BEAM_GAPS}")
+    assert "excess_crouch" in pr, "excess-crouch claim must be backed by the artifact"
+    assert len(pr["excess_crouch"]) >= 6
+
+
+@has_artifacts
+def test_latency_is_reported_as_a_median_with_a_range():
+    import json
+    lat = json.loads((ARTIFACTS / "probes.json").read_text())["latency"]
+    for k in ("repeats", "heuristic_ms_range", "learned_ms_range"):
+        assert k in lat, f"latency artifact missing {k}"
+    lo, hi = lat["heuristic_ms_range"]
+    assert lo <= lat["heuristic_ms"] <= hi

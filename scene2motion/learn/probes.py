@@ -13,7 +13,7 @@ from pathlib import Path
 import numpy as np
 
 from ..demo.strategy_planner import SHORTEST_MODES
-from ..planner import plan
+from ..planner import MODE_BY_NAME, plan
 from .dataset import NO_BEAM_HEIGHT, build_scene, duck_label
 from .predictor import predict_dip
 from .route_profile import N_SAMPLES
@@ -91,11 +91,24 @@ def probe_stands_after(arch="cnn") -> list[dict]:
     return rows
 
 
+# Two-beam geometry. The corridor is long enough (goal at 11 m) and the first beam early
+# enough (2.5 m) that the widest gap still fits, and the gaps span the range where the label
+# itself changes from one merged duck to two separate ones -- at 0.72 m of anticipation lead
+# either side, two ducks merge below about a 3.5 m gap. A ladder that stopped at 3.0 m would
+# only ever ask about the merged case and could not show whether the model SEPARATES events.
+TWO_BEAM_H = 1.05
+TWO_BEAM_X = 2.5
+TWO_BEAM_GOAL_X = 11.0
+TWO_BEAM_GAPS = (2.0, 3.0, 4.0, 5.0, 6.0)
+
+
 def probe_two_beams(arch="cnn") -> list[dict]:
-    """Two consecutive beams: two duck events, and the model has never seen this."""
+    """Two consecutive beams: how many duck events, and the model has never seen this."""
     rows = []
-    for gap in (2.0, 2.5, 3.0):
-        sc = build_scene(1.05, 3.0, 1.75, second_beam=(1.05, 3.0 + gap), goal_x=9.0)
+    for gap in TWO_BEAM_GAPS:
+        sc = build_scene(TWO_BEAM_H, TWO_BEAM_X, 1.75,
+                         second_beam=(TWO_BEAM_H, TWO_BEAM_X + gap),
+                         goal_x=TWO_BEAM_GOAL_X)
         r = _pair(sc, arch)
         if r is None:
             continue
@@ -105,26 +118,65 @@ def probe_two_beams(arch="cnn") -> list[dict]:
             on = v > thresh
             return int(np.sum(on[1:] & ~on[:-1]) + (1 if on[0] else 0))
         rows.append({"gap_m": gap, "label_events": peaks(y), "pred_events": peaks(d),
-                     "label_peak": float(y.max()), "pred_peak": float(d.max())})
+                     "label_peak": float(y.max()), "pred_peak": float(d.max()),
+                     "event_count_correct": peaks(y) == peaks(d)})
     return rows
 
 
-def probe_latency(arch="cnn", n: int = 40) -> dict:
-    """Body-layer latency: the heuristic's mode lattice against a forward pass."""
+# Standing top-of-head, from the calibrated envelope. The minimum dip that clears a beam at
+# height h is (STAND_TOP - h): anything beyond that is crouching the robot does not need to do.
+STAND_TOP = MODE_BY_NAME["stand"].top
+
+
+def probe_excess_crouch(arch="cnn") -> list[dict]:
+    """How much deeper than necessary does each planner crouch?
+
+    The heuristic can only pick from a lattice of five dips {0, .15, .25, .35, .50}, so between
+    steps it must round UP and over-duck. The obvious prediction is that a continuous model
+    wins here. This measures it rather than assuming it.
+    """
+    rows = []
+    for h in np.arange(0.95, 1.31, 0.05):
+        r = _pair(build_scene(float(h), 4.0, 1.75), arch)
+        if r is None:
+            continue
+        p, y, d = r
+        need = max(0.0, STAND_TOP - float(h))
+        rows.append({"beam_h": round(float(h), 2), "needed_m": need,
+                     "heuristic_peak_m": float(y.max()), "learned_peak_m": float(d.max()),
+                     "heuristic_excess_m": float(y.max()) - need,
+                     "learned_excess_m": float(d.max()) - need})
+    return rows
+
+
+def probe_latency(arch="cnn", n: int = 40, repeats: int = 7) -> dict:
+    """Body-layer latency: the heuristic's mode lattice against a forward pass.
+
+    Median over `repeats` passes, not a single timing. This is a sub-millisecond microbenchmark
+    on a machine that is simultaneously training another model, and a single pass moved by 25 %
+    between runs -- enough to make a quoted figure unreproducible. The spread is reported so the
+    number can be read with the right precision.
+    """
     scenes = [build_scene(1.00, 4.0, 1.75) for _ in range(n)]
     routes = [plan(s, "adaptive", modes_override=SHORTEST_MODES) for s in scenes]
     ok = [(s, p) for s, p in zip(scenes, routes) if p.feasible]
-    t0 = time.perf_counter()
-    for s, p in ok:
-        duck_label(p)
-    heur = (time.perf_counter() - t0) / len(ok)
     predict_dip(ok[0][0], ok[0][1].xy, arch=arch)          # warm
-    t0 = time.perf_counter()
-    for s, p in ok:
-        predict_dip(s, p.xy, arch=arch)
-    learn = (time.perf_counter() - t0) / len(ok)
-    return {"n": len(ok), "heuristic_ms": round(heur * 1e3, 3),
-            "learned_ms": round(learn * 1e3, 3)}
+
+    def timed(fn) -> float:
+        t0 = time.perf_counter()
+        for s, p in ok:
+            fn(s, p)
+        return (time.perf_counter() - t0) / len(ok) * 1e3
+
+    heur = sorted(timed(lambda s, p: duck_label(p)) for _ in range(repeats))
+    learn = sorted(timed(lambda s, p: predict_dip(s, p.xy, arch=arch))
+                   for _ in range(repeats))
+    mid = repeats // 2
+    return {"n": len(ok), "repeats": repeats,
+            "heuristic_ms": round(heur[mid], 3),
+            "learned_ms": round(learn[mid], 3),
+            "heuristic_ms_range": [round(heur[0], 3), round(heur[-1], 3)],
+            "learned_ms_range": [round(learn[0], 3), round(learn[-1], 3)]}
 
 
 def smoothness(v: np.ndarray) -> float:
@@ -138,6 +190,7 @@ def main() -> None:
            "anticipation": probe_anticipation(),
            "stands_after": probe_stands_after(),
            "two_beams": probe_two_beams(),
+           "excess_crouch": probe_excess_crouch(),
            "latency": probe_latency()}
 
     print("A1  lower beam -> deeper duck")
@@ -167,11 +220,27 @@ def main() -> None:
     for r in out["two_beams"]:
         print(f"    gap {r['gap_m']:.1f} m   label {r['label_events']} events "
               f"(peak {r['label_peak']*100:.1f} cm)   pred {r['pred_events']} events "
-              f"(peak {r['pred_peak']*100:.1f} cm)")
+              f"(peak {r['pred_peak']*100:.1f} cm)   "
+              f"{'ok' if r['event_count_correct'] else 'MISMATCH'}")
+    ok = sum(r["event_count_correct"] for r in out["two_beams"])
+    print(f"    event count correct on {ok}/{len(out['two_beams'])} gaps")
+
+    ex = out["excess_crouch"]
+    hx = float(np.mean([r["heuristic_excess_m"] for r in ex]))
+    lx = float(np.mean([r["learned_excess_m"] for r in ex]))
+    print("\nC1  excess crouch beyond what the beam requires "
+          "(heuristic lattice is {0, .15, .25, .35, .50} m)")
+    for r in ex:
+        print(f"    h={r['beam_h']:.2f}  needed {r['needed_m']*100:5.1f} cm   "
+              f"heuristic {r['heuristic_excess_m']*100:+5.1f} cm   "
+              f"learned {r['learned_excess_m']*100:+5.1f} cm")
+    print(f"    mean excess: heuristic {hx*100:.1f} cm   learned {lx*100:.1f} cm   "
+          f"-> {'learned' if lx < hx else 'heuristic'} is tighter")
 
     lat = out["latency"]
-    print(f"\nC   body-layer latency over {lat['n']} routes: "
-          f"heuristic {lat['heuristic_ms']} ms   learned {lat['learned_ms']} ms")
+    print(f"\nC2  body-layer latency, median of {lat['repeats']} passes over {lat['n']} routes")
+    print(f"    heuristic {lat['heuristic_ms']:.3f} ms  (range {lat['heuristic_ms_range']})")
+    print(f"    learned   {lat['learned_ms']:.3f} ms  (range {lat['learned_ms_range']})")
 
     Path("outputs/duck_model").mkdir(parents=True, exist_ok=True)
     Path("outputs/duck_model/probes.json").write_text(json.dumps(out, indent=2))

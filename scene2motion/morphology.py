@@ -73,6 +73,14 @@ def _signed_extents(body, qpos_t: np.ndarray, normal: np.ndarray) -> tuple[float
     return float(hi), float(-lo)
 
 
+def heading_normal(qpos_t: np.ndarray) -> np.ndarray:
+    """The robot's OWN lateral axis at one frame, from its root quaternion (MuJoCo wxyz)."""
+    w, x, y, z = qpos_t[3:7]
+    # yaw of the root frame; the lateral axis is the body +y expressed in world
+    yaw = np.arctan2(2.0 * (w * z + x * y), 1.0 - 2.0 * (y * y + z * z))
+    return np.array([-np.sin(yaw), np.cos(yaw), 0.0])
+
+
 def envelope_series(body, qpos: np.ndarray,
                     normal=np.array([0.0, 1.0, 0.0])) -> np.ndarray:
     """(T, 3) per-frame (top, left extent, right extent). Computed once per clip.
@@ -80,16 +88,32 @@ def envelope_series(body, qpos: np.ndarray,
     `matched_delta` needs this for both members of a pair; recomputing the control's series
     for every adapted clip it is compared against costs a factor of the ladder size, which on
     a 36-program sweep is most of the run.
+
+    `normal` may be the string "heading", which measures each frame along the ROBOT'S OWN
+    lateral axis instead of a fixed world axis.  The fixed axis is wrong in principle: rotating
+    a standing G1 by 26 degrees -- the q99 of the yaw channel -- with no posture change at all
+    moves the apparent left extent by 11.6 cm, while along the robot's own axis it moves by
+    exactly zero.  Measured on EXP-005f's 1296 paired residuals the heading term accounts for
+    only R^2 = 0.021 of the width noise and removing it moves q99 by 3 %, so this is a
+    correctness fix rather than a rescue of any result.
+
+    The DEFAULT is deliberately still the fixed world axis, because every artefact currently on
+    disk -- the EXP-005f noise floor, the EXP-005g ledger and everything whitened against it --
+    was measured that way, and silently changing the ruler underneath them would make the
+    ledger and anything selected from it incomparable.  The frozen final run flips it.
     """
+    per_frame = isinstance(normal, str) and normal == "heading"
     out = np.empty((len(qpos), 3))
     for t, q in enumerate(qpos):
-        L, R = _signed_extents(body, q, normal)
+        n = heading_normal(q) if per_frame else normal
+        L, R = _signed_extents(body, q, n)
         out[t] = (body.top_height(q), L, R)
     return out
 
 
 def raw_descriptor(body, qpos: np.ndarray, interaction: Interaction,
                    fps: float, normal=np.array([0.0, 1.0, 0.0])) -> dict:
+    """`normal` may be "heading" -- see `envelope_series` for why the default is not."""
     """Absolute morphology quantities for one clip. Deltas are taken later.
 
     `t_lead` and `t_duration` are left as NaN here: they are properties of a DIFFERENCE from a

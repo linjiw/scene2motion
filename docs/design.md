@@ -1473,3 +1473,74 @@ luck: every one of these was a place where I had a hypothesis and the metric had
 agree with it. The reliable defence has not been care — I was careful — it has been building the
 null control, the sign control, or the identity check *before* reading the number, and having
 someone else attack the result afterwards.
+
+---
+
+## 26. Most of the gate may have been measuring a renderer bug
+
+The `_limb_targets` defect from section 25 is not a detail. Its blast radius, measured on the
+smoke ledger (85 candidates, 2 scenes):
+
+| | share of candidates | held-out feasibility |
+|---|---|---|
+| commands duck **and** (tuck or lift) — hit by the bug | **43.5 %** | **0.189** |
+| commands neither, or only one | 56.5 % | **0.969** |
+
+and per arm:
+
+| arm | affected | feasibility (affected) | feasibility (clean) |
+|---|---|---|---|
+| A-KBEST | 12/16 | 0.12 | 1.00 |
+| C-WSWEEP | 14/16 | 0.14 | 1.00 |
+| B-NOGOOD | 10/16 | 0.25 | 0.83 |
+| COMPOSITE | 1/4 | 1.00 | 1.00 |
+| D-REFINE | 0/9 | — | 0.94 |
+| REF-RANDOM | 0/8 | — | 1.00 |
+
+That table reproduces the gate's headline almost exactly. The three **CPU** enumerators — the
+ones that propose without ever asking ARDY — put 10–14 of their 16 candidates into the affected
+group, and their measured feasibility was 0.71 / 0.76 / 0.71 with only 4.2–5.0 of 8 candidates
+addressable. The two arms that **search with ARDY feedback** put almost nothing there, and
+reported feasibility 1.00. They were not smarter about bodies. They measured the failures and
+learned to stop proposing composed ones — they had adapted to a bug.
+
+So the gate's central number, *"classical enumeration covers only 0.59 of the addressable body
+set"*, was collected in a world where **43.5 % of every classical proposal was rendered as a
+self-contradictory request**. The enumerators proposed sensible composed bodies; the renderer
+told ARDY to duck and to hold its hands at standing height simultaneously; the clips failed; and
+the failure was scored against the enumerator.
+
+### Why this is not yet a result
+
+"Affected" is defined by the **content** of the request, not by the bug. Composed programs ask
+for more, and asking for more may be harder — for the prior, or because composed programs get
+proposed in harder scenes. A correlation between "commands two axes" and "fails" does not
+establish that the renderer caused the failure. Concluding otherwise would be exactly the
+mistake of section 22 with the sign reversed: crediting a mechanism because it is available and
+the correlation is large.
+
+EXP-009 breaks the confound the only way it can be broken — by holding the request fixed and
+changing **only the renderer**. The same programs, scenes and seeds, generated twice, once with
+heights pinned to the un-ducked nominal and once with heights shifted by the commanded pelvis
+displacement. It carries pure-tuck and pure-lift rows as a **null**: those command no duck, so
+the two renderers emit byte-identical requests and the difference must be exactly zero. If the
+null rows move, the harness is not isolating the renderer and nothing else in the table counts.
+
+### What this does to the plan
+
+The gate now finishing is a *before* measurement, and it keeps that value — a controlled
+before/after on a single encoder fix, quantifying how much of an apparent model limitation was
+ours, is a better artefact than a clean run alone would have been. But its headline cannot be
+reported as a property of ARDY or of classical enumeration until EXP-009 says how much of it
+survives.
+
+The revised order is: gate finishes → **EXP-008** decides the channel question (are we writing
+into a block the decoder poses from?) → **EXP-009** decides the renderer question (how much of
+the composed-program collapse was the contradiction?) → *then* one re-run of the gate with the
+renderer fixed, the measured q99 threshold, and whichever channel EXP-008 selects.
+
+Three of this project's four largest measured effects have now turned out to be, or are
+suspected to be, artefacts of how we asked rather than of what the model can do: the tuck
+pairing, the composed-program collapse, and possibly the whole body-channel bandwidth. That is
+the finding. It is also the reason the paper's contribution is a **capability-auditing
+methodology** rather than a number about ARDY.

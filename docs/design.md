@@ -2088,3 +2088,51 @@ planned clearance to survive its own execution and nearly a quarter of certified
 less; a deep duck needs 112 mm and a third fall short.** The requirement grows with the
 adaptation, so the deeper the duck the more headroom it must *also* be given to stay safe — the
 capability partially pays for itself.
+
+---
+
+## 33. Correction to §30–31: the set is not empty, it has two members and one of them is "don't"
+
+Sections 30 and 31 concluded that "the morphology-set framing is not weak, it is empty". That
+was an overreach, and EXP-005h — re-run after re-thresholding its signatures at the measured q99,
+because it had been reading the gate's hardcoded labels — says so directly.
+
+**EXP-005h passes its pre-committed kill condition.** On **45.5 %** of scenes [22.7 %, 68.2 %]
+at least two *different* modes are optimal under different declared preferences, against a
+threshold of 25 %. The second body reduces normalised preference regret by 0.060 of a total
+0.085, with a paired interval of [0.049, 0.070]. By the criterion I committed to in advance,
+decision-relevant morphological diversity exists.
+
+So what are the two bodies? Over all 154 preference-winning slots across 22 scenes:
+
+| winning body | slots |
+|---|---|
+| `none` — no channel fires, a plain walk | **78** |
+| `D` — duck | **70** |
+| `Y` — yaw | 6 |
+| anything involving a **lift** | **0** |
+
+and the multi-winner scenes are `(D, none)` and `(D, Y, none)`.
+
+**The decision-relevant diversity is "duck" versus "don't duck".** That is a real trade-off — a
+duck buys headroom and costs posture, smoothness and, per EXP-011, tracking success — and a
+planner genuinely has to make it. It is not a *set of strategies*. It is one capability with an
+amplitude, plus the option of not using it.
+
+Three consequences, and the first two run in opposite directions:
+
+1. **In favour of the claim:** the diversity is real, it passed a threshold fixed before the
+   numbers were seen, and — because it is carried entirely by duck — it **survives the tracker**.
+   EXP-011 shows duck executing at 1.000 / 0.750 / 0.625 by depth. So unlike everything else in
+   this project, this particular finding does not evaporate at the physical layer.
+2. **Against it:** 0 of 154 winning slots involve a lift, so the axis that would have made this a
+   genuine *set* contributes nothing even kinematically — before the tracker ever gets to kill
+   it. And 6 of the slots are won by yaw, which no body program can request at all.
+3. **For the modelling question, nothing changes.** A choice between "walk" and "crouch by x"
+   does not need a set-valued generative proposer, a reranker, or a diversity objective. It needs
+   a scalar decision and a depth. EXP-005i's measurement that a perfect reranker wins 0.023
+   stands, and now it is clear *why* it is so small: there is almost nothing to rank.
+
+The precise closing statement, replacing the one in §31: **the executable, commandable body
+repertoire of this system is a single axis — duck depth — and the planning decision it supports
+is real but scalar.** "Empty" was wrong; "a set worth generating" was also wrong. It is one dial.

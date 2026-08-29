@@ -55,7 +55,16 @@ import numpy as np
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
+from scene2motion.morphology import N_CHANNELS, active_set, stability  # noqa: E402
+
 MIN_STAB, MIN_FEAS = 0.8, 0.75
+# The ledger's stored signatures were labelled by the gate against a HARDCODED
+# SEED_SIGMA_PRIOR * 2.33, which sits 26-42 % below the q99 measured in EXP-005f. That inflates
+# the mode count, and this experiment's whole question is whether DISTINCT MODES win different
+# preferences -- so reading the stored labels would let a thresholding artefact decide the kill
+# condition. Signatures are recomputed here from the raw per-seed deltas at the measured q99,
+# exactly as exp005i does.
+NOISE_Q99 = "outputs/exp005f/receipt.json"
 LAMBDA_INVALID = 0.5      # metres of clearance a coin-flip program is worth giving up
 K_SET = 8
 
@@ -155,11 +164,33 @@ def main() -> None:
     ap.add_argument("--out", default="outputs/exp005h")
     ap.add_argument("--n_mc", type=int, default=32768)   # power of 2: Sobol balance
     ap.add_argument("--boot", type=int, default=20000)
+    ap.add_argument("--noise_q99", default=NOISE_Q99)
     args = ap.parse_args()
     out = Path(args.out)
     out.mkdir(parents=True, exist_ok=True)
 
     rows = [json.loads(l) for l in open(args.ledger)]
+    if args.noise_q99 != "none":
+        q99 = np.array(json.load(open(args.noise_q99))["seed_noise_q99"], float)
+        n = 0
+        for r in rows:
+            ev = r.get("heldout")
+            if not ev:
+                continue
+            D = np.asarray(ev["deltas"], float)
+            if D.ndim != 2:
+                continue
+            k = r["n_interactions"]
+            sigs = [tuple(active_set(d[j * N_CHANNELS:(j + 1) * N_CHANNELS], q99)
+                          for j in range(k)) for d in D]
+            from collections import Counter as _C
+            modal = _C(sigs).most_common(1)[0][0] if sigs else ()
+            ev["signature"] = [[bool(x) if not isinstance(x, int) else int(x) for x in per]
+                               for per in modal]
+            ev["stability"] = float(stability(sigs))
+            n += 1
+        print(f"re-thresholded {n} held-out evaluations at the MEASURED q99 "
+              f"(the gate labelled them against a hardcoded 2.33*sigma)\n")
     scenes = defaultdict(list)
     for r in rows:
         scenes[r["scene_id"]].append(r)

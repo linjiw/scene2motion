@@ -2185,3 +2185,63 @@ mechanisms rather than one, and the remaining honest caveat is unchanged and una
 trains on retargeted human capture, so this is a statement about *this controller*. An
 `accel_dist` ten times a neutral walk's does suggest the motion is genuinely violent rather than
 merely unfamiliar, but that is an argument, not a measurement.
+
+---
+
+## 35. §4.7 is overturned: a correctly-gated small step-over DOES track
+
+| body (lift = 0.08 m) | contacts | success | progress | accel_dist |
+|---|---|---|---|---|
+| neutral | 5.63 | 1.000 | 1.000 | 1.71 |
+| lift-BOTH — *what EXP-011/012/013 actually tested* | 0.00 | **0.000** | 0.145 | 21.33 |
+| **lift-GATED — the shipped renderer** | **1.45** | **0.375** | **0.746** | **6.49** |
+
+**"Lift is not executable" is false.** With the per-side airborne gating the planner has always
+shipped, and an amplitude the prior does not over-drive into flight, a step-over keeps a foot on
+the ground, gets three quarters of the way through the clip, and **tracks 3 times in 8**.
+
+The previously reported 0/8 was measuring a two-legged raise — a jump — at an amplitude
+(0.35 m) that ARDY over-responds to by 2.5×. Two errors compounded: the wrong gating and the
+wrong amplitude. Neither was ARDY's.
+
+**Against the pre-committed threshold, precisely.** §8.1(a) of the report committed to: *"if some
+amplitude both preserves contact and tracks at ≥ 0.5 over 16 seeds, 'step-over is unavailable' is
+withdrawn."* Measured: **0.375 over 8 seeds**. That is below the threshold and at half the seed
+count, so the strict pre-committed withdrawal has **not** been earned. What *is* established
+beyond argument is that the reported figure was wrong: 0.000 and 0.375 are not the same claim,
+and the difference is entirely in how the request was formed.
+
+So the honest state is **weak but present**, not absent — and the correct framing is a
+dose-response with a boundary somewhere between 0.08 m (tracks 0.375, 1.45 contacts) and 0.35 m
+(tracks 0.000, 0.05 contacts), which no experiment has yet located.
+
+### What this does to the report
+
+* **§4.7** — "duck survives physics, lift does not" becomes "duck survives well; a small,
+  correctly-gated step-over survives weakly."
+* **§30/§31/§33** — the executable repertoire is **not** a single axis. It is duck (strong,
+  graceful dose-response) plus step-over (weak, narrow amplitude band). The "one dial" framing
+  is wrong.
+* **§4.6 is unaffected and worth re-reading in this light.** EXP-005h found 0 of 154
+  preference-winning slots involved a lift. So even now that lift is known to be weakly
+  executable, it carried no decision-relevant diversity in the gate's candidates — because
+  those candidates used the amplitude and gating that do not work. That analysis should be
+  re-run over a corrected lift.
+* **The audit-delta headline is unaffected**: it is about counting methodology, not about which
+  axes execute.
+* **§8.5's self-assessment was right.** It named §4.7 as "the thing most likely to be wrong" and
+  gave the reason: *every previous capability-absent claim in this project failed to survive the
+  experiment that asked properly.* That is now five for five.
+
+### The pattern, stated once more because it has now happened five times
+
+Tuck, yaw, the composed-program collapse, lift-via-position, and now lift-at-0.35-ungated. In
+every case a capability looked absent, an elegant mechanism was available to explain why, and the
+real cause was **how the request was formed**. The mechanism was never wholly wrong — the thigh
+cap is real, the pelvis hop is real, the renderer contradiction is real — and it was never the
+whole story either.
+
+The methodological conclusion is not "be more careful". It is that **a capability-absent claim is
+only as strong as the best request anyone has tried**, and that a frozen prior gives you no
+signal at all about whether a better request exists. That is the honest limit of the audit
+methodology, and it belongs in the paper as prominently as the funnel does.

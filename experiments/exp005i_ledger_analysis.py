@@ -54,7 +54,8 @@ import numpy as np
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from scene2motion.morphology import N_CHANNELS, d_morph, epsilon_net  # noqa: E402
+from scene2motion.morphology import (N_CHANNELS, active_set, d_morph,  # noqa: E402
+                                     epsilon_net, stability)
 
 MIN_STAB, MIN_FEAS = 0.8, 0.75            # pre-committed in EXP-005g, unchanged here
 KS = (1, 2, 4, 8)
@@ -93,6 +94,42 @@ def block(r: dict, which: str) -> dict | None:
 
 def addressable(ev: dict | None) -> bool:
     return bool(ev and ev["feasible_rate"] >= MIN_FEAS and ev["stability"] >= MIN_STAB)
+
+
+def retheshold(rows: list[dict], q99: np.ndarray) -> int:
+    """Recompute every realised active set from the stored deltas at the MEASURED q99.
+
+    `BodyEvaluator.evaluate` defaults to `noise_q99 = SEED_SIGMA_PRIOR * 2.33` and EXP-005g
+    never overrides it, so the gate labelled a channel "active" against a hardcoded Gaussian
+    approximation rather than against the quantile actually measured in EXP-005f.  It sits
+    26-42 % BELOW the measured q99 on every channel, which makes channels fire too easily and
+    inflates both the mode count and the reference size -- the third time a hardcoded noise
+    scale has appeared in this project, and the third time it favoured more apparent diversity.
+
+    This is repairable without a single ARDY call only because the ledger stores the raw
+    per-seed deltas rather than just the labels derived from them.  That is the whole argument
+    for recording evidence instead of conclusions.
+    """
+    n = 0
+    for r in rows:
+        for which in ("selection", "heldout"):
+            ev = r.get(which)
+            if not ev:
+                continue
+            D = np.asarray(ev["deltas"], float)
+            if D.ndim != 2:
+                continue
+            k = r["n_interactions"]
+            sigs = [tuple(active_set(d[j * N_CHANNELS:(j + 1) * N_CHANNELS], q99)
+                          for j in range(k)) for d in D]
+            ev["signatures"] = [[[bool(x) if not isinstance(x, int) else int(x) for x in per]
+                                 for per in sig] for sig in sigs]
+            modal = Counter(sigs).most_common(1)[0][0] if sigs else ()
+            ev["signature"] = [[bool(x) if not isinstance(x, int) else int(x) for x in per]
+                               for per in modal]
+            ev["stability"] = float(stability(sigs))
+            n += 1
+    return n
 
 
 def certifying_n(tau: float, alpha: float = 0.05) -> int:
@@ -228,6 +265,9 @@ def main() -> None:
     ap.add_argument("--eps", type=float, default=None,
                     help="default: the eps the gate calibrated on its null arm")
     ap.add_argument("--boot", type=int, default=20000)
+    ap.add_argument("--noise_q99", default="outputs/exp005f/receipt.json",
+                    help="re-threshold active sets at the MEASURED q99; 'none' keeps the "
+                         "gate's hardcoded 2.33*sigma labels")
     args = ap.parse_args()
     out = Path(args.out)
     out.mkdir(parents=True, exist_ok=True)
@@ -236,6 +276,16 @@ def main() -> None:
     eps = args.eps
     if eps is None:
         eps = json.load(open(args.receipt))["eps_calibration"]["eps_used"]
+    if args.noise_q99 != "none":
+        q99 = np.array(json.load(open(args.noise_q99))["seed_noise_q99"], float)
+        before = [sig_key(r["heldout"]["signature"]) for r in rows if r.get("heldout")]
+        n = retheshold(rows, q99)
+        after = [sig_key(r["heldout"]["signature"]) for r in rows if r.get("heldout")]
+        changed = sum(a != b for a, b in zip(before, after))
+        print(f"re-thresholded {n} evaluations at the MEASURED q99 "
+              f"(the gate used a hardcoded 2.33*sigma, 26-42 % lower): "
+              f"{changed}/{len(before)} held-out modal signatures changed, "
+              f"distinct modes {len(set(before))} -> {len(set(after))}")
     groups = scene_groups(rows)
     rng = np.random.default_rng(0)
     print(f"{len(rows)} ledger rows over {len(groups)} scenes; eps = {eps:.2f} calibrated units")

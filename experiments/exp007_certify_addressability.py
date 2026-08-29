@@ -25,9 +25,20 @@ For each representative program c and its modal mode z:
     p_low  = Clopper-Pearson lower bound at 95 %
     certified  =  p_low >= tau
 
-and per scene, the number of DISTINCT modes with at least one certified program.  That count is
-the honest version of the project's headline number, and it can only be smaller than the point
-estimate -- which is the direction a claim should move when it is checked.
+and per scene, the number of DISTINCT modes with at least one certified program.
+
+Two things that count is NOT, both of which would be easy to read into it:
+
+  * It is not nested inside the point estimate.  Only the eps-net representatives are re-run --
+    at most `--per_scene` of them -- so the certified count is capped at that number by
+    construction, and a scene whose point estimate exceeds the cap cannot possibly certify all
+    of it.  The cap is printed alongside the count; read the pair, never the count alone.
+  * The comparison of the 4-seed estimate against the 24-seed result is NOT a clean measure of
+    small-sample optimism.  The representatives were SELECTED for being addressable on those
+    very 4 held-out seeds, so any regression toward the mean is a selection effect first and a
+    sample-size effect second.  It is reported as regression-under-selection, which is what a
+    practitioner who picks candidates on 4 probes would actually experience, and not as a
+    property of 4-seed estimation in general.
 
 The seeds are disjoint from BOTH of the gate's blocks (selection 100+, held-out 500+), so
 nothing here is scored on a seed that chose it.
@@ -178,19 +189,23 @@ def main() -> None:
     allr = [x for r in results for x in r["reps"]]
     print(f"\n{len(results)} scenes, {len(allr)} representative programs at "
           f"{args.n_seeds} seeds ({time.time()-t0:.0f}s)")
-    print(f"\nmodes per scene:  point estimate {pe:.2f}  ->  CERTIFIED at tau={TAU} {ce:.2f}")
+    print(f"\nmodes per scene:  point estimate {pe:.2f}  ->  CERTIFIED at tau={TAU} {ce:.2f}"
+          f"   (cap {args.per_scene}: only the eps-net representatives are re-run, so the "
+          f"certified count\n{'':18s}cannot exceed it and is a LOWER bound, not a subset of "
+          f"the point estimate)")
     if allr:
         print(f"representative programs certified: "
               f"{np.mean([r['certified'] for r in allr]):.1%}")
         print(f"mean p_hat {np.mean([r['p_hat'] for r in allr]):.3f}   "
               f"mean p_lower {np.mean([r['p_lower'] for r in allr]):.3f}")
-        print(f"\n4-seed estimate vs {args.n_seeds}-seed truth: "
+        print(f"\nregression under selection -- 4-seed estimate vs {args.n_seeds}-seed truth: "
               f"correlation {np.corrcoef([r['p_hat_heldout_4seed'] for r in allr], [r['p_hat'] for r in allr])[0,1]:+.3f}, "
               f"mean 4-seed {np.mean([r['p_hat_heldout_4seed'] for r in allr]):.3f} vs "
               f"{np.mean([r['p_hat'] for r in allr]):.3f}")
-        print("  A 4-seed estimate that sits ABOVE the many-seed truth is the optimism a small "
-              "sample buys\n  by rounding 3/4 up to 0.75 and 4/4 up to 1.00; the gap is what "
-              "the gate's addressability\n  column was worth.")
+        print("  These programs were CHOSEN for scoring well on those 4 seeds, so a drop here "
+              "is regression\n  under selection, not small-sample bias in general.  It is "
+              "still the number that matters: it\n  is exactly what a planner that picks "
+              "candidates on 4 probe clips would then experience.")
     json.dump({"experiment": "exp007_certify_addressability", "tau": TAU, "alpha": ALPHA,
                "n_seeds": args.n_seeds, "n_needed": n_need,
                "modes_per_scene_pointest": pe, "modes_per_scene_certified": ce,

@@ -72,7 +72,8 @@ from scene2motion.scenes import BUILDERS  # noqa: E402
 
 PROMPT = "A person walks forward."
 SPEED, WINDOW = 0.9, (0.42, 0.58)          # EXP-001's own measure window
-TUCKS = [0.0, 0.35, 0.70, 0.85]            # position-channel amplitudes
+TUCKS = [0.0, 0.20, 0.40, 0.50, 0.60, 0.70, 0.85]   # EXP-001's ladder, redone with
+#                                                    per-sample seeds so the pairing is real
 DEGS = [0.0, 10.0, 20.0, 30.0, 40.0]       # rotation-channel amplitudes
 
 

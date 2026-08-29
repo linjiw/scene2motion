@@ -234,7 +234,7 @@ def decode(prog: ConstraintProgram, scene, fps: float, nominal: dict | None = No
     if nominal is not None and joint_names is not None and (tuck.max() > ACTIVE["tuck"]
                                                             or lift.max() > ACTIVE["lift"]):
         pos_frames, pos_joints, pos_targets = _limb_targets(
-            root_xz, tuck, lift, nominal, joint_names, fps)
+            root_xz, tuck, lift, nominal, joint_names, fps, root_y=root_y)
 
     return ConstraintSpec(root_xz=root_xz, heading=heading, root_y=root_y,
                           pos_frames=pos_frames, pos_joints=pos_joints,

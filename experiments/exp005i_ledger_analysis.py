@@ -58,6 +58,9 @@ from scene2motion.morphology import N_CHANNELS, d_morph, epsilon_net  # noqa: E4
 
 MIN_STAB, MIN_FEAS = 0.8, 0.75            # pre-committed in EXP-005g, unchanged here
 KS = (1, 2, 4, 8)
+# The independent random-restart arm. It DEFINES the reference in section C and is therefore
+# not scored there: an arm cannot be graded against a target it alone wrote.
+REF_ARM = "REF-RANDOM"
 ARMS_SCORED = ("A-KBEST", "B-NOGOOD", "C-WSWEEP", "D-REFINE", "COMPOSITE",
                "D-REFINE(x4)", "COMPOSITE(x4)", "REF-RANDOM")
 
@@ -134,7 +137,13 @@ def pooled_whitener(rows: list[dict], n_int: int, ridge: float = 1e-6) -> np.nda
     S = S + ridge * np.eye(N_CHANNELS) * max(1.0, float(np.trace(S)) / N_CHANNELS)
     w, V = np.linalg.eigh(S)
     W1 = V @ np.diag(np.maximum(w, ridge) ** -0.5) @ V.T
-    return np.kron(np.eye(n_int), W1)
+    # The 1/sqrt(n_int) RMS normalisation is NOT decoration: exp005g's `block_whitener_from`
+    # applies it, and `eps` is imported from that run's calibration.  Dropping it here would
+    # inflate every distance by sqrt(n_int) against a threshold calibrated without it, so a
+    # three-obstacle scene would read as more diverse purely for having more blocks.  It is a
+    # no-op on the current suite (every scored scene has n_interactions == 1) and would have
+    # been a silent unit mismatch the moment a multi-obstacle family was scored.
+    return np.kron(np.eye(n_int), W1) / np.sqrt(max(n_int, 1))
 
 
 def diag_whitener(rows: list[dict], n_int: int) -> np.ndarray:
@@ -151,7 +160,7 @@ def diag_whitener(rows: list[dict], n_int: int) -> np.ndarray:
     if not resid:
         return np.eye(n_int * N_CHANNELS)
     q = np.percentile(np.concatenate(resid), 99, axis=0)
-    return np.diag(1.0 / np.maximum(q, 1e-6))
+    return np.diag(1.0 / np.maximum(q, 1e-6)) / np.sqrt(max(n_int, 1))
 
 
 # =======================================================================================
@@ -276,7 +285,7 @@ def main() -> None:
                                  "n_needed_to_certify": n_cert}
 
     # -- C. POOL-ORACLE -----------------------------------------------------------------
-    def run_C(keep_yaw: bool):
+    def run_C(keep_yaw: bool, ref_source: str = "union"):
         """Coverage and oracles, once with the pre-committed signature and once without yaw.
 
         Running it both ways is not a robustness flourish -- it decides the gate's meaning.  If
@@ -294,7 +303,27 @@ def main() -> None:
             pool = [r for r in g if r["arm"] != "NULL-SEED" and r["heldout"]]
             uniq = {r["prog_key"]: r for r in pool}
             cand = list(uniq.values())
-            ref = [c for c in cand if addressable(block(c, "heldout"))]
+            # THE REFERENCE MUST NOT BE THE ORACLE'S OWN POOL.
+            # The first version of this built ref_modes as the image of `cand` under sig_key and
+            # then let the oracle pick from `cand`, which makes hindsight@K identically
+            # min(K, |ref_modes|)/|ref_modes| -- a restatement of the denominator with no
+            # dependence on the candidates, the arms, or ARDY.  Every scene here has at most 5
+            # reference modes, so it would have printed 1.000 everywhere and "the programs
+            # exist, the bottleneck is selection" would have been published as a measurement of
+            # a division identity.  The pre-registered falsification (hindsight@8 < 0.75) was
+            # unreachable by construction.
+            # REF-RANDOM is an independent random-restart body search that shares no rule with
+            # any deployable arm, so it can carry the reference alone; the oracle then picks
+            # only from the deployable arms, and hindsight@K falls below 1 exactly when the
+            # deployable pool has no addressable program realising a mode REF-RANDOM found.
+            # That is the support question.  It also gives every scored arm leave-one-out free.
+            if ref_source == "refrandom":
+                ref = [c for c in cand
+                       if c["arm"] == REF_ARM and addressable(block(c, "heldout"))]
+                oracle_pool = [c for c in cand if c["arm"] != REF_ARM]
+            else:
+                ref = [c for c in cand if addressable(block(c, "heldout"))]
+                oracle_pool = cand
             ref_modes = {sig_key(block(c, "heldout")["signature"], keep_yaw) for c in ref}
             if len(ref_modes) < 2:
                 continue
@@ -304,11 +333,18 @@ def main() -> None:
                    "n_ref_modes": len(ref_modes), "n_ref_net": len(ref_mu),
                    "arms": {}, "oracle": {}}
             for K in KS:
-                rec["oracle"][f"hindsight@{K}"] = greedy_oracle(cand, ref_modes, K, "heldout",
-                                                                "heldout", keep_yaw)
-                rec["oracle"][f"crossfit@{K}"] = greedy_oracle(cand, ref_modes, K, "selection",
-                                                               "heldout", keep_yaw)
+                rec["oracle"][f"hindsight@{K}"] = greedy_oracle(oracle_pool, ref_modes, K,
+                                                                "heldout", "heldout", keep_yaw)
+                rec["oracle"][f"crossfit@{K}"] = greedy_oracle(oracle_pool, ref_modes, K,
+                                                               "selection", "heldout", keep_yaw)
+                # Printed so the identity the first version accidentally measured stays
+                # VISIBLE rather than being quietly deleted: this is what an oracle scored
+                # against its own pool would have returned, at every K, on every scene.
+                rec["oracle"][f"saturation@{K}"] = min(K, len(ref_modes)) / len(ref_modes)
+            rec["ref_source"] = ref_source
             for arm in ARMS_SCORED:
+                if arm == REF_ARM and ref_source == "refrandom":
+                    continue                      # it defines the reference; it cannot score
                 if not any(r["arm"] == arm for r in rows):
                     continue
                 mine = sorted([r for r in g if r["arm"] == arm and r["heldout"]],
@@ -334,7 +370,8 @@ def main() -> None:
               f"{np.mean([r['n_cand'] for r in per_scene]):.0f} distinct candidates)")
         print(f"\n{'':22s} {'@1':>7s} {'@2':>7s} {'@4':>7s} {'@8':>7s}   {'95 % CI @8':>16s}")
         for lbl, key in (("POOL-ORACLE hindsight", "hindsight"),
-                         ("POOL-ORACLE cross-fit", "crossfit")):
+                         ("POOL-ORACLE cross-fit", "crossfit"),
+                         ("(saturation identity)", "saturation")):
             v = [[r["oracle"][f"{key}@{K}"] for r in per_scene] for K in KS]
             lo, hi = boot_ci(v[-1])
             print(f"{lbl:22s} " + " ".join(f"{np.nanmean(x):7.3f}" for x in v)
@@ -348,16 +385,36 @@ def main() -> None:
             print(f"{arm:22s} " + " ".join(f"{np.nanmean(x):7.3f}" for x in v)
                   + f"   [{lo:.3f}, {hi:.3f}]")
 
-    per_scene = run_C(True)
-    print_C(per_scene, "PRIMARY, pre-committed signature (yaw counted)")
-    print("  hindsight = best K chosen KNOWING the held-out outcome -> is the program in the "
-          "pool at all?\n  cross-fit = best K chosen from SELECTION-seed outcomes, scored on "
-          "held-out -> could any\n  reranker trained on noisy probes reach it?  The gap "
-          "between the two rows is the price of\n  ARDY's own stochasticity; the gap from "
-          "cross-fit down to the best arm is what a learned\n  selector could win.")
-    per_scene_ny = run_C(False)
-    print_C(per_scene_ny, "SECONDARY, yaw dropped (no program can request it)")
+    # TWO references, because one cannot be both clean and well-powered.
+    #  union     -- every addressable candidate defines the reference.  Well-powered and the
+    #               same convention the gate used, but an oracle that both picks from and is
+    #               scored on this pool with the SAME seeds is the min(K,M)/M identity, so the
+    #               hindsight row is replaced by that identity, printed under its real name.
+    #               `crossfit` stays valid here: it picks on SELECTION-seed signatures and is
+    #               scored on HELD-OUT ones, and those differ exactly by the stochasticity
+    #               being measured, so it is not self-referential.
+    #  refrandom -- REF-RANDOM's addressable modes define the reference and the oracle picks
+    #               only from the deployable arms.  This is the actual SUPPORT question and
+    #               hindsight is meaningful, at the cost of a much smaller denominator; the
+    #               scene count is printed because scenes with <2 reference modes drop out.
+    per_scene = run_C(True, "union")
+    print_C(per_scene, "PRIMARY, union reference, pre-committed signature (yaw counted)")
+    print("  cross-fit = best K chosen from SELECTION-seed outcomes, scored on held-out -> "
+          "could a reranker\n  trained on noisy probes reach it?  It is valid against this "
+          "reference.\n  (saturation identity) = min(K, n_modes)/n_modes.  An oracle that "
+          "picks from the pool that\n  DEFINES the reference, on the seeds it is scored on, "
+          "returns exactly this whatever the data\n  says -- the first version of this "
+          "experiment reported it as 'POOL-ORACLE hindsight' and\n  pre-registered a "
+          "prediction for it.  It is printed to show what this table is NOT.")
+    per_scene_rr = run_C(True, "refrandom")
+    print_C(per_scene_rr, "SUPPORT, REF-RANDOM reference, deployable arms only")
+    print("  Here hindsight is a real measurement: it falls below 1 exactly when the deployable "
+          "pool holds\n  no addressable program for a mode an independent random search found. "
+          " Fewer scenes qualify.")
+    per_scene_ny = run_C(False, "union")
+    print_C(per_scene_ny, "SECONDARY, union reference, yaw dropped")
     report["C_pool_oracle"] = per_scene
+    report["C_pool_oracle_support"] = per_scene_rr
     report["C_pool_oracle_no_yaw"] = per_scene_ny
 
     # -- D. valid diversity yield --------------------------------------------------------
@@ -561,7 +618,14 @@ def main() -> None:
 
     # -- I. distance sensitivity ---------------------------------------------------------
     print("\n=== I. Diagonal q99 scaling vs full-covariance Mahalanobis ===")
-    dn, dd = [], []
+    # The point of this section is whether CORRELATION STRUCTURE changes the answer, not
+    # whether the two metrics happen to be on the same scale.  The first version rescaled eps by
+    # median(diag(Wd)/diag(Wc)), which is not a global scale factor at all -- the covariance
+    # whitener's diagonal already mixes off-diagonal terms, so that ratio partly divides out
+    # the very correlation being tested.  Here the two metrics are matched on their MEDIAN
+    # PAIRWISE DISTANCE, which is a clean global scale match, and any residual difference in
+    # net size is then attributable to shape rather than units.
+    dn, dd, ratios = [], [], []
     for sid, g in groups.items():
         n_int = g[0]["n_interactions"]
         Wc, Wd = pooled_whitener(g, n_int), diag_whitener(g, n_int)
@@ -569,13 +633,21 @@ def main() -> None:
         mus = np.array([block(c, "heldout")["mu"] for c in cand], float)
         if len(mus) < 3:
             continue
+        pc = [d_morph(mus[i], mus[j], Wc) for i in range(len(mus)) for j in range(i + 1, len(mus))]
+        pd_ = [d_morph(mus[i], mus[j], Wd) for i in range(len(mus)) for j in range(i + 1, len(mus))]
+        f = float(np.median(pd_) / max(np.median(pc), 1e-12))
+        ratios.append(f)
         dn.append(len(epsilon_net(mus, Wc, eps)))
-        dd.append(len(epsilon_net(mus, Wd, eps * float(np.median(np.diag(Wd) / np.diag(Wc))))))
-    print(f"eps-net size per scene: covariance {np.mean(dn):.2f}  diagonal {np.mean(dd):.2f}")
-    print("  The diagonal scale double-counts correlated fluctuation -- EXP-005f measured "
-          "corr(dpsi, lift) =\n  +0.52 and corr(dpsi, dip) = +0.28, so a duck moves three "
-          "channels at once and a diagonal metric\n  reads that single event as three.")
-    report["I_distance"] = {"cov_net": float(np.mean(dn)), "diag_net": float(np.mean(dd))}
+        dd.append(len(epsilon_net(mus, Wd, eps * f)))
+    print(f"eps-net size per scene: covariance {np.mean(dn):.2f}  diagonal {np.mean(dd):.2f}  "
+          f"(scales matched on median pairwise distance, factor {np.mean(ratios):.2f})")
+    print("  Matched on scale, a REMAINING gap is the correlation structure doing work: "
+          "EXP-005f measured\n  corr(dpsi, lift) = +0.52 and corr(dpsi, dip) = +0.28, so one "
+          "duck moves three channels at once\n  and a diagonal metric can read that single "
+          "event as three.  If the two columns agree, the\n  diagonal metric the gate used is "
+          "adequate and the primary result does not rest on it.")
+    report["I_distance"] = {"cov_net": float(np.mean(dn)), "diag_net": float(np.mean(dd)),
+                            "scale_factor": float(np.mean(ratios))}
 
     with open(out / "receipt.json", "w") as fh:
         json.dump(report, fh, indent=2, default=float)

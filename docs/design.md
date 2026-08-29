@@ -1024,11 +1024,14 @@ The guidance's framing — *nominal constraint dimensions ≠ reliably addressab
 capabilities* — turns out to be measurable channel by channel, and two of the measurements cost
 no GPU time at all. They come from re-reading EXP-005f's 1 296 saved paired residuals.
 
-### Yaw is not a control channel. It is a symptom.
+### Yaw is not requestable *by a body program* — but ARDY's heading channel works fine
 
 The morphology descriptor's eighth channel, `dpsi`, has been in the counted alphabet since
-EXP-005f. It should not have been, and the reason is in the program definition rather than in
-any measurement: **no program can request a yaw.** `program.py:31` records that the `sidle`
+EXP-005f. It should not have been — but the reason has to be stated precisely, because the
+loose version of it is false. **ARDY's `global_root_heading` channel is not dead at all**:
+EXP-001b commanded sidle up to 90° and got it back at 89–94 % with a 4–8° spread (section 24).
+The claim is narrower and is about *our action space*, not about the prior: **no body program
+in `ConstraintProgram` can request a yaw.** `program.py:31` records that the `sidle`
 field was removed because it was identically 0.000 in all 278 corpus programs, and `decode`
 takes heading straight from the path tangent (`root_xz, heading = _path_channels(xy, fps)`).
 Every body enumerator copies `base.lat` byte-identically — that is what makes the whole
@@ -1059,9 +1062,12 @@ scene across EXP-005f's six scenes). The gate's pre-committed metric keeps it, b
 a metric after seeing its result is exactly the failure this project has been guarding against;
 it is retired in the EXP-005i secondary analysis instead, and reported both ways.
 
-This is the answer to the guidance's *"yaw still has to earn its place"*. It cannot earn a place
-as a **capability**, because there is no channel through which to ask for one. That is a
-stronger and cleaner negative than "it did not improve clearance".
+This is the answer to the guidance's *"yaw still has to earn its place"*, with the scope stated
+exactly: yaw cannot earn a place as a **body-program capability**, because `ConstraintProgram`
+has no field for it and the route is held fixed — not because ARDY cannot turn. Adding a sidle
+field would make it requestable, and EXP-001b says the prior would honour it. What must not
+happen is counting an unrequestable bit as a realised strategy, which is what the gate's
+signature does today.
 
 ### Lift is not dead. It is expensive.
 

@@ -488,12 +488,23 @@ def _dilate_channel(v: np.ndarray, w: int, most: str) -> np.ndarray:
     return out
 
 
-def _limb_targets(root_xz, tuck, lift, nominal, joint_names, fps):
+def _limb_targets(root_xz, tuck, lift, nominal, joint_names, fps, root_y=None):
     """Sparse joint-position targets that render a tuck and/or a step-over lift.
 
     Shared by the planner renderer and the constraint-program decoder so both reach ARDY
     through identical machinery -- a program and the oracle plan it was fitted to must not
     differ because they took different code paths to the same request.
+
+    `root_y` is the ADAPTED pelvis height this request also commands, and passing it is not
+    optional for any program that ducks.  The limb targets are read out of `nominal`, an
+    UN-DUCKED route-only clip, so without the shift below a duck-and-tuck program tells ARDY
+    "drop your pelvis 40 cm" on the root_y channel and "keep your hands at standing height" on
+    the joint-position channel in the same breath.  The two requests fight, and composed body
+    programs were being handicapped by the renderer rather than by the prior: `duck+tuck` came
+    back 77 % invalid and `duck+tuck+lift` 100 % invalid in the EXP-005i smoke, which is
+    exactly the signature of an incoherent request.  Every joint target is therefore shifted by
+    the commanded pelvis displacement, so the arms ride down with the body and only the tuck
+    and lift remain as genuine departures from the nominal.
     """
     idx = {n: i for i, n in enumerate(joint_names)}
     nom_j = nominal["posed_joints"]           # (Tn, J, 3) ardy frame
@@ -538,6 +549,9 @@ def _limb_targets(root_xz, tuck, lift, nominal, joint_names, fps):
         if len(arm_cols):
             shrink[:, arm_cols] = (1.0 - tuck[want])[:, None]
         height = nom_j[k][:, joints, 1].copy()
+        if root_y is not None:
+            # ARDY frame is Y-up: shift limb heights by the commanded pelvis displacement.
+            height += (np.asarray(root_y)[want] - nom_r[k][:, 1])[:, None]
         for i, f in enumerate(want):
             for j, dy in lifts.get(int(f), {}).items():
                 col = int(np.where(joints == j)[0][0])
@@ -587,7 +601,7 @@ def plan_to_spec(p: Plan, fps: float, nominal: dict, joint_names: list[str],
     heading = heading + sidle
 
     pos_frames, pos_joints, pos_targets = _limb_targets(
-        root_xz, tuck, lift, nominal, joint_names, fps)
+        root_xz, tuck, lift, nominal, joint_names, fps, root_y=root_y)
 
     return ConstraintSpec(root_xz=root_xz, heading=heading, root_y=root_y,
                           pos_frames=pos_frames, pos_joints=pos_joints,

@@ -212,13 +212,33 @@ def main() -> None:
                             ("dip_cmd", "lift_cmd", "tuck_cmd", "adapt_span")]].sum(1).argmin())
 
         def regret(idx: list[int]) -> float:
-            """Mean over preferences of (best in the set - best available), normalised."""
+            """Mean over preferences of (best in the set - best available), normalised.
+
+            NOTE the trap this function sets, which the first version of this experiment walked
+            straight into: `regret(all candidates)` is IDENTICALLY 0, because best_set and
+            best_all are then the same minimum. Comparing the neutral program against the full
+            pool therefore always shows a "significant reduction", and the pre-committed kill
+            condition -- "the K=8 set does not materially reduce regret over the best single
+            neutral program" -- could never fire. The comparison has to be against a SET OF
+            SIZE K, not against the pool that defines the optimum.
+            """
             if not len(idx):
                 return 1.0
             best_set = scores[idx].min(0)
             best_all = scores.min(0)
             span = np.maximum(scores.max(0) - best_all, 1e-9)
             return float(np.mean((best_set - best_all) / span))
+
+        def best_k(K: int) -> list[int]:
+            """Greedy size-K subset minimising mean preference regret (an upper bound)."""
+            chosen: list[int] = []
+            for _ in range(min(K, len(keep))):
+                pick = min((i for i in range(len(keep)) if i not in chosen),
+                           key=lambda i: regret(chosen + [i]), default=None)
+                if pick is None:
+                    break
+                chosen.append(pick)
+            return chosen
 
         hv_all, se_all = hypervolume(G[front], pts)
         rec = {"scene_id": sid, "family": g[0]["family"], "n_addressable": len(keep),
@@ -227,7 +247,10 @@ def main() -> None:
                "pref_winners": {p: "".join("DLRY"[i] for i, b in enumerate(m[0]) if b) or "none"
                                 for p, m in zip(PREFS, win_modes)},
                "regret_neutral": regret([neutral]),
+               # regret_full is retained ONLY as a visible zero: it is what the first version
+               # of this experiment reported as the headline, and it is 0 by construction.
                "regret_full": regret(list(range(len(keep)))),
+               "regret_bestK": {str(K): regret(best_k(K)) for K in (1, 2, 4, K_SET)},
                "arms": {}}
         for arm in sorted({r["arm"] for r in g if r["arm"] != "NULL-SEED"}):
             # an arm's K=8 set, ordered by the rank THAT arm gave each program
@@ -257,13 +280,26 @@ def main() -> None:
     print(f"   pre-committed kill threshold is 25 %  ->  "
           f"{'PASSES' if frac2 >= 0.25 else 'FAILS -- the diversity has no decision value'}")
 
-    dr = np.array([r["regret_neutral"] for r in recs]) - np.array([r["regret_full"] for r in recs])
+    print(f"\nnormalised preference regret, best size-K set (greedy, hindsight upper bound):")
+    print(f"   {'neutral single':>18s} {np.mean([r['regret_neutral'] for r in recs]):.3f}")
+    for K in (1, 2, 4, K_SET):
+        v = np.mean([r["regret_bestK"][str(K)] for r in recs])
+        print(f"   {'best K=' + str(K):>18s} {v:.3f}")
+    print(f"   {'whole pool':>18s} "
+          f"{np.mean([r['regret_full'] for r in recs]):.3f}   <- 0 BY CONSTRUCTION: the pool "
+          f"defines the optimum.\n{'':22s}The first version of this experiment used it as the "
+          f"headline, which made the\n{'':22s}pre-committed kill condition unable to fire.")
+    dr = (np.array([r["regret_neutral"] for r in recs])
+          - np.array([r["regret_bestK"][str(K_SET)] for r in recs]))
     lo, hi = boot(dr)
-    print(f"\nnormalised preference regret: neutral-only "
-          f"{np.mean([r['regret_neutral'] for r in recs]):.3f}  ->  full addressable set "
-          f"{np.mean([r['regret_full'] for r in recs]):.3f}")
-    print(f"   paired reduction {dr.mean():.3f}  [{lo:.3f}, {hi:.3f}]  "
+    print(f"\n   K={K_SET} vs neutral, paired reduction {dr.mean():.3f}  [{lo:.3f}, {hi:.3f}]  "
           f"{'(significant)' if lo > 0 else '(NOT significant)'}")
+    d21 = (np.array([r["regret_bestK"]["1"] for r in recs])
+           - np.array([r["regret_bestK"]["2"] for r in recs]))
+    lo2, hi2 = boot(d21)
+    print(f"   the SECOND body alone buys {d21.mean():.3f}  [{lo2:.3f}, {hi2:.3f}] -- if this "
+          f"is ~0 there is\n   no trade-off to serve and one well-chosen body is the whole "
+          f"answer.")
 
     arms = sorted({a for r in recs for a in r["arms"]})
     print(f"\n{'arm':16s} {'n':>4s} {'regret':>8s} {'vs neutral':>18s} {'hv':>7s} "
@@ -302,7 +338,10 @@ def main() -> None:
                "lambda_invalid": LAMBDA_INVALID,
                "frac_scenes_two_pref_winners": frac2,
                "regret_neutral": float(np.mean([r["regret_neutral"] for r in recs])),
-               "regret_full": float(np.mean([r["regret_full"] for r in recs])),
+               "regret_full_is_zero_by_construction": float(
+                   np.mean([r["regret_full"] for r in recs])),
+               "regret_bestK": {str(K): float(np.mean([r["regret_bestK"][str(K)] for r in recs]))
+                                for K in (1, 2, 4, K_SET)},
                "mean_front_size": float(np.mean([r["front_size"] for r in recs])),
                "yaw_wins_frac": float(yaw_wins), "scenes": recs},
               open(out / "receipt.json", "w"), indent=2, default=float)

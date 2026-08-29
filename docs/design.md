@@ -1273,3 +1273,87 @@ scatter **modestly, 10–25 %**, raises P(channel fires) for lift, and costs rou
 controllability–naturalness frontier, but not one that overturns the audit. The outcome that
 would genuinely change the project is scatter falling by more than half at acceptable quality;
 I put that below 20 %.
+
+---
+
+## 24. The pose decoder reads two feature blocks, and we were writing into a third
+
+This is the largest finding of the session and it puts a live alternative explanation under
+every capability number in section 22.
+
+`ardy/motion_rep/reps/ardy_motionrep.py`, `inverse`:
+
+```python
+global_rot_mats = cont6d_to_matrix(global_rot_data)
+local_rot_mats  = global_rots_to_local_rots(global_rot_mats, self.skeleton)
+if posed_joints_from == "rotations":          # <- the DEFAULT
+    _, posed_joints, _ = fk(local_rot_mats, root_positions, self.skeleton)
+```
+
+The pose ARDY hands back is forward kinematics from exactly **two** feature blocks:
+`global_rot_data` and `root_positions`. `local_joints_positions` is unpacked and then, on the
+default path, **never used to build a pose**. Everything downstream in this project —
+`to_qpos`, every MuJoCo collision check, every half-width, every capability number — is computed
+from that FK output.
+
+Now line up our five channels against that:
+
+| our channel | feature block | read by the pose decoder | what we measured |
+|---|---|---|---|
+| `root_2d` | `root_positions` xz | **yes** | path tracked to 1.4 cm mean |
+| `root_y_pos` — **duck** | `root_positions` y | **yes** | the one clean capability |
+| `global_joints_rots` | `global_rot_data` | **yes** | **we have never written it** |
+| `global_root_heading` | — | no | ? |
+| `global_joints_positions` — **tuck, lift** | `local_joints_positions` | no | tuck 0.68 σ; lift −44 pts validity |
+
+Both channels that work write straight into a block the decoder reads. Both channels that
+misbehave write into one it does not. And the one read-block we have never touched is precisely
+the one that would carry a tuck or a step-over.
+
+Writing an unread block is not ignored — it conditions the *generation*, and the denoiser has
+learned that a real motion's position and rotation blocks agree. But nothing at inference time
+*enforces* that agreement, so the request reaches the body only through a learned, soft,
+stochastic coupling. Attenuated and high-variance is exactly the signature we measured and
+attributed to the prior's control bandwidth.
+
+### The obvious version of this theory is wrong, and the data says so
+
+`global_root_heading` is also not read by `fk`. If "unread block ⇒ weak channel" were the rule,
+heading requests should be mushy. From EXP-001b:
+
+| requested sidle | achieved yaw | sd | tracked |
+|---|---|---|---|
+| 45° | 39.9° | 4.1° | 89 % |
+| 60° | 55.6° | 5.7° | 93 % |
+| 75° | 69.3° | 7.8° | 92 % |
+| 90° | 84.9° | 7.1° | **94 %** |
+
+Heading is tracked to ~90 % through an unread block. **So being unread is not sufficient for a
+channel to be weak** — the denoiser's learned coupling can be tight. The plausible difference is
+that heading is two numbers describing a global property that every other block must agree with,
+whereas a tuck constrains 8 of 34 joints at ~8 frames per second, leaving the model ample slack
+to satisfy the position block while the rotation block — the one that becomes the pose — does
+something else.
+
+I am not going to publish that mechanism on a plausibility argument. What the observation
+licenses is a *test*, and it is a clean one, because it is the same physical request routed
+through a read block instead of an unread one at matched seeds and matched amplitudes. That is
+EXP-008.
+
+### What is now at stake in EXP-008
+
+Two hypotheses predict every number in section 22 equally well:
+
+* **H1, the prior.** ARDY's body-adaptation control is intrinsically low-bandwidth and noisy.
+* **H2, the encoder.** We asked through a block the decoder does not pose from.
+
+If ROT-IN produces a larger half-width change per unit of seed noise than POS, H2 carries real
+weight and the capability audit has to be re-measured on the right channel before any of it is
+claimed. If ROT-IN is no better — and the ROT-OUT sign control confirms the channel is reaching
+the body at all — then H1 stands, and it stands much more strongly than it does today, because
+the most obvious objection to the whole project will have been tested and closed rather than
+left for a reviewer to raise.
+
+Either outcome is worth the ~10 minutes of GPU it costs. The uncomfortable one is more likely to
+be right: I wired `global_joints_positions` because the channel table in `constraints.py`
+labelled it "TUCK / STEP-OVER", and never checked which blocks the decoder consumes.

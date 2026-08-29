@@ -1,9 +1,62 @@
 {
   "experiment": "exp011_tracked_addressability",
-  "returncode": 1,
-  "pkl": "outputs/exp011/ardy_bodies.pkl",
-  "n_clips_requested": 24,
+  "n_seeds": 8,
   "diffusion_steps": 5,
-  "summary_lines": [],
-  "wall_clock_s": 6.2
+  "results": {
+    "neutral": {
+      "success_rate": 0.875,
+      "progress_rate": 0.8863065327,
+      "mpjpe_l": 46.698,
+      "mpjpe_pa": 36.228,
+      "accel_dist": 2.04,
+      "vel_dist": 12.517,
+      "returncode": 0
+    },
+    "duck-shallow": {
+      "success_rate": 1.0,
+      "progress_rate": 1.0,
+      "mpjpe_l": 62.85,
+      "mpjpe_pa": 58.88,
+      "accel_dist": 1.902,
+      "vel_dist": 11.555,
+      "returncode": 0
+    },
+    "duck": {
+      "success_rate": 0.75,
+      "progress_rate": 0.8282035179,
+      "mpjpe_l": 83.351,
+      "mpjpe_pa": 77.518,
+      "accel_dist": 5.993,
+      "vel_dist": 18.068,
+      "returncode": 0
+    },
+    "duck-deep": {
+      "success_rate": 0.625,
+      "progress_rate": 0.8272613026,
+      "mpjpe_l": 89.603,
+      "mpjpe_pa": 66.712,
+      "accel_dist": 10.175,
+      "vel_dist": 22.044,
+      "returncode": 0
+    },
+    "lift": {
+      "success_rate": 0.0,
+      "progress_rate": 0.0624999985,
+      "mpjpe_l": 37.502,
+      "mpjpe_pa": 28.872,
+      "accel_dist": 28.314,
+      "vel_dist": 25.422,
+      "returncode": 0
+    },
+    "duck+lift": {
+      "success_rate": 0.0,
+      "progress_rate": 0.2104271371,
+      "mpjpe_l": 79.669,
+      "mpjpe_pa": 73.701,
+      "accel_dist": 24.635,
+      "vel_dist": 27.505,
+      "returncode": 0
+    }
+  },
+  "wall_clock_s": 253.3
 }

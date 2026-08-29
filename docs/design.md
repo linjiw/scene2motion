@@ -1921,3 +1921,72 @@ if a tracked duck and a tracked neutral walk are physically distinguishable and 
 then 1.5 modes is a real if small capability set; if the tracker collapses them, the count is
 lower still. That experiment can only remove capability, which is why it is the right place to
 stop adding claims and start checking the ones that survive.
+
+---
+
+## 31. EXP-011: the duck survives physics. The lift does not.
+
+SONIC, the trained whole-body tracking controller, evaluated on ARDY-generated motion — one
+evaluation per requested body, 8 per-sample seeds each, so every row is that body's own number
+rather than a share of a pooled aggregate.
+
+| requested body | success | progress | mpjpe_l | accel_dist | vs neutral |
+|---|---|---|---|---|---|
+| neutral | 0.875 | 0.886 | 46.7 mm | 2.04 | — |
+| duck-shallow (0.20) | **1.000** | 1.000 | 62.9 | 1.90 | **+0.125** |
+| duck (0.35) | 0.750 | 0.828 | 83.4 | 5.99 | −0.125 |
+| duck-deep (0.50) | 0.625 | 0.827 | 89.6 | 10.18 | −0.250 |
+| **lift (0.35)** | **0.000** | 0.062 | *37.5* | **28.31** | **−0.875** |
+| **duck+lift** | **0.000** | 0.210 | 79.7 | **24.64** | **−0.875** |
+
+**Duck is a real capability.** A shallow duck tracks *better* than a neutral walk, and the
+degradation with depth is graceful and monotone — 1.000, 0.750, 0.625 at 0.20, 0.35, 0.50 m.
+That is what an executable adaptation looks like: it costs something, the cost scales with how
+much you ask for, and you can price it.
+
+**Lift is not.** Zero of eight, twice, with `accel_dist` at 28.3 against neutral's 2.04 — the
+requested motion is dynamically violent and the controller terminates almost immediately
+(progress 0.062). Read the `mpjpe_l` of 37.5 mm as an artefact, **not** as good tracking: the
+episode ended after 6 % of the clip, so the posture error is measured over a tiny prefix. This
+is the one row in the table where the headline number flatters the result.
+
+### What it does to the funnel
+
+The 1.67 addressable modes of section 30 were counted over an alphabet of (duck, liftL, liftR).
+If lift is not executable, the executable alphabet is **duck alone, with amplitude**:
+
+    43-D constraint interface
+      -> 36 requested body programs
+      -> 13.2 kinematically valid
+      -> 10.8 valid and stable
+      ->  1.7 distinct addressable modes
+      ->  ~1 dynamically executable strategy
+
+There is one executable whole-body strategy on this system, and it is "crouch, by this much".
+The morphology-*set* framing is not weak, it is empty — and no generator, reranker or diversity
+objective is needed to produce a set of size one.
+
+### The two independent refusals agree, and that is the strongest thing here
+
+The conformal capability envelope refused the `low_obstacle` family outright — 0/20 recoverable
+on a worst-of-4-seeds bound. That refusal was derived purely from kinematics and a measured
+margin, months of work before any controller was involved. EXP-011 now says, from an entirely
+separate mechanism — a trained RL controller in a physics simulator — that lift is 0/8
+executable.
+
+Two methods that share no code, no assumptions and no data agree that **step-over is not
+available on this system.** A calibrated kinematic refusal predicted a dynamic one. That is the
+strongest validation the audit methodology has received, and it is the result I would lead with.
+
+### The caveat that keeps this honest
+
+SONIC was trained on retargeted human motion capture. A lift request produces an unusual gait,
+so "0/8 executable" is a statement about **this controller**, not a proof of physical
+impossibility — an out-of-distribution reference and an infeasible reference fail the same way
+from the outside. Distinguishing them needs either a tracker trained with step-over in its data
+or a trajectory-optimisation check that ignores the controller's prior, and neither exists here.
+
+What the result *does* establish without that ambiguity is the direction: the kinematic layer
+**overstates** capability, and the axis it overstates most is precisely the one the planner most
+needed for the family it already refuses. Every stage of this funnel has shrunk under scrutiny,
+and none has ever grown.

@@ -1,0 +1,1826 @@
+[
+  {
+    "scene_id": "overhead_beam_h1.10_80030051",
+    "family": "overhead_beam",
+    "n_interactions": 1,
+    "scorable": true,
+    "n_pool": 26,
+    "n_reference": 6,
+    "n_reference_signatures": 3,
+    "reference_contributors": {
+      "A-KBEST": 3,
+      "B-NOGOOD": 1,
+      "COMPOSITE": 1,
+      "REF-RANDOM": 1
+    },
+    "baselines": {
+      "A-KBEST": {
+        "n_proposed": 8,
+        "n_feasible": 4,
+        "n_addressable": 4,
+        "mean_stability": 1.0,
+        "mean_feasible_rate": 0.5,
+        "max_cost_ratio": 1.2849109260413818,
+        "frac_overlap": 0.625,
+        "frac_overlap_given_infeasible": 1.0,
+        "continuous": {
+          "1": 0.16666666666666666,
+          "2": 0.3333333333333333,
+          "4": 0.5,
+          "8": 0.5
+        },
+        "discrete": {
+          "1": 0.3333333333333333,
+          "2": 0.3333333333333333,
+          "4": 0.3333333333333333,
+          "8": 0.3333333333333333
+        },
+        "continuous_loo": {
+          "1": 0.16666666666666666,
+          "2": 0.3333333333333333,
+          "4": 0.5,
+          "8": 0.5
+        },
+        "discrete_loo": {
+          "1": 0.3333333333333333,
+          "2": 0.3333333333333333,
+          "4": 0.3333333333333333,
+          "8": 0.3333333333333333
+        },
+        "auk_discrete": 0.3333333333333333,
+        "auk_continuous": 0.375,
+        "auk_discrete_loo": 0.3333333333333333,
+        "auk_continuous_loo": 0.375,
+        "ardy_charged": 19,
+        "planner_cpu_s": 0.18858575820922852
+      },
+      "B-NOGOOD": {
+        "n_proposed": 8,
+        "n_feasible": 5,
+        "n_addressable": 4,
+        "mean_stability": 0.9375,
+        "mean_feasible_rate": 0.625,
+        "max_cost_ratio": 1.2636184761917681,
+        "frac_overlap": 0.625,
+        "frac_overlap_given_infeasible": 1.0,
+        "continuous": {
+          "1": 0.16666666666666666,
+          "2": 0.3333333333333333,
+          "4": 0.3333333333333333,
+          "8": 0.6666666666666666
+        },
+        "discrete": {
+          "1": 0.3333333333333333,
+          "2": 0.3333333333333333,
+          "4": 0.3333333333333333,
+          "8": 0.6666666666666666
+        },
+        "continuous_loo": {
+          "1": 0.16666666666666666,
+          "2": 0.3333333333333333,
+          "4": 0.3333333333333333,
+          "8": 0.6666666666666666
+        },
+        "discrete_loo": {
+          "1": 0.3333333333333333,
+          "2": 0.3333333333333333,
+          "4": 0.3333333333333333,
+          "8": 0.6666666666666666
+        },
+        "auk_discrete": 0.41666666666666663,
+        "auk_continuous": 0.375,
+        "auk_discrete_loo": 0.41666666666666663,
+        "auk_continuous_loo": 0.375,
+        "ardy_charged": 19,
+        "planner_cpu_s": 0.09865355491638184
+      },
+      "C-WSWEEP": {
+        "n_proposed": 8,
+        "n_feasible": 3,
+        "n_addressable": 3,
+        "mean_stability": 1.0,
+        "mean_feasible_rate": 0.375,
+        "max_cost_ratio": 1.301019525416771,
+        "frac_overlap": 0.875,
+        "frac_overlap_given_infeasible": 1.0,
+        "continuous": {
+          "1": 0.16666666666666666,
+          "2": 0.16666666666666666,
+          "4": 0.16666666666666666,
+          "8": 0.5
+        },
+        "discrete": {
+          "1": 0.3333333333333333,
+          "2": 0.3333333333333333,
+          "4": 0.3333333333333333,
+          "8": 0.6666666666666666
+        },
+        "continuous_loo": {
+          "1": 0.16666666666666666,
+          "2": 0.16666666666666666,
+          "4": 0.16666666666666666,
+          "8": 0.5
+        },
+        "discrete_loo": {
+          "1": 0.3333333333333333,
+          "2": 0.3333333333333333,
+          "4": 0.3333333333333333,
+          "8": 0.6666666666666666
+        },
+        "auk_discrete": 0.41666666666666663,
+        "auk_continuous": 0.25,
+        "auk_discrete_loo": 0.41666666666666663,
+        "auk_continuous_loo": 0.25,
+        "ardy_charged": 19,
+        "planner_cpu_s": 0.2467360496520996
+      },
+      "NULL-SEED": {
+        "n_proposed": 8,
+        "n_feasible": 8,
+        "n_addressable": 8,
+        "mean_stability": 1.0,
+        "mean_feasible_rate": 1.0,
+        "max_cost_ratio": 1.0,
+        "frac_overlap": 0.0,
+        "frac_overlap_given_infeasible": null,
+        "continuous": {
+          "1": 0.3333333333333333,
+          "2": 0.3333333333333333,
+          "4": 0.3333333333333333,
+          "8": 0.3333333333333333
+        },
+        "discrete": {
+          "1": 0.3333333333333333,
+          "2": 0.3333333333333333,
+          "4": 0.3333333333333333,
+          "8": 0.3333333333333333
+        },
+        "continuous_loo": {
+          "1": 0.3333333333333333,
+          "2": 0.3333333333333333,
+          "4": 0.3333333333333333,
+          "8": 0.3333333333333333
+        },
+        "discrete_loo": {
+          "1": 0.3333333333333333,
+          "2": 0.3333333333333333,
+          "4": 0.3333333333333333,
+          "8": 0.3333333333333333
+        },
+        "auk_discrete": 0.3333333333333333,
+        "auk_continuous": 0.3333333333333333,
+        "auk_discrete_loo": 0.3333333333333333,
+        "auk_continuous_loo": 0.3333333333333333,
+        "ardy_charged": 35,
+        "planner_cpu_s": 1.5735626220703125e-05
+      },
+      "D-REFINE": {
+        "n_proposed": 5,
+        "n_feasible": 5,
+        "n_addressable": 5,
+        "mean_stability": 1.0,
+        "mean_feasible_rate": 1.0,
+        "max_cost_ratio": 1.2369194614169086,
+        "frac_overlap": 0.0,
+        "frac_overlap_given_infeasible": null,
+        "continuous": {
+          "1": 0.16666666666666666,
+          "2": 0.16666666666666666,
+          "4": 0.3333333333333333,
+          "8": 0.6666666666666666
+        },
+        "discrete": {
+          "1": 0.3333333333333333,
+          "2": 0.3333333333333333,
+          "4": 0.3333333333333333,
+          "8": 0.3333333333333333
+        },
+        "continuous_loo": {
+          "1": 0.16666666666666666,
+          "2": 0.16666666666666666,
+          "4": 0.3333333333333333,
+          "8": 0.6666666666666666
+        },
+        "discrete_loo": {
+          "1": 0.3333333333333333,
+          "2": 0.3333333333333333,
+          "4": 0.3333333333333333,
+          "8": 0.3333333333333333
+        },
+        "auk_discrete": 0.3333333333333333,
+        "auk_continuous": 0.3333333333333333,
+        "auk_discrete_loo": 0.3333333333333333,
+        "auk_continuous_loo": 0.3333333333333333,
+        "ardy_charged": 19,
+        "planner_cpu_s": 4.706681728363037
+      },
+      "COMPOSITE": {
+        "n_proposed": 3,
+        "n_feasible": 3,
+        "n_addressable": 3,
+        "mean_stability": 1.0,
+        "mean_feasible_rate": 1.0,
+        "max_cost_ratio": 1.2822290508057772,
+        "frac_overlap": 0.3333333333333333,
+        "frac_overlap_given_infeasible": null,
+        "continuous": {
+          "1": 0.16666666666666666,
+          "2": 0.3333333333333333,
+          "4": 0.3333333333333333,
+          "8": 0.5
+        },
+        "discrete": {
+          "1": 0.3333333333333333,
+          "2": 0.3333333333333333,
+          "4": 0.3333333333333333,
+          "8": 0.6666666666666666
+        },
+        "continuous_loo": {
+          "1": 0.2,
+          "2": 0.4,
+          "4": 0.4,
+          "8": 0.4
+        },
+        "discrete_loo": {
+          "1": 0.5,
+          "2": 0.5,
+          "4": 0.5,
+          "8": 0.5
+        },
+        "auk_discrete": 0.41666666666666663,
+        "auk_continuous": 0.3333333333333333,
+        "auk_discrete_loo": 0.5,
+        "auk_continuous_loo": 0.35,
+        "ardy_charged": 19,
+        "planner_cpu_s": 5.941377401351929
+      },
+      "REF-RANDOM": {
+        "n_proposed": 8,
+        "n_feasible": 8,
+        "n_addressable": 7,
+        "mean_stability": 0.9375,
+        "mean_feasible_rate": 1.0,
+        "max_cost_ratio": 1.5251239511990635,
+        "frac_overlap": 0.25,
+        "frac_overlap_given_infeasible": null,
+        "continuous": {
+          "1": 0.16666666666666666,
+          "2": 0.3333333333333333,
+          "4": 0.5,
+          "8": 0.6666666666666666
+        },
+        "discrete": {
+          "1": 0.3333333333333333,
+          "2": 0.3333333333333333,
+          "4": 0.3333333333333333,
+          "8": 0.3333333333333333
+        },
+        "continuous_loo": {
+          "1": 0.2,
+          "2": 0.2,
+          "4": 0.4,
+          "8": 0.6
+        },
+        "discrete_loo": {
+          "1": 0.3333333333333333,
+          "2": 0.3333333333333333,
+          "4": 0.3333333333333333,
+          "8": 0.3333333333333333
+        },
+        "auk_discrete": 0.3333333333333333,
+        "auk_continuous": 0.41666666666666663,
+        "auk_discrete_loo": 0.3333333333333333,
+        "auk_continuous_loo": 0.35,
+        "ardy_charged": 19,
+        "planner_cpu_s": 0.0003476142883300781
+      }
+    },
+    "null_seed": {
+      "pairwise_mean_d_morph": 3.3108132867854536,
+      "pairwise_frac_above_eps": 0.0,
+      "single_seed_pair_mean": 4.569175060041448,
+      "single_seed_frac_above_eps": 0.0,
+      "internal_eps_net": 1,
+      "n_null": 8
+    }
+  },
+  {
+    "scene_id": "overhead_beam_h0.90_4726d7b0",
+    "family": "overhead_beam",
+    "n_interactions": 1,
+    "scorable": true,
+    "n_pool": 15,
+    "n_reference": 4,
+    "n_reference_signatures": 1,
+    "reference_contributors": {
+      "A-KBEST": 1,
+      "D-REFINE": 2,
+      "REF-RANDOM": 1
+    },
+    "baselines": {
+      "A-KBEST": {
+        "n_proposed": 8,
+        "n_feasible": 1,
+        "n_addressable": 1,
+        "mean_stability": 0.875,
+        "mean_feasible_rate": 0.125,
+        "max_cost_ratio": 1.255223782428762,
+        "frac_overlap": 0.875,
+        "frac_overlap_given_infeasible": 1.0,
+        "continuous": {
+          "1": 0.25,
+          "2": 0.25,
+          "4": 0.25,
+          "8": 0.25
+        },
+        "discrete": {
+          "1": 1.0,
+          "2": 1.0,
+          "4": 1.0,
+          "8": 1.0
+        },
+        "continuous_loo": {
+          "1": 0.25,
+          "2": 0.25,
+          "4": 0.25,
+          "8": 0.25
+        },
+        "discrete_loo": {
+          "1": 1.0,
+          "2": 1.0,
+          "4": 1.0,
+          "8": 1.0
+        },
+        "auk_discrete": 1.0,
+        "auk_continuous": 0.25,
+        "auk_discrete_loo": 1.0,
+        "auk_continuous_loo": 0.25,
+        "ardy_charged": 19,
+        "planner_cpu_s": 0.19025206565856934
+      },
+      "B-NOGOOD": {
+        "n_proposed": 8,
+        "n_feasible": 2,
+        "n_addressable": 2,
+        "mean_stability": 0.9375,
+        "mean_feasible_rate": 0.25,
+        "max_cost_ratio": 1.3315206854290376,
+        "frac_overlap": 0.625,
+        "frac_overlap_given_infeasible": 0.8333333333333334,
+        "continuous": {
+          "1": 0.25,
+          "2": 0.25,
+          "4": 0.25,
+          "8": 0.75
+        },
+        "discrete": {
+          "1": 1.0,
+          "2": 1.0,
+          "4": 1.0,
+          "8": 1.0
+        },
+        "continuous_loo": {
+          "1": 0.25,
+          "2": 0.25,
+          "4": 0.25,
+          "8": 0.75
+        },
+        "discrete_loo": {
+          "1": 1.0,
+          "2": 1.0,
+          "4": 1.0,
+          "8": 1.0
+        },
+        "auk_discrete": 1.0,
+        "auk_continuous": 0.375,
+        "auk_discrete_loo": 1.0,
+        "auk_continuous_loo": 0.375,
+        "ardy_charged": 19,
+        "planner_cpu_s": 0.09136366844177246
+      },
+      "C-WSWEEP": {
+        "n_proposed": 8,
+        "n_feasible": 1,
+        "n_addressable": 1,
+        "mean_stability": 0.9375,
+        "mean_feasible_rate": 0.125,
+        "max_cost_ratio": 1.3145839182160124,
+        "frac_overlap": 0.875,
+        "frac_overlap_given_infeasible": 1.0,
+        "continuous": {
+          "1": 0.25,
+          "2": 0.25,
+          "4": 0.25,
+          "8": 0.25
+        },
+        "discrete": {
+          "1": 1.0,
+          "2": 1.0,
+          "4": 1.0,
+          "8": 1.0
+        },
+        "continuous_loo": {
+          "1": 0.25,
+          "2": 0.25,
+          "4": 0.25,
+          "8": 0.25
+        },
+        "discrete_loo": {
+          "1": 1.0,
+          "2": 1.0,
+          "4": 1.0,
+          "8": 1.0
+        },
+        "auk_discrete": 1.0,
+        "auk_continuous": 0.25,
+        "auk_discrete_loo": 1.0,
+        "auk_continuous_loo": 0.25,
+        "ardy_charged": 19,
+        "planner_cpu_s": 0.07309365272521973
+      },
+      "NULL-SEED": {
+        "n_proposed": 8,
+        "n_feasible": 8,
+        "n_addressable": 8,
+        "mean_stability": 1.0,
+        "mean_feasible_rate": 1.0,
+        "max_cost_ratio": 1.0,
+        "frac_overlap": 0.0,
+        "frac_overlap_given_infeasible": null,
+        "continuous": {
+          "1": 0.0,
+          "2": 0.0,
+          "4": 0.25,
+          "8": 0.5
+        },
+        "discrete": {
+          "1": 1.0,
+          "2": 1.0,
+          "4": 1.0,
+          "8": 1.0
+        },
+        "continuous_loo": {
+          "1": 0.0,
+          "2": 0.0,
+          "4": 0.25,
+          "8": 0.5
+        },
+        "discrete_loo": {
+          "1": 1.0,
+          "2": 1.0,
+          "4": 1.0,
+          "8": 1.0
+        },
+        "auk_discrete": 1.0,
+        "auk_continuous": 0.1875,
+        "auk_discrete_loo": 1.0,
+        "auk_continuous_loo": 0.1875,
+        "ardy_charged": 35,
+        "planner_cpu_s": 1.1682510375976562e-05
+      },
+      "D-REFINE": {
+        "n_proposed": 4,
+        "n_feasible": 4,
+        "n_addressable": 4,
+        "mean_stability": 1.0,
+        "mean_feasible_rate": 1.0,
+        "max_cost_ratio": 1.3294090103950928,
+        "frac_overlap": 0.0,
+        "frac_overlap_given_infeasible": null,
+        "continuous": {
+          "1": 0.25,
+          "2": 0.5,
+          "4": 0.75,
+          "8": 0.75
+        },
+        "discrete": {
+          "1": 1.0,
+          "2": 1.0,
+          "4": 1.0,
+          "8": 1.0
+        },
+        "continuous_loo": {
+          "1": 0.3333333333333333,
+          "2": 0.6666666666666666,
+          "4": 0.6666666666666666,
+          "8": 0.6666666666666666
+        },
+        "discrete_loo": {
+          "1": 1.0,
+          "2": 1.0,
+          "4": 1.0,
+          "8": 1.0
+        },
+        "auk_discrete": 1.0,
+        "auk_continuous": 0.5625,
+        "auk_discrete_loo": 1.0,
+        "auk_continuous_loo": 0.5833333333333333,
+        "ardy_charged": 19,
+        "planner_cpu_s": 4.663137674331665
+      },
+      "COMPOSITE": {
+        "n_proposed": 1,
+        "n_feasible": 1,
+        "n_addressable": 1,
+        "mean_stability": 1.0,
+        "mean_feasible_rate": 1.0,
+        "max_cost_ratio": 1.0,
+        "frac_overlap": 0.0,
+        "frac_overlap_given_infeasible": null,
+        "continuous": {
+          "1": 0.25,
+          "2": 0.25,
+          "4": 0.25,
+          "8": 0.25
+        },
+        "discrete": {
+          "1": 1.0,
+          "2": 1.0,
+          "4": 1.0,
+          "8": 1.0
+        },
+        "continuous_loo": {
+          "1": 0.25,
+          "2": 0.25,
+          "4": 0.25,
+          "8": 0.25
+        },
+        "discrete_loo": {
+          "1": 1.0,
+          "2": 1.0,
+          "4": 1.0,
+          "8": 1.0
+        },
+        "auk_discrete": 1.0,
+        "auk_continuous": 0.25,
+        "auk_discrete_loo": 1.0,
+        "auk_continuous_loo": 0.25,
+        "ardy_charged": 19,
+        "planner_cpu_s": 4.0094895362854
+      },
+      "REF-RANDOM": {
+        "n_proposed": 8,
+        "n_feasible": 6,
+        "n_addressable": 6,
+        "mean_stability": 0.9375,
+        "mean_feasible_rate": 0.75,
+        "max_cost_ratio": 1.3273124288793139,
+        "frac_overlap": 0.25,
+        "frac_overlap_given_infeasible": 1.0,
+        "continuous": {
+          "1": 0.25,
+          "2": 0.5,
+          "4": 0.75,
+          "8": 0.75
+        },
+        "discrete": {
+          "1": 1.0,
+          "2": 1.0,
+          "4": 1.0,
+          "8": 1.0
+        },
+        "continuous_loo": {
+          "1": 0.3333333333333333,
+          "2": 0.6666666666666666,
+          "4": 0.6666666666666666,
+          "8": 0.6666666666666666
+        },
+        "discrete_loo": {
+          "1": 1.0,
+          "2": 1.0,
+          "4": 1.0,
+          "8": 1.0
+        },
+        "auk_discrete": 1.0,
+        "auk_continuous": 0.5625,
+        "auk_discrete_loo": 1.0,
+        "auk_continuous_loo": 0.5833333333333333,
+        "ardy_charged": 19,
+        "planner_cpu_s": 0.00032639503479003906
+      }
+    },
+    "null_seed": {
+      "pairwise_mean_d_morph": 3.880678180061614,
+      "pairwise_frac_above_eps": 0.03571428571428571,
+      "single_seed_pair_mean": 5.067961164774176,
+      "single_seed_frac_above_eps": 0.125,
+      "internal_eps_net": 1,
+      "n_null": 8
+    }
+  },
+  {
+    "scene_id": "beam_and_gap_h1.10_b20f2c9a",
+    "family": "beam_and_gap",
+    "n_interactions": 2,
+    "scorable": true,
+    "n_pool": 23,
+    "n_reference": 4,
+    "n_reference_signatures": 3,
+    "reference_contributors": {
+      "A-KBEST": 1,
+      "B-NOGOOD": 1,
+      "C-WSWEEP": 1,
+      "REF-RANDOM": 1
+    },
+    "baselines": {
+      "A-KBEST": {
+        "n_proposed": 8,
+        "n_feasible": 5,
+        "n_addressable": 5,
+        "mean_stability": 1.0,
+        "mean_feasible_rate": 0.625,
+        "max_cost_ratio": 1.3089884802163143,
+        "frac_overlap": 0.875,
+        "frac_overlap_given_infeasible": 1.0,
+        "continuous": {
+          "1": 0.25,
+          "2": 0.5,
+          "4": 0.5,
+          "8": 0.5
+        },
+        "discrete": {
+          "1": 0.3333333333333333,
+          "2": 0.3333333333333333,
+          "4": 0.3333333333333333,
+          "8": 0.3333333333333333
+        },
+        "continuous_loo": {
+          "1": 0.25,
+          "2": 0.5,
+          "4": 0.5,
+          "8": 0.5
+        },
+        "discrete_loo": {
+          "1": 0.3333333333333333,
+          "2": 0.3333333333333333,
+          "4": 0.3333333333333333,
+          "8": 0.3333333333333333
+        },
+        "auk_discrete": 0.3333333333333333,
+        "auk_continuous": 0.4375,
+        "auk_discrete_loo": 0.3333333333333333,
+        "auk_continuous_loo": 0.4375,
+        "ardy_charged": 19,
+        "planner_cpu_s": 0.23245859146118164
+      },
+      "B-NOGOOD": {
+        "n_proposed": 8,
+        "n_feasible": 4,
+        "n_addressable": 4,
+        "mean_stability": 1.0,
+        "mean_feasible_rate": 0.5625,
+        "max_cost_ratio": 1.2874061575536384,
+        "frac_overlap": 0.875,
+        "frac_overlap_given_infeasible": 1.0,
+        "continuous": {
+          "1": 0.25,
+          "2": 0.5,
+          "4": 0.5,
+          "8": 0.5
+        },
+        "discrete": {
+          "1": 0.3333333333333333,
+          "2": 0.3333333333333333,
+          "4": 0.3333333333333333,
+          "8": 0.3333333333333333
+        },
+        "continuous_loo": {
+          "1": 0.25,
+          "2": 0.5,
+          "4": 0.5,
+          "8": 0.5
+        },
+        "discrete_loo": {
+          "1": 0.3333333333333333,
+          "2": 0.3333333333333333,
+          "4": 0.3333333333333333,
+          "8": 0.3333333333333333
+        },
+        "auk_discrete": 0.3333333333333333,
+        "auk_continuous": 0.4375,
+        "auk_discrete_loo": 0.3333333333333333,
+        "auk_continuous_loo": 0.4375,
+        "ardy_charged": 19,
+        "planner_cpu_s": 0.11160397529602051
+      },
+      "C-WSWEEP": {
+        "n_proposed": 8,
+        "n_feasible": 4,
+        "n_addressable": 4,
+        "mean_stability": 1.0,
+        "mean_feasible_rate": 0.5,
+        "max_cost_ratio": 1.3209126681880576,
+        "frac_overlap": 0.75,
+        "frac_overlap_given_infeasible": 1.0,
+        "continuous": {
+          "1": 0.25,
+          "2": 0.25,
+          "4": 0.75,
+          "8": 0.75
+        },
+        "discrete": {
+          "1": 0.3333333333333333,
+          "2": 0.3333333333333333,
+          "4": 0.6666666666666666,
+          "8": 0.6666666666666666
+        },
+        "continuous_loo": {
+          "1": 0.3333333333333333,
+          "2": 0.3333333333333333,
+          "4": 0.6666666666666666,
+          "8": 0.6666666666666666
+        },
+        "discrete_loo": {
+          "1": 0.5,
+          "2": 0.5,
+          "4": 0.5,
+          "8": 0.5
+        },
+        "auk_discrete": 0.5,
+        "auk_continuous": 0.5,
+        "auk_discrete_loo": 0.5,
+        "auk_continuous_loo": 0.5,
+        "ardy_charged": 19,
+        "planner_cpu_s": 0.14749526977539062
+      },
+      "NULL-SEED": {
+        "n_proposed": 8,
+        "n_feasible": 8,
+        "n_addressable": 6,
+        "mean_stability": 0.875,
+        "mean_feasible_rate": 1.0,
+        "max_cost_ratio": 1.0,
+        "frac_overlap": 0.0,
+        "frac_overlap_given_infeasible": null,
+        "continuous": {
+          "1": 0.5,
+          "2": 0.5,
+          "4": 0.5,
+          "8": 0.5
+        },
+        "discrete": {
+          "1": 0.3333333333333333,
+          "2": 0.3333333333333333,
+          "4": 0.3333333333333333,
+          "8": 0.3333333333333333
+        },
+        "continuous_loo": {
+          "1": 0.5,
+          "2": 0.5,
+          "4": 0.5,
+          "8": 0.5
+        },
+        "discrete_loo": {
+          "1": 0.3333333333333333,
+          "2": 0.3333333333333333,
+          "4": 0.3333333333333333,
+          "8": 0.3333333333333333
+        },
+        "auk_discrete": 0.3333333333333333,
+        "auk_continuous": 0.5,
+        "auk_discrete_loo": 0.3333333333333333,
+        "auk_continuous_loo": 0.5,
+        "ardy_charged": 35,
+        "planner_cpu_s": 1.0013580322265625e-05
+      },
+      "D-REFINE": {
+        "n_proposed": 2,
+        "n_feasible": 2,
+        "n_addressable": 2,
+        "mean_stability": 1.0,
+        "mean_feasible_rate": 1.0,
+        "max_cost_ratio": 1.2811006957243314,
+        "frac_overlap": 0.5,
+        "frac_overlap_given_infeasible": null,
+        "continuous": {
+          "1": 0.25,
+          "2": 0.25,
+          "4": 0.25,
+          "8": 0.5
+        },
+        "discrete": {
+          "1": 0.3333333333333333,
+          "2": 0.3333333333333333,
+          "4": 0.3333333333333333,
+          "8": 0.3333333333333333
+        },
+        "continuous_loo": {
+          "1": 0.25,
+          "2": 0.25,
+          "4": 0.25,
+          "8": 0.5
+        },
+        "discrete_loo": {
+          "1": 0.3333333333333333,
+          "2": 0.3333333333333333,
+          "4": 0.3333333333333333,
+          "8": 0.3333333333333333
+        },
+        "auk_discrete": 0.3333333333333333,
+        "auk_continuous": 0.3125,
+        "auk_discrete_loo": 0.3333333333333333,
+        "auk_continuous_loo": 0.3125,
+        "ardy_charged": 19,
+        "planner_cpu_s": 5.887993812561035
+      },
+      "COMPOSITE": {
+        "n_proposed": 4,
+        "n_feasible": 4,
+        "n_addressable": 4,
+        "mean_stability": 1.0,
+        "mean_feasible_rate": 1.0,
+        "max_cost_ratio": 1.2431903529110555,
+        "frac_overlap": 0.75,
+        "frac_overlap_given_infeasible": null,
+        "continuous": {
+          "1": 0.25,
+          "2": 0.5,
+          "4": 0.5,
+          "8": 0.5
+        },
+        "discrete": {
+          "1": 0.3333333333333333,
+          "2": 0.3333333333333333,
+          "4": 0.3333333333333333,
+          "8": 0.3333333333333333
+        },
+        "continuous_loo": {
+          "1": 0.25,
+          "2": 0.5,
+          "4": 0.5,
+          "8": 0.5
+        },
+        "discrete_loo": {
+          "1": 0.3333333333333333,
+          "2": 0.3333333333333333,
+          "4": 0.3333333333333333,
+          "8": 0.3333333333333333
+        },
+        "auk_discrete": 0.3333333333333333,
+        "auk_continuous": 0.4375,
+        "auk_discrete_loo": 0.3333333333333333,
+        "auk_continuous_loo": 0.4375,
+        "ardy_charged": 19,
+        "planner_cpu_s": 6.541910886764526
+      },
+      "REF-RANDOM": {
+        "n_proposed": 8,
+        "n_feasible": 4,
+        "n_addressable": 4,
+        "mean_stability": 0.875,
+        "mean_feasible_rate": 0.5625,
+        "max_cost_ratio": 1.5395500685809977,
+        "frac_overlap": 1.0,
+        "frac_overlap_given_infeasible": 1.0,
+        "continuous": {
+          "1": 0.0,
+          "2": 0.25,
+          "4": 0.25,
+          "8": 0.75
+        },
+        "discrete": {
+          "1": 0.0,
+          "2": 0.3333333333333333,
+          "4": 0.3333333333333333,
+          "8": 0.6666666666666666
+        },
+        "continuous_loo": {
+          "1": 0.0,
+          "2": 0.3333333333333333,
+          "4": 0.3333333333333333,
+          "8": 0.6666666666666666
+        },
+        "discrete_loo": {
+          "1": 0.0,
+          "2": 0.5,
+          "4": 0.5,
+          "8": 0.5
+        },
+        "auk_discrete": 0.3333333333333333,
+        "auk_continuous": 0.3125,
+        "auk_discrete_loo": 0.375,
+        "auk_continuous_loo": 0.3333333333333333,
+        "ardy_charged": 19,
+        "planner_cpu_s": 0.0004913806915283203
+      }
+    },
+    "null_seed": {
+      "pairwise_mean_d_morph": 4.304926106487439,
+      "pairwise_frac_above_eps": 0.03571428571428571,
+      "single_seed_pair_mean": 5.6029547217503985,
+      "single_seed_frac_above_eps": 0.25,
+      "internal_eps_net": 1,
+      "n_null": 8
+    }
+  },
+  {
+    "scene_id": "narrow_gap_w0.60_6755419f",
+    "family": "narrow_gap",
+    "n_interactions": 1,
+    "scorable": true,
+    "n_pool": 23,
+    "n_reference": 2,
+    "n_reference_signatures": 2,
+    "reference_contributors": {
+      "A-KBEST": 1,
+      "REF-RANDOM": 1
+    },
+    "baselines": {
+      "A-KBEST": {
+        "n_proposed": 8,
+        "n_feasible": 4,
+        "n_addressable": 4,
+        "mean_stability": 1.0,
+        "mean_feasible_rate": 0.5,
+        "max_cost_ratio": 1.3451182223461582,
+        "frac_overlap": 0.875,
+        "frac_overlap_given_infeasible": 1.0,
+        "continuous": {
+          "1": 0.5,
+          "2": 0.5,
+          "4": 0.5,
+          "8": 1.0
+        },
+        "discrete": {
+          "1": 0.5,
+          "2": 0.5,
+          "4": 0.5,
+          "8": 0.5
+        },
+        "continuous_loo": {
+          "1": 0.5,
+          "2": 0.5,
+          "4": 0.5,
+          "8": 1.0
+        },
+        "discrete_loo": {
+          "1": 0.5,
+          "2": 0.5,
+          "4": 0.5,
+          "8": 0.5
+        },
+        "auk_discrete": 0.5,
+        "auk_continuous": 0.625,
+        "auk_discrete_loo": 0.5,
+        "auk_continuous_loo": 0.625,
+        "ardy_charged": 19,
+        "planner_cpu_s": 0.20140576362609863
+      },
+      "B-NOGOOD": {
+        "n_proposed": 8,
+        "n_feasible": 5,
+        "n_addressable": 5,
+        "mean_stability": 1.0,
+        "mean_feasible_rate": 0.625,
+        "max_cost_ratio": 1.338151692395366,
+        "frac_overlap": 0.75,
+        "frac_overlap_given_infeasible": 1.0,
+        "continuous": {
+          "1": 0.5,
+          "2": 1.0,
+          "4": 1.0,
+          "8": 1.0
+        },
+        "discrete": {
+          "1": 0.5,
+          "2": 0.5,
+          "4": 0.5,
+          "8": 0.5
+        },
+        "continuous_loo": {
+          "1": 0.5,
+          "2": 1.0,
+          "4": 1.0,
+          "8": 1.0
+        },
+        "discrete_loo": {
+          "1": 0.5,
+          "2": 0.5,
+          "4": 0.5,
+          "8": 0.5
+        },
+        "auk_discrete": 0.5,
+        "auk_continuous": 0.875,
+        "auk_discrete_loo": 0.5,
+        "auk_continuous_loo": 0.875,
+        "ardy_charged": 19,
+        "planner_cpu_s": 0.08869528770446777
+      },
+      "C-WSWEEP": {
+        "n_proposed": 8,
+        "n_feasible": 6,
+        "n_addressable": 6,
+        "mean_stability": 1.0,
+        "mean_feasible_rate": 0.75,
+        "max_cost_ratio": 1.3130233071381223,
+        "frac_overlap": 0.875,
+        "frac_overlap_given_infeasible": 1.0,
+        "continuous": {
+          "1": 0.5,
+          "2": 0.5,
+          "4": 0.5,
+          "8": 1.0
+        },
+        "discrete": {
+          "1": 0.5,
+          "2": 0.5,
+          "4": 0.5,
+          "8": 0.5
+        },
+        "continuous_loo": {
+          "1": 0.5,
+          "2": 0.5,
+          "4": 0.5,
+          "8": 1.0
+        },
+        "discrete_loo": {
+          "1": 0.5,
+          "2": 0.5,
+          "4": 0.5,
+          "8": 0.5
+        },
+        "auk_discrete": 0.5,
+        "auk_continuous": 0.625,
+        "auk_discrete_loo": 0.5,
+        "auk_continuous_loo": 0.625,
+        "ardy_charged": 19,
+        "planner_cpu_s": 0.06674051284790039
+      },
+      "NULL-SEED": {
+        "n_proposed": 8,
+        "n_feasible": 8,
+        "n_addressable": 6,
+        "mean_stability": 0.875,
+        "mean_feasible_rate": 1.0,
+        "max_cost_ratio": 1.0,
+        "frac_overlap": 0.0,
+        "frac_overlap_given_infeasible": null,
+        "continuous": {
+          "1": 0.5,
+          "2": 0.5,
+          "4": 0.5,
+          "8": 0.5
+        },
+        "discrete": {
+          "1": 0.5,
+          "2": 0.5,
+          "4": 0.5,
+          "8": 0.5
+        },
+        "continuous_loo": {
+          "1": 0.5,
+          "2": 0.5,
+          "4": 0.5,
+          "8": 0.5
+        },
+        "discrete_loo": {
+          "1": 0.5,
+          "2": 0.5,
+          "4": 0.5,
+          "8": 0.5
+        },
+        "auk_discrete": 0.5,
+        "auk_continuous": 0.5,
+        "auk_discrete_loo": 0.5,
+        "auk_continuous_loo": 0.5,
+        "ardy_charged": 35,
+        "planner_cpu_s": 1.0728836059570312e-05
+      },
+      "D-REFINE": {
+        "n_proposed": 1,
+        "n_feasible": 1,
+        "n_addressable": 1,
+        "mean_stability": 1.0,
+        "mean_feasible_rate": 1.0,
+        "max_cost_ratio": 1.0,
+        "frac_overlap": 0.0,
+        "frac_overlap_given_infeasible": null,
+        "continuous": {
+          "1": 0.5,
+          "2": 0.5,
+          "4": 0.5,
+          "8": 0.5
+        },
+        "discrete": {
+          "1": 0.5,
+          "2": 0.5,
+          "4": 0.5,
+          "8": 0.5
+        },
+        "continuous_loo": {
+          "1": 0.5,
+          "2": 0.5,
+          "4": 0.5,
+          "8": 0.5
+        },
+        "discrete_loo": {
+          "1": 0.5,
+          "2": 0.5,
+          "4": 0.5,
+          "8": 0.5
+        },
+        "auk_discrete": 0.5,
+        "auk_continuous": 0.5,
+        "auk_discrete_loo": 0.5,
+        "auk_continuous_loo": 0.5,
+        "ardy_charged": 19,
+        "planner_cpu_s": 5.284367322921753
+      },
+      "COMPOSITE": {
+        "n_proposed": 1,
+        "n_feasible": 1,
+        "n_addressable": 1,
+        "mean_stability": 1.0,
+        "mean_feasible_rate": 1.0,
+        "max_cost_ratio": 1.0,
+        "frac_overlap": 0.0,
+        "frac_overlap_given_infeasible": null,
+        "continuous": {
+          "1": 0.5,
+          "2": 0.5,
+          "4": 0.5,
+          "8": 0.5
+        },
+        "discrete": {
+          "1": 0.5,
+          "2": 0.5,
+          "4": 0.5,
+          "8": 0.5
+        },
+        "continuous_loo": {
+          "1": 0.5,
+          "2": 0.5,
+          "4": 0.5,
+          "8": 0.5
+        },
+        "discrete_loo": {
+          "1": 0.5,
+          "2": 0.5,
+          "4": 0.5,
+          "8": 0.5
+        },
+        "auk_discrete": 0.5,
+        "auk_continuous": 0.5,
+        "auk_discrete_loo": 0.5,
+        "auk_continuous_loo": 0.5,
+        "ardy_charged": 19,
+        "planner_cpu_s": 4.674605131149292
+      },
+      "REF-RANDOM": {
+        "n_proposed": 8,
+        "n_feasible": 6,
+        "n_addressable": 6,
+        "mean_stability": 0.875,
+        "mean_feasible_rate": 0.75,
+        "max_cost_ratio": 1.9322958157664776,
+        "frac_overlap": 0.5,
+        "frac_overlap_given_infeasible": 1.0,
+        "continuous": {
+          "1": 0.0,
+          "2": 0.5,
+          "4": 0.5,
+          "8": 1.0
+        },
+        "discrete": {
+          "1": 0.0,
+          "2": 0.5,
+          "4": 0.5,
+          "8": 1.0
+        },
+        "continuous_loo": {
+          "1": 0.0,
+          "2": 1.0,
+          "4": 1.0,
+          "8": 1.0
+        },
+        "discrete_loo": {
+          "1": 0.0,
+          "2": 1.0,
+          "4": 1.0,
+          "8": 1.0
+        },
+        "auk_discrete": 0.5,
+        "auk_continuous": 0.5,
+        "auk_discrete_loo": 0.75,
+        "auk_continuous_loo": 0.75,
+        "ardy_charged": 19,
+        "planner_cpu_s": 0.0003197193145751953
+      }
+    },
+    "null_seed": {
+      "pairwise_mean_d_morph": 3.471011862200097,
+      "pairwise_frac_above_eps": 0.0,
+      "single_seed_pair_mean": 4.870821769026831,
+      "single_seed_frac_above_eps": 0.25,
+      "internal_eps_net": 1,
+      "n_null": 8
+    }
+  },
+  {
+    "scene_id": "partial_beam_h1.05_fb4e2fa1",
+    "family": "partial_beam",
+    "n_interactions": 1,
+    "scorable": true,
+    "n_pool": 34,
+    "n_reference": 7,
+    "n_reference_signatures": 4,
+    "reference_contributors": {
+      "A-KBEST": 4,
+      "B-NOGOOD": 1,
+      "REF-RANDOM": 2
+    },
+    "baselines": {
+      "A-KBEST": {
+        "n_proposed": 8,
+        "n_feasible": 6,
+        "n_addressable": 6,
+        "mean_stability": 0.875,
+        "mean_feasible_rate": 0.8125,
+        "max_cost_ratio": 1.3297923929611264,
+        "frac_overlap": 0.875,
+        "frac_overlap_given_infeasible": 1.0,
+        "continuous": {
+          "1": 0.14285714285714285,
+          "2": 0.2857142857142857,
+          "4": 0.5714285714285714,
+          "8": 0.5714285714285714
+        },
+        "discrete": {
+          "1": 0.25,
+          "2": 0.5,
+          "4": 1.0,
+          "8": 1.0
+        },
+        "continuous_loo": {
+          "1": 0.125,
+          "2": 0.25,
+          "4": 0.625,
+          "8": 0.625
+        },
+        "discrete_loo": {
+          "1": 0.25,
+          "2": 0.5,
+          "4": 1.0,
+          "8": 1.0
+        },
+        "auk_discrete": 0.6875,
+        "auk_continuous": 0.39285714285714285,
+        "auk_discrete_loo": 0.6875,
+        "auk_continuous_loo": 0.40625,
+        "ardy_charged": 19,
+        "planner_cpu_s": 0.20778727531433105
+      },
+      "B-NOGOOD": {
+        "n_proposed": 8,
+        "n_feasible": 8,
+        "n_addressable": 7,
+        "mean_stability": 0.9375,
+        "mean_feasible_rate": 1.0,
+        "max_cost_ratio": 1.2630698865672647,
+        "frac_overlap": 0.5,
+        "frac_overlap_given_infeasible": null,
+        "continuous": {
+          "1": 0.14285714285714285,
+          "2": 0.14285714285714285,
+          "4": 0.42857142857142855,
+          "8": 0.7142857142857143
+        },
+        "discrete": {
+          "1": 0.25,
+          "2": 0.25,
+          "4": 0.5,
+          "8": 0.75
+        },
+        "continuous_loo": {
+          "1": 0.125,
+          "2": 0.125,
+          "4": 0.5,
+          "8": 0.75
+        },
+        "discrete_loo": {
+          "1": 0.25,
+          "2": 0.25,
+          "4": 0.5,
+          "8": 0.75
+        },
+        "auk_discrete": 0.4375,
+        "auk_continuous": 0.3571428571428571,
+        "auk_discrete_loo": 0.4375,
+        "auk_continuous_loo": 0.375,
+        "ardy_charged": 19,
+        "planner_cpu_s": 0.0979006290435791
+      },
+      "C-WSWEEP": {
+        "n_proposed": 8,
+        "n_feasible": 8,
+        "n_addressable": 8,
+        "mean_stability": 1.0,
+        "mean_feasible_rate": 1.0,
+        "max_cost_ratio": 1.3458823529411763,
+        "frac_overlap": 0.5,
+        "frac_overlap_given_infeasible": null,
+        "continuous": {
+          "1": 0.14285714285714285,
+          "2": 0.42857142857142855,
+          "4": 0.42857142857142855,
+          "8": 0.42857142857142855
+        },
+        "discrete": {
+          "1": 0.25,
+          "2": 0.25,
+          "4": 0.5,
+          "8": 0.5
+        },
+        "continuous_loo": {
+          "1": 0.14285714285714285,
+          "2": 0.42857142857142855,
+          "4": 0.42857142857142855,
+          "8": 0.42857142857142855
+        },
+        "discrete_loo": {
+          "1": 0.25,
+          "2": 0.25,
+          "4": 0.5,
+          "8": 0.5
+        },
+        "auk_discrete": 0.375,
+        "auk_continuous": 0.35714285714285715,
+        "auk_discrete_loo": 0.375,
+        "auk_continuous_loo": 0.35714285714285715,
+        "ardy_charged": 19,
+        "planner_cpu_s": 0.11858105659484863
+      },
+      "NULL-SEED": {
+        "n_proposed": 8,
+        "n_feasible": 8,
+        "n_addressable": 8,
+        "mean_stability": 1.0,
+        "mean_feasible_rate": 1.0,
+        "max_cost_ratio": 1.0,
+        "frac_overlap": 0.0,
+        "frac_overlap_given_infeasible": null,
+        "continuous": {
+          "1": 0.14285714285714285,
+          "2": 0.14285714285714285,
+          "4": 0.14285714285714285,
+          "8": 0.14285714285714285
+        },
+        "discrete": {
+          "1": 0.25,
+          "2": 0.25,
+          "4": 0.25,
+          "8": 0.25
+        },
+        "continuous_loo": {
+          "1": 0.14285714285714285,
+          "2": 0.14285714285714285,
+          "4": 0.14285714285714285,
+          "8": 0.14285714285714285
+        },
+        "discrete_loo": {
+          "1": 0.25,
+          "2": 0.25,
+          "4": 0.25,
+          "8": 0.25
+        },
+        "auk_discrete": 0.25,
+        "auk_continuous": 0.14285714285714285,
+        "auk_discrete_loo": 0.25,
+        "auk_continuous_loo": 0.14285714285714285,
+        "ardy_charged": 35,
+        "planner_cpu_s": 1.0728836059570312e-05
+      },
+      "D-REFINE": {
+        "n_proposed": 2,
+        "n_feasible": 2,
+        "n_addressable": 2,
+        "mean_stability": 1.0,
+        "mean_feasible_rate": 1.0,
+        "max_cost_ratio": 1.2296288917374636,
+        "frac_overlap": 0.0,
+        "frac_overlap_given_infeasible": null,
+        "continuous": {
+          "1": 0.14285714285714285,
+          "2": 0.14285714285714285,
+          "4": 0.2857142857142857,
+          "8": 0.2857142857142857
+        },
+        "discrete": {
+          "1": 0.25,
+          "2": 0.25,
+          "4": 0.25,
+          "8": 0.25
+        },
+        "continuous_loo": {
+          "1": 0.14285714285714285,
+          "2": 0.14285714285714285,
+          "4": 0.2857142857142857,
+          "8": 0.2857142857142857
+        },
+        "discrete_loo": {
+          "1": 0.25,
+          "2": 0.25,
+          "4": 0.25,
+          "8": 0.25
+        },
+        "auk_discrete": 0.25,
+        "auk_continuous": 0.21428571428571427,
+        "auk_discrete_loo": 0.25,
+        "auk_continuous_loo": 0.21428571428571427,
+        "ardy_charged": 19,
+        "planner_cpu_s": 5.942217826843262
+      },
+      "COMPOSITE": {
+        "n_proposed": 6,
+        "n_feasible": 6,
+        "n_addressable": 6,
+        "mean_stability": 1.0,
+        "mean_feasible_rate": 1.0,
+        "max_cost_ratio": 1.2903002190480832,
+        "frac_overlap": 0.5,
+        "frac_overlap_given_infeasible": null,
+        "continuous": {
+          "1": 0.14285714285714285,
+          "2": 0.2857142857142857,
+          "4": 0.42857142857142855,
+          "8": 0.7142857142857143
+        },
+        "discrete": {
+          "1": 0.25,
+          "2": 0.5,
+          "4": 0.75,
+          "8": 1.0
+        },
+        "continuous_loo": {
+          "1": 0.14285714285714285,
+          "2": 0.2857142857142857,
+          "4": 0.42857142857142855,
+          "8": 0.7142857142857143
+        },
+        "discrete_loo": {
+          "1": 0.25,
+          "2": 0.5,
+          "4": 0.75,
+          "8": 1.0
+        },
+        "auk_discrete": 0.625,
+        "auk_continuous": 0.39285714285714285,
+        "auk_discrete_loo": 0.625,
+        "auk_continuous_loo": 0.39285714285714285,
+        "ardy_charged": 19,
+        "planner_cpu_s": 7.50075364112854
+      },
+      "REF-RANDOM": {
+        "n_proposed": 8,
+        "n_feasible": 7,
+        "n_addressable": 5,
+        "mean_stability": 0.8125,
+        "mean_feasible_rate": 0.875,
+        "max_cost_ratio": 1.2680700897675699,
+        "frac_overlap": 0.5,
+        "frac_overlap_given_infeasible": 1.0,
+        "continuous": {
+          "1": 0.14285714285714285,
+          "2": 0.14285714285714285,
+          "4": 0.2857142857142857,
+          "8": 0.5714285714285714
+        },
+        "discrete": {
+          "1": 0.25,
+          "2": 0.25,
+          "4": 0.5,
+          "8": 0.75
+        },
+        "continuous_loo": {
+          "1": 0.2,
+          "2": 0.2,
+          "4": 0.4,
+          "8": 0.4
+        },
+        "discrete_loo": {
+          "1": 0.25,
+          "2": 0.25,
+          "4": 0.5,
+          "8": 0.75
+        },
+        "auk_discrete": 0.4375,
+        "auk_continuous": 0.2857142857142857,
+        "auk_discrete_loo": 0.4375,
+        "auk_continuous_loo": 0.30000000000000004,
+        "ardy_charged": 19,
+        "planner_cpu_s": 0.000270843505859375
+      }
+    },
+    "null_seed": {
+      "pairwise_mean_d_morph": 0.0,
+      "pairwise_frac_above_eps": 0.0,
+      "single_seed_pair_mean": 0.0,
+      "single_seed_frac_above_eps": 0.0,
+      "internal_eps_net": 1,
+      "n_null": 8
+    }
+  },
+  {
+    "scene_id": "pillar_off0.30_fcdddfe0",
+    "family": "pillar",
+    "n_interactions": 1,
+    "scorable": true,
+    "n_pool": 19,
+    "n_reference": 3,
+    "n_reference_signatures": 3,
+    "reference_contributors": {
+      "A-KBEST": 2,
+      "REF-RANDOM": 1
+    },
+    "baselines": {
+      "A-KBEST": {
+        "n_proposed": 8,
+        "n_feasible": 8,
+        "n_addressable": 2,
+        "mean_stability": 0.625,
+        "mean_feasible_rate": 1.0,
+        "max_cost_ratio": 1.3413529411764706,
+        "frac_overlap": 0.25,
+        "frac_overlap_given_infeasible": null,
+        "continuous": {
+          "1": 0.3333333333333333,
+          "2": 0.6666666666666666,
+          "4": 0.6666666666666666,
+          "8": 0.6666666666666666
+        },
+        "discrete": {
+          "1": 0.3333333333333333,
+          "2": 0.6666666666666666,
+          "4": 0.6666666666666666,
+          "8": 0.6666666666666666
+        },
+        "continuous_loo": {
+          "1": 0.3333333333333333,
+          "2": 0.6666666666666666,
+          "4": 0.6666666666666666,
+          "8": 0.6666666666666666
+        },
+        "discrete_loo": {
+          "1": 0.3333333333333333,
+          "2": 0.6666666666666666,
+          "4": 0.6666666666666666,
+          "8": 0.6666666666666666
+        },
+        "auk_discrete": 0.5833333333333333,
+        "auk_continuous": 0.5833333333333333,
+        "auk_discrete_loo": 0.5833333333333333,
+        "auk_continuous_loo": 0.5833333333333333,
+        "ardy_charged": 19,
+        "planner_cpu_s": 0.020631790161132812
+      },
+      "B-NOGOOD": {
+        "n_proposed": 8,
+        "n_feasible": 8,
+        "n_addressable": 2,
+        "mean_stability": 0.625,
+        "mean_feasible_rate": 1.0,
+        "max_cost_ratio": 1.3413529411764706,
+        "frac_overlap": 0.25,
+        "frac_overlap_given_infeasible": null,
+        "continuous": {
+          "1": 0.3333333333333333,
+          "2": 0.6666666666666666,
+          "4": 0.6666666666666666,
+          "8": 0.6666666666666666
+        },
+        "discrete": {
+          "1": 0.3333333333333333,
+          "2": 0.6666666666666666,
+          "4": 0.6666666666666666,
+          "8": 0.6666666666666666
+        },
+        "continuous_loo": {
+          "1": 0.3333333333333333,
+          "2": 0.6666666666666666,
+          "4": 0.6666666666666666,
+          "8": 0.6666666666666666
+        },
+        "discrete_loo": {
+          "1": 0.3333333333333333,
+          "2": 0.6666666666666666,
+          "4": 0.6666666666666666,
+          "8": 0.6666666666666666
+        },
+        "auk_discrete": 0.5833333333333333,
+        "auk_continuous": 0.5833333333333333,
+        "auk_discrete_loo": 0.5833333333333333,
+        "auk_continuous_loo": 0.5833333333333333,
+        "ardy_charged": 19,
+        "planner_cpu_s": 0.07890939712524414
+      },
+      "C-WSWEEP": {
+        "n_proposed": 8,
+        "n_feasible": 8,
+        "n_addressable": 2,
+        "mean_stability": 0.625,
+        "mean_feasible_rate": 1.0,
+        "max_cost_ratio": 1.3413529411764706,
+        "frac_overlap": 0.25,
+        "frac_overlap_given_infeasible": null,
+        "continuous": {
+          "1": 0.3333333333333333,
+          "2": 0.6666666666666666,
+          "4": 0.6666666666666666,
+          "8": 0.6666666666666666
+        },
+        "discrete": {
+          "1": 0.3333333333333333,
+          "2": 0.6666666666666666,
+          "4": 0.6666666666666666,
+          "8": 0.6666666666666666
+        },
+        "continuous_loo": {
+          "1": 0.3333333333333333,
+          "2": 0.6666666666666666,
+          "4": 0.6666666666666666,
+          "8": 0.6666666666666666
+        },
+        "discrete_loo": {
+          "1": 0.3333333333333333,
+          "2": 0.6666666666666666,
+          "4": 0.6666666666666666,
+          "8": 0.6666666666666666
+        },
+        "auk_discrete": 0.5833333333333333,
+        "auk_continuous": 0.5833333333333333,
+        "auk_discrete_loo": 0.5833333333333333,
+        "auk_continuous_loo": 0.5833333333333333,
+        "ardy_charged": 19,
+        "planner_cpu_s": 0.030857086181640625
+      },
+      "NULL-SEED": {
+        "n_proposed": 8,
+        "n_feasible": 8,
+        "n_addressable": 8,
+        "mean_stability": 1.0,
+        "mean_feasible_rate": 1.0,
+        "max_cost_ratio": 1.0,
+        "frac_overlap": 0.0,
+        "frac_overlap_given_infeasible": null,
+        "continuous": {
+          "1": 0.3333333333333333,
+          "2": 0.3333333333333333,
+          "4": 0.3333333333333333,
+          "8": 0.3333333333333333
+        },
+        "discrete": {
+          "1": 0.3333333333333333,
+          "2": 0.3333333333333333,
+          "4": 0.3333333333333333,
+          "8": 0.3333333333333333
+        },
+        "continuous_loo": {
+          "1": 0.3333333333333333,
+          "2": 0.3333333333333333,
+          "4": 0.3333333333333333,
+          "8": 0.3333333333333333
+        },
+        "discrete_loo": {
+          "1": 0.3333333333333333,
+          "2": 0.3333333333333333,
+          "4": 0.3333333333333333,
+          "8": 0.3333333333333333
+        },
+        "auk_discrete": 0.3333333333333333,
+        "auk_continuous": 0.3333333333333333,
+        "auk_discrete_loo": 0.3333333333333333,
+        "auk_continuous_loo": 0.3333333333333333,
+        "ardy_charged": 35,
+        "planner_cpu_s": 1.1920928955078125e-05
+      },
+      "D-REFINE": {
+        "n_proposed": 2,
+        "n_feasible": 2,
+        "n_addressable": 2,
+        "mean_stability": 1.0,
+        "mean_feasible_rate": 1.0,
+        "max_cost_ratio": 1.3358465523413032,
+        "frac_overlap": 0.0,
+        "frac_overlap_given_infeasible": null,
+        "continuous": {
+          "1": 0.3333333333333333,
+          "2": 0.3333333333333333,
+          "4": 0.6666666666666666,
+          "8": 0.6666666666666666
+        },
+        "discrete": {
+          "1": 0.3333333333333333,
+          "2": 0.3333333333333333,
+          "4": 0.3333333333333333,
+          "8": 0.3333333333333333
+        },
+        "continuous_loo": {
+          "1": 0.3333333333333333,
+          "2": 0.3333333333333333,
+          "4": 0.6666666666666666,
+          "8": 0.6666666666666666
+        },
+        "discrete_loo": {
+          "1": 0.3333333333333333,
+          "2": 0.3333333333333333,
+          "4": 0.3333333333333333,
+          "8": 0.3333333333333333
+        },
+        "auk_discrete": 0.3333333333333333,
+        "auk_continuous": 0.5,
+        "auk_discrete_loo": 0.3333333333333333,
+        "auk_continuous_loo": 0.5,
+        "ardy_charged": 19,
+        "planner_cpu_s": 5.805510759353638
+      },
+      "COMPOSITE": {
+        "n_proposed": 4,
+        "n_feasible": 4,
+        "n_addressable": 3,
+        "mean_stability": 0.875,
+        "mean_feasible_rate": 1.0,
+        "max_cost_ratio": 1.2785544711158006,
+        "frac_overlap": 0.0,
+        "frac_overlap_given_infeasible": null,
+        "continuous": {
+          "1": 0.3333333333333333,
+          "2": 0.6666666666666666,
+          "4": 0.6666666666666666,
+          "8": 0.6666666666666666
+        },
+        "discrete": {
+          "1": 0.3333333333333333,
+          "2": 0.6666666666666666,
+          "4": 0.6666666666666666,
+          "8": 0.6666666666666666
+        },
+        "continuous_loo": {
+          "1": 0.3333333333333333,
+          "2": 0.6666666666666666,
+          "4": 0.6666666666666666,
+          "8": 0.6666666666666666
+        },
+        "discrete_loo": {
+          "1": 0.3333333333333333,
+          "2": 0.6666666666666666,
+          "4": 0.6666666666666666,
+          "8": 0.6666666666666666
+        },
+        "auk_discrete": 0.5833333333333333,
+        "auk_continuous": 0.5833333333333333,
+        "auk_discrete_loo": 0.5833333333333333,
+        "auk_continuous_loo": 0.5833333333333333,
+        "ardy_charged": 19,
+        "planner_cpu_s": 4.165842294692993
+      },
+      "REF-RANDOM": {
+        "n_proposed": 8,
+        "n_feasible": 8,
+        "n_addressable": 8,
+        "mean_stability": 1.0,
+        "mean_feasible_rate": 1.0,
+        "max_cost_ratio": 2.080007531755269,
+        "frac_overlap": 0.25,
+        "frac_overlap_given_infeasible": null,
+        "continuous": {
+          "1": 0.3333333333333333,
+          "2": 0.6666666666666666,
+          "4": 0.6666666666666666,
+          "8": 1.0
+        },
+        "discrete": {
+          "1": 0.3333333333333333,
+          "2": 0.6666666666666666,
+          "4": 0.6666666666666666,
+          "8": 1.0
+        },
+        "continuous_loo": {
+          "1": 0.0,
+          "2": 0.5,
+          "4": 0.5,
+          "8": 1.0
+        },
+        "discrete_loo": {
+          "1": 0.0,
+          "2": 0.5,
+          "4": 0.5,
+          "8": 1.0
+        },
+        "auk_discrete": 0.6666666666666666,
+        "auk_continuous": 0.6666666666666666,
+        "auk_discrete_loo": 0.5,
+        "auk_continuous_loo": 0.5,
+        "ardy_charged": 19,
+        "planner_cpu_s": 0.0002830028533935547
+      }
+    },
+    "null_seed": {
+      "pairwise_mean_d_morph": 0.0,
+      "pairwise_frac_above_eps": 0.0,
+      "single_seed_pair_mean": 0.0,
+      "single_seed_frac_above_eps": 0.0,
+      "internal_eps_net": 1,
+      "n_null": 8
+    }
+  }
+]

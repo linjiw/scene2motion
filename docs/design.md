@@ -1090,33 +1090,64 @@ is not the *channel* that is fragile: tuck alone costs 10 points of validity, li
 44. Whether that is the prior refusing the posture or locomotion failing to reach the goal is a
 question the new ledger's `goal_err` and `pen_frac` features answer directly.
 
-### Why tuck is dead — and it is not ARDY's fault
+### Tuck: real in expectation, unusable per sample
 
-"Tuck is a dead channel" is the wrong conclusion, and publishing it would have been an
-avoidable error. It attributes to the motion prior something that is a fact about the **robot**.
+I have now written this claim three times and been wrong twice. Recording the sequence, because
+the final answer is the project's thesis instantiated on a single channel and the two wrong
+versions are the ones a reader would otherwise reach on their own.
 
-`_limb_targets` renders a tuck by shrinking each arm joint's horizontal offset from the root by
-`(1 − tuck)`, so at `tuck = 0.85` the arms are asked to come in to 15 % of their nominal offset —
-a request far outside the natural range. The reason nothing measurable happens is that **G1's
-arms are not what makes G1 wide**. Measured directly on the collision model, along the robot's
-own lateral axis:
+**Version 1 — "tuck is a dead channel."** From EXP-005f: the width bits of the realised active
+set fire on 0.0 % of 1 296 clips. True as stated, and wrong as interpreted.
 
-| pose | half-width | geom that sets it |
-|---|---|---|
-| nominal stand | 0.2387 m | `left_hand_collision` |
-| arms tucked hard (shoulder roll 0.35, elbow 1.4) | **0.2131 m** | `left_shoulder_pitch_link` |
-| arms flung out (shoulder roll 0.9) | 0.3873 m | `left_hand_collision` |
+**Version 2 — "the ceiling is structural."** I optimised half-width over one hand-picked tucked
+pose, found 25.6 mm of range before the shoulder housing took over, and concluded G1's arms are
+not what makes G1 wide. A proper global optimisation over all 14 arm DOFs with 60 restarts gives
+**0.2065 m**, bound by the **thighs** — 32.2 mm of range from a standing pose, not 25.6. But
+`constraints.py:35` recorded EXP-001 measuring a *larger* reduction than my supposed ceiling,
+which is the tell that the ceiling was measured from the wrong base pose.
 
-Tucking the arms all the way buys **25.6 mm** of half-width and then stops, because the shoulder
-housing (0.2131 m) and the thighs (0.2065 m) take over as the widest parts. Against a measured
-seed-noise standard deviation of **55 mm** on the width channel, the entire available effect is
-**0.47 σ**. No threshold choice rescues it; no amount of guidance strength rescues it. The
-capability is not weakly addressable, it is structurally almost absent.
+**Version 3, from the saved clips.** EXP-001 kept its qpos, so this is measurable on real ARDY
+output rather than on a pose I invented. Mean half-width over EXP-001's own measure window
+[0.42, 0.58], **paired against `tuck=0` at the same seed**, three seeds per rung:
 
-That is a much stronger claim than "the channel is dead", it is checkable on the URDF by anyone,
-and it generalises: *a body-adaptation axis is only worth planning over if the robot's
-articulated envelope actually dominates its structural envelope along that axis.* For G1,
-height does (ducking moves the top of the head a long way) and width does not.
+| requested tuck | half-width (world axis) | Δ | half-width (heading axis) | Δ |
+|---|---|---|---|---|
+| 0.00 | 0.2851 m | — | 0.2841 m | — |
+| 0.20 | 0.2672 | −18.0 mm | 0.2668 | −17.3 mm |
+| 0.40 | 0.2647 | −20.4 mm | 0.2637 | −20.4 mm |
+| 0.50 | 0.2574 | −27.7 mm | 0.2543 | −29.8 mm |
+| 0.60 | 0.2589 | −26.2 mm | 0.2548 | −29.3 mm |
+| **0.70** | **0.2475** | **−37.6 mm** | **0.2463** | **−37.8 mm** |
+| 0.80 | 0.2520 | −33.1 mm | 0.2521 | −32.0 mm |
+
+**Tuck works.** The response is monotone to 0.70 and worth 37.6 mm of half-width — 75 mm of
+total width, which is not nothing for a 0.60 m gap. It exceeds the standing-pose ceiling because
+a *walking* base pose is already wider (0.2851 m) than a standing one (0.2387 m), so there is
+more swing to claw back. The two axes agree to 0.2 mm, which independently confirms that the
+fixed-axis defect below is immaterial here.
+
+So why does it never fire? **Because the effect is 0.68 σ of the noise.** The width channel's
+seed-noise standard deviation is 55 mm (EXP-005f, 1 296 paired residuals; ~39 mm per clip, since
+a paired delta carries the variance of both members). `active_set` asks "did this channel move
+on *this clip*", at a q99 threshold ≈ 3.2 σ. A 0.68 σ effect cannot pass that test, ever, at any
+amplitude, no matter how real it is.
+
+That is the whole thesis in one channel:
+
+> tuck has a **real, monotone, physically meaningful expected effect** and is **not addressable
+> per sample**. A planner that budgets 37 mm of extra clearance from a tuck will be wrong on a
+> large fraction of individual clips, because the clip-to-clip spread is larger than the effect
+> it is counting on.
+
+And it says the **discrete active-set signature is the wrong instrument for small-but-real
+capabilities** — it is a per-clip detector, so it silently reports every sub-noise capability as
+absent. Every count in this project that rests on `active_set` therefore counts *per-sample
+addressable* modes, not *existing* ones, and must be labelled that way. That is the honest
+reading, and it is a stronger claim than either version I had before.
+
+The planning consequence is unchanged but for a better reason: a tuck is not worth
+**committing** to, because what a planner needs is a lower confidence bound on achieved
+clearance, and with σ ≈ 39 mm against a 38 mm mean effect that bound is not positive.
 
 ### One measurement defect, disclosed with its size
 
@@ -1133,7 +1164,7 @@ by **3 %**. The static kinematic argument overestimated the effect because the d
 seeds are far smaller than 26°.
 
 So the defect is real, it is worth fixing before the final 150-scene run, and it is *not* what
-makes tuck undetectable — the 0.47 σ ceiling above is. Recording both the prediction and its
+makes tuck undetectable — the 0.68 σ effect-to-noise ratio above is. Recording both the prediction and its
 refutation, because the prediction was mine and checking it cost 30 seconds against a decision
 that would have cost 95 minutes of GPU.
 
@@ -1142,7 +1173,7 @@ that would have cost 95 minutes of GPU.
 | channel | commandable | measurable effect | cost to validity | verdict |
 |---|---|---|---|---|
 | dip / duck | yes | yes, large | **improves** it | the one solid capability |
-| tuck | yes | ceiling is 0.47 σ of the noise — structural, not a prior limit | −10 pts | not worth planning over |
+| tuck | yes | **real**: −37.6 mm monotone, but 0.68 σ of the noise | −10 pts | real in expectation, not addressable per sample |
 | lift | yes | yes | **−44 pts** | real but expensive |
 | yaw | **no** | correlated with duck/lift | n/a | side effect, not a capability |
 | foot order | no | forced by a sign comparison | n/a | retired in EXP-005f |

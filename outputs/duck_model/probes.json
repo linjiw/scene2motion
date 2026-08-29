@@ -1,0 +1,108 @@
+{
+  "depth_vs_height": [
+    {
+      "beam_h": 1.2,
+      "label_peak": 0.25,
+      "pred_peak": 0.26922115683555603
+    },
+    {
+      "beam_h": 1.1,
+      "label_peak": 0.3499999940395355,
+      "pred_peak": 0.3516373932361603
+    },
+    {
+      "beam_h": 1.0,
+      "label_peak": 0.5,
+      "pred_peak": 0.4433574676513672
+    },
+    {
+      "beam_h": 0.9,
+      "label_peak": 0.5,
+      "pred_peak": 0.5275509357452393
+    }
+  ],
+  "no_beam": [
+    {
+      "beam_x": 3.0,
+      "label_peak": 0.0,
+      "pred_peak": 0.0
+    },
+    {
+      "beam_x": 4.0,
+      "label_peak": 0.0,
+      "pred_peak": 0.0
+    },
+    {
+      "beam_x": 5.0,
+      "label_peak": 0.0,
+      "pred_peak": 0.0
+    }
+  ],
+  "anticipation": [
+    {
+      "beam_x": 3.0,
+      "label_onset_m": 1.5238095238095237,
+      "pred_onset_m": 1.5238095238095237
+    },
+    {
+      "beam_x": 3.5,
+      "label_onset_m": 2.0317460317460316,
+      "pred_onset_m": 2.0317460317460316
+    },
+    {
+      "beam_x": 4.0,
+      "label_onset_m": 2.5396825396825395,
+      "pred_onset_m": 2.5396825396825395
+    },
+    {
+      "beam_x": 4.5,
+      "label_onset_m": 3.0476190476190474,
+      "pred_onset_m": 3.0476190476190474
+    },
+    {
+      "beam_x": 5.0,
+      "label_onset_m": 3.5555555555555554,
+      "pred_onset_m": 3.5555555555555554
+    }
+  ],
+  "stands_after": [
+    {
+      "beam_h": 1.0,
+      "label_tail_dip": 0.0,
+      "pred_tail_dip": 0.0
+    },
+    {
+      "beam_h": 1.1,
+      "label_tail_dip": 0.0,
+      "pred_tail_dip": 0.0
+    }
+  ],
+  "two_beams": [
+    {
+      "gap_m": 2.0,
+      "label_events": 1,
+      "pred_events": 1,
+      "label_peak": 0.3499999940395355,
+      "pred_peak": 0.5034623742103577
+    },
+    {
+      "gap_m": 2.5,
+      "label_events": 1,
+      "pred_events": 1,
+      "label_peak": 0.3499999940395355,
+      "pred_peak": 0.4858871400356293
+    },
+    {
+      "gap_m": 3.0,
+      "label_events": 1,
+      "pred_events": 1,
+      "label_peak": 0.3499999940395355,
+      "pred_peak": 0.4127230942249298
+    }
+  ],
+  "latency": {
+    "n": 40,
+    "heuristic_ms": 0.104,
+    "learned_ms": 0.304
+  }
+}

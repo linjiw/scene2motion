@@ -1,0 +1,55 @@
+{
+  "n_samples": 64,
+  "n_channels": 7,
+  "speed": 0.9,
+  "lead_s": 0.8,
+  "splits": {
+    "train": {
+      "heights": [
+        0.8,
+        0.9,
+        1.0,
+        1.1,
+        1.2
+      ],
+      "positions": [
+        3.0,
+        4.0,
+        5.0
+      ]
+    },
+    "dev": {
+      "heights": [
+        0.85,
+        1.15
+      ],
+      "positions": [
+        3.5
+      ]
+    },
+    "test": {
+      "heights": [
+        0.95,
+        1.05
+      ],
+      "positions": [
+        4.5
+      ]
+    }
+  },
+  "widths": [
+    0.9,
+    1.2,
+    1.45,
+    1.75,
+    2.0
+  ],
+  "no_beam_height": 2.4,
+  "label": "dip (m) after lead-dilation+smoothing",
+  "built_s": 13.72,
+  "counts": {
+    "train": 262,
+    "dev": 40,
+    "test": 45
+  }
+}

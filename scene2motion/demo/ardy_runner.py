@@ -53,13 +53,20 @@ def program_bytes(p: Plan, scene: Scene, fps: float) -> bytes:
 
 
 def generate(scene: Scene, p: Plan, preference: str, cache: ClipCache,
-             seed: int = DEFAULT_SEED, allow_generate: bool = True) -> dict:
-    """Return {qpos, source, key, meta}. `source` is 'cache' or 'generated'."""
+             seed: int = DEFAULT_SEED, allow_generate: bool = True,
+             body_layer: str = "heuristic") -> dict:
+    """Return {qpos, source, key, meta}. `source` is 'cache' or 'generated'.
+
+    `body_layer` selects who fills the duck channel: the heuristic mode lattice rendered by
+    `plan_to_spec`, or the learned CNN's continuous schedule. The ROUTE is identical either
+    way -- this is the route/body split, so a difference in the clip is attributable to the
+    body layer alone. It is part of the cache key, or the two would collide.
+    """
     from ..runner import ArdyRunner  # noqa: F401  (import cost only on this path)
     runner = get_runner()
     fps = runner.fps
     T = n_frames(p, fps)
-    key = key_for(scene_id=scene.scene_id, preference=preference,
+    key = key_for(scene_id=scene.scene_id, preference=f"{preference}|{body_layer}",
                   program_bytes=program_bytes(p, scene, fps),
                   model=runner.model_name, seed=seed, steps=DIFFUSION_STEPS,
                   fps=fps, n_frames=T)
@@ -76,8 +83,13 @@ def generate(scene: Scene, p: Plan, preference: str, cache: ClipCache,
     # rather than a pose invented from outside its manifold.
     ref = runner.generate([PROMPT], [plan_to_path_spec(p, fps, SPEED, duration=T / fps)],
                           T, DIFFUSION_STEPS, seeds=[seed])[0]
-    spec = plan_to_spec(p, fps, ref, runner.joint_names, speed=SPEED,
-                        duration=T / fps, lead_s=LEAD_S)
+    if body_layer == "learned":
+        from ..learn.predictor import predict_dip, spec_from_dip
+        spec = spec_from_dip(scene, p.xy, predict_dip(scene, p.xy, speed=SPEED), fps,
+                             speed=SPEED, duration=T / fps)
+    else:
+        spec = plan_to_spec(p, fps, ref, runner.joint_names, speed=SPEED,
+                            duration=T / fps, lead_s=LEAD_S)
     out = runner.generate([PROMPT], [spec], T, DIFFUSION_STEPS, seeds=[seed])[0]
     qpos = runner.to_qpos(out)
     gen_s = time.time() - t0
@@ -85,7 +97,8 @@ def generate(scene: Scene, p: Plan, preference: str, cache: ClipCache,
     body = G1Body(scene)
     rep = body.trajectory_report(qpos)
     goal_err = float(np.linalg.norm(qpos[-1, :2] - np.asarray(scene.goal)))
-    meta = {"scene_id": scene.scene_id, "preference": preference, "seed": seed,
+    meta = {"scene_id": scene.scene_id, "preference": preference,
+            "body_layer": body_layer, "seed": seed,
             "steps": DIFFUSION_STEPS, "model": runner.model_name, "fps": fps,
             "n_frames": T, "generate_s": round(gen_s, 3),
             "collision_free": bool(rep["collision_free"]),

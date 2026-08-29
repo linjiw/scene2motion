@@ -70,20 +70,24 @@ def api_generate(q: dict) -> dict:
     ).clamped()
     pref = q.get("preference", ["shortest"])[0]
     allow = q.get("allow_generate", ["1"])[0] != "0"
+    body_layer = q.get("body_layer", ["heuristic"])[0]
+    if body_layer not in ("heuristic", "learned"):
+        body_layer = "heuristic"
     scene = build(params)
     strat = evaluate(scene, pref)
     if not strat.feasible:
         return {"ok": False, "reason": "no route under this preference",
                 "refusal": strat.refusal}
     with _gen_lock:                      # one GPU job at a time; LUCID shares this device
-        res = generate(scene, strat.plan, pref, CACHE, allow_generate=allow)
+        res = generate(scene, strat.plan, pref, CACHE, allow_generate=allow,
+                       body_layer=body_layer)
     if res["qpos"] is None:
         return {"ok": False, "reason": "not cached", "cache_key": res["key"],
                 "source": "miss"}
     anim = renderer.frames(scene, res["qpos"])
     meta = res["meta"]
     return {"ok": True, "source": res["source"], "cache_key": res["key"],
-            "anim": anim, "clip": meta,
+            "body_layer": body_layer, "anim": anim, "clip": meta,
             "validation": _validation(meta)}
 
 
@@ -238,6 +242,10 @@ svg{display:block;width:100%;height:auto;background:var(--panel);border:1px soli
         <label>preference</label>
         <div class="prefs" id="prefs"></div>
       </div>
+      <div class="ctl">
+        <label>body layer</label>
+        <div class="prefs" id="layers"></div>
+      </div>
       <button id="gen">Generate motion</button>
     </div>
     <svg id="bev" viewBox="0 0 420 260" role="img" aria-label="Bird's eye view of the scene and planned routes"></svg>
@@ -271,12 +279,17 @@ svg{display:block;width:100%;height:auto;background:var(--panel);border:1px soli
 </div>
 <script>
 const $=s=>document.querySelector(s), PREFS=[["shortest","Shortest Path"],["upright","Stay Upright"],["clearance","Maximum Clearance"]];
-let pref="shortest", planData=null, anim=null, playing=false, fi=0, timer=null;
+let pref="shortest", layer="heuristic", planData=null, anim=null, playing=false, fi=0, timer=null;
+const LAYERS=[["heuristic","Heuristic Planner"],["learned","Learned Planner"]];
 
 PREFS.forEach(([k,l])=>{const b=document.createElement("button");b.textContent=l;b.dataset.k=k;
   b.onclick=()=>{pref=k;syncPrefs();refresh();};$("#prefs").appendChild(b);});
 function syncPrefs(){[...$("#prefs").children].forEach(b=>b.setAttribute("aria-pressed",b.dataset.k===pref));}
 syncPrefs();
+LAYERS.forEach(([k,l])=>{const b=document.createElement("button");b.textContent=l;b.dataset.k=k;
+  b.onclick=()=>{layer=k;syncLayers();};$("#layers").appendChild(b);});
+function syncLayers(){[...$("#layers").children].forEach(b=>b.setAttribute("aria-pressed",b.dataset.k===layer));}
+syncLayers();
 
 const fmt=(v,u="",d=2)=>v==null?"—":(typeof v==="number"?v.toFixed(d):v)+u;
 function rows(el,items){el.innerHTML=items.map(([k,v])=>
@@ -382,7 +395,8 @@ function applyURL(){
   if(q.has("height")) $("#h").value=q.get("height");
   if(q.has("width"))  $("#w").value=q.get("width");
   if(q.has("preference")&&PREFS.some(([k])=>k===q.get("preference"))) pref=q.get("preference");
-  syncPrefs();
+  if(q.has("body_layer")&&LAYERS.some(([k])=>k===q.get("body_layer"))) layer=q.get("body_layer");
+  syncPrefs(); syncLayers();
   return {auto:q.get("auto")==="1", frame:q.has("frame")?+q.get("frame"):null};
 }
 
@@ -390,7 +404,7 @@ $("#gen").onclick=async()=>{
   const b=$("#gen"); b.disabled=true; b.textContent="Generating…";
   try{
     const h=$("#h").value,w=$("#w").value;
-    const r=await fetch(`/api/generate?height=${h}&width=${w}&preference=${pref}`);
+    const r=await fetch(`/api/generate?height=${h}&width=${w}&preference=${pref}&body_layer=${layer}`);
     const d=await r.json();
     if(!d.ok){$("#valid").innerHTML=`<span class="badge b-warn">no motion</span> ${d.reason}`;}
     else{
@@ -401,7 +415,7 @@ $("#gen").onclick=async()=>{
         `${v.kinematic_collision_free?"kinematic collision-free":"KINEMATIC COLLISION"}</span>
          <span class="badge b-mute">not physics validated</span><br>
          min clearance ${fmt(v.min_clearance_m," m")} · goal error ${fmt(v.goal_error_m," m")}<br>
-         source <b>${d.source}</b> · ${c.n_frames} frames @ ${c.fps} fps · ${c.steps} steps
+         body layer <b>${d.body_layer}</b> · source <b>${d.source}</b> · ${c.n_frames} frames @ ${c.fps} fps · ${c.steps} steps
          ${c.generate_s?`· ${c.generate_s.toFixed(1)} s`:""}<br>
          <span style="opacity:.7">key ${d.cache_key}</span><br>
          SONIC tracked: <b>no</b> — tracking is a separate offline stage.`;

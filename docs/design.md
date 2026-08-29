@@ -2308,3 +2308,95 @@ interface**, and the interface is not the model.
 * This does not rescue the *composability* story. Text can request one named behaviour; the
   scene-conditioned planner needs "duck by 0.31 m starting here, then step over that", and
   nothing here shows text can be steered that precisely.
+
+---
+
+## 37. Phase 2: a learned duck layer, distilled from the heuristic
+
+The demo's middle layer is now replaceable: the route stays classical, and the body decision
+along it can come from either the heuristic mode lattice or a small learned model.
+`Heuristic Planner` / `Learned Planner` is a selector in the same UI.
+
+### Representation
+
+`route-local scene profile -> duck schedule`, 64 arc-length samples, 7 channels: overhead
+clearance, floor height, left/right clearance, curvature, distance to goal, and **time to the
+next overhead restriction**. That last channel is what makes anticipation learnable — the label
+ducks 0.72 m before the beam, and nothing else in the profile at that moment says a beam is
+coming.
+
+Labels are the dip schedule the prior is *actually asked for*: the planner's mode schedule put
+through the same dilation and smoothing `plan_to_spec` uses, resampled to route position. So the
+target is the thing the renderer consumes, not an intermediate nobody uses.
+
+Labels come from the **shortest-preference** planner. Labelling with the default cost model gave
+12 ducking samples out of 51, because under the shipped mode costs a deep duck held for ~1.5 m
+is dearer than a 0.5 m detour — the planner walks around a beam it could duck under.
+
+Splits are by **geometry**, never by random row: beam heights `{0.80…1.20}` and positions
+`{3,4,5}` train; `{0.85,1.15}`/`{3.5}` dev; `{0.95,1.05}`/`{4.5}` test. 262 / 40 / 45 samples,
+built in 14 s on CPU.
+
+### Model
+
+A dilated 1-D CNN, **3 137 parameters**, trained in **1.4 s on CPU** (LUCID owned the GPU
+throughout). Dilations 1/2/4 at kernel 5 give a 29-sample receptive field ≈ 3.6 m of route,
+comfortably wider than the anticipation lead.
+
+| | train | dev | **test (unseen geometry)** |
+|---|---|---|---|
+| MAE | 5.9 mm | 5.2 mm | **7.7 mm** |
+| peak-dip MAE | 11.4 mm | 21.3 mm | **22.4 mm** |
+| duck detection | 0.996 | 0.975 | **1.000** (no false, no missed) |
+
+An MLP baseline with the same task and 20× the parameters reaches test MAE 26.3 mm and peak MAE
+64.0 mm — 3.4× worse. The convolution is not a claim, it is the right shape for a local
+translation-equivariant map, and the baseline is there to show the choice was not free.
+
+### Behavioural probes
+
+| probe | result |
+|---|---|
+| lower beam → deeper duck | monotone: 26.9 → 35.2 → 44.3 → 52.8 cm at h = 1.20 → 0.90 |
+| no beam → no duck | **0.00 cm** at every position |
+| duck onset tracks the beam | 1.52 / 2.03 / 2.54 / 3.05 / 3.56 m for beams at 3.0…5.0 m — **matches the label to the sample** |
+| stands up after the beam | 0.00 cm dip in the last 15 % of the route |
+
+### End to end through the frozen prior, on unseen test geometry
+
+12 clips, same scene, route, seed and frame count; the only difference is who filled the duck
+channel.
+
+| | collision-free | goal reached | min clearance | schedule smoothness | body-layer latency |
+|---|---|---|---|---|---|
+| heuristic | **1.000** | **1.000** | 0.158 m | **0.0055** | **0.104 ms** |
+| learned | **1.000** | **1.000** | 0.135 m | 0.0178 | 0.304 ms |
+
+### What the learned model does *not* buy, stated plainly
+
+It matches the heuristic on both safety metrics on geometry it never saw. It does not beat it on
+anything measured:
+
+* **not smoother** — 3.2× worse second-difference on the schedule;
+* **not faster** — 0.304 ms against 0.104 ms for the body layer;
+* **not more efficient in crouch depth.** I expected the discrete mode lattice (dips quantised
+  to `{0, 0.15, 0.25, 0.35, 0.50}`) to make the heuristic over-duck between steps, and it does —
+  its excess crouch sawtooths between 6.4 and 16.4 cm. But the learned model's mean excess is
+  **12.7 cm against the heuristic's 10.2 cm**: smooth and consistently conservative beats
+  sawtoothed and sometimes-tight. The continuous-geometry advantage I predicted is not there.
+
+**Two consecutive beams**, a configuration absent from training: event count is right at gaps of
+2, 5 and 6 m and wrong at 3 m (over-segments into two ducks) and 4 m (merges two into one), and
+peak depth is over-predicted by up to 18 cm at short gaps. 3 of 5.
+
+So the honest summary is that the learned layer is a **faithful distillation** — it reproduces
+anticipation, monotonicity and the no-beam null exactly, and generalises to unseen beam heights
+and positions — whose value is extensibility rather than any current performance win. That is a
+usable result and it is not the one I expected to write.
+
+### Evidence
+
+`outputs/duck_dataset/` (splits + meta), `outputs/duck_model/{cnn,mlp}.{pt,json}`,
+`outputs/duck_model/probes.json`, `outputs/duck_model/compare_test.json`,
+`scene2motion/demo_outputs/shots/learned_planner.png`. `tests/` 28 passed;
+`demo.acceptance` 16/16.

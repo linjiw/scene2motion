@@ -2044,3 +2044,47 @@ calibration would use the max over the geoms in contact. And tracking error is n
 of clearance: a clip planned tight may be tracked differently from one planned loose. Both push
 toward measuring the tracked clearance directly, which needs the achieved states that SONIC's
 eval callback does not currently save.
+
+### Correction to §32: right number, wrong derivation
+
+Section 32 compared the planned clearance against `mpjpe_l`, the mean error over all 29 joints,
+and reported that 22.9 % of certified plans leave less margin than that. It then noted, as a
+stated limit, that the mean over joints is the wrong quantity — what matters is the error at the
+part that comes closest to the obstacle. That limit is resolvable from data already in the logs,
+so it should not have been left as a caveat.
+
+SONIC reports error by body group. For overhead clearance the relevant group is
+`vr_3points` — head and two hands:
+
+| requested body | all joints | **head + hands** | legs |
+|---|---|---|---|
+| neutral | 46.7 mm | **33.5 mm** | 37.5 |
+| duck-shallow | 62.9 | **29.7** | 43.2 |
+| duck | 83.4 | **45.6** | 76.3 |
+| duck-deep | 89.6 | **71.9** | 80.7 |
+
+Two things follow. The head tracks *better* than the body average, so §32's 83.4 mm overstated
+the headroom risk — and a shallow duck's head error (29.7 mm) is **lower than a neutral walk's**
+(33.5 mm), matching its higher success rate. But the head error more than doubles from a duck to
+a deep duck, 45.6 → 71.9 mm, which is the dose-response that matters for planning.
+
+And the threshold in §32 was wrong in the other direction: the requirement is not "clearance
+> tracking error", it is `BODY_MARGIN + tracking error`, because the 40 mm correction and the
+execution error are independent and both consume margin.
+
+| body | margin actually required | certified plans that fall short |
+|---|---|---|
+| duck | 40 + 45.6 = **85.6 mm** | **23.5 %** |
+| duck-deep | 40 + 71.9 = **111.9 mm** | **34.5 %** |
+
+So §32's headline of 22.9 % is within a point of the correct 23.5 % for a duck — **by
+coincidence.** Using the all-joint mean overstated the error, omitting `BODY_MARGIN` understated
+the requirement, and the two mistakes nearly cancelled. A number that survives for compensating
+reasons is not a checked number, and this one is only recorded as correct because it was
+re-derived.
+
+The corrected statement is stronger than the original: **a duck under a beam needs 86 mm of
+planned clearance to survive its own execution and nearly a quarter of certified plans have
+less; a deep duck needs 112 mm and a third fall short.** The requirement grows with the
+adaptation, so the deeper the duck the more headroom it must *also* be given to stay safe — the
+capability partially pays for itself.

@@ -24,13 +24,18 @@ One straight-line walk, no obstacle, three ways of asking for the same thing -- 
 in -- at matched amplitude ladders and matched seeds:
 
     POS      the shipped mechanism: shrink the arms' world positions by (1 - tuck)
-    ROT-IN   rotate the arm chain's GLOBAL rotations about the forward axis, adducting
-    ROT-OUT  the same rotation with the opposite sign
+    ROT+     rotate the arm chain's GLOBAL rotations about the forward axis
+    ROT-     the same rotation with the opposite sign
 
-ROT-OUT is the control that makes ROT-IN interpretable.  If the rotation channel is honoured,
-the two signs must move the half-width in OPPOSITE directions; if both do nothing, the channel
-is not reaching the body; and if both narrow the robot, the effect is not the rotation but the
-mere presence of a constraint, which would invalidate the comparison.
+The two rotation arms are deliberately NOT labelled "in" and "out".  The arm hangs below and
+slightly lateral to the shoulder, so which sign adducts depends on the rest-pose geometry, and
+asserting it in a label would be a guess presented as a fact.  The measurement says which is
+which.
+
+Having both signs is what makes either interpretable.  If the rotation channel is honoured, they
+must move the half-width in OPPOSITE directions; if neither moves it, the channel is not
+reaching the body; and if BOTH narrow the robot, the effect is the mere presence of a constraint
+rather than its content, which would invalidate the comparison entirely.
 
 Reported per arm, all paired against an unconstrained control at the SAME seed
 -----------------------------------------------------------------------------
@@ -185,10 +190,10 @@ def main() -> None:
     # about it. The whole chain distal to the shoulder gets the SAME global rotation, which is
     # a rigid swing of the arm about the shoulder rather than a per-joint re-articulation.
     fwd = np.array([0.0, 0.0, 1.0])
-    for sign, label in ((+1, "ROT-IN"), (-1, "ROT-OUT")):
+    for sign, label in ((+1, "ROT+"), (-1, "ROT-")):
         for deg in DEGS:
-            if deg == 0.0 and label == "ROT-OUT":
-                continue                                  # identical to ROT-IN at 0
+            if deg == 0.0 and label == "ROT-":
+                continue                                  # zero rotation is the same clip either sign
             specs = []
             for s in range(len(seeds)):
                 tgt = np.empty((len(frames), len(joints), 3, 3))
@@ -214,7 +219,7 @@ def main() -> None:
     summary = {"experiment": "exp008_rotation_channel", "n_seeds": args.n_seeds,
                "control_halfwidth_m": float(np.mean(ctrl_w)),
                "control_sd_m": float(np.std(ctrl_w)), "arms": {}}
-    for label in ("POS", "ROT-IN", "ROT-OUT"):
+    for label in ("POS", "ROT+", "ROT-"):
         for amp in sorted({r["amp"] for r in rows if r["arm"] == label}):
             R = [r for r in rows if r["arm"] == label and r["amp"] == amp]
             d = np.array([r["d_halfwidth_m"] for r in R])
@@ -232,8 +237,8 @@ def main() -> None:
                   f"{np.mean([r['foot_floor_pen_m'] for r in R]):9.4f}")
     print("\n  |eff|/sd is the addressability number: an effect a planner may rely on has to be\n"
           "  large against the spread of the clips that deliver it, not merely against zero.\n"
-          "  ROT-OUT is the sign control -- if it does not move the half-width the OTHER way,\n"
-          "  the rotation channel is not reaching the body and no comparison can be drawn.\n"
+          "  The two rotation signs are each other's control: if they do not move the half-width in\n"
+          "  OPPOSITE directions, the channel is not reaching the body and no comparison holds.\n"
           "  d_top guards against buying width by ducking; travel guards against buying it by\n"
           "  stopping.")
     summary["wall_clock_s"] = round(time.time() - t0, 1)

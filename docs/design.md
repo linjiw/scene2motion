@@ -1291,10 +1291,22 @@ if posed_joints_from == "rotations":          # <- the DEFAULT
 ```
 
 The pose ARDY hands back is forward kinematics from exactly **two** feature blocks:
-`global_rot_data` and `root_positions`. `local_joints_positions` is unpacked and then, on the
-default path, **never used to build a pose**. Everything downstream in this project —
-`to_qpos`, every MuJoCo collision check, every half-width, every capability number — is computed
-from that FK output.
+`global_rot_data` and `root_positions`.
+
+And for this project the conclusion is not even conditional on `posed_joints_from`, because
+`to_qpos` never looks at `posed_joints` at all — `ardy/exports/mujoco.py:156`:
+
+```python
+local_rot_mats = to_torch(output["local_rot_mats"], device)
+root_positions = to_torch(output["root_positions"], device)
+qpos = self.to_qpos(local_rot_mats, root_positions, ...)
+```
+
+So the chain is airtight. Every MuJoCo collision check, every half-width, every top-height and
+every capability number this project has produced is a function of `global_rot_data` and
+`root_positions` and of nothing else. `local_joints_positions` — the sole channel through which
+we have ever requested a tuck or a step-over — cannot enter a qpos except through the denoiser's
+learned coupling between blocks.
 
 Now line up our five channels against that:
 
@@ -1304,7 +1316,7 @@ Now line up our five channels against that:
 | `root_y_pos` — **duck** | `root_positions` y | **yes** | the one clean capability |
 | `global_joints_rots` | `global_rot_data` | **yes** | **we have never written it** |
 | `global_root_heading` | — | no | ? |
-| `global_joints_positions` — **tuck, lift** | `local_joints_positions` | no | tuck 0.68 σ; lift −44 pts validity |
+| `global_joints_positions` — **tuck, lift** | `local_joints_positions` | **no — `to_qpos` never reads it** | tuck 0.68 σ; lift −44 pts validity |
 
 Both channels that work write straight into a block the decoder reads. Both channels that
 misbehave write into one it does not. And the one read-block we have never touched is precisely

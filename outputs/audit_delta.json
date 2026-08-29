@@ -1,0 +1,11 @@
+{
+  "experiment": "audit_delta",
+  "run": "outputs/exp005f_fixed_s5",
+  "counts": {
+    "1 seed, any change > 1 mm": 9.0,
+    "1 seed, round 1 cm threshold": 10.0,
+    "1 seed, 1 cm, drop clips that never validate": 6.666666666666667,
+    "6 seeds, paired, q99-calibrated, stability >= 0.8": 1.6666666666666667
+  },
+  "overstatement_kinematic": 6.0
+}

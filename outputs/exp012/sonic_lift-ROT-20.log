@@ -1,0 +1,642 @@
+[32m2026-08-29 10:15:31.947[0m | [1mINFO    [0m | [36m__main__[0m:[36mmain[0m:[36m90[0m - [1mLoading training config file from /home/linjiw/lucid/GR00T-WholeBodyControl/sonic_release/config.yaml[0m
+Setting seed: 0
+[WARN][AppLauncher]: There are no arguments attached to the ArgumentParser object. If you have your own arguments, please load your own arguments before calling the `AppLauncher.add_app_launcher_args` method. This allows the method to check the validity of the arguments and perform checks for argument names.
+[INFO][AppLauncher]: Using device: cuda
+[INFO][AppLauncher]: Loading experience file: /home/linjiw/isaaclab-install/IsaacLab/apps/isaaclab.python.headless.kit
+Loading user config located at: '/home/linjiw/isaaclab-install/env_isaaclab/lib/python3.11/site-packages/isaacsim/kit/data/Kit/Isaac-Sim/5.1/user.config.json'
+[2026-08-29 10:15:32,212][asyncio][DEBUG] - Using selector: EpollSelector
+[2026-08-29 10:15:35,210][h5py._conv][DEBUG] - Creating converter from 7 to 5
+[2026-08-29 10:15:35,211][h5py._conv][DEBUG] - Creating converter from 5 to 7
+[2026-08-29 10:15:35,211][h5py._conv][DEBUG] - Creating converter from 7 to 5
+[2026-08-29 10:15:35,211][h5py._conv][DEBUG] - Creating converter from 5 to 7
+[2026-08-29 10:15:35,249][matplotlib][DEBUG] - matplotlib data path: /home/linjiw/isaaclab-install/env_isaaclab/lib/python3.11/site-packages/matplotlib/mpl-data
+[2026-08-29 10:15:35,252][matplotlib][DEBUG] - CONFIGDIR=/home/linjiw/.config/matplotlib
+[2026-08-29 10:15:35,253][matplotlib][DEBUG] - interactive is False
+[2026-08-29 10:15:35,253][matplotlib][DEBUG] - platform is linux
+
+|---------------------------------------------------------------------------------------------|
+| Driver Version: 595.84        | Graphics API: Vulkan
+|=============================================================================================|
+| GPU | Name                             | Active | LDA | GPU Memory | Vendor-ID | LUID       |
+|     |                                  |        |     |            | Device-ID | UUID       |
+|     |                                  |        |     |            | Bus-ID    |            |
+|---------------------------------------------------------------------------------------------|
+| 0   | NVIDIA GeForce RTX 5080          | Yes: 0 |     | 16303   MB | 10de      | 0          |
+|     |                                  |        |     |            | 2c02      | 6f038fe9.. |
+|     |                                  |        |     |            | 1         |            |
+|---------------------------------------------------------------------------------------------|
+| 1   | AMD Unknown (RADV RAPHAEL_MEND.. |        |     | 10564   MB | 1002      | 0          |
+|     |                                  |        |     |            | 13c0      | 00000000.. |
+|     |                                  |        |     |            | c         |            |
+|=============================================================================================|
+| OS: 22.04.5 LTS (Jammy Jellyfish) ubuntu, Version: 22.04.5, Kernel: 6.8.0-138-generic
+| XServer Vendor: The X.Org Foundation, XServer Version: 12101004 (1.21.1.4)
+| Processor: AMD Ryzen 9 9950X 16-Core Processor
+| Cores: 16 | Logical Cores: 32
+|---------------------------------------------------------------------------------------------|
+| Total Memory (MB): 30670 | Free Memory: 14449
+| Total Page/Swap (MB): 2047 | Free Page/Swap: 528
+|---------------------------------------------------------------------------------------------|
+Unidirectional P2P=Enabled Bandwidth (P2P Writes) Matrix (GB/s)
+   D\D     0 
+     0 830.36 
+P2P=Enabled Latency (P2P Writes) Matrix (us)
+   GPU     0 
+     0   0.87 
+
+   CPU     0 
+     0   1.51 
+[2026-08-29 10:15:36,060][filelock][DEBUG] - Attempting to release lock 132769353939920 on /tmp/isaaclab_app_launcher.lock
+[2026-08-29 10:15:36,060][filelock][DEBUG] - Lock 132769353939920 released on /tmp/isaaclab_app_launcher.lock
+[32m2026-08-29 10:15:37.011[0m | [1mINFO    [0m | [36mgear_sonic.utils.motion_lib.torch_humanoid_batch[0m:[36m<module>[0m:[36m40[0m - [1mUsing Humanoid Batch[0m
+[DEBUG] Instantiated events: EventCfg(physics_material=EventTermCfg(func='gear_sonic.envs.manager_env.mdp:randomize_rigid_body_material', params={'asset_cfg': SceneEntityCfg(name='robot', joint_names=None, joint_ids=slice(None, None, None), fixed_tendon_names=None, fixed_tendon_ids=slice(None, None, None), body_names='.*', body_ids=slice(None, None, None), object_collection_names=None, object_collection_ids=slice(None, None, None), preserve_order=False), 'static_friction_range': [0.3, 1.6], 'dynamic_friction_range': [0.3, 1.2], 'restitution_range': [0.0, 0.5], 'num_buckets': 64}, mode='startup', interval_range_s=None, is_global_time=False, min_step_count_between_reset=0), add_joint_default_pos=EventTermCfg(func='gear_sonic.envs.manager_env.mdp:randomize_joint_default_pos', params={'asset_cfg': SceneEntityCfg(name='robot', joint_names=['.*'], joint_ids=slice(None, None, None), fixed_tendon_names=None, fixed_tendon_ids=slice(None, None, None), body_names=None, body_ids=slice(None, None, None), object_collection_names=None, object_collection_ids=slice(None, None, None), preserve_order=False), 'pos_distribution_params': [-0.01, 0.01], 'operation': 'add'}, mode='startup', interval_range_s=None, is_global_time=False, min_step_count_between_reset=0), add_hand_joint_default_pos=None, base_com=EventTermCfg(func='gear_sonic.envs.manager_env.mdp:randomize_rigid_body_com', params={'asset_cfg': SceneEntityCfg(name='robot', joint_names=None, joint_ids=slice(None, None, None), fixed_tendon_names=None, fixed_tendon_ids=slice(None, None, None), body_names='torso_link', body_ids=slice(None, None, None), object_collection_names=None, object_collection_ids=slice(None, None, None), preserve_order=False), 'com_range': {'x': [-0.025, 0.025], 'y': [-0.05, 0.05], 'z': [-0.05, 0.05]}}, mode='startup', interval_range_s=None, is_global_time=False, min_step_count_between_reset=0), push_robot=None, randomize_rigid_body_mass=EventTermCfg(func='gear_sonic.envs.manager_env.mdp:randomize_rigid_body_mass', params={'asset_cfg': SceneEntityCfg(name='robot', joint_names=None, joint_ids=slice(None, None, None), fixed_tendon_names=None, fixed_tendon_ids=slice(None, None, None), body_names='.*wrist_yaw.*|torso_link', body_ids=slice(None, None, None), object_collection_names=None, object_collection_ids=slice(None, None, None), preserve_order=False), 'mass_distribution_params': [0.8, 1.5], 'operation': 'scale'}, mode='startup', interval_range_s=None, is_global_time=False, min_step_count_between_reset=0))
+[DEBUG]   Event 'physics_material': EventTermCfg
+[DEBUG]   Event 'add_joint_default_pos': EventTermCfg
+[DEBUG]   Event 'base_com': EventTermCfg
+[DEBUG]   Event 'randomize_rigid_body_mass': EventTermCfg
+
+[36m======================================================================================[0m
+[36m[1m[INFO][IsaacLab]: Logging to file: /tmp/isaaclab/logs/isaaclab_2026-08-29_10-15-37.log[0m
+[36m======================================================================================[0m
+
+[33m10:15:37 [simulation_context.py] WARNING: The `enable_external_forces_every_iteration` parameter in the PhysxCfg is set to False. If you are experiencing noisy velocities, consider enabling this flag. You may need to slightly increase the number of velocity iterations (setting it to 1 or 2 rather than 0), together with this flag, to improve the accuracy of velocity updates.[0m
+[INFO]: Base environment:
+	Environment device    : cuda:0
+	Environment seed      : 0
+	Physics step-size     : 0.005
+	Rendering step-size   : 0.02
+	Environment step-size : 0.02
+[INFO] Generating terrains randomly took : 2.009614 seconds
+
+|---------------------------------------------------------------------------------------------|
+| Driver Version: 595.84        | Graphics API: Vulkan
+|=============================================================================================|
+| GPU | Name                             | Active | LDA | GPU Memory | Vendor-ID | LUID       |
+|     |                                  |        |     |            | Device-ID | UUID       |
+|     |                                  |        |     |            | Bus-ID    |            |
+|---------------------------------------------------------------------------------------------|
+| 0   | NVIDIA GeForce RTX 5080          | Yes: 0 |     | 16303   MB | 10de      | 0          |
+|     |                                  |        |     |            | 2c02      | 6f038fe9.. |
+|     |                                  |        |     |            | 1         |            |
+|---------------------------------------------------------------------------------------------|
+| 1   | AMD Unknown (RADV RAPHAEL_MEND.. |        |     | 10564   MB | 1002      | 0          |
+|     |                                  |        |     |            | 13c0      | 00000000.. |
+|     |                                  |        |     |            | c         |            |
+|=============================================================================================|
+| OS: 22.04.5 LTS (Jammy Jellyfish) ubuntu, Version: 22.04.5, Kernel: 6.8.0-138-generic
+| XServer Vendor: The X.Org Foundation, XServer Version: 12101004 (1.21.1.4)
+| Processor: AMD Ryzen 9 9950X 16-Core Processor
+| Cores: 16 | Logical Cores: 32
+|---------------------------------------------------------------------------------------------|
+| Total Memory (MB): 30670 | Free Memory: 13526
+| Total Page/Swap (MB): 2047 | Free Page/Swap: 527
+|---------------------------------------------------------------------------------------------|
+Unidirectional P2P=Enabled Bandwidth (P2P Writes) Matrix (GB/s)
+   D\D     0 
+     0 347.17 
+P2P=Enabled Latency (P2P Writes) Matrix (us)
+   GPU     0 
+     0   0.84 
+
+   CPU     0 
+     0   1.58 
+Unidirectional P2P=Enabled Bandwidth (P2P Writes) Matrix (GB/s)
+   D\D     0 
+     0 405.05 
+P2P=Enabled Latency (P2P Writes) Matrix (us)
+   GPU     0 
+     0   0.84 
+
+   CPU     0 
+     0   1.62 
+[INFO]: Time taken for scene creation : 4.258756 seconds
+[INFO]: Scene manager:  <class InteractiveScene>
+	Number of environments: 8
+	Environment spacing   : 2.0
+	Source prim name      : /World/envs/env_0
+	Global prim paths     : []
+	Replicate physics     : True
+[INFO]: Starting the simulation. This may take a few seconds. Please wait...
+[INFO]: Time taken for simulation start : 1.090679 seconds
+[32m2026-08-29 10:15:42.529[0m | [1mINFO    [0m | [36mgear_sonic.utils.motion_lib.motion_lib_base[0m:[36m__init__[0m:[36m235[0m - [1mLoaded skeleton from gear_sonic/data/assets/robot_description/mjcf/g1_29dof_rev_1_0.xml[0m
+[32m2026-08-29 10:15:42.529[0m | [1mINFO    [0m | [36mgear_sonic.utils.motion_lib.motion_lib_base[0m:[36m__init__[0m:[36m236[0m - [1mLoading motion data from /home/linjiw/scene2motion/outputs/exp012/lift-ROT-20.pkl...[0m
+[32m2026-08-29 10:15:42.531[0m | [1mINFO    [0m | [36mgear_sonic.utils.motion_lib.motion_lib_base[0m:[36mload_data[0m:[36m472[0m - [1mLoaded 8 motions[0m
+Loading Meshes ... ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:00
+Loading Geoms... ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:00
+[32m2026-08-29 10:15:42.883[0m | [1mINFO    [0m | [36mgear_sonic.utils.motion_lib.motion_lib_base[0m:[36mload_motions[0m:[36m1091[0m - [1mLoading 8 motions...[0m
+[32m2026-08-29 10:15:42.883[0m | [1mINFO    [0m | [36mgear_sonic.utils.motion_lib.motion_lib_base[0m:[36mload_motions[0m:[36m1092[0m - [1mSampling motion: tensor([0, 1, 2, 3, 4, 5, 6, 7], device='cuda:0'), ....[0m
+[32m2026-08-29 10:15:42.884[0m | [1mINFO    [0m | [36mgear_sonic.utils.motion_lib.motion_lib_base[0m:[36mload_motions[0m:[36m1093[0m - [1mCurrent motion keys: ['lift-ROT-20__s1100', 'lift-ROT-20__s1101', 'lift-ROT-20__s1102', 'lift-ROT-20__s1103', 'lift-ROT-20__s1104', 'lift-ROT-20__s1105', 'lift-ROT-20__s1106', 'lift-ROT-20__s1107'], ....[0m
+[32m2026-08-29 10:15:42.922[0m | [1mINFO    [0m | [36mgear_sonic.utils.motion_lib.motion_lib_base[0m:[36mload_motions[0m:[36m1140[0m - [1mLoading motions with 1 jobs...[0m
+Loading motions... ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:00
+Gathering results for non-navigation dataset... ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━  
+Processing motions... ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:00
+[32m2026-08-29 10:15:43.103[0m | [1mINFO    [0m | [36mgear_sonic.utils.motion_lib.motion_lib_base[0m:[36mload_motions[0m:[36m1577[0m - [1mLoaded 8 motions with a total length of 63.520s and 3184 frames.[0m
+[INFO] Command Manager:  <CommandManager> contains 1 active terms.
++----------------------------------+
+|       Active Command Terms       |
++-------+--------+-----------------+
+| Index | Name   |       Type      |
++-------+--------+-----------------+
+|   0   | motion | TrackingCommand |
++-------+--------+-----------------+
+
+[INFO] Event Manager:  <EventManager> contains 1 active terms.
++----------------------------------------+
+| Active Event Terms in Mode: 'startup'  |
++--------+-------------------------------+
+| Index  | Name                          |
++--------+-------------------------------+
+|   0    | physics_material              |
+|   1    | add_joint_default_pos         |
+|   2    | base_com                      |
+|   3    | randomize_rigid_body_mass     |
++--------+-------------------------------+
+
+[INFO] Recorder Manager:  <RecorderManager> contains 0 active terms.
++---------------------+
+| Active Recorder Terms |
++-----------+---------+
+|   Index   | Name    |
++-----------+---------+
++-----------+---------+
+
+[INFO] Action Manager:  <ActionManager> contains 1 active terms.
++------------------------------------+
+|  Active Action Terms (shape: 29)   |
++--------+-------------+-------------+
+| Index  | Name        |   Dimension |
++--------+-------------+-------------+
+|   0    | joint_pos   |          29 |
++--------+-------------+-------------+
+
+[INFO] Observation Manager: <ObservationManager> contains 3 groups.
++---------------------------------------------------------+
+| Active Observation Terms in Group: 'policy' (shape: (930,)) |
++-------------+---------------------------+---------------+
+|    Index    | Name                      |     Shape     |
++-------------+---------------------------+---------------+
+|      0      | base_ang_vel              |     (30,)     |
+|      1      | joint_pos                 |     (290,)    |
+|      2      | joint_vel                 |     (290,)    |
+|      3      | actions                   |     (290,)    |
+|      4      | gravity_dir               |     (30,)     |
++-------------+---------------------------+---------------+
++------------------------------------------------------------+
+| Active Observation Terms in Group: 'critic' (shape: (1645,)) |
++-----------+-----------------------------------+------------+
+|   Index   | Name                              |   Shape    |
++-----------+-----------------------------------+------------+
+|     0     | command_multi_future              |   (580,)   |
+|     1     | motion_anchor_pos_b               |    (3,)    |
+|     2     | motion_anchor_ori_b               |    (6,)    |
+|     3     | body_pos                          |   (42,)    |
+|     4     | body_ori                          |   (84,)    |
+|     5     | base_lin_vel                      |   (30,)    |
+|     6     | base_ang_vel                      |   (30,)    |
+|     7     | joint_pos                         |   (290,)   |
+|     8     | joint_vel                         |   (290,)   |
+|     9     | actions                           |   (290,)   |
++-----------+-----------------------------------+------------+
++-----------------------------------------------------------+
+|       Active Observation Terms in Group: 'tokenizer'      |
++-------+----------------------------------------+----------+
+| Index | Name                                   |  Shape   |
++-------+----------------------------------------+----------+
+|   0   | encoder_index                          |   (3,)   |
+|   1   | command_multi_future_nonflat           | (10, 58) |
+|   2   | command_z_multi_future_nonflat         | (10, 1)  |
+|   3   | command_z                              |   (1,)   |
+|   4   | motion_anchor_ori_b                    |   (6,)   |
+|   5   | motion_anchor_ori_b_mf_nonflat         | (10, 6)  |
+|   6   | command_multi_future_lower_body        |  (240,)  |
+|   7   | vr_3point_local_target                 |   (9,)   |
+|   8   | vr_3point_local_orn_target             |  (12,)   |
+|   9   | smpl_joints_multi_future_local_nonflat | (10, 72) |
+|   10  | smpl_root_ori_b_multi_future           | (10, 6)  |
+|   11  | joint_pos_multi_future_wrist_for_smpl  | (10, 6)  |
++-------+----------------------------------------+----------+
+
+[INFO] Termination Manager:  <TerminationManager> contains 5 active terms.
++------------------------------------+
+|      Active Termination Terms      |
++-------+-----------------+----------+
+| Index | Name            | Time Out |
++-------+-----------------+----------+
+|   0   | time_out        |   True   |
+|   1   | anchor_pos      |  False   |
+|   2   | anchor_ori_full |  False   |
+|   3   | ee_body_pos     |  False   |
+|   4   | foot_pos_xyz    |  False   |
++-------+-----------------+----------+
+
+[INFO] Reward Manager:  <RewardManager> contains 12 active terms.
++-----------------------------------------------+
+|              Active Reward Terms              |
++-------+----------------------------+----------+
+| Index | Name                       |   Weight |
++-------+----------------------------+----------+
+|   0   | tracking_anchor_pos        |      0.5 |
+|   1   | tracking_anchor_ori        |      0.5 |
+|   2   | tracking_relative_body_pos |      1.0 |
+|   3   | tracking_relative_body_ori |      1.0 |
+|   4   | tracking_body_linvel       |      1.0 |
+|   5   | tracking_body_angvel       |      1.0 |
+|   6   | action_rate_l2             |     -0.1 |
+|   7   | joint_limit                |    -10.0 |
+|   8   | undesired_contacts         |     -0.1 |
+|   9   | anti_shake_ang_vel         |   -0.005 |
+|   10  | tracking_vr_5point_local   |      2.0 |
+|   11  | feet_acc                   | -2.5e-06 |
++-------+----------------------------+----------+
+
+[INFO] Curriculum Manager:  <CurriculumManager> contains 0 active terms.
++----------------------+
+| Active Curriculum Terms |
++-----------+----------+
+|   Index   | Name     |
++-----------+----------+
++-----------+----------+
+
+[INFO]: Completed setting up the environment...
+[32m2026-08-29 10:15:45.064[0m | [1mINFO    [0m | [36mgear_sonic.trl.modules.universal_token_modules[0m:[36m__init__[0m:[36m250[0m - [1mMotion Encoder and Quantizer initialized with embedding dim: 64 (num_tokens=2, token_dim=32)[0m
+[32m2026-08-29 10:15:45.129[0m | [1mINFO    [0m | [36mgear_sonic.trl.modules.universal_token_modules[0m:[36m__init__[0m:[36m319[0m - [1mInitialized g1 encoder with input features: ['command_multi_future_nonflat', 'motion_anchor_ori_b_mf_nonflat'][0m
+[32m2026-08-29 10:15:45.139[0m | [1mINFO    [0m | [36mgear_sonic.trl.modules.universal_token_modules[0m:[36m__init__[0m:[36m319[0m - [1mInitialized teleop encoder with input features: ['command_multi_future_lower_body', 'vr_3point_local_target', 'vr_3point_local_orn_target', 'motion_anchor_ori_b'][0m
+[32m2026-08-29 10:15:45.152[0m | [1mINFO    [0m | [36mgear_sonic.trl.modules.universal_token_modules[0m:[36m__init__[0m:[36m319[0m - [1mInitialized smpl encoder with input features: ['smpl_joints_multi_future_local_nonflat', 'smpl_root_ori_b_multi_future', 'joint_pos_multi_future_wrist_for_smpl'][0m
+[32m2026-08-29 10:15:45.178[0m | [1mINFO    [0m | [36mgear_sonic.trl.modules.universal_token_modules[0m:[36m__init__[0m:[36m409[0m - [1mInitialized g1_dyn decoder with input features: ['token_flattened', 'proprioception'] and output features: ['action'][0m
+[32m2026-08-29 10:15:45.188[0m | [1mINFO    [0m | [36mgear_sonic.trl.modules.universal_token_modules[0m:[36m__init__[0m:[36m409[0m - [1mInitialized g1_kin decoder with input features: ['token'] and output features: ['command_multi_future_nonflat', 'motion_anchor_ori_b_mf_nonflat'][0m
+RunningMeanStd:  (1645,)
+[32m2026-08-29 10:15:46.198[0m | [1mINFO    [0m | [36m__main__[0m:[36mmain[0m:[36m433[0m - [1mLoading checkpoint from /home/linjiw/lucid/GR00T-WholeBodyControl/sonic_release/last.pt[0m
+[32m2026-08-29 10:15:46.351[0m | [1mINFO    [0m | [36m__main__[0m:[36mmain[0m:[36m449[0m - [1mModel parameterization: std[0m
+[32m2026-08-29 10:15:46.351[0m | [1mINFO    [0m | [36m__main__[0m:[36mmain[0m:[36m450[0m - [1mCheckpoint parameterization: std[0m
+[32m2026-08-29 10:15:46.352[0m | [1mINFO    [0m | [36m__main__[0m:[36mmain[0m:[36m462[0m - [1mSuccessfully loaded policy state dict[0m
+[32m2026-08-29 10:15:46.354[0m | [1mINFO    [0m | [36mgear_sonic.envs.wrapper.manager_env_wrapper[0m:[36mbegin_seq_motion_samples[0m:[36m1016[0m - [1mLoading motions for evaluation[0m
+[32m2026-08-29 10:15:46.355[0m | [1mINFO    [0m | [36mgear_sonic.utils.motion_lib.motion_lib_base[0m:[36mload_motions[0m:[36m1091[0m - [1mLoading 8 motions...[0m
+[32m2026-08-29 10:15:46.355[0m | [1mINFO    [0m | [36mgear_sonic.utils.motion_lib.motion_lib_base[0m:[36mload_motions[0m:[36m1092[0m - [1mSampling motion: tensor([0, 1, 2, 3, 4, 5, 6, 7], device='cuda:0'), ....[0m
+[32m2026-08-29 10:15:46.355[0m | [1mINFO    [0m | [36mgear_sonic.utils.motion_lib.motion_lib_base[0m:[36mload_motions[0m:[36m1093[0m - [1mCurrent motion keys: ['lift-ROT-20__s1100', 'lift-ROT-20__s1101', 'lift-ROT-20__s1102', 'lift-ROT-20__s1103', 'lift-ROT-20__s1104', 'lift-ROT-20__s1105', 'lift-ROT-20__s1106', 'lift-ROT-20__s1107'], ....[0m
+[32m2026-08-29 10:15:46.395[0m | [1mINFO    [0m | [36mgear_sonic.utils.motion_lib.motion_lib_base[0m:[36mload_motions[0m:[36m1140[0m - [1mLoading motions with 1 jobs...[0m
+Loading motions... ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:00
+Gathering results... ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━   
+Processing motions... ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:00
+[32m2026-08-29 10:15:46.556[0m | [1mINFO    [0m | [36mgear_sonic.utils.motion_lib.motion_lib_base[0m:[36mload_motions[0m:[36m1577[0m - [1mLoaded 8 motions with a total length of 63.520s and 3184 frames.[0m
+============================================Evaluating policy============================================
+!!!!!!! 8 8 0 0 Time: 10:15:59
+Gathering eval tensors torch.Size([8, 29]) 0
+Success Rate: 0.0000000000
+Progress Rate: 0.3746859282
+All:  mpjpe_g: 514.873 	mpjpe_l: 44.910 	mpjpe_pa: 35.712 	accel_dist: 13.772 	vel_dist: 16.472 	mpjpe_g_legs: 511.481 	mpjpe_l_legs: 39.924 	mpjpe_pa_legs: 32.169 	accel_dist_legs: 14.549 	vel_dist_legs: 16.906 	mpjpe_g_vr_3points: 509.504 	mpjpe_l_vr_3points: 37.297 	mpjpe_pa_vr_3points: 20.418 	accel_dist_vr_3points: 14.031 	vel_dist_vr_3points: 16.947 	mpjpe_g_other_upper_bodies: 522.166 	mpjpe_l_other_upper_bodies: 50.678 	mpjpe_pa_other_upper_bodies: 20.095 	accel_dist_other_upper_bodies: 12.685 	vel_dist_other_upper_bodies: 15.666 	mpjpe_g_foot: 518.463 	mpjpe_l_foot: 55.189 	mpjpe_pa_foot: 0.000 	accel_dist_foot: 16.961 	vel_dist_foot: 18.455
+Succ:  mpjpe_g: nan 	mpjpe_l: nan 	mpjpe_pa: nan 	accel_dist: nan 	vel_dist: nan 	mpjpe_g_legs: nan 	mpjpe_l_legs: nan 	mpjpe_pa_legs: nan 	accel_dist_legs: nan 	vel_dist_legs: nan 	mpjpe_g_vr_3points: nan 	mpjpe_l_vr_3points: nan 	mpjpe_pa_vr_3points: nan 	accel_dist_vr_3points: nan 	vel_dist_vr_3points: nan 	mpjpe_g_other_upper_bodies: nan 	mpjpe_l_other_upper_bodies: nan 	mpjpe_pa_other_upper_bodies: nan 	accel_dist_other_upper_bodies: nan 	vel_dist_other_upper_bodies: nan 	mpjpe_g_foot: nan 	mpjpe_l_foot: nan 	mpjpe_pa_foot: nan 	accel_dist_foot: nan 	vel_dist_foot: nan
+Saving metrics_eval to /home/linjiw/scene2motion/outputs/exp012/lift-ROT-20/metrics_eval.json
+
+2026-08-29 10:15:31.858 | WARNING  | gear_sonic.utils.config_utils:register_rl_resolvers:20 - Warning: Some resolvers already registered: resolver 'eval' is already registered
+/home/linjiw/lucid/GR00T-WholeBodyControl/gear_sonic/eval_agent_trl.py:61: UserWarning: 
+The version_base parameter is not specified.
+Please specify a compatability version level, or None.
+Will assume defaults for version 1.1
+  @hydra.main(config_path="config", config_name="base_eval")
+/home/linjiw/isaaclab-install/env_isaaclab/lib/python3.11/site-packages/hydra/_internal/hydra.py:119: UserWarning: Future Hydra versions will no longer change working directory at job runtime by default.
+See https://hydra.cc/docs/1.2/upgrades/1.1_to_1.2/changes_to_job_working_dir/ for more information.
+  ret = run_job(
+/home/linjiw/lucid/GR00T-WholeBodyControl/gear_sonic/trl/trainer/ppo_trainer.py:15: TRLExperimentalWarning: You are importing from 'trl.experimental'. APIs here are unstable and may change or be removed without notice. Silence this warning by setting environment variable TRL_EXPERIMENTAL_SILENCE=1.
+  from trl.experimental.ppo import ppo_trainer
+
+Total evaluation progress:   0%|          | 0/1 [00:00<?, ?it/s]
+
+Sequence progress:   0%|          | 0/398 [00:00<?, ?it/s][A/home/linjiw/isaaclab-install/env_isaaclab/lib/python3.11/site-packages/numpy/core/fromnumeric.py:3504: RuntimeWarning: Mean of empty slice.
+  return _methods._mean(a, axis=axis, dtype=dtype,
+/home/linjiw/isaaclab-install/env_isaaclab/lib/python3.11/site-packages/numpy/core/_methods.py:129: RuntimeWarning: invalid value encountered in scalar divide
+  ret = ret.dtype.type(ret / rcount)
+
+Terminated: 0 | max frames: 398 | steps 1 | env_loop: 0 | eval_time: 0.0m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:00<?, ?it/s]
+Terminated: 0 | max frames: 398 | steps 2 | env_loop: 0 | eval_time: 0.0m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:00<?, ?it/s]
+
+Sequence progress:   1%|          | 3/398 [00:00<00:18, 20.80it/s][A
+Terminated: 0 | max frames: 398 | steps 3 | env_loop: 0 | eval_time: 0.0m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:00<?, ?it/s]
+Terminated: 0 | max frames: 398 | steps 4 | env_loop: 0 | eval_time: 0.0m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:00<?, ?it/s]
+Terminated: 0 | max frames: 398 | steps 5 | env_loop: 0 | eval_time: 0.0m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:00<?, ?it/s]
+
+Sequence progress:   2%|▏         | 6/398 [00:00<00:20, 19.34it/s][A
+Terminated: 0 | max frames: 398 | steps 6 | env_loop: 0 | eval_time: 0.0m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:00<?, ?it/s]
+Terminated: 0 | max frames: 398 | steps 7 | env_loop: 0 | eval_time: 0.0m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:00<?, ?it/s]
+
+Sequence progress:   2%|▏         | 8/398 [00:00<00:20, 18.66it/s][A
+Terminated: 0 | max frames: 398 | steps 8 | env_loop: 0 | eval_time: 0.0m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:00<?, ?it/s]
+Terminated: 0 | max frames: 398 | steps 9 | env_loop: 0 | eval_time: 0.0m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:00<?, ?it/s]
+
+Sequence progress:   3%|▎         | 10/398 [00:00<00:22, 17.36it/s][A
+Terminated: 0 | max frames: 398 | steps 10 | env_loop: 0 | eval_time: 0.0m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:01<?, ?it/s]
+Terminated: 0 | max frames: 398 | steps 11 | env_loop: 0 | eval_time: 0.0m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:01<?, ?it/s]
+Terminated: 0 | max frames: 398 | steps 12 | env_loop: 0 | eval_time: 0.0m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:01<?, ?it/s]
+
+Sequence progress:   3%|▎         | 13/398 [00:00<00:21, 18.08it/s][A
+Terminated: 0 | max frames: 398 | steps 13 | env_loop: 0 | eval_time: 0.0m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:01<?, ?it/s]
+Terminated: 0 | max frames: 398 | steps 14 | env_loop: 0 | eval_time: 0.0m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:01<?, ?it/s]
+
+Sequence progress:   4%|▍         | 15/398 [00:00<00:21, 17.69it/s][A
+Terminated: 0 | max frames: 398 | steps 15 | env_loop: 0 | eval_time: 0.0m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:01<?, ?it/s]
+Terminated: 0 | max frames: 398 | steps 16 | env_loop: 0 | eval_time: 0.0m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:01<?, ?it/s]
+
+Sequence progress:   4%|▍         | 17/398 [00:00<00:22, 16.63it/s][A
+Terminated: 0 | max frames: 398 | steps 17 | env_loop: 0 | eval_time: 0.0m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:01<?, ?it/s]
+Terminated: 0 | max frames: 398 | steps 18 | env_loop: 0 | eval_time: 0.0m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:01<?, ?it/s]
+
+Sequence progress:   5%|▍         | 19/398 [00:01<00:24, 15.61it/s][A
+Terminated: 0 | max frames: 398 | steps 19 | env_loop: 0 | eval_time: 0.0m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:01<?, ?it/s]
+Terminated: 0 | max frames: 398 | steps 20 | env_loop: 0 | eval_time: 0.0m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:01<?, ?it/s]
+
+Sequence progress:   5%|▌         | 21/398 [00:01<00:40,  9.23it/s][A
+Terminated: 0 | max frames: 398 | steps 21 | env_loop: 0 | eval_time: 0.0m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:02<?, ?it/s]
+Terminated: 0 | max frames: 398 | steps 22 | env_loop: 0 | eval_time: 0.0m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:02<?, ?it/s]
+
+Sequence progress:   6%|▌         | 23/398 [00:01<00:36, 10.31it/s][A
+Terminated: 0 | max frames: 398 | steps 23 | env_loop: 0 | eval_time: 0.0m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:02<?, ?it/s]
+Terminated: 0 | max frames: 398 | steps 24 | env_loop: 0 | eval_time: 0.0m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:02<?, ?it/s]
+
+Sequence progress:   6%|▋         | 25/398 [00:01<00:31, 11.68it/s][A
+Terminated: 0 | max frames: 398 | steps 25 | env_loop: 0 | eval_time: 0.0m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:02<?, ?it/s]
+Terminated: 0 | max frames: 398 | steps 26 | env_loop: 0 | eval_time: 0.0m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:02<?, ?it/s]
+
+Sequence progress:   7%|▋         | 27/398 [00:01<00:28, 12.86it/s][A
+Terminated: 0 | max frames: 398 | steps 27 | env_loop: 0 | eval_time: 0.0m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:02<?, ?it/s]
+Terminated: 0 | max frames: 398 | steps 28 | env_loop: 0 | eval_time: 0.0m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:02<?, ?it/s]
+
+Sequence progress:   7%|▋         | 29/398 [00:02<00:26, 13.94it/s][A
+Terminated: 0 | max frames: 398 | steps 29 | env_loop: 0 | eval_time: 0.0m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:02<?, ?it/s]
+Terminated: 0 | max frames: 398 | steps 30 | env_loop: 0 | eval_time: 0.0m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:02<?, ?it/s]
+
+Sequence progress:   8%|▊         | 31/398 [00:02<00:24, 14.95it/s][A
+Terminated: 0 | max frames: 398 | steps 31 | env_loop: 0 | eval_time: 0.0m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:02<?, ?it/s]
+Terminated: 0 | max frames: 398 | steps 32 | env_loop: 0 | eval_time: 0.0m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:02<?, ?it/s]
+
+Sequence progress:   8%|▊         | 33/398 [00:02<00:24, 15.19it/s][A
+Terminated: 0 | max frames: 398 | steps 33 | env_loop: 0 | eval_time: 0.0m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:02<?, ?it/s]
+Terminated: 0 | max frames: 398 | steps 34 | env_loop: 0 | eval_time: 0.0m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:02<?, ?it/s]
+Terminated: 0 | max frames: 398 | steps 35 | env_loop: 0 | eval_time: 0.0m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:02<?, ?it/s]
+
+Sequence progress:   9%|▉         | 36/398 [00:02<00:21, 16.66it/s][A
+Terminated: 0 | max frames: 398 | steps 36 | env_loop: 0 | eval_time: 0.0m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:02<?, ?it/s]
+Terminated: 0 | max frames: 398 | steps 37 | env_loop: 0 | eval_time: 0.1m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:03<?, ?it/s]
+
+Sequence progress:  10%|▉         | 38/398 [00:02<00:21, 16.86it/s][A
+Terminated: 0 | max frames: 398 | steps 38 | env_loop: 0 | eval_time: 0.1m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:03<?, ?it/s]
+Terminated: 0 | max frames: 398 | steps 39 | env_loop: 0 | eval_time: 0.1m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:03<?, ?it/s]
+
+Sequence progress:  10%|█         | 40/398 [00:02<00:21, 16.86it/s][A
+Terminated: 0 | max frames: 398 | steps 40 | env_loop: 0 | eval_time: 0.1m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:03<?, ?it/s]
+Terminated: 0 | max frames: 398 | steps 41 | env_loop: 0 | eval_time: 0.1m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:03<?, ?it/s]
+
+Sequence progress:  11%|█         | 42/398 [00:03<00:34, 10.21it/s][A
+Terminated: 0 | max frames: 398 | steps 42 | env_loop: 0 | eval_time: 0.1m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:03<?, ?it/s]
+Terminated: 0 | max frames: 398 | steps 43 | env_loop: 0 | eval_time: 0.1m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:03<?, ?it/s]
+
+Sequence progress:  11%|█         | 44/398 [00:03<00:30, 11.53it/s][A
+Terminated: 0 | max frames: 398 | steps 44 | env_loop: 0 | eval_time: 0.1m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:03<?, ?it/s]
+Terminated: 0 | max frames: 398 | steps 45 | env_loop: 0 | eval_time: 0.1m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:03<?, ?it/s]
+
+Sequence progress:  12%|█▏        | 46/398 [00:03<00:27, 13.01it/s][A
+Terminated: 0 | max frames: 398 | steps 46 | env_loop: 0 | eval_time: 0.1m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:03<?, ?it/s]
+Terminated: 0 | max frames: 398 | steps 47 | env_loop: 0 | eval_time: 0.1m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:03<?, ?it/s]
+
+Sequence progress:  12%|█▏        | 48/398 [00:03<00:25, 13.82it/s][A
+Terminated: 0 | max frames: 398 | steps 48 | env_loop: 0 | eval_time: 0.1m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:03<?, ?it/s]
+Terminated: 0 | max frames: 398 | steps 49 | env_loop: 0 | eval_time: 0.1m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:03<?, ?it/s]
+
+Sequence progress:  13%|█▎        | 50/398 [00:03<00:24, 14.23it/s][A
+Terminated: 0 | max frames: 398 | steps 50 | env_loop: 0 | eval_time: 0.1m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:04<?, ?it/s]
+Terminated: 0 | max frames: 398 | steps 51 | env_loop: 0 | eval_time: 0.1m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:04<?, ?it/s]
+
+Sequence progress:  13%|█▎        | 52/398 [00:03<00:22, 15.39it/s][A
+Terminated: 0 | max frames: 398 | steps 52 | env_loop: 0 | eval_time: 0.1m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:04<?, ?it/s]
+Terminated: 0 | max frames: 398 | steps 53 | env_loop: 0 | eval_time: 0.1m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:04<?, ?it/s]
+
+Sequence progress:  14%|█▎        | 54/398 [00:03<00:22, 15.07it/s][A
+Terminated: 0 | max frames: 398 | steps 54 | env_loop: 0 | eval_time: 0.1m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:04<?, ?it/s]
+Terminated: 0 | max frames: 398 | steps 55 | env_loop: 0 | eval_time: 0.1m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:04<?, ?it/s]
+Terminated: 0 | max frames: 398 | steps 56 | env_loop: 0 | eval_time: 0.1m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:04<?, ?it/s]
+
+Sequence progress:  14%|█▍        | 57/398 [00:03<00:20, 16.40it/s][A
+Terminated: 0 | max frames: 398 | steps 57 | env_loop: 0 | eval_time: 0.1m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:04<?, ?it/s]
+Terminated: 0 | max frames: 398 | steps 58 | env_loop: 0 | eval_time: 0.1m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:04<?, ?it/s]
+
+Sequence progress:  15%|█▍        | 59/398 [00:04<00:20, 16.75it/s][A
+Terminated: 0 | max frames: 398 | steps 59 | env_loop: 0 | eval_time: 0.1m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:04<?, ?it/s]
+Terminated: 0 | max frames: 398 | steps 60 | env_loop: 0 | eval_time: 0.1m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:04<?, ?it/s]
+
+Sequence progress:  15%|█▌        | 61/398 [00:04<00:33, 10.15it/s][A
+Terminated: 0 | max frames: 398 | steps 61 | env_loop: 0 | eval_time: 0.1m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:04<?, ?it/s]
+Terminated: 0 | max frames: 398 | steps 62 | env_loop: 0 | eval_time: 0.1m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:04<?, ?it/s]
+
+Sequence progress:  16%|█▌        | 63/398 [00:04<00:28, 11.69it/s][A
+Terminated: 0 | max frames: 398 | steps 63 | env_loop: 0 | eval_time: 0.1m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:05<?, ?it/s]
+Terminated: 0 | max frames: 398 | steps 64 | env_loop: 0 | eval_time: 0.1m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:05<?, ?it/s]
+
+Sequence progress:  16%|█▋        | 65/398 [00:04<00:25, 12.82it/s][A
+Terminated: 0 | max frames: 398 | steps 65 | env_loop: 0 | eval_time: 0.1m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:05<?, ?it/s]
+Terminated: 0 | max frames: 398 | steps 66 | env_loop: 0 | eval_time: 0.1m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:05<?, ?it/s]
+
+Sequence progress:  17%|█▋        | 67/398 [00:04<00:23, 13.90it/s][A
+Terminated: 0 | max frames: 398 | steps 67 | env_loop: 0 | eval_time: 0.1m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:05<?, ?it/s]
+Terminated: 0 | max frames: 398 | steps 68 | env_loop: 0 | eval_time: 0.1m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:05<?, ?it/s]
+
+Sequence progress:  17%|█▋        | 69/398 [00:04<00:22, 14.85it/s][A
+Terminated: 0 | max frames: 398 | steps 69 | env_loop: 0 | eval_time: 0.1m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:05<?, ?it/s]
+Terminated: 0 | max frames: 398 | steps 70 | env_loop: 0 | eval_time: 0.1m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:05<?, ?it/s]
+
+Sequence progress:  18%|█▊        | 71/398 [00:05<00:21, 15.10it/s][A
+Terminated: 0 | max frames: 398 | steps 71 | env_loop: 0 | eval_time: 0.1m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:05<?, ?it/s]
+Terminated: 0 | max frames: 398 | steps 72 | env_loop: 0 | eval_time: 0.1m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:05<?, ?it/s]
+
+Sequence progress:  18%|█▊        | 73/398 [00:05<00:19, 16.27it/s][A
+Terminated: 0 | max frames: 398 | steps 73 | env_loop: 0 | eval_time: 0.1m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:05<?, ?it/s]
+Terminated: 0 | max frames: 398 | steps 74 | env_loop: 0 | eval_time: 0.1m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:05<?, ?it/s]
+
+Sequence progress:  19%|█▉        | 75/398 [00:05<00:20, 15.76it/s][A
+Terminated: 0 | max frames: 398 | steps 75 | env_loop: 0 | eval_time: 0.1m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:05<?, ?it/s]
+Terminated: 0 | max frames: 398 | steps 76 | env_loop: 0 | eval_time: 0.1m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:05<?, ?it/s]
+Terminated: 0 | max frames: 398 | steps 77 | env_loop: 0 | eval_time: 0.1m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:05<?, ?it/s]
+
+Sequence progress:  20%|█▉        | 78/398 [00:05<00:18, 16.88it/s][A
+Terminated: 0 | max frames: 398 | steps 78 | env_loop: 0 | eval_time: 0.1m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:05<?, ?it/s]
+Terminated: 0 | max frames: 398 | steps 79 | env_loop: 0 | eval_time: 0.1m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:05<?, ?it/s]
+
+Sequence progress:  20%|██        | 80/398 [00:05<00:18, 17.19it/s][A
+Terminated: 0 | max frames: 398 | steps 80 | env_loop: 0 | eval_time: 0.1m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:06<?, ?it/s]
+Terminated: 0 | max frames: 398 | steps 81 | env_loop: 0 | eval_time: 0.1m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:06<?, ?it/s]
+
+Sequence progress:  21%|██        | 82/398 [00:05<00:32,  9.86it/s][A
+Terminated: 0 | max frames: 398 | steps 82 | env_loop: 0 | eval_time: 0.1m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:06<?, ?it/s]
+Terminated: 0 | max frames: 398 | steps 83 | env_loop: 0 | eval_time: 0.1m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:06<?, ?it/s]
+
+Sequence progress:  21%|██        | 84/398 [00:06<00:29, 10.62it/s][A
+Terminated: 0 | max frames: 398 | steps 84 | env_loop: 0 | eval_time: 0.1m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:06<?, ?it/s]
+Terminated: 0 | max frames: 398 | steps 85 | env_loop: 0 | eval_time: 0.1m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:06<?, ?it/s]
+
+Sequence progress:  22%|██▏       | 86/398 [00:06<00:26, 11.59it/s][A
+Terminated: 0 | max frames: 398 | steps 86 | env_loop: 0 | eval_time: 0.1m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:06<?, ?it/s]
+Terminated: 0 | max frames: 398 | steps 87 | env_loop: 0 | eval_time: 0.1m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:06<?, ?it/s]
+
+Sequence progress:  22%|██▏       | 88/398 [00:06<00:25, 12.01it/s][A
+Terminated: 0 | max frames: 398 | steps 88 | env_loop: 0 | eval_time: 0.1m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:06<?, ?it/s]
+Terminated: 0 | max frames: 398 | steps 89 | env_loop: 0 | eval_time: 0.1m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:06<?, ?it/s]
+
+Sequence progress:  23%|██▎       | 90/398 [00:06<00:24, 12.73it/s][A
+Terminated: 0 | max frames: 398 | steps 90 | env_loop: 0 | eval_time: 0.1m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:07<?, ?it/s]
+Terminated: 0 | max frames: 398 | steps 91 | env_loop: 0 | eval_time: 0.1m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:07<?, ?it/s]
+
+Sequence progress:  23%|██▎       | 92/398 [00:06<00:23, 12.84it/s][A
+Terminated: 0 | max frames: 398 | steps 92 | env_loop: 0 | eval_time: 0.1m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:07<?, ?it/s]
+Terminated: 0 | max frames: 398 | steps 93 | env_loop: 0 | eval_time: 0.1m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:07<?, ?it/s]
+
+Sequence progress:  24%|██▎       | 94/398 [00:06<00:22, 13.64it/s][A
+Terminated: 0 | max frames: 398 | steps 94 | env_loop: 0 | eval_time: 0.1m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:07<?, ?it/s]
+Terminated: 0 | max frames: 398 | steps 95 | env_loop: 0 | eval_time: 0.1m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:07<?, ?it/s]
+
+Sequence progress:  24%|██▍       | 96/398 [00:06<00:21, 14.22it/s][A
+Terminated: 0 | max frames: 398 | steps 96 | env_loop: 0 | eval_time: 0.1m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:07<?, ?it/s]
+Terminated: 0 | max frames: 398 | steps 97 | env_loop: 0 | eval_time: 0.1m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:07<?, ?it/s]
+
+Sequence progress:  25%|██▍       | 98/398 [00:07<00:19, 15.51it/s][A
+Terminated: 0 | max frames: 398 | steps 98 | env_loop: 0 | eval_time: 0.1m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:07<?, ?it/s]
+Terminated: 0 | max frames: 398 | steps 99 | env_loop: 0 | eval_time: 0.1m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:07<?, ?it/s]
+
+Sequence progress:  25%|██▌       | 100/398 [00:07<00:18, 16.12it/s][A
+Terminated: 0 | max frames: 398 | steps 100 | env_loop: 0 | eval_time: 0.1m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:07<?, ?it/s]
+Terminated: 0 | max frames: 398 | steps 101 | env_loop: 0 | eval_time: 0.1m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:08<?, ?it/s]
+
+Sequence progress:  26%|██▌       | 102/398 [00:07<00:30,  9.58it/s][A
+Terminated: 0 | max frames: 398 | steps 102 | env_loop: 0 | eval_time: 0.1m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:08<?, ?it/s]
+Terminated: 0 | max frames: 398 | steps 103 | env_loop: 0 | eval_time: 0.1m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:08<?, ?it/s]
+
+Sequence progress:  26%|██▌       | 104/398 [00:07<00:26, 10.89it/s][A
+Terminated: 0 | max frames: 398 | steps 104 | env_loop: 0 | eval_time: 0.1m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:08<?, ?it/s]
+Terminated: 0 | max frames: 398 | steps 105 | env_loop: 0 | eval_time: 0.1m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:08<?, ?it/s]
+Terminated: 0 | max frames: 398 | steps 106 | env_loop: 0 | eval_time: 0.1m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:08<?, ?it/s]
+
+Sequence progress:  27%|██▋       | 107/398 [00:07<00:22, 13.03it/s][A
+Terminated: 0 | max frames: 398 | steps 107 | env_loop: 0 | eval_time: 0.1m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:08<?, ?it/s]
+Terminated: 0 | max frames: 398 | steps 108 | env_loop: 0 | eval_time: 0.1m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:08<?, ?it/s]
+
+Sequence progress:  27%|██▋       | 109/398 [00:07<00:20, 13.96it/s][A
+Terminated: 0 | max frames: 398 | steps 109 | env_loop: 0 | eval_time: 0.1m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:08<?, ?it/s]
+Terminated: 0 | max frames: 398 | steps 110 | env_loop: 0 | eval_time: 0.1m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:08<?, ?it/s]
+
+Sequence progress:  28%|██▊       | 111/398 [00:08<00:19, 14.75it/s][A
+Terminated: 0 | max frames: 398 | steps 111 | env_loop: 0 | eval_time: 0.1m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:08<?, ?it/s]
+Terminated: 0 | max frames: 398 | steps 112 | env_loop: 0 | eval_time: 0.1m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:08<?, ?it/s]
+
+Sequence progress:  28%|██▊       | 113/398 [00:08<00:18, 15.53it/s][A
+Terminated: 0 | max frames: 398 | steps 113 | env_loop: 0 | eval_time: 0.1m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:08<?, ?it/s]
+Terminated: 0 | max frames: 398 | steps 114 | env_loop: 0 | eval_time: 0.1m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:08<?, ?it/s]
+
+Sequence progress:  29%|██▉       | 115/398 [00:08<00:18, 15.61it/s][A
+Terminated: 0 | max frames: 398 | steps 115 | env_loop: 0 | eval_time: 0.1m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:08<?, ?it/s]
+Terminated: 0 | max frames: 398 | steps 116 | env_loop: 0 | eval_time: 0.1m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:08<?, ?it/s]
+Terminated: 0 | max frames: 398 | steps 117 | env_loop: 0 | eval_time: 0.1m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:08<?, ?it/s]
+
+Sequence progress:  30%|██▉       | 118/398 [00:08<00:16, 16.72it/s][A
+Terminated: 0 | max frames: 398 | steps 118 | env_loop: 0 | eval_time: 0.1m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:08<?, ?it/s]
+Terminated: 0 | max frames: 398 | steps 119 | env_loop: 0 | eval_time: 0.2m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:09<?, ?it/s]
+
+Sequence progress:  30%|███       | 120/398 [00:08<00:16, 16.59it/s][A
+Terminated: 0 | max frames: 398 | steps 120 | env_loop: 0 | eval_time: 0.2m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:09<?, ?it/s]
+Terminated: 0 | max frames: 398 | steps 121 | env_loop: 0 | eval_time: 0.2m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:09<?, ?it/s]
+
+Sequence progress:  31%|███       | 122/398 [00:08<00:27, 10.05it/s][A
+Terminated: 0 | max frames: 398 | steps 122 | env_loop: 0 | eval_time: 0.2m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:09<?, ?it/s]
+Terminated: 0 | max frames: 398 | steps 123 | env_loop: 0 | eval_time: 0.2m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:09<?, ?it/s]
+
+Sequence progress:  31%|███       | 124/398 [00:09<00:24, 11.14it/s][A
+Terminated: 0 | max frames: 398 | steps 124 | env_loop: 0 | eval_time: 0.2m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:09<?, ?it/s]
+Terminated: 0 | max frames: 398 | steps 125 | env_loop: 0 | eval_time: 0.2m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:09<?, ?it/s]
+
+Sequence progress:  32%|███▏      | 126/398 [00:09<00:21, 12.74it/s][A
+Terminated: 0 | max frames: 398 | steps 126 | env_loop: 0 | eval_time: 0.2m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:09<?, ?it/s]
+Terminated: 0 | max frames: 398 | steps 127 | env_loop: 0 | eval_time: 0.2m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:09<?, ?it/s]
+
+Sequence progress:  32%|███▏      | 128/398 [00:09<00:20, 13.15it/s][A
+Terminated: 0 | max frames: 398 | steps 128 | env_loop: 0 | eval_time: 0.2m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:09<?, ?it/s]
+Terminated: 0 | max frames: 398 | steps 129 | env_loop: 0 | eval_time: 0.2m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:09<?, ?it/s]
+Terminated: 0 | max frames: 398 | steps 130 | env_loop: 0 | eval_time: 0.2m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:09<?, ?it/s]
+
+Sequence progress:  33%|███▎      | 131/398 [00:09<00:18, 14.83it/s][A
+Terminated: 0 | max frames: 398 | steps 131 | env_loop: 0 | eval_time: 0.2m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:10<?, ?it/s]
+Terminated: 0 | max frames: 398 | steps 132 | env_loop: 0 | eval_time: 0.2m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:10<?, ?it/s]
+
+Sequence progress:  33%|███▎      | 133/398 [00:09<00:17, 15.46it/s][A
+Terminated: 0 | max frames: 398 | steps 133 | env_loop: 0 | eval_time: 0.2m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:10<?, ?it/s]
+Terminated: 0 | max frames: 398 | steps 134 | env_loop: 0 | eval_time: 0.2m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:10<?, ?it/s]
+
+Sequence progress:  34%|███▍      | 135/398 [00:09<00:17, 15.07it/s][A
+Terminated: 0 | max frames: 398 | steps 135 | env_loop: 0 | eval_time: 0.2m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:10<?, ?it/s]
+Terminated: 0 | max frames: 398 | steps 136 | env_loop: 0 | eval_time: 0.2m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:10<?, ?it/s]
+Terminated: 0 | max frames: 398 | steps 137 | env_loop: 0 | eval_time: 0.2m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:10<?, ?it/s]
+
+Sequence progress:  35%|███▍      | 138/398 [00:09<00:15, 16.32it/s][A
+Terminated: 0 | max frames: 398 | steps 138 | env_loop: 0 | eval_time: 0.2m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:10<?, ?it/s]
+Terminated: 0 | max frames: 398 | steps 139 | env_loop: 0 | eval_time: 0.2m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:10<?, ?it/s]
+
+Sequence progress:  35%|███▌      | 140/398 [00:10<00:15, 16.70it/s][A
+Terminated: 0 | max frames: 398 | steps 140 | env_loop: 0 | eval_time: 0.2m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:10<?, ?it/s]
+Terminated: 0 | max frames: 398 | steps 141 | env_loop: 0 | eval_time: 0.2m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:10<?, ?it/s]
+
+Sequence progress:  36%|███▌      | 142/398 [00:10<00:25, 10.04it/s][A
+Terminated: 0 | max frames: 398 | steps 142 | env_loop: 0 | eval_time: 0.2m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:10<?, ?it/s]
+Terminated: 0 | max frames: 398 | steps 143 | env_loop: 0 | eval_time: 0.2m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:11<?, ?it/s]
+
+Sequence progress:  36%|███▌      | 144/398 [00:10<00:24, 10.21it/s][A
+Terminated: 1 | max frames: 398 | steps 144 | env_loop: 0 | eval_time: 0.2m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:11<?, ?it/s]
+Terminated: 4 | max frames: 398 | steps 145 | env_loop: 0 | eval_time: 0.2m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:11<?, ?it/s]
+
+Sequence progress:  37%|███▋      | 146/398 [00:10<00:23, 10.50it/s][A
+Terminated: 4 | max frames: 398 | steps 146 | env_loop: 0 | eval_time: 0.2m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:11<?, ?it/s]
+Terminated: 4 | max frames: 398 | steps 147 | env_loop: 0 | eval_time: 0.2m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:11<?, ?it/s]
+
+Sequence progress:  37%|███▋      | 148/398 [00:10<00:23, 10.76it/s][A
+Terminated: 5 | max frames: 398 | steps 148 | env_loop: 0 | eval_time: 0.2m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:11<?, ?it/s]
+Terminated: 5 | max frames: 398 | steps 149 | env_loop: 0 | eval_time: 0.2m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:11<?, ?it/s]
+
+Sequence progress:  38%|███▊      | 150/398 [00:11<00:22, 11.12it/s][A
+Terminated: 5 | max frames: 398 | steps 150 | env_loop: 0 | eval_time: 0.2m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:11<?, ?it/s]
+Terminated: 5 | max frames: 398 | steps 151 | env_loop: 0 | eval_time: 0.2m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:11<?, ?it/s]
+
+Sequence progress:  38%|███▊      | 152/398 [00:11<00:21, 11.22it/s][A
+Terminated: 6 | max frames: 398 | steps 152 | env_loop: 0 | eval_time: 0.2m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:11<?, ?it/s]
+Terminated: 6 | max frames: 398 | steps 153 | env_loop: 0 | eval_time: 0.2m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:11<?, ?it/s]
+
+Sequence progress:  39%|███▊      | 154/398 [00:11<00:20, 11.73it/s][A
+Terminated: 6 | max frames: 398 | steps 154 | env_loop: 0 | eval_time: 0.2m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:12<?, ?it/s]
+Terminated: 6 | max frames: 398 | steps 155 | env_loop: 0 | eval_time: 0.2m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:12<?, ?it/s]
+
+Sequence progress:  39%|███▉      | 156/398 [00:11<00:19, 12.16it/s][A
+Terminated: 6 | max frames: 398 | steps 156 | env_loop: 0 | eval_time: 0.2m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:12<?, ?it/s]
+Terminated: 6 | max frames: 398 | steps 157 | env_loop: 0 | eval_time: 0.2m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:12<?, ?it/s]
+
+Sequence progress:  40%|███▉      | 158/398 [00:11<00:18, 12.94it/s][A
+Terminated: 6 | max frames: 398 | steps 158 | env_loop: 0 | eval_time: 0.2m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:12<?, ?it/s]
+Terminated: 6 | max frames: 398 | steps 159 | env_loop: 0 | eval_time: 0.2m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:12<?, ?it/s]
+
+Sequence progress:  40%|████      | 160/398 [00:11<00:16, 14.41it/s][A
+Terminated: 6 | max frames: 398 | steps 160 | env_loop: 0 | eval_time: 0.2m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan:   0%|          | 0/1 [00:12<?, ?it/s]
+
+                                                                    [A
+
+  0%|          | 0/8 [00:00<?, ?it/s][A
+100%|██████████| 8/8 [00:00<00:00, 1762.31it/s]
+
+
+  0%|          | 0/8 [00:00<?, ?it/s][A
+100%|██████████| 8/8 [00:00<00:00, 2279.20it/s]
+
+
+  0%|          | 0/8 [00:00<?, ?it/s][A
+100%|██████████| 8/8 [00:00<00:00, 2951.14it/s]
+
+
+  0%|          | 0/8 [00:00<?, ?it/s][A
+100%|██████████| 8/8 [00:00<00:00, 2422.53it/s]
+
+
+  0%|          | 0/8 [00:00<?, ?it/s][A
+100%|██████████| 8/8 [00:00<00:00, 3141.21it/s]
+
+Terminated: 6 | max frames: 398 | steps 160 | env_loop: 0 | eval_time: 0.2m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan: 100%|██████████| 1/1 [00:13<00:00, 13.57s/it]
+Terminated: 6 | max frames: 398 | steps 160 | env_loop: 0 | eval_time: 0.2m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan: 100%|██████████| 1/1 [00:13<00:00, 13.57s/it]

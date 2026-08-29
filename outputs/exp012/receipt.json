@@ -1,0 +1,45 @@
+{
+  "experiment": "exp012_rotation_lift_tracked",
+  "n_seeds": 8,
+  "lift_m": 0.35,
+  "diffusion_steps": 5,
+  "results": {
+    "neutral": {
+      "returncode": 0,
+      "d_pelvis_mm": 0.0,
+      "success_rate": 1.0,
+      "progress_rate": 1.0,
+      "mpjpe_l": 37.706,
+      "accel_dist": 1.415,
+      "mpjpe_l_legs": 32.417
+    },
+    "lift-POS": {
+      "returncode": 0,
+      "d_pelvis_mm": 80.01243323087692,
+      "success_rate": 0.0,
+      "progress_rate": 0.0185301505,
+      "mpjpe_l": 35.523,
+      "accel_dist": 26.672,
+      "mpjpe_l_legs": 37.475
+    },
+    "lift-ROT-20": {
+      "returncode": 0,
+      "d_pelvis_mm": 2.888120710849762,
+      "success_rate": 0.0,
+      "progress_rate": 0.3746859282,
+      "mpjpe_l": 44.91,
+      "accel_dist": 13.772,
+      "mpjpe_l_legs": 39.924
+    },
+    "lift-ROT-30": {
+      "returncode": 0,
+      "d_pelvis_mm": -4.887275397777557,
+      "success_rate": 0.0,
+      "progress_rate": 0.3586683385,
+      "mpjpe_l": 43.508,
+      "accel_dist": 13.581,
+      "mpjpe_l_legs": 38.143
+    }
+  },
+  "wall_clock_s": 134.0
+}

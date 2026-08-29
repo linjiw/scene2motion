@@ -2136,3 +2136,52 @@ Three consequences, and the first two run in opposite directions:
 The precise closing statement, replacing the one in §31: **the executable, commandable body
 repertoire of this system is a single axis — duck depth — and the planning decision it supports
 is real but scalar.** "Empty" was wrong; "a set worth generating" was also wrong. It is one dial.
+
+---
+
+## 34. EXP-012: rotation-commanded lift does not track either, and the refutation is worth more than the hypothesis
+
+EXP-011 concluded lift is not executable. That lift was commanded through
+`global_joints_positions`, and EXP-010 had already shown that channel buys up to 122 mm of foot
+height by **raising the pelvis**. A whole-body vertical translation is a hop, and a controller
+trained on human locomotion has every reason to reject a hop and none to reject a leg swing. So
+EXP-011 may have measured the *encoding's* way of lifting and reported it as the capability —
+the class of error this project has made four times.
+
+Same walk, matched per-sample seeds, four bodies tracked separately:
+
+| body | Δ pelvis | success | progress | accel_dist | mpjpe_l_legs |
+|---|---|---|---|---|---|
+| neutral | +0.0 mm | **1.000** | 1.000 | 1.42 | 32.4 mm |
+| lift-POS | **+80.0 mm** | 0.000 | 0.019 | **26.67** | 37.5 |
+| lift-ROT-20 | **+2.9 mm** | 0.000 | 0.375 | 13.77 | 39.9 |
+| lift-ROT-30 | **−4.9 mm** | 0.000 | 0.359 | 13.58 | 38.1 |
+
+**The manipulation check passes**: lift-POS raises the pelvis 80 mm, lift-ROT holds it within
+5 mm. The two arms really are different requests, so the success column can be read.
+
+**And the hypothesis is refuted.** A pelvis-still, rotation-commanded leg swing tracks no better:
+0.000, twice. Lift now fails through **two independent command mechanisms**, one of which
+produces exactly the clean leg swing the hop explanation said was missing. The EXP-011 finding is
+not an artefact of the encoding, and it is considerably stronger for having been attacked with
+the specific alternative that would have overturned it.
+
+**The hypothesis was not worthless, though, and the middle columns say so.** Moving from position
+to rotation takes the clip from 1.9 % completed to **37 %**, and halves the dynamic violence,
+`accel_dist` 26.7 → 13.6. So the pelvis-hop *was* costing roughly half the problem — it simply
+was not the whole problem. The residual 13.6 against neutral's 1.42 is still an order of
+magnitude, and that is what kills it.
+
+This is the fifth pre-registered prediction in this project and the fourth to be wrong. The
+pattern is consistent enough to be worth stating: **every time I have had a mechanism that
+elegantly explained a number, the mechanism has been at most half the story.** The tuck ceiling,
+the heading-projection artefact, the renderer contradiction, and now the pelvis hop — each was
+real, each was measurable, and each explained far less than it appeared to.
+
+### What it does to the report
+
+Nothing needs retracting; one thing gets stronger. "Lift is not executable" now rests on two
+mechanisms rather than one, and the remaining honest caveat is unchanged and unaddressed: SONIC
+trains on retargeted human capture, so this is a statement about *this controller*. An
+`accel_dist` ten times a neutral walk's does suggest the motion is genuinely violent rather than
+merely unfamiliar, but that is an argument, not a measurement.

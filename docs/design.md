@@ -1681,3 +1681,67 @@ rows are byte-identical and a 40 cm duck shifts the limb targets by exactly 400 
 
 Twelve defects. Ten favoured the learned model. The two that did not were caught by controls
 built before the numbers were read.
+
+---
+
+## 28. EXP-009 refutes section 26, and that settles where the problem is
+
+Section 26 suspected the `_limb_targets` contradiction of causing the composed-program collapse,
+on a correlation: candidates commanding duck-and-something ran 0.189 valid against 0.969 for the
+rest. It said explicitly that the correlation was confounded, because "affected" was defined by
+request *content*, and that only a controlled A/B could break it. It did.
+
+Isolation verified both ways: the two **null** rows (tuck-only, lift-only, no duck) come back at
+exactly +0.000, and the **positive** control printed the height shift the manipulation actually
+applied — 350 mm on the duck rows, 500 mm on the deep-duck row — before a clip was generated.
+
+| request | OLD valid | NEW valid | Δ |
+|---|---|---|---|
+| tuck only *(null)* | 0.500 | 0.500 | **+0.000** |
+| lift only *(null)* | 0.167 | 0.167 | **+0.000** |
+| duck+tuck | 0.667 | 0.722 | +0.056 |
+| duck+lift | 0.139 | 0.389 | +0.250 |
+| duck+tuck+lift | 0.111 | 0.167 | +0.056 |
+| deep-duck+tuck | 0.806 | 0.639 | **−0.167** |
+
+Paired over the 144 (scene, request, seed) triples that command a duck:
+
+    OLD 0.431  ->  NEW 0.479      paired delta +0.049
+    discordant pairs: 37 fixed, 30 broken
+    exact McNemar p = 0.464       bootstrap 95 % CI [-0.062, +0.160]
+
+**Not significant, and the sign is not even consistent** — the fix helps `duck+lift` and hurts
+`deep-duck+tuck`. Against the ledger's 0.780 gap between composed and single-axis requests, the
+renderer accounts for **6 %**, indistinguishable from zero.
+
+So section 26 was wrong. The 0.189-vs-0.969 correlation was real and not causal: **composed
+requests genuinely are harder**, and I had a mechanism available that explained the number
+beautifully. That is the same failure mode as blaming the prior in section 22, and the only
+reason it did not reach a claim is that the experiment was designed to be able to say no.
+
+The renderer fix is kept regardless — the old code really did tell ARDY to drop the pelvis 40 cm
+and hold the hands at standing height — but it is a correctness fix, not an explanation.
+
+### What the three experiments say together
+
+| question | experiment | answer |
+|---|---|---|
+| is the body channel the problem? | EXP-008 | **yes** — rotation 8.68 σ vs position 1.57 σ, and position changes sign twice |
+| is the renderer the problem? | EXP-009 | **no** — 6 % of the gap, p = 0.46 |
+| is selection the problem? | EXP-005i | **no** — a perfect reranker wins 0.023 |
+| is support the problem? | EXP-005i | **yes** — 0.398 of the reference unreachable by any subset |
+
+And because EXP-009 removed the confound, the support finding now stands on its own: the
+deployable pool really is missing two fifths of the reachable modes, and that is not an artefact
+of a renderer bug.
+
+The three converge on one action, and it is not the one the guidance's decision table pointed at
+before these results existed. **Do not build a reranker** — there is 0.023 there. **Do not build
+a set-valued generative proposer** — the discrete alphabet that survives is tiny. Rebuild the
+body action space on `global_joints_rots`, the channel the decoder actually poses from, and
+re-measure the capability envelope, the funnel and the gate on it. Every number in sections 20–27
+is a measurement of an action space we now have good evidence is the wrong one.
+
+One thing that will not change when we do: **narrowing stays capped.** ROT− never exceeded
+0.58 σ and the URDF says why. A better channel buys a much better *duck* and a much better
+*arms-out*, and it does not buy a G1 that fits through a narrower gap.

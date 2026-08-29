@@ -24,46 +24,46 @@
       "n_per_arm": 36
     },
     "duck+tuck": {
-      "old_valid": 0.7777777777777778,
-      "new_valid": 0.7777777777777778,
-      "delta": 0.0,
+      "old_valid": 0.6666666666666666,
+      "new_valid": 0.7222222222222222,
+      "delta": 0.05555555555555558,
       "old_goal": 1.0,
       "new_goal": 1.0,
-      "old_coll_free": 0.7777777777777778,
-      "new_coll_free": 0.7777777777777778,
+      "old_coll_free": 0.6666666666666666,
+      "new_coll_free": 0.7222222222222222,
       "n_per_arm": 36
     },
     "duck+lift": {
-      "old_valid": 0.3611111111111111,
-      "new_valid": 0.3611111111111111,
-      "delta": 0.0,
-      "old_goal": 1.0,
-      "new_goal": 1.0,
-      "old_coll_free": 0.3611111111111111,
-      "new_coll_free": 0.3611111111111111,
-      "n_per_arm": 36
-    },
-    "duck+tuck+lift": {
       "old_valid": 0.1388888888888889,
-      "new_valid": 0.1388888888888889,
-      "delta": 0.0,
+      "new_valid": 0.3888888888888889,
+      "delta": 0.25,
       "old_goal": 1.0,
       "new_goal": 1.0,
       "old_coll_free": 0.1388888888888889,
-      "new_coll_free": 0.1388888888888889,
+      "new_coll_free": 0.3888888888888889,
+      "n_per_arm": 36
+    },
+    "duck+tuck+lift": {
+      "old_valid": 0.1111111111111111,
+      "new_valid": 0.16666666666666666,
+      "delta": 0.05555555555555555,
+      "old_goal": 1.0,
+      "new_goal": 1.0,
+      "old_coll_free": 0.1111111111111111,
+      "new_coll_free": 0.16666666666666666,
       "n_per_arm": 36
     },
     "deepduck+tuck": {
-      "old_valid": 0.6111111111111112,
-      "new_valid": 0.6111111111111112,
-      "delta": 0.0,
+      "old_valid": 0.8055555555555556,
+      "new_valid": 0.6388888888888888,
+      "delta": -0.16666666666666674,
       "old_goal": 1.0,
       "new_goal": 1.0,
-      "old_coll_free": 0.6111111111111112,
-      "new_coll_free": 0.6111111111111112,
+      "old_coll_free": 0.8055555555555556,
+      "new_coll_free": 0.6388888888888888,
       "n_per_arm": 36
     }
   },
   "null_rows_pass": true,
-  "wall_clock_s": 107.3
+  "wall_clock_s": 107.4
 }

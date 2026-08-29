@@ -5,7 +5,8 @@ motion planner for the Unitree G1 — scene geometry plus start and goal in, who
 that reaches the goal, avoids obstacles with the whole body, and is physically executable.
 
 **What was found:** the frozen prior exposes a 43-dimensional constraint interface whose
-*reliably commandable* subset, on this robot, is **one axis — duck depth**. Everything else is
+*reliably commandable* subset, on this robot, is **narrow — duck depth, plus a weak
+small-amplitude step-over.** Everything else is
 either not requestable, not distinguishable from the prior's own sampling noise, structurally
 capped by the robot's geometry, or not executable by a physics tracker. The planning decision
 this supports is real but scalar: *duck, and by how much*. No learned generator, set-valued
@@ -185,7 +186,7 @@ Three runs of the same code, same scenes, same seeds, changing only the configur
   →  13.2 kinematically valid        (goal reached, collision-free, > half the seeds)
   →  10.8 valid AND stable           (one modal active set on ≥ 80 % of seeds)
   →   1.7 distinct addressable modes
-  →  ~1   dynamically executable     (duck; lift is 0/8 under the tracker)
+  →  1-2   dynamically executable     (duck, strong; small gated step-over, weak — §4.7)
 ```
 
 The originally reported 3.00 modes/scene decomposes into **2.17 of behaviour** (once a
@@ -264,16 +265,38 @@ But it is one capability with an amplitude, not a set of strategies.
 | duck-shallow | **1.000** | 1.90 | 29.7 mm |
 | duck | 0.750 | 5.99 | 45.6 mm |
 | duck-deep | 0.625 | 10.18 | 71.9 mm |
-| **lift** | **0.000** | **28.31** | — |
-| **duck + lift** | **0.000** | 24.64 | — |
+| **lift** *(two-legged raise, 0.35 m — see below)* | **0.000** | **28.31** | — |
+| **duck + lift** *(same)* | **0.000** | 24.64 | — |
 
 Duck degrades gracefully and monotonically with depth — that is what an executable adaptation
-looks like. Lift is zero of eight, twice.
+looks like.
 
-**The strongest single result in the project** is that two methods sharing no code, no
-assumptions and no data agree: the conformal kinematic envelope refused `low_obstacle` 0/20, and
-a trained RL controller in physics independently reports lift 0/8. *A calibrated kinematic
-refusal predicted a dynamic one.*
+**The lift rows are wrong, and the correction matters more than the original result.** Those
+requests raised **both** legs at every frame in the window. `planner._limb_targets` gates the
+lift **per side** on that leg already being airborne; my experiment code did not. A contact
+analysis (EXP-013) found `mean_contacts = 0.00` — no foot on the ground at any frame. The
+reference was ballistic, and no controller can track a jump.
+
+Re-run with the shipped gating and an amplitude the prior does not over-drive:
+
+| body, lift = 0.08 m | ground contacts | success | progress | accel_dist |
+|---|---|---|---|---|
+| neutral | 5.63 | 1.000 | 1.000 | 1.71 |
+| two-legged raise *(what was tested before)* | 0.00 | **0.000** | 0.145 | 21.33 |
+| **per-side gated** | **1.45** | **0.375** | **0.746** | **6.49** |
+
+**Step-over is weakly executable, not absent.** Measured against the threshold this report
+pre-committed to in §8.1 — withdrawal at ≥ 0.5 success over 16 seeds — 0.375 over 8 seeds does
+**not** earn the strict withdrawal. But 0.000 and 0.375 are not the same claim, and the whole
+difference is in how the request was formed. The boundary lies somewhere between 0.08 m (tracks,
+1.45 contacts) and 0.35 m (does not, 0.05 contacts) and has not been located.
+
+**A result that has to be restated.** The conformal kinematic envelope refused `low_obstacle`
+0/20, and the tracker initially appeared to confirm it at lift 0/8 — two independent methods
+agreeing. That agreement is now known to be partly coincidental: the tracker's 0/8 was measuring
+a jump. The envelope's refusal still stands on its own terms and the tracker still says a
+*large* step-over is unexecutable, but "a calibrated kinematic refusal predicted a dynamic one"
+was a stronger claim than the evidence supports, and it is withdrawn.
 
 ### 4.8 The collision-free certificate does not survive execution
 
@@ -372,7 +395,8 @@ the ledger existed, a hardcoded-threshold bug was repaired post-hoc with zero GP
 ## 6. What this means
 
 **For this system.** ARDY-G1 exposes a rich-looking interface — 5 channels, 43 program
-dimensions, 36 spread requests — and delivers **one executable body axis**. The boundary between
+dimensions, 36 spread requests — and delivers **one strong executable body axis and one weak
+one**. The boundary between
 what works and what does not is predictable from the *representation* (absolute-height versus
 root-relative-lateral), from the *robot* (the thighs cap narrowing), and from the *action space*
 (no yaw field), and **not** from anything one would call the model's competence.
@@ -418,7 +442,7 @@ says and none was expensive. Three of the four overturned or corrected something
 |---|---|---|
 | **EXP-012** | does a lift commanded through the *rotation* channel track, given that the position channel buys foot height by raising the pelvis 122 mm — a hop? | **hypothesis refuted.** Pelvis-still rotation lift also tracks 0/8. But it gets 37 % through the clip against position's 1.9 %, and halves `accel_dist` 26.7 → 13.6, so the hop was about half the problem |
 | **EXP-013** | is the lift reference *dynamically* infeasible, or just unfamiliar to SONIC? (a controller-independent ZMP test) | answered a different and more important question — see below |
-| **EXP-014** | does the *shipped* gated step-over track? | both gated and ungated are airborne; the shipped renderer's lift also produces 0.05 mean contacts |
+| **EXP-014** | does the *shipped* gated step-over track? | at 0.35 m both are airborne — but **at 0.08 m the gated one keeps 1.45 contacts and tracks 0.375**, overturning §4.7 |
 | amplitude sweep | is 0.35 m simply too big an ask? | ARDY **over-responds ~2.5×** (an 80 mm request yields +197 mm of foot rise) and contact falls monotonically: 5.34 → 1.34 → 0.27 across 0.08 → 0.35 m |
 
 **EXP-013 found an error in my own experiments, and it is the most important thing in this
@@ -433,11 +457,13 @@ how it was asked for. It is why §8.1 leads where it does.
 
 ### 8.1 Tier 1 — resolves an open claim, costs hours
 
-**(a) Finish the contact-consistent step-over ladder.** The amplitude sweep is a dose-response,
-not a boundary: contact degrades smoothly rather than collapsing at a threshold, and no amplitude
-has been *tracked* except 0.35 m. Track the ladder. **Kill condition:** if some amplitude both
-preserves contact and tracks at ≥ 0.5 over 16 seeds, "step-over is unavailable" is withdrawn and
-the executable repertoire is two axes, not one.
+**(a) Finish the contact-consistent step-over ladder — partly done, and it already overturned
+§4.7.** Two amplitudes are now tracked: 0.35 m fails (0.000, 0.05 contacts) and 0.08 m succeeds
+partially (**0.375**, 1.45 contacts). The pre-committed bar was ≥ 0.5 over 16 seeds, which 0.375
+over 8 does not clear, so what remains is to run the intermediate amplitudes (0.12, 0.16, 0.20,
+0.25) at 16 seeds and locate the boundary. **This is now the highest-value experiment in the
+project**, because it decides whether the executable repertoire is one axis plus a fringe case or
+genuinely two.
 
 **(b) Elicit the behaviour with TEXT, address it with the ROOT.** *The best idea to come out of
 the next-steps panel, and one I had not considered.* ARDY is text-conditioned, and the root
@@ -506,10 +532,19 @@ poor practice to publish a negative result while its two cheapest refutations si
 a second skeleton. Those two convert "we measured this on one prior, one robot, six scenes" into
 a claim about representations, which is the only version of this work that generalises.
 
-*The thing most likely to be wrong:* §4.7, that lift is unexecutable. It has already survived two
-command mechanisms and a contact analysis, but every previous version of a capability-absent
-claim in this project failed to survive the experiment that asked properly, and (a) and (b) are
-that experiment.
+*The thing most likely to be wrong — and it was.* This section originally named §4.7, that lift
+is unexecutable, as the claim most likely to fail, on the grounds that *every previous
+capability-absent claim in this project failed to survive the experiment that asked properly.*
+Experiment (a) was run before this report was finished and duly overturned it: a per-side gated
+step-over at 0.08 m tracks 0.375 where the two-legged raise at 0.35 m tracked 0.000. Five for
+five.
+
+*So the thing most likely to be wrong now* is the remaining half of the same claim — that the
+step-over is only **weakly** executable. It rests on 8 seeds at a single amplitude, below the
+0.5-over-16-seeds bar this report set for itself. The amplitude ladder in (a) is unfinished, and
+the boundary between 0.08 m (works) and 0.35 m (does not) is unlocated. If the band is wider than
+it currently looks, the executable repertoire is two solid axes and several conclusions in §6
+soften further.
 
 *One methodological note for whoever continues.* A claim in the panel that fed this section — that
 the scene suite labels only two adaptation types — was **false**: the 128-scene suite carries six

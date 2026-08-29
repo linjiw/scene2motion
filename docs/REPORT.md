@@ -404,3 +404,114 @@ and the control patterns in §5.
   experiments and shown better for the arm, comparable for the leg.
 * **`mpjpe` is a proxy** for the clearance that actually matters; the achieved states SONIC would
   need to dump for a direct measurement are not saved.
+
+---
+
+## 8. Next steps
+
+### 8.0 What has already been done rather than recommended
+
+Four experiments were run *while writing this report*, because each could change what the report
+says and none was expensive. Three of the four overturned or corrected something.
+
+| | question | outcome |
+|---|---|---|
+| **EXP-012** | does a lift commanded through the *rotation* channel track, given that the position channel buys foot height by raising the pelvis 122 mm — a hop? | **hypothesis refuted.** Pelvis-still rotation lift also tracks 0/8. But it gets 37 % through the clip against position's 1.9 %, and halves `accel_dist` 26.7 → 13.6, so the hop was about half the problem |
+| **EXP-013** | is the lift reference *dynamically* infeasible, or just unfamiliar to SONIC? (a controller-independent ZMP test) | answered a different and more important question — see below |
+| **EXP-014** | does the *shipped* gated step-over track? | both gated and ungated are airborne; the shipped renderer's lift also produces 0.05 mean contacts |
+| amplitude sweep | is 0.35 m simply too big an ask? | ARDY **over-responds ~2.5×** (an 80 mm request yields +197 mm of foot rise) and contact falls monotonically: 5.34 → 1.34 → 0.27 across 0.08 → 0.35 m |
+
+**EXP-013 found an error in my own experiments, and it is the most important thing in this
+section.** Computing foot contacts on the lift reference gave `mean_contacts = 0.00` over the
+whole interaction window — *no foot on the ground at any frame*. A contactless reference is
+ballistic and no controller can track it. The cause was mine: `planner._limb_targets` gates the
+lift **per side** on that leg already being airborne, and EXP-011/012/013 all raised **both**
+legs. **"Lift is not executable" was a claim about a jump.**
+
+That is the fourth time in this project that a capability was declared absent and the cause was
+how it was asked for. It is why §8.1 leads where it does.
+
+### 8.1 Tier 1 — resolves an open claim, costs hours
+
+**(a) Finish the contact-consistent step-over ladder.** The amplitude sweep is a dose-response,
+not a boundary: contact degrades smoothly rather than collapsing at a threshold, and no amplitude
+has been *tracked* except 0.35 m. Track the ladder. **Kill condition:** if some amplitude both
+preserves contact and tracks at ≥ 0.5 over 16 seeds, "step-over is unavailable" is withdrawn and
+the executable repertoire is two axes, not one.
+
+**(b) Elicit the behaviour with TEXT, address it with the ROOT.** *The best idea to come out of
+the next-steps panel, and one I had not considered.* ARDY is text-conditioned, and the root
+channels are the ones that demonstrably work. So: prompt for the behaviour ("a person steps over
+an obstacle"), constrain **only** the root path, and never touch the body slices at all. This
+tests whether the frozen prior *contains* a supported, contact-consistent step-over that our
+constraint interface was simply unable to ask for — which is the strongest remaining threat to
+the report's central claim. Matched per-sample seeds against a plain-walk prompt; kill condition
+is failure to separate swing height from the walk baseline by more than the q99 seed noise.
+Cost: one session.
+
+Both are cheap and both can overturn §4.7. **They should run before anything in Tier 2.**
+
+### 8.2 Tier 2 — needed before this is publishable
+
+**(c) Scale the funnel.** It rests on **6 scenes**. Pre-register a family-stratified suite with
+enough seeds to *certify* rather than estimate — EXP-007 established that τ = 0.8 needs n ≥ 14
+unanimous seeds and the funnel used 6. Pre-commit the kill condition: if the 95 % scene-level
+upper bound on addressable modes/scene exceeds 3.0, the headline is not supportable. ~2 GPU-hours.
+
+**(d) Build the rotation-channel action space.** §28 of the log concluded exactly this and the
+project never acted on it — EXP-008 and EXP-010 tested the channel in two ad-hoc experiments and
+it was never made into a program. Note §29 narrowed *why* this matters: the axis is height versus
+lateral, so rotation is expected to help the arm and to buy pelvis-stillness for the leg, not to
+transform the funnel. Worth doing precisely because the expectation is now specific enough to be
+wrong.
+
+**(e) Restate every headline as an interval with a reproduction script.** No number should appear
+that a committed script cannot re-derive from a committed ledger. `funnel.py` and
+`audit_delta.py` are the model; most other numbers in this report are not yet re-derivable that
+way.
+
+### 8.3 Tier 3 — generalisation, and what the method is worth to anyone else
+
+**(f) A second prior, or failing that a second skeleton.** §4.2 makes the project's boldest
+claim — that height-works / lateral-fails is a property of the *representation*, not of ARDY —
+and it rests on one checkpoint. *The panel corrected my brief here: there is no Kimodo checkout
+on this machine; `~/lucid-sonic` is a different project's data root.* The cheap substitute is
+ARDY's own **Core and SOMA skeletons** (`ardy/model/registry.py`), which share the representation
+but not the robot, and so separate "the encoding does this" from "G1 does this". Kill condition:
+if a second skeleton's lateral channel reaches ≥ 5 σ with a stable sign, the representation
+explanation is wrong.
+
+**(g) Package the audit as a tool.** The reusable object is three callables: a paired-delta
+descriptor, a null-calibrated distinguishability threshold, and a stability filter. Validating it
+by having it **reproduce this project's own wrong answers** — the 10.00 naive count and the 1.67
+calibrated one — is a better acceptance test than any synthetic case.
+
+### 8.4 What I would not do
+
+**Not a learned proposer, in any form.** Settled three ways: a perfect reranker wins 0.023, the
+bottleneck is candidate support rather than selection, and the surviving decision is scalar.
+
+**Not more inference tuning.** EXP-006 closed it: the one knob that should have helped makes seed
+scatter 37× worse, and the only free win (5 steps over 10) is already adopted.
+
+**Not a duck-only planner as a research contribution.** It is a day of engineering with a
+calibrated rule already derived (§4.8) and nothing left to learn.
+
+### 8.5 The honest assessment
+
+*With one more day:* (a) and (b). Both can overturn the central negative claim, and it would be
+poor practice to publish a negative result while its two cheapest refutations sit unrun.
+
+*With one more month:* (c) and (f) — scale the funnel to a pre-registered suite and replicate on
+a second skeleton. Those two convert "we measured this on one prior, one robot, six scenes" into
+a claim about representations, which is the only version of this work that generalises.
+
+*The thing most likely to be wrong:* §4.7, that lift is unexecutable. It has already survived two
+command mechanisms and a contact analysis, but every previous version of a capability-absent
+claim in this project failed to survive the experiment that asked properly, and (a) and (b) are
+that experiment.
+
+*One methodological note for whoever continues.* A claim in the panel that fed this section — that
+the scene suite labels only two adaptation types — was **false**: the 128-scene suite carries six
+(`none` 44, `duck` 32, `step_over` 20, `narrow` 16, `detour` 12, `sidle` 4). It was checked before
+being written down, which is the only reason it is not in this report as a finding.

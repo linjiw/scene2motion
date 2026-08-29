@@ -171,15 +171,28 @@ def main() -> None:
 
     recs = []
     for sid, g in scenes.items():
-        cand = list({r["prog_key"]: r for r in g if r["arm"] != "NULL-SEED"}.values())
-        keep, F = [], []
-        for c in cand:
+        # Deduplicate the POOL by program -- two arms proposing the same program is one
+        # candidate -- but remember EVERY arm that proposed it and the best rank each gave it.
+        # Collapsing onto a single arm label would silently take a candidate away from every
+        # arm but one, and the arms most penalised would be exactly the ones that agree with
+        # the others, which is backwards.
+        owners: dict[str, dict[str, int]] = {}
+        uniq: dict[str, dict] = {}
+        for r in g:
+            if r["arm"] == "NULL-SEED":
+                continue
+            uniq.setdefault(r["prog_key"], r)
+            o_ = owners.setdefault(r["prog_key"], {})
+            o_[r["arm"]] = min(o_.get(r["arm"], 10 ** 9), r["rank"])
+        keep, F, own = [], [], []
+        for k, c in uniq.items():
             if not addressable(c.get("heldout")):
                 continue                       # hard constraints first, not objectives
             v = raw_objectives(c)
             if v is not None:
                 keep.append(c)
                 F.append(v)
+                own.append(owners[k])
         if len(keep) < 2:
             continue
         F = normalise(np.array(F))
@@ -217,7 +230,9 @@ def main() -> None:
                "regret_full": regret(list(range(len(keep)))),
                "arms": {}}
         for arm in sorted({r["arm"] for r in g if r["arm"] != "NULL-SEED"}):
-            mine = [i for i, c in enumerate(keep) if c["arm"] == arm][:K_SET]
+            # an arm's K=8 set, ordered by the rank THAT arm gave each program
+            mine = sorted([i for i, o_ in enumerate(own) if arm in o_],
+                          key=lambda i: own[i][arm])[:K_SET]
             hv, se = hypervolume(G[mine], pts) if mine else (0.0, 0.0)
             rec["arms"][arm] = {"n": len(mine), "regret": regret(mine), "hv": hv, "hv_se": se,
                                 "hv_ratio": hv / hv_all if hv_all > 0 else 0.0,

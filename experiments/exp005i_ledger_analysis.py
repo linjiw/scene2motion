@@ -368,49 +368,57 @@ def main() -> None:
 
     # -- E. program vs seed allocation ---------------------------------------------------
     print("\n=== E. Eight ARDY calls: eight programs once, or one program eight times? ===")
-    print("Each row spends the SAME 8 clips.  Programs are drawn from the union pool; seeds "
-          "from the\n8 available per program (4 selection + 4 held-out, all independent draws).")
+    print("Every row spends the SAME 8 clips.  Programs are taken IN THE ARM'S OWN RANK ORDER,\n"
+          "not sampled from the pool: the question is how a deployable proposer should spend a\n"
+          "budget, and no proposer draws uniformly from a union it cannot see.  Seeds come from\n"
+          "the 8 available per program (4 selection + 4 held-out, all independent draws).")
     alloc = {}
-    print(f"\n{'allocation':>12s} {'P(>=1 valid)':>13s} {'distinct sigs':>14s} "
-          f"{'stable modes':>13s}")
-    for n_prog, n_seed in ((8, 1), (4, 2), (2, 4), (1, 8)):
-        pv, ds, sm = [], [], []
-        for sid, g in groups.items():
-            uniq = {r["prog_key"]: r for r in g if r["arm"] != "NULL-SEED" and r["heldout"]}
-            cand = list(uniq.values())
-            if len(cand) < 8:
+    ALLOC_ARMS = [a for a in ("B-NOGOOD", "A-KBEST", "COMPOSITE") if any(r["arm"] == a
+                                                                        for r in rows)]
+    for arm in ALLOC_ARMS:
+        print(f"\n  {arm}")
+        print(f"  {'allocation':>12s} {'P(>=1 valid)':>13s} {'distinct sigs':>14s} "
+              f"{'stable modes':>13s}")
+        alloc[arm] = {}
+        for n_prog, n_seed in ((8, 1), (4, 2), (2, 4), (1, 8)):
+            pv, ds, sm = [], [], []
+            for sid, g in groups.items():
+                ranked = sorted([r for r in g if r["arm"] == arm and r["heldout"]],
+                                key=lambda r: r["rank"])
+                if len(ranked) < n_prog:
+                    continue
+                pick = ranked[:n_prog]
+                for _ in range(400):
+                    sigs, clips = [], []
+                    for c in pick:
+                        avail = [(f, sg) for blk in ("selection", "heldout")
+                                 for f, sg in zip(c[blk]["feasible"], c[blk]["signatures"])]
+                        take = rng.choice(len(avail), size=min(n_seed, len(avail)),
+                                          replace=False)
+                        for t in take:
+                            f, sg = avail[t]
+                            clips.append(bool(f))
+                            if f:
+                                sigs.append(sig_key(sg))
+                    pv.append(any(clips))
+                    ds.append(len(set(sigs)))
+                    # "stable" is ground truth from all 8 seeds, never from the 1-8 clips this
+                    # allocation actually bought -- otherwise a single-seed draw would score
+                    # stability 1.0 by definition and 1x8 would win by construction.
+                    stable = {sig_key(block(c, "heldout")["signature"]) for c in pick
+                              if addressable(block(c, "heldout"))}
+                    sm.append(len(stable & set(sigs)))
+            if not pv:
                 continue
-            for _ in range(200):
-                pick = rng.choice(len(cand), size=n_prog, replace=False)
-                clips, sigs = [], []
-                for i in pick:
-                    c = cand[i]
-                    pool_seeds = [(s, f, sg) for blk in ("selection", "heldout")
-                                  for s, f, sg in zip(c[blk]["seeds"], c[blk]["feasible"],
-                                                      c[blk]["signatures"])]
-                    take = rng.choice(len(pool_seeds), size=min(n_seed, len(pool_seeds)),
-                                      replace=False)
-                    for t in take:
-                        _, f, sg = pool_seeds[t]
-                        clips.append(bool(f))
-                        if f:
-                            sigs.append(sig_key(sg))
-                    # "stable" is judged from ALL 8 seeds, i.e. ground truth, not from the
-                    # 1-8 clips this allocation actually bought -- otherwise a single-seed
-                    # draw would score stability 1.0 by definition.
-                pv.append(any(clips))
-                ds.append(len(set(sigs)))
-                stable = set()
-                for i in pick:
-                    c = cand[i]
-                    if addressable(block(c, "heldout")):
-                        stable.add(sig_key(block(c, "heldout")["signature"]))
-                sm.append(len(stable & set(sigs)))
-        alloc[f"{n_prog}x{n_seed}"] = {"p_valid": float(np.mean(pv)),
-                                       "distinct_sigs": float(np.mean(ds)),
-                                       "stable_modes": float(np.mean(sm))}
-        print(f"{n_prog}x{n_seed:<10d} {np.mean(pv):13.3f} {np.mean(ds):14.2f} "
-              f"{np.mean(sm):13.2f}")
+            alloc[arm][f"{n_prog}x{n_seed}"] = {"p_valid": float(np.mean(pv)),
+                                                "distinct_sigs": float(np.mean(ds)),
+                                                "stable_modes": float(np.mean(sm))}
+            print(f"  {f'{n_prog}x{n_seed}':>12s} {np.mean(pv):13.3f} {np.mean(ds):14.2f} "
+                  f"{np.mean(sm):13.2f}")
+    print("\n  P(>=1 valid) isolates the value of pure RETRY; stable modes isolates the value "
+          "of program\n  DIVERSITY.  If retry wins the first column and diversity wins the "
+          "third, the honest\n  recommendation is a mixed allocation, and a learned proposer "
+          "has to beat that mixture --\n  not just eight classical programs.")
     report["E_allocation"] = alloc
 
     # -- F. commanded vs realised --------------------------------------------------------

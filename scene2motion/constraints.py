@@ -15,6 +15,7 @@
 #   root_y_pos            root_pos[1]                frame            DUCK  (pelvis height)
 #   global_root_heading   [3:5]  (cos,sin)           frame            TURN / SIDLE
 #   global_joints_rots    [104:308], 6-d per joint   (frame, joint)   limb orientation
+#                         *** THIS IS THE CHANNEL THE DECODER ACTUALLY POSES FROM. ***
 #   global_joints_positions -> local_joints_positions[5:104]
 #                                                    (frame, joint)   TUCK / STEP-OVER
 #
@@ -27,6 +28,21 @@
 # directly, which is exactly what overhead clearance needs.
 # Also: the filler asserts that the ROOT joint is supplied at every frame that carries any
 # joint-position constraint, and that root_2d is constrained at those frames.
+#
+# AND THE FACT THAT REFRAMES ALL OF THE ABOVE (ardy_motionrep.py:373, `inverse`):
+#
+#     if posed_joints_from == "rotations":        # <- the DEFAULT
+#         _, posed_joints, _ = fk(local_rot_mats, root_positions, self.skeleton)
+#
+# The pose ARDY hands back -- and therefore `to_qpos`, and therefore every collision check,
+# half-width and capability number this project has produced -- is FORWARD KINEMATICS FROM THE
+# ROTATION CHANNEL.  `local_joints_positions` is not read when decoding the pose at all.
+# Constraining it steers generation only INDIRECTLY: the denoiser must produce a feature vector
+# whose position block matches the request, and nothing forces it to make the rotation block
+# agree.  Every tuck and step-over this project has requested went through that indirect route,
+# which is the most likely explanation for why tuck moves the body by only 0.68 sigma of the
+# sampling noise and why a lift request costs 44 points of validity.  EXP-008 tests the direct
+# route.
 #
 # Measured effect of each channel on the frozen ARDY-G1-RP-25FPS-Horizon52 prior
 # (experiments/exp001_capability_envelope):
@@ -59,6 +75,12 @@ class ConstraintSpec:
     pos_frames: np.ndarray | None = None    # (K,) frame indices
     pos_joints: np.ndarray | None = None    # (J,) joint indices (root is added automatically)
     pos_targets: np.ndarray | None = None   # (K, J, 3) world positions, ARDY frame
+    # Sparse GLOBAL joint-rotation targets -- the channel the decoder poses from. ARDY's filler
+    # takes 3x3 matrices and converts them with `matrix_to_cont6d` itself, so these are
+    # rotation matrices, not a 6-d representation.
+    rot_frames: np.ndarray | None = None    # (M,) frame indices
+    rot_joints: np.ndarray | None = None    # (Jr,) joint indices; the root is NOT required here
+    rot_targets: np.ndarray | None = None   # (M, Jr, 3, 3) global rotation matrices
     # SPARSE ROOT. When given, root_xz/heading/root_y hold values AT these frames rather than
     # at every frame, and `n_frames` is the clip length. ARDY treats unconstrained frames as
     # free, so a sparse program is a genuinely weaker request -- which is the point: how few
@@ -82,6 +104,15 @@ class ConstraintSpec:
                 raise ValueError("root_frames must match root_xz length")
             if self.n_frames is None:
                 raise ValueError("n_frames is required when root_frames is given")
+        if (self.rot_frames is None) != (self.rot_targets is None):
+            raise ValueError("rot_frames and rot_targets must be given together")
+        if self.rot_frames is not None:
+            if self.rot_targets.shape[:2] != (len(self.rot_frames), len(self.rot_joints)):
+                raise ValueError("rot_targets must be (M, Jr, 3, 3) matching "
+                                 "rot_frames/rot_joints")
+            if self.rot_targets.shape[2:] != (3, 3):
+                raise ValueError("rot_targets must hold 3x3 matrices; ARDY's filler calls "
+                                 "matrix_to_cont6d on them itself")
         if (self.pos_frames is None) != (self.pos_targets is None):
             raise ValueError("pos_frames and pos_targets must be given together")
         if self.pos_frames is not None:
@@ -133,6 +164,17 @@ class ArdyConstraintSet:
         if s.root_y is not None:
             data_dict["root_y_pos"].append(self._t(s.root_y))
             index_dict["root_y_pos"].append(fi)
+
+        if s.rot_frames is not None:
+            rf = self._t(s.rot_frames, torch.long)
+            rj = self._t(s.rot_joints, torch.long)
+            pairs = torch.stack([
+                rf[:, None].expand(-1, len(rj)).reshape(-1),
+                rj[None].expand(len(rf), -1).reshape(-1),
+            ], -1)
+            data_dict["global_joints_rots"].append(
+                self._t(s.rot_targets).reshape(-1, 3, 3))
+            index_dict["global_joints_rots"].append(pairs)
 
         if s.pos_frames is not None:
             pf = self._t(s.pos_frames, torch.long)

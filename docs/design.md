@@ -978,6 +978,14 @@ family where random search reaches 80 % has a **candidate-support** problem on t
 a selection problem. That is a different diagnosis from "learn a generator", and it is
 family-specific.
 
+One caveat on that row, in REF-RANDOM's favour and against my reading of it: every arm's
+recall@8 is computed over its first eight candidates, but REF-RANDOM *proposes twenty-four* and
+the run pays to evaluate all of them — 101 charged clips against the classical arms' 36. So it
+is candidate-equal and not call-equal, which is precisely the accounting the guidance's
+`ValidDiversityYield@B` exists to correct. Its 0.800 on `narrow_gap` is a real signal that the
+support is reachable, but it is not a like-for-like win, and the yield table in EXP-005i is
+where the two are put on the same currency.
+
 **3. `addressable of 8` is the number that actually hurts.** A-KBEST, B-NOGOOD and C-WSWEEP
 return eight candidates of which only 4.2–5.0 are addressable (feasible on ≥75 % of seeds *and*
 Stability ≥ 0.8). They are not spending their budget on eight bodies; they are spending it on
@@ -1007,3 +1015,133 @@ experiment was written to *answer its question* rather than to *record its evide
 to emit a per-candidate ledger once and treat every downstream question as a re-analysis of that
 file. The gate re-runs once with the ledger and with disjoint selection/evaluation seed blocks;
 after that, none of these questions costs GPU time again.
+
+---
+
+## 22. The capability audit: what the API offers vs what the robot can be asked to do
+
+The guidance's framing — *nominal constraint dimensions ≠ reliably addressable robot
+capabilities* — turns out to be measurable channel by channel, and two of the measurements cost
+no GPU time at all. They come from re-reading EXP-005f's 1 296 saved paired residuals.
+
+### Yaw is not a control channel. It is a symptom.
+
+The morphology descriptor's eighth channel, `dpsi`, has been in the counted alphabet since
+EXP-005f. It should not have been, and the reason is in the program definition rather than in
+any measurement: **no program can request a yaw.** `program.py:31` records that the `sidle`
+field was removed because it was identically 0.000 in all 278 corpus programs, and `decode`
+takes heading straight from the path tangent (`root_xz, heading = _path_channels(xy, fps)`).
+Every body enumerator copies `base.lat` byte-identically — that is what makes the whole
+same-route comparison valid — so within a scene **every candidate commands exactly the same
+heading**, and any difference in realised `dpsi` is the decoder's response, never an
+instruction.
+
+What it responds to is duck and lift:
+
+| | corr with realised `dpsi` |
+|---|---|
+| requested dip | **+0.276** |
+| requested tuck | +0.023 |
+| requested lift | **+0.515** |
+
+and it is the least reliable bit in the signature:
+
+| channel | seeds agreeing with the program's modal value | coin-flip programs |
+|---|---|---|
+| tuck | 1.000 | 0.0 % |
+| liftL | 0.989 | 2.4 % |
+| liftR | 0.970 | 6.2 % |
+| duck | 0.953 | 9.0 % |
+| **yaw** | **0.929** | **15.2 %** |
+
+Counting it inflates the discrete alphabet by about a quarter (5.8 → 4.5 modal signatures per
+scene across EXP-005f's six scenes). The gate's pre-committed metric keeps it, because changing
+a metric after seeing its result is exactly the failure this project has been guarding against;
+it is retired in the EXP-005i secondary analysis instead, and reported both ways.
+
+This is the answer to the guidance's *"yaw still has to earn its place"*. It cannot earn a place
+as a **capability**, because there is no channel through which to ask for one. That is a
+stronger and cleaner negative than "it did not improve clearance".
+
+### Lift is not dead. It is expensive.
+
+Tuck and yaw are the two channels that measure nothing. Lift is the opposite problem — it
+fires on ~48 % of clips, but asking for it costs most of the clip:
+
+| requested | n | fraction valid (goal reached ∧ collision-free) |
+|---|---|---|
+| lift 0.00 | 108 | **0.634** |
+| lift 0.35 | 108 | **0.204** |
+| tuck 0.00 | 72 | 0.486 |
+| tuck 0.40 | 72 | 0.410 |
+| tuck 0.85 | 72 | 0.361 |
+| neither tuck nor lift | 36 | **0.704** |
+| tuck only | 72 | 0.600 |
+| lift only | 36 | 0.269 |
+| tuck **and** lift | 72 | **0.171** |
+
+Dip runs the other way — validity *rises* with a deeper duck (0.333 at dip 0 to 0.593 at dip
+0.50), which is what a beam scene should do: the duck is what makes the clip collision-free.
+
+Both tuck and lift enter the same code path — `decode` writes the `global_joints_positions`
+channel only when one of them clears its `ACTIVE` floor (`program.py:234`) — so limb targets
+are the single place where a body request can turn a clip invalid. But the split above shows it
+is not the *channel* that is fragile: tuck alone costs 10 points of validity, lift alone costs
+44. Whether that is the prior refusing the posture or locomotion failing to reach the goal is a
+question the new ledger's `goal_err` and `pen_frac` features answer directly, and section 23
+reports it.
+
+### The audit so far
+
+| channel | commandable | measurable effect | cost to validity | verdict |
+|---|---|---|---|---|
+| dip / duck | yes | yes, large | **improves** it | the one solid capability |
+| tuck | yes | **none** above width noise | −10 pts | dead channel, negative control |
+| lift | yes | yes | **−44 pts** | real but expensive |
+| yaw | **no** | correlated with duck/lift | n/a | side effect, not a capability |
+| foot order | no | forced by a sign comparison | n/a | retired in EXP-005f |
+| velocities, foot contacts | **no** — unreachable in the 414-d feature | n/a | n/a | out of the API |
+
+Six nominal degrees of body freedom; one of them works cleanly.
+
+### The headline funnel, rebuilt so that it is actually a funnel
+
+The guidance proposes a figure of the form
+
+    43-D program -> 36 requested -> 14 valid -> 7 distinguishable -> 3.5 stable strategies
+
+It is the right figure and it is the strongest single claim this project has. But as written the
+stages are **not nested**, and one of the numbers is not scale-invariant, so it cannot be drawn
+as a funnel without fixing both.
+
+*Not nested.* "7 distinguishable" is an ε-net over a continuous descriptor; "3.5 stable
+strategies" counts distinct discrete active sets. Neither is a subset of the other — recomputed
+on the same six scenes, the discrete-mode count (3.0) comes out **larger** than the ε-net count
+in q99 units (2.5). A funnel whose fourth stage can exceed its third is measuring two different
+things on one axis.
+
+*Not scale-invariant.* At the same ε = 3, the ε-net has **6.2** members per scene in pooled
+covariance-σ units and **2.5** in q99 units, because q99 ≈ 2.33 σ. The middle number of the
+headline figure is a factor of 2.5 wide depending on a unit the figure does not state. This is
+the guidance's own §6 point turned on the guidance's own figure.
+
+The nested version, one filter chain, macro-averaged over EXP-005f's six scenes:
+
+| stage | per scene | filter |
+|---|---|---|
+| requested programs | 36 | the dip × tuck × lift ladder |
+| kinematically valid | 14.0 | goal reached ∧ collision-free on > half the seeds |
+| valid **and** stable | 10.2 | one modal active set on ≥ 80 % of seeds |
+| distinct discrete modes | **3.0** | distinct active sets among those |
+| after dropping yaw | **2.2** | the uncommandable bit removed |
+
+    36 requested  ->  14 valid  ->  10.2 stable  ->  3.0 modes  ->  2.2 commandable modes
+
+Every stage is a subset of the one above it. The continuous ε-net belongs beside this chain as
+a separate axis with its unit named, not inside it.
+
+The claim that survives is *stronger* than the one it replaces, not weaker: a 43-dimensional
+constraint interface, exercised across 36 deliberately spread requests, yields **about two
+reliably commandable whole-body strategies per scene**. And the last two arrows are the ones a
+reviewer will care about — they are where nominal interface dimensionality stops being
+capability.

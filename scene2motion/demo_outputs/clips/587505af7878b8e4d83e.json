@@ -1,0 +1,18 @@
+{
+  "scene_id": "demo_partial_beam_h1.200_w1.450",
+  "preference": "clearance",
+  "seed": 100,
+  "steps": 5,
+  "model": "ARDY-G1-RP-25FPS-Horizon52",
+  "fps": 25.0,
+  "n_frames": 239,
+  "generate_s": 0.925,
+  "collision_free": true,
+  "min_clearance_m": 0.1462,
+  "max_penetration_m": 0.0,
+  "goal_error_m": 0.037,
+  "prompt": "A person walks forward.",
+  "key": "587505af7878b8e4d83e",
+  "cached_at": 1788033560.3411143,
+  "cache_version": 1
+}

@@ -1,0 +1,98 @@
+{
+  "name": "partial_beam",
+  "description": "One overhead beam covering part of the corridor: duck under, or walk around. Both reach the goal.",
+  "defaults": {
+    "beam_height": 1.0,
+    "beam_width": 1.45
+  },
+  "ranges": {
+    "beam_height": [
+      0.6,
+      1.6
+    ],
+    "beam_width": [
+      0.3,
+      2.25
+    ]
+  },
+  "fixed": {
+    "beam_x": 4.0,
+    "goal_x": 8.0,
+    "corridor_half": 1.2,
+    "start": [
+      0.0,
+      0.0
+    ]
+  },
+  "scene": {
+    "scene_id": "demo_partial_beam_h1.000_w1.450",
+    "family": "partial_beam",
+    "boxes": [
+      {
+        "center": [
+          4.0,
+          1.275,
+          1.3
+        ],
+        "half": [
+          5.0,
+          0.075,
+          1.3
+        ],
+        "label": "wall_left"
+      },
+      {
+        "center": [
+          4.0,
+          -1.275,
+          1.3
+        ],
+        "half": [
+          5.0,
+          0.075,
+          1.3
+        ],
+        "label": "wall_right"
+      },
+      {
+        "center": [
+          4.0,
+          0.5499999999999999,
+          1.125
+        ],
+        "half": [
+          0.12,
+          0.725,
+          0.125
+        ],
+        "label": "partial_beam"
+      }
+    ],
+    "start": [
+      0.0,
+      0.0
+    ],
+    "goal": [
+      8.0,
+      0.0
+    ],
+    "start_heading": 0.0,
+    "param_name": "beam_underside_height",
+    "param_value": 1.0,
+    "required_adaptation": "duck",
+    "bounds": [
+      -1.0,
+      9.0,
+      -1.5,
+      1.5
+    ],
+    "meta": {
+      "beam_x": 4.0,
+      "beam_edge_y": -0.17500000000000004,
+      "corridor_half": 1.2,
+      "beam_width": 1.45,
+      "bypass_width": 1.025,
+      "demo": true
+    }
+  }
+}

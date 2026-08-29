@@ -356,7 +356,8 @@ def plan(scene: Scene, planner: str = "adaptive", res: float = 0.05,
          allow_modes: tuple[str, ...] | None = None,
          forbid_y: tuple[float, float] | list[tuple[float, float]] | None = None,
          forbid_boxes: list[tuple[float, float, float, float]] | None = None,
-         relax: tuple[float, float] | None = None) -> Plan:
+         relax: tuple[float, float] | None = None,
+         modes_override: tuple[BodyMode, ...] | None = None) -> Plan:
     """Plan a traversal of `scene` under one of the three body-volume assumptions.
 
     `allow_modes`, `forbid_y` and `forbid_boxes` exist to ENUMERATE strategies rather than
@@ -382,6 +383,15 @@ def plan(scene: Scene, planner: str = "adaptive", res: float = 0.05,
         modes = relaxed_modes(*relax) if relax else MODES
     else:
         raise ValueError(f"unknown planner {planner!r}")
+
+    # An explicit mode set overrides the planner's default one. This exists so a caller can
+    # change the OBJECTIVE without touching the geometry: the demo's "Shortest Path"
+    # preference passes the same modes with every `cost` set to 1.0, which makes A* minimise
+    # geometric length subject to feasibility rather than length weighted by how expensive
+    # each body volume is to hold. Both are legitimate objectives and they genuinely differ
+    # -- holding a deep duck for 1.5 m outweighs a 0.5 m detour under the default costs.
+    if modes_override is not None:
+        modes = tuple(modes_override)
 
     if allow_modes is not None:
         modes = tuple(m for m in modes if m.name in allow_modes)

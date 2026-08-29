@@ -1,256 +1,297 @@
-"""EXP-005h: are the missing body variants DECISION-RELEVANT, or merely different?
+"""EXP-005h: are the body alternatives DECISION-RELEVANT, or merely different?
 
-Why this gate exists
---------------------
-EXP-005g measures how much of the feasible body set a proposer covers. Coverage alone is not a
-contribution: duck 31 cm, duck 32 cm and duck 33 cm are three distinct points and, unless they
-differ in something a user or a controller would trade off, generating all three is scientific
-noise dressed as diversity.
+What changed, and why
+---------------------
+The first version of this experiment scored decision-relevance by Pareto non-dominance over
+SEVEN objectives.  That is the wrong instrument, for a reason that has nothing to do with the
+code being wrong: as the objective count grows, dominance becomes sparse, and with seven
+objectives and 8-14 candidates the likely failure is not that the front collapses to one point
+-- it is that ALMOST EVERYTHING is nondominated and the metric certifies diversity it never
+measured.  Hypervolume inherits the same problem plus a sensitivity to normalisation and
+reference choice.  (The first version also had a moving-box hypervolume bug, caught by a unit
+check before any GPU time: with `ideal` taken per arm, a single DOMINATED point scored 1.0.)
 
-An earlier version of this project already made the opposite error in the other direction --
-a 1.35x scalar-cost filter so loose that every candidate passed it, which is not a quality
-filter at all. So the criterion here is multi-objective and explicit: a body candidate is
-decision-relevant if it is **Pareto-nondominated** among the feasible candidates for the same
-route. That is a statement no single scalar cost can make, and it is the one the guidance asks
-for.
+So the hierarchy is now:
 
-The objectives, all oriented so LOWER IS BETTER
------------------------------------------------
-Route length is deliberately absent: every candidate here shares one route by construction, so
-it is a constant and including it would only dilute the front.
+  1.  HARD CONSTRAINTS, not objectives:  goal reached, collision-free, stability >= 0.8.
+  2.  THREE interpretable objective groups, for a 3-D hypervolume that means something.
+  3.  PREFERENCE REGRET as the primary evidence -- does the set contain a good choice for
+      someone who actually wants something?  A candidate earns its place by WINNING under some
+      declared preference, not by sitting more than eps away from its neighbours.
 
-    neg_clearance   -min_clearance_m           more margin from the scene is better
-    posture         integral |pelvis - 0.78|   standing upright is the neutral preference
-    roughness       integral |d2/dt2 envelope| smooth body changes are easier to track
-    arm_restriction integral tuck              keeping the arms free is a real preference
-    head_reduction  integral dip               not crouching is a real preference
-    lift_effort     integral foot excess       not lifting the feet is a real preference
-    foot_slip       mean planted-foot speed    the only tracking proxy available pre-SONIC
+And it costs no GPU: every quantity is read from EXP-005g's per-candidate ledger, scored on the
+HELD-OUT seed block that no proposer could select on.
 
-`posture`, `head_reduction` and `arm_restriction` are correlated by construction -- a duck
-raises two of them together -- and that is fine: Pareto dominance handles correlated
-objectives, it just means the front is thinner than the dimension count suggests. What matters
-is that they can DISAGREE, which is exactly the duck-versus-tuck trade EXP-001d measured
-(ducking makes G1 wider, so buying headroom costs lateral margin).
+The objectives, all lower-is-better, normalised per scene against the shared feasible pool
+--------------------------------------------------------------------------------------------
+    safety          -clearance_q10 + LAMBDA_INVALID * P(invalid across held-out seeds)
+    burden          pelvis deviation, envelope roughness, joint jerk, contact inconsistency
+    preference      commanded dip + lift + tuck integral, and adaptation duration
 
-Reported
---------
-    ParetoRecall@K   fraction of the reference Pareto front a proposer's first K cover
-    hypervolume@K    convergence and spread together, against a fixed nadir
-    front_size       how many candidates are nondominated at all -- if this is ~1, there is
-                     no trade-off to make and the whole morphology-set idea is unnecessary
+`foot_floor_pen` is KINEMATIC CONTACT INCONSISTENCY -- feet intersecting the ground plane in
+the exported kinematics.  It is not physical slip and is not called that until a tracker runs.
 
-A pre-committed reading: if the front is essentially a single point on most scenes, the
-guidance's Outcome 3 applies and the contribution is the calibration and benchmark, not a
-generator.
+Pre-committed kill condition (stated before the numbers are read)
+-----------------------------------------------------------------
+The morphology-diversity claim weakens substantially if EITHER
+
+  * fewer than 25 % of feasible scenes contain at least two stable modes that are optimal under
+    DIFFERENT declared preferences, or
+  * the K=8 set does not materially reduce normalised preference regret against the single best
+    neutral program,
+
+with a scene-level paired bootstrap interval, not a bare difference of means.
 """
 
 from __future__ import annotations
 
 import argparse
-import hashlib
 import json
 import sys
-import time
+from collections import defaultdict
 from pathlib import Path
 
 import numpy as np
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from scene2motion.body_enumerate import (enumerate_composite, enumerate_kbest,  # noqa: E402
-                                         enumerate_nogood, enumerate_weight_sweep,
-                                         refine_continuous)
-from scene2motion.morphology import envelope_series  # noqa: E402
-from scene2motion.planner import plan, plan_to_path_spec  # noqa: E402
-from scene2motion.program import decode, encode  # noqa: E402
-from scene2motion.robot import G1Body  # noqa: E402
-from scene2motion.runner import ArdyRunner  # noqa: E402
-from scene2motion.scenes import build_suite  # noqa: E402
+MIN_STAB, MIN_FEAS = 0.8, 0.75
+LAMBDA_INVALID = 0.5      # metres of clearance a coin-flip program is worth giving up
+K_SET = 8
 
-PROMPT = "A person walks forward."
-SPEED, GOAL_TOL, MAX_DURATION = 0.9, 0.5, 14.0
-NOMINAL_PELVIS = 0.78
-OBJECTIVES = ("neg_clearance", "posture", "roughness", "arm_restriction",
-              "head_reduction", "lift_effort", "foot_slip")
-BASELINES = {"A-KBEST": enumerate_kbest, "B-NOGOOD": enumerate_nogood,
-             "C-WSWEEP": enumerate_weight_sweep, "D-REFINE": refine_continuous,
-             "COMPOSITE": enumerate_composite}
+# The raw components, lower-is-better, and the group each belongs to.
+COMPONENTS = (
+    ("neg_clear_q10", "safety"),      # -10th-percentile clearance along the clip
+    ("p_invalid", "safety"),
+    ("pelvis_dev", "burden"),         # how far from standing
+    ("env_rough", "burden"),          # second difference of the clearance envelope
+    ("joint_jerk", "burden"),
+    ("contact_incons", "burden"),     # feet through the floor, NOT physical slip
+    ("dip_cmd", "preference"),
+    ("lift_cmd", "preference"),
+    ("tuck_cmd", "preference"),
+    ("adapt_span", "preference"),
+)
+NAMES = [c for c, _ in COMPONENTS]
+GROUPS = ("safety", "burden", "preference")
+
+# Predeclared preferences.  Each is a weight vector over NAMES.  These are fixed before the
+# numbers are read; "minimise heading change" is deliberately absent because no channel can
+# request a heading change (program.py:31), so it is not a preference anyone could express.
+PREFS = {
+    "max clearance":      {"neg_clear_q10": 1.0},
+    "stay upright":       {"pelvis_dev": 1.0, "dip_cmd": 0.5},
+    "minimise lifting":   {"lift_cmd": 1.0, "contact_incons": 0.5},
+    "smoothest":          {"env_rough": 1.0, "joint_jerk": 1.0},
+    "least adaptation":   {"dip_cmd": 1.0, "lift_cmd": 1.0, "tuck_cmd": 1.0, "adapt_span": 1.0},
+    "most reliable":      {"p_invalid": 1.0},
+    "balanced":           {n: 1.0 for n in NAMES},
+}
 
 
-def objectives(body: G1Body, qpos: np.ndarray, prog, fps: float,
-               report: dict) -> np.ndarray:
-    """(len(OBJECTIVES),) vector, all lower-is-better."""
-    env = envelope_series(body, qpos)
-    d2 = np.diff(env, n=2, axis=0) if len(env) > 2 else np.zeros((1, 3))
-    slot = np.atleast_2d(prog.slot)
-    foot = [g for g in body.robot_geoms if "foot" in body.geom_name[g]]
-    slip = np.nan
-    if foot:
-        pos = []
-        for q in qpos:
-            body.fk(q)
-            pos.append(body.data.geom_xpos[foot].copy())
-        pos = np.asarray(pos)
-        v = np.linalg.norm(np.diff(pos[:, :, :2], axis=0), axis=-1) * fps
-        planted = (pos[:-1, :, 2] - body.model.geom_size[foot, 0][None, :]) < 0.03
-        slip = float(v[planted].mean()) if planted.any() else 0.0
+def sig_key(sig) -> tuple:
+    out = []
+    for s in sig:
+        duck, tuck, liftL, liftR, order, yaw = (list(s) + [0] * 6)[:6]
+        out.append((bool(duck), bool(liftL), bool(liftR), bool(yaw)))
+    return tuple(out)
+
+
+def addressable(ev) -> bool:
+    return bool(ev and ev["feasible_rate"] >= MIN_FEAS and ev["stability"] >= MIN_STAB)
+
+
+def raw_objectives(row: dict) -> np.ndarray | None:
+    """The ten lower-is-better components for one candidate, from held-out seeds only."""
+    ev = row.get("heldout")
+    if not ev or not ev.get("features"):
+        return None
+    keep = [f for f, ok in zip(ev["features"], ev["feasible"]) if ok]
+    if not keep:
+        return None
+    m = lambda k: float(np.mean([f[k] for f in keep]))
+    c = row["commanded"]
     return np.array([
-        -float(report["min_clearance_m"]),
-        float(np.abs(qpos[:, 2] - NOMINAL_PELVIS).mean()),
-        float(np.abs(d2).mean()),
-        float(slot[:, 3].sum()),
-        float(slot[:, 2].sum()),
-        float(slot[:, 4].sum()),
-        0.0 if not np.isfinite(slip) else slip,
-    ])
+        -m("clear_q10"), 1.0 - float(ev["feasible_rate"]),
+        m("pelvis_dev"), m("env_rough"), m("joint_jerk"), m("foot_floor_pen"),
+        c["dip"], c["lift"], c["tuck"], c["span"],
+    ], float)
+
+
+def normalise(F: np.ndarray) -> np.ndarray:
+    """Per-scene min-max against the SHARED feasible pool, so no arm defines its own scale."""
+    lo, hi = F.min(0), F.max(0)
+    return (F - lo) / np.maximum(hi - lo, 1e-9)
 
 
 def pareto_front(F: np.ndarray) -> np.ndarray:
-    """Indices of the nondominated rows of `F` (lower is better on every column)."""
     keep = []
     for i in range(len(F)):
-        dominated = any(
-            np.all(F[j] <= F[i]) and np.any(F[j] < F[i]) for j in range(len(F)) if j != i)
-        if not dominated:
+        if not any(np.all(F[j] <= F[i]) and np.any(F[j] < F[i])
+                   for j in range(len(F)) if j != i):
             keep.append(i)
     return np.array(keep, dtype=int)
 
 
-def hypervolume(F: np.ndarray, ideal: np.ndarray, nadir: np.ndarray, n_mc: int = 20000,
-                rng: np.random.Generator | None = None) -> float:
-    """Monte-Carlo hypervolume dominated by `F` in the FIXED box [ideal, nadir].
+def hypervolume(F: np.ndarray, pts: np.ndarray) -> tuple[float, float]:
+    """Fraction of the SHARED quasi-random points in the fixed unit box dominated by `F`.
 
-    Exact hypervolume is exponential in the objective count; at 7 objectives a Monte-Carlo
-    estimate is the honest choice, and the same sample budget and the same box are used for
-    every arm so the comparison is unaffected by the estimator's variance.
-
-    The box must be FIXED and passed in. Deriving `ideal` from each arm's own points -- the
-    first version of this function -- makes the sampling region move with the arm, and a unit
-    check caught the consequence at once: a single DOMINATED point scored 1.0, and one good
-    point outscored the entire front. Under a moving box every arm dominates its own corner
-    completely, which is precisely what a comparison must not allow.
+    `pts` is passed in so every arm in a scene is scored on the SAME points -- common random
+    numbers, so arm-to-arm differences are not estimator noise.  Returns (value, MC s.e.).
     """
-    rng = rng or np.random.default_rng(0)
-    F = np.atleast_2d(F)
-    if F.size == 0:
-        return 0.0
-    ideal = np.asarray(ideal, float)
-    span = np.maximum(np.asarray(nadir, float) - ideal, 1e-9)
-    pts = ideal + rng.random((n_mc, len(ideal))) * span
-    dominated = np.zeros(n_mc, bool)
+    if not len(F):
+        return 0.0, 0.0
+    dom = np.zeros(len(pts), bool)
     for f in F:
-        dominated |= np.all(f <= pts, axis=1)
-    return float(dominated.mean())
+        dom |= np.all(f <= pts, axis=1)
+    p = float(dom.mean())
+    return p, float(np.sqrt(max(p * (1 - p), 0.0) / len(pts)))
 
 
 def main() -> None:
-    ap = argparse.ArgumentParser(description=__doc__)
+    ap = argparse.ArgumentParser(description=__doc__,
+                                 formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("--ledger", default="outputs/exp005g/candidates.jsonl")
     ap.add_argument("--out", default="outputs/exp005h")
-    ap.add_argument("--seeds_per_rung", type=int, default=2)
-    ap.add_argument("--limit", type=int, default=24)
-    ap.add_argument("--K", type=int, default=8)
-    ap.add_argument("--diffusion_steps", type=int, default=10)
+    ap.add_argument("--n_mc", type=int, default=32768)   # power of 2: Sobol balance
+    ap.add_argument("--boot", type=int, default=20000)
     args = ap.parse_args()
     out = Path(args.out)
     out.mkdir(parents=True, exist_ok=True)
-    t0 = time.time()
 
-    runner = ArdyRunner(cache_path="outputs/text_cache.npz")
-    fps = runner.fps
-    scenes = [s for s in build_suite(args.seeds_per_rung) if plan(s, "adaptive").feasible]
-    scenes = scenes[:args.limit]
-    print(f"{len(scenes)} scenes with a feasible route", flush=True)
+    rows = [json.loads(l) for l in open(args.ledger)]
+    scenes = defaultdict(list)
+    for r in rows:
+        scenes[r["scene_id"]].append(r)
+    rng = np.random.default_rng(0)
+    from scipy.stats import qmc
+    Wp = np.array([[PREFS[p].get(n, 0.0) for n in NAMES] for p in PREFS], float)
+    Wp = Wp / np.maximum(Wp.sum(1, keepdims=True), 1e-9)
+    gidx = {g: [i for i, (_, gg) in enumerate(COMPONENTS) if gg == g] for g in GROUPS}
 
-    rows = []
-    for sc in scenes:
-        p = plan(sc, "adaptive")
-        body = G1Body(sc)
-        T = min(int(MAX_DURATION * fps),
-                max(int(2 * fps), int(round(p.length / SPEED * fps))))
-        seed = int(hashlib.sha1(sc.scene_id.encode()).hexdigest()[:8], 16) % (2 ** 20)
-        ctrl = runner.generate([PROMPT],
-                               [plan_to_path_spec(p, fps, SPEED, duration=T / fps)], T,
-                               args.diffusion_steps, seeds=[seed])[0]
-
-        # Every arm's candidates go into one pool; the reference front is the front of the
-        # POOL, so no arm is scored against a reference it alone defined.
-        pool, owner = [], []
-        for name, fn in BASELINES.items():
-            try:
-                cands = fn(sc, p, K=args.K, runner=runner, fps=fps)
-            except Exception as e:  # a baseline that cannot run scores nothing, not a crash
-                print(f"    {name} failed on {sc.scene_id}: {type(e).__name__}", flush=True)
-                cands = []
-            for c in cands[:args.K]:
-                pool.append(c)
-                owner.append(name)
-        if len(pool) < 2:
+    recs = []
+    for sid, g in scenes.items():
+        cand = list({r["prog_key"]: r for r in g if r["arm"] != "NULL-SEED"}.values())
+        keep, F = [], []
+        for c in cand:
+            if not addressable(c.get("heldout")):
+                continue                       # hard constraints first, not objectives
+            v = raw_objectives(c)
+            if v is not None:
+                keep.append(c)
+                F.append(v)
+        if len(keep) < 2:
             continue
+        F = normalise(np.array(F))
+        G = np.stack([F[:, gidx[g_]].mean(1) for g_ in GROUPS], 1)
+        front = pareto_front(G)
+        pts = qmc.Sobol(d=len(GROUPS), scramble=True,
+                        seed=abs(hash(sid)) % (2 ** 31)).random(args.n_mc)
 
-        specs = [decode(c, sc, fps, ctrl, runner.joint_names, duration=T / fps) for c in pool]
-        outs = []
-        for i in range(0, len(specs), 8):
-            k = specs[i:i + 8]
-            outs += runner.generate([PROMPT] * len(k), k, T, args.diffusion_steps,
-                                    seeds=[seed] * len(k))
-        F, ok = [], []
-        for c, o in zip(pool, outs):
-            q = runner.to_qpos(o)
-            rep = body.trajectory_report(q)
-            goal = bool(np.linalg.norm(q[-1, :2] - np.asarray(sc.goal)) < GOAL_TOL)
-            ok.append(bool(goal and rep["collision_free"]))
-            F.append(objectives(body, q, c, fps, rep))
-        F = np.array(F)
-        feas = np.flatnonzero(ok)
-        if len(feas) < 2:
-            continue
-        front = feas[pareto_front(F[feas])]
-        # One box for the whole scene, from the feasible pool, shared by every arm.
-        ideal = F[feas].min(axis=0)
-        nadir = F[feas].max(axis=0) + 1e-6
-        hv_all = hypervolume(F[front], ideal, nadir)
+        # who wins under each declared preference, and is it always the same body?
+        scores = F @ Wp.T                                    # (n_cand, n_pref)
+        winners = scores.argmin(0)
+        win_modes = [sig_key(keep[i]["heldout"]["signature"]) for i in winners]
+        n_distinct = len(set(win_modes))
 
-        rec = {"scene_id": sc.scene_id, "family": sc.family,
-               "n_pool": len(pool), "n_feasible": int(len(feas)),
-               "front_size": int(len(front)),
-               "front_owners": sorted({owner[i] for i in front}),
-               "hv_reference": hv_all, "arms": {}}
-        for name in BASELINES:
-            mine = [i for i in range(len(pool)) if owner[i] == name]
-            mine_ok = [i for i in mine if ok[i]]
-            covered = len(set(mine_ok) & set(front.tolist()))
-            rec["arms"][name] = {
-                "n": len(mine), "n_feasible": len(mine_ok),
-                "pareto_recall": covered / max(len(front), 1),
-                "hv": hypervolume(F[mine_ok], ideal, nadir) if mine_ok else 0.0,
-                "hv_ratio": ((hypervolume(F[mine_ok], ideal, nadir) / hv_all)
-                             if (mine_ok and hv_all > 0) else 0.0),
-            }
-        rows.append(rec)
-        print(f"  {sc.scene_id[:30]:30s} pool {len(pool):3d} feasible {len(feas):3d} "
-              f"front {len(front):2d} ({time.time()-t0:.0f}s)", flush=True)
+        # the neutral reference: the least-adapted addressable candidate
+        neutral = int(F[:, [NAMES.index(n) for n in
+                            ("dip_cmd", "lift_cmd", "tuck_cmd", "adapt_span")]].sum(1).argmin())
 
-    with open(out / "rows.jsonl", "w") as fh:
-        for r in rows:
-            fh.write(json.dumps(r) + "\n")
-    summary = {"experiment": "exp005h_pareto_morph", "objectives": list(OBJECTIVES),
-               "n_scenes": len(rows), "K": args.K,
-               "mean_front_size": float(np.mean([r["front_size"] for r in rows])) if rows else 0,
-               "frac_scenes_front_ge2": float(
-                   np.mean([r["front_size"] >= 2 for r in rows])) if rows else 0,
+        def regret(idx: list[int]) -> float:
+            """Mean over preferences of (best in the set - best available), normalised."""
+            if not len(idx):
+                return 1.0
+            best_set = scores[idx].min(0)
+            best_all = scores.min(0)
+            span = np.maximum(scores.max(0) - best_all, 1e-9)
+            return float(np.mean((best_set - best_all) / span))
+
+        hv_all, se_all = hypervolume(G[front], pts)
+        rec = {"scene_id": sid, "family": g[0]["family"], "n_addressable": len(keep),
+               "front_size": int(len(front)), "hv_reference": hv_all, "hv_se": se_all,
+               "n_distinct_pref_winners": n_distinct,
+               "pref_winners": {p: "".join("DLRY"[i] for i, b in enumerate(m[0]) if b) or "none"
+                                for p, m in zip(PREFS, win_modes)},
+               "regret_neutral": regret([neutral]),
+               "regret_full": regret(list(range(len(keep)))),
                "arms": {}}
-    for name in BASELINES:
-        v = [r["arms"][name] for r in rows]
-        summary["arms"][name] = {
-            "pareto_recall": float(np.mean([x["pareto_recall"] for x in v])) if v else 0.0,
-            "hv_ratio": float(np.mean([x["hv_ratio"] for x in v])) if v else 0.0,
-            "feasible_frac": float(np.mean([x["n_feasible"] / max(x["n"], 1) for x in v])) if v else 0.0,
-        }
-    summary["wall_clock_s"] = round(time.time() - t0, 1)
-    with open(out / "receipt.json", "w") as fh:
-        json.dump(summary, fh, indent=2)
-    print(json.dumps(summary, indent=2))
+        for arm in sorted({r["arm"] for r in g if r["arm"] != "NULL-SEED"}):
+            mine = [i for i, c in enumerate(keep) if c["arm"] == arm][:K_SET]
+            hv, se = hypervolume(G[mine], pts) if mine else (0.0, 0.0)
+            rec["arms"][arm] = {"n": len(mine), "regret": regret(mine), "hv": hv, "hv_se": se,
+                                "hv_ratio": hv / hv_all if hv_all > 0 else 0.0,
+                                "front_recall": (len(set(mine) & set(front.tolist()))
+                                                 / max(len(front), 1))}
+        recs.append(rec)
+
+    def boot(v):
+        v = np.asarray(v, float)
+        idx = rng.integers(0, len(v), (args.boot, len(v)))
+        return tuple(np.percentile(v[idx].mean(1), [2.5, 97.5]))
+
+    n = len(recs)
+    print(f"EXP-005h over {n} scenes with >= 2 addressable candidates "
+          f"(mean {np.mean([r['n_addressable'] for r in recs]):.1f} candidates)\n")
+    print(f"mean 3-D Pareto front size          {np.mean([r['front_size'] for r in recs]):.2f}"
+          f"   (of {np.mean([r['n_addressable'] for r in recs]):.1f} addressable)")
+    frac2 = float(np.mean([r["n_distinct_pref_winners"] >= 2 for r in recs]))
+    lo, hi = boot([r["n_distinct_pref_winners"] >= 2 for r in recs])
+    print(f"scenes where >= 2 DIFFERENT modes win different preferences   "
+          f"{frac2:.1%}  [{lo:.1%}, {hi:.1%}]")
+    print(f"   pre-committed kill threshold is 25 %  ->  "
+          f"{'PASSES' if frac2 >= 0.25 else 'FAILS -- the diversity has no decision value'}")
+
+    dr = np.array([r["regret_neutral"] for r in recs]) - np.array([r["regret_full"] for r in recs])
+    lo, hi = boot(dr)
+    print(f"\nnormalised preference regret: neutral-only "
+          f"{np.mean([r['regret_neutral'] for r in recs]):.3f}  ->  full addressable set "
+          f"{np.mean([r['regret_full'] for r in recs]):.3f}")
+    print(f"   paired reduction {dr.mean():.3f}  [{lo:.3f}, {hi:.3f}]  "
+          f"{'(significant)' if lo > 0 else '(NOT significant)'}")
+
+    arms = sorted({a for r in recs for a in r["arms"]})
+    print(f"\n{'arm':16s} {'n':>4s} {'regret':>8s} {'vs neutral':>18s} {'hv':>7s} "
+          f"{'hv/ref':>7s} {'front recall':>13s}")
+    for a in arms:
+        v = [r["arms"][a] for r in recs if a in r["arms"]]
+        if not v:
+            continue
+        d = np.array([r["regret_neutral"] - r["arms"][a]["regret"]
+                      for r in recs if a in r["arms"]])
+        lo, hi = boot(d)
+        print(f"{a:16s} {np.mean([x['n'] for x in v]):4.1f} "
+              f"{np.mean([x['regret'] for x in v]):8.3f} "
+              f"[{lo:+.3f},{hi:+.3f}] {np.mean([x['hv'] for x in v]):7.3f} "
+              f"{np.mean([x['hv_ratio'] for x in v]):7.3f} "
+              f"{np.mean([x['front_recall'] for x in v]):13.3f}")
+    print(f"  MC s.e. on hypervolume {np.mean([r['hv_se'] for r in recs]):.4f} -- differences "
+          f"smaller than this are estimator noise.\n  All arms share the same Sobol points "
+          f"within a scene (common random numbers).")
+
+    # which preference is served by which body -- and does yaw ever win?
+    print("\nwinning body per declared preference (fraction of scenes):")
+    for p in PREFS:
+        c = defaultdict(int)
+        for r in recs:
+            c[r["pref_winners"][p]] += 1
+        top = sorted(c.items(), key=lambda kv: -kv[1])[:4]
+        print(f"  {p:18s} " + "  ".join(f"{k or 'none':>6s} {v / n:.2f}" for k, v in top))
+    yaw_wins = np.mean([any("Y" in v for v in r["pref_winners"].values()) for r in recs])
+    print(f"\nyaw appears in a preference-winning body on {yaw_wins:.1%} of scenes -- the "
+          f"guidance's test of\nwhether yaw earns its place as a capability rather than a "
+          f"style variation.")
+
+    json.dump({"experiment": "exp005h_pareto_morph", "n_scenes": n,
+               "components": NAMES, "groups": list(GROUPS), "prefs": list(PREFS),
+               "lambda_invalid": LAMBDA_INVALID,
+               "frac_scenes_two_pref_winners": frac2,
+               "regret_neutral": float(np.mean([r["regret_neutral"] for r in recs])),
+               "regret_full": float(np.mean([r["regret_full"] for r in recs])),
+               "mean_front_size": float(np.mean([r["front_size"] for r in recs])),
+               "yaw_wins_frac": float(yaw_wins), "scenes": recs},
+              open(out / "receipt.json", "w"), indent=2, default=float)
+    print(f"\nwrote {out / 'receipt.json'}")
 
 
 if __name__ == "__main__":

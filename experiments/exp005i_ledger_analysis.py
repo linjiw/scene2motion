@@ -1,0 +1,558 @@
+"""EXP-005i: which bottleneck is it -- candidate SUPPORT, candidate SELECTION, or ARDY?
+
+Why this exists
+---------------
+EXP-005g answered its question ("can a classical enumerator cover the addressable body set at
+K=8?") with a clear no: 0.59 discrete / 0.38 continuous at equal calls against a 0.36 / 0.21
+resampling floor, nowhere near the pre-committed 0.90.  But a coverage number of 0.59 is
+consistent with three completely different worlds, and they call for three different next
+methods:
+
+    SUPPORT     the union of every proposer's candidates does not contain programs that
+                realise the missing modes            -> learn a mode-conditioned inverse program
+    SELECTION   it does contain them, and the heuristics rank the wrong eight
+                                                     -> learn a reranker / addressability model
+    ARDY        no program addresses those modes reliably at all
+                                                     -> adapt the prior, or drop the claim
+
+Every number here is a re-analysis of `candidates.jsonl`, the per-candidate ledger EXP-005g now
+emits.  No ARDY calls.  That file exists because the gate's first full run computed all of this
+evidence in memory and wrote only per-arm averages, which put five separate analyses behind a
+second 61-minute GPU pass.
+
+Selection and evaluation seeds are DISJOINT throughout
+-----------------------------------------------------
+D-REFINE and COMPOSITE choose their candidates by looking at ARDY outcomes.  Scoring them on
+those same outcomes would report post-selection luck as reliability.  So everything below is
+scored on the held-out block (seeds 500+), which no arm could select on, and the
+selection-versus-held-out shrinkage is reported explicitly in section A as a check on whether
+the gate's headline numbers were inflated.
+
+Sections
+--------
+    A  held-out transfer            did feasibility/stability survive disjoint seeds?
+    B  addressability               and how many seeds it would take to CERTIFY it
+    C  POOL-ORACLE@K                support vs selection, the decision this experiment exists for
+    D  ValidDiversityYield@B        useful bodies per ARDY call, rejects included
+    E  program-vs-seed allocation   8x1 vs 4x2 vs 2x4 vs 1x8 at a fixed budget
+    F  commanded vs realised        what the frozen prior can actually be asked to do
+    G  yaw ablation                 an uncommandable channel in the counted alphabet
+    H  failure decomposition        why each missed mode was missed
+    I  distance sensitivity         diagonal q99 scaling vs full-covariance Mahalanobis
+"""
+
+from __future__ import annotations
+
+import argparse
+import json
+import sys
+from collections import Counter, defaultdict
+from itertools import product
+from pathlib import Path
+
+import numpy as np
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+
+from scene2motion.morphology import N_CHANNELS, d_morph, epsilon_net  # noqa: E402
+
+MIN_STAB, MIN_FEAS = 0.8, 0.75            # pre-committed in EXP-005g, unchanged here
+KS = (1, 2, 4, 8)
+ARMS_SCORED = ("A-KBEST", "B-NOGOOD", "C-WSWEEP", "D-REFINE", "COMPOSITE",
+               "D-REFINE(x4)", "COMPOSITE(x4)", "REF-RANDOM")
+
+
+# =======================================================================================
+# signatures
+# =======================================================================================
+
+def sig_key(sig, keep_yaw: bool = True) -> tuple:
+    """The realised active set as a hashable mode label.
+
+    The per-interaction tuple is `(duck, tuck, liftL, liftR, order, yaw)`.  `tuck` and `order`
+    are already retired -- EXP-005f measured tuck's effect below the prior's own width scatter
+    and showed a bare sign comparison assigns an order to every clip -- so they are dropped
+    from the label here; they are audited as negative controls in section G, where they must
+    stay at zero.  `yaw` is kept in the PRIMARY label because the gate was pre-committed with
+    it, and dropped in the section G ablation because no program can request it.
+    """
+    out = []
+    for s in sig:
+        duck, tuck, liftL, liftR, order, yaw = (list(s) + [0] * 6)[:6]
+        out.append((bool(duck), bool(liftL), bool(liftR), bool(yaw)) if keep_yaw
+                   else (bool(duck), bool(liftL), bool(liftR)))
+    return tuple(out)
+
+
+def block(r: dict, which: str) -> dict | None:
+    return r.get(which)
+
+
+def addressable(ev: dict | None) -> bool:
+    return bool(ev and ev["feasible_rate"] >= MIN_FEAS and ev["stability"] >= MIN_STAB)
+
+
+def certifying_n(tau: float, alpha: float = 0.05) -> int:
+    """Seeds needed before a UNANIMOUS run certifies P(success) >= tau at level alpha.
+
+    The guidance defines addressability with a LOWER confidence bound, `P_lower >= tau`.  With
+    k successes in n trials the Clopper-Pearson lower bound at k = n is `alpha**(1/n)`, so
+    certifying tau = 0.8 needs `alpha**(1/n) >= tau`, i.e. n >= ln(alpha)/ln(tau) = 14.  At the
+    gate's n = 4 the best attainable lower bound is 0.05**(1/4) = 0.47: four seeds cannot
+    certify the pre-committed threshold even in principle, only estimate it.  Every
+    "addressable" count below is therefore a POINT ESTIMATE at tau, and is labelled as one.
+    """
+    return int(np.ceil(np.log(alpha) / np.log(tau)))
+
+
+# =======================================================================================
+# per-scene assembly
+# =======================================================================================
+
+def scene_groups(rows: list[dict]) -> dict:
+    g = defaultdict(list)
+    for r in rows:
+        g[r["scene_id"]].append(r)
+    return dict(g)
+
+
+def pooled_whitener(rows: list[dict], n_int: int, ridge: float = 1e-6) -> np.ndarray:
+    """Whitener from same-program, different-seed residuals, over BOTH seed blocks."""
+    covs = []
+    for r in rows:
+        for which in ("selection", "heldout"):
+            ev = block(r, which)
+            if not ev:
+                continue
+            D = np.asarray(ev["deltas"], float)
+            if D.ndim != 2 or len(D) < 2 or D.shape[1] != n_int * N_CHANNELS:
+                continue
+            for w in range(n_int):
+                covs.append(np.cov(D[:, w * N_CHANNELS:(w + 1) * N_CHANNELS].T))
+    S = np.mean([c for c in covs if np.all(np.isfinite(c))], axis=0) if covs \
+        else np.eye(N_CHANNELS)
+    S = S + ridge * np.eye(N_CHANNELS) * max(1.0, float(np.trace(S)) / N_CHANNELS)
+    w, V = np.linalg.eigh(S)
+    W1 = V @ np.diag(np.maximum(w, ridge) ** -0.5) @ V.T
+    return np.kron(np.eye(n_int), W1)
+
+
+def diag_whitener(rows: list[dict], n_int: int) -> np.ndarray:
+    """The DIAGONAL q99 scaling -- what the gate used -- for the section I comparison."""
+    resid = []
+    for r in rows:
+        for which in ("selection", "heldout"):
+            ev = block(r, which)
+            if not ev:
+                continue
+            D = np.asarray(ev["deltas"], float)
+            if D.ndim == 2 and len(D) >= 2 and D.shape[1] == n_int * N_CHANNELS:
+                resid.append(np.abs(D - D.mean(axis=0)))
+    if not resid:
+        return np.eye(n_int * N_CHANNELS)
+    q = np.percentile(np.concatenate(resid), 99, axis=0)
+    return np.diag(1.0 / np.maximum(q, 1e-6))
+
+
+# =======================================================================================
+# coverage
+# =======================================================================================
+
+def coverage(ref_modes: set, chosen: list[dict], which: str, keep_yaw=True) -> float:
+    """Fraction of reference modes ADDRESSABLY hit by `chosen`, scored on `which` seeds."""
+    if not ref_modes:
+        return float("nan")
+    hit = {sig_key(block(c, which)["signature"], keep_yaw) for c in chosen
+           if addressable(block(c, which))}
+    return len(ref_modes & hit) / len(ref_modes)
+
+
+def cont_coverage(ref_mu: np.ndarray, chosen: list[dict], which: str,
+                  W: np.ndarray, eps: float) -> float:
+    if not len(ref_mu):
+        return float("nan")
+    P = [np.asarray(block(c, which)["mu"], float) for c in chosen
+         if addressable(block(c, which))]
+    if not P:
+        return 0.0
+    return float(np.mean([min(d_morph(r, q, W) for q in P) <= eps for r in ref_mu]))
+
+
+def greedy_oracle(pool: list[dict], ref_modes: set, K: int, pick_on: str,
+                  score_on: str, keep_yaw=True) -> float:
+    """Best size-K subset by greedy coverage. Submodular, so greedy is a LOWER bound.
+
+    That direction matters: if even this understated oracle clears 0.90, the support is
+    genuinely there and the bottleneck is selection.
+    """
+    if not ref_modes:
+        return float("nan")
+    chosen, got = [], set()
+    avail = list(pool)
+    for _ in range(K):
+        best, best_gain = None, -1
+        for c in avail:
+            ev = block(c, pick_on)
+            if not addressable(ev):
+                continue
+            gain = len({sig_key(ev["signature"], keep_yaw)} - got)
+            if gain > best_gain:
+                best, best_gain = c, gain
+        if best is None:
+            break
+        avail.remove(best)
+        chosen.append(best)
+        got |= {sig_key(block(best, pick_on)["signature"], keep_yaw)}
+    return coverage(ref_modes, chosen, score_on, keep_yaw)
+
+
+# =======================================================================================
+# main
+# =======================================================================================
+
+def main() -> None:
+    ap = argparse.ArgumentParser(description=__doc__,
+                                 formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("--ledger", default="outputs/exp005g/candidates.jsonl")
+    ap.add_argument("--receipt", default="outputs/exp005g/receipt.json")
+    ap.add_argument("--out", default="outputs/exp005i")
+    ap.add_argument("--eps", type=float, default=None,
+                    help="default: the eps the gate calibrated on its null arm")
+    ap.add_argument("--boot", type=int, default=20000)
+    args = ap.parse_args()
+    out = Path(args.out)
+    out.mkdir(parents=True, exist_ok=True)
+
+    rows = [json.loads(l) for l in open(args.ledger)]
+    eps = args.eps
+    if eps is None:
+        eps = json.load(open(args.receipt))["eps_calibration"]["eps_used"]
+    groups = scene_groups(rows)
+    rng = np.random.default_rng(0)
+    print(f"{len(rows)} ledger rows over {len(groups)} scenes; eps = {eps:.2f} calibrated units")
+    print(f"selection seeds: {sorted({s for r in rows for s in r['selection']['seeds']})[:6]}..."
+          f"  held-out: {sorted({s for r in rows if r['heldout'] for s in r['heldout']['seeds']})}")
+
+    report: dict = {"experiment": "exp005i_ledger_analysis", "eps": eps,
+                    "n_rows": len(rows), "n_scenes": len(groups)}
+
+    # -- A. held-out transfer -----------------------------------------------------------
+    print("\n=== A. Selection -> held-out transfer (post-selection shrinkage) ===")
+    print(f"{'arm':16s} {'n':>4s} {'feas sel':>9s} {'feas held':>10s} {'stab sel':>9s} "
+          f"{'stab held':>10s} {'addr sel':>9s} {'addr held':>10s}  {'sig agree':>9s}")
+    A = {}
+    for arm in ARMS_SCORED + ("NULL-SEED",):
+        a = [r for r in rows if r["arm"] == arm and r["heldout"]]
+        if not a:
+            continue
+        fs = np.mean([r["selection"]["feasible_rate"] for r in a])
+        fh = np.mean([r["heldout"]["feasible_rate"] for r in a])
+        ss = np.mean([r["selection"]["stability"] for r in a])
+        sh = np.mean([r["heldout"]["stability"] for r in a])
+        ads = np.mean([addressable(r["selection"]) for r in a])
+        adh = np.mean([addressable(r["heldout"]) for r in a])
+        agree = np.mean([sig_key(r["selection"]["signature"])
+                         == sig_key(r["heldout"]["signature"]) for r in a])
+        A[arm] = {"n": len(a), "feas_sel": fs, "feas_held": fh, "stab_sel": ss,
+                  "stab_held": sh, "addr_sel": ads, "addr_held": adh, "sig_agree": agree}
+        print(f"{arm:16s} {len(a):4d} {fs:9.3f} {fh:10.3f} {ss:9.3f} {sh:10.3f} "
+              f"{ads:9.3f} {adh:10.3f}  {agree:9.3f}")
+    report["A_transfer"] = A
+    print("  sig agree = the modal active set is the SAME on both disjoint seed blocks.  This "
+          "is the\n  ceiling on how well ANY method can command a mode: a program whose own "
+          "modal outcome\n  changes between seed blocks cannot be a reliable instruction.")
+
+    # -- B. addressability, and what it would take to certify it ------------------------
+    n_cert = certifying_n(MIN_STAB)
+    n_have = len(rows[0]["heldout"]["seeds"]) if rows[0]["heldout"] else 0
+    print(f"\n=== B. Addressability at tau = {MIN_STAB} ===")
+    print(f"held-out seeds available: {n_have}.  Clopper-Pearson lower bound at {n_have}/"
+          f"{n_have} successes = {0.05 ** (1 / max(n_have, 1)):.2f}.")
+    print(f"Certifying P >= {MIN_STAB} at 95 % needs n >= {n_cert} unanimous seeds, so every "
+          f"'addressable' count\nbelow is a POINT ESTIMATE at tau, never a certificate.  "
+          f"That is a limit of the budget, not of the definition.")
+    report["B_addressability"] = {"tau": MIN_STAB, "n_heldout": n_have,
+                                 "cp_lower_at_unanimous": 0.05 ** (1 / max(n_have, 1)),
+                                 "n_needed_to_certify": n_cert}
+
+    # -- C. POOL-ORACLE -----------------------------------------------------------------
+    print("\n=== C. POOL-ORACLE@K -- is it support, or is it selection? ===")
+    per_scene, cont_ps = [], []
+    for sid, g in groups.items():
+        n_int = g[0]["n_interactions"]
+        W = pooled_whitener(g, n_int)
+        pool = [r for r in g if r["arm"] != "NULL-SEED" and r["heldout"]]
+        # one row per distinct program: two arms proposing the same program is one candidate
+        uniq = {r["prog_key"]: r for r in pool}
+        cand = list(uniq.values())
+        ref = [c for c in cand if addressable(block(c, "heldout"))]
+        ref_modes = {sig_key(block(c, "heldout")["signature"]) for c in ref}
+        if len(ref_modes) < 2:
+            continue
+        mus = np.array([block(c, "heldout")["mu"] for c in ref], float)
+        net = epsilon_net(mus, W, eps)
+        ref_mu = mus[net]
+        rec = {"scene_id": sid, "family": g[0]["family"], "n_cand": len(cand),
+               "n_ref_modes": len(ref_modes), "n_ref_net": len(ref_mu), "arms": {}, "oracle": {}}
+        for K in KS:
+            rec["oracle"][f"hindsight@{K}"] = greedy_oracle(cand, ref_modes, K,
+                                                            "heldout", "heldout")
+            rec["oracle"][f"crossfit@{K}"] = greedy_oracle(cand, ref_modes, K,
+                                                           "selection", "heldout")
+        for arm in ARMS_SCORED:
+            if not any(r["arm"] == arm for r in rows):
+                continue
+            mine = [r for r in g if r["arm"] == arm and r["heldout"]]
+            mine = sorted(mine, key=lambda r: r["rank"])
+            rec["arms"][arm] = {f"@{K}": coverage(ref_modes, mine[:K], "heldout") for K in KS}
+            rec["arms"][arm]["cont@8"] = cont_coverage(ref_mu, mine[:8], "heldout", W, eps)
+        per_scene.append(rec)
+    report["C_pool_oracle"] = per_scene
+
+    def boot_ci(v):
+        v = np.asarray(v, float)
+        v = v[np.isfinite(v)]
+        if len(v) < 2:
+            return (float("nan"), float("nan"))
+        idx = rng.integers(0, len(v), (args.boot, len(v)))
+        return tuple(np.percentile(v[idx].mean(1), [2.5, 97.5]))
+
+    print(f"{len(per_scene)} scenes with >= 2 addressable reference modes "
+          f"(mean {np.mean([r['n_ref_modes'] for r in per_scene]):.1f} modes, "
+          f"{np.mean([r['n_cand'] for r in per_scene]):.0f} distinct candidates)")
+    print(f"\n{'':22s} {'@1':>7s} {'@2':>7s} {'@4':>7s} {'@8':>7s}   {'95 % CI @8':>16s}")
+    for lbl, key in (("POOL-ORACLE hindsight", "hindsight"), ("POOL-ORACLE cross-fit", "crossfit")):
+        v = [[r["oracle"][f"{key}@{K}"] for r in per_scene] for K in KS]
+        lo, hi = boot_ci(v[-1])
+        print(f"{lbl:22s} " + " ".join(f"{np.nanmean(x):7.3f}" for x in v)
+              + f"   [{lo:.3f}, {hi:.3f}]")
+    print("  " + "-" * 66)
+    for arm in ARMS_SCORED:
+        if not any(arm in r["arms"] for r in per_scene):
+            continue
+        v = [[r["arms"][arm][f"@{K}"] for r in per_scene] for K in KS]
+        lo, hi = boot_ci(v[-1])
+        print(f"{arm:22s} " + " ".join(f"{np.nanmean(x):7.3f}" for x in v)
+              + f"   [{lo:.3f}, {hi:.3f}]")
+    print("  hindsight = best K chosen KNOWING the held-out outcome -> is the program in the "
+          "pool at all?\n  cross-fit = best K chosen from SELECTION-seed outcomes, scored on "
+          "held-out -> could any\n  reranker trained on noisy probes reach it?  The gap between "
+          "the two rows is the price of\n  ARDY's own stochasticity; the gap from cross-fit "
+          "down to the best arm is what a learned\n  selector could win.")
+
+    # -- D. valid diversity yield --------------------------------------------------------
+    print("\n=== D. ValidDiversityYield@B -- stable modes per ARDY clip, rejects included ===")
+    receipt = json.load(open(args.receipt))
+    spent = {}
+    print(f"{'arm':16s} {'charged':>8s} {'modes/scene':>12s} {'yield x1000':>12s}")
+    D = {}
+    for arm in ARMS_SCORED:
+        if not any(r["arm"] == arm for r in rows):
+            continue
+        ch = receipt.get("baselines", {}).get(arm, {}).get("ardy_calls_at_K")
+        modes = []
+        for sid, g in groups.items():
+            mine = [r for r in g if r["arm"] == arm and r["heldout"]][:8]
+            modes.append(len({sig_key(block(c, "heldout")["signature"]) for c in mine
+                              if addressable(block(c, "heldout"))}))
+        m = float(np.mean(modes))
+        D[arm] = {"charged": ch, "modes_per_scene": m,
+                  "yield": (m / ch * 1000) if ch else None}
+        print(f"{arm:16s} {str(ch):>8s} {m:12.2f} "
+              f"{(m / ch * 1000) if ch else float('nan'):12.2f}")
+    print("  yield = addressable modes returned per 1000 charged clips.  Charged counts every "
+          "clip an arm\n  caused to be generated, rejects included, which is the guidance's "
+          "budget: an arm that returns\n  four bodies after generating thirty clips is not "
+          "operating at K=8.")
+    report["D_yield"] = D
+
+    # -- E. program vs seed allocation ---------------------------------------------------
+    print("\n=== E. Eight ARDY calls: eight programs once, or one program eight times? ===")
+    print("Each row spends the SAME 8 clips.  Programs are drawn from the union pool; seeds "
+          "from the\n8 available per program (4 selection + 4 held-out, all independent draws).")
+    alloc = {}
+    print(f"\n{'allocation':>12s} {'P(>=1 valid)':>13s} {'distinct sigs':>14s} "
+          f"{'stable modes':>13s}")
+    for n_prog, n_seed in ((8, 1), (4, 2), (2, 4), (1, 8)):
+        pv, ds, sm = [], [], []
+        for sid, g in groups.items():
+            uniq = {r["prog_key"]: r for r in g if r["arm"] != "NULL-SEED" and r["heldout"]}
+            cand = list(uniq.values())
+            if len(cand) < 8:
+                continue
+            for _ in range(200):
+                pick = rng.choice(len(cand), size=n_prog, replace=False)
+                clips, sigs = [], []
+                for i in pick:
+                    c = cand[i]
+                    pool_seeds = [(s, f, sg) for blk in ("selection", "heldout")
+                                  for s, f, sg in zip(c[blk]["seeds"], c[blk]["feasible"],
+                                                      c[blk]["signatures"])]
+                    take = rng.choice(len(pool_seeds), size=min(n_seed, len(pool_seeds)),
+                                      replace=False)
+                    for t in take:
+                        _, f, sg = pool_seeds[t]
+                        clips.append(bool(f))
+                        if f:
+                            sigs.append(sig_key(sg))
+                    # "stable" is judged from ALL 8 seeds, i.e. ground truth, not from the
+                    # 1-8 clips this allocation actually bought -- otherwise a single-seed
+                    # draw would score stability 1.0 by definition.
+                pv.append(any(clips))
+                ds.append(len(set(sigs)))
+                stable = set()
+                for i in pick:
+                    c = cand[i]
+                    if addressable(block(c, "heldout")):
+                        stable.add(sig_key(block(c, "heldout")["signature"]))
+                sm.append(len(stable & set(sigs)))
+        alloc[f"{n_prog}x{n_seed}"] = {"p_valid": float(np.mean(pv)),
+                                       "distinct_sigs": float(np.mean(ds)),
+                                       "stable_modes": float(np.mean(sm))}
+        print(f"{n_prog}x{n_seed:<10d} {np.mean(pv):13.3f} {np.mean(ds):14.2f} "
+              f"{np.mean(sm):13.2f}")
+    report["E_allocation"] = alloc
+
+    # -- F. commanded vs realised --------------------------------------------------------
+    print("\n=== F. Commanded -> realised, on held-out seeds ===")
+    print("Rows: what the program asked for, at program.py's ACTIVE floors.  There is no yaw "
+          "row --\nno channel can request it (program.py:31, heading follows the path "
+          "tangent), so realised\nyaw is a side effect and appears only in the columns.")
+    mat = defaultdict(Counter)
+    for r in rows:
+        if r["arm"] == "NULL-SEED" or not r["heldout"] or r["n_interactions"] != 1:
+            continue
+        req = tuple(bool(x) for x in r["commanded"]["sym"])       # (dip, tuck, lift)
+        for f, sg in zip(r["heldout"]["feasible"], r["heldout"]["signatures"]):
+            mat[req][sig_key([sg])[0] if f else "INVALID"] += 1
+    cols = sorted({c for v in mat.values() for c in v if c != "INVALID"}, key=str)
+    hdr = "  ".join(f"{''.join('DLRY'[i] for i, b in enumerate(c) if b) or 'none':>6s}"
+                    for c in cols)
+    print(f"\n{'requested':>16s} {'n':>5s}  {hdr}  {'INVALID':>8s}")
+    Fm = {}
+    for req in sorted(mat, key=lambda x: (sum(x), x)):
+        tot = sum(mat[req].values())
+        name = "+".join(n for n, b in zip(("dip", "tuck", "lift"), req) if b) or "neutral"
+        cells = "  ".join(f"{mat[req][c] / tot:6.2f}" for c in cols)
+        print(f"{name:>16s} {tot:5d}  {cells}  {mat[req]['INVALID'] / tot:8.2f}")
+        Fm[name] = {"n": tot, **{str(c): mat[req][c] / tot for c in cols},
+                    "INVALID": mat[req]["INVALID"] / tot}
+    print("  columns: D=duck  L=liftL  R=liftR  Y=yaw (realised active set); rows sum to 1.")
+    print("  A high INVALID cell is not the enumerator's failure -- it is the prior refusing a "
+          "request.\n  `decode` only writes the global_joints_positions channel when tuck or "
+          "lift clear their ACTIVE\n  floors (program.py:234), so the limb-target path is the "
+          "one place a request can turn a clip\n  invalid, and the tuck/lift rows are where "
+          "that shows up.")
+    report["F_commanded_realised"] = Fm
+
+    # -- G. yaw ablation and the negative controls ---------------------------------------
+    print("\n=== G. Yaw ablation, and the retired channels as negative controls ===")
+    tuck_fire = order_fire = n_sig = 0
+    for r in rows:
+        for blk in ("selection", "heldout"):
+            ev = block(r, blk)
+            if not ev:
+                continue
+            for s in ev["signatures"]:
+                for per in ([s] if not isinstance(s[0], (list, tuple)) else s):
+                    n_sig += 1
+                    tuck_fire += bool(per[1])
+                    order_fire += bool(per[4])
+    print(f"negative controls over {n_sig} realised active sets: "
+          f"tuck fires {100 * tuck_fire / max(n_sig, 1):.2f} %, "
+          f"order fires {100 * order_fire / max(n_sig, 1):.2f} %  (both must be ~0)")
+    with_yaw, without_yaw = [], []
+    for sid, g in groups.items():
+        cand = list({r["prog_key"]: r for r in g
+                     if r["arm"] != "NULL-SEED" and r["heldout"]}.values())
+        ref = [c for c in cand if addressable(block(c, "heldout"))]
+        if not ref:
+            continue
+        with_yaw.append(len({sig_key(block(c, "heldout")["signature"], True) for c in ref}))
+        without_yaw.append(len({sig_key(block(c, "heldout")["signature"], False) for c in ref}))
+    ystab = [np.mean([block(r, "heldout")["signature"][0][5] ==
+                      block(r, "selection")["signature"][0][5]
+                      for r in rows if r["heldout"] and r["n_interactions"] == 1])]
+    print(f"reference modes per scene: {np.mean(with_yaw):.2f} with yaw -> "
+          f"{np.mean(without_yaw):.2f} without "
+          f"({100 * (1 - np.mean(without_yaw) / max(np.mean(with_yaw), 1e-9)):.0f} % of the "
+          f"counted alphabet is a channel nothing can request)")
+    print(f"yaw bit agrees across disjoint seed blocks on {100 * ystab[0]:.0f} % of programs")
+    report["G_yaw"] = {"modes_with_yaw": float(np.mean(with_yaw)),
+                       "modes_without_yaw": float(np.mean(without_yaw)),
+                       "yaw_bit_seed_agreement": float(ystab[0]),
+                       "tuck_fire_rate": tuck_fire / max(n_sig, 1),
+                       "order_fire_rate": order_fire / max(n_sig, 1)}
+
+    # -- H. failure decomposition --------------------------------------------------------
+    print("\n=== H. Why each missed reference mode was missed (best equal-call arm) ===")
+    causes = Counter()
+    per_fam = defaultdict(Counter)
+    for sid, g in groups.items():
+        cand = list({r["prog_key"]: r for r in g
+                     if r["arm"] != "NULL-SEED" and r["heldout"]}.values())
+        ref = {sig_key(block(c, "heldout")["signature"]) for c in cand
+               if addressable(block(c, "heldout"))}
+        if len(ref) < 2:
+            continue
+        arm = "B-NOGOOD"
+        mine = sorted([r for r in g if r["arm"] == arm and r["heldout"]],
+                      key=lambda r: r["rank"])[:8]
+        got = {sig_key(block(c, "heldout")["signature"]) for c in mine
+               if addressable(block(c, "heldout"))}
+        for z in ref - got:
+            duck, liftL, liftR, yaw = z[0]
+            want_lift = liftL or liftR
+            # did the arm even ASK for the symbol?
+            asked = any((c["commanded"]["sym"][0] == duck)
+                        and (c["commanded"]["sym"][2] == want_lift) for c in mine)
+            realised_any = any(sig_key([s]) == (z[0],) for c in mine
+                               for s in block(c, "heldout")["signatures"])
+            if not asked:
+                cause = "symbol never requested"
+            elif not realised_any:
+                cause = "requested, prior realised something else"
+            else:
+                hits = [c for c in mine if any(sig_key([s]) == (z[0],)
+                                               for s in block(c, "heldout")["signatures"])]
+                if any(block(c, "heldout")["feasible_rate"] < MIN_FEAS for c in hits):
+                    cause = "mode realised but collides"
+                else:
+                    cause = "mode realised but unstable"
+            causes[cause] += 1
+            per_fam[g[0]["family"]][cause] += 1
+    tot = max(sum(causes.values()), 1)
+    for c, n in causes.most_common():
+        print(f"  {c:42s} {n:4d}  {n / tot:6.1%}")
+    print(f"\n{'family':16s} " + "  ".join(f"{c[:20]:>22s}" for c in causes))
+    for f, cc in sorted(per_fam.items()):
+        t = max(sum(cc.values()), 1)
+        print(f"{f:16s} " + "  ".join(f"{cc[c] / t:22.2f}" for c in causes))
+    report["H_failure"] = {"overall": dict(causes),
+                           "per_family": {k: dict(v) for k, v in per_fam.items()}}
+
+    # -- I. distance sensitivity ---------------------------------------------------------
+    print("\n=== I. Diagonal q99 scaling vs full-covariance Mahalanobis ===")
+    dn, dd = [], []
+    for sid, g in groups.items():
+        n_int = g[0]["n_interactions"]
+        Wc, Wd = pooled_whitener(g, n_int), diag_whitener(g, n_int)
+        cand = [r for r in g if r["arm"] != "NULL-SEED" and r["heldout"]]
+        mus = np.array([block(c, "heldout")["mu"] for c in cand], float)
+        if len(mus) < 3:
+            continue
+        dn.append(len(epsilon_net(mus, Wc, eps)))
+        dd.append(len(epsilon_net(mus, Wd, eps * float(np.median(np.diag(Wd) / np.diag(Wc))))))
+    print(f"eps-net size per scene: covariance {np.mean(dn):.2f}  diagonal {np.mean(dd):.2f}")
+    print("  The diagonal scale double-counts correlated fluctuation -- EXP-005f measured "
+          "corr(dpsi, lift) =\n  +0.52 and corr(dpsi, dip) = +0.28, so a duck moves three "
+          "channels at once and a diagonal metric\n  reads that single event as three.")
+    report["I_distance"] = {"cov_net": float(np.mean(dn)), "diag_net": float(np.mean(dd))}
+
+    with open(out / "receipt.json", "w") as fh:
+        json.dump(report, fh, indent=2, default=float)
+    print(f"\nwrote {out / 'receipt.json'}")
+
+
+if __name__ == "__main__":
+    main()

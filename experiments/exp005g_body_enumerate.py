@@ -92,6 +92,7 @@ scene and ~3.5 h for the 84 feasible scenes of the 128-scene suite.  Run `--smok
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import sys
 import time
@@ -115,6 +116,73 @@ CPU_BASELINES = ("A-KBEST", "B-NOGOOD", "C-WSWEEP")
 SEARCH_BASELINES = ("D-REFINE", "COMPOSITE")
 SMOKE_SCENES = [("overhead_beam", 1.10), ("overhead_beam", 0.90), ("beam_and_gap", 1.10),
                 ("narrow_gap", 0.60), ("partial_beam", 1.05), ("pillar", 0.30)]
+
+
+# =======================================================================================
+# the per-candidate ledger
+# =======================================================================================
+# The first full run of this gate wrote only per-arm summary statistics, and every
+# per-candidate outcome -- per-seed validity, per-seed active set, the descriptor, the
+# clearance report -- was constructed in memory and discarded.  That blocked POOL-ORACLE, the
+# commanded-versus-realised matrix, the program-versus-seed allocation control, the failure
+# decomposition and the covariance sensitivity behind a second 61-minute GPU pass, for data the
+# run already had.  The ledger is the fix: this experiment now emits its EVIDENCE, and every
+# question above becomes a CPU re-analysis of one file.
+
+
+def prog_key(prog) -> str:
+    """Identity of a body program, so the same program proposed by two arms is one row."""
+    return hashlib.sha1(np.round(prog.lat, 5).tobytes()
+                        + np.round(prog.slot, 5).tobytes()
+                        + np.round(np.float64(prog.speed), 5).tobytes()).hexdigest()[:16]
+
+
+def commanded(prog) -> dict:
+    """What the program ASKED for -- the rows of the commanded-versus-realised matrix.
+
+    Note what is absent: there is no yaw request, because there is no channel that can make
+    one.  `program.py:31` records that the `sidle` field was dropped (identically 0.000 in all
+    278 corpus programs) and `decode` takes heading straight from the path tangent, so with the
+    route held fixed every candidate in a scene commands the SAME heading.  Realised `dpsi` is
+    therefore a side effect of ducking and lifting, never an instruction.
+    """
+    a = prog.active_slots
+    dip = float(prog.slot[a, 2].max()) if len(a) else 0.0
+    tuck = float(prog.slot[a, 3].max()) if len(a) else 0.0
+    lift = float(prog.slot[a, 4].max()) if len(a) else 0.0
+    return {"dip": dip, "tuck": tuck, "lift": lift,
+            "n_slots": int(len(a)),
+            "span": float(2 * prog.slot[a, 1].max()) if len(a) else 0.0,
+            "mid": float(prog.slot[a, 0].mean()) if len(a) else 0.0,
+            "speed": float(prog.speed),
+            # the pre-committed ACTIVE floors of program.py, i.e. what decode will render
+            "sym": (dip > be.ACTIVE["dip"], tuck > be.ACTIVE["tuck"], lift > be.ACTIVE["lift"])}
+
+
+def eval_row(e) -> dict:
+    """One arm's evaluation of one program, seed by seed. Nothing aggregated away."""
+    return {"seeds": [int(z) for z in e.seeds],
+            "feasible": [bool(x) for x in e.feasible],
+            "feasible_rate": float(e.feasible_rate),
+            "signatures": [list(map(_j, sig)) for sig in e.signatures],
+            "signature": _j(e.signature),
+            "stability": float(e.stability),
+            "mu": np.asarray(e.mu, float).round(5).tolist(),
+            "deltas": np.asarray(e.deltas, float).round(5).tolist(),
+            "features": e.features,
+            "cost_ratio": float(e.cost_ratio), "j_body": float(e.j_body),
+            "overlap": bool(e.overlap)}
+
+
+def _j(x):
+    """Tuples are not JSON keys and numpy bools are not JSON values."""
+    if isinstance(x, (tuple, list)):
+        return [_j(v) for v in x]
+    if isinstance(x, (np.bool_, bool)):
+        return bool(x)
+    if isinstance(x, (np.integer, int)):
+        return int(x)
+    return x
 
 
 # =======================================================================================
@@ -204,6 +272,11 @@ def run_scene(runner, sc, args) -> dict:
     control = ev.n_ardy                      # 1 nominal + n_seeds matched controls
     cpu = {"plan": t_plan, "context": t_ctx}
     charged, evals, proposals, search_arms = {}, {}, {}, {}
+    # `charged` is the budget an arm is ALLOTTED and the currency the table compares in;
+    # `spent_by_arm` is what it actually pulled out of the evaluator.  The guidance asks for
+    # both: an arm that returns eight candidates after generating thirty clips and reporting
+    # only the eight survivors is not operating at K=8.
+    spent_by_arm = {}
 
     # -- CPU baselines: propose for free, pay K * n_seeds to verify ----------------------
     for name in CPU_BASELINES:
@@ -213,6 +286,7 @@ def run_scene(runner, sc, args) -> dict:
         before = ev.n_ardy
         evals[name] = ev.evaluate(progs, [name] * len(progs))
         charged[name] = ev.n_ardy - before + control
+        spent_by_arm[name] = ev.n_ardy - before + control
         proposals[name] = progs
 
     # -- NULL-SEED: the SAME program K times, on DISJOINT seed blocks --------------------
@@ -224,6 +298,7 @@ def run_scene(runner, sc, args) -> dict:
     before = ev.n_ardy
     evals["NULL-SEED"] = ev.evaluate(nulls, ["NULL-SEED"] * len(nulls), seeds=nseeds)
     charged["NULL-SEED"] = ev.n_ardy - before + control
+    spent_by_arm["NULL-SEED"] = ev.n_ardy - before + control
     proposals["NULL-SEED"] = nulls
 
     # -- searching baselines, at EQUAL ARDY CALLS PER K ----------------------------------
@@ -253,6 +328,7 @@ def run_scene(runner, sc, args) -> dict:
             evals[arm] = per_k.get(args.K, [])
             proposals[arm] = [e.program for e in evals[arm]]
             charged[arm] = int(mult * (control + args.K * args.n_seeds))
+            spent_by_arm[arm] = spent
 
     # -- the independent reference arm ---------------------------------------------------
     t0 = time.time()
@@ -261,9 +337,47 @@ def run_scene(runner, sc, args) -> dict:
     before = ev.n_ardy
     evals["REF-RANDOM"] = ev.evaluate(refs, ["REF-RANDOM"] * len(refs))
     charged["REF-RANDOM"] = ev.n_ardy - before + control
+    spent_by_arm["REF-RANDOM"] = ev.n_ardy - before + control
+
+    # -- HELD-OUT SEED BLOCK: selection seeds and evaluation seeds must be disjoint -------
+    # D-REFINE and COMPOSITE choose and refine their candidates BY LOOKING AT ARDY OUTCOMES,
+    # through `evaluator=ev`, on the very seeds they are then scored on.  Their reported
+    # feasibility of 1.00 is therefore post-selection correctness until it is reproduced on
+    # seeds no arm could have selected on.  Every distinct candidate in the scene is
+    # regenerated here on a disjoint block; the CPU arms are included too, so the held-out
+    # comparison is like-for-like rather than a penalty applied only to the searching arms.
+    # NULL-SEED is excluded: its whole construction is its own disjoint seeds.
+    heldout, held_charged = {}, 0
+    if args.n_heldout > 0:
+        hseeds = [500 + i for i in range(args.n_heldout)]
+        uniq = {}
+        for arm, elist in evals.items():
+            if arm == "NULL-SEED":
+                continue
+            for e in elist:
+                uniq.setdefault(prog_key(e.program), e.program)
+        before = ev.n_ardy
+        hev = ev.evaluate(list(uniq.values()), ["HELD-OUT"] * len(uniq),
+                          seeds=[hseeds] * len(uniq))
+        held_charged = ev.n_ardy - before
+        heldout = dict(zip(uniq, hev))
+
+    ledger = []
+    for arm, elist in evals.items():
+        for rank, e in enumerate(elist):
+            k = prog_key(e.program)
+            h = heldout.get(k)
+            ledger.append({"scene_id": sc.scene_id, "family": sc.family,
+                           "n_interactions": len(ev.interactions),
+                           "arm": arm, "rank": rank, "prog_key": k,
+                           "commanded": commanded(e.program),
+                           "slot": np.round(e.program.slot, 5).tolist(),
+                           "selection": eval_row(e),
+                           "heldout": eval_row(h) if h is not None else None})
 
     return {"scene_id": sc.scene_id, "family": sc.family, "feasible_route": True,
-            "context_feasible": True, "n_windows": ctx.n_windows,
+            "context_feasible": True, "n_windows": ctx.n_windows, "ledger": ledger,
+            "ardy_heldout_charged": held_charged, "ardy_spent": spent_by_arm,
             "n_interactions": len(ev.interactions), "n_free_segments": len(ctx.free_segments),
             "route_len_m": ctx.tube.length, "T": ctx.T, "planner_cpu_s": cpu,
             "ardy_charged": charged, "ardy_unique_clips": ev.n_unique,
@@ -499,6 +613,8 @@ def main() -> None:
     ap.add_argument("--K", type=int, default=8)
     ap.add_argument("--n_seeds", type=int, default=3)
     ap.add_argument("--n_reference", type=int, default=24)
+    ap.add_argument("--n_heldout", type=int, default=4,
+                    help="disjoint evaluation seeds; 0 disables the held-out block")
     ap.add_argument("--budget_mults", type=int, nargs="*", default=[1, 4])
     ap.add_argument("--eps", default="auto",
                     help="'auto' calibrates eps on the NULL-SEED arm; or a float in sigma")
@@ -520,6 +636,8 @@ def main() -> None:
             args.n_reference = 8
         if "--budget_mults" not in sys.argv:
             args.budget_mults = [1]
+        if "--n_heldout" not in sys.argv:
+            args.n_heldout = 2
     out = Path(args.out)
     out.mkdir(parents=True, exist_ok=True)
     t0 = time.time()
@@ -591,6 +709,13 @@ def main() -> None:
         json.dump(summary, fh, indent=2)
     with open(out / "per_scene.json", "w") as fh:
         json.dump(scored0, fh, indent=2)
+    n_led = 0
+    with open(out / "candidates.jsonl", "w") as fh:
+        for r in live:
+            for row in r.get("ledger", []):
+                fh.write(json.dumps(row) + "\n")
+                n_led += 1
+    print(f"\nledger: {n_led} candidate rows -> {out / 'candidates.jsonl'}", flush=True)
 
     print("\n" + json.dumps({k: v for k, v in summary.items()
                              if k not in ("baselines", "at_precommitted_eps_2sigma")},

@@ -1408,6 +1408,13 @@ class Evaluation:
     cost_ratio: float = 1.0
     overlap: bool = False        # rendered request commands two adaptation axes at once
     reports: list[dict] = field(default_factory=list)
+    # Per-seed scalar features for the decision-relevance objectives (EXP-005h).  They are
+    # computed HERE, inside the one place ARDY is called, because every input they need --
+    # the qpos trajectory, the clearance envelope, the collision report -- is already in hand
+    # at that moment and is thrown away immediately afterwards.  EXP-005g's first run
+    # discarded exactly this evidence and made five downstream analyses cost a second GPU
+    # pass; none of these features costs an extra FK call.
+    features: list[dict] = field(default_factory=list)
     note: str = ""
 
     @property
@@ -1553,8 +1560,25 @@ class BodyEvaluator:
                 # (morphology.py:122-125 exists for exactly this).
                 d.append(matched_delta(ad, cd, q, ctrl_q, it, self.fps, body=self.body,
                                        env_adapted=env_a, env_control=ctrl_env))
+            feat = {
+                # safety
+                "clear_q10": float(np.percentile(rep["per_frame_min_clearance"], 10)),
+                "min_clear": float(rep["min_clearance_m"]),
+                # motion burden.  `foot_floor_pen` is KINEMATIC CONTACT INCONSISTENCY -- feet
+                # intersecting the ground plane in the exported kinematics.  It is not
+                # physical slip and must not be called that until a tracker runs.
+                "foot_floor_pen": float(rep["mean_foot_floor_penetration_m"]),
+                "pelvis_dev": float(np.abs(q[:, 2] - NOMINAL_PELVIS).mean()),
+                "env_rough": float(np.abs(np.diff(env_a, n=2, axis=0)).mean())
+                              if len(env_a) > 2 else 0.0,
+                "joint_jerk": float(np.abs(np.diff(q[:, 7:], n=2, axis=0)).mean()
+                                    * self.fps * self.fps),
+                "joint_vel_max": float(np.abs(np.diff(q[:, 7:], axis=0)).max() * self.fps),
+                "pen_frac": float(rep["penetration_fraction"]),
+                "goal_err": float(np.linalg.norm(q[-1, :2] - np.asarray(self.ctx.scene.goal))),
+            }
             per.setdefault(i, []).append(
-                (np.concatenate(d), bool(goal and rep["collision_free"]), rep))
+                (np.concatenate(d), bool(goal and rep["collision_free"]), rep, feat))
         out = []
         for i, p in enumerate(programs):
             rows = per.get(i, [])
@@ -1572,7 +1596,8 @@ class BodyEvaluator:
                                   stability=stability(sigs), j_body=j,
                                   total_cost=self.ctx.tube.length + j,
                                   overlap=uncalibrated_overlap(p, self.T, self.fps),
-                                  reports=[r[2] for r in rows]))
+                                  reports=[r[2] for r in rows],
+                                  features=[r[3] for r in rows]))
         c0 = max(min([e.total_cost for e in out]), 1e-9)
         for e in out:
             e.cost_ratio = e.total_cost / c0

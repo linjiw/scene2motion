@@ -923,3 +923,87 @@ hook and not a prefix token (the learned prefix is exactly 3 tokens and resizing
 The root/body two-tower split the proposal hoped for **is** real: `root_model`
 (73,520,148 params) then `body_model` (73,630,848), reachable at
 `model.denoiser.model.root_model`.
+
+---
+
+## 21. EXP-005g: the gate fired against my own prediction
+
+**Prediction recorded before the run** (section 20): *"~3.5 modes from an 8-symbol alphabet does
+not obviously need a learned model, so I expect BODY-ENUMERATE@K to do well, which would push
+this toward Outcome 3."*
+
+**That prediction is wrong.** 30 scenes, 22 with a feasible route, `n_seeds=4`, `K=8`,
+`eps` calibrated on the NULL-SEED arm at 3.99 calibrated units, 10 838 unique ARDY clips,
+61 min wall-clock. Discrete and continuous MorphRecall@8, macro-averaged per scene, with a
+scene-level paired bootstrap CI on the difference against NULL-SEED:
+
+| arm | ARDY calls | disc@8 | vs NULL | cont@8 | vs NULL | addressable of 8 |
+|---|---|---|---|---|---|---|
+| A-KBEST | 36 | 0.583 | [+0.060, +0.365] | 0.349 | [+0.016, +0.247] | 4.5 |
+| B-NOGOOD | 36 | **0.592** | [+0.123, +0.341] | 0.381 | [+0.063, +0.271] | 5.0 |
+| C-WSWEEP | 36 | 0.505 | [−0.015, +0.286] | 0.273 | [−0.056, +0.175] | 4.2 |
+| COMPOSITE | 37 | 0.541 | [+0.013, +0.328] | 0.304 | [−0.029, +0.207] | 2.9 |
+| D-REFINE | 37 | 0.370 | [+0.000, +0.027] | 0.304 | [+0.020, +0.157] | 2.6 |
+| COMPOSITE(x4) | 148 | **0.665** | [+0.136, +0.447] | 0.455 | [+0.120, +0.355] | 4.6 |
+| D-REFINE(x4) | 148 | 0.595 | [+0.148, +0.318] | **0.551** | [+0.275, +0.411] | 5.0 |
+| REF-RANDOM | 101 | 0.606 | [+0.168, +0.318] | 0.507 | [+0.212, +0.373] | 13.2 |
+| NULL-SEED *(control)* | 69 | 0.361 | — | 0.207 | — | 7.0 |
+
+**No arm reaches the pre-committed 0.90 on either axis, at any budget.** The best equal-call
+arm covers 59 % of the discrete modes and 38 % of the eps-net; four times the calls buys
+67 % / 55 %. By the guidance's pre-committed table this is the third row — *"it misses stable,
+useful body components even at equal K"* — which is the row that licenses a learned proposer.
+
+I am deliberately not claiming that yet, for three reasons visible in this same table.
+
+**1. A third of the score is free.** NULL-SEED — the *same* program submitted eight times on
+disjoint seeds — scores 0.361 discrete and 0.207 continuous. It proposes nothing. That is the
+floor any arm must be read against, and it is why the CI column is against NULL-SEED rather
+than against zero. C-WSWEEP's discrete advantage over resampling is not significant.
+
+**2. The failure is family-localised, and its shape is diagnostic.**
+
+| arm | narrow_gap (4) | overhead_beam (10) | partial_beam (8) |
+|---|---|---|---|
+| A-KBEST | 0.350 | 0.483 | 0.825 |
+| B-NOGOOD | 0.400 | 0.563 | 0.725 |
+| COMPOSITE(x4) | 0.550 | 0.603 | 0.800 |
+| REF-RANDOM | **0.800** | 0.527 | 0.608 |
+| NULL-SEED | 0.350 | 0.440 | 0.267 |
+
+On `partial_beam` the classical enumerators work well (0.73–0.83 against a 0.27 floor). On
+`narrow_gap` every classical arm equals the null floor exactly — they contribute *nothing* over
+resampling — while random restarts reach 0.800. A method that cannot beat resampling on a
+family where random search reaches 80 % has a **candidate-support** problem on that family, not
+a selection problem. That is a different diagnosis from "learn a generator", and it is
+family-specific.
+
+**3. `addressable of 8` is the number that actually hurts.** A-KBEST, B-NOGOOD and C-WSWEEP
+return eight candidates of which only 4.2–5.0 are addressable (feasible on ≥75 % of seeds *and*
+Stability ≥ 0.8). They are not spending their budget on eight bodies; they are spending it on
+four bodies and four coin flips. COMPOSITE and D-REFINE report feasibility 1.00 — but they
+select using ARDY outcomes on the **same seeds they are scored on**, so that 1.00 is
+post-selection until it is shown on held-out seeds. The guidance is right to flag this; it is a
+real hole in the harness as run, not a hypothetical one.
+
+### What the gate does *not* tell us, and the harness bug that hides it
+
+Coverage of 0.59 is consistent with three completely different worlds — the pool lacks the
+programs (**support**), the pool contains them and the heuristic picks wrong (**selection**), or
+no program addresses the mode reliably at all (**ARDY addressability**). The prescribed
+discriminator is POOL-ORACLE@K: the best size-K subset of the *union* of every arm's candidates,
+chosen with hindsight from realised outcomes. It is not deployable; it is an upper bound that
+names which model could possibly help.
+
+It should have cost zero extra GPU time, because every candidate's per-seed validity, active
+set and descriptor already existed in memory as `body_enumerate.Evaluation` objects during the
+run. **The harness discarded them and wrote only per-arm summary statistics.** So POOL-ORACLE,
+the commanded-vs-realised matrix, the allocation control, the failure decomposition and the
+covariance sensitivity — five analyses the guidance asks for — are all blocked on data I had
+and threw away.
+
+That is a design error worth naming, because it is the same class as the metric bugs: the
+experiment was written to *answer its question* rather than to *record its evidence*. The fix is
+to emit a per-candidate ledger once and treat every downstream question as a re-analysis of that
+file. The gate re-runs once with the ledger and with disjoint selection/evaluation seed blocks;
+after that, none of these questions costs GPU time again.

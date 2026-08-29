@@ -1375,3 +1375,101 @@ left for a reviewer to raise.
 Either outcome is worth the ~10 minutes of GPU it costs. The uncomfortable one is more likely to
 be right: I wired `global_joints_positions` because the channel table in `constraints.py`
 labelled it "TUCK / STEP-OVER", and never checked which blocks the decoder consumes.
+
+---
+
+## 25. The adversarial audit, and what it did to section 22
+
+Fifteen agents over five lenses — leakage, statistics, scale/whitening, and two lenses whose
+only job was to refute the claims in sections 22–24 — returned ten findings. All ten came back
+confirmed, which is itself a warning sign: a verifier that never refutes may be rubber-stamping.
+So I re-derived the load-bearing ones myself. They hold, and **four of the five distinct defects
+push in the same direction the previous five did: they favour the learned model.**
+
+### 1. POOL-ORACLE was a division identity (three lenses found it independently)
+
+`run_C` built `ref_modes` as the image of the oracle's own candidate pool under `sig_key`, then
+ran `greedy_oracle(cand, ref_modes, K, "heldout", "heldout")` over that same pool. Every
+reference mode is realised by some pool member by construction, so greedy takes a
+gain-of-one pick every step and
+
+    hindsight@K  ≡  min(K, |ref_modes|) / |ref_modes|
+
+with **zero dependence on the candidates, the arms, or ARDY**. Every scene in the gate has at
+most 5 reference modes, so it would have printed **1.000 at K=8 on all 22 scenes**.
+
+Section 23 pre-registered `hindsight@8 ∈ [0.85, 0.95]` and said that would mean *"the programs
+exist; support is not the bottleneck"* → learn a reranker. That prediction would have been
+recorded as confirmed-and-then-some, and a division identity published as the measurement that
+chose the project's next model. The named falsification — `hindsight@8 < 0.75` → learn an
+inverse model — was **unreachable by construction.**
+
+Fixed with two tables. The union-reference table now prints the identity *beside* the hindsight
+row under its real name, and on the smoke ledger they are visibly equal (0.500, 1.000, 1.000,
+1.000 in both). A second table takes REF-RANDOM — an independent random-restart search no
+deployable arm uses — as the reference and lets the oracle pick only from the deployable arms;
+there `hindsight@K` falls below 1 exactly when the deployable pool has no program for a mode
+random search found, which is the support question. It costs scenes, so the count is printed.
+
+`crossfit@K` was clean throughout: it picks on selection-seed signatures and is scored on
+held-out ones, and those differ by exactly the stochasticity under study.
+
+### 2. The EXP-005h kill condition could not fire
+
+`regret(all candidates)` is identically zero — the pool defines the optimum. The headline
+compared the neutral program against the full pool, so the pre-committed condition *"the K=8 set
+does not materially reduce regret"* always passed. Replaced by a regret-vs-K curve against
+size-K sets, with the marginal value of the **second** body reported separately, which is the
+number that actually decides whether there is a trade-off to serve.
+
+### 3. A renderer bug the prior was being blamed for
+
+`_limb_targets` read limb **height** targets out of the un-ducked nominal clip. So a duck-and-
+tuck program told ARDY *"drop your pelvis 40 cm"* on `root_y_pos` and *"keep your hands at
+standing height"* on the joint-position channel, in the same request. Verified directly: at
+dip = 0.40 the old code's arm targets were **exactly 40 cm too high**.
+
+That is a strong candidate explanation for the composed-program collapse — `duck+tuck` 77 %
+invalid, `duck+tuck+lift` 100 % invalid — which section 22 attributed to the *channel*. Fixed:
+every limb target now shifts with the commanded pelvis displacement, so only the tuck and lift
+remain as departures from nominal. Note this compounds with section 24: the *cancelling* channel
+is the one the decoder poses from, and the *cancelled* one is not.
+
+### 4. Two scale defects
+
+`exp005i`'s whitener dropped the `1/sqrt(n_interactions)` normalisation that calibrated the
+`eps` it imports from the gate — a no-op at `n_interactions = 1` (every scene scored so far) and
+a silent unit mismatch the first time a multi-obstacle family is scored. And section I rescaled
+`eps` by a ratio of whitener diagonals, which partly divides out the very correlation it exists
+to test; it now matches the two metrics on median pairwise distance instead.
+
+### 5. Tuck, version four: withdrawn pending a properly seeded measurement
+
+`exp001_capability_envelope.py:156` generates each chunk with `seed=chunk[0][2]` — **one batch
+seed for the whole chunk of 8**, while each row is *labelled* with its own intended seed. The
+seed labels are decorative. This is the same per-batch seeding defect that invalidated the
+EXP-004 matched pairs before `_per_sample_noise` existed; EXP-001 predates that fix.
+
+So section 22's "paired against `tuck=0` at the same seed" was **not paired**. Re-running the
+statistics honestly:
+
+* tuck 0.00 vs 0.70, n = 3 per group, unpaired: −37.8 mm, **exact two-sided permutation
+  p = 0.300**. Not significant.
+* the 7-rung ladder looks strongly monotone (Spearman ρ = −0.929, p = 0.003) — but chunking is
+  by position in the condition ordering, so the batch seed changes *with* the tuck value. The
+  trend is confounded with the noise it would have to beat.
+
+**EXP-001's tuck data cannot settle this.** The claim that tuck delivers a real ~38 mm effect is
+withdrawn, and with it the tidy "real in expectation, unusable per sample" story — which I
+liked, which is a reason to be suspicious of it. EXP-008's `POS` arm now runs the full 7-rung
+ladder with genuine per-sample seeds, so the next version of this claim will be the first one
+that is actually measured.
+
+### What the audit is worth
+
+Five bugs in code I wrote *this session*, four of them tilting toward a learned proposer, on top
+of five earlier ones with the same tilt. That is now ten. The consistent direction is not bad
+luck: every one of these was a place where I had a hypothesis and the metric had freedom to
+agree with it. The reliable defence has not been care — I was careful — it has been building the
+null control, the sign control, or the identity check *before* reading the number, and having
+someone else attack the result afterwards.

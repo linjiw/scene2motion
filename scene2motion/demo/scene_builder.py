@@ -36,14 +36,16 @@ class BeamParams:
     beam_height: float          # m, underside of the beam above the floor
     beam_width: float           # m, how far the beam reaches across the corridor
     n_beams: int = 1            # 1 = Single Beam preset, 2 = Two Beams
-    gap: float = DEFAULTS["gap"]  # m, spacing between beam centres when n_beams == 2
+    gap: float = DEFAULTS["gap"]  # m, spacing between beam centres when n_beams > 1
 
     def clamped(self) -> "BeamParams":
         span = 2 * CORRIDOR_HALF
         return BeamParams(
-            n_beams=int(min(max(self.n_beams, 1), 2)),
-            # Gap floor keeps the two beams from overlapping into one wide beam; the ceiling
-            # keeps the second beam clear of the goal.
+            # Up to 6. The demo's presets still offer 1 and 2; Phase 4 needs 3-6 to probe
+            # beyond the 0-2 beam counts the m018 model was trained on.
+            n_beams=int(min(max(self.n_beams, 1), 6)),
+            # Gap floor keeps adjacent beams from overlapping into one wide beam; the ceiling
+            # keeps the last beam clear of the goal.
             gap=float(min(max(self.gap, 0.8), 5.5)),
             beam_height=float(min(max(self.beam_height, 0.60), 1.60)),
             # Leave at least 0.15 m of corridor so "around" is never trivially impossible,

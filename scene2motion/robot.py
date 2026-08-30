@@ -113,6 +113,21 @@ class FrameContact:
     robot_geom: str
     scene_geom: str
     dist: float  # signed: >0 clearance, <0 penetration depth
+    # Contact normal's vertical component, oriented from the ROBOT geom toward the scene
+    # geom. Near +1 the obstacle is directly overhead; near 0 it is beside the robot.
+    normal_z: float = 0.0
+
+    @property
+    def overhead(self) -> bool:
+        """True when lowering the body would increase this clearance.
+
+        The duck channel can only buy headroom. A squeeze between a wall and a beam edge
+        produces the same small `dist` as a head-vs-beam near-miss, but crouching does
+        nothing for it -- so a repair loop driven by the undifferentiated minimum would
+        command deep crouches against lateral deficits it cannot fix. Within 60 degrees of
+        straight up is counted as overhead.
+        """
+        return self.normal_z >= 0.5
 
 
 class G1Body:
@@ -249,7 +264,10 @@ class G1Body:
                 rg, og = g2, g1
             else:
                 continue
-            fc = FrameContact(frame, self.geom_name[rg], self.geom_name[og], float(c.dist))
+            # c.frame[:3] is the contact normal pointing from geom1 to geom2; orient it to
+            # point away from the robot so a positive z means "obstacle above".
+            nz = float(c.frame[2]) * (1.0 if rg == g1 else -1.0)
+            fc = FrameContact(frame, self.geom_name[rg], self.geom_name[og], float(c.dist), nz)
             (floor_c if og in self.floor_geoms else scene_c).append(fc)
         return scene_c, floor_c
 
@@ -263,6 +281,7 @@ class G1Body:
         """
         T = len(qpos_traj)
         min_clear = np.full(T, np.nan)
+        over_clear = np.full(T, np.nan)
         pen = np.zeros(T)
         floor_pen = np.zeros(T)
         culprit: list[str] = [""] * T
@@ -275,6 +294,9 @@ class G1Body:
                 continue
             worst_c = min(scene_c, key=lambda c: c.dist)
             min_clear[t] = worst_c.dist
+            over = [c for c in scene_c if c.overhead]
+            if over:
+                over_clear[t] = min(c.dist for c in over)
             culprit[t] = worst_c.robot_geom
             if worst_c.dist < 0:
                 pen[t] = -worst_c.dist
@@ -295,6 +317,9 @@ class G1Body:
                       "robot_geom": worst[2], "scene_geom": worst[3]},
             "per_frame_min_clearance": np.where(np.isnan(min_clear), CLEARANCE_MARGIN,
                                                 min_clear).tolist(),
+            # The headroom component alone: what a duck schedule is able to act on.
+            "per_frame_overhead_clearance": np.where(np.isnan(over_clear), CLEARANCE_MARGIN,
+                                                     over_clear).tolist(),
             "culprit_geoms": sorted({c for c in culprit if c}),
             "max_foot_floor_penetration_m": float(floor_pen.max()),
             "mean_foot_floor_penetration_m": float(floor_pen.mean()),

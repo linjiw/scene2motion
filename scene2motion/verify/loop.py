@@ -66,6 +66,9 @@ class LoopResult:
     # The command schedule the FINAL attempt was generated from. Cost metrics are charged
     # against this, not against the proposal, so a repaired clip pays for the dip it added.
     q_final: np.ndarray | None = None
+    # The dip schedule (metres) behind EVERY attempt, in order. The demo plots these, so what
+    # the reader sees is what was generated from rather than a reconstruction.
+    dips_m: list = field(default_factory=list)
 
     @property
     def final(self) -> Attempt:
@@ -84,6 +87,7 @@ class LoopResult:
                 "repaired": self.repaired,
                 "n_repairs": len(self.repairs), "target_m": target_m,
                 "attempts": [a.to_dict(target_m) for a in self.attempts],
+                "dips_m": self.dips_m,
                 "repairs": [r.to_dict() for r in self.repairs],
                 "provenance": self.provenance}
 
@@ -156,6 +160,7 @@ def run(scene: Scene, p: Plan, q0: np.ndarray, resp, cache: ClipCache, *,
             res.ardy_calls += 2          # the path reference and the adapted request
         else:
             res.cache_hits += 1
+        res.dips_m.append(np.round(q * DIP_MAX, 4).tolist())
         tr = clearance_trace(scene, g["qpos"], p.xy)
         res.attempts.append(Attempt(iteration=it, schedule_hash=g["schedule_hash"],
                                     source=g["source"], key=g["key"], trace=tr,

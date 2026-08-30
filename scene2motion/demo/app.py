@@ -72,12 +72,102 @@ def api_plan(q: dict) -> dict:
     }
 
 
+def api_auto(q: dict) -> dict:
+    """AUTO: propose, generate, verify against real geometry, repair, decide.
+
+    This is the only layer that reports what the motion ACTUALLY cleared rather than what the
+    schedule asked for. Everything it returns about a repair is derived from a clip that was
+    regenerated from the repaired schedule and reverified -- the attempt list carries each
+    clip's key and the hash of the schedule it came from, so the claim is checkable here and
+    not merely asserted.
+    """
+    import numpy as np
+
+    from ..optim.response import DIP_MAX
+    from ..optim.scheduler import MARGIN_M
+    from ..verify import cost as costmod
+    from ..verify.loop import run as run_loop
+    from .schedules import SPEED, dip_for_layer, response
+
+    params = _params(q)
+    pref = q.get("preference", ["shortest"])[0]
+    if pref not in PREFERENCES:
+        pref = "shortest"
+    allow = q.get("allow_generate", ["1"])[0] != "0"
+    max_repairs = max(0, min(2, int(float(q.get("max_repairs", ["2"])[0]))))
+    scene = build(params)
+    strat = evaluate(scene, pref)
+    if not strat.feasible:
+        return {"ok": False, "reason": "no route under this preference",
+                "refusal": strat.refusal}
+    resp = response()
+    sched = all_schedules(scene, strat.plan, speed=SPEED)
+    dip0 = dip_for_layer(sched, "optimized")
+    if resp is None or dip0 is None:
+        return {"ok": False, "reason": "no Phase-3 schedule available for this scene"}
+
+    s_m = np.asarray(sched["s_m"], float)
+    q0 = np.clip(np.asarray(dip0, float) / DIP_MAX, 0.0, 1.0)
+    with _gen_lock:                      # one GPU job at a time; LUCID shares this device
+        res = run_loop(scene, strat.plan, q0, resp, CACHE, preference=pref,
+                       max_repairs=max_repairs, allow_generate=allow,
+                       provenance={"tcn_dataset_hash": sched.get("tcn_dataset_hash"),
+                                   "tcn_margin_m": sched.get("tcn_margin_m")})
+    if not res.attempts:
+        return {"ok": False, "reason": res.reason or "not cached", "source": "miss"}
+
+    final = res.final
+    anim = renderer.frames(scene, CACHE.get(final.key)[0])
+    d = res.to_dict()
+    # Every schedule the loop actually ran, in metres, on the plot's grid. The first is the
+    # TCN's proposal; each later one is what a repair produced and what was regenerated from.
+    ladder = [{"iteration": a.iteration, "schedule_hash": a.schedule_hash,
+               "clip_key": a.key, "dip_m": d["dips_m"][a.iteration],
+               "collision_free": a.trace.collision_free,
+               "min_overhead_m": round(a.trace.min_overhead_m, 4)}
+              for a in res.attempts]
+    u_final = np.asarray(d["provenance"]["dip_final_m"], float) / DIP_MAX
+    breakdown = costmod.evaluate(u_final, s_m, final.trace.min_overhead_m, pref).to_dict()
+    return {"ok": True, "body_layer": "auto", "anim": anim, "outcome": d["outcome"],
+            "reason": d["reason"], "repaired": d["repaired"], "ardy_calls": d["ardy_calls"],
+            "n_attempts": d["n_attempts"], "cache_hits": d["cache_hits"],
+            "attempts": d["attempts"], "repairs": d["repairs"], "provenance": d["provenance"],
+            "target_m": MARGIN_M, "cache_key": final.key, "schedules_run": ladder,
+            "cost": breakdown, "source": final.source,
+            "validation": _auto_validation(res, MARGIN_M)}
+
+
+def _auto_validation(res, target_m: float) -> dict:
+    """The claims AUTO is allowed to make, each tied to a measured quantity.
+
+    Collision-free and meets-target are separate keys because they are separate facts, and
+    `repaired` is only true when the accepted clip's schedule hash matches the last repair's
+    output -- so the word cannot attach to a pre-repair clip.
+    """
+    tr = res.final.trace
+    return {"kinematic_collision_free": bool(tr.collision_free),
+            "meets_target_margin": not tr.below_margin(target_m),
+            "min_overhead_m": round(tr.min_overhead_m, 4),
+            "min_clearance_m": round(tr.min_clearance_m, 4),
+            "max_deficit_m": round(float(tr.deficit(target_m).max()), 4),
+            "max_lateral_deficit_m": round(float(tr.lateral_deficit(target_m).max()), 4),
+            "goal_error_m": round(tr.goal_error_m, 4),
+            "repaired": res.repaired,
+            "verified_against": "MuJoCo collision geometry, per route position",
+            "sonic_tracked": False,
+            "physics_validated": False,
+            "statement": ("kinematic collision-free" if tr.collision_free
+                          else "kinematic COLLISION") + " · not physics validated"}
+
+
 def api_generate(q: dict) -> dict:
     from .ardy_runner import generate
     params = _params(q)
     pref = q.get("preference", ["shortest"])[0]
     allow = q.get("allow_generate", ["1"])[0] != "0"
     body_layer = q.get("body_layer", ["heuristic"])[0]
+    if body_layer == "auto":
+        return api_auto(q)
     if body_layer not in ("heuristic", "learned", "optimized"):
         body_layer = "heuristic"
     scene = build(params)
@@ -120,7 +210,8 @@ def api_cache(_q: dict) -> dict:
     return CACHE.stats()
 
 
-ROUTES = {"/api/plan": api_plan, "/api/generate": api_generate, "/api/cache": api_cache}
+ROUTES = {"/api/plan": api_plan, "/api/generate": api_generate, "/api/auto": api_auto,
+          "/api/cache": api_cache}
 
 
 # ---------------------------------------------------------------------------------------
@@ -227,6 +318,14 @@ svg{display:block;width:100%;height:auto;background:var(--panel);border:1px soli
 #scrub{flex:1;accent-color:var(--around)}
 .state{font-weight:700;letter-spacing:.06em}
 .hint{color:var(--dim);font-size:11.5px;margin-top:10px}
+details#adv{margin-top:8px} details#adv summary{color:var(--dim);font-size:11.5px;cursor:pointer}
+.tl{display:flex;flex-direction:column;gap:0}
+.tl .step{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--line)}
+.tl .dot{flex:0 0 9px;height:9px;border-radius:50%;margin-top:5px}
+.tl .body{flex:1;font-size:12px;line-height:1.6}
+.tl .body .h{font-weight:600} .tl .body .m{color:var(--dim);font-size:11px}
+.tl code{color:var(--dim);font-size:10.5px}
+.tl .arrow{color:var(--dim);padding:2px 0 2px 19px;font-size:11px}
 </style>
 <header>
   <h1>Route First, Body Next</h1>
@@ -238,7 +337,7 @@ svg{display:block;width:100%;height:auto;background:var(--panel);border:1px soli
     <h2>Scene &amp; routes</h2>
     <div class="controls">
       <div class="ctl">
-        <label>scene</label>
+        <label>beams <b><span id="nbv">1</span></b></label>
         <div class="prefs" id="presets"></div>
       </div>
       <div class="ctl">
@@ -260,6 +359,12 @@ svg{display:block;width:100%;height:auto;background:var(--panel);border:1px soli
       <div class="ctl">
         <label>body layer</label>
         <div class="prefs" id="layers"></div>
+        <details id="adv">
+          <summary>Advanced · compare body layers</summary>
+          <div class="prefs" id="layers2" style="margin-top:8px"></div>
+          <div class="hint">These generate once and report what came back. Only AUTO
+            verifies the result against the scene and repairs it.</div>
+        </details>
       </div>
       <button id="gen">Generate motion</button>
     </div>
@@ -292,16 +397,30 @@ svg{display:block;width:100%;height:auto;background:var(--panel);border:1px soli
     <h2>Planner decision</h2>
     <div class="rows" id="panel"></div>
     <div class="status" id="valid"></div>
+    <div id="repairwrap" hidden>
+      <h2 style="margin-top:20px">Verify &amp; repair</h2>
+      <div id="timeline"></div>
+      <div class="hint" id="repairnote"></div>
+    </div>
+    <div id="costwrap" hidden>
+      <h2 style="margin-top:20px">Route / body cost</h2>
+      <div class="rows" id="cost"></div>
+    </div>
     <h2 style="margin-top:20px">All preferences</h2>
     <div class="rows" id="allprefs"></div>
   </div>
 </div>
 <script>
 const $=s=>document.querySelector(s), PREFS=[["shortest","Shortest Path"],["upright","Stay Upright"],["clearance","Maximum Clearance"]];
-let pref="shortest", layer="heuristic", planData=null, anim=null, playing=false, fi=0, timer=null;
+let pref="shortest", layer="auto", planData=null, anim=null, playing=false, fi=0, timer=null;
+let lastAuto=null;
+// AUTO is the public default: it is the only layer that checks its own output. The three
+// one-shot layers stay available for comparison, behind a disclosure.
+const AUTO_LAYER=[["auto","AUTO — TCN + Verify/Repair"]];
 const LAYERS=[["heuristic","Heuristic"],["learned","Phase-2 Learned"],["optimized","Phase-3 Optimized"]];
-const PRESETS_SCENE=[["single","Single Beam"],["two","Two Beams"]];
-let preset="single";
+const ALL_LAYERS=AUTO_LAYER.concat(LAYERS);
+const PRESETS_SCENE=[["1","1"],["2","2"],["3","3"],["4","4"],["5","5"],["6","6"]];
+let preset="1";
 const SCHED_COLOUR={heuristic:"#9aa3ad",learned:"#7aa2f7",optimizer:"#f0a04b",optimized:"#5bc8af"};
 const SCHED_LABEL={heuristic:"heuristic",learned:"Phase-2 learned",
                    optimizer:"optimizer (teacher)",optimized:"Phase-3 optimized"};
@@ -310,14 +429,20 @@ PREFS.forEach(([k,l])=>{const b=document.createElement("button");b.textContent=l
   b.onclick=()=>{pref=k;syncPrefs();refresh();};$("#prefs").appendChild(b);});
 function syncPrefs(){[...$("#prefs").children].forEach(b=>b.setAttribute("aria-pressed",b.dataset.k===pref));}
 syncPrefs();
-LAYERS.forEach(([k,l])=>{const b=document.createElement("button");b.textContent=l;b.dataset.k=k;
-  b.onclick=()=>{layer=k;syncLayers();if(planData)drawSched(planData.schedules);};$("#layers").appendChild(b);});
-function syncLayers(){[...$("#layers").children].forEach(b=>b.setAttribute("aria-pressed",b.dataset.k===layer));}
+function addLayer(host,k,l){const b=document.createElement("button");b.textContent=l;b.dataset.k=k;
+  b.onclick=()=>{layer=k;lastAuto=null;syncLayers();showAuto(null);if(planData)drawSched(planData.schedules);};
+  $(host).appendChild(b);}
+AUTO_LAYER.forEach(([k,l])=>addLayer("#layers",k,l));
+LAYERS.forEach(([k,l])=>addLayer("#layers2",k,l));
+function syncLayers(){[...$("#layers").children,...$("#layers2").children]
+  .forEach(b=>b.setAttribute("aria-pressed",b.dataset.k===layer));
+  $("#adv").open = layer!=="auto";}
 syncLayers();
 PRESETS_SCENE.forEach(([k,l])=>{const b=document.createElement("button");b.textContent=l;b.dataset.k=k;
   b.onclick=()=>{preset=k;syncPreset();refresh();};$("#presets").appendChild(b);});
 function syncPreset(){[...$("#presets").children].forEach(b=>b.setAttribute("aria-pressed",b.dataset.k===preset));
-  $("#gapctl").hidden = preset!=="two";}
+  $("#gapctl").hidden = preset==="1"; $("#nbv").textContent=preset;}
+function nBeams(){return +preset;}
 syncPreset();
 
 const fmt=(v,u="",d=2)=>v==null?"—":(typeof v==="number"?v.toFixed(d):v)+u;
@@ -406,6 +531,17 @@ function drawSched(sc){
   for(let d=0; d<=L; d+=2)
     s+=`<text x="${sx(d)}" y="${H-8}" text-anchor="middle" fill="#9aa3ad" font-size="10">${d}</text>`;
   s+=`<text x="${W-padR}" y="${H-8}" text-anchor="end" fill="#9aa3ad" font-size="10">route distance (m)</text>`;
+  // The schedules AUTO actually generated from, drawn over the proposals. Iteration 0 is
+  // the TCN's proposal; each later line is what a repair produced and was regenerated from.
+  if(lastAuto&&lastAuto.schedules_run){
+    lastAuto.schedules_run.forEach((run,i)=>{
+      const d=run.dip_m.map((y,j)=>(j?"L":"M")+sx(S[j]).toFixed(1)+" "+sy(y).toFixed(1)).join(" ");
+      const col=run.collision_free?"#5bc8af":"#e0574f";
+      s+=`<path d="${d}" fill="none" stroke="${col}" stroke-width="${i===lastAuto.schedules_run.length-1?3:1.6}"`
+        +` opacity="${i===lastAuto.schedules_run.length-1?1:.55}"`
+        +` ${i?"":'stroke-dasharray="4 3"'}/>`;
+    });
+  }
   const order=["optimizer","heuristic","learned","optimized"];
   for(const k of order){
     const v=sc.schedules[k]; if(!v) continue;
@@ -415,14 +551,64 @@ function drawSched(sc){
     s+=`<path d="${d}" fill="none" stroke="${SCHED_COLOUR[k]}" stroke-width="${sel?2.6:1.3}" opacity="${sel?1:.65}" ${dash}/>`;
   }
   svg.innerHTML=s;
-  $("#schedlegend").innerHTML=order.filter(k=>sc.schedules[k]).map(k=>
-    `<span><i style="background:${SCHED_COLOUR[k]}"></i>${SCHED_LABEL[k]}${k===layer?" (selected)":""}</span>`).join("");
+  let leg = order.filter(k=>sc.schedules[k]).map(k=>
+    `<span><i style="background:${SCHED_COLOUR[k]}"></i>${SCHED_LABEL[k]}${k===layer?" (selected)":""}</span>`);
+  if(lastAuto&&lastAuto.schedules_run) leg = lastAuto.schedules_run.map(r=>
+    `<span><i style="background:${r.collision_free?"#5bc8af":"#e0574f"}"></i>`
+    +`${r.iteration?`repair ${r.iteration}`:"TCN proposal"} · ${(r.min_overhead_m*100).toFixed(1)} cm`
+    +`${r.collision_free?"":" · COLLISION"}</span>`).concat(leg);
+  $("#schedlegend").innerHTML=leg.join("");
+}
+
+// ---- verify / repair timeline -------------------------------------------------------
+// One row per ARDY call, each stating what came back and what was done about it. A row that
+// says "repaired" names the clip key it produced, so the claim points at bytes.
+function showAuto(d){
+  lastAuto=d;
+  $("#repairwrap").hidden = !d; $("#costwrap").hidden = !d;
+  if(!d) return;
+  const T=d.target_m, steps=[];
+  d.attempts.forEach((a,i)=>{
+    const ok=a.collision_free&&a.meets_target;
+    const col=a.collision_free?(a.meets_target?"var(--ok)":"#f0a04b"):"var(--warn)";
+    const verdict = !a.collision_free ? "COLLISION"
+        : (a.meets_target ? `meets the ${(T*100).toFixed(0)} cm target` : `short of target`);
+    steps.push(`<div class="step"><div class="dot" style="background:${col}"></div><div class="body">
+      <div class="h">${i?`Attempt ${i} — repaired schedule`:"Attempt 0 — TCN proposal"}</div>
+      <div>${verdict} · headroom <b>${(a.min_overhead_m*100).toFixed(1)} cm</b>
+        ${a.max_deficit_m>0?`· deficit ${(a.max_deficit_m*1000).toFixed(0)} mm`:""}</div>
+      <div class="m">peak dip ${(a.peak_dip_m*100).toFixed(1)} cm · ${a.source}</div>
+      <code>schedule ${a.schedule_hash} → clip ${a.clip_key}</code></div></div>`);
+    const r=d.repairs[i];
+    if(r) steps.push(`<div class="arrow">↓ repair ${r.iteration}: +${(r.repair_magnitude_m*100).toFixed(1)} cm dip,
+      starts ${Math.abs(r.onset_shift_m*100).toFixed(0)} cm ${r.onset_shift_m<=0?"earlier":"later"},
+      held ${(r.duration_change_m*100).toFixed(0)} cm longer${r.slope_floor_bound?" · gain floor bound":""}</div>`);
+  });
+  $("#timeline").innerHTML=`<div class="tl">${steps.join("")}</div>`;
+  $("#repairnote").innerHTML = d.repaired
+    ? `The clip shown was regenerated from the repaired schedule
+       <code>${d.provenance.final_schedule_hash}</code> and reverified independently. It is not
+       the proposal clip <code>${d.provenance.initial_schedule_hash}</code>.`
+    : `No repair was applied — the proposal verified on the first attempt.
+       ${d.ardy_calls} ARDY calls.`;
+  const c=d.cost;
+  rows($("#cost"),[
+    ["route length",`${c.route_len_m.toFixed(2)} m`],
+    ["body effort ∫u²",c.j_effort.toFixed(3)],
+    ["body rate ∫(du/ds)²",c.j_rate.toFixed(3)],
+    ["body smoothness ∫(d²u/ds²)²",c.j_smooth.toFixed(3)],
+    ["J_body",c.j_body.toFixed(2)],
+    ["worst headroom C_min",`${(c.c_min_m*100).toFixed(1)} cm`],
+    ["weights",`w_L ${c.weights.w_L} · w_B ${c.weights.w_B} · w_C ${c.weights.w_C}`],
+    ["J = w_L·L + w_B·J_body − w_C·C_min",
+     `${c.w_route_term.toFixed(1)} + ${c.w_body_term.toFixed(1)} − ${(-c.w_clear_term).toFixed(2)} = <b>${c.total.toFixed(1)}</b>`],
+  ]);
 }
 
 // ---- data -------------------------------------------------------------------------
 async function refresh(){
   const h=$("#h").value,w=$("#w").value,g=$("#g").value;
-  const nb = preset==="two"?2:1;
+  const nb = nBeams();
   $("#hv").textContent=(+h).toFixed(2); $("#wv").textContent=(+w).toFixed(2);
   $("#gv").textContent=(+g).toFixed(2);
   const r=await fetch(`/api/plan?height=${h}&width=${w}&n_beams=${nb}&gap=${g}&preference=${pref}`);
@@ -448,7 +634,7 @@ async function refresh(){
     [v.label,`${v.feasible?fmt(v.path_length_m," m"):"refused"} · ${v.goes_under_beam?"under":"around"}`]));
   $("#valid").innerHTML=`<b>Motion not generated yet.</b><br>Plan is geometric only —
      press <b>Generate motion</b> to run the frozen prior and collision-check the result.`;
-  anim=null; $("#scrub").max=0; $("#statebadge").innerHTML=""; paint();
+  anim=null; $("#scrub").max=0; $("#statebadge").innerHTML=""; showAuto(null); paint();
   fetch("/api/cache").then(r=>r.json()).then(c=>{$("#cachestat").textContent=`cache: ${c.n_entries} clips`;});
 }
 $("#h").oninput=refresh; $("#w").oninput=refresh; $("#g").oninput=refresh;
@@ -460,8 +646,8 @@ function applyURL(){
   if(q.has("height")) $("#h").value=q.get("height");
   if(q.has("width"))  $("#w").value=q.get("width");
   if(q.has("preference")&&PREFS.some(([k])=>k===q.get("preference"))) pref=q.get("preference");
-  if(q.has("body_layer")&&LAYERS.some(([k])=>k===q.get("body_layer"))) layer=q.get("body_layer");
-  if(q.has("n_beams")) preset = q.get("n_beams")==="2" ? "two" : "single";
+  if(q.has("body_layer")&&ALL_LAYERS.some(([k])=>k===q.get("body_layer"))) layer=q.get("body_layer");
+  if(q.has("n_beams")){const n=Math.max(1,Math.min(6,+q.get("n_beams")||1)); preset=String(n);}
   if(q.has("gap")) $("#g").value=q.get("gap");
   syncPrefs(); syncLayers(); syncPreset();
   return {auto:q.get("auto")==="1", frame:q.has("frame")?+q.get("frame"):null};
@@ -471,16 +657,42 @@ $("#gen").onclick=async()=>{
   const b=$("#gen"); b.disabled=true; b.textContent="Generating…";
   try{
     const h=$("#h").value,w=$("#w").value;
-    const nb=preset==="two"?2:1, g=$("#g").value;
+    const nb=nBeams(), g=$("#g").value;
     const r=await fetch(`/api/generate?height=${h}&width=${w}&n_beams=${nb}&gap=${g}&preference=${pref}&body_layer=${layer}`);
     const d=await r.json();
-    if(!d.ok){$("#valid").innerHTML=`<span class="badge b-warn">no motion</span> ${d.reason}`;}
+    if(!d.ok){$("#valid").innerHTML=`<span class="badge b-warn">no motion</span> ${d.reason}`;
+              showAuto(null);}
+    else if(d.body_layer==="auto"){
+      anim=d.anim; fi=0; $("#scrub").max=anim.frames.length-1; $("#scrub").value=0;
+      const v=d.validation;
+      // Three separate claims, never merged: it did not collide, it did or did not leave the
+      // margin that was asked for, and nothing here has been physically validated.
+      $("#valid").innerHTML=
+        `<span class="badge ${v.kinematic_collision_free?"b-ok":"b-warn"}">`+
+        `${v.kinematic_collision_free?"kinematic collision-free":"KINEMATIC COLLISION"}</span>
+         <span class="badge ${v.meets_target_margin?"b-ok":"b-mute"}">`+
+        `${v.meets_target_margin?`meets ${(d.target_m*100).toFixed(0)} cm target`:`below ${(d.target_m*100).toFixed(0)} cm target`}</span>
+         <span class="badge b-mute">not physics validated</span><br>
+         <b>${d.outcome}</b> — ${d.reason}<br>
+         headroom ${fmt(v.min_overhead_m," m")} · nearest anything ${fmt(v.min_clearance_m," m")} ·
+         goal error ${fmt(v.goal_error_m," m")}<br>
+         ${v.max_lateral_deficit_m>0?`<span style="opacity:.75">lateral clearance is
+           ${(v.max_lateral_deficit_m*1000).toFixed(0)} mm inside the target — a route question,
+           not something a duck can fix.</span><br>`:""}
+         ${d.ardy_calls} ARDY calls over ${d.n_attempts} attempt${d.n_attempts>1?"s":""}
+         (${d.cache_hits} served from cache)<br>
+         <span style="opacity:.7">clip ${d.cache_key} · verified against ${v.verified_against}</span><br>
+         SONIC tracked: <b>no</b> — tracking is a separate offline stage.`;
+      showAuto(d); drawSched(planData&&planData.schedules); paint();
+    }
     else{
       anim=d.anim; fi=0; $("#scrub").max=anim.frames.length-1; $("#scrub").value=0;
+      showAuto(null);
       const v=d.validation, c=d.clip;
       $("#valid").innerHTML=
         `<span class="badge ${v.kinematic_collision_free?"b-ok":"b-warn"}">`+
         `${v.kinematic_collision_free?"kinematic collision-free":"KINEMATIC COLLISION"}</span>
+         <span class="badge b-mute">not verified against the target margin</span>
          <span class="badge b-mute">not physics validated</span><br>
          min clearance ${fmt(v.min_clearance_m," m")} · goal error ${fmt(v.goal_error_m," m")}<br>
          body layer <b>${d.body_layer}</b> · source <b>${d.source}</b> · ${c.n_frames} frames @ ${c.fps} fps · ${c.steps} steps

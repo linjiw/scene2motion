@@ -320,3 +320,52 @@ def test_g1body_reports_the_overhead_channel():
     o = np.asarray(rep["per_frame_overhead_clearance"])
     t = np.asarray(rep["per_frame_min_clearance"])
     assert (o >= t - 1e-9).all(), "overhead is a subset minimum, so never below the total"
+
+
+# -- route / body cost decomposition ----------------------------------------------------
+
+def test_body_cost_terms_separate_effort_from_shape():
+    from scene2motion.verify.cost import body_cost
+    s = np.linspace(0, 8, N)
+    flat = np.full(N, 0.4)
+    e, r, sm = body_cost(flat, s)
+    assert e == pytest.approx(0.16 * 8, rel=1e-6), "a held command is pure effort"
+    assert r == pytest.approx(0.0, abs=1e-9) and sm == pytest.approx(0.0, abs=1e-9)
+
+    wiggly = 0.4 + 0.05 * np.sin(np.linspace(0, 20 * np.pi, N))
+    e2, r2, sm2 = body_cost(wiggly, s)
+    assert r2 > r and sm2 > sm, "the same mean effort, spent worse, must cost more"
+
+
+def test_body_cost_is_per_distance_not_per_sample():
+    """The same manoeuvre must not get cheaper by sitting on a longer route."""
+    from scene2motion.verify.cost import body_cost
+    u = np.zeros(N); u[28:36] = 0.4
+    short = body_cost(u, np.linspace(0, 8, N))
+    long_ = body_cost(u, np.linspace(0, 8, N) * 1.0)
+    assert short == long_
+    # Stretching the SAME shape over twice the distance makes it genuinely gentler.
+    stretched = body_cost(u, np.linspace(0, 16, N))
+    assert stretched[1] < short[1] and stretched[2] < short[2]
+
+
+def test_preferences_are_weight_configurations_not_route_rules():
+    """'Stay upright' must be a price on body effort, not a ban on ducking."""
+    from scene2motion.verify.cost import WEIGHTS, evaluate
+    s = np.linspace(0, 8, N)
+    duck = np.zeros(N); duck[28:36] = 0.5
+    assert WEIGHTS["upright"]["w_B"] > WEIGHTS["shortest"]["w_B"]
+    assert WEIGHTS["clearance"]["w_C"] > WEIGHTS["shortest"]["w_C"]
+    up = evaluate(duck, s, 0.2, "upright")
+    sh = evaluate(duck, s, 0.2, "shortest")
+    # Same route, same schedule: upright charges more for the crouch, shortest for the metres.
+    assert up.total != sh.total
+    assert up.to_dict()["w_body_term"] > sh.to_dict()["w_body_term"]
+    assert sh.to_dict()["w_route_term"] > up.to_dict()["w_route_term"]
+
+
+def test_cost_total_is_the_sum_of_its_reported_terms():
+    from scene2motion.verify.cost import evaluate
+    d = evaluate(np.linspace(0, 0.5, N), np.linspace(0, 8, N), 0.19, "balanced").to_dict()
+    assert (d["w_route_term"] + d["w_body_term"] + d["w_clear_term"]
+            == pytest.approx(d["total"], abs=1e-6))

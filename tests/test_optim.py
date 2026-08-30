@@ -143,3 +143,74 @@ def test_optimiser_is_deterministic():
     a = solve(beam_profile(), r, dt)
     b = solve(beam_profile(), r, dt)
     assert np.array_equal(a.q, b.q) and a.objective == b.objective
+
+
+# -- Phase 4C: measured command-rate bounds and a dimensioned objective ------------------
+
+def test_rate_bounds_are_respected_when_they_bind():
+    """A bound tight enough to matter must actually constrain the solution."""
+    import numpy as np
+    from pathlib import Path
+    from scene2motion.optim.response import DuckResponse
+    from scene2motion.optim.scheduler import solve
+    p = Path("outputs/duck_response/response.json")
+    if not p.exists():
+        import pytest; pytest.skip("no fitted response")
+    resp = DuckResponse.load(p)
+    c = np.full(64, 2.6); c[28:36] = 1.05
+    dt = 0.25
+    tight = 0.02                       # command units per second: far below anything measured
+    s = solve(c, resp, dt, rate_bounds=(tight, tight))
+    if s.feasible:
+        d = np.diff(s.q)
+        assert d.max() <= tight * dt + 1e-4, f"descent step {d.max():.5f} exceeds the bound"
+        assert d.min() >= -tight * dt - 1e-4, f"recovery step {d.min():.5f} exceeds the bound"
+
+
+def test_measured_rate_bounds_do_not_bind_at_planning_resolution():
+    """The Phase 4C finding, as a regression guard.
+
+    r_down and r_up are ~1.3 command units per second, and at dt ~ 0.25 s that allows a step
+    of ~0.32. The smoothness terms already hold every step near 0.11, so the constraint is
+    slack everywhere. If this ever starts binding, the weights or the resolution have moved
+    and the 'rate bounds change nothing' conclusion needs rechecking.
+    """
+    import json
+    import numpy as np
+    from pathlib import Path
+    from scene2motion.optim.response import DuckResponse
+    from scene2motion.optim.scheduler import solve
+    rp, cp = Path("outputs/duck_rates/rates.json"), Path("outputs/duck_response/response.json")
+    if not (rp.exists() and cp.exists()):
+        import pytest; pytest.skip("rates or response not fitted")
+    r = json.loads(rp.read_text())
+    resp = DuckResponse.load(cp)
+    c = np.full(64, 2.6); c[28:36] = 1.05
+    dt = 0.25
+    free = solve(c, resp, dt)
+    bounded = solve(c, resp, dt, rate_bounds=(r["r_down"], r["r_up"]))
+    assert free.feasible and bounded.feasible
+    d = np.diff(free.q)
+    assert d.max() < r["r_down"] * dt, "the unconstrained solution already respects the bound"
+    assert -d.min() < r["r_up"] * dt
+    assert np.allclose(free.q, bounded.q, atol=1e-4), "so adding the bound must change nothing"
+
+
+def test_dimensioned_objective_drops_the_jerk_term():
+    """The 1/dt^3 factor that swamped Phase 3's time-weighted flag has no term to attach to."""
+    import numpy as np
+    from pathlib import Path
+    from scene2motion.optim.response import DuckResponse
+    from scene2motion.optim.scheduler import solve
+    p = Path("outputs/duck_response/response.json")
+    if not p.exists():
+        import pytest; pytest.skip("no fitted response")
+    resp = DuckResponse.load(p)
+    c = np.full(64, 2.6); c[28:36] = 1.05
+    s = solve(c, resp, 0.25, dimensioned=True)
+    assert s.feasible and s.weights["dimensioned"] is True
+    assert np.isfinite(s.objective) and s.q.max() <= 1.0 and s.q.min() >= 0.0
+    # Halving dt must not blow the objective up by ~8x the way a 1/dt^3 term would.
+    a = solve(c, resp, 0.25, dimensioned=True).objective
+    b = solve(c, resp, 0.125, dimensioned=True).objective
+    assert b < 40 * a, f"objective grew {b/a:.1f}x when dt halved"

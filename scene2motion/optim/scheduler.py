@@ -83,7 +83,9 @@ def _diff_matrices(n: int) -> tuple[np.ndarray, np.ndarray]:
 def solve(clearance: np.ndarray, resp: DuckResponse, dt: float,
           margin_m: float = MARGIN_M, w_effort: float = W_EFFORT,
           w_d1: float = W_D1, w_d2: float = W_D2,
-          tau: float | None = None, time_weighted: bool = False) -> Schedule:
+          tau: float | None = None, time_weighted: bool = False,
+          rate_bounds: tuple[float, float] | None = None,
+          dimensioned: bool = False) -> Schedule:
     """Optimal commanded duck schedule for a clearance profile.
 
     `time_weighted` makes the objective a genuine time integral rather than a per-sample sum,
@@ -112,7 +114,8 @@ def solve(clearance: np.ndarray, resp: DuckResponse, dt: float,
     n = len(c)
     tau = resp.tau_s if tau is None else tau
     weights = {"w_effort": w_effort, "w_d1": w_d1, "w_d2": w_d2,
-               "time_weighted": time_weighted, "dt": dt}
+               "time_weighted": time_weighted, "dimensioned": dimensioned,
+               "rate_bounds": rate_bounds, "dt": dt}
 
     need = c - margin_m
     # Refuse rather than saturate: a beam below the deepest reachable crouch is not a scene
@@ -127,7 +130,10 @@ def solve(clearance: np.ndarray, resp: DuckResponse, dt: float,
     z_req = resp.g_inv(need)
     L = lag_matrix(n, dt, tau)
     D1, D2 = _diff_matrices(n)
-    if time_weighted:
+    if dimensioned:
+        # alpha*q^2*dt + beta*((dq)/dt)^2*dt = alpha*dt*q^2 + beta/dt * (dq)^2. No jerk term.
+        we, k1, k2 = w_effort * dt, w_d1 / dt, 0.0
+    elif time_weighted:
         we, k1, k2 = w_effort * dt, w_d1 / dt, w_d2 / (dt ** 3)
     else:
         we, k1, k2 = w_effort, w_d1, w_d2
@@ -140,6 +146,15 @@ def solve(clearance: np.ndarray, resp: DuckResponse, dt: float,
         return 2.0 * (H @ q)
 
     cons = [{"type": "ineq", "fun": lambda q: L @ q - z_req, "jac": lambda q: L}]
+    if rate_bounds is not None:
+        r_down, r_up = float(rate_bounds[0]), float(rate_bounds[1])
+        # D1 @ q is exactly q[i+1]-q[i], one row per adjacent pair. Descent is bounded above
+        # by r_down*dt and recovery below by -r_up*dt, both per sample of duration dt.
+        Dr = D1
+        cons += [{"type": "ineq", "fun": lambda q: r_down * dt - Dr @ q,
+                  "jac": lambda q: -Dr},
+                 {"type": "ineq", "fun": lambda q: Dr @ q + r_up * dt,
+                  "jac": lambda q: Dr}]
     q0 = np.clip(z_req, 0.0, 1.0)
     r = minimize(f, q0, jac=fp, bounds=[(0.0, 1.0)] * n, constraints=cons,
                  method="SLSQP", options={"maxiter": 300, "ftol": 1e-10})

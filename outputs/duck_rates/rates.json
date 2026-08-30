@@ -1,0 +1,15 @@
+{
+  "generated_at": 1788049856.0558126,
+  "n_clips": 483,
+  "n_skipped": 0,
+  "quantile": 0.95,
+  "min_rate_floor": 0.02,
+  "r_down": 1.2929,
+  "r_up": 1.3633,
+  "r_down_median": 0.1766,
+  "r_up_median": 0.1669,
+  "r_down_max": 5.2932,
+  "r_up_max": 9.3046,
+  "n_down_samples": 59671,
+  "n_up_samples": 57982
+}

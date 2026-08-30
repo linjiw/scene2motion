@@ -369,3 +369,76 @@ def test_cost_total_is_the_sum_of_its_reported_terms():
     d = evaluate(np.linspace(0, 0.5, N), np.linspace(0, 8, N), 0.19, "balanced").to_dict()
     assert (d["w_route_term"] + d["w_body_term"] + d["w_clear_term"]
             == pytest.approx(d["total"], abs=1e-6))
+
+
+# -- candidate routes and coupled selection ---------------------------------------------
+
+def test_candidates_are_distinct_and_deterministic():
+    from scene2motion.verify.routes import candidates
+    sc = build(BeamParams(0.95, 1.45, 3, 3.0).clamped())
+    a1 = candidates(sc, k=8)
+    a2 = candidates(sc, k=8)
+    assert len(a1) >= 2, "a scene with a bypass must offer more than one traversal"
+    assert [r.label for r in a1] == [r.label for r in a2], "must be reproducible"
+    paths = {np.round(r.xy, 3).tobytes() for r in a1}
+    assert len(paths) == len(a1), "duplicates must be dropped, not counted"
+    assert all(r.plan.feasible for r in a1)
+
+
+def test_slot_constraint_actually_moves_the_route():
+    """A narrow forbidden band left A* free to route around it; a slot must not."""
+    from scene2motion.verify.routes import SLOT_HALF, candidates
+    sc = build(BeamParams(0.95, 1.45, 3, 3.0).clamped())
+    rs = candidates(sc, k=8)
+    slotted = [r for r in rs if r.lateral_y is not None]
+    assert slotted, "slot candidates must survive"
+    for r in slotted:
+        mid = r.xy[len(r.xy) // 2, 1]
+        assert abs(mid - r.lateral_y) <= SLOT_HALF + 0.2, \
+            f"{r.label} crosses at y={mid:.2f}, outside its slot at {r.lateral_y:+.2f}"
+
+
+def test_route_length_alone_disagrees_with_the_body_aware_choice(resp):
+    """The Phase 4B premise: a shorter route can be much more expensive to hold."""
+    from scene2motion.verify.routes import candidates
+    from scene2motion.verify.select import load_tcn, pick, regret, score_all
+    model = load_tcn()
+    if model is None:
+        pytest.skip("no m018 checkpoint")
+    sc = build(BeamParams(0.95, 1.45, 3, 3.0).clamped())
+    S = score_all(sc, candidates(sc, k=8), resp, model, "balanced")
+    i_len, i_oracle = pick(S, "heuristic"), pick(S, "oracle_qp")
+    assert i_len != i_oracle, "this scene is chosen because the two rules differ on it"
+    assert S[i_len].s_m[-1] < S[i_oracle].s_m[-1], "the length rule picked the shorter route"
+    assert S[i_len].u_qp.max() > S[i_oracle].u_qp.max(), "and it costs a deeper crouch"
+    assert regret(S, i_oracle) == pytest.approx(0.0) and regret(S, i_len) > 0
+
+
+def test_regret_is_zero_exactly_for_the_oracles_own_pick(resp):
+    from scene2motion.verify.routes import candidates
+    from scene2motion.verify.select import load_tcn, pick, ranking, regret, score_all
+    model = load_tcn()
+    if model is None:
+        pytest.skip("no m018 checkpoint")
+    sc = build(BeamParams(1.05, 2.25, 4, 2.5).clamped())
+    S = score_all(sc, candidates(sc, k=8), resp, model, "balanced")
+    assert regret(S, pick(S, "oracle_qp")) == pytest.approx(0.0, abs=1e-9)
+    assert all(regret(S, i) >= -1e-9 for i in range(len(S))), "regret is never negative"
+    order = ranking(S, "oracle_qp")
+    assert order[0] == pick(S, "oracle_qp"), "the ranking must head with the pick"
+    assert len(set(order)) == len(S), "a fallback order must cover every candidate once"
+
+
+def test_batched_tcn_matches_one_route_at_a_time(resp):
+    """Batching is only a latency claim if it changes nothing about the answer."""
+    from scene2motion.verify.routes import candidates
+    from scene2motion.verify.select import load_tcn, tcn_schedules
+    model = load_tcn()
+    if model is None:
+        pytest.skip("no m018 checkpoint")
+    sc = build(BeamParams(1.05, 2.25, 4, 2.5).clamped())
+    rs = candidates(sc, k=8)
+    batched = tcn_schedules(sc, rs, resp, model)
+    singly = [tcn_schedules(sc, [r], resp, model)[0] for r in rs]
+    for b, s in zip(batched, singly):
+        assert np.allclose(b, s, atol=1e-5)

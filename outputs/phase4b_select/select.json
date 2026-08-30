@@ -1,0 +1,3063 @@
+{
+  "generated_at": 1788049733.6815445,
+  "elapsed_s": 264.3,
+  "preference": "balanced",
+  "k_candidates": 8,
+  "target_m": 0.18,
+  "summary": {
+    "oracle_qp": {
+      "n": 36,
+      "agreement_with_oracle": 1.0,
+      "mean_regret": 0.0,
+      "max_regret": 0.0,
+      "median_regret": 0.0
+    },
+    "heuristic": {
+      "n": 36,
+      "agreement_with_oracle": 0.1389,
+      "mean_regret": 33.7072,
+      "max_regret": 223.0992,
+      "median_regret": 13.7372
+    },
+    "tcn_body": {
+      "n": 36,
+      "agreement_with_oracle": 0.6111,
+      "mean_regret": 2.7024,
+      "max_regret": 25.8357,
+      "median_regret": 0.0
+    },
+    "tcn_verify": {
+      "n": 36,
+      "agreement_with_oracle": 0.6111,
+      "mean_regret": 2.7024,
+      "max_regret": 25.8357,
+      "median_regret": 0.0,
+      "fallback_rate": 0.0,
+      "mean_ardy_calls": 3.67,
+      "collision_free_rate": 1.0,
+      "margin_satisfaction_rate": 0.6944,
+      "repaired_rate": 0.5278
+    }
+  },
+  "latency": [
+    {
+      "k": 8,
+      "n_distinct_routes": 3,
+      "tcn_batched_ms": 60.51,
+      "qp_sequential_ms": 2015.46,
+      "tcn_ms_per_route": 7.564,
+      "qp_ms_per_route": 251.933,
+      "speedup": 33.3
+    },
+    {
+      "k": 32,
+      "n_distinct_routes": 3,
+      "tcn_batched_ms": 60.7,
+      "qp_sequential_ms": 8930.08,
+      "tcn_ms_per_route": 1.897,
+      "qp_ms_per_route": 279.065,
+      "speedup": 147.1
+    },
+    {
+      "k": 128,
+      "n_distinct_routes": 3,
+      "tcn_batched_ms": 61.62,
+      "qp_sequential_ms": 39981.49,
+      "tcn_ms_per_route": 0.481,
+      "qp_ms_per_route": 312.355,
+      "speedup": 648.8
+    }
+  ],
+  "n_scenes": 36,
+  "n_skipped": 0,
+  "rows": [
+    {
+      "scene_id": "demo_partial_beam_h0.950_w1.450",
+      "n_beams": 1,
+      "beam_h": 0.95,
+      "beam_w": 1.45,
+      "gap": 2.5,
+      "n_routes": 3,
+      "routes": [
+        {
+          "label": "any:free",
+          "len_m": 8.497,
+          "c_pred_m": 1.3217,
+          "peak_qp_m": 0.0,
+          "peak_tcn_m": 0.0351,
+          "j_qp": 7.175,
+          "j_tcn": 33.709
+        },
+        {
+          "label": "any:slot_y+0.25",
+          "len_m": 8.0,
+          "c_pred_m": 0.1709,
+          "peak_qp_m": 0.4245,
+          "peak_tcn_m": 0.4263,
+          "j_qp": 230.275,
+          "j_tcn": 223.135
+        },
+        {
+          "label": "any:slot_y+0.75",
+          "len_m": 8.249,
+          "c_pred_m": 0.1717,
+          "peak_qp_m": 0.4232,
+          "peak_tcn_m": 0.4299,
+          "j_qp": 214.486,
+          "j_tcn": 274.382
+        }
+      ],
+      "picks": {
+        "oracle_qp": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": true,
+          "regret": 0.0
+        },
+        "heuristic": {
+          "index": 1,
+          "label": "any:slot_y+0.25",
+          "agrees_with_oracle": false,
+          "regret": 223.0992
+        },
+        "tcn_body": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": true,
+          "regret": 0.0
+        },
+        "tcn_verify": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": true,
+          "regret": 0.0,
+          "fell_back": false,
+          "tried": [
+            {
+              "index": 0,
+              "label": "any:free",
+              "outcome": "accepted",
+              "repaired": false,
+              "ardy_calls": 2,
+              "min_overhead_m": 0.2591
+            }
+          ],
+          "ardy_calls": 2
+        }
+      },
+      "verified": {
+        "outcome": "accepted",
+        "repaired": false,
+        "collision_free": true,
+        "meets_target": true,
+        "min_overhead_m": 0.2591,
+        "goal_error_m": 0.05
+      }
+    },
+    {
+      "scene_id": "demo_partial_beam_h0.950_w2.250",
+      "n_beams": 1,
+      "beam_h": 0.95,
+      "beam_w": 2.25,
+      "gap": 2.5,
+      "n_routes": 3,
+      "routes": [
+        {
+          "label": "any:free",
+          "len_m": 8.0,
+          "c_pred_m": 0.1709,
+          "peak_qp_m": 0.4245,
+          "peak_tcn_m": 0.4263,
+          "j_qp": 230.275,
+          "j_tcn": 223.135
+        },
+        {
+          "label": "any:slot_y-0.75",
+          "len_m": 8.29,
+          "c_pred_m": 0.1718,
+          "peak_qp_m": 0.423,
+          "peak_tcn_m": 0.4662,
+          "j_qp": 212.009,
+          "j_tcn": 449.262
+        },
+        {
+          "label": "any:slot_y+0.75",
+          "len_m": 8.249,
+          "c_pred_m": 0.1717,
+          "peak_qp_m": 0.4232,
+          "peak_tcn_m": 0.4299,
+          "j_qp": 214.486,
+          "j_tcn": 274.382
+        }
+      ],
+      "picks": {
+        "oracle_qp": {
+          "index": 1,
+          "label": "any:slot_y-0.75",
+          "agrees_with_oracle": true,
+          "regret": 0.0
+        },
+        "heuristic": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": false,
+          "regret": 18.2656
+        },
+        "tcn_body": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": false,
+          "regret": 18.2656
+        },
+        "tcn_verify": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": false,
+          "regret": 18.2656,
+          "fell_back": false,
+          "tried": [
+            {
+              "index": 0,
+              "label": "any:free",
+              "outcome": "accepted_margin",
+              "repaired": true,
+              "ardy_calls": 6,
+              "min_overhead_m": 0.18
+            }
+          ],
+          "ardy_calls": 6
+        }
+      },
+      "verified": {
+        "outcome": "accepted_margin",
+        "repaired": true,
+        "collision_free": true,
+        "meets_target": false,
+        "min_overhead_m": 0.18,
+        "goal_error_m": 0.0201
+      }
+    },
+    {
+      "scene_id": "demo_partial_beam_h1.050_w1.450",
+      "n_beams": 1,
+      "beam_h": 1.05,
+      "beam_w": 1.45,
+      "gap": 2.5,
+      "n_routes": 3,
+      "routes": [
+        {
+          "label": "any:free",
+          "len_m": 8.497,
+          "c_pred_m": 1.3217,
+          "peak_qp_m": 0.0,
+          "peak_tcn_m": 0.0351,
+          "j_qp": 7.175,
+          "j_tcn": 33.402
+        },
+        {
+          "label": "any:slot_y+0.25",
+          "len_m": 8.0,
+          "c_pred_m": 0.1757,
+          "peak_qp_m": 0.2588,
+          "peak_tcn_m": 0.2595,
+          "j_qp": 90.495,
+          "j_tcn": 85.662
+        },
+        {
+          "label": "any:slot_y+0.75",
+          "len_m": 8.249,
+          "c_pred_m": 0.1761,
+          "peak_qp_m": 0.258,
+          "peak_tcn_m": 0.2602,
+          "j_qp": 84.783,
+          "j_tcn": 156.305
+        }
+      ],
+      "picks": {
+        "oracle_qp": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": true,
+          "regret": 0.0
+        },
+        "heuristic": {
+          "index": 1,
+          "label": "any:slot_y+0.25",
+          "agrees_with_oracle": false,
+          "regret": 83.3193
+        },
+        "tcn_body": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": true,
+          "regret": 0.0
+        },
+        "tcn_verify": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": true,
+          "regret": 0.0,
+          "fell_back": false,
+          "tried": [
+            {
+              "index": 0,
+              "label": "any:free",
+              "outcome": "accepted",
+              "repaired": false,
+              "ardy_calls": 2,
+              "min_overhead_m": 0.1943
+            }
+          ],
+          "ardy_calls": 2
+        }
+      },
+      "verified": {
+        "outcome": "accepted",
+        "repaired": false,
+        "collision_free": true,
+        "meets_target": true,
+        "min_overhead_m": 0.1943,
+        "goal_error_m": 0.0503
+      }
+    },
+    {
+      "scene_id": "demo_partial_beam_h1.050_w2.250",
+      "n_beams": 1,
+      "beam_h": 1.05,
+      "beam_w": 2.25,
+      "gap": 2.5,
+      "n_routes": 3,
+      "routes": [
+        {
+          "label": "any:free",
+          "len_m": 8.0,
+          "c_pred_m": 0.1757,
+          "peak_qp_m": 0.2588,
+          "peak_tcn_m": 0.2595,
+          "j_qp": 90.495,
+          "j_tcn": 85.662
+        },
+        {
+          "label": "any:slot_y-0.75",
+          "len_m": 8.29,
+          "c_pred_m": 0.1761,
+          "peak_qp_m": 0.2579,
+          "peak_tcn_m": 0.2999,
+          "j_qp": 83.888,
+          "j_tcn": 291.546
+        },
+        {
+          "label": "any:slot_y+0.75",
+          "len_m": 8.249,
+          "c_pred_m": 0.1761,
+          "peak_qp_m": 0.258,
+          "peak_tcn_m": 0.2602,
+          "j_qp": 84.783,
+          "j_tcn": 156.305
+        }
+      ],
+      "picks": {
+        "oracle_qp": {
+          "index": 1,
+          "label": "any:slot_y-0.75",
+          "agrees_with_oracle": true,
+          "regret": 0.0
+        },
+        "heuristic": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": false,
+          "regret": 6.6064
+        },
+        "tcn_body": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": false,
+          "regret": 6.6064
+        },
+        "tcn_verify": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": false,
+          "regret": 6.6064,
+          "fell_back": false,
+          "tried": [
+            {
+              "index": 0,
+              "label": "any:free",
+              "outcome": "accepted",
+              "repaired": true,
+              "ardy_calls": 4,
+              "min_overhead_m": 0.2053
+            }
+          ],
+          "ardy_calls": 4
+        }
+      },
+      "verified": {
+        "outcome": "accepted",
+        "repaired": true,
+        "collision_free": true,
+        "meets_target": true,
+        "min_overhead_m": 0.2053,
+        "goal_error_m": 0.0104
+      }
+    },
+    {
+      "scene_id": "demo_partial_beam_h1.200_w1.450",
+      "n_beams": 1,
+      "beam_h": 1.2,
+      "beam_w": 1.45,
+      "gap": 2.5,
+      "n_routes": 3,
+      "routes": [
+        {
+          "label": "any:free",
+          "len_m": 8.497,
+          "c_pred_m": 1.3217,
+          "peak_qp_m": 0.0,
+          "peak_tcn_m": 0.0351,
+          "j_qp": 7.175,
+          "j_tcn": 33.402
+        },
+        {
+          "label": "any:slot_y+0.25",
+          "len_m": 8.0,
+          "c_pred_m": 0.1735,
+          "peak_qp_m": 0.1428,
+          "peak_tcn_m": 0.1421,
+          "j_qp": 33.011,
+          "j_tcn": 32.578
+        },
+        {
+          "label": "any:slot_y+0.75",
+          "len_m": 8.249,
+          "c_pred_m": 0.1741,
+          "peak_qp_m": 0.1424,
+          "peak_tcn_m": 0.1426,
+          "j_qp": 31.443,
+          "j_tcn": 105.888
+        }
+      ],
+      "picks": {
+        "oracle_qp": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": true,
+          "regret": 0.0
+        },
+        "heuristic": {
+          "index": 1,
+          "label": "any:slot_y+0.25",
+          "agrees_with_oracle": false,
+          "regret": 25.8357
+        },
+        "tcn_body": {
+          "index": 1,
+          "label": "any:slot_y+0.25",
+          "agrees_with_oracle": false,
+          "regret": 25.8357
+        },
+        "tcn_verify": {
+          "index": 1,
+          "label": "any:slot_y+0.25",
+          "agrees_with_oracle": false,
+          "regret": 25.8357,
+          "fell_back": false,
+          "tried": [
+            {
+              "index": 1,
+              "label": "any:slot_y+0.25",
+              "outcome": "accepted",
+              "repaired": true,
+              "ardy_calls": 4,
+              "min_overhead_m": 0.1855
+            }
+          ],
+          "ardy_calls": 4
+        }
+      },
+      "verified": {
+        "outcome": "accepted",
+        "repaired": true,
+        "collision_free": true,
+        "meets_target": true,
+        "min_overhead_m": 0.1855,
+        "goal_error_m": 0.0185
+      }
+    },
+    {
+      "scene_id": "demo_partial_beam_h1.200_w2.250",
+      "n_beams": 1,
+      "beam_h": 1.2,
+      "beam_w": 2.25,
+      "gap": 2.5,
+      "n_routes": 3,
+      "routes": [
+        {
+          "label": "any:free",
+          "len_m": 8.0,
+          "c_pred_m": 0.1735,
+          "peak_qp_m": 0.1428,
+          "peak_tcn_m": 0.1421,
+          "j_qp": 33.011,
+          "j_tcn": 32.578
+        },
+        {
+          "label": "any:slot_y-0.75",
+          "len_m": 8.29,
+          "c_pred_m": 0.1741,
+          "peak_qp_m": 0.1423,
+          "peak_tcn_m": 0.1895,
+          "j_qp": 31.2,
+          "j_tcn": 205.182
+        },
+        {
+          "label": "any:slot_y+0.75",
+          "len_m": 8.249,
+          "c_pred_m": 0.1741,
+          "peak_qp_m": 0.1424,
+          "peak_tcn_m": 0.1426,
+          "j_qp": 31.443,
+          "j_tcn": 105.888
+        }
+      ],
+      "picks": {
+        "oracle_qp": {
+          "index": 1,
+          "label": "any:slot_y-0.75",
+          "agrees_with_oracle": true,
+          "regret": 0.0
+        },
+        "heuristic": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": false,
+          "regret": 1.8113
+        },
+        "tcn_body": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": false,
+          "regret": 1.8113
+        },
+        "tcn_verify": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": false,
+          "regret": 1.8113,
+          "fell_back": false,
+          "tried": [
+            {
+              "index": 0,
+              "label": "any:free",
+              "outcome": "accepted",
+              "repaired": true,
+              "ardy_calls": 4,
+              "min_overhead_m": 0.1855
+            }
+          ],
+          "ardy_calls": 4
+        }
+      },
+      "verified": {
+        "outcome": "accepted",
+        "repaired": true,
+        "collision_free": true,
+        "meets_target": true,
+        "min_overhead_m": 0.1855,
+        "goal_error_m": 0.0185
+      }
+    },
+    {
+      "scene_id": "demo_partial_beam_h0.950_w1.450_n2_g2.50",
+      "n_beams": 2,
+      "beam_h": 0.95,
+      "beam_w": 1.45,
+      "gap": 2.5,
+      "n_routes": 3,
+      "routes": [
+        {
+          "label": "any:free",
+          "len_m": 10.497,
+          "c_pred_m": 1.3217,
+          "peak_qp_m": 0.0,
+          "peak_tcn_m": 0.0274,
+          "j_qp": 9.175,
+          "j_tcn": 15.732
+        },
+        {
+          "label": "any:slot_y+0.25",
+          "len_m": 10.0,
+          "c_pred_m": 0.1695,
+          "peak_qp_m": 0.4238,
+          "peak_tcn_m": 0.4174,
+          "j_qp": 199.891,
+          "j_tcn": 211.409
+        },
+        {
+          "label": "any:slot_y+0.75",
+          "len_m": 10.249,
+          "c_pred_m": 0.1687,
+          "peak_qp_m": 0.4231,
+          "peak_tcn_m": 0.4242,
+          "j_qp": 180.391,
+          "j_tcn": 215.048
+        }
+      ],
+      "picks": {
+        "oracle_qp": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": true,
+          "regret": 0.0
+        },
+        "heuristic": {
+          "index": 1,
+          "label": "any:slot_y+0.25",
+          "agrees_with_oracle": false,
+          "regret": 190.7161
+        },
+        "tcn_body": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": true,
+          "regret": 0.0
+        },
+        "tcn_verify": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": true,
+          "regret": 0.0,
+          "fell_back": false,
+          "tried": [
+            {
+              "index": 0,
+              "label": "any:free",
+              "outcome": "accepted",
+              "repaired": false,
+              "ardy_calls": 2,
+              "min_overhead_m": 0.2661
+            }
+          ],
+          "ardy_calls": 2
+        }
+      },
+      "verified": {
+        "outcome": "accepted",
+        "repaired": false,
+        "collision_free": true,
+        "meets_target": true,
+        "min_overhead_m": 0.2661,
+        "goal_error_m": 0.0389
+      }
+    },
+    {
+      "scene_id": "demo_partial_beam_h0.950_w2.250_n2_g2.50",
+      "n_beams": 2,
+      "beam_h": 0.95,
+      "beam_w": 2.25,
+      "gap": 2.5,
+      "n_routes": 3,
+      "routes": [
+        {
+          "label": "any:free",
+          "len_m": 10.0,
+          "c_pred_m": 0.1695,
+          "peak_qp_m": 0.4238,
+          "peak_tcn_m": 0.4174,
+          "j_qp": 199.891,
+          "j_tcn": 211.409
+        },
+        {
+          "label": "any:slot_y-0.75",
+          "len_m": 10.29,
+          "c_pred_m": 0.1687,
+          "peak_qp_m": 0.423,
+          "peak_tcn_m": 0.4299,
+          "j_qp": 178.669,
+          "j_tcn": 233.178
+        },
+        {
+          "label": "any:slot_y+0.75",
+          "len_m": 10.249,
+          "c_pred_m": 0.1687,
+          "peak_qp_m": 0.4231,
+          "peak_tcn_m": 0.4242,
+          "j_qp": 180.391,
+          "j_tcn": 215.048
+        }
+      ],
+      "picks": {
+        "oracle_qp": {
+          "index": 1,
+          "label": "any:slot_y-0.75",
+          "agrees_with_oracle": true,
+          "regret": 0.0
+        },
+        "heuristic": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": false,
+          "regret": 21.2226
+        },
+        "tcn_body": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": false,
+          "regret": 21.2226
+        },
+        "tcn_verify": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": false,
+          "regret": 21.2226,
+          "fell_back": false,
+          "tried": [
+            {
+              "index": 0,
+              "label": "any:free",
+              "outcome": "accepted",
+              "repaired": true,
+              "ardy_calls": 4,
+              "min_overhead_m": 0.2072
+            }
+          ],
+          "ardy_calls": 4
+        }
+      },
+      "verified": {
+        "outcome": "accepted",
+        "repaired": true,
+        "collision_free": true,
+        "meets_target": true,
+        "min_overhead_m": 0.2072,
+        "goal_error_m": 0.0536
+      }
+    },
+    {
+      "scene_id": "demo_partial_beam_h1.050_w1.450_n2_g2.50",
+      "n_beams": 2,
+      "beam_h": 1.05,
+      "beam_w": 1.45,
+      "gap": 2.5,
+      "n_routes": 3,
+      "routes": [
+        {
+          "label": "any:free",
+          "len_m": 10.497,
+          "c_pred_m": 1.3217,
+          "peak_qp_m": 0.0,
+          "peak_tcn_m": 0.0268,
+          "j_qp": 9.175,
+          "j_tcn": 15.199
+        },
+        {
+          "label": "any:slot_y+0.25",
+          "len_m": 10.0,
+          "c_pred_m": 0.1751,
+          "peak_qp_m": 0.2583,
+          "peak_tcn_m": 0.2561,
+          "j_qp": 80.46,
+          "j_tcn": 81.794
+        },
+        {
+          "label": "any:slot_y+0.75",
+          "len_m": 10.249,
+          "c_pred_m": 0.1747,
+          "peak_qp_m": 0.2579,
+          "peak_tcn_m": 0.259,
+          "j_qp": 73.369,
+          "j_tcn": 101.8
+        }
+      ],
+      "picks": {
+        "oracle_qp": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": true,
+          "regret": 0.0
+        },
+        "heuristic": {
+          "index": 1,
+          "label": "any:slot_y+0.25",
+          "agrees_with_oracle": false,
+          "regret": 71.2843
+        },
+        "tcn_body": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": true,
+          "regret": 0.0
+        },
+        "tcn_verify": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": true,
+          "regret": 0.0,
+          "fell_back": false,
+          "tried": [
+            {
+              "index": 0,
+              "label": "any:free",
+              "outcome": "accepted",
+              "repaired": false,
+              "ardy_calls": 2,
+              "min_overhead_m": 0.1987
+            }
+          ],
+          "ardy_calls": 2
+        }
+      },
+      "verified": {
+        "outcome": "accepted",
+        "repaired": false,
+        "collision_free": true,
+        "meets_target": true,
+        "min_overhead_m": 0.1987,
+        "goal_error_m": 0.0398
+      }
+    },
+    {
+      "scene_id": "demo_partial_beam_h1.050_w2.250_n2_g2.50",
+      "n_beams": 2,
+      "beam_h": 1.05,
+      "beam_w": 2.25,
+      "gap": 2.5,
+      "n_routes": 3,
+      "routes": [
+        {
+          "label": "any:free",
+          "len_m": 10.0,
+          "c_pred_m": 0.1751,
+          "peak_qp_m": 0.2583,
+          "peak_tcn_m": 0.2561,
+          "j_qp": 80.46,
+          "j_tcn": 81.794
+        },
+        {
+          "label": "any:slot_y-0.75",
+          "len_m": 10.29,
+          "c_pred_m": 0.1747,
+          "peak_qp_m": 0.2579,
+          "peak_tcn_m": 0.2749,
+          "j_qp": 72.755,
+          "j_tcn": 108.395
+        },
+        {
+          "label": "any:slot_y+0.75",
+          "len_m": 10.249,
+          "c_pred_m": 0.1747,
+          "peak_qp_m": 0.2579,
+          "peak_tcn_m": 0.259,
+          "j_qp": 73.369,
+          "j_tcn": 101.8
+        }
+      ],
+      "picks": {
+        "oracle_qp": {
+          "index": 1,
+          "label": "any:slot_y-0.75",
+          "agrees_with_oracle": true,
+          "regret": 0.0
+        },
+        "heuristic": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": false,
+          "regret": 7.7049
+        },
+        "tcn_body": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": false,
+          "regret": 7.7049
+        },
+        "tcn_verify": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": false,
+          "regret": 7.7049,
+          "fell_back": false,
+          "tried": [
+            {
+              "index": 0,
+              "label": "any:free",
+              "outcome": "accepted",
+              "repaired": true,
+              "ardy_calls": 4,
+              "min_overhead_m": 0.24
+            }
+          ],
+          "ardy_calls": 4
+        }
+      },
+      "verified": {
+        "outcome": "accepted",
+        "repaired": true,
+        "collision_free": true,
+        "meets_target": true,
+        "min_overhead_m": 0.24,
+        "goal_error_m": 0.0544
+      }
+    },
+    {
+      "scene_id": "demo_partial_beam_h1.200_w1.450_n2_g2.50",
+      "n_beams": 2,
+      "beam_h": 1.2,
+      "beam_w": 1.45,
+      "gap": 2.5,
+      "n_routes": 3,
+      "routes": [
+        {
+          "label": "any:free",
+          "len_m": 10.497,
+          "c_pred_m": 1.3217,
+          "peak_qp_m": 0.0,
+          "peak_tcn_m": 0.0268,
+          "j_qp": 9.175,
+          "j_tcn": 15.199
+        },
+        {
+          "label": "any:slot_y+0.25",
+          "len_m": 10.0,
+          "c_pred_m": 0.1725,
+          "peak_qp_m": 0.1426,
+          "peak_tcn_m": 0.1424,
+          "j_qp": 31.346,
+          "j_tcn": 33.073
+        },
+        {
+          "label": "any:slot_y+0.75",
+          "len_m": 10.249,
+          "c_pred_m": 0.1719,
+          "peak_qp_m": 0.1424,
+          "peak_tcn_m": 0.1425,
+          "j_qp": 29.359,
+          "j_tcn": 54.721
+        }
+      ],
+      "picks": {
+        "oracle_qp": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": true,
+          "regret": 0.0
+        },
+        "heuristic": {
+          "index": 1,
+          "label": "any:slot_y+0.25",
+          "agrees_with_oracle": false,
+          "regret": 22.1704
+        },
+        "tcn_body": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": true,
+          "regret": 0.0
+        },
+        "tcn_verify": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": true,
+          "regret": 0.0,
+          "fell_back": false,
+          "tried": [
+            {
+              "index": 0,
+              "label": "any:free",
+              "outcome": "accepted",
+              "repaired": false,
+              "ardy_calls": 2,
+              "min_overhead_m": 0.2467
+            }
+          ],
+          "ardy_calls": 2
+        }
+      },
+      "verified": {
+        "outcome": "accepted",
+        "repaired": false,
+        "collision_free": true,
+        "meets_target": true,
+        "min_overhead_m": 0.2467,
+        "goal_error_m": 0.0398
+      }
+    },
+    {
+      "scene_id": "demo_partial_beam_h1.200_w2.250_n2_g2.50",
+      "n_beams": 2,
+      "beam_h": 1.2,
+      "beam_w": 2.25,
+      "gap": 2.5,
+      "n_routes": 3,
+      "routes": [
+        {
+          "label": "any:free",
+          "len_m": 10.0,
+          "c_pred_m": 0.1725,
+          "peak_qp_m": 0.1426,
+          "peak_tcn_m": 0.1424,
+          "j_qp": 31.346,
+          "j_tcn": 33.073
+        },
+        {
+          "label": "any:slot_y-0.75",
+          "len_m": 10.29,
+          "c_pred_m": 0.172,
+          "peak_qp_m": 0.1423,
+          "peak_tcn_m": 0.1637,
+          "j_qp": 29.2,
+          "j_tcn": 52.498
+        },
+        {
+          "label": "any:slot_y+0.75",
+          "len_m": 10.249,
+          "c_pred_m": 0.1719,
+          "peak_qp_m": 0.1424,
+          "peak_tcn_m": 0.1425,
+          "j_qp": 29.359,
+          "j_tcn": 54.721
+        }
+      ],
+      "picks": {
+        "oracle_qp": {
+          "index": 1,
+          "label": "any:slot_y-0.75",
+          "agrees_with_oracle": true,
+          "regret": 0.0
+        },
+        "heuristic": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": false,
+          "regret": 2.1454
+        },
+        "tcn_body": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": false,
+          "regret": 2.1454
+        },
+        "tcn_verify": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": false,
+          "regret": 2.1454,
+          "fell_back": false,
+          "tried": [
+            {
+              "index": 0,
+              "label": "any:free",
+              "outcome": "accepted",
+              "repaired": true,
+              "ardy_calls": 4,
+              "min_overhead_m": 0.1872
+            }
+          ],
+          "ardy_calls": 4
+        }
+      },
+      "verified": {
+        "outcome": "accepted",
+        "repaired": true,
+        "collision_free": true,
+        "meets_target": true,
+        "min_overhead_m": 0.1872,
+        "goal_error_m": 0.068
+      }
+    },
+    {
+      "scene_id": "demo_partial_beam_h0.950_w1.450_n3_g2.50",
+      "n_beams": 3,
+      "beam_h": 0.95,
+      "beam_w": 1.45,
+      "gap": 2.5,
+      "n_routes": 3,
+      "routes": [
+        {
+          "label": "any:free",
+          "len_m": 12.997,
+          "c_pred_m": 1.3217,
+          "peak_qp_m": 0.0,
+          "peak_tcn_m": 0.0081,
+          "j_qp": 11.675,
+          "j_tcn": 12.401
+        },
+        {
+          "label": "any:slot_y+0.25",
+          "len_m": 12.5,
+          "c_pred_m": 0.1714,
+          "peak_qp_m": 0.4224,
+          "peak_tcn_m": 0.4243,
+          "j_qp": 142.708,
+          "j_tcn": 175.614
+        },
+        {
+          "label": "any:slot_y+0.75",
+          "len_m": 12.749,
+          "c_pred_m": 0.1717,
+          "peak_qp_m": 0.422,
+          "peak_tcn_m": 0.4334,
+          "j_qp": 136.478,
+          "j_tcn": 201.846
+        }
+      ],
+      "picks": {
+        "oracle_qp": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": true,
+          "regret": 0.0
+        },
+        "heuristic": {
+          "index": 1,
+          "label": "any:slot_y+0.25",
+          "agrees_with_oracle": false,
+          "regret": 131.0326
+        },
+        "tcn_body": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": true,
+          "regret": 0.0
+        },
+        "tcn_verify": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": true,
+          "regret": 0.0,
+          "fell_back": false,
+          "tried": [
+            {
+              "index": 0,
+              "label": "any:free",
+              "outcome": "accepted",
+              "repaired": false,
+              "ardy_calls": 2,
+              "min_overhead_m": 0.2335
+            }
+          ],
+          "ardy_calls": 2
+        }
+      },
+      "verified": {
+        "outcome": "accepted",
+        "repaired": false,
+        "collision_free": true,
+        "meets_target": true,
+        "min_overhead_m": 0.2335,
+        "goal_error_m": 0.0458
+      }
+    },
+    {
+      "scene_id": "demo_partial_beam_h0.950_w2.250_n3_g2.50",
+      "n_beams": 3,
+      "beam_h": 0.95,
+      "beam_w": 2.25,
+      "gap": 2.5,
+      "n_routes": 3,
+      "routes": [
+        {
+          "label": "any:free",
+          "len_m": 12.5,
+          "c_pred_m": 0.1714,
+          "peak_qp_m": 0.4224,
+          "peak_tcn_m": 0.4243,
+          "j_qp": 142.708,
+          "j_tcn": 175.614
+        },
+        {
+          "label": "any:slot_y-0.75",
+          "len_m": 12.79,
+          "c_pred_m": 0.1718,
+          "peak_qp_m": 0.4219,
+          "peak_tcn_m": 0.4269,
+          "j_qp": 135.485,
+          "j_tcn": 191.083
+        },
+        {
+          "label": "any:slot_y+0.75",
+          "len_m": 12.749,
+          "c_pred_m": 0.1717,
+          "peak_qp_m": 0.422,
+          "peak_tcn_m": 0.4334,
+          "j_qp": 136.478,
+          "j_tcn": 201.846
+        }
+      ],
+      "picks": {
+        "oracle_qp": {
+          "index": 1,
+          "label": "any:slot_y-0.75",
+          "agrees_with_oracle": true,
+          "regret": 0.0
+        },
+        "heuristic": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": false,
+          "regret": 7.223
+        },
+        "tcn_body": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": false,
+          "regret": 7.223
+        },
+        "tcn_verify": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": false,
+          "regret": 7.223,
+          "fell_back": false,
+          "tried": [
+            {
+              "index": 0,
+              "label": "any:free",
+              "outcome": "accepted_margin",
+              "repaired": true,
+              "ardy_calls": 6,
+              "min_overhead_m": 0.176
+            }
+          ],
+          "ardy_calls": 6
+        }
+      },
+      "verified": {
+        "outcome": "accepted_margin",
+        "repaired": true,
+        "collision_free": true,
+        "meets_target": false,
+        "min_overhead_m": 0.176,
+        "goal_error_m": 0.0303
+      }
+    },
+    {
+      "scene_id": "demo_partial_beam_h1.050_w1.450_n3_g2.50",
+      "n_beams": 3,
+      "beam_h": 1.05,
+      "beam_w": 1.45,
+      "gap": 2.5,
+      "n_routes": 3,
+      "routes": [
+        {
+          "label": "any:free",
+          "len_m": 12.997,
+          "c_pred_m": 1.3217,
+          "peak_qp_m": 0.0,
+          "peak_tcn_m": 0.007,
+          "j_qp": 11.675,
+          "j_tcn": 11.962
+        },
+        {
+          "label": "any:slot_y+0.25",
+          "len_m": 12.5,
+          "c_pred_m": 0.176,
+          "peak_qp_m": 0.2575,
+          "peak_tcn_m": 0.2582,
+          "j_qp": 60.779,
+          "j_tcn": 72.934
+        },
+        {
+          "label": "any:slot_y+0.75",
+          "len_m": 12.749,
+          "c_pred_m": 0.1761,
+          "peak_qp_m": 0.2573,
+          "peak_tcn_m": 0.2675,
+          "j_qp": 58.619,
+          "j_tcn": 92.287
+        }
+      ],
+      "picks": {
+        "oracle_qp": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": true,
+          "regret": 0.0
+        },
+        "heuristic": {
+          "index": 1,
+          "label": "any:slot_y+0.25",
+          "agrees_with_oracle": false,
+          "regret": 49.1032
+        },
+        "tcn_body": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": true,
+          "regret": 0.0
+        },
+        "tcn_verify": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": true,
+          "regret": 0.0,
+          "fell_back": false,
+          "tried": [
+            {
+              "index": 0,
+              "label": "any:free",
+              "outcome": "accepted",
+              "repaired": false,
+              "ardy_calls": 2,
+              "min_overhead_m": 0.2049
+            }
+          ],
+          "ardy_calls": 2
+        }
+      },
+      "verified": {
+        "outcome": "accepted",
+        "repaired": false,
+        "collision_free": true,
+        "meets_target": true,
+        "min_overhead_m": 0.2049,
+        "goal_error_m": 0.0495
+      }
+    },
+    {
+      "scene_id": "demo_partial_beam_h1.050_w2.250_n3_g2.50",
+      "n_beams": 3,
+      "beam_h": 1.05,
+      "beam_w": 2.25,
+      "gap": 2.5,
+      "n_routes": 3,
+      "routes": [
+        {
+          "label": "any:free",
+          "len_m": 12.5,
+          "c_pred_m": 0.176,
+          "peak_qp_m": 0.2575,
+          "peak_tcn_m": 0.2582,
+          "j_qp": 60.779,
+          "j_tcn": 72.934
+        },
+        {
+          "label": "any:slot_y-0.75",
+          "len_m": 12.79,
+          "c_pred_m": 0.1762,
+          "peak_qp_m": 0.2572,
+          "peak_tcn_m": 0.2618,
+          "j_qp": 58.276,
+          "j_tcn": 89.73
+        },
+        {
+          "label": "any:slot_y+0.75",
+          "len_m": 12.749,
+          "c_pred_m": 0.1761,
+          "peak_qp_m": 0.2573,
+          "peak_tcn_m": 0.2675,
+          "j_qp": 58.619,
+          "j_tcn": 92.287
+        }
+      ],
+      "picks": {
+        "oracle_qp": {
+          "index": 1,
+          "label": "any:slot_y-0.75",
+          "agrees_with_oracle": true,
+          "regret": 0.0
+        },
+        "heuristic": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": false,
+          "regret": 2.5022
+        },
+        "tcn_body": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": false,
+          "regret": 2.5022
+        },
+        "tcn_verify": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": false,
+          "regret": 2.5022,
+          "fell_back": false,
+          "tried": [
+            {
+              "index": 0,
+              "label": "any:free",
+              "outcome": "accepted",
+              "repaired": true,
+              "ardy_calls": 4,
+              "min_overhead_m": 0.2501
+            }
+          ],
+          "ardy_calls": 4
+        }
+      },
+      "verified": {
+        "outcome": "accepted",
+        "repaired": true,
+        "collision_free": true,
+        "meets_target": true,
+        "min_overhead_m": 0.2501,
+        "goal_error_m": 0.0267
+      }
+    },
+    {
+      "scene_id": "demo_partial_beam_h1.200_w1.450_n3_g2.50",
+      "n_beams": 3,
+      "beam_h": 1.2,
+      "beam_w": 1.45,
+      "gap": 2.5,
+      "n_routes": 3,
+      "routes": [
+        {
+          "label": "any:free",
+          "len_m": 12.997,
+          "c_pred_m": 1.3217,
+          "peak_qp_m": 0.0,
+          "peak_tcn_m": 0.007,
+          "j_qp": 11.675,
+          "j_tcn": 11.962
+        },
+        {
+          "label": "any:slot_y+0.25",
+          "len_m": 12.5,
+          "c_pred_m": 0.1739,
+          "peak_qp_m": 0.1421,
+          "peak_tcn_m": 0.1444,
+          "j_qp": 27.087,
+          "j_tcn": 33.07
+        },
+        {
+          "label": "any:slot_y+0.75",
+          "len_m": 12.749,
+          "c_pred_m": 0.1741,
+          "peak_qp_m": 0.142,
+          "peak_tcn_m": 0.1469,
+          "j_qp": 26.602,
+          "j_tcn": 50.526
+        }
+      ],
+      "picks": {
+        "oracle_qp": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": true,
+          "regret": 0.0
+        },
+        "heuristic": {
+          "index": 1,
+          "label": "any:slot_y+0.25",
+          "agrees_with_oracle": false,
+          "regret": 15.4119
+        },
+        "tcn_body": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": true,
+          "regret": 0.0
+        },
+        "tcn_verify": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": true,
+          "regret": 0.0,
+          "fell_back": false,
+          "tried": [
+            {
+              "index": 0,
+              "label": "any:free",
+              "outcome": "accepted",
+              "repaired": false,
+              "ardy_calls": 2,
+              "min_overhead_m": 0.2569
+            }
+          ],
+          "ardy_calls": 2
+        }
+      },
+      "verified": {
+        "outcome": "accepted",
+        "repaired": false,
+        "collision_free": true,
+        "meets_target": true,
+        "min_overhead_m": 0.2569,
+        "goal_error_m": 0.0495
+      }
+    },
+    {
+      "scene_id": "demo_partial_beam_h1.200_w2.250_n3_g2.50",
+      "n_beams": 3,
+      "beam_h": 1.2,
+      "beam_w": 2.25,
+      "gap": 2.5,
+      "n_routes": 3,
+      "routes": [
+        {
+          "label": "any:free",
+          "len_m": 12.5,
+          "c_pred_m": 0.1739,
+          "peak_qp_m": 0.1421,
+          "peak_tcn_m": 0.1444,
+          "j_qp": 27.087,
+          "j_tcn": 33.07
+        },
+        {
+          "label": "any:slot_y-0.75",
+          "len_m": 12.79,
+          "c_pred_m": 0.1742,
+          "peak_qp_m": 0.142,
+          "peak_tcn_m": 0.1548,
+          "j_qp": 26.526,
+          "j_tcn": 48.859
+        },
+        {
+          "label": "any:slot_y+0.75",
+          "len_m": 12.749,
+          "c_pred_m": 0.1741,
+          "peak_qp_m": 0.142,
+          "peak_tcn_m": 0.1469,
+          "j_qp": 26.602,
+          "j_tcn": 50.526
+        }
+      ],
+      "picks": {
+        "oracle_qp": {
+          "index": 1,
+          "label": "any:slot_y-0.75",
+          "agrees_with_oracle": true,
+          "regret": 0.0
+        },
+        "heuristic": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": false,
+          "regret": 0.5608
+        },
+        "tcn_body": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": false,
+          "regret": 0.5608
+        },
+        "tcn_verify": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": false,
+          "regret": 0.5608,
+          "fell_back": false,
+          "tried": [
+            {
+              "index": 0,
+              "label": "any:free",
+              "outcome": "accepted_margin",
+              "repaired": true,
+              "ardy_calls": 6,
+              "min_overhead_m": 0.1788
+            }
+          ],
+          "ardy_calls": 6
+        }
+      },
+      "verified": {
+        "outcome": "accepted_margin",
+        "repaired": true,
+        "collision_free": true,
+        "meets_target": false,
+        "min_overhead_m": 0.1788,
+        "goal_error_m": 0.0288
+      }
+    },
+    {
+      "scene_id": "demo_partial_beam_h0.950_w1.450_n4_g2.50",
+      "n_beams": 4,
+      "beam_h": 0.95,
+      "beam_w": 1.45,
+      "gap": 2.5,
+      "n_routes": 3,
+      "routes": [
+        {
+          "label": "any:free",
+          "len_m": 15.497,
+          "c_pred_m": 1.3217,
+          "peak_qp_m": 0.0,
+          "peak_tcn_m": 0.01,
+          "j_qp": 14.175,
+          "j_tcn": 15.269
+        },
+        {
+          "label": "any:slot_y+0.25",
+          "len_m": 15.0,
+          "c_pred_m": 0.1739,
+          "peak_qp_m": 0.4176,
+          "peak_tcn_m": 0.434,
+          "j_qp": 115.637,
+          "j_tcn": 291.18
+        },
+        {
+          "label": "any:slot_y+0.75",
+          "len_m": 15.249,
+          "c_pred_m": 0.1747,
+          "peak_qp_m": 0.4148,
+          "peak_tcn_m": 0.4343,
+          "j_qp": 93.319,
+          "j_tcn": 261.227
+        }
+      ],
+      "picks": {
+        "oracle_qp": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": true,
+          "regret": 0.0
+        },
+        "heuristic": {
+          "index": 1,
+          "label": "any:slot_y+0.25",
+          "agrees_with_oracle": false,
+          "regret": 101.462
+        },
+        "tcn_body": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": true,
+          "regret": 0.0
+        },
+        "tcn_verify": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": true,
+          "regret": 0.0,
+          "fell_back": false,
+          "tried": [
+            {
+              "index": 0,
+              "label": "any:free",
+              "outcome": "accepted",
+              "repaired": false,
+              "ardy_calls": 2,
+              "min_overhead_m": 0.3146
+            }
+          ],
+          "ardy_calls": 2
+        }
+      },
+      "verified": {
+        "outcome": "accepted",
+        "repaired": false,
+        "collision_free": true,
+        "meets_target": true,
+        "min_overhead_m": 0.3146,
+        "goal_error_m": 0.062
+      }
+    },
+    {
+      "scene_id": "demo_partial_beam_h0.950_w2.250_n4_g2.50",
+      "n_beams": 4,
+      "beam_h": 0.95,
+      "beam_w": 2.25,
+      "gap": 2.5,
+      "n_routes": 3,
+      "routes": [
+        {
+          "label": "any:free",
+          "len_m": 15.0,
+          "c_pred_m": 0.1739,
+          "peak_qp_m": 0.4176,
+          "peak_tcn_m": 0.434,
+          "j_qp": 115.637,
+          "j_tcn": 291.18
+        },
+        {
+          "label": "any:slot_y-0.75",
+          "len_m": 15.29,
+          "c_pred_m": 0.1747,
+          "peak_qp_m": 0.4156,
+          "peak_tcn_m": 0.4356,
+          "j_qp": 95.477,
+          "j_tcn": 249.285
+        },
+        {
+          "label": "any:slot_y+0.75",
+          "len_m": 15.249,
+          "c_pred_m": 0.1747,
+          "peak_qp_m": 0.4148,
+          "peak_tcn_m": 0.4343,
+          "j_qp": 93.319,
+          "j_tcn": 261.227
+        }
+      ],
+      "picks": {
+        "oracle_qp": {
+          "index": 2,
+          "label": "any:slot_y+0.75",
+          "agrees_with_oracle": true,
+          "regret": 0.0
+        },
+        "heuristic": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": false,
+          "regret": 22.3184
+        },
+        "tcn_body": {
+          "index": 1,
+          "label": "any:slot_y-0.75",
+          "agrees_with_oracle": false,
+          "regret": 2.1578
+        },
+        "tcn_verify": {
+          "index": 1,
+          "label": "any:slot_y-0.75",
+          "agrees_with_oracle": false,
+          "regret": 2.1578,
+          "fell_back": false,
+          "tried": [
+            {
+              "index": 1,
+              "label": "any:slot_y-0.75",
+              "outcome": "accepted_margin",
+              "repaired": true,
+              "ardy_calls": 6,
+              "min_overhead_m": 0.1732
+            }
+          ],
+          "ardy_calls": 6
+        }
+      },
+      "verified": {
+        "outcome": "accepted_margin",
+        "repaired": true,
+        "collision_free": true,
+        "meets_target": false,
+        "min_overhead_m": 0.1732,
+        "goal_error_m": 0.0547
+      }
+    },
+    {
+      "scene_id": "demo_partial_beam_h1.050_w1.450_n4_g2.50",
+      "n_beams": 4,
+      "beam_h": 1.05,
+      "beam_w": 1.45,
+      "gap": 2.5,
+      "n_routes": 3,
+      "routes": [
+        {
+          "label": "any:free",
+          "len_m": 15.497,
+          "c_pred_m": 1.3217,
+          "peak_qp_m": 0.0,
+          "peak_tcn_m": 0.0067,
+          "j_qp": 14.175,
+          "j_tcn": 14.323
+        },
+        {
+          "label": "any:slot_y+0.25",
+          "len_m": 15.0,
+          "c_pred_m": 0.1771,
+          "peak_qp_m": 0.2546,
+          "peak_tcn_m": 0.2698,
+          "j_qp": 52.289,
+          "j_tcn": 107.351
+        },
+        {
+          "label": "any:slot_y+0.75",
+          "len_m": 15.249,
+          "c_pred_m": 0.1775,
+          "peak_qp_m": 0.2529,
+          "peak_tcn_m": 0.2691,
+          "j_qp": 44.15,
+          "j_tcn": 104.575
+        }
+      ],
+      "picks": {
+        "oracle_qp": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": true,
+          "regret": 0.0
+        },
+        "heuristic": {
+          "index": 1,
+          "label": "any:slot_y+0.25",
+          "agrees_with_oracle": false,
+          "regret": 38.1132
+        },
+        "tcn_body": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": true,
+          "regret": 0.0
+        },
+        "tcn_verify": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": true,
+          "regret": 0.0,
+          "fell_back": false,
+          "tried": [
+            {
+              "index": 0,
+              "label": "any:free",
+              "outcome": "accepted",
+              "repaired": false,
+              "ardy_calls": 2,
+              "min_overhead_m": 0.2024
+            }
+          ],
+          "ardy_calls": 2
+        }
+      },
+      "verified": {
+        "outcome": "accepted",
+        "repaired": false,
+        "collision_free": true,
+        "meets_target": true,
+        "min_overhead_m": 0.2024,
+        "goal_error_m": 0.0605
+      }
+    },
+    {
+      "scene_id": "demo_partial_beam_h1.050_w2.250_n4_g2.50",
+      "n_beams": 4,
+      "beam_h": 1.05,
+      "beam_w": 2.25,
+      "gap": 2.5,
+      "n_routes": 3,
+      "routes": [
+        {
+          "label": "any:free",
+          "len_m": 15.0,
+          "c_pred_m": 0.1771,
+          "peak_qp_m": 0.2546,
+          "peak_tcn_m": 0.2698,
+          "j_qp": 52.289,
+          "j_tcn": 107.351
+        },
+        {
+          "label": "any:slot_y-0.75",
+          "len_m": 15.29,
+          "c_pred_m": 0.1775,
+          "peak_qp_m": 0.2533,
+          "peak_tcn_m": 0.2734,
+          "j_qp": 44.978,
+          "j_tcn": 78.444
+        },
+        {
+          "label": "any:slot_y+0.75",
+          "len_m": 15.249,
+          "c_pred_m": 0.1775,
+          "peak_qp_m": 0.2529,
+          "peak_tcn_m": 0.2691,
+          "j_qp": 44.15,
+          "j_tcn": 104.575
+        }
+      ],
+      "picks": {
+        "oracle_qp": {
+          "index": 2,
+          "label": "any:slot_y+0.75",
+          "agrees_with_oracle": true,
+          "regret": 0.0
+        },
+        "heuristic": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": false,
+          "regret": 8.1384
+        },
+        "tcn_body": {
+          "index": 1,
+          "label": "any:slot_y-0.75",
+          "agrees_with_oracle": false,
+          "regret": 0.8279
+        },
+        "tcn_verify": {
+          "index": 1,
+          "label": "any:slot_y-0.75",
+          "agrees_with_oracle": false,
+          "regret": 0.8279,
+          "fell_back": false,
+          "tried": [
+            {
+              "index": 1,
+              "label": "any:slot_y-0.75",
+              "outcome": "accepted_margin",
+              "repaired": true,
+              "ardy_calls": 6,
+              "min_overhead_m": 0.1745
+            }
+          ],
+          "ardy_calls": 6
+        }
+      },
+      "verified": {
+        "outcome": "accepted_margin",
+        "repaired": true,
+        "collision_free": true,
+        "meets_target": false,
+        "min_overhead_m": 0.1745,
+        "goal_error_m": 0.0806
+      }
+    },
+    {
+      "scene_id": "demo_partial_beam_h1.200_w1.450_n4_g2.50",
+      "n_beams": 4,
+      "beam_h": 1.2,
+      "beam_w": 1.45,
+      "gap": 2.5,
+      "n_routes": 3,
+      "routes": [
+        {
+          "label": "any:free",
+          "len_m": 15.497,
+          "c_pred_m": 1.3217,
+          "peak_qp_m": 0.0,
+          "peak_tcn_m": 0.0067,
+          "j_qp": 14.175,
+          "j_tcn": 14.323
+        },
+        {
+          "label": "any:slot_y+0.25",
+          "len_m": 15.0,
+          "c_pred_m": 0.1757,
+          "peak_qp_m": 0.1405,
+          "peak_tcn_m": 0.1489,
+          "j_qp": 26.238,
+          "j_tcn": 41.229
+        },
+        {
+          "label": "any:slot_y+0.75",
+          "len_m": 15.249,
+          "c_pred_m": 0.1762,
+          "peak_qp_m": 0.1396,
+          "peak_tcn_m": 0.1483,
+          "j_qp": 23.931,
+          "j_tcn": 51.072
+        }
+      ],
+      "picks": {
+        "oracle_qp": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": true,
+          "regret": 0.0
+        },
+        "heuristic": {
+          "index": 1,
+          "label": "any:slot_y+0.25",
+          "agrees_with_oracle": false,
+          "regret": 12.0625
+        },
+        "tcn_body": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": true,
+          "regret": 0.0
+        },
+        "tcn_verify": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": true,
+          "regret": 0.0,
+          "fell_back": false,
+          "tried": [
+            {
+              "index": 0,
+              "label": "any:free",
+              "outcome": "accepted",
+              "repaired": false,
+              "ardy_calls": 2,
+              "min_overhead_m": 0.2195
+            }
+          ],
+          "ardy_calls": 2
+        }
+      },
+      "verified": {
+        "outcome": "accepted",
+        "repaired": false,
+        "collision_free": true,
+        "meets_target": true,
+        "min_overhead_m": 0.2195,
+        "goal_error_m": 0.0605
+      }
+    },
+    {
+      "scene_id": "demo_partial_beam_h1.200_w2.250_n4_g2.50",
+      "n_beams": 4,
+      "beam_h": 1.2,
+      "beam_w": 2.25,
+      "gap": 2.5,
+      "n_routes": 3,
+      "routes": [
+        {
+          "label": "any:free",
+          "len_m": 15.0,
+          "c_pred_m": 0.1757,
+          "peak_qp_m": 0.1405,
+          "peak_tcn_m": 0.1489,
+          "j_qp": 26.238,
+          "j_tcn": 41.229
+        },
+        {
+          "label": "any:slot_y-0.75",
+          "len_m": 15.29,
+          "c_pred_m": 0.1762,
+          "peak_qp_m": 0.1398,
+          "peak_tcn_m": 0.1541,
+          "j_qp": 24.212,
+          "j_tcn": 34.339
+        },
+        {
+          "label": "any:slot_y+0.75",
+          "len_m": 15.249,
+          "c_pred_m": 0.1762,
+          "peak_qp_m": 0.1396,
+          "peak_tcn_m": 0.1483,
+          "j_qp": 23.931,
+          "j_tcn": 51.072
+        }
+      ],
+      "picks": {
+        "oracle_qp": {
+          "index": 2,
+          "label": "any:slot_y+0.75",
+          "agrees_with_oracle": true,
+          "regret": 0.0
+        },
+        "heuristic": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": false,
+          "regret": 2.3069
+        },
+        "tcn_body": {
+          "index": 1,
+          "label": "any:slot_y-0.75",
+          "agrees_with_oracle": false,
+          "regret": 0.281
+        },
+        "tcn_verify": {
+          "index": 1,
+          "label": "any:slot_y-0.75",
+          "agrees_with_oracle": false,
+          "regret": 0.281,
+          "fell_back": false,
+          "tried": [
+            {
+              "index": 1,
+              "label": "any:slot_y-0.75",
+              "outcome": "accepted_margin",
+              "repaired": true,
+              "ardy_calls": 6,
+              "min_overhead_m": 0.1692
+            }
+          ],
+          "ardy_calls": 6
+        }
+      },
+      "verified": {
+        "outcome": "accepted_margin",
+        "repaired": true,
+        "collision_free": true,
+        "meets_target": false,
+        "min_overhead_m": 0.1692,
+        "goal_error_m": 0.0451
+      }
+    },
+    {
+      "scene_id": "demo_partial_beam_h0.950_w1.450_n5_g2.50",
+      "n_beams": 5,
+      "beam_h": 0.95,
+      "beam_w": 1.45,
+      "gap": 2.5,
+      "n_routes": 3,
+      "routes": [
+        {
+          "label": "any:free",
+          "len_m": 17.997,
+          "c_pred_m": 1.3217,
+          "peak_qp_m": 0.0,
+          "peak_tcn_m": 0.0137,
+          "j_qp": 16.675,
+          "j_tcn": 17.82
+        },
+        {
+          "label": "any:slot_y+0.25",
+          "len_m": 17.5,
+          "c_pred_m": 0.1762,
+          "peak_qp_m": 0.4117,
+          "peak_tcn_m": 0.4492,
+          "j_qp": 71.068,
+          "j_tcn": 273.07
+        },
+        {
+          "label": "any:slot_y+0.75",
+          "len_m": 17.749,
+          "c_pred_m": 0.1769,
+          "peak_qp_m": 0.4115,
+          "peak_tcn_m": 0.4471,
+          "j_qp": 71.162,
+          "j_tcn": 574.538
+        }
+      ],
+      "picks": {
+        "oracle_qp": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": true,
+          "regret": 0.0
+        },
+        "heuristic": {
+          "index": 1,
+          "label": "any:slot_y+0.25",
+          "agrees_with_oracle": false,
+          "regret": 54.393
+        },
+        "tcn_body": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": true,
+          "regret": 0.0
+        },
+        "tcn_verify": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": true,
+          "regret": 0.0,
+          "fell_back": false,
+          "tried": [
+            {
+              "index": 0,
+              "label": "any:free",
+              "outcome": "accepted",
+              "repaired": false,
+              "ardy_calls": 2,
+              "min_overhead_m": 0.2975
+            }
+          ],
+          "ardy_calls": 2
+        }
+      },
+      "verified": {
+        "outcome": "accepted",
+        "repaired": false,
+        "collision_free": true,
+        "meets_target": true,
+        "min_overhead_m": 0.2975,
+        "goal_error_m": 0.0691
+      }
+    },
+    {
+      "scene_id": "demo_partial_beam_h0.950_w2.250_n5_g2.50",
+      "n_beams": 5,
+      "beam_h": 0.95,
+      "beam_w": 2.25,
+      "gap": 2.5,
+      "n_routes": 3,
+      "routes": [
+        {
+          "label": "any:free",
+          "len_m": 17.5,
+          "c_pred_m": 0.1762,
+          "peak_qp_m": 0.4117,
+          "peak_tcn_m": 0.4492,
+          "j_qp": 71.068,
+          "j_tcn": 273.07
+        },
+        {
+          "label": "any:slot_y-0.75",
+          "len_m": 17.79,
+          "c_pred_m": 0.1769,
+          "peak_qp_m": 0.4115,
+          "peak_tcn_m": 0.4488,
+          "j_qp": 70.926,
+          "j_tcn": 490.104
+        },
+        {
+          "label": "any:slot_y+0.75",
+          "len_m": 17.749,
+          "c_pred_m": 0.1769,
+          "peak_qp_m": 0.4115,
+          "peak_tcn_m": 0.4471,
+          "j_qp": 71.162,
+          "j_tcn": 574.538
+        }
+      ],
+      "picks": {
+        "oracle_qp": {
+          "index": 1,
+          "label": "any:slot_y-0.75",
+          "agrees_with_oracle": true,
+          "regret": 0.0
+        },
+        "heuristic": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": false,
+          "regret": 0.1425
+        },
+        "tcn_body": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": false,
+          "regret": 0.1425
+        },
+        "tcn_verify": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": false,
+          "regret": 0.1425,
+          "fell_back": false,
+          "tried": [
+            {
+              "index": 0,
+              "label": "any:free",
+              "outcome": "accepted_margin",
+              "repaired": true,
+              "ardy_calls": 6,
+              "min_overhead_m": 0.0602
+            }
+          ],
+          "ardy_calls": 6
+        }
+      },
+      "verified": {
+        "outcome": "accepted_margin",
+        "repaired": true,
+        "collision_free": true,
+        "meets_target": false,
+        "min_overhead_m": 0.0602,
+        "goal_error_m": 0.0606
+      }
+    },
+    {
+      "scene_id": "demo_partial_beam_h1.050_w1.450_n5_g2.50",
+      "n_beams": 5,
+      "beam_h": 1.05,
+      "beam_w": 1.45,
+      "gap": 2.5,
+      "n_routes": 3,
+      "routes": [
+        {
+          "label": "any:free",
+          "len_m": 17.997,
+          "c_pred_m": 1.3217,
+          "peak_qp_m": 0.0,
+          "peak_tcn_m": 0.0019,
+          "j_qp": 16.675,
+          "j_tcn": 16.686
+        },
+        {
+          "label": "any:slot_y+0.25",
+          "len_m": 17.5,
+          "c_pred_m": 0.1782,
+          "peak_qp_m": 0.251,
+          "peak_tcn_m": 0.2797,
+          "j_qp": 37.296,
+          "j_tcn": 110.0
+        },
+        {
+          "label": "any:slot_y+0.75",
+          "len_m": 17.749,
+          "c_pred_m": 0.1785,
+          "peak_qp_m": 0.2509,
+          "peak_tcn_m": 0.2813,
+          "j_qp": 37.487,
+          "j_tcn": 239.503
+        }
+      ],
+      "picks": {
+        "oracle_qp": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": true,
+          "regret": 0.0
+        },
+        "heuristic": {
+          "index": 1,
+          "label": "any:slot_y+0.25",
+          "agrees_with_oracle": false,
+          "regret": 20.6202
+        },
+        "tcn_body": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": true,
+          "regret": 0.0
+        },
+        "tcn_verify": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": true,
+          "regret": 0.0,
+          "fell_back": false,
+          "tried": [
+            {
+              "index": 0,
+              "label": "any:free",
+              "outcome": "accepted",
+              "repaired": false,
+              "ardy_calls": 2,
+              "min_overhead_m": 0.1932
+            }
+          ],
+          "ardy_calls": 2
+        }
+      },
+      "verified": {
+        "outcome": "accepted",
+        "repaired": false,
+        "collision_free": true,
+        "meets_target": true,
+        "min_overhead_m": 0.1932,
+        "goal_error_m": 0.0619
+      }
+    },
+    {
+      "scene_id": "demo_partial_beam_h1.050_w2.250_n5_g2.50",
+      "n_beams": 5,
+      "beam_h": 1.05,
+      "beam_w": 2.25,
+      "gap": 2.5,
+      "n_routes": 3,
+      "routes": [
+        {
+          "label": "any:free",
+          "len_m": 17.5,
+          "c_pred_m": 0.1782,
+          "peak_qp_m": 0.251,
+          "peak_tcn_m": 0.2797,
+          "j_qp": 37.296,
+          "j_tcn": 110.0
+        },
+        {
+          "label": "any:slot_y-0.75",
+          "len_m": 17.79,
+          "c_pred_m": 0.1785,
+          "peak_qp_m": 0.2509,
+          "peak_tcn_m": 0.2788,
+          "j_qp": 37.425,
+          "j_tcn": 184.907
+        },
+        {
+          "label": "any:slot_y+0.75",
+          "len_m": 17.749,
+          "c_pred_m": 0.1785,
+          "peak_qp_m": 0.2509,
+          "peak_tcn_m": 0.2813,
+          "j_qp": 37.487,
+          "j_tcn": 239.503
+        }
+      ],
+      "picks": {
+        "oracle_qp": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": true,
+          "regret": 0.0
+        },
+        "heuristic": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": true,
+          "regret": 0.0
+        },
+        "tcn_body": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": true,
+          "regret": 0.0
+        },
+        "tcn_verify": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": true,
+          "regret": 0.0,
+          "fell_back": false,
+          "tried": [
+            {
+              "index": 0,
+              "label": "any:free",
+              "outcome": "accepted",
+              "repaired": true,
+              "ardy_calls": 4,
+              "min_overhead_m": 0.1813
+            }
+          ],
+          "ardy_calls": 4
+        }
+      },
+      "verified": {
+        "outcome": "accepted",
+        "repaired": true,
+        "collision_free": true,
+        "meets_target": true,
+        "min_overhead_m": 0.1813,
+        "goal_error_m": 0.063
+      }
+    },
+    {
+      "scene_id": "demo_partial_beam_h1.200_w1.450_n5_g2.50",
+      "n_beams": 5,
+      "beam_h": 1.2,
+      "beam_w": 1.45,
+      "gap": 2.5,
+      "n_routes": 3,
+      "routes": [
+        {
+          "label": "any:free",
+          "len_m": 17.997,
+          "c_pred_m": 1.3217,
+          "peak_qp_m": 0.0,
+          "peak_tcn_m": 0.0019,
+          "j_qp": 16.675,
+          "j_tcn": 16.686
+        },
+        {
+          "label": "any:slot_y+0.25",
+          "len_m": 17.5,
+          "c_pred_m": 0.1773,
+          "peak_qp_m": 0.1385,
+          "peak_tcn_m": 0.1592,
+          "j_qp": 23.408,
+          "j_tcn": 48.007
+        },
+        {
+          "label": "any:slot_y+0.75",
+          "len_m": 17.749,
+          "c_pred_m": 0.1778,
+          "peak_qp_m": 0.1385,
+          "peak_tcn_m": 0.1594,
+          "j_qp": 23.638,
+          "j_tcn": 85.619
+        }
+      ],
+      "picks": {
+        "oracle_qp": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": true,
+          "regret": 0.0
+        },
+        "heuristic": {
+          "index": 1,
+          "label": "any:slot_y+0.25",
+          "agrees_with_oracle": false,
+          "regret": 6.7321
+        },
+        "tcn_body": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": true,
+          "regret": 0.0
+        },
+        "tcn_verify": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": true,
+          "regret": 0.0,
+          "fell_back": false,
+          "tried": [
+            {
+              "index": 0,
+              "label": "any:free",
+              "outcome": "accepted",
+              "repaired": false,
+              "ardy_calls": 2,
+              "min_overhead_m": 0.222
+            }
+          ],
+          "ardy_calls": 2
+        }
+      },
+      "verified": {
+        "outcome": "accepted",
+        "repaired": false,
+        "collision_free": true,
+        "meets_target": true,
+        "min_overhead_m": 0.222,
+        "goal_error_m": 0.0619
+      }
+    },
+    {
+      "scene_id": "demo_partial_beam_h1.200_w2.250_n5_g2.50",
+      "n_beams": 5,
+      "beam_h": 1.2,
+      "beam_w": 2.25,
+      "gap": 2.5,
+      "n_routes": 3,
+      "routes": [
+        {
+          "label": "any:free",
+          "len_m": 17.5,
+          "c_pred_m": 0.1773,
+          "peak_qp_m": 0.1385,
+          "peak_tcn_m": 0.1592,
+          "j_qp": 23.408,
+          "j_tcn": 48.007
+        },
+        {
+          "label": "any:slot_y-0.75",
+          "len_m": 17.79,
+          "c_pred_m": 0.1778,
+          "peak_qp_m": 0.1385,
+          "peak_tcn_m": 0.1634,
+          "j_qp": 23.648,
+          "j_tcn": 72.564
+        },
+        {
+          "label": "any:slot_y+0.75",
+          "len_m": 17.749,
+          "c_pred_m": 0.1778,
+          "peak_qp_m": 0.1385,
+          "peak_tcn_m": 0.1594,
+          "j_qp": 23.638,
+          "j_tcn": 85.619
+        }
+      ],
+      "picks": {
+        "oracle_qp": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": true,
+          "regret": 0.0
+        },
+        "heuristic": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": true,
+          "regret": 0.0
+        },
+        "tcn_body": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": true,
+          "regret": 0.0
+        },
+        "tcn_verify": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": true,
+          "regret": 0.0,
+          "fell_back": false,
+          "tried": [
+            {
+              "index": 0,
+              "label": "any:free",
+              "outcome": "accepted_margin",
+              "repaired": true,
+              "ardy_calls": 6,
+              "min_overhead_m": 0.1513
+            }
+          ],
+          "ardy_calls": 6
+        }
+      },
+      "verified": {
+        "outcome": "accepted_margin",
+        "repaired": true,
+        "collision_free": true,
+        "meets_target": false,
+        "min_overhead_m": 0.1513,
+        "goal_error_m": 0.0668
+      }
+    },
+    {
+      "scene_id": "demo_partial_beam_h0.950_w1.450_n6_g2.50",
+      "n_beams": 6,
+      "beam_h": 0.95,
+      "beam_w": 1.45,
+      "gap": 2.5,
+      "n_routes": 3,
+      "routes": [
+        {
+          "label": "any:free",
+          "len_m": 20.497,
+          "c_pred_m": 1.3217,
+          "peak_qp_m": 0.0,
+          "peak_tcn_m": 0.0161,
+          "j_qp": 19.175,
+          "j_tcn": 20.182
+        },
+        {
+          "label": "any:slot_y+0.25",
+          "len_m": 20.0,
+          "c_pred_m": 0.178,
+          "peak_qp_m": 0.4047,
+          "peak_tcn_m": 0.4656,
+          "j_qp": 63.742,
+          "j_tcn": 1264.73
+        },
+        {
+          "label": "any:slot_y+0.75",
+          "len_m": 20.249,
+          "c_pred_m": 0.178,
+          "peak_qp_m": 0.4046,
+          "peak_tcn_m": 0.4587,
+          "j_qp": 65.711,
+          "j_tcn": 1417.493
+        }
+      ],
+      "picks": {
+        "oracle_qp": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": true,
+          "regret": 0.0
+        },
+        "heuristic": {
+          "index": 1,
+          "label": "any:slot_y+0.25",
+          "agrees_with_oracle": false,
+          "regret": 44.567
+        },
+        "tcn_body": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": true,
+          "regret": 0.0
+        },
+        "tcn_verify": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": true,
+          "regret": 0.0,
+          "fell_back": false,
+          "tried": [
+            {
+              "index": 0,
+              "label": "any:free",
+              "outcome": "accepted",
+              "repaired": false,
+              "ardy_calls": 2,
+              "min_overhead_m": 0.29
+            }
+          ],
+          "ardy_calls": 2
+        }
+      },
+      "verified": {
+        "outcome": "accepted",
+        "repaired": false,
+        "collision_free": true,
+        "meets_target": true,
+        "min_overhead_m": 0.29,
+        "goal_error_m": 0.0548
+      }
+    },
+    {
+      "scene_id": "demo_partial_beam_h0.950_w2.250_n6_g2.50",
+      "n_beams": 6,
+      "beam_h": 0.95,
+      "beam_w": 2.25,
+      "gap": 2.5,
+      "n_routes": 3,
+      "routes": [
+        {
+          "label": "any:free",
+          "len_m": 20.0,
+          "c_pred_m": 0.178,
+          "peak_qp_m": 0.4047,
+          "peak_tcn_m": 0.4656,
+          "j_qp": 63.742,
+          "j_tcn": 1264.73
+        },
+        {
+          "label": "any:slot_y-0.75",
+          "len_m": 20.29,
+          "c_pred_m": 0.178,
+          "peak_qp_m": 0.4046,
+          "peak_tcn_m": 0.4569,
+          "j_qp": 65.564,
+          "j_tcn": 1369.179
+        },
+        {
+          "label": "any:slot_y+0.75",
+          "len_m": 20.249,
+          "c_pred_m": 0.178,
+          "peak_qp_m": 0.4046,
+          "peak_tcn_m": 0.4587,
+          "j_qp": 65.711,
+          "j_tcn": 1417.493
+        }
+      ],
+      "picks": {
+        "oracle_qp": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": true,
+          "regret": 0.0
+        },
+        "heuristic": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": true,
+          "regret": 0.0
+        },
+        "tcn_body": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": true,
+          "regret": 0.0
+        },
+        "tcn_verify": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": true,
+          "regret": 0.0,
+          "fell_back": false,
+          "tried": [
+            {
+              "index": 0,
+              "label": "any:free",
+              "outcome": "accepted_margin",
+              "repaired": true,
+              "ardy_calls": 6,
+              "min_overhead_m": 0.0799
+            }
+          ],
+          "ardy_calls": 6
+        }
+      },
+      "verified": {
+        "outcome": "accepted_margin",
+        "repaired": true,
+        "collision_free": true,
+        "meets_target": false,
+        "min_overhead_m": 0.0799,
+        "goal_error_m": 0.1139
+      }
+    },
+    {
+      "scene_id": "demo_partial_beam_h1.050_w1.450_n6_g2.50",
+      "n_beams": 6,
+      "beam_h": 1.05,
+      "beam_w": 1.45,
+      "gap": 2.5,
+      "n_routes": 3,
+      "routes": [
+        {
+          "label": "any:free",
+          "len_m": 20.497,
+          "c_pred_m": 1.3217,
+          "peak_qp_m": 0.0,
+          "peak_tcn_m": 0.0008,
+          "j_qp": 19.175,
+          "j_tcn": 19.178
+        },
+        {
+          "label": "any:slot_y+0.25",
+          "len_m": 20.0,
+          "c_pred_m": 0.179,
+          "peak_qp_m": 0.2467,
+          "peak_tcn_m": 0.2919,
+          "j_qp": 36.144,
+          "j_tcn": 500.139
+        },
+        {
+          "label": "any:slot_y+0.75",
+          "len_m": 20.249,
+          "c_pred_m": 0.1791,
+          "peak_qp_m": 0.2467,
+          "peak_tcn_m": 0.286,
+          "j_qp": 37.032,
+          "j_tcn": 573.45
+        }
+      ],
+      "picks": {
+        "oracle_qp": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": true,
+          "regret": 0.0
+        },
+        "heuristic": {
+          "index": 1,
+          "label": "any:slot_y+0.25",
+          "agrees_with_oracle": false,
+          "regret": 16.9683
+        },
+        "tcn_body": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": true,
+          "regret": 0.0
+        },
+        "tcn_verify": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": true,
+          "regret": 0.0,
+          "fell_back": false,
+          "tried": [
+            {
+              "index": 0,
+              "label": "any:free",
+              "outcome": "accepted",
+              "repaired": false,
+              "ardy_calls": 2,
+              "min_overhead_m": 0.2152
+            }
+          ],
+          "ardy_calls": 2
+        }
+      },
+      "verified": {
+        "outcome": "accepted",
+        "repaired": false,
+        "collision_free": true,
+        "meets_target": true,
+        "min_overhead_m": 0.2152,
+        "goal_error_m": 0.0611
+      }
+    },
+    {
+      "scene_id": "demo_partial_beam_h1.050_w2.250_n6_g2.50",
+      "n_beams": 6,
+      "beam_h": 1.05,
+      "beam_w": 2.25,
+      "gap": 2.5,
+      "n_routes": 3,
+      "routes": [
+        {
+          "label": "any:free",
+          "len_m": 20.0,
+          "c_pred_m": 0.179,
+          "peak_qp_m": 0.2467,
+          "peak_tcn_m": 0.2919,
+          "j_qp": 36.144,
+          "j_tcn": 500.139
+        },
+        {
+          "label": "any:slot_y-0.75",
+          "len_m": 20.29,
+          "c_pred_m": 0.1791,
+          "peak_qp_m": 0.2467,
+          "peak_tcn_m": 0.2875,
+          "j_qp": 37.003,
+          "j_tcn": 550.813
+        },
+        {
+          "label": "any:slot_y+0.75",
+          "len_m": 20.249,
+          "c_pred_m": 0.1791,
+          "peak_qp_m": 0.2467,
+          "peak_tcn_m": 0.286,
+          "j_qp": 37.032,
+          "j_tcn": 573.45
+        }
+      ],
+      "picks": {
+        "oracle_qp": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": true,
+          "regret": 0.0
+        },
+        "heuristic": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": true,
+          "regret": 0.0
+        },
+        "tcn_body": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": true,
+          "regret": 0.0
+        },
+        "tcn_verify": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": true,
+          "regret": 0.0,
+          "fell_back": false,
+          "tried": [
+            {
+              "index": 0,
+              "label": "any:free",
+              "outcome": "accepted_margin",
+              "repaired": true,
+              "ardy_calls": 6,
+              "min_overhead_m": 0.1716
+            }
+          ],
+          "ardy_calls": 6
+        }
+      },
+      "verified": {
+        "outcome": "accepted_margin",
+        "repaired": true,
+        "collision_free": true,
+        "meets_target": false,
+        "min_overhead_m": 0.1716,
+        "goal_error_m": 0.0947
+      }
+    },
+    {
+      "scene_id": "demo_partial_beam_h1.200_w1.450_n6_g2.50",
+      "n_beams": 6,
+      "beam_h": 1.2,
+      "beam_w": 1.45,
+      "gap": 2.5,
+      "n_routes": 3,
+      "routes": [
+        {
+          "label": "any:free",
+          "len_m": 20.497,
+          "c_pred_m": 1.3217,
+          "peak_qp_m": 0.0,
+          "peak_tcn_m": 0.0008,
+          "j_qp": 19.175,
+          "j_tcn": 19.178
+        },
+        {
+          "label": "any:slot_y+0.25",
+          "len_m": 20.0,
+          "c_pred_m": 0.1786,
+          "peak_qp_m": 0.1362,
+          "peak_tcn_m": 0.1627,
+          "j_qp": 24.794,
+          "j_tcn": 165.619
+        },
+        {
+          "label": "any:slot_y+0.75",
+          "len_m": 20.249,
+          "c_pred_m": 0.1786,
+          "peak_qp_m": 0.1361,
+          "peak_tcn_m": 0.1613,
+          "j_qp": 25.237,
+          "j_tcn": 179.431
+        }
+      ],
+      "picks": {
+        "oracle_qp": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": true,
+          "regret": 0.0
+        },
+        "heuristic": {
+          "index": 1,
+          "label": "any:slot_y+0.25",
+          "agrees_with_oracle": false,
+          "regret": 5.6186
+        },
+        "tcn_body": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": true,
+          "regret": 0.0
+        },
+        "tcn_verify": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": true,
+          "regret": 0.0,
+          "fell_back": false,
+          "tried": [
+            {
+              "index": 0,
+              "label": "any:free",
+              "outcome": "accepted",
+              "repaired": false,
+              "ardy_calls": 2,
+              "min_overhead_m": 0.2396
+            }
+          ],
+          "ardy_calls": 2
+        }
+      },
+      "verified": {
+        "outcome": "accepted",
+        "repaired": false,
+        "collision_free": true,
+        "meets_target": true,
+        "min_overhead_m": 0.2396,
+        "goal_error_m": 0.0611
+      }
+    },
+    {
+      "scene_id": "demo_partial_beam_h1.200_w2.250_n6_g2.50",
+      "n_beams": 6,
+      "beam_h": 1.2,
+      "beam_w": 2.25,
+      "gap": 2.5,
+      "n_routes": 3,
+      "routes": [
+        {
+          "label": "any:free",
+          "len_m": 20.0,
+          "c_pred_m": 0.1786,
+          "peak_qp_m": 0.1362,
+          "peak_tcn_m": 0.1627,
+          "j_qp": 24.794,
+          "j_tcn": 165.619
+        },
+        {
+          "label": "any:slot_y-0.75",
+          "len_m": 20.29,
+          "c_pred_m": 0.1786,
+          "peak_qp_m": 0.1361,
+          "peak_tcn_m": 0.1652,
+          "j_qp": 25.257,
+          "j_tcn": 181.97
+        },
+        {
+          "label": "any:slot_y+0.75",
+          "len_m": 20.249,
+          "c_pred_m": 0.1786,
+          "peak_qp_m": 0.1361,
+          "peak_tcn_m": 0.1613,
+          "j_qp": 25.237,
+          "j_tcn": 179.431
+        }
+      ],
+      "picks": {
+        "oracle_qp": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": true,
+          "regret": 0.0
+        },
+        "heuristic": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": true,
+          "regret": 0.0
+        },
+        "tcn_body": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": true,
+          "regret": 0.0
+        },
+        "tcn_verify": {
+          "index": 0,
+          "label": "any:free",
+          "agrees_with_oracle": true,
+          "regret": 0.0,
+          "fell_back": false,
+          "tried": [
+            {
+              "index": 0,
+              "label": "any:free",
+              "outcome": "accepted_margin",
+              "repaired": true,
+              "ardy_calls": 6,
+              "min_overhead_m": 0.1772
+            }
+          ],
+          "ardy_calls": 6
+        }
+      },
+      "verified": {
+        "outcome": "accepted_margin",
+        "repaired": true,
+        "collision_free": true,
+        "meets_target": false,
+        "min_overhead_m": 0.1772,
+        "goal_error_m": 0.0708
+      }
+    }
+  ]
+}

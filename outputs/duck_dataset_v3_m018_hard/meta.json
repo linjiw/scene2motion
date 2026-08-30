@@ -1,0 +1,110 @@
+{
+  "splits": {
+    "train": {
+      "heights": [
+        0.95,
+        1.05,
+        1.15,
+        1.25
+      ],
+      "x0": [
+        3.0,
+        4.0
+      ],
+      "gaps": [
+        1.0,
+        2.0,
+        3.5,
+        5.0
+      ],
+      "speeds": [
+        0.7,
+        0.9,
+        1.1
+      ],
+      "counts": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    "dev": {
+      "heights": [
+        1.0,
+        1.3
+      ],
+      "x0": [
+        3.5,
+        5.0
+      ],
+      "gaps": [
+        1.5,
+        3.0,
+        4.5
+      ],
+      "speeds": [
+        0.8,
+        1.05
+      ],
+      "counts": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    "test": {
+      "heights": [
+        1.1,
+        1.2
+      ],
+      "x0": [
+        4.5
+      ],
+      "gaps": [
+        1.2,
+        2.5,
+        4.5
+      ],
+      "speeds": [
+        0.6,
+        1.0,
+        1.2
+      ],
+      "counts": [
+        4,
+        5,
+        6
+      ]
+    }
+  },
+  "split_set": "hard",
+  "repeats": 2,
+  "counts": {
+    "train": 476,
+    "dev": 123,
+    "test": 108
+  },
+  "margin_m": 0.18,
+  "tau_s": 0.18999999999999997,
+  "response": "outputs/duck_response/response.json",
+  "teacher": "convex QP (scheduler.solve)",
+  "files": {
+    "train": {
+      "n": 476,
+      "sha256_16": "b4ebc1a47bd17819"
+    },
+    "dev": {
+      "n": 123,
+      "sha256_16": "ea079fcbc1c01e64"
+    },
+    "test": {
+      "n": 108,
+      "sha256_16": "9958d07ef6cbef5e"
+    }
+  },
+  "n_samples": 64,
+  "built_s": 330.9,
+  "dataset_hash": "412c5a1c5be0a91f"
+}

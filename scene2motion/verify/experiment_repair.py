@@ -93,6 +93,8 @@ def main() -> int:
     ap.add_argument("--seeds", type=int, nargs="+", default=[100])
     ap.add_argument("--preference", default="shortest")
     ap.add_argument("--out", type=Path, default=OUT)
+    ap.add_argument("--tcn-dir", type=Path, default=None,
+                    help="checkpoint to use for the 'tcn' methods; defaults to m018")
     a = ap.parse_args()
 
     resp = response()
@@ -110,12 +112,13 @@ def main() -> int:
         if not st.feasible:
             skipped.append({"beam": bp.__dict__, "why": "route infeasible"})
             continue
-        sched = all_schedules(sc, st.plan, speed=SPEED)
+        sched = all_schedules(sc, st.plan, speed=SPEED, tcn_dir=a.tcn_dir)
         s_m = np.asarray(sched["s_m"], float)
         needed = max(0.0, STAND_TOP - h)
         prov_base = {"beam": bp.__dict__, "tcn_dataset_hash": sched.get("tcn_dataset_hash"),
                      "tcn_margin_m": sched.get("tcn_margin_m"),
-                     "route_len_m": sched["route_len_m"], "needed_dip_m": needed}
+                     "route_len_m": sched["route_len_m"], "needed_dip_m": needed,
+                     "tcn_dir": sched.get("tcn_dir")}
 
         for method in METHODS:
             dip = sched["schedules"].get(SCHED_KEY[method])
@@ -175,6 +178,7 @@ def main() -> int:
     payload = {"generated_at": time.time(), "elapsed_s": round(time.time() - t0, 1),
                "target_m": MARGIN_M, "preference": a.preference, "width_m": a.width,
                "n_beams": a.n_beams, "heights": a.heights, "gaps": a.gaps, "seeds": a.seeds,
+               "tcn_dir": str(a.tcn_dir) if a.tcn_dir else "outputs/duck_model_v3_m018",
                "stand_top_m": STAND_TOP, "summary": summary, "by_beam_count": by_count,
                "repair_stats": repair_stats, "n_skipped": len(skipped), "skipped": skipped,
                "rows": rows}

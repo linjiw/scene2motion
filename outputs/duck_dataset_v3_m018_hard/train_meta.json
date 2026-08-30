@@ -1,0 +1,9994 @@
+[
+ {
+  "heights": [],
+  "xs": [],
+  "goal_x": 8.0,
+  "speed": 0.7,
+  "n_beams": 0,
+  "gap": 0.0,
+  "scene_id": "v3_87e25c1869",
+  "route_len": 8.0,
+  "dt": 0.18140589569160998,
+  "objective": 0.0,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 1
+ },
+ {
+  "heights": [],
+  "xs": [],
+  "goal_x": 8.0,
+  "speed": 0.7,
+  "n_beams": 0,
+  "gap": 0.0,
+  "scene_id": "v3_87e25c1869",
+  "route_len": 8.0,
+  "dt": 0.18140589569160998,
+  "objective": 0.0,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 1
+ },
+ {
+  "heights": [],
+  "xs": [],
+  "goal_x": 8.0,
+  "speed": 0.9,
+  "n_beams": 0,
+  "gap": 0.0,
+  "scene_id": "v3_87e25c1869",
+  "route_len": 8.0,
+  "dt": 0.14109347442680775,
+  "objective": 0.0,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 1
+ },
+ {
+  "heights": [],
+  "xs": [],
+  "goal_x": 8.0,
+  "speed": 0.9,
+  "n_beams": 0,
+  "gap": 0.0,
+  "scene_id": "v3_87e25c1869",
+  "route_len": 8.0,
+  "dt": 0.14109347442680775,
+  "objective": 0.0,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 1
+ },
+ {
+  "heights": [],
+  "xs": [],
+  "goal_x": 8.0,
+  "speed": 1.1,
+  "n_beams": 0,
+  "gap": 0.0,
+  "scene_id": "v3_87e25c1869",
+  "route_len": 8.0,
+  "dt": 0.11544011544011543,
+  "objective": 0.0,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 1
+ },
+ {
+  "heights": [],
+  "xs": [],
+  "goal_x": 8.0,
+  "speed": 1.1,
+  "n_beams": 0,
+  "gap": 0.0,
+  "scene_id": "v3_87e25c1869",
+  "route_len": 8.0,
+  "dt": 0.11544011544011543,
+  "objective": 0.0,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 1
+ },
+ {
+  "heights": [],
+  "xs": [],
+  "goal_x": 8.0,
+  "speed": 0.7,
+  "n_beams": 0,
+  "gap": 0.0,
+  "scene_id": "v3_87e25c1869",
+  "route_len": 8.0,
+  "dt": 0.18140589569160998,
+  "objective": 0.0,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 1
+ },
+ {
+  "heights": [],
+  "xs": [],
+  "goal_x": 8.0,
+  "speed": 0.7,
+  "n_beams": 0,
+  "gap": 0.0,
+  "scene_id": "v3_87e25c1869",
+  "route_len": 8.0,
+  "dt": 0.18140589569160998,
+  "objective": 0.0,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 1
+ },
+ {
+  "heights": [],
+  "xs": [],
+  "goal_x": 8.0,
+  "speed": 0.9,
+  "n_beams": 0,
+  "gap": 0.0,
+  "scene_id": "v3_87e25c1869",
+  "route_len": 8.0,
+  "dt": 0.14109347442680775,
+  "objective": 0.0,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 1
+ },
+ {
+  "heights": [],
+  "xs": [],
+  "goal_x": 8.0,
+  "speed": 0.9,
+  "n_beams": 0,
+  "gap": 0.0,
+  "scene_id": "v3_87e25c1869",
+  "route_len": 8.0,
+  "dt": 0.14109347442680775,
+  "objective": 0.0,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 1
+ },
+ {
+  "heights": [],
+  "xs": [],
+  "goal_x": 8.0,
+  "speed": 1.1,
+  "n_beams": 0,
+  "gap": 0.0,
+  "scene_id": "v3_87e25c1869",
+  "route_len": 8.0,
+  "dt": 0.11544011544011543,
+  "objective": 0.0,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 1
+ },
+ {
+  "heights": [],
+  "xs": [],
+  "goal_x": 8.0,
+  "speed": 1.1,
+  "n_beams": 0,
+  "gap": 0.0,
+  "scene_id": "v3_87e25c1869",
+  "route_len": 8.0,
+  "dt": 0.11544011544011543,
+  "objective": 0.0,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 1
+ },
+ {
+  "heights": [],
+  "xs": [],
+  "goal_x": 8.0,
+  "speed": 0.7,
+  "n_beams": 0,
+  "gap": 0.0,
+  "scene_id": "v3_87e25c1869",
+  "route_len": 8.0,
+  "dt": 0.18140589569160998,
+  "objective": 0.0,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 1
+ },
+ {
+  "heights": [],
+  "xs": [],
+  "goal_x": 8.0,
+  "speed": 0.7,
+  "n_beams": 0,
+  "gap": 0.0,
+  "scene_id": "v3_87e25c1869",
+  "route_len": 8.0,
+  "dt": 0.18140589569160998,
+  "objective": 0.0,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 1
+ },
+ {
+  "heights": [],
+  "xs": [],
+  "goal_x": 8.0,
+  "speed": 0.9,
+  "n_beams": 0,
+  "gap": 0.0,
+  "scene_id": "v3_87e25c1869",
+  "route_len": 8.0,
+  "dt": 0.14109347442680775,
+  "objective": 0.0,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 1
+ },
+ {
+  "heights": [],
+  "xs": [],
+  "goal_x": 8.0,
+  "speed": 0.9,
+  "n_beams": 0,
+  "gap": 0.0,
+  "scene_id": "v3_87e25c1869",
+  "route_len": 8.0,
+  "dt": 0.14109347442680775,
+  "objective": 0.0,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 1
+ },
+ {
+  "heights": [],
+  "xs": [],
+  "goal_x": 8.0,
+  "speed": 1.1,
+  "n_beams": 0,
+  "gap": 0.0,
+  "scene_id": "v3_87e25c1869",
+  "route_len": 8.0,
+  "dt": 0.11544011544011543,
+  "objective": 0.0,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 1
+ },
+ {
+  "heights": [],
+  "xs": [],
+  "goal_x": 8.0,
+  "speed": 1.1,
+  "n_beams": 0,
+  "gap": 0.0,
+  "scene_id": "v3_87e25c1869",
+  "route_len": 8.0,
+  "dt": 0.11544011544011543,
+  "objective": 0.0,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 1
+ },
+ {
+  "heights": [],
+  "xs": [],
+  "goal_x": 8.0,
+  "speed": 0.7,
+  "n_beams": 0,
+  "gap": 0.0,
+  "scene_id": "v3_87e25c1869",
+  "route_len": 8.0,
+  "dt": 0.18140589569160998,
+  "objective": 0.0,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 1
+ },
+ {
+  "heights": [],
+  "xs": [],
+  "goal_x": 8.0,
+  "speed": 0.7,
+  "n_beams": 0,
+  "gap": 0.0,
+  "scene_id": "v3_87e25c1869",
+  "route_len": 8.0,
+  "dt": 0.18140589569160998,
+  "objective": 0.0,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 1
+ },
+ {
+  "heights": [],
+  "xs": [],
+  "goal_x": 8.0,
+  "speed": 0.9,
+  "n_beams": 0,
+  "gap": 0.0,
+  "scene_id": "v3_87e25c1869",
+  "route_len": 8.0,
+  "dt": 0.14109347442680775,
+  "objective": 0.0,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 1
+ },
+ {
+  "heights": [],
+  "xs": [],
+  "goal_x": 8.0,
+  "speed": 0.9,
+  "n_beams": 0,
+  "gap": 0.0,
+  "scene_id": "v3_87e25c1869",
+  "route_len": 8.0,
+  "dt": 0.14109347442680775,
+  "objective": 0.0,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 1
+ },
+ {
+  "heights": [],
+  "xs": [],
+  "goal_x": 8.0,
+  "speed": 1.1,
+  "n_beams": 0,
+  "gap": 0.0,
+  "scene_id": "v3_87e25c1869",
+  "route_len": 8.0,
+  "dt": 0.11544011544011543,
+  "objective": 0.0,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 1
+ },
+ {
+  "heights": [],
+  "xs": [],
+  "goal_x": 8.0,
+  "speed": 1.1,
+  "n_beams": 0,
+  "gap": 0.0,
+  "scene_id": "v3_87e25c1869",
+  "route_len": 8.0,
+  "dt": 0.11544011544011543,
+  "objective": 0.0,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 1
+ },
+ {
+  "heights": [],
+  "xs": [],
+  "goal_x": 8.0,
+  "speed": 0.7,
+  "n_beams": 0,
+  "gap": 0.0,
+  "scene_id": "v3_87e25c1869",
+  "route_len": 8.0,
+  "dt": 0.18140589569160998,
+  "objective": 0.0,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 1
+ },
+ {
+  "heights": [],
+  "xs": [],
+  "goal_x": 8.0,
+  "speed": 0.7,
+  "n_beams": 0,
+  "gap": 0.0,
+  "scene_id": "v3_87e25c1869",
+  "route_len": 8.0,
+  "dt": 0.18140589569160998,
+  "objective": 0.0,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 1
+ },
+ {
+  "heights": [],
+  "xs": [],
+  "goal_x": 8.0,
+  "speed": 0.9,
+  "n_beams": 0,
+  "gap": 0.0,
+  "scene_id": "v3_87e25c1869",
+  "route_len": 8.0,
+  "dt": 0.14109347442680775,
+  "objective": 0.0,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 1
+ },
+ {
+  "heights": [],
+  "xs": [],
+  "goal_x": 8.0,
+  "speed": 0.9,
+  "n_beams": 0,
+  "gap": 0.0,
+  "scene_id": "v3_87e25c1869",
+  "route_len": 8.0,
+  "dt": 0.14109347442680775,
+  "objective": 0.0,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 1
+ },
+ {
+  "heights": [],
+  "xs": [],
+  "goal_x": 8.0,
+  "speed": 1.1,
+  "n_beams": 0,
+  "gap": 0.0,
+  "scene_id": "v3_87e25c1869",
+  "route_len": 8.0,
+  "dt": 0.11544011544011543,
+  "objective": 0.0,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 1
+ },
+ {
+  "heights": [],
+  "xs": [],
+  "goal_x": 8.0,
+  "speed": 1.1,
+  "n_beams": 0,
+  "gap": 0.0,
+  "scene_id": "v3_87e25c1869",
+  "route_len": 8.0,
+  "dt": 0.11544011544011543,
+  "objective": 0.0,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 1
+ },
+ {
+  "heights": [],
+  "xs": [],
+  "goal_x": 8.0,
+  "speed": 0.7,
+  "n_beams": 0,
+  "gap": 0.0,
+  "scene_id": "v3_87e25c1869",
+  "route_len": 8.0,
+  "dt": 0.18140589569160998,
+  "objective": 0.0,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 1
+ },
+ {
+  "heights": [],
+  "xs": [],
+  "goal_x": 8.0,
+  "speed": 0.7,
+  "n_beams": 0,
+  "gap": 0.0,
+  "scene_id": "v3_87e25c1869",
+  "route_len": 8.0,
+  "dt": 0.18140589569160998,
+  "objective": 0.0,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 1
+ },
+ {
+  "heights": [],
+  "xs": [],
+  "goal_x": 8.0,
+  "speed": 0.9,
+  "n_beams": 0,
+  "gap": 0.0,
+  "scene_id": "v3_87e25c1869",
+  "route_len": 8.0,
+  "dt": 0.14109347442680775,
+  "objective": 0.0,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 1
+ },
+ {
+  "heights": [],
+  "xs": [],
+  "goal_x": 8.0,
+  "speed": 0.9,
+  "n_beams": 0,
+  "gap": 0.0,
+  "scene_id": "v3_87e25c1869",
+  "route_len": 8.0,
+  "dt": 0.14109347442680775,
+  "objective": 0.0,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 1
+ },
+ {
+  "heights": [],
+  "xs": [],
+  "goal_x": 8.0,
+  "speed": 1.1,
+  "n_beams": 0,
+  "gap": 0.0,
+  "scene_id": "v3_87e25c1869",
+  "route_len": 8.0,
+  "dt": 0.11544011544011543,
+  "objective": 0.0,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 1
+ },
+ {
+  "heights": [],
+  "xs": [],
+  "goal_x": 8.0,
+  "speed": 1.1,
+  "n_beams": 0,
+  "gap": 0.0,
+  "scene_id": "v3_87e25c1869",
+  "route_len": 8.0,
+  "dt": 0.11544011544011543,
+  "objective": 0.0,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 1
+ },
+ {
+  "heights": [],
+  "xs": [],
+  "goal_x": 8.0,
+  "speed": 0.7,
+  "n_beams": 0,
+  "gap": 0.0,
+  "scene_id": "v3_87e25c1869",
+  "route_len": 8.0,
+  "dt": 0.18140589569160998,
+  "objective": 0.0,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 1
+ },
+ {
+  "heights": [],
+  "xs": [],
+  "goal_x": 8.0,
+  "speed": 0.7,
+  "n_beams": 0,
+  "gap": 0.0,
+  "scene_id": "v3_87e25c1869",
+  "route_len": 8.0,
+  "dt": 0.18140589569160998,
+  "objective": 0.0,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 1
+ },
+ {
+  "heights": [],
+  "xs": [],
+  "goal_x": 8.0,
+  "speed": 0.9,
+  "n_beams": 0,
+  "gap": 0.0,
+  "scene_id": "v3_87e25c1869",
+  "route_len": 8.0,
+  "dt": 0.14109347442680775,
+  "objective": 0.0,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 1
+ },
+ {
+  "heights": [],
+  "xs": [],
+  "goal_x": 8.0,
+  "speed": 0.9,
+  "n_beams": 0,
+  "gap": 0.0,
+  "scene_id": "v3_87e25c1869",
+  "route_len": 8.0,
+  "dt": 0.14109347442680775,
+  "objective": 0.0,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 1
+ },
+ {
+  "heights": [],
+  "xs": [],
+  "goal_x": 8.0,
+  "speed": 1.1,
+  "n_beams": 0,
+  "gap": 0.0,
+  "scene_id": "v3_87e25c1869",
+  "route_len": 8.0,
+  "dt": 0.11544011544011543,
+  "objective": 0.0,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 1
+ },
+ {
+  "heights": [],
+  "xs": [],
+  "goal_x": 8.0,
+  "speed": 1.1,
+  "n_beams": 0,
+  "gap": 0.0,
+  "scene_id": "v3_87e25c1869",
+  "route_len": 8.0,
+  "dt": 0.11544011544011543,
+  "objective": 0.0,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 1
+ },
+ {
+  "heights": [],
+  "xs": [],
+  "goal_x": 8.0,
+  "speed": 0.7,
+  "n_beams": 0,
+  "gap": 0.0,
+  "scene_id": "v3_87e25c1869",
+  "route_len": 8.0,
+  "dt": 0.18140589569160998,
+  "objective": 0.0,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 1
+ },
+ {
+  "heights": [],
+  "xs": [],
+  "goal_x": 8.0,
+  "speed": 0.7,
+  "n_beams": 0,
+  "gap": 0.0,
+  "scene_id": "v3_87e25c1869",
+  "route_len": 8.0,
+  "dt": 0.18140589569160998,
+  "objective": 0.0,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 1
+ },
+ {
+  "heights": [],
+  "xs": [],
+  "goal_x": 8.0,
+  "speed": 0.9,
+  "n_beams": 0,
+  "gap": 0.0,
+  "scene_id": "v3_87e25c1869",
+  "route_len": 8.0,
+  "dt": 0.14109347442680775,
+  "objective": 0.0,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 1
+ },
+ {
+  "heights": [],
+  "xs": [],
+  "goal_x": 8.0,
+  "speed": 0.9,
+  "n_beams": 0,
+  "gap": 0.0,
+  "scene_id": "v3_87e25c1869",
+  "route_len": 8.0,
+  "dt": 0.14109347442680775,
+  "objective": 0.0,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 1
+ },
+ {
+  "heights": [],
+  "xs": [],
+  "goal_x": 8.0,
+  "speed": 1.1,
+  "n_beams": 0,
+  "gap": 0.0,
+  "scene_id": "v3_87e25c1869",
+  "route_len": 8.0,
+  "dt": 0.11544011544011543,
+  "objective": 0.0,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 1
+ },
+ {
+  "heights": [],
+  "xs": [],
+  "goal_x": 8.0,
+  "speed": 1.1,
+  "n_beams": 0,
+  "gap": 0.0,
+  "scene_id": "v3_87e25c1869",
+  "route_len": 8.0,
+  "dt": 0.11544011544011543,
+  "objective": 0.0,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 1
+ },
+ {
+  "heights": [
+   0.9746383943929219
+  ],
+  "xs": [
+   3.0
+  ],
+  "goal_x": 8.0,
+  "speed": 0.7,
+  "n_beams": 1,
+  "gap": 0.0,
+  "scene_id": "v3_0c64bb4063",
+  "route_len": 8.0,
+  "dt": 0.18140589569160998,
+  "objective": 7.634027395855341,
+  "max_violation_m": 2.9976021664879227e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 75
+ },
+ {
+  "heights": [
+   0.956539272095142
+  ],
+  "xs": [
+   3.0
+  ],
+  "goal_x": 8.0,
+  "speed": 0.7,
+  "n_beams": 1,
+  "gap": 0.0,
+  "scene_id": "v3_8802733def",
+  "route_len": 8.0,
+  "dt": 0.18140589569160998,
+  "objective": 8.828287037411325,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 76
+ },
+ {
+  "heights": [
+   0.9651280499405769
+  ],
+  "xs": [
+   3.0
+  ],
+  "goal_x": 8.0,
+  "speed": 0.9,
+  "n_beams": 1,
+  "gap": 0.0,
+  "scene_id": "v3_e380d75dd0",
+  "route_len": 8.0,
+  "dt": 0.14109347442680775,
+  "objective": 8.601659319831345,
+  "max_violation_m": 4.118927421359331e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 77
+ },
+ {
+  "heights": [
+   0.9503966595480163
+  ],
+  "xs": [
+   3.0
+  ],
+  "goal_x": 8.0,
+  "speed": 0.9,
+  "n_beams": 1,
+  "gap": 0.0,
+  "scene_id": "v3_5e79696e4b",
+  "route_len": 8.0,
+  "dt": 0.14109347442680775,
+  "objective": 9.432588211430883,
+  "max_violation_m": 4.374278717023117e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 77
+ },
+ {
+  "heights": [
+   0.9574808657717657
+  ],
+  "xs": [
+   3.0
+  ],
+  "goal_x": 8.0,
+  "speed": 1.1,
+  "n_beams": 1,
+  "gap": 0.0,
+  "scene_id": "v3_94b8394ea3",
+  "route_len": 8.0,
+  "dt": 0.11544011544011543,
+  "objective": 9.326031587655015,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 76
+ },
+ {
+  "heights": [
+   0.9208618399394469
+  ],
+  "xs": [
+   3.0
+  ],
+  "goal_x": 8.0,
+  "speed": 1.1,
+  "n_beams": 1,
+  "gap": 0.0,
+  "scene_id": "v3_64e2639246",
+  "route_len": 8.0,
+  "dt": 0.11544011544011543,
+  "objective": 11.447419456063905,
+  "max_violation_m": 1.9750867608081535e-13,
+  "status": "Optimization terminated successfully",
+  "n_iter": 79
+ },
+ {
+  "heights": [
+   0.9780955424867399
+  ],
+  "xs": [
+   4.0
+  ],
+  "goal_x": 8.0,
+  "speed": 0.7,
+  "n_beams": 1,
+  "gap": 0.0,
+  "scene_id": "v3_08cc3fe349",
+  "route_len": 8.0,
+  "dt": 0.18140589569160998,
+  "objective": 7.38381007022831,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 75
+ },
+ {
+  "heights": [
+   0.9746144146961788
+  ],
+  "xs": [
+   4.0
+  ],
+  "goal_x": 8.0,
+  "speed": 0.7,
+  "n_beams": 1,
+  "gap": 0.0,
+  "scene_id": "v3_4c5edef848",
+  "route_len": 8.0,
+  "dt": 0.18140589569160998,
+  "objective": 7.635777529449763,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 73
+ },
+ {
+  "heights": [
+   0.9489758969531761
+  ],
+  "xs": [
+   4.0
+  ],
+  "goal_x": 8.0,
+  "speed": 0.9,
+  "n_beams": 1,
+  "gap": 0.0,
+  "scene_id": "v3_bab2ddc456",
+  "route_len": 8.0,
+  "dt": 0.14109347442680775,
+  "objective": 9.510116960343645,
+  "max_violation_m": 3.552713678800501e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 79
+ },
+ {
+  "heights": [
+   0.9303731660308123
+  ],
+  "xs": [
+   4.0
+  ],
+  "goal_x": 8.0,
+  "speed": 0.9,
+  "n_beams": 1,
+  "gap": 0.0,
+  "scene_id": "v3_f16520a2f5",
+  "route_len": 8.0,
+  "dt": 0.14109347442680775,
+  "objective": 10.55451547462368,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 76
+ },
+ {
+  "heights": [
+   0.9302776778071364
+  ],
+  "xs": [
+   4.0
+  ],
+  "goal_x": 8.0,
+  "speed": 1.1,
+  "n_beams": 1,
+  "gap": 0.0,
+  "scene_id": "v3_ceeeef47d4",
+  "route_len": 8.0,
+  "dt": 0.11544011544011543,
+  "objective": 10.881203180733783,
+  "max_violation_m": 1.7763568394002505e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 79
+ },
+ {
+  "heights": [
+   0.976309796215976
+  ],
+  "xs": [
+   4.0
+  ],
+  "goal_x": 8.0,
+  "speed": 1.1,
+  "n_beams": 1,
+  "gap": 0.0,
+  "scene_id": "v3_65edd85069",
+  "route_len": 8.0,
+  "dt": 0.11544011544011543,
+  "objective": 7.980200586901246,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 78
+ },
+ {
+  "heights": [
+   1.03403509304879
+  ],
+  "xs": [
+   3.0
+  ],
+  "goal_x": 8.0,
+  "speed": 0.7,
+  "n_beams": 1,
+  "gap": 0.0,
+  "scene_id": "v3_cb689c493f",
+  "route_len": 8.0,
+  "dt": 0.18140589569160998,
+  "objective": 4.110855802524969,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 73
+ },
+ {
+  "heights": [
+   1.031325226404069
+  ],
+  "xs": [
+   3.0
+  ],
+  "goal_x": 8.0,
+  "speed": 0.7,
+  "n_beams": 1,
+  "gap": 0.0,
+  "scene_id": "v3_b5effa13f9",
+  "route_len": 8.0,
+  "dt": 0.18140589569160998,
+  "objective": 4.236641176468531,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 74
+ },
+ {
+  "heights": [
+   1.0378342806133969
+  ],
+  "xs": [
+   3.0
+  ],
+  "goal_x": 8.0,
+  "speed": 0.9,
+  "n_beams": 1,
+  "gap": 0.0,
+  "scene_id": "v3_6fd6b2f6e0",
+  "route_len": 8.0,
+  "dt": 0.14109347442680775,
+  "objective": 4.0593582099007115,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 76
+ },
+ {
+  "heights": [
+   1.0585104307806044
+  ],
+  "xs": [
+   3.0
+  ],
+  "goal_x": 8.0,
+  "speed": 0.9,
+  "n_beams": 1,
+  "gap": 0.0,
+  "scene_id": "v3_71dd450298",
+  "route_len": 8.0,
+  "dt": 0.14109347442680775,
+  "objective": 3.1552072262888005,
+  "max_violation_m": 4.884981308350689e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 76
+ },
+ {
+  "heights": [
+   1.073713678872765
+  ],
+  "xs": [
+   3.0
+  ],
+  "goal_x": 8.0,
+  "speed": 1.1,
+  "n_beams": 1,
+  "gap": 0.0,
+  "scene_id": "v3_a9a3319862",
+  "route_len": 8.0,
+  "dt": 0.11544011544011543,
+  "objective": 2.9431581114484766,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 74
+ },
+ {
+  "heights": [
+   1.0624806632008497
+  ],
+  "xs": [
+   3.0
+  ],
+  "goal_x": 8.0,
+  "speed": 1.1,
+  "n_beams": 1,
+  "gap": 0.0,
+  "scene_id": "v3_c9b2900998",
+  "route_len": 8.0,
+  "dt": 0.11544011544011543,
+  "objective": 3.1654277672251574,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 75
+ },
+ {
+  "heights": [
+   1.049201976944572
+  ],
+  "xs": [
+   4.0
+  ],
+  "goal_x": 8.0,
+  "speed": 0.7,
+  "n_beams": 1,
+  "gap": 0.0,
+  "scene_id": "v3_f039589702",
+  "route_len": 8.0,
+  "dt": 0.18140589569160998,
+  "objective": 3.441839723726682,
+  "max_violation_m": 1.1102230246251565e-16,
+  "status": "Optimization terminated successfully",
+  "n_iter": 74
+ },
+ {
+  "heights": [
+   1.072475555184493
+  ],
+  "xs": [
+   4.0
+  ],
+  "goal_x": 8.0,
+  "speed": 0.7,
+  "n_beams": 1,
+  "gap": 0.0,
+  "scene_id": "v3_ca47ccdaf3",
+  "route_len": 8.0,
+  "dt": 0.18140589569160998,
+  "objective": 2.7933697064152017,
+  "max_violation_m": 1.84297022087776e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 74
+ },
+ {
+  "heights": [
+   1.0372192930933841
+  ],
+  "xs": [
+   4.0
+  ],
+  "goal_x": 8.0,
+  "speed": 0.9,
+  "n_beams": 1,
+  "gap": 0.0,
+  "scene_id": "v3_90181c8659",
+  "route_len": 8.0,
+  "dt": 0.14109347442680775,
+  "objective": 4.087993246157917,
+  "max_violation_m": 2.220446049250313e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 77
+ },
+ {
+  "heights": [
+   1.0745884480484247
+  ],
+  "xs": [
+   4.0
+  ],
+  "goal_x": 8.0,
+  "speed": 0.9,
+  "n_beams": 1,
+  "gap": 0.0,
+  "scene_id": "v3_1a9e1252ef",
+  "route_len": 8.0,
+  "dt": 0.14109347442680775,
+  "objective": 2.8398145343164445,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 76
+ },
+ {
+  "heights": [
+   1.079175619710173
+  ],
+  "xs": [
+   4.0
+  ],
+  "goal_x": 8.0,
+  "speed": 1.1,
+  "n_beams": 1,
+  "gap": 0.0,
+  "scene_id": "v3_5598cff03a",
+  "route_len": 8.0,
+  "dt": 0.11544011544011543,
+  "objective": 2.8380050256129246,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 77
+ },
+ {
+  "heights": [
+   1.045830727714988
+  ],
+  "xs": [
+   4.0
+  ],
+  "goal_x": 8.0,
+  "speed": 1.1,
+  "n_beams": 1,
+  "gap": 0.0,
+  "scene_id": "v3_8c8215c9aa",
+  "route_len": 8.0,
+  "dt": 0.11544011544011543,
+  "objective": 3.8086106587270274,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 79
+ },
+ {
+  "heights": [
+   1.1437282454669908
+  ],
+  "xs": [
+   3.0
+  ],
+  "goal_x": 8.0,
+  "speed": 0.7,
+  "n_beams": 1,
+  "gap": 0.0,
+  "scene_id": "v3_f05df0349d",
+  "route_len": 8.0,
+  "dt": 0.18140589569160998,
+  "objective": 1.6381546688038777,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 76
+ },
+ {
+  "heights": [
+   1.133863466076442
+  ],
+  "xs": [
+   3.0
+  ],
+  "goal_x": 8.0,
+  "speed": 0.7,
+  "n_beams": 1,
+  "gap": 0.0,
+  "scene_id": "v3_b966c09dfe",
+  "route_len": 8.0,
+  "dt": 0.18140589569160998,
+  "objective": 1.779815558505304,
+  "max_violation_m": 2.786659791809143e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 73
+ },
+ {
+  "heights": [
+   1.1657402262903074
+  ],
+  "xs": [
+   3.0
+  ],
+  "goal_x": 8.0,
+  "speed": 0.9,
+  "n_beams": 1,
+  "gap": 0.0,
+  "scene_id": "v3_156c5af923",
+  "route_len": 8.0,
+  "dt": 0.14109347442680775,
+  "objective": 1.3880111645282192,
+  "max_violation_m": 9.547918011776346e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 75
+ },
+ {
+  "heights": [
+   1.1704175812335382
+  ],
+  "xs": [
+   3.0
+  ],
+  "goal_x": 8.0,
+  "speed": 0.9,
+  "n_beams": 1,
+  "gap": 0.0,
+  "scene_id": "v3_844d8ba45d",
+  "route_len": 8.0,
+  "dt": 0.14109347442680775,
+  "objective": 1.3422167911179792,
+  "max_violation_m": 4.440892098500626e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 76
+ },
+ {
+  "heights": [
+   1.1640955600516212
+  ],
+  "xs": [
+   3.0
+  ],
+  "goal_x": 8.0,
+  "speed": 1.1,
+  "n_beams": 1,
+  "gap": 0.0,
+  "scene_id": "v3_0c58ba504d",
+  "route_len": 8.0,
+  "dt": 0.11544011544011543,
+  "objective": 1.4491842198864158,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 74
+ },
+ {
+  "heights": [
+   1.1774556707704809
+  ],
+  "xs": [
+   3.0
+  ],
+  "goal_x": 8.0,
+  "speed": 1.1,
+  "n_beams": 1,
+  "gap": 0.0,
+  "scene_id": "v3_825283fc9c",
+  "route_len": 8.0,
+  "dt": 0.11544011544011543,
+  "objective": 1.3135290019830133,
+  "max_violation_m": 6.8833827526759706e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 73
+ },
+ {
+  "heights": [
+   1.1304786003081908
+  ],
+  "xs": [
+   4.0
+  ],
+  "goal_x": 8.0,
+  "speed": 0.7,
+  "n_beams": 1,
+  "gap": 0.0,
+  "scene_id": "v3_e915b6ffe4",
+  "route_len": 8.0,
+  "dt": 0.18140589569160998,
+  "objective": 1.8297766458574545,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 73
+ },
+ {
+  "heights": [
+   1.134626429303909
+  ],
+  "xs": [
+   4.0
+  ],
+  "goal_x": 8.0,
+  "speed": 0.7,
+  "n_beams": 1,
+  "gap": 0.0,
+  "scene_id": "v3_b77d7830ad",
+  "route_len": 8.0,
+  "dt": 0.18140589569160998,
+  "objective": 1.7686496232274624,
+  "max_violation_m": 3.1086244689504383e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 72
+ },
+ {
+  "heights": [
+   1.1519055090865356
+  ],
+  "xs": [
+   4.0
+  ],
+  "goal_x": 8.0,
+  "speed": 0.9,
+  "n_beams": 1,
+  "gap": 0.0,
+  "scene_id": "v3_48aba08b94",
+  "route_len": 8.0,
+  "dt": 0.14109347442680775,
+  "objective": 1.5723016868502915,
+  "max_violation_m": 4.9960036108132044e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 74
+ },
+ {
+  "heights": [
+   1.1606151175990875
+  ],
+  "xs": [
+   4.0
+  ],
+  "goal_x": 8.0,
+  "speed": 0.9,
+  "n_beams": 1,
+  "gap": 0.0,
+  "scene_id": "v3_b308c2dbf5",
+  "route_len": 8.0,
+  "dt": 0.14109347442680775,
+  "objective": 1.452829923533837,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 74
+ },
+ {
+  "heights": [
+   1.121721776943983
+  ],
+  "xs": [
+   4.0
+  ],
+  "goal_x": 8.0,
+  "speed": 1.1,
+  "n_beams": 1,
+  "gap": 0.0,
+  "scene_id": "v3_e8efff2f2e",
+  "route_len": 8.0,
+  "dt": 0.11544011544011543,
+  "objective": 2.08438900396349,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 75
+ },
+ {
+  "heights": [
+   1.1679454699883791
+  ],
+  "xs": [
+   4.0
+  ],
+  "goal_x": 8.0,
+  "speed": 1.1,
+  "n_beams": 1,
+  "gap": 0.0,
+  "scene_id": "v3_77e62c64ce",
+  "route_len": 8.0,
+  "dt": 0.11544011544011543,
+  "objective": 1.407881897029167,
+  "max_violation_m": 7.771561172376096e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 73
+ },
+ {
+  "heights": [
+   1.2476172074341634
+  ],
+  "xs": [
+   3.0
+  ],
+  "goal_x": 8.0,
+  "speed": 0.7,
+  "n_beams": 1,
+  "gap": 0.0,
+  "scene_id": "v3_02508a111b",
+  "route_len": 8.0,
+  "dt": 0.18140589569160998,
+  "objective": 0.6764512065347228,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 72
+ },
+ {
+  "heights": [
+   1.245484629969855
+  ],
+  "xs": [
+   3.0
+  ],
+  "goal_x": 8.0,
+  "speed": 0.7,
+  "n_beams": 1,
+  "gap": 0.0,
+  "scene_id": "v3_52999ccaae",
+  "route_len": 8.0,
+  "dt": 0.18140589569160998,
+  "objective": 0.6910049771956772,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 69
+ },
+ {
+  "heights": [
+   1.2696538356900224
+  ],
+  "xs": [
+   3.0
+  ],
+  "goal_x": 8.0,
+  "speed": 0.9,
+  "n_beams": 1,
+  "gap": 0.0,
+  "scene_id": "v3_1fb2784d30",
+  "route_len": 8.0,
+  "dt": 0.14109347442680775,
+  "objective": 0.5516660413689647,
+  "max_violation_m": 1.5543122344752192e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 72
+ },
+ {
+  "heights": [
+   1.2437834856160208
+  ],
+  "xs": [
+   3.0
+  ],
+  "goal_x": 8.0,
+  "speed": 0.9,
+  "n_beams": 1,
+  "gap": 0.0,
+  "scene_id": "v3_6319654b2b",
+  "route_len": 8.0,
+  "dt": 0.14109347442680775,
+  "objective": 0.7244370179439031,
+  "max_violation_m": 4.884981308350689e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 74
+ },
+ {
+  "heights": [
+   1.2791271296956472
+  ],
+  "xs": [
+   3.0
+  ],
+  "goal_x": 8.0,
+  "speed": 1.1,
+  "n_beams": 1,
+  "gap": 0.0,
+  "scene_id": "v3_587d0a612c",
+  "route_len": 8.0,
+  "dt": 0.11544011544011543,
+  "objective": 0.5093119170868712,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 76
+ },
+ {
+  "heights": [
+   1.272553607504969
+  ],
+  "xs": [
+   3.0
+  ],
+  "goal_x": 8.0,
+  "speed": 1.1,
+  "n_beams": 1,
+  "gap": 0.0,
+  "scene_id": "v3_d8bdf7b4b0",
+  "route_len": 8.0,
+  "dt": 0.11544011544011543,
+  "objective": 0.5499996628908912,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 76
+ },
+ {
+  "heights": [
+   1.2491130485598947
+  ],
+  "xs": [
+   4.0
+  ],
+  "goal_x": 8.0,
+  "speed": 0.7,
+  "n_beams": 1,
+  "gap": 0.0,
+  "scene_id": "v3_dfdda651ca",
+  "route_len": 8.0,
+  "dt": 0.18140589569160998,
+  "objective": 0.666335271772281,
+  "max_violation_m": 3.9968028886505635e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 71
+ },
+ {
+  "heights": [
+   1.2684064423697423
+  ],
+  "xs": [
+   4.0
+  ],
+  "goal_x": 8.0,
+  "speed": 0.7,
+  "n_beams": 1,
+  "gap": 0.0,
+  "scene_id": "v3_bb961f9aca",
+  "route_len": 8.0,
+  "dt": 0.18140589569160998,
+  "objective": 0.5426902866568426,
+  "max_violation_m": 4.440892098500626e-16,
+  "status": "Optimization terminated successfully",
+  "n_iter": 72
+ },
+ {
+  "heights": [
+   1.2496960431143367
+  ],
+  "xs": [
+   4.0
+  ],
+  "goal_x": 8.0,
+  "speed": 0.9,
+  "n_beams": 1,
+  "gap": 0.0,
+  "scene_id": "v3_eaad792aca",
+  "route_len": 8.0,
+  "dt": 0.14109347442680775,
+  "objective": 0.682879318228939,
+  "max_violation_m": 1.5543122344752192e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 75
+ },
+ {
+  "heights": [
+   1.245106812049514
+  ],
+  "xs": [
+   4.0
+  ],
+  "goal_x": 8.0,
+  "speed": 0.9,
+  "n_beams": 1,
+  "gap": 0.0,
+  "scene_id": "v3_658f6f6833",
+  "route_len": 8.0,
+  "dt": 0.14109347442680775,
+  "objective": 0.7150291111237701,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 75
+ },
+ {
+  "heights": [
+   1.277965940582825
+  ],
+  "xs": [
+   4.0
+  ],
+  "goal_x": 8.0,
+  "speed": 1.1,
+  "n_beams": 1,
+  "gap": 0.0,
+  "scene_id": "v3_c194956672",
+  "route_len": 8.0,
+  "dt": 0.11544011544011543,
+  "objective": 0.5163855707136802,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 74
+ },
+ {
+  "heights": [
+   1.2527805243790173
+  ],
+  "xs": [
+   4.0
+  ],
+  "goal_x": 8.0,
+  "speed": 1.1,
+  "n_beams": 1,
+  "gap": 0.0,
+  "scene_id": "v3_63376b2fb2",
+  "route_len": 8.0,
+  "dt": 0.11544011544011543,
+  "objective": 0.6818119876821755,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 75
+ },
+ {
+  "heights": [
+   0.963864384603311,
+   0.932478193760935
+  ],
+  "xs": [
+   3.0,
+   4.0
+  ],
+  "goal_x": 8.0,
+  "speed": 0.7,
+  "n_beams": 2,
+  "gap": 1.0,
+  "scene_id": "v3_e6d2f32edd",
+  "route_len": 8.0,
+  "dt": 0.18140589569160998,
+  "objective": 14.373554568052889,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 76
+ },
+ {
+  "heights": [
+   0.9570627069435873,
+   0.957945853495314
+  ],
+  "xs": [
+   3.0,
+   4.0
+  ],
+  "goal_x": 8.0,
+  "speed": 0.7,
+  "n_beams": 2,
+  "gap": 1.0,
+  "scene_id": "v3_db8c3168af",
+  "route_len": 8.0,
+  "dt": 0.18140589569160998,
+  "objective": 13.435985077114893,
+  "max_violation_m": 2.9753977059954195e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 71
+ },
+ {
+  "heights": [
+   0.925495310768539,
+   0.9747800196396839
+  ],
+  "xs": [
+   3.0,
+   5.0
+  ],
+  "goal_x": 8.5,
+  "speed": 0.7,
+  "n_beams": 2,
+  "gap": 2.0,
+  "scene_id": "v3_093554fc27",
+  "route_len": 8.5,
+  "dt": 0.1927437641723356,
+  "objective": 16.453779170750817,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 77
+ },
+ {
+  "heights": [
+   0.9387603075098242,
+   0.932436246756781
+  ],
+  "xs": [
+   3.0,
+   5.0
+  ],
+  "goal_x": 8.5,
+  "speed": 0.7,
+  "n_beams": 2,
+  "gap": 2.0,
+  "scene_id": "v3_d2f58c0885",
+  "route_len": 8.5,
+  "dt": 0.1927437641723356,
+  "objective": 18.046475343710966,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 77
+ },
+ {
+  "heights": [
+   0.9674436388077423,
+   0.944559902016211
+  ],
+  "xs": [
+   3.0,
+   6.5
+  ],
+  "goal_x": 10.0,
+  "speed": 0.7,
+  "n_beams": 2,
+  "gap": 3.5,
+  "scene_id": "v3_d813403d4b",
+  "route_len": 10.0,
+  "dt": 0.22675736961451248,
+  "objective": 16.142677436107387,
+  "max_violation_m": 1.2378986724570495e-13,
+  "status": "Optimization terminated successfully",
+  "n_iter": 76
+ },
+ {
+  "heights": [
+   0.9304401041197295,
+   0.944697133784284
+  ],
+  "xs": [
+   3.0,
+   6.5
+  ],
+  "goal_x": 10.0,
+  "speed": 0.7,
+  "n_beams": 2,
+  "gap": 3.5,
+  "scene_id": "v3_0b48366c5c",
+  "route_len": 10.0,
+  "dt": 0.22675736961451248,
+  "objective": 18.02807950063157,
+  "max_violation_m": 2.8754776337791554e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 76
+ },
+ {
+  "heights": [
+   0.9358963159451675,
+   0.9257453202707568
+  ],
+  "xs": [
+   3.0,
+   8.0
+  ],
+  "goal_x": 11.5,
+  "speed": 0.7,
+  "n_beams": 2,
+  "gap": 5.0,
+  "scene_id": "v3_51b4d49458",
+  "route_len": 11.5,
+  "dt": 0.26077097505668934,
+  "objective": 16.263629324085954,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 74
+ },
+ {
+  "heights": [
+   0.9576026157715485,
+   0.9372533865751861
+  ],
+  "xs": [
+   3.0,
+   8.0
+  ],
+  "goal_x": 11.5,
+  "speed": 0.7,
+  "n_beams": 2,
+  "gap": 5.0,
+  "scene_id": "v3_b0df085466",
+  "route_len": 11.5,
+  "dt": 0.26077097505668934,
+  "objective": 14.809434716265613,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 74
+ },
+ {
+  "heights": [
+   0.9285573961144521,
+   0.943018710186763
+  ],
+  "xs": [
+   3.0,
+   4.0
+  ],
+  "goal_x": 8.0,
+  "speed": 0.9,
+  "n_beams": 2,
+  "gap": 1.0,
+  "scene_id": "v3_9a8f8020dc",
+  "route_len": 8.0,
+  "dt": 0.14109347442680775,
+  "objective": 15.57397844370223,
+  "max_violation_m": 2.842170943040401e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 73
+ },
+ {
+  "heights": [
+   0.9341629194131814,
+   0.9533354304941473
+  ],
+  "xs": [
+   3.0,
+   4.0
+  ],
+  "goal_x": 8.0,
+  "speed": 0.9,
+  "n_beams": 2,
+  "gap": 1.0,
+  "scene_id": "v3_a53ced01ca",
+  "route_len": 8.0,
+  "dt": 0.14109347442680775,
+  "objective": 14.931277912004733,
+  "max_violation_m": 9.836575998178887e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 72
+ },
+ {
+  "heights": [
+   0.9795085853951042,
+   0.9450276108644856
+  ],
+  "xs": [
+   3.0,
+   5.0
+  ],
+  "goal_x": 8.5,
+  "speed": 0.9,
+  "n_beams": 2,
+  "gap": 2.0,
+  "scene_id": "v3_d81bc878e0",
+  "route_len": 8.5,
+  "dt": 0.14991181657848324,
+  "objective": 15.518434537596562,
+  "max_violation_m": 5.084821452783217e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 76
+ },
+ {
+  "heights": [
+   0.9286347980137319,
+   0.9532338020597337
+  ],
+  "xs": [
+   3.0,
+   5.0
+  ],
+  "goal_x": 8.5,
+  "speed": 0.9,
+  "n_beams": 2,
+  "gap": 2.0,
+  "scene_id": "v3_4ef7dfbb4f",
+  "route_len": 8.5,
+  "dt": 0.14991181657848324,
+  "objective": 17.94503937374679,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 77
+ },
+ {
+  "heights": [
+   0.9320007959258325,
+   0.9227937958284753
+  ],
+  "xs": [
+   3.0,
+   6.5
+  ],
+  "goal_x": 10.0,
+  "speed": 0.9,
+  "n_beams": 2,
+  "gap": 3.5,
+  "scene_id": "v3_f1e3996806",
+  "route_len": 10.0,
+  "dt": 0.1763668430335097,
+  "objective": 19.509546789768624,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 75
+ },
+ {
+  "heights": [
+   0.9557809384195994,
+   0.9338409401844361
+  ],
+  "xs": [
+   3.0,
+   6.5
+  ],
+  "goal_x": 10.0,
+  "speed": 0.9,
+  "n_beams": 2,
+  "gap": 3.5,
+  "scene_id": "v3_c1f4ce2b42",
+  "route_len": 10.0,
+  "dt": 0.1763668430335097,
+  "objective": 17.72806911394758,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 76
+ },
+ {
+  "heights": [
+   0.9631995484619905,
+   0.9414101079703077
+  ],
+  "xs": [
+   3.0,
+   8.0
+  ],
+  "goal_x": 11.5,
+  "speed": 0.9,
+  "n_beams": 2,
+  "gap": 5.0,
+  "scene_id": "v3_67e7027274",
+  "route_len": 11.5,
+  "dt": 0.20282186948853614,
+  "objective": 14.670649336180034,
+  "max_violation_m": 7.549516567451064e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 74
+ },
+ {
+  "heights": [
+   0.9431761624663757,
+   0.9350976952974625
+  ],
+  "xs": [
+   3.0,
+   8.0
+  ],
+  "goal_x": 11.5,
+  "speed": 0.9,
+  "n_beams": 2,
+  "gap": 5.0,
+  "scene_id": "v3_62faed69ee",
+  "route_len": 11.5,
+  "dt": 0.20282186948853614,
+  "objective": 15.830365544185833,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 74
+ },
+ {
+  "heights": [
+   0.9222724633188497,
+   0.9396047024389717
+  ],
+  "xs": [
+   3.0,
+   4.0
+  ],
+  "goal_x": 8.0,
+  "speed": 1.1,
+  "n_beams": 2,
+  "gap": 1.0,
+  "scene_id": "v3_29aa062c06",
+  "route_len": 8.0,
+  "dt": 0.11544011544011543,
+  "objective": 16.341834664234174,
+  "max_violation_m": 1.1290968160437842e-13,
+  "status": "Optimization terminated successfully",
+  "n_iter": 77
+ },
+ {
+  "heights": [
+   0.9252883782152226,
+   0.923773498516605
+  ],
+  "xs": [
+   3.0,
+   4.0
+  ],
+  "goal_x": 8.0,
+  "speed": 1.1,
+  "n_beams": 2,
+  "gap": 1.0,
+  "scene_id": "v3_9e7b85eedd",
+  "route_len": 8.0,
+  "dt": 0.11544011544011543,
+  "objective": 16.819203431091886,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 77
+ },
+ {
+  "heights": [
+   0.9618392642029611,
+   0.9652555857821835
+  ],
+  "xs": [
+   3.0,
+   5.0
+  ],
+  "goal_x": 8.5,
+  "speed": 1.1,
+  "n_beams": 2,
+  "gap": 2.0,
+  "scene_id": "v3_a87a9b1ecb",
+  "route_len": 8.5,
+  "dt": 0.12265512265512264,
+  "objective": 16.011711353265007,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 76
+ },
+ {
+  "heights": [
+   0.9441140880152404,
+   0.9778589373007802
+  ],
+  "xs": [
+   3.0,
+   5.0
+  ],
+  "goal_x": 8.5,
+  "speed": 1.1,
+  "n_beams": 2,
+  "gap": 2.0,
+  "scene_id": "v3_75437a3608",
+  "route_len": 8.5,
+  "dt": 0.12265512265512264,
+  "objective": 16.01245820934109,
+  "max_violation_m": 1.942890293094024e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 77
+ },
+ {
+  "heights": [
+   0.921975399506065,
+   0.9538689386851062
+  ],
+  "xs": [
+   3.0,
+   6.5
+  ],
+  "goal_x": 10.0,
+  "speed": 1.1,
+  "n_beams": 2,
+  "gap": 3.5,
+  "scene_id": "v3_51e773371c",
+  "route_len": 10.0,
+  "dt": 0.1443001443001443,
+  "objective": 18.87575074410367,
+  "max_violation_m": 4.4075854077618715e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 76
+ },
+ {
+  "heights": [
+   0.9510462909569501,
+   0.9320049413606393
+  ],
+  "xs": [
+   3.0,
+   6.5
+  ],
+  "goal_x": 10.0,
+  "speed": 1.1,
+  "n_beams": 2,
+  "gap": 3.5,
+  "scene_id": "v3_f787763f62",
+  "route_len": 10.0,
+  "dt": 0.1443001443001443,
+  "objective": 18.47546189454959,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 75
+ },
+ {
+  "heights": [
+   0.9241871360581472,
+   0.9650240753088747
+  ],
+  "xs": [
+   3.0,
+   8.0
+  ],
+  "goal_x": 11.5,
+  "speed": 1.1,
+  "n_beams": 2,
+  "gap": 5.0,
+  "scene_id": "v3_7c55b570c2",
+  "route_len": 11.5,
+  "dt": 0.16594516594516592,
+  "objective": 15.774536499691834,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 75
+ },
+ {
+  "heights": [
+   0.9282312144238861,
+   0.9373145753404231
+  ],
+  "xs": [
+   3.0,
+   8.0
+  ],
+  "goal_x": 11.5,
+  "speed": 1.1,
+  "n_beams": 2,
+  "gap": 5.0,
+  "scene_id": "v3_6b7f7d91a5",
+  "route_len": 11.5,
+  "dt": 0.16594516594516592,
+  "objective": 16.76180802602572,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 76
+ },
+ {
+  "heights": [
+   0.9401874137359625,
+   0.9469939071414679
+  ],
+  "xs": [
+   4.0,
+   5.0
+  ],
+  "goal_x": 8.5,
+  "speed": 0.7,
+  "n_beams": 2,
+  "gap": 1.0,
+  "scene_id": "v3_0ff8257309",
+  "route_len": 8.5,
+  "dt": 0.1927437641723356,
+  "objective": 13.905105659146606,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 72
+ },
+ {
+  "heights": [
+   0.9762628075812904,
+   0.9241965256831803
+  ],
+  "xs": [
+   4.0,
+   5.0
+  ],
+  "goal_x": 8.5,
+  "speed": 0.7,
+  "n_beams": 2,
+  "gap": 1.0,
+  "scene_id": "v3_d69058b870",
+  "route_len": 8.5,
+  "dt": 0.1927437641723356,
+  "objective": 13.47740110085788,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 73
+ },
+ {
+  "heights": [
+   0.9555432070687353,
+   0.9388393476249968
+  ],
+  "xs": [
+   4.0,
+   6.0
+  ],
+  "goal_x": 9.5,
+  "speed": 0.7,
+  "n_beams": 2,
+  "gap": 2.0,
+  "scene_id": "v3_a12d8eee77",
+  "route_len": 9.5,
+  "dt": 0.21541950113378686,
+  "objective": 15.916956610151166,
+  "max_violation_m": 1.1812772982011666e-13,
+  "status": "Optimization terminated successfully",
+  "n_iter": 74
+ },
+ {
+  "heights": [
+   0.9411231179853615,
+   0.9303000457825183
+  ],
+  "xs": [
+   4.0,
+   6.0
+  ],
+  "goal_x": 9.5,
+  "speed": 0.7,
+  "n_beams": 2,
+  "gap": 2.0,
+  "scene_id": "v3_244bb73eac",
+  "route_len": 9.5,
+  "dt": 0.21541950113378686,
+  "objective": 16.96014117590766,
+  "max_violation_m": 3.552713678800501e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 73
+ },
+ {
+  "heights": [
+   0.936802166312068,
+   0.9339293442976573
+  ],
+  "xs": [
+   4.0,
+   7.5
+  ],
+  "goal_x": 11.0,
+  "speed": 0.7,
+  "n_beams": 2,
+  "gap": 3.5,
+  "scene_id": "v3_9ad83a71d3",
+  "route_len": 11.0,
+  "dt": 0.2494331065759637,
+  "objective": 15.185472755572688,
+  "max_violation_m": 2.9531932455029164e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 72
+ },
+ {
+  "heights": [
+   0.9461363060755739,
+   0.9739750744642757
+  ],
+  "xs": [
+   4.0,
+   7.5
+  ],
+  "goal_x": 11.0,
+  "speed": 0.7,
+  "n_beams": 2,
+  "gap": 3.5,
+  "scene_id": "v3_d359ad5775",
+  "route_len": 11.0,
+  "dt": 0.2494331065759637,
+  "objective": 13.002606444176918,
+  "max_violation_m": 2.0650148258027912e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 73
+ },
+ {
+  "heights": [
+   0.9705750309685144,
+   0.946082895983083
+  ],
+  "xs": [
+   4.0,
+   9.0
+  ],
+  "goal_x": 12.5,
+  "speed": 0.7,
+  "n_beams": 2,
+  "gap": 5.0,
+  "scene_id": "v3_7c494eeddc",
+  "route_len": 12.5,
+  "dt": 0.2834467120181406,
+  "objective": 13.081434163072394,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 74
+ },
+ {
+  "heights": [
+   0.9421933625659868,
+   0.9709052661438659
+  ],
+  "xs": [
+   4.0,
+   9.0
+  ],
+  "goal_x": 12.5,
+  "speed": 0.7,
+  "n_beams": 2,
+  "gap": 5.0,
+  "scene_id": "v3_f33259d65f",
+  "route_len": 12.5,
+  "dt": 0.2834467120181406,
+  "objective": 13.220933495957578,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 73
+ },
+ {
+  "heights": [
+   0.9798587840172966,
+   0.9721623261128535
+  ],
+  "xs": [
+   4.0,
+   5.0
+  ],
+  "goal_x": 8.5,
+  "speed": 0.9,
+  "n_beams": 2,
+  "gap": 1.0,
+  "scene_id": "v3_ae03d1da77",
+  "route_len": 8.5,
+  "dt": 0.14991181657848324,
+  "objective": 11.223535513938328,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 74
+ },
+ {
+  "heights": [
+   0.9732608803094905,
+   0.9437587862660417
+  ],
+  "xs": [
+   4.0,
+   5.0
+  ],
+  "goal_x": 8.5,
+  "speed": 0.9,
+  "n_beams": 2,
+  "gap": 1.0,
+  "scene_id": "v3_f2ab750aab",
+  "route_len": 8.5,
+  "dt": 0.14991181657848324,
+  "objective": 12.95461196661494,
+  "max_violation_m": 2.6756374893466273e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 74
+ },
+ {
+  "heights": [
+   0.9351871560201409,
+   0.9720334861545409
+  ],
+  "xs": [
+   4.0,
+   6.0
+  ],
+  "goal_x": 9.5,
+  "speed": 0.9,
+  "n_beams": 2,
+  "gap": 2.0,
+  "scene_id": "v3_f1242f529d",
+  "route_len": 9.5,
+  "dt": 0.1675485008818342,
+  "objective": 15.377433626165967,
+  "max_violation_m": 5.551115123125783e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 75
+ },
+ {
+  "heights": [
+   0.9722629379218051,
+   0.9313263902112945
+  ],
+  "xs": [
+   4.0,
+   6.0
+  ],
+  "goal_x": 9.5,
+  "speed": 0.9,
+  "n_beams": 2,
+  "gap": 2.0,
+  "scene_id": "v3_64630125e0",
+  "route_len": 9.5,
+  "dt": 0.1675485008818342,
+  "objective": 15.721589521200931,
+  "max_violation_m": 2.864375403532904e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 77
+ },
+ {
+  "heights": [
+   0.961715000626473,
+   0.9390075455395106
+  ],
+  "xs": [
+   4.0,
+   7.5
+  ],
+  "goal_x": 11.0,
+  "speed": 0.9,
+  "n_beams": 2,
+  "gap": 3.5,
+  "scene_id": "v3_4934035877",
+  "route_len": 11.0,
+  "dt": 0.19400352733686066,
+  "objective": 14.244995693817113,
+  "max_violation_m": 2.55351295663786e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 74
+ },
+ {
+  "heights": [
+   0.9251955026004761,
+   0.9356514665980938
+  ],
+  "xs": [
+   4.0,
+   7.5
+  ],
+  "goal_x": 11.0,
+  "speed": 0.9,
+  "n_beams": 2,
+  "gap": 3.5,
+  "scene_id": "v3_2352f8db70",
+  "route_len": 11.0,
+  "dt": 0.19400352733686066,
+  "objective": 15.917865227051191,
+  "max_violation_m": 1.0114131754335176e-13,
+  "status": "Optimization terminated successfully",
+  "n_iter": 75
+ },
+ {
+  "heights": [
+   0.962051435373014,
+   0.9533871085755162
+  ],
+  "xs": [
+   4.0,
+   9.0
+  ],
+  "goal_x": 12.5,
+  "speed": 0.9,
+  "n_beams": 2,
+  "gap": 5.0,
+  "scene_id": "v3_b04ecbfb7c",
+  "route_len": 12.5,
+  "dt": 0.2204585537918871,
+  "objective": 13.475481056661721,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 74
+ },
+ {
+  "heights": [
+   0.9367935821030496,
+   0.943429228550101
+  ],
+  "xs": [
+   4.0,
+   9.0
+  ],
+  "goal_x": 12.5,
+  "speed": 0.9,
+  "n_beams": 2,
+  "gap": 5.0,
+  "scene_id": "v3_9893c34658",
+  "route_len": 12.5,
+  "dt": 0.2204585537918871,
+  "objective": 14.91009723367701,
+  "max_violation_m": 4.118927421359331e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 74
+ },
+ {
+  "heights": [
+   0.9510888926618037,
+   0.9553779514057991
+  ],
+  "xs": [
+   4.0,
+   5.0
+  ],
+  "goal_x": 8.5,
+  "speed": 1.1,
+  "n_beams": 2,
+  "gap": 1.0,
+  "scene_id": "v3_5b0022e4ce",
+  "route_len": 8.5,
+  "dt": 0.12265512265512264,
+  "objective": 13.652756812387743,
+  "max_violation_m": 3.697042672001771e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 74
+ },
+ {
+  "heights": [
+   0.9592766013966464,
+   0.9580030820730512
+  ],
+  "xs": [
+   4.0,
+   5.0
+  ],
+  "goal_x": 8.5,
+  "speed": 1.1,
+  "n_beams": 2,
+  "gap": 1.0,
+  "scene_id": "v3_23b46b5596",
+  "route_len": 8.5,
+  "dt": 0.12265512265512264,
+  "objective": 13.208528928042362,
+  "max_violation_m": 5.972999872483342e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 74
+ },
+ {
+  "heights": [
+   0.9677505810608352,
+   0.9578025706688797
+  ],
+  "xs": [
+   4.0,
+   6.0
+  ],
+  "goal_x": 9.5,
+  "speed": 1.1,
+  "n_beams": 2,
+  "gap": 2.0,
+  "scene_id": "v3_dc89439824",
+  "route_len": 9.5,
+  "dt": 0.13708513708513706,
+  "objective": 14.980992769042325,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 74
+ },
+ {
+  "heights": [
+   0.965788765936543,
+   0.9229940478958844
+  ],
+  "xs": [
+   4.0,
+   6.0
+  ],
+  "goal_x": 9.5,
+  "speed": 1.1,
+  "n_beams": 2,
+  "gap": 2.0,
+  "scene_id": "v3_7b6fa99518",
+  "route_len": 9.5,
+  "dt": 0.13708513708513706,
+  "objective": 16.860869495530192,
+  "max_violation_m": 2.375877272697835e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 78
+ },
+ {
+  "heights": [
+   0.9563948374403823,
+   0.9325289433926118
+  ],
+  "xs": [
+   4.0,
+   7.5
+  ],
+  "goal_x": 11.0,
+  "speed": 1.1,
+  "n_beams": 2,
+  "gap": 3.5,
+  "scene_id": "v3_053ad8d7eb",
+  "route_len": 11.0,
+  "dt": 0.15873015873015872,
+  "objective": 15.048251052321218,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 76
+ },
+ {
+  "heights": [
+   0.9537330301255318,
+   0.962702718909369
+  ],
+  "xs": [
+   4.0,
+   7.5
+  ],
+  "goal_x": 11.0,
+  "speed": 1.1,
+  "n_beams": 2,
+  "gap": 3.5,
+  "scene_id": "v3_8f80d3d2a9",
+  "route_len": 11.0,
+  "dt": 0.15873015873015872,
+  "objective": 13.882772402139736,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 76
+ },
+ {
+  "heights": [
+   0.9581939636026513,
+   0.9272099830426659
+  ],
+  "xs": [
+   4.0,
+   9.0
+  ],
+  "goal_x": 12.5,
+  "speed": 1.1,
+  "n_beams": 2,
+  "gap": 5.0,
+  "scene_id": "v3_f040d9866b",
+  "route_len": 12.5,
+  "dt": 0.18037518037518036,
+  "objective": 14.987450651301236,
+  "max_violation_m": 1.2034817586936697e-13,
+  "status": "Optimization terminated successfully",
+  "n_iter": 75
+ },
+ {
+  "heights": [
+   0.9689588495935387,
+   0.967874755671426
+  ],
+  "xs": [
+   4.0,
+   9.0
+  ],
+  "goal_x": 12.5,
+  "speed": 1.1,
+  "n_beams": 2,
+  "gap": 5.0,
+  "scene_id": "v3_4f8388a331",
+  "route_len": 12.5,
+  "dt": 0.18037518037518036,
+  "objective": 12.665158291412157,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 75
+ },
+ {
+  "heights": [
+   1.0472422170717606,
+   1.0375748267311646
+  ],
+  "xs": [
+   3.0,
+   4.0
+  ],
+  "goal_x": 8.0,
+  "speed": 0.7,
+  "n_beams": 2,
+  "gap": 1.0,
+  "scene_id": "v3_83e58db823",
+  "route_len": 8.0,
+  "dt": 0.18140589569160998,
+  "objective": 5.755380027646688,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 74
+ },
+ {
+  "heights": [
+   1.053976792583035,
+   1.034675195694456
+  ],
+  "xs": [
+   3.0,
+   4.0
+  ],
+  "goal_x": 8.0,
+  "speed": 0.7,
+  "n_beams": 2,
+  "gap": 1.0,
+  "scene_id": "v3_7bf5fbef43",
+  "route_len": 8.0,
+  "dt": 0.18140589569160998,
+  "objective": 5.697491766061585,
+  "max_violation_m": 1.2545520178264269e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 76
+ },
+ {
+  "heights": [
+   1.031511661461791,
+   1.0637392213460701
+  ],
+  "xs": [
+   3.0,
+   5.0
+  ],
+  "goal_x": 8.5,
+  "speed": 0.7,
+  "n_beams": 2,
+  "gap": 2.0,
+  "scene_id": "v3_b7d2cf7df3",
+  "route_len": 8.5,
+  "dt": 0.1927437641723356,
+  "objective": 6.518066827039156,
+  "max_violation_m": 2.4646951146678475e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 74
+ },
+ {
+  "heights": [
+   1.065840423273937,
+   1.074853266395842
+  ],
+  "xs": [
+   3.0,
+   5.0
+  ],
+  "goal_x": 8.5,
+  "speed": 0.7,
+  "n_beams": 2,
+  "gap": 2.0,
+  "scene_id": "v3_2969dcdd6e",
+  "route_len": 8.5,
+  "dt": 0.1927437641723356,
+  "objective": 5.139154193115095,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 75
+ },
+ {
+  "heights": [
+   1.0419761447467397,
+   1.0246695329292532
+  ],
+  "xs": [
+   3.0,
+   6.5
+  ],
+  "goal_x": 10.0,
+  "speed": 0.7,
+  "n_beams": 2,
+  "gap": 3.5,
+  "scene_id": "v3_b8ae7b16dc",
+  "route_len": 10.0,
+  "dt": 0.22675736961451248,
+  "objective": 7.606450017228563,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 75
+ },
+ {
+  "heights": [
+   1.0613759958290325,
+   1.062611167329051
+  ],
+  "xs": [
+   3.0,
+   6.5
+  ],
+  "goal_x": 10.0,
+  "speed": 0.7,
+  "n_beams": 2,
+  "gap": 3.5,
+  "scene_id": "v3_d00da84d54",
+  "route_len": 10.0,
+  "dt": 0.22675736961451248,
+  "objective": 5.474350657115852,
+  "max_violation_m": 1.887379141862766e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 74
+ },
+ {
+  "heights": [
+   1.0294238152572113,
+   1.0635265785653374
+  ],
+  "xs": [
+   3.0,
+   8.0
+  ],
+  "goal_x": 11.5,
+  "speed": 0.7,
+  "n_beams": 2,
+  "gap": 5.0,
+  "scene_id": "v3_2f2006cb56",
+  "route_len": 11.5,
+  "dt": 0.26077097505668934,
+  "objective": 5.859497265508409,
+  "max_violation_m": 7.549516567451064e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 74
+ },
+ {
+  "heights": [
+   1.020918264645842,
+   1.0670303754596449
+  ],
+  "xs": [
+   3.0,
+   8.0
+  ],
+  "goal_x": 11.5,
+  "speed": 0.7,
+  "n_beams": 2,
+  "gap": 5.0,
+  "scene_id": "v3_cf559bb74d",
+  "route_len": 11.5,
+  "dt": 0.26077097505668934,
+  "objective": 6.152891101920094,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 75
+ },
+ {
+  "heights": [
+   1.0256885347294673,
+   1.0563548233721705
+  ],
+  "xs": [
+   3.0,
+   4.0
+  ],
+  "goal_x": 8.0,
+  "speed": 0.9,
+  "n_beams": 2,
+  "gap": 1.0,
+  "scene_id": "v3_ae6d4a895b",
+  "route_len": 8.0,
+  "dt": 0.14109347442680775,
+  "objective": 6.159020069950744,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 74
+ },
+ {
+  "heights": [
+   1.06179388976898,
+   1.0674362073006052
+  ],
+  "xs": [
+   3.0,
+   4.0
+  ],
+  "goal_x": 8.0,
+  "speed": 0.9,
+  "n_beams": 2,
+  "gap": 1.0,
+  "scene_id": "v3_abcb5a4d74",
+  "route_len": 8.0,
+  "dt": 0.14109347442680775,
+  "objective": 4.593043552085016,
+  "max_violation_m": 2.8976820942716586e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 73
+ },
+ {
+  "heights": [
+   1.0611731357672756,
+   1.0791444517120021
+  ],
+  "xs": [
+   3.0,
+   5.0
+  ],
+  "goal_x": 8.5,
+  "speed": 0.9,
+  "n_beams": 2,
+  "gap": 2.0,
+  "scene_id": "v3_fcb57efe32",
+  "route_len": 8.5,
+  "dt": 0.14991181657848324,
+  "objective": 5.2684788892548,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 77
+ },
+ {
+  "heights": [
+   1.055175743506108,
+   1.0406045805126025
+  ],
+  "xs": [
+   3.0,
+   5.0
+  ],
+  "goal_x": 8.5,
+  "speed": 0.9,
+  "n_beams": 2,
+  "gap": 2.0,
+  "scene_id": "v3_fe5fbd1047",
+  "route_len": 8.5,
+  "dt": 0.14991181657848324,
+  "objective": 6.504495007400269,
+  "max_violation_m": 2.55351295663786e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 74
+ },
+ {
+  "heights": [
+   1.0479903324466155,
+   1.0300009882062715
+  ],
+  "xs": [
+   3.0,
+   6.5
+  ],
+  "goal_x": 10.0,
+  "speed": 0.9,
+  "n_beams": 2,
+  "gap": 3.5,
+  "scene_id": "v3_899d216554",
+  "route_len": 10.0,
+  "dt": 0.1763668430335097,
+  "objective": 7.303697813147193,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 75
+ },
+ {
+  "heights": [
+   1.0203626065535185,
+   1.0338450092093563
+  ],
+  "xs": [
+   3.0,
+   6.5
+  ],
+  "goal_x": 10.0,
+  "speed": 0.9,
+  "n_beams": 2,
+  "gap": 3.5,
+  "scene_id": "v3_7161aba674",
+  "route_len": 10.0,
+  "dt": 0.1763668430335097,
+  "objective": 8.327821097561737,
+  "max_violation_m": 1.8318679906315083e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 74
+ },
+ {
+  "heights": [
+   1.050450700151487,
+   1.052076142372401
+  ],
+  "xs": [
+   3.0,
+   8.0
+  ],
+  "goal_x": 11.5,
+  "speed": 0.9,
+  "n_beams": 2,
+  "gap": 5.0,
+  "scene_id": "v3_7460491489",
+  "route_len": 11.5,
+  "dt": 0.20282186948853614,
+  "objective": 5.453551687963817,
+  "max_violation_m": 1.0547118733938987e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 75
+ },
+ {
+  "heights": [
+   1.0779802880326206,
+   1.0608783804637252
+  ],
+  "xs": [
+   3.0,
+   8.0
+  ],
+  "goal_x": 11.5,
+  "speed": 0.9,
+  "n_beams": 2,
+  "gap": 5.0,
+  "scene_id": "v3_4db0bd2ccc",
+  "route_len": 11.5,
+  "dt": 0.20282186948853614,
+  "objective": 4.620319594481048,
+  "max_violation_m": 4.9960036108132044e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 74
+ },
+ {
+  "heights": [
+   1.0702622121829335,
+   1.076804771661452
+  ],
+  "xs": [
+   3.0,
+   4.0
+  ],
+  "goal_x": 8.0,
+  "speed": 1.1,
+  "n_beams": 2,
+  "gap": 1.0,
+  "scene_id": "v3_885ba61739",
+  "route_len": 8.0,
+  "dt": 0.11544011544011543,
+  "objective": 4.4235715118016365,
+  "max_violation_m": 1.176836406102666e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 79
+ },
+ {
+  "heights": [
+   1.0252047380160794,
+   1.0723305955355764
+  ],
+  "xs": [
+   3.0,
+   4.0
+  ],
+  "goal_x": 8.0,
+  "speed": 1.1,
+  "n_beams": 2,
+  "gap": 1.0,
+  "scene_id": "v3_7395effe8b",
+  "route_len": 8.0,
+  "dt": 0.11544011544011543,
+  "objective": 6.125721971019745,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 77
+ },
+ {
+  "heights": [
+   1.022552117684133,
+   1.039113072905971
+  ],
+  "xs": [
+   3.0,
+   5.0
+  ],
+  "goal_x": 8.5,
+  "speed": 1.1,
+  "n_beams": 2,
+  "gap": 2.0,
+  "scene_id": "v3_36b4198dd2",
+  "route_len": 8.5,
+  "dt": 0.12265512265512264,
+  "objective": 8.094625855079908,
+  "max_violation_m": 3.1086244689504383e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 75
+ },
+ {
+  "heights": [
+   1.0318826843921427,
+   1.0692393388407198
+  ],
+  "xs": [
+   3.0,
+   5.0
+  ],
+  "goal_x": 8.5,
+  "speed": 1.1,
+  "n_beams": 2,
+  "gap": 2.0,
+  "scene_id": "v3_3446587da2",
+  "route_len": 8.5,
+  "dt": 0.12265512265512264,
+  "objective": 6.70122525995426,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 75
+ },
+ {
+  "heights": [
+   1.0501613692800262,
+   1.0699164475601146
+  ],
+  "xs": [
+   3.0,
+   6.5
+  ],
+  "goal_x": 10.0,
+  "speed": 1.1,
+  "n_beams": 2,
+  "gap": 3.5,
+  "scene_id": "v3_9429206c1e",
+  "route_len": 10.0,
+  "dt": 0.1443001443001443,
+  "objective": 5.986923257658233,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 75
+ },
+ {
+  "heights": [
+   1.0354335479047077,
+   1.062556793691023
+  ],
+  "xs": [
+   3.0,
+   6.5
+  ],
+  "goal_x": 10.0,
+  "speed": 1.1,
+  "n_beams": 2,
+  "gap": 3.5,
+  "scene_id": "v3_bd4d49beae",
+  "route_len": 10.0,
+  "dt": 0.1443001443001443,
+  "objective": 6.737963873789329,
+  "max_violation_m": 3.885780586188048e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 75
+ },
+ {
+  "heights": [
+   1.058532642012188,
+   1.068201845941583
+  ],
+  "xs": [
+   3.0,
+   8.0
+  ],
+  "goal_x": 11.5,
+  "speed": 1.1,
+  "n_beams": 2,
+  "gap": 5.0,
+  "scene_id": "v3_bbb25d56d1",
+  "route_len": 11.5,
+  "dt": 0.16594516594516592,
+  "objective": 4.921026274494671,
+  "max_violation_m": 3.6193270602780103e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 74
+ },
+ {
+  "heights": [
+   1.0632397559608728,
+   1.0307225605240111
+  ],
+  "xs": [
+   3.0,
+   8.0
+  ],
+  "goal_x": 11.5,
+  "speed": 1.1,
+  "n_beams": 2,
+  "gap": 5.0,
+  "scene_id": "v3_baed43c574",
+  "route_len": 11.5,
+  "dt": 0.16594516594516592,
+  "objective": 5.938201264162564,
+  "max_violation_m": 7.904787935331115e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 75
+ },
+ {
+  "heights": [
+   1.0424119711093327,
+   1.067248108292176
+  ],
+  "xs": [
+   4.0,
+   5.0
+  ],
+  "goal_x": 8.5,
+  "speed": 0.7,
+  "n_beams": 2,
+  "gap": 1.0,
+  "scene_id": "v3_435775dc97",
+  "route_len": 8.5,
+  "dt": 0.1927437641723356,
+  "objective": 4.954039711073504,
+  "max_violation_m": 8.770761894538737e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 74
+ },
+ {
+  "heights": [
+   1.0678049435597194,
+   1.0385295176605445
+  ],
+  "xs": [
+   4.0,
+   5.0
+  ],
+  "goal_x": 8.5,
+  "speed": 0.7,
+  "n_beams": 2,
+  "gap": 1.0,
+  "scene_id": "v3_20f85b90cc",
+  "route_len": 8.5,
+  "dt": 0.1927437641723356,
+  "objective": 5.036620637731945,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 75
+ },
+ {
+  "heights": [
+   1.0218424710032612,
+   1.0324680743764434
+  ],
+  "xs": [
+   4.0,
+   6.0
+  ],
+  "goal_x": 9.5,
+  "speed": 0.7,
+  "n_beams": 2,
+  "gap": 2.0,
+  "scene_id": "v3_980fd210b9",
+  "route_len": 9.5,
+  "dt": 0.21541950113378686,
+  "objective": 7.540562752768142,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 73
+ },
+ {
+  "heights": [
+   1.0755034333094275,
+   1.0680269833744094
+  ],
+  "xs": [
+   4.0,
+   6.0
+  ],
+  "goal_x": 9.5,
+  "speed": 0.7,
+  "n_beams": 2,
+  "gap": 2.0,
+  "scene_id": "v3_b67a49b730",
+  "route_len": 9.5,
+  "dt": 0.21541950113378686,
+  "objective": 4.7859823064942155,
+  "max_violation_m": 9.214851104388799e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 74
+ },
+ {
+  "heights": [
+   1.0424703934473531,
+   1.0378237817108762
+  ],
+  "xs": [
+   4.0,
+   7.5
+  ],
+  "goal_x": 11.0,
+  "speed": 0.7,
+  "n_beams": 2,
+  "gap": 3.5,
+  "scene_id": "v3_808a58b9de",
+  "route_len": 11.0,
+  "dt": 0.2494331065759637,
+  "objective": 5.845972051143356,
+  "max_violation_m": 4.54081217071689e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 74
+ },
+ {
+  "heights": [
+   1.0567351903674678,
+   1.035214391522763
+  ],
+  "xs": [
+   4.0,
+   7.5
+  ],
+  "goal_x": 11.0,
+  "speed": 0.7,
+  "n_beams": 2,
+  "gap": 3.5,
+  "scene_id": "v3_ba614db06f",
+  "route_len": 11.0,
+  "dt": 0.2494331065759637,
+  "objective": 5.4790718878508695,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 73
+ },
+ {
+  "heights": [
+   1.079198654872534,
+   1.0341411983170619
+  ],
+  "xs": [
+   4.0,
+   9.0
+  ],
+  "goal_x": 12.5,
+  "speed": 0.7,
+  "n_beams": 2,
+  "gap": 5.0,
+  "scene_id": "v3_745bd19a97",
+  "route_len": 12.5,
+  "dt": 0.2834467120181406,
+  "objective": 5.120864924555287,
+  "max_violation_m": 5.739853037312059e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 72
+ },
+ {
+  "heights": [
+   1.0315084333140274,
+   1.0379523858037474
+  ],
+  "xs": [
+   4.0,
+   9.0
+  ],
+  "goal_x": 12.5,
+  "speed": 0.7,
+  "n_beams": 2,
+  "gap": 5.0,
+  "scene_id": "v3_91becba46a",
+  "route_len": 12.5,
+  "dt": 0.2834467120181406,
+  "objective": 6.166045954866686,
+  "max_violation_m": 2.1871393585115584e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 74
+ },
+ {
+  "heights": [
+   1.0794958220692614,
+   1.039273660674378
+  ],
+  "xs": [
+   4.0,
+   5.0
+  ],
+  "goal_x": 8.5,
+  "speed": 0.9,
+  "n_beams": 2,
+  "gap": 1.0,
+  "scene_id": "v3_4cb5de48e1",
+  "route_len": 8.5,
+  "dt": 0.14991181657848324,
+  "objective": 4.987798406311445,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 76
+ },
+ {
+  "heights": [
+   1.0376685147443687,
+   1.0588342452083128
+  ],
+  "xs": [
+   4.0,
+   5.0
+  ],
+  "goal_x": 8.5,
+  "speed": 0.9,
+  "n_beams": 2,
+  "gap": 1.0,
+  "scene_id": "v3_a943e16b86",
+  "route_len": 8.5,
+  "dt": 0.14991181657848324,
+  "objective": 5.341627704967433,
+  "max_violation_m": 3.83026943495679e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 75
+ },
+ {
+  "heights": [
+   1.0445657604061391,
+   1.0671457022267699
+  ],
+  "xs": [
+   4.0,
+   6.0
+  ],
+  "goal_x": 9.5,
+  "speed": 0.9,
+  "n_beams": 2,
+  "gap": 2.0,
+  "scene_id": "v3_8301806891",
+  "route_len": 9.5,
+  "dt": 0.1675485008818342,
+  "objective": 5.645618166770312,
+  "max_violation_m": 1.4876988529977098e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 75
+ },
+ {
+  "heights": [
+   1.0372968229642128,
+   1.0416513507789273
+  ],
+  "xs": [
+   4.0,
+   6.0
+  ],
+  "goal_x": 9.5,
+  "speed": 0.9,
+  "n_beams": 2,
+  "gap": 2.0,
+  "scene_id": "v3_e58a88dc74",
+  "route_len": 9.5,
+  "dt": 0.1675485008818342,
+  "objective": 6.704699516874591,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 74
+ },
+ {
+  "heights": [
+   1.041306903927613,
+   1.078190931083567
+  ],
+  "xs": [
+   4.0,
+   7.5
+  ],
+  "goal_x": 11.0,
+  "speed": 0.9,
+  "n_beams": 2,
+  "gap": 3.5,
+  "scene_id": "v3_4ba0501848",
+  "route_len": 11.0,
+  "dt": 0.19400352733686066,
+  "objective": 5.031529945876742,
+  "max_violation_m": 1.6653345369377348e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 72
+ },
+ {
+  "heights": [
+   1.0368643349763327,
+   1.0599970562432801
+  ],
+  "xs": [
+   4.0,
+   7.5
+  ],
+  "goal_x": 11.0,
+  "speed": 0.9,
+  "n_beams": 2,
+  "gap": 3.5,
+  "scene_id": "v3_ca1f971f49",
+  "route_len": 11.0,
+  "dt": 0.19400352733686066,
+  "objective": 5.44878637707183,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 73
+ },
+ {
+  "heights": [
+   1.0775938051038865,
+   1.069867172392987
+  ],
+  "xs": [
+   4.0,
+   9.0
+  ],
+  "goal_x": 12.5,
+  "speed": 0.9,
+  "n_beams": 2,
+  "gap": 5.0,
+  "scene_id": "v3_94ef96479a",
+  "route_len": 12.5,
+  "dt": 0.2204585537918871,
+  "objective": 4.258169828685801,
+  "max_violation_m": 2.886579864025407e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 74
+ },
+ {
+  "heights": [
+   1.0401662867060903,
+   1.0233615457065974
+  ],
+  "xs": [
+   4.0,
+   9.0
+  ],
+  "goal_x": 12.5,
+  "speed": 0.9,
+  "n_beams": 2,
+  "gap": 5.0,
+  "scene_id": "v3_8007c1bb6c",
+  "route_len": 12.5,
+  "dt": 0.2204585537918871,
+  "objective": 6.493328174073383,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 74
+ },
+ {
+  "heights": [
+   1.0572112885640357,
+   1.0572986100125967
+  ],
+  "xs": [
+   4.0,
+   5.0
+  ],
+  "goal_x": 8.5,
+  "speed": 1.1,
+  "n_beams": 2,
+  "gap": 1.0,
+  "scene_id": "v3_fdc8864d2d",
+  "route_len": 8.5,
+  "dt": 0.12265512265512264,
+  "objective": 4.712157165312462,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 72
+ },
+ {
+  "heights": [
+   1.077225791323473,
+   1.0396212573897734
+  ],
+  "xs": [
+   4.0,
+   5.0
+  ],
+  "goal_x": 8.5,
+  "speed": 1.1,
+  "n_beams": 2,
+  "gap": 1.0,
+  "scene_id": "v3_2779634ade",
+  "route_len": 8.5,
+  "dt": 0.12265512265512264,
+  "objective": 5.105784239805384,
+  "max_violation_m": 2.298161660974074e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 76
+ },
+ {
+  "heights": [
+   1.0608137274343044,
+   1.061495638079371
+  ],
+  "xs": [
+   4.0,
+   6.0
+  ],
+  "goal_x": 9.5,
+  "speed": 1.1,
+  "n_beams": 2,
+  "gap": 2.0,
+  "scene_id": "v3_fd2cd03444",
+  "route_len": 9.5,
+  "dt": 0.13708513708513706,
+  "objective": 5.315999063531765,
+  "max_violation_m": 1.532107773982716e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 77
+ },
+ {
+  "heights": [
+   1.051615593748232,
+   1.0782037466349184
+  ],
+  "xs": [
+   4.0,
+   6.0
+  ],
+  "goal_x": 9.5,
+  "speed": 1.1,
+  "n_beams": 2,
+  "gap": 2.0,
+  "scene_id": "v3_8dc2de18de",
+  "route_len": 9.5,
+  "dt": 0.13708513708513706,
+  "objective": 5.310124035993423,
+  "max_violation_m": 2.1871393585115584e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 75
+ },
+ {
+  "heights": [
+   1.0258370673709913,
+   1.0343852471022614
+  ],
+  "xs": [
+   4.0,
+   7.5
+  ],
+  "goal_x": 11.0,
+  "speed": 1.1,
+  "n_beams": 2,
+  "gap": 3.5,
+  "scene_id": "v3_b14f82b5da",
+  "route_len": 11.0,
+  "dt": 0.15873015873015872,
+  "objective": 6.821495592779462,
+  "max_violation_m": 7.549516567451064e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 73
+ },
+ {
+  "heights": [
+   1.052047561883428,
+   1.0776870051039782
+  ],
+  "xs": [
+   4.0,
+   7.5
+  ],
+  "goal_x": 11.0,
+  "speed": 1.1,
+  "n_beams": 2,
+  "gap": 3.5,
+  "scene_id": "v3_2c04e4fb2f",
+  "route_len": 11.0,
+  "dt": 0.15873015873015872,
+  "objective": 4.780640077862685,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 73
+ },
+ {
+  "heights": [
+   1.0602156981223372,
+   1.038467699242322
+  ],
+  "xs": [
+   4.0,
+   9.0
+  ],
+  "goal_x": 12.5,
+  "speed": 1.1,
+  "n_beams": 2,
+  "gap": 5.0,
+  "scene_id": "v3_77c8c7f5b4",
+  "route_len": 12.5,
+  "dt": 0.18037518037518036,
+  "objective": 5.4230310610907075,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 75
+ },
+ {
+  "heights": [
+   1.0727439513645045,
+   1.060762636192043
+  ],
+  "xs": [
+   4.0,
+   9.0
+  ],
+  "goal_x": 12.5,
+  "speed": 1.1,
+  "n_beams": 2,
+  "gap": 5.0,
+  "scene_id": "v3_5de8738b27",
+  "route_len": 12.5,
+  "dt": 0.18037518037518036,
+  "objective": 4.538120863886812,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 73
+ },
+ {
+  "heights": [
+   1.1621255549802416,
+   1.15962344315806
+  ],
+  "xs": [
+   3.0,
+   4.0
+  ],
+  "goal_x": 8.0,
+  "speed": 0.7,
+  "n_beams": 2,
+  "gap": 1.0,
+  "scene_id": "v3_55384a0108",
+  "route_len": 8.0,
+  "dt": 0.18140589569160998,
+  "objective": 2.1533004286789463,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 72
+ },
+ {
+  "heights": [
+   1.1713640845172906,
+   1.1343927034810306
+  ],
+  "xs": [
+   3.0,
+   4.0
+  ],
+  "goal_x": 8.0,
+  "speed": 0.7,
+  "n_beams": 2,
+  "gap": 1.0,
+  "scene_id": "v3_e552dbb16b",
+  "route_len": 8.0,
+  "dt": 0.18140589569160998,
+  "objective": 2.403983372469408,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 75
+ },
+ {
+  "heights": [
+   1.1715311561110415,
+   1.1363101516693417
+  ],
+  "xs": [
+   3.0,
+   5.0
+  ],
+  "goal_x": 8.5,
+  "speed": 0.7,
+  "n_beams": 2,
+  "gap": 2.0,
+  "scene_id": "v3_1618d02580",
+  "route_len": 8.5,
+  "dt": 0.1927437641723356,
+  "objective": 2.7539311586445105,
+  "max_violation_m": 6.916689443414725e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 77
+ },
+ {
+  "heights": [
+   1.1317978902068597,
+   1.1408316185517362
+  ],
+  "xs": [
+   3.0,
+   5.0
+  ],
+  "goal_x": 8.5,
+  "speed": 0.7,
+  "n_beams": 2,
+  "gap": 2.0,
+  "scene_id": "v3_8b425b22cd",
+  "route_len": 8.5,
+  "dt": 0.1927437641723356,
+  "objective": 3.1646970564736834,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 74
+ },
+ {
+  "heights": [
+   1.174681006812249,
+   1.1216081998016518
+  ],
+  "xs": [
+   3.0,
+   6.5
+  ],
+  "goal_x": 10.0,
+  "speed": 0.7,
+  "n_beams": 2,
+  "gap": 3.5,
+  "scene_id": "v3_aad80af7b2",
+  "route_len": 10.0,
+  "dt": 0.22675736961451248,
+  "objective": 2.9540855450509276,
+  "max_violation_m": 1.554312234475219e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 75
+ },
+ {
+  "heights": [
+   1.1224234238661526,
+   1.1584119764146334
+  ],
+  "xs": [
+   3.0,
+   6.5
+  ],
+  "goal_x": 10.0,
+  "speed": 0.7,
+  "n_beams": 2,
+  "gap": 3.5,
+  "scene_id": "v3_a8903927b6",
+  "route_len": 10.0,
+  "dt": 0.22675736961451248,
+  "objective": 3.10382508267206,
+  "max_violation_m": 2.298161660974074e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 75
+ },
+ {
+  "heights": [
+   1.1531611597840645,
+   1.1517446875355257
+  ],
+  "xs": [
+   3.0,
+   8.0
+  ],
+  "goal_x": 11.5,
+  "speed": 0.7,
+  "n_beams": 2,
+  "gap": 5.0,
+  "scene_id": "v3_f0facf8fff",
+  "route_len": 11.5,
+  "dt": 0.26077097505668934,
+  "objective": 2.418921859694754,
+  "max_violation_m": 1.8540724511240114e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 77
+ },
+ {
+  "heights": [
+   1.1510508713799918,
+   1.1416011416510012
+  ],
+  "xs": [
+   3.0,
+   8.0
+  ],
+  "goal_x": 11.5,
+  "speed": 0.7,
+  "n_beams": 2,
+  "gap": 5.0,
+  "scene_id": "v3_dcd7fb5bfa",
+  "route_len": 11.5,
+  "dt": 0.26077097505668934,
+  "objective": 2.5497433733621717,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 74
+ },
+ {
+  "heights": [
+   1.1689062763125764,
+   1.1252350042845105
+  ],
+  "xs": [
+   3.0,
+   4.0
+  ],
+  "goal_x": 8.0,
+  "speed": 0.9,
+  "n_beams": 2,
+  "gap": 1.0,
+  "scene_id": "v3_f9850199f2",
+  "route_len": 8.0,
+  "dt": 0.14109347442680775,
+  "objective": 2.5996924910523314,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 72
+ },
+ {
+  "heights": [
+   1.1526668077851427,
+   1.1205806120483408
+  ],
+  "xs": [
+   3.0,
+   4.0
+  ],
+  "goal_x": 8.0,
+  "speed": 0.9,
+  "n_beams": 2,
+  "gap": 1.0,
+  "scene_id": "v3_dfd9e7faef",
+  "route_len": 8.0,
+  "dt": 0.14109347442680775,
+  "objective": 2.7853846432894027,
+  "max_violation_m": 1.7763568394002505e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 73
+ },
+ {
+  "heights": [
+   1.166884453990666,
+   1.1414296062967324
+  ],
+  "xs": [
+   3.0,
+   5.0
+  ],
+  "goal_x": 8.5,
+  "speed": 0.9,
+  "n_beams": 2,
+  "gap": 2.0,
+  "scene_id": "v3_350d335af6",
+  "route_len": 8.5,
+  "dt": 0.14991181657848324,
+  "objective": 2.790165370494337,
+  "max_violation_m": 1.176836406102666e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 76
+ },
+ {
+  "heights": [
+   1.1384512138743168,
+   1.1286544067021698
+  ],
+  "xs": [
+   3.0,
+   5.0
+  ],
+  "goal_x": 8.5,
+  "speed": 0.9,
+  "n_beams": 2,
+  "gap": 2.0,
+  "scene_id": "v3_ad6db01dfe",
+  "route_len": 8.5,
+  "dt": 0.14991181657848324,
+  "objective": 3.3131735915393152,
+  "max_violation_m": 1.2545520178264269e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 76
+ },
+ {
+  "heights": [
+   1.1470486203799786,
+   1.1338014491106796
+  ],
+  "xs": [
+   3.0,
+   6.5
+  ],
+  "goal_x": 10.0,
+  "speed": 0.9,
+  "n_beams": 2,
+  "gap": 3.5,
+  "scene_id": "v3_eaa5cd37ab",
+  "route_len": 10.0,
+  "dt": 0.1763668430335097,
+  "objective": 3.161223114616747,
+  "max_violation_m": 1.8207657603852567e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 74
+ },
+ {
+  "heights": [
+   1.161447555892583,
+   1.1257760418363907
+  ],
+  "xs": [
+   3.0,
+   6.5
+  ],
+  "goal_x": 10.0,
+  "speed": 0.9,
+  "n_beams": 2,
+  "gap": 3.5,
+  "scene_id": "v3_01ed83e78b",
+  "route_len": 10.0,
+  "dt": 0.1763668430335097,
+  "objective": 3.0920831527238777,
+  "max_violation_m": 1.1213252548714081e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 75
+ },
+ {
+  "heights": [
+   1.1282344178027037,
+   1.1356863298124258
+  ],
+  "xs": [
+   3.0,
+   8.0
+  ],
+  "goal_x": 11.5,
+  "speed": 0.9,
+  "n_beams": 2,
+  "gap": 5.0,
+  "scene_id": "v3_a2f761c21d",
+  "route_len": 11.5,
+  "dt": 0.20282186948853614,
+  "objective": 2.941630684478457,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 75
+ },
+ {
+  "heights": [
+   1.1278311562166747,
+   1.1471932222219035
+  ],
+  "xs": [
+   3.0,
+   8.0
+  ],
+  "goal_x": 11.5,
+  "speed": 0.9,
+  "n_beams": 2,
+  "gap": 5.0,
+  "scene_id": "v3_30fd4f413e",
+  "route_len": 11.5,
+  "dt": 0.20282186948853614,
+  "objective": 2.8203706848731223,
+  "max_violation_m": 2.886579864025407e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 75
+ },
+ {
+  "heights": [
+   1.1614536602749714,
+   1.132204016598765
+  ],
+  "xs": [
+   3.0,
+   4.0
+  ],
+  "goal_x": 8.0,
+  "speed": 1.1,
+  "n_beams": 2,
+  "gap": 1.0,
+  "scene_id": "v3_a720914545",
+  "route_len": 8.0,
+  "dt": 0.11544011544011543,
+  "objective": 2.604752506055083,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 75
+ },
+ {
+  "heights": [
+   1.1293278450182556,
+   1.1388017255901512
+  ],
+  "xs": [
+   3.0,
+   4.0
+  ],
+  "goal_x": 8.0,
+  "speed": 1.1,
+  "n_beams": 2,
+  "gap": 1.0,
+  "scene_id": "v3_fa76820c19",
+  "route_len": 8.0,
+  "dt": 0.11544011544011543,
+  "objective": 2.8407614097184455,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 75
+ },
+ {
+  "heights": [
+   1.1624404726136208,
+   1.1383582670415653
+  ],
+  "xs": [
+   3.0,
+   5.0
+  ],
+  "goal_x": 8.5,
+  "speed": 1.1,
+  "n_beams": 2,
+  "gap": 2.0,
+  "scene_id": "v3_a357989a5b",
+  "route_len": 8.5,
+  "dt": 0.12265512265512264,
+  "objective": 2.9396004853892244,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 74
+ },
+ {
+  "heights": [
+   1.1709229407250825,
+   1.15506130163337
+  ],
+  "xs": [
+   3.0,
+   5.0
+  ],
+  "goal_x": 8.5,
+  "speed": 1.1,
+  "n_beams": 2,
+  "gap": 2.0,
+  "scene_id": "v3_641488b55e",
+  "route_len": 8.5,
+  "dt": 0.12265512265512264,
+  "objective": 2.6356182146044245,
+  "max_violation_m": 2.7755575615628914e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 73
+ },
+ {
+  "heights": [
+   1.1416058128722935,
+   1.1650843378928837
+  ],
+  "xs": [
+   3.0,
+   6.5
+  ],
+  "goal_x": 10.0,
+  "speed": 1.1,
+  "n_beams": 2,
+  "gap": 3.5,
+  "scene_id": "v3_9d9cf36077",
+  "route_len": 10.0,
+  "dt": 0.1443001443001443,
+  "objective": 2.8973537284379773,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 74
+ },
+ {
+  "heights": [
+   1.172746473190892,
+   1.1655716011001955
+  ],
+  "xs": [
+   3.0,
+   6.5
+  ],
+  "goal_x": 10.0,
+  "speed": 1.1,
+  "n_beams": 2,
+  "gap": 3.5,
+  "scene_id": "v3_915093b239",
+  "route_len": 10.0,
+  "dt": 0.1443001443001443,
+  "objective": 2.520753475750811,
+  "max_violation_m": 2.9976021664879227e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 73
+ },
+ {
+  "heights": [
+   1.1446513860133312,
+   1.1329882727636313
+  ],
+  "xs": [
+   3.0,
+   8.0
+  ],
+  "goal_x": 11.5,
+  "speed": 1.1,
+  "n_beams": 2,
+  "gap": 5.0,
+  "scene_id": "v3_cd4de5e90b",
+  "route_len": 11.5,
+  "dt": 0.16594516594516592,
+  "objective": 2.824513394696651,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 73
+ },
+ {
+  "heights": [
+   1.1547567262777616,
+   1.1730508159200113
+  ],
+  "xs": [
+   3.0,
+   8.0
+  ],
+  "goal_x": 11.5,
+  "speed": 1.1,
+  "n_beams": 2,
+  "gap": 5.0,
+  "scene_id": "v3_e35693fb72",
+  "route_len": 11.5,
+  "dt": 0.16594516594516592,
+  "objective": 2.2976934280985972,
+  "max_violation_m": 6.661338147750939e-16,
+  "status": "Optimization terminated successfully",
+  "n_iter": 73
+ },
+ {
+  "heights": [
+   1.1538654829204935,
+   1.1471581850534927
+  ],
+  "xs": [
+   4.0,
+   5.0
+  ],
+  "goal_x": 8.5,
+  "speed": 0.7,
+  "n_beams": 2,
+  "gap": 1.0,
+  "scene_id": "v3_5fef0341b2",
+  "route_len": 8.5,
+  "dt": 0.1927437641723356,
+  "objective": 2.255426092798849,
+  "max_violation_m": 1.1657341758564144e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 71
+ },
+ {
+  "heights": [
+   1.171943305898786,
+   1.1346821270895706
+  ],
+  "xs": [
+   4.0,
+   5.0
+  ],
+  "goal_x": 8.5,
+  "speed": 0.7,
+  "n_beams": 2,
+  "gap": 1.0,
+  "scene_id": "v3_85cbb43586",
+  "route_len": 8.5,
+  "dt": 0.1927437641723356,
+  "objective": 2.2699855516787393,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 72
+ },
+ {
+  "heights": [
+   1.1401058552465801,
+   1.1233920762984628
+  ],
+  "xs": [
+   4.0,
+   6.0
+  ],
+  "goal_x": 9.5,
+  "speed": 0.7,
+  "n_beams": 2,
+  "gap": 2.0,
+  "scene_id": "v3_75d9e5ff41",
+  "route_len": 9.5,
+  "dt": 0.21541950113378686,
+  "objective": 3.09745541684756,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 74
+ },
+ {
+  "heights": [
+   1.177542518040955,
+   1.1449024586387406
+  ],
+  "xs": [
+   4.0,
+   6.0
+  ],
+  "goal_x": 9.5,
+  "speed": 0.7,
+  "n_beams": 2,
+  "gap": 2.0,
+  "scene_id": "v3_cf8c9d9ee0",
+  "route_len": 9.5,
+  "dt": 0.21541950113378686,
+  "objective": 2.4484909667956574,
+  "max_violation_m": 6.439293542825908e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 77
+ },
+ {
+  "heights": [
+   1.1327624636062814,
+   1.1600367811267889
+  ],
+  "xs": [
+   4.0,
+   7.5
+  ],
+  "goal_x": 11.0,
+  "speed": 0.7,
+  "n_beams": 2,
+  "gap": 3.5,
+  "scene_id": "v3_7adfa26a4c",
+  "route_len": 11.0,
+  "dt": 0.2494331065759637,
+  "objective": 2.4488827326756333,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 73
+ },
+ {
+  "heights": [
+   1.1243818566780346,
+   1.1287304834642111
+  ],
+  "xs": [
+   4.0,
+   7.5
+  ],
+  "goal_x": 11.0,
+  "speed": 0.7,
+  "n_beams": 2,
+  "gap": 3.5,
+  "scene_id": "v3_36dbe0e0cf",
+  "route_len": 11.0,
+  "dt": 0.2494331065759637,
+  "objective": 2.879198622657847,
+  "max_violation_m": 3.774758283725532e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 73
+ },
+ {
+  "heights": [
+   1.140444183030438,
+   1.172034852549428
+  ],
+  "xs": [
+   4.0,
+   9.0
+  ],
+  "goal_x": 12.5,
+  "speed": 0.7,
+  "n_beams": 2,
+  "gap": 5.0,
+  "scene_id": "v3_b464dcd063",
+  "route_len": 12.5,
+  "dt": 0.2834467120181406,
+  "objective": 2.245238348179046,
+  "max_violation_m": 3.885780586188048e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 74
+ },
+ {
+  "heights": [
+   1.1540482331019588,
+   1.1388860818102569
+  ],
+  "xs": [
+   4.0,
+   9.0
+  ],
+  "goal_x": 12.5,
+  "speed": 0.7,
+  "n_beams": 2,
+  "gap": 5.0,
+  "scene_id": "v3_45747ded24",
+  "route_len": 12.5,
+  "dt": 0.2834467120181406,
+  "objective": 2.420339354895403,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 74
+ },
+ {
+  "heights": [
+   1.166630203370864,
+   1.1281361723622605
+  ],
+  "xs": [
+   4.0,
+   5.0
+  ],
+  "goal_x": 8.5,
+  "speed": 0.9,
+  "n_beams": 2,
+  "gap": 1.0,
+  "scene_id": "v3_b693bd7053",
+  "route_len": 8.5,
+  "dt": 0.14991181657848324,
+  "objective": 2.433355672780813,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 78
+ },
+ {
+  "heights": [
+   1.1722667397233528,
+   1.1322202099955145
+  ],
+  "xs": [
+   4.0,
+   5.0
+  ],
+  "goal_x": 8.5,
+  "speed": 0.9,
+  "n_beams": 2,
+  "gap": 1.0,
+  "scene_id": "v3_77e50e8d1e",
+  "route_len": 8.5,
+  "dt": 0.14991181657848324,
+  "objective": 2.3483385366834595,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 75
+ },
+ {
+  "heights": [
+   1.1640984758591582,
+   1.1459818866197473
+  ],
+  "xs": [
+   4.0,
+   6.0
+  ],
+  "goal_x": 9.5,
+  "speed": 0.9,
+  "n_beams": 2,
+  "gap": 2.0,
+  "scene_id": "v3_cce446d923",
+  "route_len": 9.5,
+  "dt": 0.1675485008818342,
+  "objective": 2.589390524902319,
+  "max_violation_m": 1.2212453270876722e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 74
+ },
+ {
+  "heights": [
+   1.1709514816742301,
+   1.1756272778600962
+  ],
+  "xs": [
+   4.0,
+   6.0
+  ],
+  "goal_x": 9.5,
+  "speed": 0.9,
+  "n_beams": 2,
+  "gap": 2.0,
+  "scene_id": "v3_515e275ec3",
+  "route_len": 9.5,
+  "dt": 0.1675485008818342,
+  "objective": 2.21300326614357,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 74
+ },
+ {
+  "heights": [
+   1.1351847414720762,
+   1.1238074061028311
+  ],
+  "xs": [
+   4.0,
+   7.5
+  ],
+  "goal_x": 11.0,
+  "speed": 0.9,
+  "n_beams": 2,
+  "gap": 3.5,
+  "scene_id": "v3_aaa6524a9a",
+  "route_len": 11.0,
+  "dt": 0.19400352733686066,
+  "objective": 2.869320121552588,
+  "max_violation_m": 1.0769163338864018e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 73
+ },
+ {
+  "heights": [
+   1.151084122877388,
+   1.1466506456541423
+  ],
+  "xs": [
+   4.0,
+   7.5
+  ],
+  "goal_x": 11.0,
+  "speed": 0.9,
+  "n_beams": 2,
+  "gap": 3.5,
+  "scene_id": "v3_edc363714f",
+  "route_len": 11.0,
+  "dt": 0.19400352733686066,
+  "objective": 2.4362085822244417,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 75
+ },
+ {
+  "heights": [
+   1.1748705983078955,
+   1.138557078414679
+  ],
+  "xs": [
+   4.0,
+   9.0
+  ],
+  "goal_x": 12.5,
+  "speed": 0.9,
+  "n_beams": 2,
+  "gap": 5.0,
+  "scene_id": "v3_fce0862f1c",
+  "route_len": 12.5,
+  "dt": 0.2204585537918871,
+  "objective": 2.2837175895638735,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 76
+ },
+ {
+  "heights": [
+   1.152012600612911,
+   1.1590481413958036
+  ],
+  "xs": [
+   4.0,
+   9.0
+  ],
+  "goal_x": 12.5,
+  "speed": 0.9,
+  "n_beams": 2,
+  "gap": 5.0,
+  "scene_id": "v3_31cdd67414",
+  "route_len": 12.5,
+  "dt": 0.2204585537918871,
+  "objective": 2.269474069838491,
+  "max_violation_m": 2.220446049250313e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 75
+ },
+ {
+  "heights": [
+   1.1222860657260865,
+   1.1253616370338788
+  ],
+  "xs": [
+   4.0,
+   5.0
+  ],
+  "goal_x": 8.5,
+  "speed": 1.1,
+  "n_beams": 2,
+  "gap": 1.0,
+  "scene_id": "v3_0e33230335",
+  "route_len": 8.5,
+  "dt": 0.12265512265512264,
+  "objective": 2.9274343789012356,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 72
+ },
+ {
+  "heights": [
+   1.1543267830054362,
+   1.1522390756818879
+  ],
+  "xs": [
+   4.0,
+   5.0
+  ],
+  "goal_x": 8.5,
+  "speed": 1.1,
+  "n_beams": 2,
+  "gap": 1.0,
+  "scene_id": "v3_b42e654426",
+  "route_len": 8.5,
+  "dt": 0.12265512265512264,
+  "objective": 2.2827210183494335,
+  "max_violation_m": 1.3322676295501878e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 72
+ },
+ {
+  "heights": [
+   1.1284754949847875,
+   1.1751795785284043
+  ],
+  "xs": [
+   4.0,
+   6.0
+  ],
+  "goal_x": 9.5,
+  "speed": 1.1,
+  "n_beams": 2,
+  "gap": 2.0,
+  "scene_id": "v3_8a95ab00e2",
+  "route_len": 9.5,
+  "dt": 0.13708513708513706,
+  "objective": 2.73659802267077,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 74
+ },
+ {
+  "heights": [
+   1.151243226964612,
+   1.1320631566075878
+  ],
+  "xs": [
+   4.0,
+   6.0
+  ],
+  "goal_x": 9.5,
+  "speed": 1.1,
+  "n_beams": 2,
+  "gap": 2.0,
+  "scene_id": "v3_25cf0b7eef",
+  "route_len": 9.5,
+  "dt": 0.13708513708513706,
+  "objective": 2.966113863076512,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 73
+ },
+ {
+  "heights": [
+   1.1215368537235884,
+   1.127392133462551
+  ],
+  "xs": [
+   4.0,
+   7.5
+  ],
+  "goal_x": 11.0,
+  "speed": 1.1,
+  "n_beams": 2,
+  "gap": 3.5,
+  "scene_id": "v3_f886b2a49d",
+  "route_len": 11.0,
+  "dt": 0.15873015873015872,
+  "objective": 3.0495487401367107,
+  "max_violation_m": 8.881784197001252e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 73
+ },
+ {
+  "heights": [
+   1.165631722451325,
+   1.1562325289311728
+  ],
+  "xs": [
+   4.0,
+   7.5
+  ],
+  "goal_x": 11.0,
+  "speed": 1.1,
+  "n_beams": 2,
+  "gap": 3.5,
+  "scene_id": "v3_ae2634f82c",
+  "route_len": 11.0,
+  "dt": 0.15873015873015872,
+  "objective": 2.2345356294428393,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 73
+ },
+ {
+  "heights": [
+   1.1422440902475113,
+   1.1620067970403705
+  ],
+  "xs": [
+   4.0,
+   9.0
+  ],
+  "goal_x": 12.5,
+  "speed": 1.1,
+  "n_beams": 2,
+  "gap": 5.0,
+  "scene_id": "v3_8b9c3393f9",
+  "route_len": 12.5,
+  "dt": 0.18037518037518036,
+  "objective": 2.3862195419746772,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 73
+ },
+ {
+  "heights": [
+   1.1474163094402248,
+   1.1579863956683083
+  ],
+  "xs": [
+   4.0,
+   9.0
+  ],
+  "goal_x": 12.5,
+  "speed": 1.1,
+  "n_beams": 2,
+  "gap": 5.0,
+  "scene_id": "v3_4e34e25cc0",
+  "route_len": 12.5,
+  "dt": 0.18037518037518036,
+  "objective": 2.370730940823468,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 75
+ },
+ {
+  "heights": [
+   1.2214665263570204,
+   1.258100644860939
+  ],
+  "xs": [
+   3.0,
+   4.0
+  ],
+  "goal_x": 8.0,
+  "speed": 0.7,
+  "n_beams": 2,
+  "gap": 1.0,
+  "scene_id": "v3_af9d76f10b",
+  "route_len": 8.0,
+  "dt": 0.18140589569160998,
+  "objective": 1.159734679423287,
+  "max_violation_m": 8.881784197001252e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 71
+ },
+ {
+  "heights": [
+   1.2594953873937498,
+   1.2358991396635604
+  ],
+  "xs": [
+   3.0,
+   4.0
+  ],
+  "goal_x": 8.0,
+  "speed": 0.7,
+  "n_beams": 2,
+  "gap": 1.0,
+  "scene_id": "v3_061e4cde92",
+  "route_len": 8.0,
+  "dt": 0.18140589569160998,
+  "objective": 1.0558935477478495,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 73
+ },
+ {
+  "heights": [
+   1.2362520347598172,
+   1.2606287024772052
+  ],
+  "xs": [
+   3.0,
+   5.0
+  ],
+  "goal_x": 8.5,
+  "speed": 0.7,
+  "n_beams": 2,
+  "gap": 2.0,
+  "scene_id": "v3_302a5db6b4",
+  "route_len": 8.5,
+  "dt": 0.1927437641723356,
+  "objective": 1.2217056141922613,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 76
+ },
+ {
+  "heights": [
+   1.269597571096176,
+   1.2493821738125863
+  ],
+  "xs": [
+   3.0,
+   5.0
+  ],
+  "goal_x": 8.5,
+  "speed": 0.7,
+  "n_beams": 2,
+  "gap": 2.0,
+  "scene_id": "v3_dfe1b654e0",
+  "route_len": 8.5,
+  "dt": 0.1927437641723356,
+  "objective": 1.088482061065206,
+  "max_violation_m": 1.3322676295501878e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 76
+ },
+ {
+  "heights": [
+   1.279187123345921,
+   1.2420679981303606
+  ],
+  "xs": [
+   3.0,
+   6.5
+  ],
+  "goal_x": 10.0,
+  "speed": 0.7,
+  "n_beams": 2,
+  "gap": 3.5,
+  "scene_id": "v3_e96a7f7671",
+  "route_len": 10.0,
+  "dt": 0.22675736961451248,
+  "objective": 1.0931046831976503,
+  "max_violation_m": 4.218847493575595e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 75
+ },
+ {
+  "heights": [
+   1.2473165456054884,
+   1.2673451524459907
+  ],
+  "xs": [
+   3.0,
+   6.5
+  ],
+  "goal_x": 10.0,
+  "speed": 0.7,
+  "n_beams": 2,
+  "gap": 3.5,
+  "scene_id": "v3_f63ce15dd2",
+  "route_len": 10.0,
+  "dt": 0.22675736961451248,
+  "objective": 1.12415137887701,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 73
+ },
+ {
+  "heights": [
+   1.245431050554522,
+   1.2460686584966658
+  ],
+  "xs": [
+   3.0,
+   8.0
+  ],
+  "goal_x": 11.5,
+  "speed": 0.7,
+  "n_beams": 2,
+  "gap": 5.0,
+  "scene_id": "v3_121c2c25f4",
+  "route_len": 11.5,
+  "dt": 0.26077097505668934,
+  "objective": 1.098873463414101,
+  "max_violation_m": 3.3306690738754696e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 76
+ },
+ {
+  "heights": [
+   1.2618076185259244,
+   1.273647743830259
+  ],
+  "xs": [
+   3.0,
+   8.0
+  ],
+  "goal_x": 11.5,
+  "speed": 0.7,
+  "n_beams": 2,
+  "gap": 5.0,
+  "scene_id": "v3_4b1547081d",
+  "route_len": 11.5,
+  "dt": 0.26077097505668934,
+  "objective": 0.8754380454477635,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 72
+ },
+ {
+  "heights": [
+   1.2421147617059776,
+   1.2282678466913621
+  ],
+  "xs": [
+   3.0,
+   4.0
+  ],
+  "goal_x": 8.0,
+  "speed": 0.9,
+  "n_beams": 2,
+  "gap": 1.0,
+  "scene_id": "v3_3f5194161e",
+  "route_len": 8.0,
+  "dt": 0.14109347442680775,
+  "objective": 1.2019699346323396,
+  "max_violation_m": 1.9984014443252818e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 72
+ },
+ {
+  "heights": [
+   1.2790148454084413,
+   1.2246508032520624
+  ],
+  "xs": [
+   3.0,
+   4.0
+  ],
+  "goal_x": 8.0,
+  "speed": 0.9,
+  "n_beams": 2,
+  "gap": 1.0,
+  "scene_id": "v3_530dc6c487",
+  "route_len": 8.0,
+  "dt": 0.14109347442680775,
+  "objective": 1.0898944936387756,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 72
+ },
+ {
+  "heights": [
+   1.2784343855869917,
+   1.2738441092685537
+  ],
+  "xs": [
+   3.0,
+   5.0
+  ],
+  "goal_x": 8.5,
+  "speed": 0.9,
+  "n_beams": 2,
+  "gap": 2.0,
+  "scene_id": "v3_44aa1b4c29",
+  "route_len": 8.5,
+  "dt": 0.14991181657848324,
+  "objective": 0.9220245673150125,
+  "max_violation_m": 3.774758283725532e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 73
+ },
+ {
+  "heights": [
+   1.2552248197400808,
+   1.2572707021090517
+  ],
+  "xs": [
+   3.0,
+   5.0
+  ],
+  "goal_x": 8.5,
+  "speed": 0.9,
+  "n_beams": 2,
+  "gap": 2.0,
+  "scene_id": "v3_98057aaaa1",
+  "route_len": 8.5,
+  "dt": 0.14991181657848324,
+  "objective": 1.1491314223390565,
+  "max_violation_m": 5.10702591327572e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 74
+ },
+ {
+  "heights": [
+   1.2482625046781042,
+   1.2792891650557543
+  ],
+  "xs": [
+   3.0,
+   6.5
+  ],
+  "goal_x": 10.0,
+  "speed": 0.9,
+  "n_beams": 2,
+  "gap": 3.5,
+  "scene_id": "v3_45708819dd",
+  "route_len": 10.0,
+  "dt": 0.1763668430335097,
+  "objective": 1.07851628436778,
+  "max_violation_m": 1.3322676295501878e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 76
+ },
+ {
+  "heights": [
+   1.250875986455059,
+   1.2737901641061915
+  ],
+  "xs": [
+   3.0,
+   6.5
+  ],
+  "goal_x": 10.0,
+  "speed": 0.9,
+  "n_beams": 2,
+  "gap": 3.5,
+  "scene_id": "v3_e478aa7086",
+  "route_len": 10.0,
+  "dt": 0.1763668430335097,
+  "objective": 1.091967830130325,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 75
+ },
+ {
+  "heights": [
+   1.2410961218276573,
+   1.2245574896673317
+  ],
+  "xs": [
+   3.0,
+   8.0
+  ],
+  "goal_x": 11.5,
+  "speed": 0.9,
+  "n_beams": 2,
+  "gap": 5.0,
+  "scene_id": "v3_471a4a5d32",
+  "route_len": 11.5,
+  "dt": 0.20282186948853614,
+  "objective": 1.265233211395533,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 75
+ },
+ {
+  "heights": [
+   1.2511070854891744,
+   1.2401355253861033
+  ],
+  "xs": [
+   3.0,
+   8.0
+  ],
+  "goal_x": 11.5,
+  "speed": 0.9,
+  "n_beams": 2,
+  "gap": 5.0,
+  "scene_id": "v3_0005f71517",
+  "route_len": 11.5,
+  "dt": 0.20282186948853614,
+  "objective": 1.1189006906510983,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 75
+ },
+ {
+  "heights": [
+   1.269296385520332,
+   1.269451455030047
+  ],
+  "xs": [
+   3.0,
+   4.0
+  ],
+  "goal_x": 8.0,
+  "speed": 1.1,
+  "n_beams": 2,
+  "gap": 1.0,
+  "scene_id": "v3_b550c971c1",
+  "route_len": 8.0,
+  "dt": 0.11544011544011543,
+  "objective": 0.8542801817482769,
+  "max_violation_m": 2.220446049250313e-16,
+  "status": "Optimization terminated successfully",
+  "n_iter": 71
+ },
+ {
+  "heights": [
+   1.2370983588170832,
+   1.2565936593320997
+  ],
+  "xs": [
+   3.0,
+   4.0
+  ],
+  "goal_x": 8.0,
+  "speed": 1.1,
+  "n_beams": 2,
+  "gap": 1.0,
+  "scene_id": "v3_e789104632",
+  "route_len": 8.0,
+  "dt": 0.11544011544011543,
+  "objective": 1.1042300441202855,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 74
+ },
+ {
+  "heights": [
+   1.238344643057039,
+   1.2336334505187776
+  ],
+  "xs": [
+   3.0,
+   5.0
+  ],
+  "goal_x": 8.5,
+  "speed": 1.1,
+  "n_beams": 2,
+  "gap": 2.0,
+  "scene_id": "v3_cc044dd9b3",
+  "route_len": 8.5,
+  "dt": 0.12265512265512264,
+  "objective": 1.4368008891043766,
+  "max_violation_m": 7.327471962526033e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 75
+ },
+ {
+  "heights": [
+   1.2287895221807565,
+   1.2242667309701005
+  ],
+  "xs": [
+   3.0,
+   5.0
+  ],
+  "goal_x": 8.5,
+  "speed": 1.1,
+  "n_beams": 2,
+  "gap": 2.0,
+  "scene_id": "v3_974d9192cf",
+  "route_len": 8.5,
+  "dt": 0.12265512265512264,
+  "objective": 1.5685489112466746,
+  "max_violation_m": 2.220446049250313e-16,
+  "status": "Optimization terminated successfully",
+  "n_iter": 76
+ },
+ {
+  "heights": [
+   1.240597079255869,
+   1.2206195583118447
+  ],
+  "xs": [
+   3.0,
+   6.5
+  ],
+  "goal_x": 10.0,
+  "speed": 1.1,
+  "n_beams": 2,
+  "gap": 3.5,
+  "scene_id": "v3_86a21b7d27",
+  "route_len": 10.0,
+  "dt": 0.1443001443001443,
+  "objective": 1.5317902782658637,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 74
+ },
+ {
+  "heights": [
+   1.2795475448659857,
+   1.2561669107180908
+  ],
+  "xs": [
+   3.0,
+   6.5
+  ],
+  "goal_x": 10.0,
+  "speed": 1.1,
+  "n_beams": 2,
+  "gap": 3.5,
+  "scene_id": "v3_e213f1bc49",
+  "route_len": 10.0,
+  "dt": 0.1443001443001443,
+  "objective": 1.0518908602392016,
+  "max_violation_m": 3.774758283725532e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 72
+ },
+ {
+  "heights": [
+   1.2246333283555852,
+   1.2633001420528873
+  ],
+  "xs": [
+   3.0,
+   8.0
+  ],
+  "goal_x": 11.5,
+  "speed": 1.1,
+  "n_beams": 2,
+  "gap": 5.0,
+  "scene_id": "v3_70cd64c71a",
+  "route_len": 11.5,
+  "dt": 0.16594516594516592,
+  "objective": 1.1830574952649957,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 74
+ },
+ {
+  "heights": [
+   1.2723737319333157,
+   1.2323560357116745
+  ],
+  "xs": [
+   3.0,
+   8.0
+  ],
+  "goal_x": 11.5,
+  "speed": 1.1,
+  "n_beams": 2,
+  "gap": 5.0,
+  "scene_id": "v3_f48ae6316a",
+  "route_len": 11.5,
+  "dt": 0.16594516594516592,
+  "objective": 1.0687897158654298,
+  "max_violation_m": 5.329070518200751e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 73
+ },
+ {
+  "heights": [
+   1.2624704204160644,
+   1.2435029866707852
+  ],
+  "xs": [
+   4.0,
+   5.0
+  ],
+  "goal_x": 8.5,
+  "speed": 0.7,
+  "n_beams": 2,
+  "gap": 1.0,
+  "scene_id": "v3_1b80922758",
+  "route_len": 8.5,
+  "dt": 0.1927437641723356,
+  "objective": 0.9450137630454412,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 73
+ },
+ {
+  "heights": [
+   1.251277836376448,
+   1.2533734493477864
+  ],
+  "xs": [
+   4.0,
+   5.0
+  ],
+  "goal_x": 8.5,
+  "speed": 0.7,
+  "n_beams": 2,
+  "gap": 1.0,
+  "scene_id": "v3_3af2aef3ea",
+  "route_len": 8.5,
+  "dt": 0.1927437641723356,
+  "objective": 0.9414430402612376,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 69
+ },
+ {
+  "heights": [
+   1.2649620245300863,
+   1.2700385875329392
+  ],
+  "xs": [
+   4.0,
+   6.0
+  ],
+  "goal_x": 9.5,
+  "speed": 0.7,
+  "n_beams": 2,
+  "gap": 2.0,
+  "scene_id": "v3_176c181fc0",
+  "route_len": 9.5,
+  "dt": 0.21541950113378686,
+  "objective": 0.9328519800257443,
+  "max_violation_m": 3.3306690738754696e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 71
+ },
+ {
+  "heights": [
+   1.2470746964571502,
+   1.2616852222936263
+  ],
+  "xs": [
+   4.0,
+   6.0
+  ],
+  "goal_x": 9.5,
+  "speed": 0.7,
+  "n_beams": 2,
+  "gap": 2.0,
+  "scene_id": "v3_d17b03bb93",
+  "route_len": 9.5,
+  "dt": 0.21541950113378686,
+  "objective": 1.0735360661891165,
+  "max_violation_m": 1.509903313490213e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 73
+ },
+ {
+  "heights": [
+   1.2608636514057343,
+   1.2534744659945394
+  ],
+  "xs": [
+   4.0,
+   7.5
+  ],
+  "goal_x": 11.0,
+  "speed": 0.7,
+  "n_beams": 2,
+  "gap": 3.5,
+  "scene_id": "v3_0f78eb6fc0",
+  "route_len": 11.0,
+  "dt": 0.2494331065759637,
+  "objective": 0.9350936991381125,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 72
+ },
+ {
+  "heights": [
+   1.252496440496654,
+   1.2584652243940995
+  ],
+  "xs": [
+   4.0,
+   7.5
+  ],
+  "goal_x": 11.0,
+  "speed": 0.7,
+  "n_beams": 2,
+  "gap": 3.5,
+  "scene_id": "v3_b3abb10038",
+  "route_len": 11.0,
+  "dt": 0.2494331065759637,
+  "objective": 0.9516777140251895,
+  "max_violation_m": 9.547918011776346e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 72
+ },
+ {
+  "heights": [
+   1.22066850499186,
+   1.2300463103070527
+  ],
+  "xs": [
+   4.0,
+   9.0
+  ],
+  "goal_x": 12.5,
+  "speed": 0.7,
+  "n_beams": 2,
+  "gap": 5.0,
+  "scene_id": "v3_b76f90e65a",
+  "route_len": 12.5,
+  "dt": 0.2834467120181406,
+  "objective": 1.263919998729115,
+  "max_violation_m": 8.43769498715119e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 76
+ },
+ {
+  "heights": [
+   1.2216346677449104,
+   1.2593550806746652
+  ],
+  "xs": [
+   4.0,
+   9.0
+  ],
+  "goal_x": 12.5,
+  "speed": 0.7,
+  "n_beams": 2,
+  "gap": 5.0,
+  "scene_id": "v3_f169642c90",
+  "route_len": 12.5,
+  "dt": 0.2834467120181406,
+  "objective": 1.1057729495218553,
+  "max_violation_m": 2.4424906541753444e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 75
+ },
+ {
+  "heights": [
+   1.2503968836247654,
+   1.2540847943561544
+  ],
+  "xs": [
+   4.0,
+   5.0
+  ],
+  "goal_x": 8.5,
+  "speed": 0.9,
+  "n_beams": 2,
+  "gap": 1.0,
+  "scene_id": "v3_716d94247d",
+  "route_len": 8.5,
+  "dt": 0.14991181657848324,
+  "objective": 0.9611670077529477,
+  "max_violation_m": 3.552713678800501e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 73
+ },
+ {
+  "heights": [
+   1.2250351308151257,
+   1.2553552412626856
+  ],
+  "xs": [
+   4.0,
+   5.0
+  ],
+  "goal_x": 8.5,
+  "speed": 0.9,
+  "n_beams": 2,
+  "gap": 1.0,
+  "scene_id": "v3_faa18230e3",
+  "route_len": 8.5,
+  "dt": 0.14991181657848324,
+  "objective": 1.1231007689947738,
+  "max_violation_m": 4.440892098500626e-16,
+  "status": "Optimization terminated successfully",
+  "n_iter": 72
+ },
+ {
+  "heights": [
+   1.2522572439153627,
+   1.2643710407035358
+  ],
+  "xs": [
+   4.0,
+   6.0
+  ],
+  "goal_x": 9.5,
+  "speed": 0.9,
+  "n_beams": 2,
+  "gap": 2.0,
+  "scene_id": "v3_d5415c7e7f",
+  "route_len": 9.5,
+  "dt": 0.1675485008818342,
+  "objective": 1.0503196542867914,
+  "max_violation_m": 9.547918011776346e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 74
+ },
+ {
+  "heights": [
+   1.2648921088081486,
+   1.2222640694014022
+  ],
+  "xs": [
+   4.0,
+   6.0
+  ],
+  "goal_x": 9.5,
+  "speed": 0.9,
+  "n_beams": 2,
+  "gap": 2.0,
+  "scene_id": "v3_243affb425",
+  "route_len": 9.5,
+  "dt": 0.1675485008818342,
+  "objective": 1.2488332518694563,
+  "max_violation_m": 1.2878587085651816e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 74
+ },
+ {
+  "heights": [
+   1.236821575690245,
+   1.2318215634600507
+  ],
+  "xs": [
+   4.0,
+   7.5
+  ],
+  "goal_x": 11.0,
+  "speed": 0.9,
+  "n_beams": 2,
+  "gap": 3.5,
+  "scene_id": "v3_600f0170ec",
+  "route_len": 11.0,
+  "dt": 0.19400352733686066,
+  "objective": 1.1969672902527349,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 75
+ },
+ {
+  "heights": [
+   1.2312297199460407,
+   1.235039661405838
+  ],
+  "xs": [
+   4.0,
+   9.0
+  ],
+  "goal_x": 12.5,
+  "speed": 0.9,
+  "n_beams": 2,
+  "gap": 5.0,
+  "scene_id": "v3_e368d37633",
+  "route_len": 12.5,
+  "dt": 0.2204585537918871,
+  "objective": 1.1962285612636738,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 75
+ },
+ {
+  "heights": [
+   1.22919291145744,
+   1.2576476437483237
+  ],
+  "xs": [
+   4.0,
+   9.0
+  ],
+  "goal_x": 12.5,
+  "speed": 0.9,
+  "n_beams": 2,
+  "gap": 5.0,
+  "scene_id": "v3_4408d0ff6f",
+  "route_len": 12.5,
+  "dt": 0.2204585537918871,
+  "objective": 1.0891008775797835,
+  "max_violation_m": 1.3322676295501878e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 73
+ },
+ {
+  "heights": [
+   1.2772133170249393,
+   1.2201779133250714
+  ],
+  "xs": [
+   4.0,
+   5.0
+  ],
+  "goal_x": 8.5,
+  "speed": 1.1,
+  "n_beams": 2,
+  "gap": 1.0,
+  "scene_id": "v3_89a78e97ec",
+  "route_len": 8.5,
+  "dt": 0.12265512265512264,
+  "objective": 1.0886219605164646,
+  "max_violation_m": 6.661338147750939e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 75
+ },
+ {
+  "heights": [
+   1.2671784001491615,
+   1.2440089588527157
+  ],
+  "xs": [
+   4.0,
+   5.0
+  ],
+  "goal_x": 8.5,
+  "speed": 1.1,
+  "n_beams": 2,
+  "gap": 1.0,
+  "scene_id": "v3_5bcd7a19c9",
+  "route_len": 8.5,
+  "dt": 0.12265512265512264,
+  "objective": 0.9630063162495144,
+  "max_violation_m": 5.551115123125783e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 74
+ },
+ {
+  "heights": [
+   1.2775495958802447,
+   1.2235738062998531
+  ],
+  "xs": [
+   4.0,
+   6.0
+  ],
+  "goal_x": 9.5,
+  "speed": 1.1,
+  "n_beams": 2,
+  "gap": 2.0,
+  "scene_id": "v3_9cf58a7610",
+  "route_len": 9.5,
+  "dt": 0.13708513708513706,
+  "objective": 1.200152391478151,
+  "max_violation_m": 8.881784197001252e-16,
+  "status": "Optimization terminated successfully",
+  "n_iter": 73
+ },
+ {
+  "heights": [
+   1.2749554845213873,
+   1.2236718458945106
+  ],
+  "xs": [
+   4.0,
+   6.0
+  ],
+  "goal_x": 9.5,
+  "speed": 1.1,
+  "n_beams": 2,
+  "gap": 2.0,
+  "scene_id": "v3_a97c3f1393",
+  "route_len": 9.5,
+  "dt": 0.13708513708513706,
+  "objective": 1.2119768192203135,
+  "max_violation_m": 2.220446049250313e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 72
+ },
+ {
+  "heights": [
+   1.2252213556026534,
+   1.271484407896517
+  ],
+  "xs": [
+   4.0,
+   7.5
+  ],
+  "goal_x": 11.0,
+  "speed": 1.1,
+  "n_beams": 2,
+  "gap": 3.5,
+  "scene_id": "v3_93373321d1",
+  "route_len": 11.0,
+  "dt": 0.15873015873015872,
+  "objective": 1.0806522242967307,
+  "max_violation_m": 1.7763568394002505e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 71
+ },
+ {
+  "heights": [
+   1.2681923500226966,
+   1.257700921948811
+  ],
+  "xs": [
+   4.0,
+   7.5
+  ],
+  "goal_x": 11.0,
+  "speed": 1.1,
+  "n_beams": 2,
+  "gap": 3.5,
+  "scene_id": "v3_44eb931551",
+  "route_len": 11.0,
+  "dt": 0.15873015873015872,
+  "objective": 0.9159903011955042,
+  "max_violation_m": 8.881784197001252e-16,
+  "status": "Optimization terminated successfully",
+  "n_iter": 75
+ },
+ {
+  "heights": [
+   1.2773655069301637,
+   1.223201031577151
+  ],
+  "xs": [
+   4.0,
+   9.0
+  ],
+  "goal_x": 12.5,
+  "speed": 1.1,
+  "n_beams": 2,
+  "gap": 5.0,
+  "scene_id": "v3_af25b2890b",
+  "route_len": 12.5,
+  "dt": 0.18037518037518036,
+  "objective": 1.0497735982381045,
+  "max_violation_m": 2.6645352591003757e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 74
+ },
+ {
+  "heights": [
+   0.966124029632387,
+   0.9561987695013406,
+   0.9638258653932977
+  ],
+  "xs": [
+   3.0,
+   4.0,
+   5.0
+  ],
+  "goal_x": 8.5,
+  "speed": 0.7,
+  "n_beams": 3,
+  "gap": 1.0,
+  "scene_id": "v3_2ede4bfeaf",
+  "route_len": 8.5,
+  "dt": 0.1927437641723356,
+  "objective": 16.39042270836122,
+  "max_violation_m": 9.459100169806334e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 73
+ },
+ {
+  "heights": [
+   0.9204738749564421,
+   0.9368072724108258,
+   0.9775381377862588
+  ],
+  "xs": [
+   3.0,
+   4.0,
+   5.0
+  ],
+  "goal_x": 8.5,
+  "speed": 0.7,
+  "n_beams": 3,
+  "gap": 1.0,
+  "scene_id": "v3_9b2187a44c",
+  "route_len": 8.5,
+  "dt": 0.1927437641723356,
+  "objective": 18.29319045571763,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 74
+ },
+ {
+  "heights": [
+   0.9478024319552564,
+   0.9673421123694572,
+   0.9633592766746425
+  ],
+  "xs": [
+   3.0,
+   5.0,
+   7.0
+  ],
+  "goal_x": 10.5,
+  "speed": 0.7,
+  "n_beams": 3,
+  "gap": 2.0,
+  "scene_id": "v3_fd910e2b70",
+  "route_len": 10.5,
+  "dt": 0.2380952380952381,
+  "objective": 21.25213708290177,
+  "max_violation_m": 2.2926105458509483e-13,
+  "status": "Optimization terminated successfully",
+  "n_iter": 70
+ },
+ {
+  "heights": [
+   0.9231794902752136,
+   0.9750239360721041,
+   0.9611982651956041
+  ],
+  "xs": [
+   3.0,
+   5.0,
+   7.0
+  ],
+  "goal_x": 10.5,
+  "speed": 0.7,
+  "n_beams": 3,
+  "gap": 2.0,
+  "scene_id": "v3_eb16bab5f5",
+  "route_len": 10.5,
+  "dt": 0.2380952380952381,
+  "objective": 22.071768956210807,
+  "max_violation_m": 3.1019631308026874e-13,
+  "status": "Optimization terminated successfully",
+  "n_iter": 69
+ },
+ {
+  "heights": [
+   0.9292952833000816,
+   0.9278465156539027,
+   0.9211572609748919
+  ],
+  "xs": [
+   3.0,
+   6.5,
+   10.0
+  ],
+  "goal_x": 13.5,
+  "speed": 0.7,
+  "n_beams": 3,
+  "gap": 3.5,
+  "scene_id": "v3_bacc6fe89c",
+  "route_len": 13.5,
+  "dt": 0.30612244897959184,
+  "objective": 22.849256240315206,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 73
+ },
+ {
+  "heights": [
+   0.9275646345187155,
+   0.965573437364802,
+   0.9479880106673366
+  ],
+  "xs": [
+   3.0,
+   6.5,
+   10.0
+  ],
+  "goal_x": 13.5,
+  "speed": 0.7,
+  "n_beams": 3,
+  "gap": 3.5,
+  "scene_id": "v3_c02537fec9",
+  "route_len": 13.5,
+  "dt": 0.30612244897959184,
+  "objective": 20.35971739830505,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 71
+ },
+ {
+  "heights": [
+   0.9666841564873444,
+   0.9219863160990602,
+   0.9440235250923709
+  ],
+  "xs": [
+   3.0,
+   8.0,
+   13.0
+  ],
+  "goal_x": 16.5,
+  "speed": 0.7,
+  "n_beams": 3,
+  "gap": 5.0,
+  "scene_id": "v3_f991675799",
+  "route_len": 16.5,
+  "dt": 0.3741496598639456,
+  "objective": 19.136798400841283,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 73
+ },
+ {
+  "heights": [
+   0.9591879480732358,
+   0.9453936934645638,
+   0.9449534007591089
+  ],
+  "xs": [
+   3.0,
+   8.0,
+   13.0
+  ],
+  "goal_x": 16.5,
+  "speed": 0.7,
+  "n_beams": 3,
+  "gap": 5.0,
+  "scene_id": "v3_df947d69a8",
+  "route_len": 16.5,
+  "dt": 0.3741496598639456,
+  "objective": 18.5433372107938,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 73
+ },
+ {
+  "heights": [
+   0.9306893022760208,
+   0.9339152122657083,
+   0.9235360709531364
+  ],
+  "xs": [
+   3.0,
+   4.0,
+   5.0
+  ],
+  "goal_x": 8.5,
+  "speed": 0.9,
+  "n_beams": 3,
+  "gap": 1.0,
+  "scene_id": "v3_3b65aed408",
+  "route_len": 8.5,
+  "dt": 0.14991181657848324,
+  "objective": 20.176905449213592,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 71
+ },
+ {
+  "heights": [
+   0.9621455902731108,
+   0.9781865131484312,
+   0.9508523544224885
+  ],
+  "xs": [
+   3.0,
+   4.0,
+   5.0
+  ],
+  "goal_x": 8.5,
+  "speed": 0.9,
+  "n_beams": 3,
+  "gap": 1.0,
+  "scene_id": "v3_8f1cacf8f6",
+  "route_len": 8.5,
+  "dt": 0.14991181657848324,
+  "objective": 16.783266764042793,
+  "max_violation_m": 9.547918011776346e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 73
+ },
+ {
+  "heights": [
+   0.9517527685640054,
+   0.9758936149297389,
+   0.938196563549592
+  ],
+  "xs": [
+   3.0,
+   5.0,
+   7.0
+  ],
+  "goal_x": 10.5,
+  "speed": 0.9,
+  "n_beams": 3,
+  "gap": 2.0,
+  "scene_id": "v3_7e0f376cd7",
+  "route_len": 10.5,
+  "dt": 0.18518518518518517,
+  "objective": 22.01275034234534,
+  "max_violation_m": 1.2256862191861728e-13,
+  "status": "Optimization terminated successfully",
+  "n_iter": 72
+ },
+ {
+  "heights": [
+   0.9673325233052134,
+   0.9683977012482219,
+   0.9216234848641811
+  ],
+  "xs": [
+   3.0,
+   5.0,
+   7.0
+  ],
+  "goal_x": 10.5,
+  "speed": 0.9,
+  "n_beams": 3,
+  "gap": 2.0,
+  "scene_id": "v3_e86db92280",
+  "route_len": 10.5,
+  "dt": 0.18518518518518517,
+  "objective": 22.45912872585621,
+  "max_violation_m": 4.618527782440651e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 73
+ },
+ {
+  "heights": [
+   0.9202329877771688,
+   0.9411258750358045,
+   0.9798334219102657
+  ],
+  "xs": [
+   3.0,
+   6.5,
+   10.0
+  ],
+  "goal_x": 13.5,
+  "speed": 0.9,
+  "n_beams": 3,
+  "gap": 3.5,
+  "scene_id": "v3_623ee600b6",
+  "route_len": 13.5,
+  "dt": 0.23809523809523808,
+  "objective": 20.61353295880488,
+  "max_violation_m": 1.3222756223285614e-13,
+  "status": "Optimization terminated successfully",
+  "n_iter": 72
+ },
+ {
+  "heights": [
+   0.9424464856711166,
+   0.9306397850535065,
+   0.9311356276713418
+  ],
+  "xs": [
+   3.0,
+   6.5,
+   10.0
+  ],
+  "goal_x": 13.5,
+  "speed": 0.9,
+  "n_beams": 3,
+  "gap": 3.5,
+  "scene_id": "v3_643076e7fa",
+  "route_len": 13.5,
+  "dt": 0.23809523809523808,
+  "objective": 22.1344938117337,
+  "max_violation_m": 3.419486915845482e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 72
+ },
+ {
+  "heights": [
+   0.9210572410046289,
+   0.9262342330960835,
+   0.9257862797027238
+  ],
+  "xs": [
+   3.0,
+   8.0,
+   13.0
+  ],
+  "goal_x": 16.5,
+  "speed": 0.9,
+  "n_beams": 3,
+  "gap": 5.0,
+  "scene_id": "v3_9689e13cbf",
+  "route_len": 16.5,
+  "dt": 0.291005291005291,
+  "objective": 21.615734197495442,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 71
+ },
+ {
+  "heights": [
+   0.9395522344513578,
+   0.9690724676799581,
+   0.9479243873604987
+  ],
+  "xs": [
+   3.0,
+   8.0,
+   13.0
+  ],
+  "goal_x": 16.5,
+  "speed": 0.9,
+  "n_beams": 3,
+  "gap": 5.0,
+  "scene_id": "v3_5be80c70b1",
+  "route_len": 16.5,
+  "dt": 0.291005291005291,
+  "objective": 18.430813626487605,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 71
+ },
+ {
+  "heights": [
+   0.9557163166891867,
+   0.9271869837635904,
+   0.9297538876278474
+  ],
+  "xs": [
+   3.0,
+   4.0,
+   5.0
+  ],
+  "goal_x": 8.5,
+  "speed": 1.1,
+  "n_beams": 3,
+  "gap": 1.0,
+  "scene_id": "v3_2df699c687",
+  "route_len": 8.5,
+  "dt": 0.12265512265512264,
+  "objective": 19.590732891430694,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 75
+ },
+ {
+  "heights": [
+   0.9207604574229059,
+   0.945839308821862,
+   0.9521162082727185
+  ],
+  "xs": [
+   3.0,
+   4.0,
+   5.0
+  ],
+  "goal_x": 8.5,
+  "speed": 1.1,
+  "n_beams": 3,
+  "gap": 1.0,
+  "scene_id": "v3_c00964c8cd",
+  "route_len": 8.5,
+  "dt": 0.12265512265512264,
+  "objective": 19.53618270412241,
+  "max_violation_m": 6.661338147750939e-16,
+  "status": "Optimization terminated successfully",
+  "n_iter": 75
+ },
+ {
+  "heights": [
+   0.9342017130706084,
+   0.9574884256280735,
+   0.9726280323874621
+  ],
+  "xs": [
+   3.0,
+   5.0,
+   7.0
+  ],
+  "goal_x": 10.5,
+  "speed": 1.1,
+  "n_beams": 3,
+  "gap": 2.0,
+  "scene_id": "v3_577250f28b",
+  "route_len": 10.5,
+  "dt": 0.1515151515151515,
+  "objective": 22.30376941534141,
+  "max_violation_m": 4.1300296516055823e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 73
+ },
+ {
+  "heights": [
+   0.9204877777475232,
+   0.9237851231192326,
+   0.926176213189875
+  ],
+  "xs": [
+   3.0,
+   5.0,
+   7.0
+  ],
+  "goal_x": 10.5,
+  "speed": 1.1,
+  "n_beams": 3,
+  "gap": 2.0,
+  "scene_id": "v3_68dc0f0a34",
+  "route_len": 10.5,
+  "dt": 0.1515151515151515,
+  "objective": 26.727599586576723,
+  "max_violation_m": 2.2137847111025621e-13,
+  "status": "Optimization terminated successfully",
+  "n_iter": 74
+ },
+ {
+  "heights": [
+   0.9431634691252264,
+   0.9541736286816782,
+   0.967877347556095
+  ],
+  "xs": [
+   3.0,
+   6.5,
+   10.0
+  ],
+  "goal_x": 13.5,
+  "speed": 1.1,
+  "n_beams": 3,
+  "gap": 3.5,
+  "scene_id": "v3_0e83a9ea3b",
+  "route_len": 13.5,
+  "dt": 0.1948051948051948,
+  "objective": 20.032034700882523,
+  "max_violation_m": 1.042499420123022e-13,
+  "status": "Optimization terminated successfully",
+  "n_iter": 73
+ },
+ {
+  "heights": [
+   0.9665082720213256,
+   0.9614422604374486,
+   0.974534360490731
+  ],
+  "xs": [
+   3.0,
+   6.5,
+   10.0
+  ],
+  "goal_x": 13.5,
+  "speed": 1.1,
+  "n_beams": 3,
+  "gap": 3.5,
+  "scene_id": "v3_509a9b6a99",
+  "route_len": 13.5,
+  "dt": 0.1948051948051948,
+  "objective": 18.389556070142902,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 73
+ },
+ {
+  "heights": [
+   0.9306093397681493,
+   0.9705396759117517,
+   0.9594267429619242
+  ],
+  "xs": [
+   3.0,
+   8.0,
+   13.0
+  ],
+  "goal_x": 16.5,
+  "speed": 1.1,
+  "n_beams": 3,
+  "gap": 5.0,
+  "scene_id": "v3_1f8b5e2dd2",
+  "route_len": 16.5,
+  "dt": 0.23809523809523808,
+  "objective": 18.52770556903843,
+  "max_violation_m": 1.9984014443252818e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 71
+ },
+ {
+  "heights": [
+   0.9362596767292478,
+   0.9446400663512006,
+   0.9653834401303913
+  ],
+  "xs": [
+   3.0,
+   8.0,
+   13.0
+  ],
+  "goal_x": 16.5,
+  "speed": 1.1,
+  "n_beams": 3,
+  "gap": 5.0,
+  "scene_id": "v3_e6a82346c5",
+  "route_len": 16.5,
+  "dt": 0.23809523809523808,
+  "objective": 19.117754402134423,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 72
+ },
+ {
+  "heights": [
+   0.9287927137184524,
+   0.9457368113153495,
+   0.9589689696427334
+  ],
+  "xs": [
+   4.0,
+   5.0,
+   6.0
+  ],
+  "goal_x": 9.5,
+  "speed": 0.7,
+  "n_beams": 3,
+  "gap": 1.0,
+  "scene_id": "v3_0f372d0c85",
+  "route_len": 9.5,
+  "dt": 0.21541950113378686,
+  "objective": 16.95484607920087,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 76
+ },
+ {
+  "heights": [
+   0.9392930058115747,
+   0.9574273961669663,
+   0.9301224310853056
+  ],
+  "xs": [
+   4.0,
+   5.0,
+   6.0
+  ],
+  "goal_x": 9.5,
+  "speed": 0.7,
+  "n_beams": 3,
+  "gap": 1.0,
+  "scene_id": "v3_0907143b83",
+  "route_len": 9.5,
+  "dt": 0.21541950113378686,
+  "objective": 17.46822117875567,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 74
+ },
+ {
+  "heights": [
+   0.9328348444561819,
+   0.9251554088936302,
+   0.9600970917681838
+  ],
+  "xs": [
+   4.0,
+   6.0,
+   8.0
+  ],
+  "goal_x": 11.5,
+  "speed": 0.7,
+  "n_beams": 3,
+  "gap": 2.0,
+  "scene_id": "v3_c0621b37b1",
+  "route_len": 11.5,
+  "dt": 0.26077097505668934,
+  "objective": 20.65079758594461,
+  "max_violation_m": 8.759659664292485e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 74
+ },
+ {
+  "heights": [
+   0.9718094192437399,
+   0.9465649801111881,
+   0.9715979088877331
+  ],
+  "xs": [
+   4.0,
+   6.0,
+   8.0
+  ],
+  "goal_x": 11.5,
+  "speed": 0.7,
+  "n_beams": 3,
+  "gap": 2.0,
+  "scene_id": "v3_db57e152c9",
+  "route_len": 11.5,
+  "dt": 0.26077097505668934,
+  "objective": 17.660414673606088,
+  "max_violation_m": 6.23945339839338e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 73
+ },
+ {
+  "heights": [
+   0.9312483264761227,
+   0.946330683065776,
+   0.9797443495288938
+  ],
+  "xs": [
+   4.0,
+   7.5,
+   11.0
+  ],
+  "goal_x": 14.5,
+  "speed": 0.7,
+  "n_beams": 3,
+  "gap": 3.5,
+  "scene_id": "v3_eece88e57d",
+  "route_len": 14.5,
+  "dt": 0.3287981859410431,
+  "objective": 18.109534855560142,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 71
+ },
+ {
+  "heights": [
+   0.9268563701682198,
+   0.9660822125932539,
+   0.9452864015555277
+  ],
+  "xs": [
+   4.0,
+   7.5,
+   11.0
+  ],
+  "goal_x": 14.5,
+  "speed": 0.7,
+  "n_beams": 3,
+  "gap": 3.5,
+  "scene_id": "v3_1915d9d986",
+  "route_len": 14.5,
+  "dt": 0.3287981859410431,
+  "objective": 18.993076427291353,
+  "max_violation_m": 6.17284001691587e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 71
+ },
+ {
+  "heights": [
+   0.9745185039487637,
+   0.9275776895473222,
+   0.958776324550771
+  ],
+  "xs": [
+   4.0,
+   9.0,
+   14.0
+  ],
+  "goal_x": 17.5,
+  "speed": 0.7,
+  "n_beams": 3,
+  "gap": 5.0,
+  "scene_id": "v3_bd89448a74",
+  "route_len": 17.5,
+  "dt": 0.39682539682539686,
+  "objective": 17.974986244961336,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 69
+ },
+ {
+  "heights": [
+   0.970792664795868,
+   0.9748146234439088,
+   0.9217728033853532
+  ],
+  "xs": [
+   4.0,
+   9.0,
+   14.0
+  ],
+  "goal_x": 17.5,
+  "speed": 0.7,
+  "n_beams": 3,
+  "gap": 5.0,
+  "scene_id": "v3_908e684150",
+  "route_len": 17.5,
+  "dt": 0.39682539682539686,
+  "objective": 17.644718861108643,
+  "max_violation_m": 1.2090328738167955e-13,
+  "status": "Optimization terminated successfully",
+  "n_iter": 70
+ },
+ {
+  "heights": [
+   0.9297369129773335,
+   0.961782497466252,
+   0.961297272148757
+  ],
+  "xs": [
+   4.0,
+   5.0,
+   6.0
+  ],
+  "goal_x": 9.5,
+  "speed": 0.9,
+  "n_beams": 3,
+  "gap": 1.0,
+  "scene_id": "v3_8719e28dcb",
+  "route_len": 9.5,
+  "dt": 0.1675485008818342,
+  "objective": 16.729739558706633,
+  "max_violation_m": 4.296563105299356e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 73
+ },
+ {
+  "heights": [
+   0.9431682847907535,
+   0.9533642480569091,
+   0.9549552456723465
+  ],
+  "xs": [
+   4.0,
+   5.0,
+   6.0
+  ],
+  "goal_x": 9.5,
+  "speed": 0.9,
+  "n_beams": 3,
+  "gap": 1.0,
+  "scene_id": "v3_a99911674b",
+  "route_len": 9.5,
+  "dt": 0.1675485008818342,
+  "objective": 16.557587458186347,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 73
+ },
+ {
+  "heights": [
+   0.9552755739157928,
+   0.953331781528603,
+   0.9580924551082856
+  ],
+  "xs": [
+   4.0,
+   6.0,
+   8.0
+  ],
+  "goal_x": 11.5,
+  "speed": 0.9,
+  "n_beams": 3,
+  "gap": 2.0,
+  "scene_id": "v3_14c6aee832",
+  "route_len": 11.5,
+  "dt": 0.20282186948853614,
+  "objective": 19.050470295149296,
+  "max_violation_m": 7.904787935331115e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 72
+ },
+ {
+  "heights": [
+   0.9584124323877787,
+   0.9435724785782382,
+   0.9216965016163845
+  ],
+  "xs": [
+   4.0,
+   6.0,
+   8.0
+  ],
+  "goal_x": 11.5,
+  "speed": 0.9,
+  "n_beams": 3,
+  "gap": 2.0,
+  "scene_id": "v3_8e7a141b95",
+  "route_len": 11.5,
+  "dt": 0.20282186948853614,
+  "objective": 20.735386458029026,
+  "max_violation_m": 9.048317650695026e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 74
+ },
+ {
+  "heights": [
+   0.9742332907438892,
+   0.9531951540321907,
+   0.9265252979376947
+  ],
+  "xs": [
+   4.0,
+   7.5,
+   11.0
+  ],
+  "goal_x": 14.5,
+  "speed": 0.9,
+  "n_beams": 3,
+  "gap": 3.5,
+  "scene_id": "v3_799825c608",
+  "route_len": 14.5,
+  "dt": 0.25573192239858905,
+  "objective": 18.57042060793901,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 72
+ },
+ {
+  "heights": [
+   0.9641523188959811,
+   0.936894531238864,
+   0.9501494581984785
+  ],
+  "xs": [
+   4.0,
+   7.5,
+   11.0
+  ],
+  "goal_x": 14.5,
+  "speed": 0.9,
+  "n_beams": 3,
+  "gap": 3.5,
+  "scene_id": "v3_0c61cab565",
+  "route_len": 14.5,
+  "dt": 0.25573192239858905,
+  "objective": 18.80115735281649,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 72
+ },
+ {
+  "heights": [
+   0.950170114483656,
+   0.9510858543456919,
+   0.9204299204689939
+  ],
+  "xs": [
+   4.0,
+   9.0,
+   14.0
+  ],
+  "goal_x": 17.5,
+  "speed": 0.9,
+  "n_beams": 3,
+  "gap": 5.0,
+  "scene_id": "v3_8f238ffe2f",
+  "route_len": 17.5,
+  "dt": 0.30864197530864196,
+  "objective": 19.749075002470583,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 71
+ },
+ {
+  "heights": [
+   0.9457422655004922,
+   0.9689666844466021,
+   0.9216886925353149
+  ],
+  "xs": [
+   4.0,
+   9.0,
+   14.0
+  ],
+  "goal_x": 17.5,
+  "speed": 0.9,
+  "n_beams": 3,
+  "gap": 5.0,
+  "scene_id": "v3_27c67fc90a",
+  "route_len": 17.5,
+  "dt": 0.30864197530864196,
+  "objective": 19.13919945963314,
+  "max_violation_m": 1.9872992140790302e-13,
+  "status": "Optimization terminated successfully",
+  "n_iter": 71
+ },
+ {
+  "heights": [
+   0.9474727435248289,
+   0.9242886539661875,
+   0.9363204816708574
+  ],
+  "xs": [
+   4.0,
+   5.0,
+   6.0
+  ],
+  "goal_x": 9.5,
+  "speed": 1.1,
+  "n_beams": 3,
+  "gap": 1.0,
+  "scene_id": "v3_15239a0a85",
+  "route_len": 9.5,
+  "dt": 0.13708513708513706,
+  "objective": 18.253767306854,
+  "max_violation_m": 3.397282455352979e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 76
+ },
+ {
+  "heights": [
+   0.9294557717548053,
+   0.954545447354553,
+   0.9381164123285428
+  ],
+  "xs": [
+   4.0,
+   5.0,
+   6.0
+  ],
+  "goal_x": 9.5,
+  "speed": 1.1,
+  "n_beams": 3,
+  "gap": 1.0,
+  "scene_id": "v3_b8654af477",
+  "route_len": 9.5,
+  "dt": 0.13708513708513706,
+  "objective": 18.066765389108724,
+  "max_violation_m": 1.192379528447418e-13,
+  "status": "Optimization terminated successfully",
+  "n_iter": 74
+ },
+ {
+  "heights": [
+   0.9611626243611434,
+   0.9580782773792417,
+   0.9668353238144979
+  ],
+  "xs": [
+   4.0,
+   6.0,
+   8.0
+  ],
+  "goal_x": 11.5,
+  "speed": 1.1,
+  "n_beams": 3,
+  "gap": 2.0,
+  "scene_id": "v3_69eabdc54f",
+  "route_len": 11.5,
+  "dt": 0.16594516594516592,
+  "objective": 18.506052732546365,
+  "max_violation_m": 8.026912468039882e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 73
+ },
+ {
+  "heights": [
+   0.9777285267374097,
+   0.9651726601487043,
+   0.9480097602501438
+  ],
+  "xs": [
+   4.0,
+   6.0,
+   8.0
+  ],
+  "goal_x": 11.5,
+  "speed": 1.1,
+  "n_beams": 3,
+  "gap": 2.0,
+  "scene_id": "v3_ef0083adca",
+  "route_len": 11.5,
+  "dt": 0.16594516594516592,
+  "objective": 18.13818301128611,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 75
+ },
+ {
+  "heights": [
+   0.965807660803818,
+   0.9450345434060415,
+   0.9235384962551226
+  ],
+  "xs": [
+   4.0,
+   7.5,
+   11.0
+  ],
+  "goal_x": 14.5,
+  "speed": 1.1,
+  "n_beams": 3,
+  "gap": 3.5,
+  "scene_id": "v3_0977a84652",
+  "route_len": 14.5,
+  "dt": 0.20923520923520922,
+  "objective": 19.715199646166752,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 73
+ },
+ {
+  "heights": [
+   0.9329552249971159,
+   0.9684692701334127,
+   0.9259852423096292
+  ],
+  "xs": [
+   4.0,
+   7.5,
+   11.0
+  ],
+  "goal_x": 14.5,
+  "speed": 1.1,
+  "n_beams": 3,
+  "gap": 3.5,
+  "scene_id": "v3_097d905fba",
+  "route_len": 14.5,
+  "dt": 0.20923520923520922,
+  "objective": 19.938962967486063,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 73
+ },
+ {
+  "heights": [
+   0.9441909928926888,
+   0.9739288907739988,
+   0.9429169352136367
+  ],
+  "xs": [
+   4.0,
+   9.0,
+   14.0
+  ],
+  "goal_x": 17.5,
+  "speed": 1.1,
+  "n_beams": 3,
+  "gap": 5.0,
+  "scene_id": "v3_11c54025b3",
+  "route_len": 17.5,
+  "dt": 0.25252525252525254,
+  "objective": 18.36792102425612,
+  "max_violation_m": 8.715250743307479e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 71
+ },
+ {
+  "heights": [
+   0.9690715466787344,
+   0.9214895767440244,
+   0.9657337178015752
+  ],
+  "xs": [
+   4.0,
+   9.0,
+   14.0
+  ],
+  "goal_x": 17.5,
+  "speed": 1.1,
+  "n_beams": 3,
+  "gap": 5.0,
+  "scene_id": "v3_4a81a65d3d",
+  "route_len": 17.5,
+  "dt": 0.25252525252525254,
+  "objective": 18.623858147958444,
+  "max_violation_m": 5.1736392947532295e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 72
+ },
+ {
+  "heights": [
+   1.0205443051764236,
+   1.0732653208479408,
+   1.0622488665214744
+  ],
+  "xs": [
+   3.0,
+   4.0,
+   5.0
+  ],
+  "goal_x": 8.5,
+  "speed": 0.7,
+  "n_beams": 3,
+  "gap": 1.0,
+  "scene_id": "v3_37584a516e",
+  "route_len": 8.5,
+  "dt": 0.1927437641723356,
+  "objective": 7.162066504620581,
+  "max_violation_m": 4.3853809472693683e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 75
+ },
+ {
+  "heights": [
+   1.0706776403914484,
+   1.0661907660464016,
+   1.0675591162897868
+  ],
+  "xs": [
+   3.0,
+   4.0,
+   5.0
+  ],
+  "goal_x": 8.5,
+  "speed": 0.7,
+  "n_beams": 3,
+  "gap": 1.0,
+  "scene_id": "v3_81e9599749",
+  "route_len": 8.5,
+  "dt": 0.1927437641723356,
+  "objective": 5.524085945216581,
+  "max_violation_m": 6.117328865684613e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 66
+ },
+ {
+  "heights": [
+   1.0747073336800481,
+   1.0364274201666688,
+   1.0218112236329568
+  ],
+  "xs": [
+   3.0,
+   5.0,
+   7.0
+  ],
+  "goal_x": 10.5,
+  "speed": 0.7,
+  "n_beams": 3,
+  "gap": 2.0,
+  "scene_id": "v3_9187dda25f",
+  "route_len": 10.5,
+  "dt": 0.2380952380952381,
+  "objective": 9.363319869778994,
+  "max_violation_m": 4.718447854656915e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 70
+ },
+ {
+  "heights": [
+   1.0447700985103414,
+   1.052430345103192,
+   1.0221638571239304
+  ],
+  "xs": [
+   3.0,
+   5.0,
+   7.0
+  ],
+  "goal_x": 10.5,
+  "speed": 0.7,
+  "n_beams": 3,
+  "gap": 2.0,
+  "scene_id": "v3_aa3a9e3fd7",
+  "route_len": 10.5,
+  "dt": 0.2380952380952381,
+  "objective": 9.550732868381221,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 70
+ },
+ {
+  "heights": [
+   1.0284230794637268,
+   1.0565747124742293,
+   1.0561724858640038
+  ],
+  "xs": [
+   3.0,
+   6.5,
+   10.0
+  ],
+  "goal_x": 13.5,
+  "speed": 0.7,
+  "n_beams": 3,
+  "gap": 3.5,
+  "scene_id": "v3_7314b5ad61",
+  "route_len": 13.5,
+  "dt": 0.30612244897959184,
+  "objective": 7.787951396158105,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 71
+ },
+ {
+  "heights": [
+   1.0763427356185093,
+   1.0737190277873363,
+   1.0666223982582919
+  ],
+  "xs": [
+   3.0,
+   6.5,
+   10.0
+  ],
+  "goal_x": 13.5,
+  "speed": 0.7,
+  "n_beams": 3,
+  "gap": 3.5,
+  "scene_id": "v3_1c2d1ca235",
+  "route_len": 13.5,
+  "dt": 0.30612244897959184,
+  "objective": 6.09963086382759,
+  "max_violation_m": 2.6201263381153694e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 72
+ },
+ {
+  "heights": [
+   1.06497147086476,
+   1.0665501640863995,
+   1.0445758440670807
+  ],
+  "xs": [
+   3.0,
+   8.0,
+   13.0
+  ],
+  "goal_x": 16.5,
+  "speed": 0.7,
+  "n_beams": 3,
+  "gap": 5.0,
+  "scene_id": "v3_72daac2288",
+  "route_len": 16.5,
+  "dt": 0.3741496598639456,
+  "objective": 6.3782559417880496,
+  "max_violation_m": 1.9317880628477724e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 73
+ },
+ {
+  "heights": [
+   1.0579884448015695,
+   1.0587308993434024,
+   1.074846255439636
+  ],
+  "xs": [
+   3.0,
+   8.0,
+   13.0
+  ],
+  "goal_x": 16.5,
+  "speed": 0.7,
+  "n_beams": 3,
+  "gap": 5.0,
+  "scene_id": "v3_dc46d19644",
+  "route_len": 16.5,
+  "dt": 0.3741496598639456,
+  "objective": 5.979732612770469,
+  "max_violation_m": 3.3084646133829665e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 73
+ },
+ {
+  "heights": [
+   1.0526280173418339,
+   1.0756617541987838,
+   1.0682926653418288
+  ],
+  "xs": [
+   3.0,
+   4.0,
+   5.0
+  ],
+  "goal_x": 8.5,
+  "speed": 0.9,
+  "n_beams": 3,
+  "gap": 1.0,
+  "scene_id": "v3_78198ec064",
+  "route_len": 8.5,
+  "dt": 0.14991181657848324,
+  "objective": 5.90501346246409,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 71
+ },
+ {
+  "heights": [
+   1.051457575972145,
+   1.0559204915804437,
+   1.029913883399155
+  ],
+  "xs": [
+   3.0,
+   4.0,
+   5.0
+  ],
+  "goal_x": 8.5,
+  "speed": 0.9,
+  "n_beams": 3,
+  "gap": 1.0,
+  "scene_id": "v3_b68ab026f4",
+  "route_len": 8.5,
+  "dt": 0.14991181657848324,
+  "objective": 7.275160700747016,
+  "max_violation_m": 2.2426505097428162e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 74
+ },
+ {
+  "heights": [
+   1.064981199083312,
+   1.0537577767391588,
+   1.0397074644466828
+  ],
+  "xs": [
+   3.0,
+   5.0,
+   7.0
+  ],
+  "goal_x": 10.5,
+  "speed": 0.9,
+  "n_beams": 3,
+  "gap": 2.0,
+  "scene_id": "v3_aa29144493",
+  "route_len": 10.5,
+  "dt": 0.18518518518518517,
+  "objective": 8.325008281653613,
+  "max_violation_m": 7.882583474838611e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 70
+ },
+ {
+  "heights": [
+   1.0410362315749366,
+   1.0556796572092941,
+   1.069447454440055
+  ],
+  "xs": [
+   3.0,
+   5.0,
+   7.0
+  ],
+  "goal_x": 10.5,
+  "speed": 0.9,
+  "n_beams": 3,
+  "gap": 2.0,
+  "scene_id": "v3_939be707e1",
+  "route_len": 10.5,
+  "dt": 0.18518518518518517,
+  "objective": 8.142888531840372,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 70
+ },
+ {
+  "heights": [
+   1.0714365504811667,
+   1.0540233976482096,
+   1.0204386394024543
+  ],
+  "xs": [
+   3.0,
+   6.5,
+   10.0
+  ],
+  "goal_x": 13.5,
+  "speed": 0.9,
+  "n_beams": 3,
+  "gap": 3.5,
+  "scene_id": "v3_0c4787405a",
+  "route_len": 13.5,
+  "dt": 0.23809523809523808,
+  "objective": 7.901862046774106,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 71
+ },
+ {
+  "heights": [
+   1.0648698627589386,
+   1.0379582669094294,
+   1.0587824528816125
+  ],
+  "xs": [
+   3.0,
+   6.5,
+   10.0
+  ],
+  "goal_x": 13.5,
+  "speed": 0.9,
+  "n_beams": 3,
+  "gap": 3.5,
+  "scene_id": "v3_b56fbaf3ea",
+  "route_len": 13.5,
+  "dt": 0.23809523809523808,
+  "objective": 7.342443468724488,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 71
+ },
+ {
+  "heights": [
+   1.0501056246990206,
+   1.0516254513668533,
+   1.0200269101777606
+  ],
+  "xs": [
+   3.0,
+   8.0,
+   13.0
+  ],
+  "goal_x": 16.5,
+  "speed": 0.9,
+  "n_beams": 3,
+  "gap": 5.0,
+  "scene_id": "v3_f92b7591b4",
+  "route_len": 16.5,
+  "dt": 0.291005291005291,
+  "objective": 7.850923686594827,
+  "max_violation_m": 2.4424906541753444e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 74
+ },
+ {
+  "heights": [
+   1.0788140599028386,
+   1.0353834329260816,
+   1.0706637304734012
+  ],
+  "xs": [
+   3.0,
+   8.0,
+   13.0
+  ],
+  "goal_x": 16.5,
+  "speed": 0.9,
+  "n_beams": 3,
+  "gap": 5.0,
+  "scene_id": "v3_c79fc54060",
+  "route_len": 16.5,
+  "dt": 0.291005291005291,
+  "objective": 6.508799443993728,
+  "max_violation_m": 2.1316282072803006e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 72
+ },
+ {
+  "heights": [
+   1.0387924735995664,
+   1.0557935302891142,
+   1.0291997578668246
+  ],
+  "xs": [
+   3.0,
+   4.0,
+   5.0
+  ],
+  "goal_x": 8.5,
+  "speed": 1.1,
+  "n_beams": 3,
+  "gap": 1.0,
+  "scene_id": "v3_f950779056",
+  "route_len": 8.5,
+  "dt": 0.12265512265512264,
+  "objective": 7.899674852841014,
+  "max_violation_m": 3.5638159090467525e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 76
+ },
+ {
+  "heights": [
+   1.0398990591892816,
+   1.040587250945473,
+   1.0231987204744284
+  ],
+  "xs": [
+   3.0,
+   4.0,
+   5.0
+  ],
+  "goal_x": 8.5,
+  "speed": 1.1,
+  "n_beams": 3,
+  "gap": 1.0,
+  "scene_id": "v3_5f3a2f632e",
+  "route_len": 8.5,
+  "dt": 0.12265512265512264,
+  "objective": 8.262784240961475,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 74
+ },
+ {
+  "heights": [
+   1.0301424303156799,
+   1.067052154677374,
+   1.0441481617055897
+  ],
+  "xs": [
+   3.0,
+   5.0,
+   7.0
+  ],
+  "goal_x": 10.5,
+  "speed": 1.1,
+  "n_beams": 3,
+  "gap": 2.0,
+  "scene_id": "v3_7caef324c1",
+  "route_len": 10.5,
+  "dt": 0.1515151515151515,
+  "objective": 9.181200789062324,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 72
+ },
+ {
+  "heights": [
+   1.0662249460560183,
+   1.0546428840353037,
+   1.0341603316232209
+  ],
+  "xs": [
+   3.0,
+   5.0,
+   7.0
+  ],
+  "goal_x": 10.5,
+  "speed": 1.1,
+  "n_beams": 3,
+  "gap": 2.0,
+  "scene_id": "v3_a1ef5deea8",
+  "route_len": 10.5,
+  "dt": 0.1515151515151515,
+  "objective": 8.602309691319878,
+  "max_violation_m": 3.341771304121721e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 72
+ },
+ {
+  "heights": [
+   1.0489410561326598,
+   1.026316298135813,
+   1.0409375700895322
+  ],
+  "xs": [
+   3.0,
+   6.5,
+   10.0
+  ],
+  "goal_x": 13.5,
+  "speed": 1.1,
+  "n_beams": 3,
+  "gap": 3.5,
+  "scene_id": "v3_4234f4fa19",
+  "route_len": 13.5,
+  "dt": 0.1948051948051948,
+  "objective": 8.807522598268474,
+  "max_violation_m": 2.3869795029440866e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 72
+ },
+ {
+  "heights": [
+   1.0287959916799774,
+   1.0210699570264037,
+   1.0247070120212842
+  ],
+  "xs": [
+   3.0,
+   6.5,
+   10.0
+  ],
+  "goal_x": 13.5,
+  "speed": 1.1,
+  "n_beams": 3,
+  "gap": 3.5,
+  "scene_id": "v3_2d2500bf67",
+  "route_len": 13.5,
+  "dt": 0.1948051948051948,
+  "objective": 10.233302847981014,
+  "max_violation_m": 6.106226635438361e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 72
+ },
+ {
+  "heights": [
+   1.0555876876036248,
+   1.0240798537350633,
+   1.0403398121916891
+  ],
+  "xs": [
+   3.0,
+   8.0,
+   13.0
+  ],
+  "goal_x": 16.5,
+  "speed": 1.1,
+  "n_beams": 3,
+  "gap": 5.0,
+  "scene_id": "v3_57e3a5434b",
+  "route_len": 16.5,
+  "dt": 0.23809523809523808,
+  "objective": 7.999028014394945,
+  "max_violation_m": 4.440892098500626e-16,
+  "status": "Optimization terminated successfully",
+  "n_iter": 72
+ },
+ {
+  "heights": [
+   1.0272450879469082,
+   1.0554462053108173,
+   1.0489380762305471
+  ],
+  "xs": [
+   3.0,
+   8.0,
+   13.0
+  ],
+  "goal_x": 16.5,
+  "speed": 1.1,
+  "n_beams": 3,
+  "gap": 5.0,
+  "scene_id": "v3_7f53e3418e",
+  "route_len": 16.5,
+  "dt": 0.23809523809523808,
+  "objective": 7.638798481036397,
+  "max_violation_m": 7.771561172376096e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 73
+ },
+ {
+  "heights": [
+   1.078317314134199,
+   1.0299271253618698,
+   1.0320615799327468
+  ],
+  "xs": [
+   4.0,
+   5.0,
+   6.0
+  ],
+  "goal_x": 9.5,
+  "speed": 0.7,
+  "n_beams": 3,
+  "gap": 1.0,
+  "scene_id": "v3_233b6b373e",
+  "route_len": 9.5,
+  "dt": 0.21541950113378686,
+  "objective": 6.802387716288903,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 70
+ },
+ {
+  "heights": [
+   1.0390710766256268,
+   1.0451639124815681,
+   1.0200626323070878
+  ],
+  "xs": [
+   4.0,
+   5.0,
+   6.0
+  ],
+  "goal_x": 9.5,
+  "speed": 0.7,
+  "n_beams": 3,
+  "gap": 1.0,
+  "scene_id": "v3_ad2824db54",
+  "route_len": 9.5,
+  "dt": 0.21541950113378686,
+  "objective": 7.557743015834175,
+  "max_violation_m": 4.218847493575595e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 71
+ },
+ {
+  "heights": [
+   1.0733856841771845,
+   1.0204210858796086,
+   1.0437419150866796
+  ],
+  "xs": [
+   4.0,
+   6.0,
+   8.0
+  ],
+  "goal_x": 11.5,
+  "speed": 0.7,
+  "n_beams": 3,
+  "gap": 2.0,
+  "scene_id": "v3_7dc42aa557",
+  "route_len": 11.5,
+  "dt": 0.26077097505668934,
+  "objective": 7.897184946568176,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 73
+ },
+ {
+  "heights": [
+   1.0583200684111707,
+   1.0616966277831281,
+   1.0693413033648744
+  ],
+  "xs": [
+   4.0,
+   6.0,
+   8.0
+  ],
+  "goal_x": 11.5,
+  "speed": 0.7,
+  "n_beams": 3,
+  "gap": 2.0,
+  "scene_id": "v3_7dbb92dc03",
+  "route_len": 11.5,
+  "dt": 0.26077097505668934,
+  "objective": 6.294162663813421,
+  "max_violation_m": 5.362377208939506e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 73
+ },
+ {
+  "heights": [
+   1.0299510231565172,
+   1.0332499659951804,
+   1.0744859381281555
+  ],
+  "xs": [
+   4.0,
+   7.5,
+   11.0
+  ],
+  "goal_x": 14.5,
+  "speed": 0.7,
+  "n_beams": 3,
+  "gap": 3.5,
+  "scene_id": "v3_59c96724e4",
+  "route_len": 14.5,
+  "dt": 0.3287981859410431,
+  "objective": 7.56536465926432,
+  "max_violation_m": 2.55351295663786e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 72
+ },
+ {
+  "heights": [
+   1.0440616150464501,
+   1.0269522862514129,
+   1.0429811199699746
+  ],
+  "xs": [
+   4.0,
+   7.5,
+   11.0
+  ],
+  "goal_x": 14.5,
+  "speed": 0.7,
+  "n_beams": 3,
+  "gap": 3.5,
+  "scene_id": "v3_373f0fd2ed",
+  "route_len": 14.5,
+  "dt": 0.3287981859410431,
+  "objective": 7.977003186172659,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 72
+ },
+ {
+  "heights": [
+   1.0765256010755149,
+   1.044044205131879,
+   1.0577622645369429
+  ],
+  "xs": [
+   4.0,
+   9.0,
+   14.0
+  ],
+  "goal_x": 17.5,
+  "speed": 0.7,
+  "n_beams": 3,
+  "gap": 5.0,
+  "scene_id": "v3_afcad722e9",
+  "route_len": 17.5,
+  "dt": 0.39682539682539686,
+  "objective": 6.3651539572135745,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 71
+ },
+ {
+  "heights": [
+   1.0799792140627709,
+   1.0763936033026777,
+   1.035810773241859
+  ],
+  "xs": [
+   4.0,
+   9.0,
+   14.0
+  ],
+  "goal_x": 17.5,
+  "speed": 0.7,
+  "n_beams": 3,
+  "gap": 5.0,
+  "scene_id": "v3_b728513e15",
+  "route_len": 17.5,
+  "dt": 0.39682539682539686,
+  "objective": 6.321138253208906,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 70
+ },
+ {
+  "heights": [
+   1.073816937307177,
+   1.0717294379683875,
+   1.0239822448549416
+  ],
+  "xs": [
+   4.0,
+   5.0,
+   6.0
+  ],
+  "goal_x": 9.5,
+  "speed": 0.9,
+  "n_beams": 3,
+  "gap": 1.0,
+  "scene_id": "v3_6a0a903af9",
+  "route_len": 9.5,
+  "dt": 0.1675485008818342,
+  "objective": 6.5553298903548605,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 75
+ },
+ {
+  "heights": [
+   1.0609227369853138,
+   1.061147446513631,
+   1.0241466468200577
+  ],
+  "xs": [
+   4.0,
+   5.0,
+   6.0
+  ],
+  "goal_x": 9.5,
+  "speed": 0.9,
+  "n_beams": 3,
+  "gap": 1.0,
+  "scene_id": "v3_a2fdda3e78",
+  "route_len": 9.5,
+  "dt": 0.1675485008818342,
+  "objective": 6.753149657793127,
+  "max_violation_m": 2.7644553313166398e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 73
+ },
+ {
+  "heights": [
+   1.0609741149782472,
+   1.0702888432263844,
+   1.0406192722353178
+  ],
+  "xs": [
+   4.0,
+   6.0,
+   8.0
+  ],
+  "goal_x": 11.5,
+  "speed": 0.9,
+  "n_beams": 3,
+  "gap": 2.0,
+  "scene_id": "v3_b62c9265fd",
+  "route_len": 11.5,
+  "dt": 0.20282186948853614,
+  "objective": 6.926418864109355,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 73
+ },
+ {
+  "heights": [
+   1.0419909714929567,
+   1.0417558486909255,
+   1.0767072958535113
+  ],
+  "xs": [
+   4.0,
+   6.0,
+   8.0
+  ],
+  "goal_x": 11.5,
+  "speed": 0.9,
+  "n_beams": 3,
+  "gap": 2.0,
+  "scene_id": "v3_4364112a4f",
+  "route_len": 11.5,
+  "dt": 0.20282186948853614,
+  "objective": 7.3097055910025395,
+  "max_violation_m": 6.206146707654625e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 72
+ },
+ {
+  "heights": [
+   1.0410734699226962,
+   1.0617120300389697,
+   1.0302871611824505
+  ],
+  "xs": [
+   4.0,
+   7.5,
+   11.0
+  ],
+  "goal_x": 14.5,
+  "speed": 0.9,
+  "n_beams": 3,
+  "gap": 3.5,
+  "scene_id": "v3_d5c9b3b4a7",
+  "route_len": 14.5,
+  "dt": 0.25573192239858905,
+  "objective": 7.582569716354326,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 70
+ },
+ {
+  "heights": [
+   1.0370605367153884,
+   1.0482091567474858,
+   1.0292077435021285
+  ],
+  "xs": [
+   4.0,
+   7.5,
+   11.0
+  ],
+  "goal_x": 14.5,
+  "speed": 0.9,
+  "n_beams": 3,
+  "gap": 3.5,
+  "scene_id": "v3_26441bae33",
+  "route_len": 14.5,
+  "dt": 0.25573192239858905,
+  "objective": 8.07522255471063,
+  "max_violation_m": 3.3306690738754696e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 70
+ },
+ {
+  "heights": [
+   1.0546882424562136,
+   1.061385477621283,
+   1.0361137172075454
+  ],
+  "xs": [
+   4.0,
+   9.0,
+   14.0
+  ],
+  "goal_x": 17.5,
+  "speed": 0.9,
+  "n_beams": 3,
+  "gap": 5.0,
+  "scene_id": "v3_5c687c3e73",
+  "route_len": 17.5,
+  "dt": 0.30864197530864196,
+  "objective": 6.948586061183434,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 71
+ },
+ {
+  "heights": [
+   1.0785878794217134,
+   1.0315856763957825,
+   1.0358526579583875
+  ],
+  "xs": [
+   4.0,
+   9.0,
+   14.0
+  ],
+  "goal_x": 17.5,
+  "speed": 0.9,
+  "n_beams": 3,
+  "gap": 5.0,
+  "scene_id": "v3_f171b7253f",
+  "route_len": 17.5,
+  "dt": 0.30864197530864196,
+  "objective": 7.427254118495432,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 71
+ },
+ {
+  "heights": [
+   1.0598674702046769,
+   1.0748363841212145,
+   1.047859320637207
+  ],
+  "xs": [
+   4.0,
+   5.0,
+   6.0
+  ],
+  "goal_x": 9.5,
+  "speed": 1.1,
+  "n_beams": 3,
+  "gap": 1.0,
+  "scene_id": "v3_bcd96c3d79",
+  "route_len": 9.5,
+  "dt": 0.13708513708513706,
+  "objective": 5.867184137919184,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 74
+ },
+ {
+  "heights": [
+   1.0610795335114067,
+   1.0722148922821946,
+   1.0331336882994828
+  ],
+  "xs": [
+   4.0,
+   5.0,
+   6.0
+  ],
+  "goal_x": 9.5,
+  "speed": 1.1,
+  "n_beams": 3,
+  "gap": 1.0,
+  "scene_id": "v3_dcc6a5537d",
+  "route_len": 9.5,
+  "dt": 0.13708513708513706,
+  "objective": 6.438976136871886,
+  "max_violation_m": 1.3877787807814457e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 76
+ },
+ {
+  "heights": [
+   1.061663185584955,
+   1.0739794614270415,
+   1.0712476133289
+  ],
+  "xs": [
+   4.0,
+   6.0,
+   8.0
+  ],
+  "goal_x": 11.5,
+  "speed": 1.1,
+  "n_beams": 3,
+  "gap": 2.0,
+  "scene_id": "v3_29b57e7e93",
+  "route_len": 11.5,
+  "dt": 0.16594516594516592,
+  "objective": 6.2194454289343195,
+  "max_violation_m": 1.2434497875801753e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 73
+ },
+ {
+  "heights": [
+   1.0518722835699044,
+   1.051790583719405,
+   1.0429069637883337
+  ],
+  "xs": [
+   4.0,
+   6.0,
+   8.0
+  ],
+  "goal_x": 11.5,
+  "speed": 1.1,
+  "n_beams": 3,
+  "gap": 2.0,
+  "scene_id": "v3_0082abdadb",
+  "route_len": 11.5,
+  "dt": 0.16594516594516592,
+  "objective": 7.524635862366339,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 74
+ },
+ {
+  "heights": [
+   1.0372667830758664,
+   1.055037916986956,
+   1.042619055777317
+  ],
+  "xs": [
+   4.0,
+   7.5,
+   11.0
+  ],
+  "goal_x": 14.5,
+  "speed": 1.1,
+  "n_beams": 3,
+  "gap": 3.5,
+  "scene_id": "v3_7514cc661b",
+  "route_len": 14.5,
+  "dt": 0.20923520923520922,
+  "objective": 7.572315421052477,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 72
+ },
+ {
+  "heights": [
+   1.0530870441984337,
+   1.0612720125219237,
+   1.0659251304258432
+  ],
+  "xs": [
+   4.0,
+   7.5,
+   11.0
+  ],
+  "goal_x": 14.5,
+  "speed": 1.1,
+  "n_beams": 3,
+  "gap": 3.5,
+  "scene_id": "v3_458e5d32de",
+  "route_len": 14.5,
+  "dt": 0.20923520923520922,
+  "objective": 6.396192942561967,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 71
+ },
+ {
+  "heights": [
+   1.0234947376969052,
+   1.0451616997021327,
+   1.067754371306134
+  ],
+  "xs": [
+   4.0,
+   9.0,
+   14.0
+  ],
+  "goal_x": 17.5,
+  "speed": 1.1,
+  "n_beams": 3,
+  "gap": 5.0,
+  "scene_id": "v3_5349d9f51f",
+  "route_len": 17.5,
+  "dt": 0.25252525252525254,
+  "objective": 7.635996765841711,
+  "max_violation_m": 2.220446049250313e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 70
+ },
+ {
+  "heights": [
+   1.067522758067258,
+   1.0552670274037834,
+   1.0422410964635176
+  ],
+  "xs": [
+   4.0,
+   9.0,
+   14.0
+  ],
+  "goal_x": 17.5,
+  "speed": 1.1,
+  "n_beams": 3,
+  "gap": 5.0,
+  "scene_id": "v3_6b742f3903",
+  "route_len": 17.5,
+  "dt": 0.25252525252525254,
+  "objective": 6.750204748551511,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 71
+ },
+ {
+  "heights": [
+   1.1486302072431733,
+   1.1754436519223705,
+   1.1508871076950302
+  ],
+  "xs": [
+   3.0,
+   4.0,
+   5.0
+  ],
+  "goal_x": 8.5,
+  "speed": 0.7,
+  "n_beams": 3,
+  "gap": 1.0,
+  "scene_id": "v3_5b4b3c37ca",
+  "route_len": 8.5,
+  "dt": 0.1927437641723356,
+  "objective": 2.894092515846509,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 73
+ },
+ {
+  "heights": [
+   1.1560648420903312,
+   1.171016429134603,
+   1.1680712075549178
+  ],
+  "xs": [
+   3.0,
+   4.0,
+   5.0
+  ],
+  "goal_x": 8.5,
+  "speed": 0.7,
+  "n_beams": 3,
+  "gap": 1.0,
+  "scene_id": "v3_94d1f97bfb",
+  "route_len": 8.5,
+  "dt": 0.1927437641723356,
+  "objective": 2.6489975204557314,
+  "max_violation_m": 4.18554080283684e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 70
+ },
+ {
+  "heights": [
+   1.1431256252948214,
+   1.1727386648796978,
+   1.1633955859159228
+  ],
+  "xs": [
+   3.0,
+   5.0,
+   7.0
+  ],
+  "goal_x": 10.5,
+  "speed": 0.7,
+  "n_beams": 3,
+  "gap": 2.0,
+  "scene_id": "v3_70d8018e2e",
+  "route_len": 10.5,
+  "dt": 0.2380952380952381,
+  "objective": 3.5299562697718407,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 71
+ },
+ {
+  "heights": [
+   1.168318182010781,
+   1.1656163014760288,
+   1.167661485957039
+  ],
+  "xs": [
+   3.0,
+   5.0,
+   7.0
+  ],
+  "goal_x": 10.5,
+  "speed": 0.7,
+  "n_beams": 3,
+  "gap": 2.0,
+  "scene_id": "v3_8411a445fc",
+  "route_len": 10.5,
+  "dt": 0.2380952380952381,
+  "objective": 3.2682363012945825,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 69
+ },
+ {
+  "heights": [
+   1.1261789729148763,
+   1.1205283534157968,
+   1.130262470365559
+  ],
+  "xs": [
+   3.0,
+   6.5,
+   10.0
+  ],
+  "goal_x": 13.5,
+  "speed": 0.7,
+  "n_beams": 3,
+  "gap": 3.5,
+  "scene_id": "v3_f5804fc743",
+  "route_len": 13.5,
+  "dt": 0.30612244897959184,
+  "objective": 4.157329535222253,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 73
+ },
+ {
+  "heights": [
+   1.1550483137072483,
+   1.1409051075040764,
+   1.1479135698585927
+  ],
+  "xs": [
+   3.0,
+   6.5,
+   10.0
+  ],
+  "goal_x": 13.5,
+  "speed": 0.7,
+  "n_beams": 3,
+  "gap": 3.5,
+  "scene_id": "v3_7c672b68cc",
+  "route_len": 13.5,
+  "dt": 0.30612244897959184,
+  "objective": 3.448768197178429,
+  "max_violation_m": 2.0872192862952943e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 72
+ },
+ {
+  "heights": [
+   1.131006436653207,
+   1.1297906664035924,
+   1.1214264787616648
+  ],
+  "xs": [
+   3.0,
+   8.0,
+   13.0
+  ],
+  "goal_x": 16.5,
+  "speed": 0.7,
+  "n_beams": 3,
+  "gap": 5.0,
+  "scene_id": "v3_5796d0b71c",
+  "route_len": 16.5,
+  "dt": 0.3741496598639456,
+  "objective": 3.788894348433561,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 72
+ },
+ {
+  "heights": [
+   1.143985710065605,
+   1.1397757117173841,
+   1.122343677780834
+  ],
+  "xs": [
+   3.0,
+   8.0,
+   13.0
+  ],
+  "goal_x": 16.5,
+  "speed": 0.7,
+  "n_beams": 3,
+  "gap": 5.0,
+  "scene_id": "v3_6681995c34",
+  "route_len": 16.5,
+  "dt": 0.3741496598639456,
+  "objective": 3.555088724565775,
+  "max_violation_m": 6.661338147750939e-16,
+  "status": "Optimization terminated successfully",
+  "n_iter": 72
+ },
+ {
+  "heights": [
+   1.1324921983203078,
+   1.1408183588242728,
+   1.179289183081417
+  ],
+  "xs": [
+   3.0,
+   4.0,
+   5.0
+  ],
+  "goal_x": 8.5,
+  "speed": 0.9,
+  "n_beams": 3,
+  "gap": 1.0,
+  "scene_id": "v3_f832e8c078",
+  "route_len": 8.5,
+  "dt": 0.14991181657848324,
+  "objective": 3.108404052516505,
+  "max_violation_m": 5.662137425588298e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 73
+ },
+ {
+  "heights": [
+   1.1376107058212137,
+   1.1721628117142893,
+   1.1632605738150454
+  ],
+  "xs": [
+   3.0,
+   4.0,
+   5.0
+  ],
+  "goal_x": 8.5,
+  "speed": 0.9,
+  "n_beams": 3,
+  "gap": 1.0,
+  "scene_id": "v3_65d88165f3",
+  "route_len": 8.5,
+  "dt": 0.14991181657848324,
+  "objective": 2.947930482850087,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 73
+ },
+ {
+  "heights": [
+   1.1642239766331945,
+   1.1215430036884246,
+   1.1756484715546827
+  ],
+  "xs": [
+   3.0,
+   5.0,
+   7.0
+  ],
+  "goal_x": 10.5,
+  "speed": 0.9,
+  "n_beams": 3,
+  "gap": 2.0,
+  "scene_id": "v3_51e01ed398",
+  "route_len": 10.5,
+  "dt": 0.18518518518518517,
+  "objective": 3.7748565962519,
+  "max_violation_m": 6.5503158452884236e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 71
+ },
+ {
+  "heights": [
+   1.1514563802924103,
+   1.1356348147369169,
+   1.1643568200717789
+  ],
+  "xs": [
+   3.0,
+   5.0,
+   7.0
+  ],
+  "goal_x": 10.5,
+  "speed": 0.9,
+  "n_beams": 3,
+  "gap": 2.0,
+  "scene_id": "v3_2bcf042a34",
+  "route_len": 10.5,
+  "dt": 0.18518518518518517,
+  "objective": 3.8351697240146274,
+  "max_violation_m": 2.4202861936828413e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 70
+ },
+ {
+  "heights": [
+   1.1600333397620208,
+   1.1698226471051194,
+   1.1501859875564788
+  ],
+  "xs": [
+   3.0,
+   6.5,
+   10.0
+  ],
+  "goal_x": 13.5,
+  "speed": 0.9,
+  "n_beams": 3,
+  "gap": 3.5,
+  "scene_id": "v3_d5bbc778ef",
+  "route_len": 13.5,
+  "dt": 0.23809523809523808,
+  "objective": 3.1463515238283133,
+  "max_violation_m": 9.103828801926284e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 72
+ },
+ {
+  "heights": [
+   1.1315155343785157,
+   1.1754152206511834,
+   1.1629271775932322
+  ],
+  "xs": [
+   3.0,
+   6.5,
+   10.0
+  ],
+  "goal_x": 13.5,
+  "speed": 0.9,
+  "n_beams": 3,
+  "gap": 3.5,
+  "scene_id": "v3_48de90ad3e",
+  "route_len": 13.5,
+  "dt": 0.23809523809523808,
+  "objective": 3.2929561715889513,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 71
+ },
+ {
+  "heights": [
+   1.1766503136474213,
+   1.157928969939996,
+   1.1498516088677622
+  ],
+  "xs": [
+   3.0,
+   8.0,
+   13.0
+  ],
+  "goal_x": 16.5,
+  "speed": 0.9,
+  "n_beams": 3,
+  "gap": 5.0,
+  "scene_id": "v3_c018856632",
+  "route_len": 16.5,
+  "dt": 0.291005291005291,
+  "objective": 2.889486698771863,
+  "max_violation_m": 3.9968028886505635e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 72
+ },
+ {
+  "heights": [
+   1.1562436418125142,
+   1.1635917035252534,
+   1.1383242425239788
+  ],
+  "xs": [
+   3.0,
+   8.0,
+   13.0
+  ],
+  "goal_x": 16.5,
+  "speed": 0.9,
+  "n_beams": 3,
+  "gap": 5.0,
+  "scene_id": "v3_4b06a67490",
+  "route_len": 16.5,
+  "dt": 0.291005291005291,
+  "objective": 3.1011138098182673,
+  "max_violation_m": 1.0103029524088925e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 71
+ },
+ {
+  "heights": [
+   1.1505106670172247,
+   1.1235719392299202,
+   1.1515067796557104
+  ],
+  "xs": [
+   3.0,
+   4.0,
+   5.0
+  ],
+  "goal_x": 8.5,
+  "speed": 1.1,
+  "n_beams": 3,
+  "gap": 1.0,
+  "scene_id": "v3_29b369d698",
+  "route_len": 8.5,
+  "dt": 0.12265512265512264,
+  "objective": 3.3636821610079446,
+  "max_violation_m": 2.3314683517128287e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 73
+ },
+ {
+  "heights": [
+   1.1339503792453192,
+   1.1238233982696415,
+   1.1426438612847458
+  ],
+  "xs": [
+   3.0,
+   4.0,
+   5.0
+  ],
+  "goal_x": 8.5,
+  "speed": 1.1,
+  "n_beams": 3,
+  "gap": 1.0,
+  "scene_id": "v3_c67d9c0300",
+  "route_len": 8.5,
+  "dt": 0.12265512265512264,
+  "objective": 3.55827908026087,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 73
+ },
+ {
+  "heights": [
+   1.1585321638687167,
+   1.143859781963017,
+   1.1366169243104036
+  ],
+  "xs": [
+   3.0,
+   5.0,
+   7.0
+  ],
+  "goal_x": 10.5,
+  "speed": 1.1,
+  "n_beams": 3,
+  "gap": 2.0,
+  "scene_id": "v3_37d8fc4bc8",
+  "route_len": 10.5,
+  "dt": 0.1515151515151515,
+  "objective": 4.032463233339722,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 71
+ },
+ {
+  "heights": [
+   1.1473718377313933,
+   1.1555755316652223,
+   1.151221451162364
+  ],
+  "xs": [
+   3.0,
+   5.0,
+   7.0
+  ],
+  "goal_x": 10.5,
+  "speed": 1.1,
+  "n_beams": 3,
+  "gap": 2.0,
+  "scene_id": "v3_c253336ac9",
+  "route_len": 10.5,
+  "dt": 0.1515151515151515,
+  "objective": 3.8596486002508983,
+  "max_violation_m": 5.329070518200751e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 72
+ },
+ {
+  "heights": [
+   1.1741635465494589,
+   1.170299877986976,
+   1.1637348992716396
+  ],
+  "xs": [
+   3.0,
+   6.5,
+   10.0
+  ],
+  "goal_x": 13.5,
+  "speed": 1.1,
+  "n_beams": 3,
+  "gap": 3.5,
+  "scene_id": "v3_d0a012db9e",
+  "route_len": 13.5,
+  "dt": 0.1948051948051948,
+  "objective": 2.951770395454714,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 72
+ },
+ {
+  "heights": [
+   1.1628171113701513,
+   1.165901935333859,
+   1.1730856827055838
+  ],
+  "xs": [
+   3.0,
+   6.5,
+   10.0
+  ],
+  "goal_x": 13.5,
+  "speed": 1.1,
+  "n_beams": 3,
+  "gap": 3.5,
+  "scene_id": "v3_83bf7f9290",
+  "route_len": 13.5,
+  "dt": 0.1948051948051948,
+  "objective": 3.007752198015451,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 72
+ },
+ {
+  "heights": [
+   1.122675185750008,
+   1.131875593068196,
+   1.1720825291905768
+  ],
+  "xs": [
+   3.0,
+   8.0,
+   13.0
+  ],
+  "goal_x": 16.5,
+  "speed": 1.1,
+  "n_beams": 3,
+  "gap": 5.0,
+  "scene_id": "v3_011a8ba9c1",
+  "route_len": 16.5,
+  "dt": 0.23809523809523808,
+  "objective": 3.48144186797759,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 72
+ },
+ {
+  "heights": [
+   1.1556627376753943,
+   1.1571665277558316,
+   1.1690230640139354
+  ],
+  "xs": [
+   3.0,
+   8.0,
+   13.0
+  ],
+  "goal_x": 16.5,
+  "speed": 1.1,
+  "n_beams": 3,
+  "gap": 5.0,
+  "scene_id": "v3_eadc2f6cce",
+  "route_len": 16.5,
+  "dt": 0.23809523809523808,
+  "objective": 2.930155183807658,
+  "max_violation_m": 1.2878587085651816e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 73
+ },
+ {
+  "heights": [
+   1.15073922472939,
+   1.1315322982633471,
+   1.1411984234450736
+  ],
+  "xs": [
+   4.0,
+   5.0,
+   6.0
+  ],
+  "goal_x": 9.5,
+  "speed": 0.7,
+  "n_beams": 3,
+  "gap": 1.0,
+  "scene_id": "v3_733b0c47b1",
+  "route_len": 9.5,
+  "dt": 0.21541950113378686,
+  "objective": 2.999692685069383,
+  "max_violation_m": 2.1094237467877974e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 72
+ },
+ {
+  "heights": [
+   1.1311377331888894,
+   1.1501447278994517,
+   1.1791039026772523
+  ],
+  "xs": [
+   4.0,
+   5.0,
+   6.0
+  ],
+  "goal_x": 9.5,
+  "speed": 0.7,
+  "n_beams": 3,
+  "gap": 1.0,
+  "scene_id": "v3_565accfb30",
+  "route_len": 9.5,
+  "dt": 0.21541950113378686,
+  "objective": 2.7610352686670474,
+  "max_violation_m": 7.782663402622347e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 71
+ },
+ {
+  "heights": [
+   1.1226601770965454,
+   1.1668538363397452,
+   1.1387287506155657
+  ],
+  "xs": [
+   4.0,
+   6.0,
+   8.0
+  ],
+  "goal_x": 11.5,
+  "speed": 0.7,
+  "n_beams": 3,
+  "gap": 2.0,
+  "scene_id": "v3_341942bca7",
+  "route_len": 11.5,
+  "dt": 0.26077097505668934,
+  "objective": 3.5417015123155213,
+  "max_violation_m": 2.9976021664879227e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 74
+ },
+ {
+  "heights": [
+   1.1682733415958855,
+   1.121627597195276,
+   1.145036349910587
+  ],
+  "xs": [
+   4.0,
+   6.0,
+   8.0
+  ],
+  "goal_x": 11.5,
+  "speed": 0.7,
+  "n_beams": 3,
+  "gap": 2.0,
+  "scene_id": "v3_00e4f62dfb",
+  "route_len": 11.5,
+  "dt": 0.26077097505668934,
+  "objective": 3.455862175023405,
+  "max_violation_m": 6.217248937900877e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 74
+ },
+ {
+  "heights": [
+   1.1334140160238881,
+   1.1234842374943337,
+   1.1473620008439784
+  ],
+  "xs": [
+   4.0,
+   7.5,
+   11.0
+  ],
+  "goal_x": 14.5,
+  "speed": 0.7,
+  "n_beams": 3,
+  "gap": 3.5,
+  "scene_id": "v3_05129ca480",
+  "route_len": 14.5,
+  "dt": 0.3287981859410431,
+  "objective": 3.584606735534974,
+  "max_violation_m": 5.995204332975845e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 71
+ },
+ {
+  "heights": [
+   1.1791469469806404,
+   1.1703534530471578,
+   1.1410365116484016
+  ],
+  "xs": [
+   4.0,
+   7.5,
+   11.0
+  ],
+  "goal_x": 14.5,
+  "speed": 0.7,
+  "n_beams": 3,
+  "gap": 3.5,
+  "scene_id": "v3_6d23133843",
+  "route_len": 14.5,
+  "dt": 0.3287981859410431,
+  "objective": 2.835825365629729,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 70
+ },
+ {
+  "heights": [
+   1.1635899277414372,
+   1.1742144829760528,
+   1.144922212013592
+  ],
+  "xs": [
+   4.0,
+   9.0,
+   14.0
+  ],
+  "goal_x": 17.5,
+  "speed": 0.7,
+  "n_beams": 3,
+  "gap": 5.0,
+  "scene_id": "v3_d620e7e279",
+  "route_len": 17.5,
+  "dt": 0.39682539682539686,
+  "objective": 2.8612295618589614,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 71
+ },
+ {
+  "heights": [
+   1.1530670967183958,
+   1.1463677356862387,
+   1.1317072711402516
+  ],
+  "xs": [
+   4.0,
+   9.0,
+   14.0
+  ],
+  "goal_x": 17.5,
+  "speed": 0.7,
+  "n_beams": 3,
+  "gap": 5.0,
+  "scene_id": "v3_dae2f5eff3",
+  "route_len": 17.5,
+  "dt": 0.39682539682539686,
+  "objective": 3.3072546374934646,
+  "max_violation_m": 1.1102230246251565e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 71
+ },
+ {
+  "heights": [
+   1.176507587241017,
+   1.1614944477320044,
+   1.1464942019603124
+  ],
+  "xs": [
+   4.0,
+   5.0,
+   6.0
+  ],
+  "goal_x": 9.5,
+  "speed": 0.9,
+  "n_beams": 3,
+  "gap": 1.0,
+  "scene_id": "v3_76d6c6bffd",
+  "route_len": 9.5,
+  "dt": 0.1675485008818342,
+  "objective": 2.602209817446434,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 74
+ },
+ {
+  "heights": [
+   1.172745723289883,
+   1.1747843459161353,
+   1.1675916053604145
+  ],
+  "xs": [
+   4.0,
+   5.0,
+   6.0
+  ],
+  "goal_x": 9.5,
+  "speed": 0.9,
+  "n_beams": 3,
+  "gap": 1.0,
+  "scene_id": "v3_d5f4b78ebb",
+  "route_len": 9.5,
+  "dt": 0.1675485008818342,
+  "objective": 2.340827283136612,
+  "max_violation_m": 4.440892098500626e-16,
+  "status": "Optimization terminated successfully",
+  "n_iter": 69
+ },
+ {
+  "heights": [
+   1.1624481209873136,
+   1.1445673872760957,
+   1.1469110258034128
+  ],
+  "xs": [
+   4.0,
+   6.0,
+   8.0
+  ],
+  "goal_x": 11.5,
+  "speed": 0.9,
+  "n_beams": 3,
+  "gap": 2.0,
+  "scene_id": "v3_39e51feed9",
+  "route_len": 11.5,
+  "dt": 0.20282186948853614,
+  "objective": 3.2914638839994605,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 72
+ },
+ {
+  "heights": [
+   1.1351989644620828,
+   1.161241952335076,
+   1.1693325440689513
+  ],
+  "xs": [
+   4.0,
+   6.0,
+   8.0
+  ],
+  "goal_x": 11.5,
+  "speed": 0.9,
+  "n_beams": 3,
+  "gap": 2.0,
+  "scene_id": "v3_2c657e2bff",
+  "route_len": 11.5,
+  "dt": 0.20282186948853614,
+  "objective": 3.205055752933503,
+  "max_violation_m": 3.219646771412954e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 72
+ },
+ {
+  "heights": [
+   1.1380437304072206,
+   1.15589749884816,
+   1.1237708917393379
+  ],
+  "xs": [
+   4.0,
+   7.5,
+   11.0
+  ],
+  "goal_x": 14.5,
+  "speed": 0.9,
+  "n_beams": 3,
+  "gap": 3.5,
+  "scene_id": "v3_53031d9f5c",
+  "route_len": 14.5,
+  "dt": 0.25573192239858905,
+  "objective": 3.506978676377712,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 72
+ },
+ {
+  "heights": [
+   1.173096615476581,
+   1.1436460046899515,
+   1.1435060458518884
+  ],
+  "xs": [
+   4.0,
+   7.5,
+   11.0
+  ],
+  "goal_x": 14.5,
+  "speed": 0.9,
+  "n_beams": 3,
+  "gap": 3.5,
+  "scene_id": "v3_57bdca472f",
+  "route_len": 14.5,
+  "dt": 0.25573192239858905,
+  "objective": 3.120568673629953,
+  "max_violation_m": 1.1879386363489175e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 71
+ },
+ {
+  "heights": [
+   1.1303671923046468,
+   1.1668376241098353,
+   1.1671371693225847
+  ],
+  "xs": [
+   4.0,
+   9.0,
+   14.0
+  ],
+  "goal_x": 17.5,
+  "speed": 0.9,
+  "n_beams": 3,
+  "gap": 5.0,
+  "scene_id": "v3_d80a46aff1",
+  "route_len": 17.5,
+  "dt": 0.30864197530864196,
+  "objective": 3.0566386803754786,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 71
+ },
+ {
+  "heights": [
+   1.1545065406751265,
+   1.127610749338913,
+   1.1678843684238513
+  ],
+  "xs": [
+   4.0,
+   9.0,
+   14.0
+  ],
+  "goal_x": 17.5,
+  "speed": 0.9,
+  "n_beams": 3,
+  "gap": 5.0,
+  "scene_id": "v3_e1c7f02633",
+  "route_len": 17.5,
+  "dt": 0.30864197530864196,
+  "objective": 3.1849544620437698,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 70
+ },
+ {
+  "heights": [
+   1.1633320983775277,
+   1.1785752252419888,
+   1.1671379223001417
+  ],
+  "xs": [
+   4.0,
+   5.0,
+   6.0
+  ],
+  "goal_x": 9.5,
+  "speed": 1.1,
+  "n_beams": 3,
+  "gap": 1.0,
+  "scene_id": "v3_4598c8bd78",
+  "route_len": 9.5,
+  "dt": 0.13708513708513706,
+  "objective": 2.439218724610436,
+  "max_violation_m": 8.659739592076221e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 72
+ },
+ {
+  "heights": [
+   1.1396801027214463,
+   1.1572850500503018,
+   1.1706526570117817
+  ],
+  "xs": [
+   4.0,
+   5.0,
+   6.0
+  ],
+  "goal_x": 9.5,
+  "speed": 1.1,
+  "n_beams": 3,
+  "gap": 1.0,
+  "scene_id": "v3_acf9a24946",
+  "route_len": 9.5,
+  "dt": 0.13708513708513706,
+  "objective": 2.7457286904434626,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 74
+ },
+ {
+  "heights": [
+   1.140991870256802,
+   1.132358775731287,
+   1.1590199165227475
+  ],
+  "xs": [
+   4.0,
+   6.0,
+   8.0
+  ],
+  "goal_x": 11.5,
+  "speed": 1.1,
+  "n_beams": 3,
+  "gap": 2.0,
+  "scene_id": "v3_83db86e747",
+  "route_len": 11.5,
+  "dt": 0.16594516594516592,
+  "objective": 3.5512600688501035,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 72
+ },
+ {
+  "heights": [
+   1.147999377720791,
+   1.1363458639159916,
+   1.1752232776685616
+  ],
+  "xs": [
+   4.0,
+   6.0,
+   8.0
+  ],
+  "goal_x": 11.5,
+  "speed": 1.1,
+  "n_beams": 3,
+  "gap": 2.0,
+  "scene_id": "v3_9185111315",
+  "route_len": 11.5,
+  "dt": 0.16594516594516592,
+  "objective": 3.3114054098073495,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 73
+ },
+ {
+  "heights": [
+   1.1681661173121676,
+   1.1214069224575631,
+   1.129853384590097
+  ],
+  "xs": [
+   4.0,
+   7.5,
+   11.0
+  ],
+  "goal_x": 14.5,
+  "speed": 1.1,
+  "n_beams": 3,
+  "gap": 3.5,
+  "scene_id": "v3_6348022e63",
+  "route_len": 14.5,
+  "dt": 0.20923520923520922,
+  "objective": 3.566756303477599,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 75
+ },
+ {
+  "heights": [
+   1.1639297711386676,
+   1.1775096175298776,
+   1.1697989515598248
+  ],
+  "xs": [
+   4.0,
+   7.5,
+   11.0
+  ],
+  "goal_x": 14.5,
+  "speed": 1.1,
+  "n_beams": 3,
+  "gap": 3.5,
+  "scene_id": "v3_dc93f82af8",
+  "route_len": 14.5,
+  "dt": 0.20923520923520922,
+  "objective": 2.719245650959956,
+  "max_violation_m": 1.887379141862766e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 72
+ },
+ {
+  "heights": [
+   1.1654802866465597,
+   1.1777584569190744,
+   1.1434840495692817
+  ],
+  "xs": [
+   4.0,
+   9.0,
+   14.0
+  ],
+  "goal_x": 17.5,
+  "speed": 1.1,
+  "n_beams": 3,
+  "gap": 5.0,
+  "scene_id": "v3_a5292ced75",
+  "route_len": 17.5,
+  "dt": 0.25252525252525254,
+  "objective": 2.904320087636283,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 72
+ },
+ {
+  "heights": [
+   1.1407992097708965,
+   1.1239857915943778,
+   1.1596287168431703
+  ],
+  "xs": [
+   4.0,
+   9.0,
+   14.0
+  ],
+  "goal_x": 17.5,
+  "speed": 1.1,
+  "n_beams": 3,
+  "gap": 5.0,
+  "scene_id": "v3_0208d8af26",
+  "route_len": 17.5,
+  "dt": 0.25252525252525254,
+  "objective": 3.458294179392807,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 72
+ },
+ {
+  "heights": [
+   1.2633684062580264,
+   1.2692035161397275,
+   1.2335045105864917
+  ],
+  "xs": [
+   3.0,
+   4.0,
+   5.0
+  ],
+  "goal_x": 8.5,
+  "speed": 0.7,
+  "n_beams": 3,
+  "gap": 1.0,
+  "scene_id": "v3_b7838b414c",
+  "route_len": 8.5,
+  "dt": 0.1927437641723356,
+  "objective": 1.257606000337643,
+  "max_violation_m": 7.771561172376096e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 70
+ },
+ {
+  "heights": [
+   1.2201136249313072,
+   1.2761995803757489,
+   1.2419330019694161
+  ],
+  "xs": [
+   3.0,
+   4.0,
+   5.0
+  ],
+  "goal_x": 8.5,
+  "speed": 0.7,
+  "n_beams": 3,
+  "gap": 1.0,
+  "scene_id": "v3_12ff5436b2",
+  "route_len": 8.5,
+  "dt": 0.1927437641723356,
+  "objective": 1.4545536526279936,
+  "max_violation_m": 8.215650382226158e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 74
+ },
+ {
+  "heights": [
+   1.2632788309506977,
+   1.2211297502281058,
+   1.266559408640361
+  ],
+  "xs": [
+   3.0,
+   5.0,
+   7.0
+  ],
+  "goal_x": 10.5,
+  "speed": 0.7,
+  "n_beams": 3,
+  "gap": 2.0,
+  "scene_id": "v3_8672b2813d",
+  "route_len": 10.5,
+  "dt": 0.2380952380952381,
+  "objective": 1.6253335988449633,
+  "max_violation_m": 2.220446049250313e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 71
+ },
+ {
+  "heights": [
+   1.2271515406444853,
+   1.2555155673380103,
+   1.2746970409603504
+  ],
+  "xs": [
+   3.0,
+   5.0,
+   7.0
+  ],
+  "goal_x": 10.5,
+  "speed": 0.7,
+  "n_beams": 3,
+  "gap": 2.0,
+  "scene_id": "v3_891bac2ab5",
+  "route_len": 10.5,
+  "dt": 0.2380952380952381,
+  "objective": 1.599890853414758,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 68
+ },
+ {
+  "heights": [
+   1.2707254157689545,
+   1.2436620544732224,
+   1.2311365120929256
+  ],
+  "xs": [
+   3.0,
+   6.5,
+   10.0
+  ],
+  "goal_x": 13.5,
+  "speed": 0.7,
+  "n_beams": 3,
+  "gap": 3.5,
+  "scene_id": "v3_c573d988f0",
+  "route_len": 13.5,
+  "dt": 0.30612244897959184,
+  "objective": 1.4646770754097442,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 74
+ },
+ {
+  "heights": [
+   1.2291985218800416,
+   1.243549170684913,
+   1.2636791822624405
+  ],
+  "xs": [
+   3.0,
+   6.5,
+   10.0
+  ],
+  "goal_x": 13.5,
+  "speed": 0.7,
+  "n_beams": 3,
+  "gap": 3.5,
+  "scene_id": "v3_4ee1c01759",
+  "route_len": 13.5,
+  "dt": 0.30612244897959184,
+  "objective": 1.5245293161251343,
+  "max_violation_m": 6.661338147750939e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 72
+ },
+ {
+  "heights": [
+   1.2246179813336997,
+   1.2326630748961436,
+   1.2265047362924246
+  ],
+  "xs": [
+   3.0,
+   8.0,
+   13.0
+  ],
+  "goal_x": 16.5,
+  "speed": 0.7,
+  "n_beams": 3,
+  "gap": 5.0,
+  "scene_id": "v3_08a6f80be2",
+  "route_len": 16.5,
+  "dt": 0.3741496598639456,
+  "objective": 1.6496246217094517,
+  "max_violation_m": 4.440892098500626e-16,
+  "status": "Optimization terminated successfully",
+  "n_iter": 73
+ },
+ {
+  "heights": [
+   1.2633594427111732,
+   1.238185706792553,
+   1.2366482082994739
+  ],
+  "xs": [
+   3.0,
+   8.0,
+   13.0
+  ],
+  "goal_x": 16.5,
+  "speed": 0.7,
+  "n_beams": 3,
+  "gap": 5.0,
+  "scene_id": "v3_a602d63bb6",
+  "route_len": 16.5,
+  "dt": 0.3741496598639456,
+  "objective": 1.3926268325358837,
+  "max_violation_m": 2.7977620220553945e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 72
+ },
+ {
+  "heights": [
+   1.266471863191459,
+   1.2562855099946582,
+   1.247165310751981
+  ],
+  "xs": [
+   3.0,
+   4.0,
+   5.0
+  ],
+  "goal_x": 8.5,
+  "speed": 0.9,
+  "n_beams": 3,
+  "gap": 1.0,
+  "scene_id": "v3_68134ed424",
+  "route_len": 8.5,
+  "dt": 0.14991181657848324,
+  "objective": 1.215987995812212,
+  "max_violation_m": 8.659739592076221e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 69
+ },
+ {
+  "heights": [
+   1.2770920329665665,
+   1.2402020946557493,
+   1.279306747418003
+  ],
+  "xs": [
+   3.0,
+   4.0,
+   5.0
+  ],
+  "goal_x": 8.5,
+  "speed": 0.9,
+  "n_beams": 3,
+  "gap": 1.0,
+  "scene_id": "v3_3ca38673c4",
+  "route_len": 8.5,
+  "dt": 0.14991181657848324,
+  "objective": 1.14673236492935,
+  "max_violation_m": 7.105427357601002e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 73
+ },
+ {
+  "heights": [
+   1.2708685303236236,
+   1.2776465400810848,
+   1.2675533448525034
+  ],
+  "xs": [
+   3.0,
+   5.0,
+   7.0
+  ],
+  "goal_x": 10.5,
+  "speed": 0.9,
+  "n_beams": 3,
+  "gap": 2.0,
+  "scene_id": "v3_b820601946",
+  "route_len": 10.5,
+  "dt": 0.18518518518518517,
+  "objective": 1.2979032594341784,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 70
+ },
+ {
+  "heights": [
+   1.2261586855745323,
+   1.2453476603733762,
+   1.270787518276761
+  ],
+  "xs": [
+   3.0,
+   5.0,
+   7.0
+  ],
+  "goal_x": 10.5,
+  "speed": 0.9,
+  "n_beams": 3,
+  "gap": 2.0,
+  "scene_id": "v3_13502e70db",
+  "route_len": 10.5,
+  "dt": 0.18518518518518517,
+  "objective": 1.6992050756684796,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 70
+ },
+ {
+  "heights": [
+   1.2260984879046617,
+   1.225362783145611,
+   1.2598528328839609
+  ],
+  "xs": [
+   3.0,
+   6.5,
+   10.0
+  ],
+  "goal_x": 13.5,
+  "speed": 0.9,
+  "n_beams": 3,
+  "gap": 3.5,
+  "scene_id": "v3_9ef9090334",
+  "route_len": 13.5,
+  "dt": 0.23809523809523808,
+  "objective": 1.6821847623024757,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 73
+ },
+ {
+  "heights": [
+   1.2333528702406118,
+   1.278556776512215,
+   1.2652904896568709
+  ],
+  "xs": [
+   3.0,
+   6.5,
+   10.0
+  ],
+  "goal_x": 13.5,
+  "speed": 0.9,
+  "n_beams": 3,
+  "gap": 3.5,
+  "scene_id": "v3_d727863bca",
+  "route_len": 13.5,
+  "dt": 0.23809523809523808,
+  "objective": 1.348226743236256,
+  "max_violation_m": 1.4876988529977098e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 72
+ },
+ {
+  "heights": [
+   1.2248348000664244,
+   1.2620947811260361,
+   1.226775806679678
+  ],
+  "xs": [
+   3.0,
+   8.0,
+   13.0
+  ],
+  "goal_x": 16.5,
+  "speed": 0.9,
+  "n_beams": 3,
+  "gap": 5.0,
+  "scene_id": "v3_6ee584f9e7",
+  "route_len": 16.5,
+  "dt": 0.291005291005291,
+  "objective": 1.5304385393260436,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 75
+ },
+ {
+  "heights": [
+   1.23528518601824,
+   1.2305485867023824,
+   1.2473766248391884
+  ],
+  "xs": [
+   3.0,
+   8.0,
+   13.0
+  ],
+  "goal_x": 16.5,
+  "speed": 0.9,
+  "n_beams": 3,
+  "gap": 5.0,
+  "scene_id": "v3_0829850b00",
+  "route_len": 16.5,
+  "dt": 0.291005291005291,
+  "objective": 1.524631965674715,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 71
+ },
+ {
+  "heights": [
+   1.2261733073921266,
+   1.2364244439097416,
+   1.2373946507938534
+  ],
+  "xs": [
+   3.0,
+   4.0,
+   5.0
+  ],
+  "goal_x": 8.5,
+  "speed": 1.1,
+  "n_beams": 3,
+  "gap": 1.0,
+  "scene_id": "v3_5c4772e111",
+  "route_len": 8.5,
+  "dt": 0.12265512265512264,
+  "objective": 1.5510463360692184,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 70
+ },
+ {
+  "heights": [
+   1.2575175731760477,
+   1.2532032504169266,
+   1.2211726941089556
+  ],
+  "xs": [
+   3.0,
+   4.0,
+   5.0
+  ],
+  "goal_x": 8.5,
+  "speed": 1.1,
+  "n_beams": 3,
+  "gap": 1.0,
+  "scene_id": "v3_e8417611f7",
+  "route_len": 8.5,
+  "dt": 0.12265512265512264,
+  "objective": 1.4447468513214838,
+  "max_violation_m": 8.215650382226158e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 73
+ },
+ {
+  "heights": [
+   1.2681615804024402,
+   1.2217533290399776,
+   1.2524104998345529
+  ],
+  "xs": [
+   3.0,
+   5.0,
+   7.0
+  ],
+  "goal_x": 10.5,
+  "speed": 1.1,
+  "n_beams": 3,
+  "gap": 2.0,
+  "scene_id": "v3_0c9ae6141b",
+  "route_len": 10.5,
+  "dt": 0.1515151515151515,
+  "objective": 1.7112734233773401,
+  "max_violation_m": 1.3322676295501878e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 71
+ },
+ {
+  "heights": [
+   1.2482590363872437,
+   1.2712947251040583,
+   1.2218588512563922
+  ],
+  "xs": [
+   3.0,
+   5.0,
+   7.0
+  ],
+  "goal_x": 10.5,
+  "speed": 1.1,
+  "n_beams": 3,
+  "gap": 2.0,
+  "scene_id": "v3_e28667c69a",
+  "route_len": 10.5,
+  "dt": 0.1515151515151515,
+  "objective": 1.748467394558803,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 69
+ },
+ {
+  "heights": [
+   1.2749543035958792,
+   1.2555673515546713,
+   1.2650837352386324
+  ],
+  "xs": [
+   3.0,
+   6.5,
+   10.0
+  ],
+  "goal_x": 13.5,
+  "speed": 1.1,
+  "n_beams": 3,
+  "gap": 3.5,
+  "scene_id": "v3_c4d645e72e",
+  "route_len": 13.5,
+  "dt": 0.1948051948051948,
+  "objective": 1.2684307411363578,
+  "max_violation_m": 1.4876988529977098e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 72
+ },
+ {
+  "heights": [
+   1.2392084395367677,
+   1.2796642144960355,
+   1.229940796958484
+  ],
+  "xs": [
+   3.0,
+   6.5,
+   10.0
+  ],
+  "goal_x": 13.5,
+  "speed": 1.1,
+  "n_beams": 3,
+  "gap": 3.5,
+  "scene_id": "v3_3a3832808b",
+  "route_len": 13.5,
+  "dt": 0.1948051948051948,
+  "objective": 1.5010099675160418,
+  "max_violation_m": 4.218847493575595e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 74
+ },
+ {
+  "heights": [
+   1.2669322041431081,
+   1.2542582160380198,
+   1.2393902917687607
+  ],
+  "xs": [
+   3.0,
+   8.0,
+   13.0
+  ],
+  "goal_x": 16.5,
+  "speed": 1.1,
+  "n_beams": 3,
+  "gap": 5.0,
+  "scene_id": "v3_1e437b486b",
+  "route_len": 16.5,
+  "dt": 0.23809523809523808,
+  "objective": 1.3236130213370547,
+  "max_violation_m": 2.4424906541753444e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 73
+ },
+ {
+  "heights": [
+   1.2212791460358905,
+   1.2584907243055015,
+   1.263933612107294
+  ],
+  "xs": [
+   3.0,
+   8.0,
+   13.0
+  ],
+  "goal_x": 16.5,
+  "speed": 1.1,
+  "n_beams": 3,
+  "gap": 5.0,
+  "scene_id": "v3_442772043b",
+  "route_len": 16.5,
+  "dt": 0.23809523809523808,
+  "objective": 1.4094959661701496,
+  "max_violation_m": 3.552713678800501e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 74
+ },
+ {
+  "heights": [
+   1.2308137915867061,
+   1.2596696188367054,
+   1.2456715442433468
+  ],
+  "xs": [
+   4.0,
+   5.0,
+   6.0
+  ],
+  "goal_x": 9.5,
+  "speed": 0.7,
+  "n_beams": 3,
+  "gap": 1.0,
+  "scene_id": "v3_f6c641a27b",
+  "route_len": 9.5,
+  "dt": 0.21541950113378686,
+  "objective": 1.2814264600221725,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 73
+ },
+ {
+  "heights": [
+   1.2228568888857154,
+   1.2721518402571252,
+   1.245407460469107
+  ],
+  "xs": [
+   4.0,
+   5.0,
+   6.0
+  ],
+  "goal_x": 9.5,
+  "speed": 0.7,
+  "n_beams": 3,
+  "gap": 1.0,
+  "scene_id": "v3_7ebe9cbbb7",
+  "route_len": 9.5,
+  "dt": 0.21541950113378686,
+  "objective": 1.3174368880109864,
+  "max_violation_m": 7.993605777301127e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 70
+ },
+ {
+  "heights": [
+   1.250525008625886,
+   1.2603432440915698,
+   1.2582264009175064
+  ],
+  "xs": [
+   4.0,
+   6.0,
+   8.0
+  ],
+  "goal_x": 11.5,
+  "speed": 0.7,
+  "n_beams": 3,
+  "gap": 2.0,
+  "scene_id": "v3_ba8645f999",
+  "route_len": 11.5,
+  "dt": 0.26077097505668934,
+  "objective": 1.3117013550910492,
+  "max_violation_m": 2.886579864025407e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 71
+ },
+ {
+  "heights": [
+   1.2673543166816463,
+   1.2631708438111797,
+   1.228209665983469
+  ],
+  "xs": [
+   4.0,
+   6.0,
+   8.0
+  ],
+  "goal_x": 11.5,
+  "speed": 0.7,
+  "n_beams": 3,
+  "gap": 2.0,
+  "scene_id": "v3_faccc6ca82",
+  "route_len": 11.5,
+  "dt": 0.26077097505668934,
+  "objective": 1.3727205583519433,
+  "max_violation_m": 1.7763568394002505e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 75
+ },
+ {
+  "heights": [
+   1.237503092199854,
+   1.2622962596284366,
+   1.2513109095046462
+  ],
+  "xs": [
+   4.0,
+   7.5,
+   11.0
+  ],
+  "goal_x": 14.5,
+  "speed": 0.7,
+  "n_beams": 3,
+  "gap": 3.5,
+  "scene_id": "v3_900a38cc82",
+  "route_len": 14.5,
+  "dt": 0.3287981859410431,
+  "objective": 1.3362196035257816,
+  "max_violation_m": 8.881784197001252e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 73
+ },
+ {
+  "heights": [
+   1.2608323129655377,
+   1.2763398617199653,
+   1.2506655066522474
+  ],
+  "xs": [
+   4.0,
+   7.5,
+   11.0
+  ],
+  "goal_x": 14.5,
+  "speed": 0.7,
+  "n_beams": 3,
+  "gap": 3.5,
+  "scene_id": "v3_4864fcf0bd",
+  "route_len": 14.5,
+  "dt": 0.3287981859410431,
+  "objective": 1.1756785980050153,
+  "max_violation_m": 1.3322676295501878e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 74
+ },
+ {
+  "heights": [
+   1.2540292515186624,
+   1.265450817284941,
+   1.2507767960135021
+  ],
+  "xs": [
+   4.0,
+   9.0,
+   14.0
+  ],
+  "goal_x": 17.5,
+  "speed": 0.7,
+  "n_beams": 3,
+  "gap": 5.0,
+  "scene_id": "v3_80c0f81677",
+  "route_len": 17.5,
+  "dt": 0.39682539682539686,
+  "objective": 1.2427051697325844,
+  "max_violation_m": 1.5765166949677223e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 73
+ },
+ {
+  "heights": [
+   1.2222083780699613,
+   1.268016754297611,
+   1.2599912670636852
+  ],
+  "xs": [
+   4.0,
+   9.0,
+   14.0
+  ],
+  "goal_x": 17.5,
+  "speed": 0.7,
+  "n_beams": 3,
+  "gap": 5.0,
+  "scene_id": "v3_8ce292f669",
+  "route_len": 17.5,
+  "dt": 0.39682539682539686,
+  "objective": 1.3437033976420465,
+  "max_violation_m": 1.687538997430238e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 72
+ },
+ {
+  "heights": [
+   1.2656922595178848,
+   1.242534528855626,
+   1.2357526851269016
+  ],
+  "xs": [
+   4.0,
+   5.0,
+   6.0
+  ],
+  "goal_x": 9.5,
+  "speed": 0.9,
+  "n_beams": 3,
+  "gap": 1.0,
+  "scene_id": "v3_702d88b8dc",
+  "route_len": 9.5,
+  "dt": 0.1675485008818342,
+  "objective": 1.2429778591655154,
+  "max_violation_m": 6.439293542825908e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 72
+ },
+ {
+  "heights": [
+   1.2463543398652923,
+   1.2440873267021433,
+   1.2599370888248127
+  ],
+  "xs": [
+   4.0,
+   5.0,
+   6.0
+  ],
+  "goal_x": 9.5,
+  "speed": 0.9,
+  "n_beams": 3,
+  "gap": 1.0,
+  "scene_id": "v3_897e7dfe26",
+  "route_len": 9.5,
+  "dt": 0.1675485008818342,
+  "objective": 1.1917895723250673,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 69
+ },
+ {
+  "heights": [
+   1.232219209651763,
+   1.2684129207989878,
+   1.2498242359508978
+  ],
+  "xs": [
+   4.0,
+   6.0,
+   8.0
+  ],
+  "goal_x": 11.5,
+  "speed": 0.9,
+  "n_beams": 3,
+  "gap": 2.0,
+  "scene_id": "v3_bf5f3dc6f3",
+  "route_len": 11.5,
+  "dt": 0.20282186948853614,
+  "objective": 1.4292940411643578,
+  "max_violation_m": 1.709743457922741e-14,
+  "status": "Optimization terminated successfully",
+  "n_iter": 73
+ },
+ {
+  "heights": [
+   1.2701532688141628,
+   1.2322955972617018,
+   1.2665834250943198
+  ],
+  "xs": [
+   4.0,
+   7.5,
+   11.0
+  ],
+  "goal_x": 14.5,
+  "speed": 0.9,
+  "n_beams": 3,
+  "gap": 3.5,
+  "scene_id": "v3_70ac770501",
+  "route_len": 14.5,
+  "dt": 0.25573192239858905,
+  "objective": 1.280638553065129,
+  "max_violation_m": 2.6645352591003757e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 73
+ },
+ {
+  "heights": [
+   1.2422266392024361,
+   1.2709693464711054,
+   1.2620219299948263
+  ],
+  "xs": [
+   4.0,
+   7.5,
+   11.0
+  ],
+  "goal_x": 14.5,
+  "speed": 0.9,
+  "n_beams": 3,
+  "gap": 3.5,
+  "scene_id": "v3_b64234c3d8",
+  "route_len": 14.5,
+  "dt": 0.25573192239858905,
+  "objective": 1.2483090425083145,
+  "max_violation_m": 2.220446049250313e-16,
+  "status": "Optimization terminated successfully",
+  "n_iter": 73
+ },
+ {
+  "heights": [
+   1.2334279384684543,
+   1.2507871544954035,
+   1.2782109420580028
+  ],
+  "xs": [
+   4.0,
+   9.0,
+   14.0
+  ],
+  "goal_x": 17.5,
+  "speed": 0.9,
+  "n_beams": 3,
+  "gap": 5.0,
+  "scene_id": "v3_059b01c8e8",
+  "route_len": 17.5,
+  "dt": 0.30864197530864196,
+  "objective": 1.3014275239185635,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 72
+ },
+ {
+  "heights": [
+   1.259996719728853,
+   1.2545659561087614,
+   1.2519038338718946
+  ],
+  "xs": [
+   4.0,
+   9.0,
+   14.0
+  ],
+  "goal_x": 17.5,
+  "speed": 0.9,
+  "n_beams": 3,
+  "gap": 5.0,
+  "scene_id": "v3_02ec3accb8",
+  "route_len": 17.5,
+  "dt": 0.30864197530864196,
+  "objective": 1.2720631111325944,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 72
+ },
+ {
+  "heights": [
+   1.2652812271118568,
+   1.2481086919948423,
+   1.231207558421158
+  ],
+  "xs": [
+   4.0,
+   5.0,
+   6.0
+  ],
+  "goal_x": 9.5,
+  "speed": 1.1,
+  "n_beams": 3,
+  "gap": 1.0,
+  "scene_id": "v3_8854e3f1ee",
+  "route_len": 9.5,
+  "dt": 0.13708513708513706,
+  "objective": 1.2721091294558458,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 73
+ },
+ {
+  "heights": [
+   1.276068540063651,
+   1.2550565561678235,
+   1.2566961900701987
+  ],
+  "xs": [
+   4.0,
+   5.0,
+   6.0
+  ],
+  "goal_x": 9.5,
+  "speed": 1.1,
+  "n_beams": 3,
+  "gap": 1.0,
+  "scene_id": "v3_cac6545f10",
+  "route_len": 9.5,
+  "dt": 0.13708513708513706,
+  "objective": 1.0721536104742158,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 71
+ },
+ {
+  "heights": [
+   1.242895654519328,
+   1.2503190621326703,
+   1.239523270952167
+  ],
+  "xs": [
+   4.0,
+   6.0,
+   8.0
+  ],
+  "goal_x": 11.5,
+  "speed": 1.1,
+  "n_beams": 3,
+  "gap": 2.0,
+  "scene_id": "v3_5bb529cde1",
+  "route_len": 11.5,
+  "dt": 0.16594516594516592,
+  "objective": 1.5233843033401715,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 73
+ },
+ {
+  "heights": [
+   1.2596290893052777,
+   1.2585365890352678,
+   1.275170477731668
+  ],
+  "xs": [
+   4.0,
+   7.5,
+   11.0
+  ],
+  "goal_x": 14.5,
+  "speed": 1.1,
+  "n_beams": 3,
+  "gap": 3.5,
+  "scene_id": "v3_d46c7a2515",
+  "route_len": 14.5,
+  "dt": 0.20923520923520922,
+  "objective": 1.1849604744034543,
+  "max_violation_m": 8.43769498715119e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 74
+ },
+ {
+  "heights": [
+   1.2299771651093718,
+   1.255079249198639,
+   1.273126660490662
+  ],
+  "xs": [
+   4.0,
+   7.5,
+   11.0
+  ],
+  "goal_x": 14.5,
+  "speed": 1.1,
+  "n_beams": 3,
+  "gap": 3.5,
+  "scene_id": "v3_5e2953fc09",
+  "route_len": 14.5,
+  "dt": 0.20923520923520922,
+  "objective": 1.3509176481328882,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 71
+ },
+ {
+  "heights": [
+   1.247944882323504,
+   1.229502008135662,
+   1.2308666378193054
+  ],
+  "xs": [
+   4.0,
+   9.0,
+   14.0
+  ],
+  "goal_x": 17.5,
+  "speed": 1.1,
+  "n_beams": 3,
+  "gap": 5.0,
+  "scene_id": "v3_f2b7428963",
+  "route_len": 17.5,
+  "dt": 0.25252525252525254,
+  "objective": 1.563718365520173,
+  "max_violation_m": 7.549516567451064e-15,
+  "status": "Optimization terminated successfully",
+  "n_iter": 72
+ },
+ {
+  "heights": [
+   1.2414584932582848,
+   1.2383251889920421,
+   1.2371922714244716
+  ],
+  "xs": [
+   4.0,
+   9.0,
+   14.0
+  ],
+  "goal_x": 17.5,
+  "speed": 1.1,
+  "n_beams": 3,
+  "gap": 5.0,
+  "scene_id": "v3_fe093f322e",
+  "route_len": 17.5,
+  "dt": 0.25252525252525254,
+  "objective": 1.5188517745343195,
+  "max_violation_m": 0.0,
+  "status": "Optimization terminated successfully",
+  "n_iter": 71
+ }
+]

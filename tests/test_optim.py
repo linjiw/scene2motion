@@ -214,3 +214,25 @@ def test_dimensioned_objective_drops_the_jerk_term():
     a = solve(c, resp, 0.25, dimensioned=True).objective
     b = solve(c, resp, 0.125, dimensioned=True).objective
     assert b < 40 * a, f"objective grew {b/a:.1f}x when dt halved"
+
+
+# -- Phase 4D: hard-scene splits --------------------------------------------------------
+
+def test_split_seed_is_stable_across_processes():
+    """`hash()` on a str is salted per interpreter; a dataset seed must not be."""
+    from scene2motion.optim.dataset_v3 import _split_seed
+    assert _split_seed("train") == _split_seed("train")
+    assert _split_seed("train") != _split_seed("dev")
+    # The literal value pins it: if this changes, previously built datasets no longer
+    # correspond to what the code would produce.
+    assert _split_seed("train") == int(
+        __import__("hashlib").sha256(b"train").hexdigest()[:8], 16)
+
+
+def test_hard_splits_hold_out_every_beam_count_they_test():
+    from scene2motion.optim.dataset_v3 import HARD_SPLITS, SPLITS
+    tr = set(HARD_SPLITS["train"]["counts"]) | set(HARD_SPLITS["dev"]["counts"])
+    te = set(HARD_SPLITS["test"]["counts"])
+    assert not (tr & te), "a held-out beam count must not appear in training"
+    assert max(tr) < min(te), "test must be strictly harder than training"
+    assert te == {4, 5, 6} and max(SPLITS["train"]["counts"]) == 2

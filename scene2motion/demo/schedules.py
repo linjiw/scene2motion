@@ -45,7 +45,8 @@ def response() -> DuckResponse | None:
     return DuckResponse.load(RESP_PATH) if RESP_PATH.exists() else None
 
 
-def all_schedules(scene: Scene, p: Plan, speed: float = SPEED) -> dict:
+def all_schedules(scene: Scene, p: Plan, speed: float = SPEED,
+                  tcn_dir: Path | None = None) -> dict:
     """dip (m) per planner on a shared route-distance grid, plus beam spans."""
     s = _arc(p.xy, N_SAMPLES)
     route_len = float(s[-1])
@@ -77,12 +78,13 @@ def all_schedules(scene: Scene, p: Plan, speed: float = SPEED) -> dict:
         out["margin_m"] = MARGIN_M
         if sol.feasible:
             out["schedules"]["optimizer"] = np.round(sol.q * DIP_MAX, 4).tolist()
-        if TCN_CKPT.exists():
+        d = Path(tcn_dir) if tcn_dir is not None else TCN_DIR
+        if (d / "tcn.pt").exists():
             try:
                 import json as _json
                 import torch
                 from ..optim.model_v3 import DuckTCN
-                mj = _json.loads((TCN_DIR / "tcn.json").read_text())
+                mj = _json.loads((d / "tcn.json").read_text())
                 # Refuse to plot a schedule from a model trained for a different margin than
                 # the optimiser is currently solving with -- that mismatch is exactly what
                 # produced the mixed-artifact state this guard exists to prevent.
@@ -90,8 +92,9 @@ def all_schedules(scene: Scene, p: Plan, speed: float = SPEED) -> dict:
                     raise ValueError(f"checkpoint margin {mj.get('margin_m')} != {MARGIN_M}")
                 out["tcn_margin_m"] = mj["margin_m"]
                 out["tcn_dataset_hash"] = mj.get("dataset_hash")
+                out["tcn_dir"] = str(d)
                 m = DuckTCN()
-                m.load_state_dict(torch.load(TCN_CKPT, map_location="cpu"))
+                m.load_state_dict(torch.load(d / "tcn.pt", map_location="cpu"))
                 m.eval()
                 q_req = r.g_inv(prof[:, 0] - MARGIN_M)
                 with torch.no_grad():

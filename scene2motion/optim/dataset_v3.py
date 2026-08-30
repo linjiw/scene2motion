@@ -46,6 +46,22 @@ SPLITS = {
     "test":  {"heights": [1.10, 1.20], "x0": [4.5], "gaps": [1.2, 2.5, 4.5, 6.0],
               "speeds": [0.6, 1.0, 1.2], "counts": [0, 1, 2, 3]},
 }
+# Phase 4D. The m018 splits stop at 2 beams in train and 3 in test, and Phase 4A measured the
+# consequence directly: one-shot collision-free rate falls 1.00 -> 0.78 -> 0.67 -> 0.56 as the
+# scene goes from 3 to 6 beams. These splits push training to 3 and hold 4-6 out entirely, so
+# the question "is multi-beam failure a coverage problem or a capability problem" gets an
+# answer instead of an assumption. Geometry stays disjoint across splits exactly as before.
+HARD_SPLITS = {
+    "train": {"heights": [0.95, 1.05, 1.15, 1.25], "x0": [3.0, 4.0],
+              "gaps": [1.0, 2.0, 3.5, 5.0], "speeds": [0.7, 0.9, 1.1],
+              "counts": [0, 1, 2, 3]},
+    "dev":   {"heights": [1.00, 1.30], "x0": [3.5, 5.0], "gaps": [1.5, 3.0, 4.5],
+              "speeds": [0.8, 1.05], "counts": [0, 1, 2, 3]},
+    # Held out entirely: every test scene has more beams than anything in training.
+    "test":  {"heights": [1.10, 1.20], "x0": [4.5], "gaps": [1.2, 2.5, 4.5],
+              "speeds": [0.6, 1.0, 1.2], "counts": [4, 5, 6]},
+}
+SPLIT_SETS = {"default": SPLITS, "hard": HARD_SPLITS}
 REPEATS = 2
 
 
@@ -69,9 +85,20 @@ def build_beams(heights: list[float], xs: list[float], goal_x: float,
                        "goal_x": goal_x})
 
 
-def _cases(split: str) -> list[dict]:
-    cfg = SPLITS[split]
-    rng = np.random.default_rng(abs(hash(split)) % (2 ** 31))
+def _split_seed(split: str) -> int:
+    """A stable seed for a split name.
+
+    `hash()` on a str is salted per interpreter process, so seeding from it makes the sampled
+    beam heights differ on every build. The committed m018 dataset therefore cannot be
+    reproduced byte-for-byte from source -- only verified against its recorded content hash,
+    which is what the provenance chain actually checks. New builds are reproducible.
+    """
+    return int(hashlib.sha256(split.encode()).hexdigest()[:8], 16)
+
+
+def _cases(split: str, split_sets=None) -> list[dict]:
+    cfg = (split_sets or SPLITS)[split]
+    rng = np.random.default_rng(_split_seed(split))
     out = []
     for n_beams in cfg["counts"]:
         for h in cfg["heights"]:
@@ -93,10 +120,10 @@ def _cases(split: str) -> list[dict]:
     return out
 
 
-def build_split(split: str, resp: DuckResponse, verbose=False) -> dict:
+def build_split(split: str, resp: DuckResponse, verbose=False, split_sets=None) -> dict:
     X, Y, QREQ, META = [], [], [], []
     skipped = infeas = 0
-    for c in _cases(split):
+    for c in _cases(split, split_sets):
         scene = build_beams(c["heights"], c["xs"], c["goal_x"])
         p = plan(scene, "adaptive", modes_override=SHORTEST_MODES)
         if not p.feasible or len(p.xy) < 2:
@@ -149,9 +176,13 @@ def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--root", default="outputs")
     ap.add_argument("--tag", default=None, help="defaults to m<margin>")
+    ap.add_argument("--splits", choices=sorted(SPLIT_SETS), default="default",
+                    help="'hard' trains on 0-3 beams and holds out 4-6 entirely")
     args = ap.parse_args()
     resp = DuckResponse.load()
-    tag = args.tag or f"m{MARGIN_M:.2f}".replace(".", "")
+    split_sets = SPLIT_SETS[args.splits]
+    tag = args.tag or (f"m{MARGIN_M:.2f}".replace(".", "")
+                       + ("" if args.splits == "default" else f"_{args.splits}"))
     final = Path(args.root) / f"duck_dataset_v3_{tag}"
     tmp = Path(args.root) / f".duck_dataset_v3_{tag}.building"
     if final.exists():
@@ -165,8 +196,8 @@ def main() -> None:
     print(f"optimisation-teacher dataset (tau={resp.tau_s:.2f}s, margin={MARGIN_M} m) -> {final}")
 
     counts, files = {}, {}
-    for split in SPLITS:
-        d = build_split(split, resp, verbose=True)
+    for split in split_sets:
+        d = build_split(split, resp, verbose=True, split_sets=split_sets)
         f = tmp / f"{split}.npz"
         np.savez_compressed(f, X=d["X"], Y=d["Y"], QREQ=d["QREQ"],
                             n_beams=np.array([m["n_beams"] for m in d["meta"]]),
@@ -185,11 +216,11 @@ def main() -> None:
             raise SystemExit(f"{split}: non-finite values")
         files[split] = {"n": int(n), "sha256_16": sha256_of(tmp / f"{split}.npz")}
 
-    meta = {"splits": SPLITS, "repeats": REPEATS, "counts": counts, "margin_m": MARGIN_M,
+    meta = {"splits": split_sets, "split_set": args.splits, "repeats": REPEATS, "counts": counts, "margin_m": MARGIN_M,
             "tau_s": resp.tau_s, "response": "outputs/duck_response/response.json",
             "teacher": "convex QP (scheduler.solve)", "files": files,
             "n_samples": N_SAMPLES, "built_s": round(time.time() - t0, 1)}
-    meta["dataset_hash"] = __import__("hashlib").sha256(
+    meta["dataset_hash"] = hashlib.sha256(
         json.dumps({k: v["sha256_16"] for k, v in files.items()},
                    sort_keys=True).encode()).hexdigest()[:16]
     (tmp / "meta.json").write_text(json.dumps(meta, indent=2))

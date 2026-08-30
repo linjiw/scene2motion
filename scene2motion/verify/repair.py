@@ -61,8 +61,11 @@ def local_slope(resp: DuckResponse, q: np.ndarray, h: float = SLOPE_WINDOW_Q) ->
     return np.abs(resp.g(hi) - resp.g(lo)) / span
 
 
+LEAD_TAUS = 3.0             # multiples of tau of lead; calibrated in experiment_lead.py
+
+
 def anticipation_kernel(n: int, ds_m: float, speed: float, tau_s: float,
-                        trail_s: float = 0.25) -> tuple[int, int]:
+                        trail_s: float = 0.25, lead_taus: float = None) -> tuple[int, int]:
     """How many samples early (and late) a correction must start, in route samples.
 
     The body is a first-order lag with time constant tau. Reaching ~95% of a commanded step
@@ -71,7 +74,7 @@ def anticipation_kernel(n: int, ds_m: float, speed: float, tau_s: float,
     LEAD_S, so it tracks the fit.
     """
     ds_m = max(ds_m, 1e-6)
-    lead_m = 3.0 * max(tau_s, 1e-3) * max(speed, 1e-3)
+    lead_m = (LEAD_TAUS if lead_taus is None else lead_taus) * max(tau_s, 1e-3) * max(speed, 1e-3)
     return (min(int(np.ceil(lead_m / ds_m)), n),
             min(int(np.ceil(trail_s * max(speed, 1e-3) / ds_m)), n))
 
@@ -125,7 +128,8 @@ def _support_span(dip: np.ndarray, s_m: np.ndarray, thresh: float = 0.02) -> tup
 
 
 def repair(q: np.ndarray, deficit_m: np.ndarray, resp: DuckResponse, s_m: np.ndarray,
-           speed: float, iteration: int, tau_s: float | None = None) -> tuple[np.ndarray, RepairStep]:
+           speed: float, iteration: int, tau_s: float | None = None,
+           lead_taus: float | None = None) -> tuple[np.ndarray, RepairStep]:
     """One bounded local correction. Returns the new command schedule and its record."""
     from .trace import schedule_hash
 
@@ -138,7 +142,7 @@ def repair(q: np.ndarray, deficit_m: np.ndarray, resp: DuckResponse, s_m: np.nda
     bound = int(((slope < SLOPE_FLOOR) & (e > 1e-9)).sum())
     dq = e / np.maximum(slope, SLOPE_FLOOR)
 
-    lead, trail = anticipation_kernel(len(q), ds, speed, tau)
+    lead, trail = anticipation_kernel(len(q), ds, speed, tau, lead_taus=lead_taus)
     dq = _smooth(_dilate(dq, lead, trail))
     q_new = np.clip(q + dq, 0.0, 1.0)
 
@@ -159,6 +163,7 @@ def repair(q: np.ndarray, deficit_m: np.ndarray, resp: DuckResponse, s_m: np.nda
         slope_floor_bound=bound,
         q_before_hash=schedule_hash(q),
         q_after_hash=schedule_hash(q_new),
-        extra={"lead_samples": lead, "trail_samples": trail, "tau_s": round(tau, 4)},
+        extra={"lead_samples": lead, "trail_samples": trail, "tau_s": round(tau, 4),
+               "lead_taus": LEAD_TAUS if lead_taus is None else lead_taus},
     )
     return q_new, step

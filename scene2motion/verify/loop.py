@@ -57,9 +57,15 @@ class LoopResult:
     outcome: str = "unverified"
     attempts: list[Attempt] = field(default_factory=list)
     repairs: list = field(default_factory=list)
+    # Generations the method REQUIRED (one per attempt), and the subset that actually hit
+    # the GPU. The first is the method's cost; the second is a fact about this cache.
     ardy_calls: int = 0
+    cache_hits: int = 0
     reason: str = ""
     provenance: dict = field(default_factory=dict)
+    # The command schedule the FINAL attempt was generated from. Cost metrics are charged
+    # against this, not against the proposal, so a repaired clip pays for the dip it added.
+    q_final: np.ndarray | None = None
 
     @property
     def final(self) -> Attempt:
@@ -72,7 +78,10 @@ class LoopResult:
 
     def to_dict(self, target_m: float = MARGIN_M) -> dict:
         return {"scene_id": self.scene_id, "outcome": self.outcome, "reason": self.reason,
-                "ardy_calls": self.ardy_calls, "repaired": self.repaired,
+                # 2 per attempt: the path reference clip and the adapted request.
+                "ardy_calls": 2 * len(self.attempts), "ardy_calls_executed": self.ardy_calls,
+                "cache_hits": self.cache_hits, "n_attempts": len(self.attempts),
+                "repaired": self.repaired,
                 "n_repairs": len(self.repairs), "target_m": target_m,
                 "attempts": [a.to_dict(target_m) for a in self.attempts],
                 "repairs": [r.to_dict() for r in self.repairs],
@@ -127,7 +136,8 @@ def generate_from_schedule(scene: Scene, p: Plan, q: np.ndarray, cache: ClipCach
 def run(scene: Scene, p: Plan, q0: np.ndarray, resp, cache: ClipCache, *,
         preference: str = "clearance", target_m: float = MARGIN_M, seed: int = DEFAULT_SEED,
         speed: float = SPEED, max_repairs: int = MAX_REPAIRS,
-        allow_generate: bool = True, provenance: dict | None = None) -> LoopResult:
+        allow_generate: bool = True, provenance: dict | None = None,
+        lead_taus: float | None = None) -> LoopResult:
     """The full loop. At most `max_repairs` corrections, then a verdict."""
     res = LoopResult(scene_id=scene.scene_id, provenance=dict(provenance or {}))
     res.provenance.update({"initial_schedule_hash": schedule_hash(q0), "seed": seed,
@@ -144,6 +154,8 @@ def run(scene: Scene, p: Plan, q0: np.ndarray, resp, cache: ClipCache, *,
             return res
         if g["source"] == "generated":
             res.ardy_calls += 2          # the path reference and the adapted request
+        else:
+            res.cache_hits += 1
         tr = clearance_trace(scene, g["qpos"], p.xy)
         res.attempts.append(Attempt(iteration=it, schedule_hash=g["schedule_hash"],
                                     source=g["source"], key=g["key"], trace=tr,
@@ -163,8 +175,12 @@ def run(scene: Scene, p: Plan, q0: np.ndarray, resp, cache: ClipCache, *,
                 res.reason = (f"still colliding ({tr.min_clearance_m*1000:.0f} mm) after "
                               f"{it} repair(s); select around this route")
             break
-        q, step = repair(q, tr.deficit(target_m), resp, tr.s_m, speed, it + 1)
+        q, step = repair(q, tr.deficit(target_m), resp, tr.s_m, speed, it + 1,
+                         lead_taus=lead_taus)
         res.repairs.append(step)
 
+    res.q_final = q
     res.provenance["final_schedule_hash"] = res.final.schedule_hash
+    res.provenance["dip_initial_m"] = np.round(np.clip(q0, 0, 1) * DIP_MAX, 4).tolist()
+    res.provenance["dip_final_m"] = np.round(q * DIP_MAX, 4).tolist()
     return res

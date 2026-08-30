@@ -600,3 +600,241 @@ happened to be in the embedding cache. +57 mm is real but modest and its spread 
 tracks at 0.625 against the walk's 0.875, so it is not free. And it does not rescue composability
 — the planner needs "duck by 0.31 m here, then step over that", and nothing here shows text can
 be steered that precisely.
+
+---
+
+# Phase 4 — Generate → Verify → Repair → Select
+
+Phases 1–3 built an open loop: plan a route, write a duck schedule against a fitted model of
+the body, hand it to the frozen prior, and hope. Phase 3's convex teacher halved excess crouch
+at 100% collision-free on single-beam scenes, which was the first genuine improvement in the
+project — and it was measured entirely inside the distribution the surrogate was fitted on.
+
+Phase 4 closes the loop. The system now generates, measures what the motion *actually*
+cleared, corrects locally from that measurement, regenerates, and reverifies.
+
+## 9. The verification primitive
+
+`G1Body.trajectory_report` returns one scalar minimum over a whole clip. That answers "did
+this collide" and is useless for "where", which is what a local repair needs.
+`verify/trace.py` produces clearance as a function of route position on the same 64-sample
+grid the schedule lives on, so a deficit at sample *i* maps to a command at sample *i* with no
+re-indexing.
+
+Frames map to route position by the robot's own along-route travel, not by frame index. The
+prior accelerates from rest and settles at the goal, so a frame-indexed trace would shift the
+deficit relative to the schedule by a variable amount and put the repair in the wrong place.
+
+**Measuring it immediately corrected the design.** The first real trace reported a 3-beam
+scene at 76 mm of total clearance against a 180 mm target — while its overhead clearance was
+341 mm. The robot was squeezing past a wall, not grazing a beam. A repair loop driven by the
+undifferentiated minimum would have answered that by crouching, which buys nothing.
+
+Contacts are therefore split by contact-normal direction:
+
+| quantity | meaning | who can fix it |
+| --- | --- | --- |
+| collision | any clearance < 0 | nobody; reject |
+| overhead deficit | headroom below target | the duck schedule |
+| lateral deficit | side clearance below target | the route (Phase 4B) |
+
+`MARGIN_M = 0.18` is judged against the overhead channel, which is what the Phase 3 scheduler
+always solved against. Judging it against a whole-scene minimum would fail routes the system
+was never asked to keep clear — the shipped single-beam demo clips sit at 0.13–0.17 m of total
+clearance purely from corridor width.
+
+## 10. The repair operator
+
+    e(s)  = max(0, target − measured_overhead(s))
+    dq(s) = e(s) / |g'(q(s))|
+    dq    = anticipate(dq)          shifted early, because the body lags
+    q'    = smooth(clip(q + dq, 0, 1))
+
+`|g'|` is a **forward** secant over `[q, q+h]`, not a centred one, because `g` is convex over
+most of its range and a centred secant borrows steep gain *behind* the current command that a
+correction increasing it cannot use. Measured against the exact inverse for a 5 cm deficit,
+the forward secant lands within 4 mm of command over `q ∈ [0, 0.7]` where the centred one
+undershoots by up to 27% — expensive when the loop stops after two iterations.
+
+The slope is floored at 0.15 m/unit. Near saturation the fitted gain goes flat and dividing by
+it turns a 1 cm deficit into a demand for infinite crouch. Where the floor binds the repair is
+deliberately partial, and the next verification says whether that was enough.
+
+Anticipation lead is `3·tau·v`, derived from the measured lag rather than the planner's
+hand-set `LEAD_S`. **The obvious refinement was tested and refuted**: sweeping the lead over
+1.5, 3, 5 and 8 tau, 3 and 5 are identical (1.000 collision-free / 0.417 margin), 1.5 is
+worse, and 8 is worse still on margin (0.250) while costing more crouch.
+
+## 11. Genuine OOD failures of the final m018 model
+
+The honesty constraint on this phase was that no repair demo may reuse the quarantined
+0.12-margin model's failures. Sweeping the **final m018 system** over 3–6 beam
+corridor-blocking scenes (training stopped at 2 beams) found real ones: **4 overhead
+collisions from −32 to −105 mm and 11 target-margin shortfalls out of 36.**
+
+## 12. Experiment D — five methods on hard scenes
+
+36 corridor-blocking 3–6 beam scenes, all through the real frozen prior. Collision-free rate
+and target-margin satisfaction reported separately, because they are separate claims.
+
+| method | coll-free | meets 0.18 | ARDY calls | peak dip | excess crouch | min overhead |
+| --- | --- | --- | --- | --- | --- | --- |
+| heuristic | 0.972 | 0.583 | 2.0 | 36.7 cm | 8.3 cm | 18.5 cm |
+| qp | 0.889 | 0.028 | 2.0 | 26.8 cm | −1.6 cm | 5.6 cm |
+| tcn | 0.750 | 0.028 | 2.0 | 30.1 cm | 1.8 cm | 3.2 cm |
+| tcn+1 | 0.944 | 0.333 | 3.9 | 40.4 cm | 12.0 cm | 13.6 cm |
+| tcn+2 | **1.000** | 0.417 | 5.3 | 42.0 cm | 13.7 cm | 16.5 cm |
+
+Repair never regressed a scene in any paired comparison. `tcn → tcn+2` fixes 9 collisions and
+breaks 0 (McNemar exact *p* = 0.0039) and fixes 14 margin failures breaking 0 (*p* = 0.0001).
+One-shot collision-free degrades monotonically with beam count — 1.00, 0.78, 0.67, 0.56 at 3,
+4, 5, 6 beams — and two repairs restore 1.000 at every count.
+
+**Two results cut against the system and are kept.**
+
+The Phase 3 surrogate is badly optimistic out of distribution. Planning against the fitted
+gain for an 0.18 m margin, the QP teacher and the TCN each achieve it on 1 of 36 scenes,
+landing at 5.6 cm and 3.2 cm of actual mean headroom. The margin was swept on single-beam
+scenes and does not transfer.
+
+Repair buys safety with crouch, not efficiency. The heuristic reaches 18.5 cm of clearance
+from 36.7 cm of peak dip; the repaired TCN reaches 16.5 cm from 42.0 cm. The heuristic ducks
+broader and shallower, which converts better through a first-order body. **Phase 3's
+halved-excess-crouch win does not survive out of distribution.** Repair corrects depth where
+the schedule is already shaped; it does not reshape a schedule whose shape was wrong.
+
+12 of the 21 `tcn+2` runs that end collision-free but short of target are saturated at
+`DIP_MAX`, so their residual is a limit of the frozen prior's command range, not a repair
+failure. The loop reports those as `accepted_margin`, never as success.
+
+## 13. Experiment E — route selection that prices the body
+
+`J_body(r) = ∫(u² + 6(du/ds)² + 25(d²u/ds²)²) ds`, `J(r) = w_L·L + w_B·J_body − w_C·C_min`,
+with preferences as weight configurations rather than hard-coded route rules. Regret is
+measured on a common scale: every selector's chosen route is rescored with the QP schedule
+*for that route*, so a bad number means a bad route choice, not a worse schedule.
+
+| selector | agreement with oracle | mean regret | median | max |
+| --- | --- | --- | --- | --- |
+| oracle_qp | 1.000 | 0.00 | 0.00 | 0.00 |
+| heuristic (length) | 0.139 | 33.71 | 13.74 | 223.10 |
+| tcn_body | 0.611 | 2.70 | 0.00 | 25.84 |
+| tcn_verify | 0.611 | 2.70 | 0.00 | 25.84 |
+
+Route length agrees with the body-aware reference on 5 of 36 scenes. Its failure mode repeats
+across the sweep: it takes a route 50 cm shorter that requires a 42 cm sustained crouch over
+one that requires no duck at all.
+
+| k routes | TCN batched | QP sequential | speedup |
+| --- | --- | --- | --- |
+| 8 | 60.5 ms | 2.02 s | 33× |
+| 32 | 60.7 ms | 8.93 s | 147× |
+| 128 | 61.6 ms | 40.0 s | 649× |
+
+The TCN's cost is flat in *k*; the QP pays ~312 ms of SLSQP per candidate. A learned body cost
+is what makes scoring a large candidate set affordable at all.
+
+`tcn_verify` reached 1.000 collision-free and 0.694 margin satisfaction at 3.7 ARDY calls per
+scene, repairing on 53%. **It never fell back to a second route** — its first choice was always
+salvageable within two repairs on this scene family. The fallback path is implemented and
+unit-tested but this sweep did not exercise it, so its agreement and regret are identical to
+`tcn_body` by construction.
+
+## 14. Experiment F — rate bounds and a dimensioned objective
+
+`r_down` and `r_up` were measured from the prior rather than assumed: for each of 483 cached
+clips, take the MuJoCo top-of-body height per frame, invert it through the fitted gain, and
+take the 95th percentile of each sign of its time derivative.
+
+**r_down = 1.293, r_up = 1.363 command units per second** over ~60k frame transitions. They
+are symmetric — which independently confirms, at four orders of magnitude more data, the
+Phase 3 claim that was withdrawn: recovery is not slower than descent.
+
+**The bounds never bind.** Over 42 solves the worst step the smoothness terms produce is 0.112
+against a cap of ~0.32. `default` and `default+rates` are bit-identical. Implemented,
+measured, reported as changing nothing.
+
+The dimensioned objective `Σ[αq² + β((dq)/dt)²]dt` has no jerk term and so no `1/dt³` factor
+to swamp everything — but the Phase 3 weights still do not transfer, since its rate/effort
+ratio is `β/(αdt²)`. Recalibrating β to 0.375 (matching the per-sample ratio at the 0.9 m/s
+reference speed):
+
+| objective | boundary by speed (0.6 / 0.9 / 1.2 m/s) | CV in distance | CV in time |
+| --- | --- | --- | --- |
+| per-sample (Phase 3) | 3.0 3.0 3.4 m = 5.00 3.33 2.83 s | **0.060** | 0.249 |
+| dimensioned β=0.375 | 2.4 3.4 4.2 m = 4.00 3.78 3.50 s | 0.221 | **0.054** |
+
+Each objective is ~6% variable in its own natural unit and ~25% in the other. **Experiment B
+is not overturned** — it accurately measured the teacher it tested. What changes is the
+interpretation: the distance-fixed boundary was a consequence of summing raw differences over
+a distance grid, not evidence that the body's cost is distance-based.
+
+## 15. Experiment G — more coverage does not fix multi-beam failure
+
+Trained the same 14,257-parameter TCN on a dataset covering 0–3 beams with 4, 5 and 6 held out
+entirely, then reran Experiment D with it.
+
+| method | m018 (0–2 beams) | | hard (0–3 beams) | |
+| --- | --- | --- | --- | --- |
+| | coll-free | meets .18 | coll-free | meets .18 |
+| tcn | 0.750 | 0.028 | 0.722 | 0.028 |
+| tcn+1 | 0.944 | 0.333 | 0.972 | 0.222 |
+| tcn+2 | 1.000 | 0.417 | 1.000 | 0.333 |
+
+Paired McNemar finds no significant difference on any method or metric; the largest
+discordance is 4 vs 0 (*p* = 0.125). The reason is in the same table: **the QP teacher itself
+satisfies the target on 1 of 36 of these scenes.** An imitation model cannot beat its teacher,
+so covering more of the teacher's outputs cannot lift a ceiling the teacher sets. Held-out
+accuracy does improve as expected (test MAE 18.4 / 37.3 / 50.5 mm at 4 / 5 / 6 beams against a
+112 mm demand-only control), so the model is learning the teacher well. The teacher is what is
+wrong out of distribution.
+
+This is the argument for the whole phase. Repair does not imitate anything — it corrects from
+measured clearance, which is why it reaches 1.000 where more data does not.
+
+## 16. Demo V3.1
+
+Default public layer is **AUTO**: propose with the Phase-3 TCN, generate, measure, repair,
+regenerate, reverify. The three one-shot layers moved behind an Advanced disclosure and now
+explicitly state that they make no margin claim, because they never checked.
+
+A scene is labelled *repaired* only when the accepted clip's schedule hash equals the last
+repair's output. Cache keys carry the schedule hash and the repair iteration, so a pre-repair
+clip cannot be served for a post-repair request even when route, seed, model and scene are
+identical.
+
+Deep links, both on the final m018 model:
+
+- **genuine repair** — `?height=1.05&width=2.25&n_beams=5&gap=2.5&preference=shortest&body_layer=auto&auto=1`
+  TCN proposal collides at −7.4 mm; one repair reaches +182.1 mm and clears the 180 mm target.
+- **no repair needed** — `?height=0.95&width=2.25&n_beams=3&gap=1.5&preference=shortest&body_layer=auto&auto=1`
+  verified at +207.2 mm on the first attempt.
+
+## 17. Phase 4 defect ledger
+
+| # | defect | how it surfaced | resolution |
+| --- | --- | --- | --- |
+| 15 | clearance trace conflated overhead with lateral | a 3-beam scene read 76 mm total / 341 mm overhead | split contacts by normal direction; margin judged on overhead |
+| 16 | centred secant undershoots the deficit by up to 27% | compared against the exact inverse of `g` | forward secant over the direction the repair moves |
+| 17 | `mean_ardy_calls` measured cache state, not method cost | tcn+2 reported *fewer* calls than tcn+1 | report 2 calls per attempt; cache hits separately |
+| 18 | narrow forbidden bands generated no distinct routes | A* routed around them and returned the same path | force routes through a slot by forbidding its complement |
+| 19 | dataset RNG seeded from `hash(split)` | Python salts str hashes per process | sha256-derived seed, pinned by a test |
+
+Defect 19 has a provenance consequence worth stating plainly: the committed m018 dataset
+**cannot be regenerated byte-for-byte from source** — only verified against its recorded
+content hash, which is what the provenance chain actually checks. Builds from here are
+reproducible.
+
+## 18. What Phase 4 changes about the conclusion
+
+The measurement phase established that ARDY exposes roughly one or two executable body
+strategies per scene. Phase 3 showed a convex teacher could schedule one of them well *inside
+its fitted distribution*. Phase 4 shows that the fitted distribution is where the whole
+approach lives or dies: out of it, the surrogate is optimistic by enough to collide, the
+learned model faithfully inherits that optimism, and more training data cannot help because
+the teacher is the ceiling.
+
+What does work is measuring. Two bounded corrections driven by actual geometry take a system
+from 0.750 to 1.000 collision-free on scenes it was never trained for, with zero regressions,
+at 2.7× the ARDY calls. That is a smaller and less elegant claim than "the learned planner
+generalises", and it is the one the evidence supports.

@@ -16,7 +16,10 @@ from pathlib import Path
 
 import numpy as np
 
-CACHE_VERSION = 1     # bump to invalidate every entry after a semantic change
+# v2 invalidates clips made by runner noise-stream v1, which restarted each per-sample seed at
+# every autoregressive window. Reusing those clips after the runner fix would silently mix two
+# different stochastic generators in one comparison.
+CACHE_VERSION = 2
 
 
 def key_for(*, scene_id: str, preference: str, program_bytes: bytes, model: str,

@@ -1,0 +1,17 @@
+{
+  "scene_id": "demo_partial_beam_h1.200_w2.250_n4_g1.50",
+  "preference": "shortest",
+  "repair_iteration": 2,
+  "schedule_hash": "c11ead3d2b9c1e5c",
+  "model": "ARDY-G1-RP-25FPS-Horizon52",
+  "seed": 107,
+  "noise_stream_version": 2,
+  "steps": 5,
+  "fps": 25.0,
+  "n_frames": 333,
+  "peak_dip_m": 0.2351,
+  "gen_s": 0.42,
+  "key": "584a20727a6e26f3a8c4",
+  "cached_at": 1788149808.874909,
+  "cache_version": 2
+}

@@ -27,6 +27,13 @@ from contextlib import contextmanager
 from .constraints import ConstraintSpec, build_conditions
 
 
+# Version 1 recreated and reseeded each sample's generator at every autoregressive window,
+# repeating the same latent row through a long clip. Version 2 keeps one advancing stream per
+# sample. Record this in new receipts and cache identities; artifacts generated under v1 remain
+# reproducible historical evidence but must not be mixed with v2 reruns.
+NOISE_STREAM_VERSION = 2
+
+
 @contextmanager
 def _per_sample_noise(seeds: list[int], device: str):
     """Make each batch element's initial noise depend only on its own seed.
@@ -39,14 +46,29 @@ def _per_sample_noise(seeds: list[int], device: str):
     nominal condition yielding worst-of-3 half-widths of 0.281 m and 0.380 m in two
     experiments).
 
-    Its sampler is deterministic DDIM (eta = 0), so the only stochastic input to a generation
-    is a single `torch.randn(shape)` for the initial latent (ardy/model/ardy_model.py:481).
-    Intercepting exactly that call — the one whose leading dimension is the batch size — and
-    filling it row by row from per-sample generators makes sample i reproducible from seed i
-    alone, independent of what else shares its batch.
+    Its sampler is deterministic DDIM (eta = 0), so each autoregressive window's stochastic
+    input is the `torch.randn(shape)` initial latent (ardy/model/ardy_model.py:481).
+    Intercepting those calls — whose leading dimension is the batch size — and filling each
+    row from a persistent per-sample generator makes sample i reproducible from seed i alone,
+    independent of what else shares its batch, while still advancing to fresh noise at the
+    next window.
     """
     real = torch.randn
     B = len(seeds)
+    # One advancing stream per (sample seed, device). ARDY draws fresh initial noise for
+    # every autoregressive window. Recreating and reseeding a Generator inside `patched`
+    # would repeat the identical latent row at every window, producing a deterministic but
+    # statistically wrong clip. Keeping the generators alive for the whole context gives
+    # each window the next draw while preserving batch-position independence.
+    generators: dict[tuple[int, str], torch.Generator] = {}
+
+    def generator(i: int, dev) -> torch.Generator:
+        key = (i, str(dev))
+        if key not in generators:
+            g = torch.Generator(device=dev)
+            g.manual_seed(int(seeds[i]))
+            generators[key] = g
+        return generators[key]
 
     def patched(*args, **kwargs):
         shape = args[0] if len(args) == 1 and not isinstance(args[0], int) else args
@@ -58,10 +80,8 @@ def _per_sample_noise(seeds: list[int], device: str):
             return real(*args, **kwargs)
         dev = kwargs.get("device", device)
         rows = []
-        for sd in seeds:
-            g = torch.Generator(device=dev)
-            g.manual_seed(int(sd))
-            rows.append(real(shape[1:], device=dev, generator=g,
+        for i in range(B):
+            rows.append(real(shape[1:], device=dev, generator=generator(i, dev),
                              dtype=kwargs.get("dtype")))
         return torch.stack(rows, 0)
 
@@ -98,6 +118,7 @@ class ArdyRunner:
 
         self.device = device
         self.model_name = resolve_model_name(model_name)
+        self.noise_stream_version = NOISE_STREAM_VERSION
 
         self.cache_path = Path(cache_path) if cache_path else None
         self._text_cache: dict[str, np.ndarray] = {}

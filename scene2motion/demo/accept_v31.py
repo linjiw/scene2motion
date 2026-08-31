@@ -71,7 +71,8 @@ def main() -> int:
     ck("plotted schedules are the ones that ran",
        [x["schedule_hash"] for x in r["schedules_run"]]
        == [x["schedule_hash"] for x in r["attempts"]])
-    ck("ARDY calls counted per attempt", r["ardy_calls"] == 2 * r["n_attempts"],
+    ck("one candidate-producing ARDY call per attempt",
+       r["ardy_calls"] == r["n_attempts"],
        f"{r['ardy_calls']} calls / {r['n_attempts']} attempts")
     ck("cost breakdown sums", abs(r["cost"]["w_route_term"] + r["cost"]["w_body_term"]
                                   + r["cost"]["w_clear_term"] - r["cost"]["total"]) < 1e-6)

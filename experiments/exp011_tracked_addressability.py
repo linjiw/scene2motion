@@ -54,6 +54,10 @@ from scene2motion.robot import G1Body  # noqa: E402
 from scene2motion.runner import ArdyRunner  # noqa: E402
 from scene2motion.scenes import BUILDERS  # noqa: E402
 from scene2motion.sonic_export import write_motion_pkl  # noqa: E402
+from scene2motion.sonic_state_export import (  # noqa: E402
+    sonic_state_hydra_overrides,
+    sonic_state_subprocess_env,
+)
 
 PROMPT = "A person walks forward."
 SPEED = 0.9
@@ -128,7 +132,9 @@ def sonic_env() -> dict:
     e["OMNI_KIT_ACCEPT_EULA"] = "YES"
     e["ISAACLAB_PATH"] = "/home/linjiw/isaaclab-install/IsaacLab"
     e.setdefault("PYTHONUNBUFFERED", "1")
-    return e
+    # SONIC runs with its own checkout as cwd.  Put this repository on PYTHONPATH so Hydra can
+    # instantiate Scene2Motion's achieved-state callback without modifying the SONIC checkout.
+    return sonic_state_subprocess_env(e)
 
 
 def run_sonic(pkl: Path, out_dir: Path, num_envs: int, timeout_s: int) -> tuple[int, str]:
@@ -150,7 +156,8 @@ def run_sonic(pkl: Path, out_dir: Path, num_envs: int, timeout_s: int) -> tuple[
            "++manager_env.commands.motion.motion_lib_cfg.multi_thread=False",
            "+manager_env/terminations=tracking/eval",
            f"+manager_env.commands.motion.motion_lib_cfg.motion_file={pkl}",
-           f"+log_keys={pkl.stem}"]
+           f"+log_keys={pkl.stem}",
+           *sonic_state_hydra_overrides()]
     print("  " + " ".join(cmd[:4]) + " ...", flush=True)
     p = subprocess.run(cmd, cwd=SONIC, capture_output=True, text=True, timeout=timeout_s,
                        env=sonic_env(), stdin=subprocess.DEVNULL)
@@ -182,10 +189,10 @@ def main() -> None:
         clips = build_clips(runner, body, args)
         # check_joint_order runs inside; a reordering raises rather than tracking the wrong
         # motion silently.
-        # ONE PICKLE PER REQUESTED BODY.  The eval callback writes only an AGGREGATE metrics
-        # file, so a single mixed run cannot say whether a ducked clip tracked worse than a
-        # neutral one -- which is the entire question.  Evaluating each body separately makes
-        # each run's aggregate that body's number, at the cost of a few extra minutes.
+        # ONE PICKLE PER REQUESTED BODY.  The headline metric summary remains AGGREGATE (the
+        # Scene2Motion callback additionally writes each achieved qpos), so a single mixed run
+        # would obscure whether a ducked clip tracked worse than a neutral one.  Evaluating each
+        # body separately makes each run's aggregate that body's number.
         for label, _, _ in REQUESTS:
             sub = {k: v for k, v in clips.items() if k.startswith(label + "__")}
             write_motion_pkl(sub, out / f"{label}.pkl", fps=int(round(runner.fps)),

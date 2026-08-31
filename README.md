@@ -3,6 +3,13 @@
 Turning NVIDIA **ARDY**'s pretrained humanoid motion prior into a scene-conditioned
 *whole-body* traversal planner for the Unitree G1, and measuring honestly what that buys.
 
+> **Revalidation in progress (2026-08-30).** The repository's per-sample seeded runner used
+> the correct seed but restarted it at every 52-frame autoregressive window. Long clips made
+> through `generate(seeds=...)` therefore repeated a latent window instead of advancing the
+> RNG stream. The runner and clip-cache identity are now versioned at noise stream/cache v2;
+> historical v1 results below are retained as audit evidence but are not confirmatory ARDY
+> results until rerun. See [`docs/revalidation-2026-08-30.md`](docs/revalidation-2026-08-30.md).
+
 **Start with [`docs/design.md`](docs/design.md)** — findings, corrected framing, and the
 experiment ladder. Section 0 explains why the obvious framing ("a G1 ducks under a beam")
 is already two papers old, and what survives.
@@ -37,7 +44,7 @@ $S2M_PY experiments/exp003_multimodality.py         # ~143 s strategy multimodal
 `derive_modes.py` must be re-run after any EXP-001* change: the planner only claims
 envelopes the prior was measured to reach, aggregated **worst-case over seeds**.
 
-## Headline numbers
+## Historical v1 headline numbers (pending v2 revalidation)
 
 - Whole-body traversal end-to-end success: **68.8 %**, against 24.2 % (pelvis-only) and 31.2 % (standing) (EXP-002, 128 scenes). Adaptive is **100 % collision-free on every feasible plan** — the remaining failure is refusing scenes, never colliding in them.
 - On overhead-beam scenes: 12.5 % → **83.3 %**; on `beam_and_gap` (two adaptations in sequence): 0 % → **100 %**.

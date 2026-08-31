@@ -1,0 +1,16 @@
+{
+ "experiment": "corpus_pilot_v2",
+ "n_scenes": 300,
+ "proposer": "heuristic",
+ "max_repairs": 2,
+ "rng_seed": 7,
+ "counts": {
+  "accepted": 192,
+  "accepted_margin": 76,
+  "rejected": 6,
+  "refused": 26
+ },
+ "noise_stream_version": 2,
+ "cache_version": 2,
+ "wall_clock_s": 301.9
+}

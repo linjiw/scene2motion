@@ -1,5 +1,13 @@
 # Scene2Motion-G1 — Research Report
 
+> **Revalidation notice, 2026-08-30.** A sampling audit found that the per-sample seeded
+> runner restarted each seed at every 52-frame autoregressive window. Results produced via
+> long-clip `generate(seeds=...)` runs—including the Phase 4 hard-set table—used this legacy
+> noise stream v1. They remain reproducible evidence about that controlled sampler, but they
+> are not being treated as confirmatory evidence about ARDY's intended sampler until rerun
+> under noise stream v2. Cache version 2 prevents accidental mixing. Scope and rerun order:
+> [`revalidation-2026-08-30.md`](revalidation-2026-08-30.md).
+
 **What was asked:** turn a frozen humanoid motion prior into a scene-conditioned *whole-body*
 motion planner for the Unitree G1 — scene geometry plus start and goal in, whole-body motion out
 that reaches the goal, avoids obstacles with the whole body, and is physically executable.
@@ -298,20 +306,29 @@ a jump. The envelope's refusal still stands on its own terms and the tracker sti
 *large* step-over is unexecutable, but "a calibrated kinematic refusal predicted a dynamic one"
 was a stronger claim than the evidence supports, and it is withdrawn.
 
-### 4.8 The collision-free certificate does not survive execution
+### 4.8 The execution certificate is not yet measured
 
-The planner certifies against the *generated* motion. The controller realises a duck with 45.6 mm
-of head/hand error. The margin actually required is `BODY_MARGIN + tracking error`:
+The planner certifies the *generated* motion. Existing SONIC runs establish obstacle-free
+tracking survival and scalar pose error, but save no achieved qpos, so they cannot establish how
+much scene clearance survives execution. The previously reported 85.6 mm threshold and 23.5%
+shortfall are withdrawn as an execution claim:
 
-| body | required | certified plans falling short |
-|---|---|---|
-| duck | 85.6 mm | **23.5 %** |
-| duck-deep | 111.9 mm | **34.5 %** |
+* SONIC's `vr_3points` is torso plus two wrists, not head plus hands;
+* `mpjpe_l` removes root translation and is an unsigned time/joint mean, not signed clearance
+  loss along the active obstacle normal;
+* `G1Body` already applies `BODY_MARGIN` to scene geometry, so adding 40 mm again double-counts
+  it; and
+* 23.5% was the share of generated clips below a proxy threshold, not an observed physical
+  failure rate.
 
-The requirement **grows with the adaptation**, so a deeper duck buys headroom and spends some of
-it back on execution error — something nothing in the pipeline priced until now. This yields a
-concrete, calibrated planning rule and is the first one in this project derived from *executed*
-rather than generated motion.
+The needed quantity is paired and directional:
+
+    loss = generated_clearance_with_margin - achieved_clearance_with_margin
+
+Fit a one-sided held-out bound `tau(d)` on that loss, then require generated clearance
+`>= tau(d)` for collision freedom or `>= 0.18 + tau(d)` to retain the 18 cm target. The new
+achieved-state callback records the missing qpos, but no such archive has yet been generated.
+See `docs/exec-gate-audit.md` for the evidence and locked data schema.
 
 ---
 
@@ -610,6 +627,10 @@ the body, hand it to the frozen prior, and hope. Phase 3's convex teacher halved
 at 100% collision-free on single-beam scenes, which was the first genuine improvement in the
 project — and it was measured entirely inside the distribution the surrogate was fitted on.
 
+The table in this phase is a **legacy noise-stream-v1 result pending exact v2 replication**.
+Its generate→verify→repair architecture remains the hypothesis under test; its numerical
+effect sizes are not current headline claims.
+
 Phase 4 closes the loop. The system now generates, measures what the motion *actually*
 cleared, corrects locally from that measurement, regenerates, and reverifies.
 
@@ -816,7 +837,7 @@ Deep links, both on the final m018 model:
 | --- | --- | --- | --- |
 | 15 | clearance trace conflated overhead with lateral | a 3-beam scene read 76 mm total / 341 mm overhead | split contacts by normal direction; margin judged on overhead |
 | 16 | centred secant undershoots the deficit by up to 27% | compared against the exact inverse of `g` | forward secant over the direction the repair moves |
-| 17 | `mean_ardy_calls` measured cache state, not method cost | tcn+2 reported *fewer* calls than tcn+1 | report 2 calls per attempt; cache hits separately |
+| 17 | `mean_ardy_calls` measured cache state and included an unused path reference | tcn+2 reported *fewer* calls than tcn+1 | remove the unused generation; report one candidate call per attempt, preserve legacy count, and separate cache hits |
 | 18 | narrow forbidden bands generated no distinct routes | A* routed around them and returned the same path | force routes through a slot by forbidding its complement |
 | 19 | dataset RNG seeded from `hash(split)` | Python salts str hashes per process | sha256-derived seed, pinned by a test |
 

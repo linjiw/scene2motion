@@ -256,7 +256,12 @@ def test_loop_accepts_without_repairing_when_the_first_clip_is_clean(monkeypatch
                     ClipCache("/tmp/nope-unused"))
     assert stub.calls == 1 and r.repairs == [] and r.outcome == "accepted"
     assert r.repaired is False, "a clip that was never repaired must not claim to be"
-    assert r.ardy_calls == 2
+    assert r.ardy_calls == 1
+    d = r.to_dict()
+    assert d["ardy_calls"] == 1                         # one candidate-producing call
+    assert d["legacy_ardy_calls"] == 2                  # historical unused reference + candidate
+    assert d["necessary_adapted_generations"] == 1
+    assert d["adapted_generations_executed"] == 1
 
 
 def test_repaired_flag_requires_the_final_clip_to_come_from_the_repaired_schedule(monkeypatch, resp):
@@ -286,16 +291,300 @@ def test_provenance_records_both_schedule_hashes(monkeypatch, resp):
     d = r.to_dict()
     for f in ("initial_schedule_hash", "final_schedule_hash", "seed", "steps", "target_m"):
         assert f in d["provenance"], f
-    assert d["ardy_calls"] == 4                              # two generations, two calls each
+    assert d["ardy_calls"] == 2
+    assert d["legacy_ardy_calls"] == 4
+    assert d["necessary_adapted_generations"] == 2
+    assert d["adapted_generations_executed"] == 2
     assert [a["iteration"] for a in d["attempts"]] == [0, 1]
 
 
-def test_unverified_when_generation_is_disabled(monkeypatch, resp):
+def test_unverified_when_generation_is_disabled(monkeypatch, resp, tmp_path):
     """A cache miss with generation off must say so, not silently pass."""
+    def gpu_load_is_a_bug():
+        pytest.fail("cache-only verification must not construct the ARDY runner")
+    monkeypatch.setattr(loopmod, "get_runner", gpu_load_is_a_bug)
     sc = build(BeamParams(0.95, 2.25, 3, 3.0).clamped())
     r = loopmod.run(sc, evaluate(sc, "shortest").plan, np.full(N, 0.2), resp,
-                    ClipCache("/tmp/scene2motion-empty-cache"), allow_generate=False)
+                    ClipCache(tmp_path / "empty-cache"), allow_generate=False)
     assert r.outcome == "unverified" and r.attempts == []
+
+
+# -- unchanged-proposal independent-resampling control --------------------------------
+
+class _SampleStub:
+    def __init__(self, clearances, source="generated"):
+        self.clearances = list(clearances)
+        self.sources = ([source] * len(self.clearances) if isinstance(source, str)
+                        else list(source))
+        self.seeds, self.hashes = [], []
+
+    def __call__(self, scene, p, q, cache, *, iteration, preference, seed=100, speed=0.9,
+                 allow_generate=True):
+        self.seeds.append(seed)
+        self.hashes.append(schedule_hash(q))
+        return {"qpos": np.full(N, self.clearances[iteration]),
+                "source": self.sources[iteration],
+                "key": f"sample-{iteration}", "gen_s": 0.0,
+                "schedule_hash": schedule_hash(q)}
+
+
+def _patch_samples(monkeypatch, stub):
+    monkeypatch.setattr(loopmod, "generate_from_schedule", stub)
+
+    def fake_trace(scene, qpos, xy, **kw):
+        from scene2motion.verify.trace import ClearanceTrace
+        c = float(np.asarray(qpos)[0])
+        v = np.full(N, c)
+        return ClearanceTrace(s_m=np.linspace(0, 8, N), clearance=v, overhead=v,
+                              min_clearance_m=c, min_overhead_m=c,
+                              collision_free=c >= 0, goal_error_m=0.05)
+    monkeypatch.setattr(loopmod, "clearance_trace", fake_trace)
+
+
+def test_resample_seed_ladders_are_paired_but_do_not_overlap_adjacent_runs():
+    a = loopmod.resample_seeds(100, 3)
+    b = loopmod.resample_seeds(101, 3)
+    assert a == [100, 10_100, 20_100]
+    assert b == [101, 10_101, 20_101]
+    assert set(a).isdisjoint(b)
+    with pytest.raises(ValueError):
+        loopmod.resample_seeds(100, 0)
+
+
+def test_resample_keeps_proposal_fixed_and_selects_an_earlier_better_clip(
+        monkeypatch):
+    stub = _SampleStub([0.01, 0.08, -0.02])
+    _patch_samples(monkeypatch, stub)
+    bp = BeamParams(0.95, 2.25, 3, 3.0).clamped()
+    sc = build(bp)
+    q0 = np.full(N, 0.2)
+    r = loopmod.run_resample(sc, evaluate(sc, "shortest").plan, q0,
+                             ClipCache("/tmp/nope-unused"), seed=100, max_samples=3)
+
+    assert r.outcome == "accepted_margin"
+    assert [a.iteration for a in r.attempts] == [0, 1, 2], "ledger stays chronological"
+    assert r.selected_attempt == 1 and r.final.key == "sample-1"
+    assert len(set(stub.seeds)) == 3, "samples must use independent generator noise"
+    assert len(set(stub.hashes)) == 1 == len({schedule_hash(q0)}), \
+        "the proposal must remain byte-identical"
+    assert not r.repairs and not r.repaired
+    d = r.to_dict()
+    assert d["necessary_adapted_generations"] == 3
+    assert d["adapted_generations_executed"] == 3
+    assert d["ardy_calls"] == d["ardy_calls_executed"] == 3
+    assert d["legacy_ardy_calls"] == 6
+    assert d["selected_attempt"] == 1
+
+    # The Phase-4 row and all downstream aggregates must describe the selected clip, not
+    # the chronologically last (colliding) sample.
+    from scene2motion.verify.experiment_repair import _row
+    row = _row(sc, bp, "heuristic-resample3", r, needed=0.4,
+               s_m=np.linspace(0, 8, N), seed=100)
+    assert row["collision_free"] is True
+    assert row["min_overhead_m"] == pytest.approx(0.08)
+    assert row["clip_key"] == "sample-1" and row["selected_seed"] == 10_100
+    assert [x["seed"] for x in row["attempt_ledger"]] == [100, 10_100, 20_100]
+    assert row["attempt_ledger"][1]["clip_key"] == row["clip_key"]
+
+
+def test_resample_uses_the_same_early_accept_rule_as_repair(monkeypatch):
+    stub = _SampleStub([-0.02, 0.20, 0.30])
+    _patch_samples(monkeypatch, stub)
+    sc = build(BeamParams(0.95, 2.25, 3, 3.0).clamped())
+    r = loopmod.run_resample(sc, evaluate(sc, "shortest").plan, np.full(N, 0.2),
+                             ClipCache("/tmp/nope-unused"), seed=100, max_samples=3)
+    assert r.outcome == "accepted" and len(r.attempts) == 2
+    assert r.selected_attempt == 1 and r.final.seed == 10_100
+    assert r.provenance["attempt_seeds_planned"] == [100, 10_100, 20_100]
+    assert r.provenance["attempt_seeds_executed"] == [100, 10_100]
+
+
+def test_resample_logical_cost_is_independent_of_cache_state(monkeypatch):
+    stub = _SampleStub([0.01, 0.02], source="cache")
+    _patch_samples(monkeypatch, stub)
+    sc = build(BeamParams(0.95, 2.25, 3, 3.0).clamped())
+    r = loopmod.run_resample(sc, evaluate(sc, "shortest").plan, np.full(N, 0.2),
+                             ClipCache("/tmp/nope-unused"), max_samples=2)
+    d = r.to_dict()
+    assert d["necessary_adapted_generations"] == 2 and d["ardy_calls"] == 2
+    assert d["legacy_ardy_calls"] == 4
+    assert d["adapted_generations_executed"] == 0 and d["ardy_calls_executed"] == 0
+    assert d["cache_hits"] == 2
+
+
+def test_cache_only_partial_feedback_is_unverified_but_keeps_last_verified_clip(
+        monkeypatch, resp):
+    calls = 0
+
+    def partial(scene, p, q, cache, *, iteration, preference, seed=100, speed=0.9,
+                allow_generate=True):
+        nonlocal calls
+        calls += 1
+        if iteration:
+            return {"qpos": None, "source": "miss", "key": "missing", "gen_s": 0.0,
+                    "schedule_hash": schedule_hash(q)}
+        return {"qpos": q, "source": "cache", "key": "cached-0", "gen_s": 0.0,
+                "schedule_hash": schedule_hash(q)}
+
+    monkeypatch.setattr(loopmod, "generate_from_schedule", partial)
+
+    def trace(scene, qpos, xy, **kw):
+        from scene2motion.verify.trace import ClearanceTrace
+        v = np.full(N, 0.10)
+        return ClearanceTrace(s_m=np.linspace(0, 8, N), clearance=v, overhead=v,
+                              min_clearance_m=0.10, min_overhead_m=0.10,
+                              collision_free=True, goal_error_m=0.05)
+    monkeypatch.setattr(loopmod, "clearance_trace", trace)
+
+    bp = BeamParams(0.95, 2.25, 3, 3.0).clamped()
+    sc, q0 = build(bp), np.full(N, 0.2)
+    r = loopmod.run(sc, evaluate(sc, "shortest").plan, q0, resp,
+                    ClipCache("/tmp/nope-unused"), max_repairs=1,
+                    allow_generate=False)
+    assert calls == 2 and r.outcome == "unverified" and len(r.attempts) == 1
+    assert r.final.key == "cached-0" and r.provenance["final_schedule_hash"] == schedule_hash(q0)
+    from scene2motion.verify.experiment_repair import _row
+    row = _row(sc, bp, "heuristic+1", r, needed=0.4,
+               s_m=np.linspace(0, 8, N), seed=100)
+    assert row["outcome"] == "unverified" and row["clip_key"] == "cached-0"
+
+
+def test_generation_accounting_invariants_with_mixed_cache(monkeypatch):
+    stub = _SampleStub([0.01, 0.02], source=["cache", "generated"])
+    _patch_samples(monkeypatch, stub)
+    sc = build(BeamParams(0.95, 2.25, 3, 3.0).clamped())
+    r = loopmod.run_resample(sc, evaluate(sc, "shortest").plan, np.full(N, 0.2),
+                             ClipCache("/tmp/nope-unused"), max_samples=2)
+    d = r.to_dict()
+    assert d["n_attempts"] == d["necessary_adapted_generations"] == 2
+    assert d["ardy_calls"] == d["necessary_adapted_generations"] == 2
+    assert d["legacy_ardy_calls"] == 4
+    assert d["cache_hits"] == 1 and d["adapted_generations_executed"] == 1
+    assert d["ardy_calls_executed"] == d["adapted_generations_executed"] == 1
+
+
+def test_repair_and_resample_change_only_the_declared_axis(monkeypatch, resp):
+    calls = []
+
+    def generate(scene, p, q, cache, *, iteration, preference, seed=100, speed=0.9,
+                 allow_generate=True):
+        calls.append((schedule_hash(q), seed))
+        return {"qpos": q, "source": "generated", "key": f"k-{iteration}-{seed}",
+                "gen_s": 0.0, "schedule_hash": schedule_hash(q)}
+
+    def trace(scene, qpos, xy, **kw):
+        from scene2motion.verify.trace import ClearanceTrace
+        v = np.full(N, 0.10)  # collision-free, always 8 cm short of target
+        return ClearanceTrace(s_m=np.linspace(0, 8, N), clearance=v, overhead=v,
+                              min_clearance_m=0.10, min_overhead_m=0.10,
+                              collision_free=True, goal_error_m=0.05)
+
+    monkeypatch.setattr(loopmod, "generate_from_schedule", generate)
+    monkeypatch.setattr(loopmod, "clearance_trace", trace)
+    sc = build(BeamParams(0.95, 2.25, 3, 3.0).clamped())
+    plan, q0 = evaluate(sc, "shortest").plan, np.full(N, 0.2)
+
+    loopmod.run(sc, plan, q0, resp, ClipCache("/tmp/nope-unused"), seed=100,
+                max_repairs=1)
+    repair_calls = list(calls)
+    calls.clear()
+    loopmod.run_resample(sc, plan, q0, ClipCache("/tmp/nope-unused"), seed=100,
+                         max_samples=2)
+    sample_calls = list(calls)
+
+    assert repair_calls[0] == (schedule_hash(q0), 100)
+    assert repair_calls[1][0] != repair_calls[0][0]
+    assert [seed for _, seed in repair_calls] == [100, 100]
+    assert [h for h, _ in sample_calls] == [schedule_hash(q0)] * 2
+    assert [seed for _, seed in sample_calls] == [100, 10_100]
+
+
+def test_architecture_matrix_is_complete_and_preserves_legacy_names():
+    from scene2motion.verify.experiment_architecture import build_method_specs
+    specs = build_method_specs()
+    expected = []
+    for proposer, key in (("heuristic", "heuristic"), ("qp", "optimizer"),
+                          ("tcn", "optimized")):
+        expected.extend([
+            (proposer, proposer, "none", 1, key, 0),
+            (f"{proposer}+1", proposer, "repair", 2, key, 1),
+            (f"{proposer}+2", proposer, "repair", 3, key, 2),
+            (f"{proposer}-resample2", proposer, "resample_select", 2, key, 0),
+            (f"{proposer}-resample3", proposer, "resample_select", 3, key, 0),
+        ])
+    actual = [(s.name, s.proposer, s.feedback, s.max_adapted_generations,
+               s.schedule_key, s.max_repairs) for s in specs]
+    assert actual == expected
+
+
+def test_architecture_dispatches_exact_feedback_budget(monkeypatch):
+    from scene2motion.verify import experiment_architecture as arch
+    calls = []
+
+    def repair_spy(*args, **kwargs):
+        calls.append(("repair", kwargs))
+        return object()
+
+    def sample_spy(*args, **kwargs):
+        calls.append(("sample", kwargs))
+        return object()
+
+    monkeypatch.setattr(arch, "run", repair_spy)
+    monkeypatch.setattr(arch, "run_resample", sample_spy)
+    specs = {s.name: s for s in arch.build_method_specs()}
+    common = dict(scene=None, plan=None, q0=np.zeros(N), resp=None, cache=None,
+                  preference="shortest", seed=100, seed_stride=777, provenance={},
+                  allow_generate=False)
+    arch._run_method(specs["heuristic"], **common)
+    arch._run_method(specs["qp+2"], **common)
+    arch._run_method(specs["tcn-resample3"], **common)
+    assert [(kind, kw.get("max_repairs"), kw.get("max_samples"), kw.get("seed_stride"),
+             kw.get("allow_generate"))
+            for kind, kw in calls] == [
+                ("repair", 0, None, None, False), ("repair", 2, None, None, False),
+                ("sample", None, 3, 777, False)]
+
+
+def test_aggregate_separates_logical_legacy_and_executed_costs():
+    from scene2motion.verify.experiment_repair import _aggregate
+    common = {"collision_free": True, "meets_target": False, "goal_reached": True,
+              "peak_dip_m": 0.2, "excess_crouch_m": 0.1, "duck_integral_m2": 1.0,
+              "min_overhead_m": 0.1, "repaired": False, "outcome": "accepted_margin"}
+    rows = [{**common, "ardy_calls": 2, "legacy_ardy_calls": 4,
+             "ardy_calls_executed": 1, "n_attempts": 2,
+             "necessary_adapted_generations": 2, "adapted_generations_executed": 1},
+            {**common, "ardy_calls": 1, "legacy_ardy_calls": 2,
+             "ardy_calls_executed": 0, "n_attempts": 1,
+             "necessary_adapted_generations": 1, "adapted_generations_executed": 0}]
+    a = _aggregate(rows)
+    assert a["mean_ardy_calls"] == 1.5
+    assert a["mean_legacy_ardy_calls"] == 3.0
+    assert a["mean_necessary_adapted_generations"] == 1.5
+    assert a["mean_adapted_generations_executed"] == 0.5
+
+    # A committed pre-extension Phase-4 row still aggregates under the additive schema.
+    old = _aggregate([{**common, "ardy_calls": 4, "ardy_calls_executed": 2,
+                       "n_attempts": 2}])
+    assert old["mean_necessary_adapted_generations"] == 2.0
+    assert old["mean_adapted_generations_executed"] == 1.0
+
+
+def test_frozen_provenance_hashes_checkpoint_metadata_and_response(tmp_path):
+    import hashlib
+    import json
+    from scene2motion.verify.experiment_architecture import frozen_provenance
+
+    ckpt = tmp_path / "model"
+    ckpt.mkdir()
+    (ckpt / "tcn.pt").write_bytes(b"fixed checkpoint")
+    (ckpt / "tcn.json").write_text(json.dumps(
+        {"margin_m": 0.18, "dataset": "d", "dataset_hash": "abc", "seed": 7}))
+    response_path = tmp_path / "response.json"
+    response_path.write_text("{}")
+    p = frozen_provenance(ckpt, response_path=response_path, repo=tmp_path)
+    assert p["tcn"]["checkpoint_sha256"] == hashlib.sha256(b"fixed checkpoint").hexdigest()
+    assert p["tcn"]["dataset_hash"] == "abc" and p["tcn"]["training_seed"] == 7
+    assert p["duck_response"]["sha256"] == hashlib.sha256(b"{}").hexdigest()
 
 
 def test_dip_max_is_the_ceiling_the_loop_reports(resp):

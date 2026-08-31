@@ -181,17 +181,20 @@ class G1Body:
         self.fk(qpos)
         return self.data.geom_xpos[self.robot_geoms].copy()
 
-    def _extent(self, g: int, n: np.ndarray) -> tuple[float, float]:
-        """Exact (min, max) projection of geom `g`'s SURFACE onto unit direction `n`.
+    def geom_extent(self, g: int, n: np.ndarray,
+                    extra_margin: float = 0.0) -> tuple[float, float]:
+        """Exact (min, max) projection of geom ``g`` onto unit direction ``n``.
 
         MuJoCo stores a capsule/cylinder as size=(radius, half_length) about its local +z,
         so the surface extent is centre +/- half_length*|a.n| +/- radius, not centre +/-
         radius. Getting this wrong under-reports the head by its half-length and the limbs
-        by most of their length.
+        by most of their length. ``extra_margin`` expands the primitive radially; callers
+        measuring the physical foot against the floor use zero, while conservative body
+        envelopes pass :attr:`body_margin` through :meth:`_extent`.
         """
         m, d = self.model, self.data
         c = float(d.geom_xpos[g] @ n)
-        r = float(m.geom_size[g][0]) + self.body_margin
+        r = float(m.geom_size[g][0]) + float(extra_margin)
         t = int(m.geom_type[g])
         if t == _SPHERE:
             return c - r, c + r
@@ -203,6 +206,10 @@ class G1Body:
         else:  # cylinder: flat caps, so the radial term shrinks as the axis aligns with n
             reach = abs(an) * h + r * float(np.sqrt(max(0.0, 1.0 - an * an)))
         return c - reach, c + reach
+
+    def _extent(self, g: int, n: np.ndarray) -> tuple[float, float]:
+        """Conservative primitive extent including the measured visual-mesh margin."""
+        return self.geom_extent(g, n, extra_margin=self.body_margin)
 
     _UP = np.array([0.0, 0.0, 1.0])
 

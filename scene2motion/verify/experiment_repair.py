@@ -50,17 +50,30 @@ REPAIRS = {"heuristic": 0, "qp": 0, "tcn": 0, "tcn+1": 1, "tcn+2": 2}
 
 
 def _row(sc, bp, method, res, needed, s_m, seed) -> dict:
-    a = res.attempts[-1] if res.attempts else None
+    # Resampling controls keep attempts chronological and may select an earlier sample.
+    # Always charge outcome and motion-quality metrics to the explicitly selected clip.
+    a = res.final if res.attempts else None
     d = res.to_dict()
     dip0 = np.asarray(d["provenance"].get("dip_initial_m", []), float)
     row = {"scene_id": sc.scene_id, "n_beams": bp.n_beams, "beam_h": bp.beam_height,
            "beam_w": bp.beam_width, "gap": bp.gap, "method": method, "seed": seed,
            "outcome": d["outcome"], "reason": d["reason"], "ardy_calls": d["ardy_calls"], "n_attempts": d["n_attempts"],
+           "legacy_ardy_calls": d.get("legacy_ardy_calls", 2 * d["n_attempts"]),
            "ardy_calls_executed": d["ardy_calls_executed"], "cache_hits": d["cache_hits"],
+           "necessary_adapted_generations": d["necessary_adapted_generations"],
+           "adapted_generations_executed": d["adapted_generations_executed"],
+           "selected_attempt": d["selected_attempt"],
            "n_repairs": d["n_repairs"], "repaired": d["repaired"],
            "initial_schedule_hash": d["provenance"]["initial_schedule_hash"],
            "final_schedule_hash": d["provenance"].get("final_schedule_hash"),
-           "repairs": d["repairs"]}
+           "repairs": d["repairs"],
+           # Compact candidate ledger. Full 64-sample traces remain in LoopResult, while the
+           # experiment artifact keeps exactly enough evidence to audit resample selection.
+           "attempt_ledger": [{k: attempt.get(k) for k in
+                               ("iteration", "seed", "schedule_hash", "source", "clip_key",
+                                "collision_free", "meets_target", "min_overhead_m",
+                                "min_clearance_m", "goal_error_m")}
+                              for attempt in d["attempts"]]}
     if a is None:
         return row
     dip_f = np.asarray(d["provenance"]["dip_final_m"], float)
@@ -79,9 +92,43 @@ def _row(sc, bp, method, res, needed, s_m, seed) -> dict:
         "excess_crouch_m": round(float(dip_f.max() - needed), 5),
         "duck_integral_m2": round(float(np.trapz(dip_f, s_m)), 5),
         "peak_dip_initial_m": round(float(dip0.max()), 5) if len(dip0) else None,
+        "selected_seed": a.seed,
         "clip_key": a.key,
     })
     return row
+
+
+def _aggregate(rows: list[dict]) -> dict:
+    """Common Phase-4 aggregate, including both legacy and necessary-generation costs."""
+    def adapted_executed(row: dict) -> float:
+        if "adapted_generations_executed" in row:
+            return float(row["adapted_generations_executed"])
+        # A row with the additive legacy field was emitted after the unused reference was
+        # removed, so its executed call count is already candidate-only. Older committed
+        # rows have no such field and counted reference+candidate pairs.
+        divisor = 1.0 if "legacy_ardy_calls" in row else 2.0
+        return float(row["ardy_calls_executed"]) / divisor
+
+    return {"n": len(rows),
+            "collision_free_rate": round(float(np.mean([r["collision_free"] for r in rows])), 4),
+            "margin_satisfaction_rate": round(float(np.mean([r["meets_target"] for r in rows])), 4),
+            "goal_reached_rate": round(float(np.mean([r["goal_reached"] for r in rows])), 4),
+            # Current implementation: one candidate-producing generation per attempt.
+            "mean_ardy_calls": round(float(np.mean([r["ardy_calls"] for r in rows])), 2),
+            "mean_legacy_ardy_calls": round(float(np.mean(
+                [r.get("legacy_ardy_calls", 2 * r["n_attempts"]) for r in rows])), 2),
+            # Architecture comparison axis: only generations that instantiate a candidate.
+            "mean_necessary_adapted_generations": round(float(np.mean(
+                [r.get("necessary_adapted_generations", r["n_attempts"]) for r in rows])), 2),
+            "mean_adapted_generations_executed": round(float(np.mean(
+                [adapted_executed(r) for r in rows])), 2),
+            "mean_attempts": round(float(np.mean([r["n_attempts"] for r in rows])), 2),
+            "mean_peak_dip_m": round(float(np.mean([r["peak_dip_m"] for r in rows])), 4),
+            "mean_excess_crouch_m": round(float(np.mean([r["excess_crouch_m"] for r in rows])), 4),
+            "mean_duck_integral_m2": round(float(np.mean([r["duck_integral_m2"] for r in rows])), 4),
+            "mean_min_overhead_m": round(float(np.mean([r["min_overhead_m"] for r in rows])), 4),
+            "repaired_rate": round(float(np.mean([r["repaired"] for r in rows])), 4),
+            "rejected_rate": round(float(np.mean([r["outcome"] == "rejected" for r in rows])), 4)}
 
 
 def main() -> int:
@@ -144,24 +191,8 @@ def main() -> int:
         if "collision_free" in r:
             by[r["method"]].append(r)
 
-    def agg(R: list) -> dict:
-        return {"n": len(R),
-                "collision_free_rate": round(float(np.mean([r["collision_free"] for r in R])), 4),
-                "margin_satisfaction_rate": round(float(np.mean([r["meets_target"] for r in R])), 4),
-                "goal_reached_rate": round(float(np.mean([r["goal_reached"] for r in R])), 4),
-                # The method's cost, not this cache's state: 2 ARDY calls per attempt,
-                # whether or not a previous run had already produced those exact bytes.
-                "mean_ardy_calls": round(float(np.mean([r["ardy_calls"] for r in R])), 2),
-                "mean_attempts": round(float(np.mean([r["n_attempts"] for r in R])), 2),
-                "mean_peak_dip_m": round(float(np.mean([r["peak_dip_m"] for r in R])), 4),
-                "mean_excess_crouch_m": round(float(np.mean([r["excess_crouch_m"] for r in R])), 4),
-                "mean_duck_integral_m2": round(float(np.mean([r["duck_integral_m2"] for r in R])), 4),
-                "mean_min_overhead_m": round(float(np.mean([r["min_overhead_m"] for r in R])), 4),
-                "repaired_rate": round(float(np.mean([r["repaired"] for r in R])), 4),
-                "rejected_rate": round(float(np.mean([r["outcome"] == "rejected" for r in R])), 4)}
-
-    summary = {m: agg(by[m]) for m in METHODS if by[m]}
-    by_count = {m: {str(n): agg([r for r in by[m] if r["n_beams"] == n])
+    summary = {m: _aggregate(by[m]) for m in METHODS if by[m]}
+    by_count = {m: {str(n): _aggregate([r for r in by[m] if r["n_beams"] == n])
                     for n in a.n_beams if [r for r in by[m] if r["n_beams"] == n]}
                 for m in METHODS if by[m]}
 
@@ -179,6 +210,14 @@ def main() -> int:
                "target_m": MARGIN_M, "preference": a.preference, "width_m": a.width,
                "n_beams": a.n_beams, "heights": a.heights, "gaps": a.gaps, "seeds": a.seeds,
                "tcn_dir": str(a.tcn_dir) if a.tcn_dir else "outputs/duck_model_v3_m018",
+               "cost_accounting": {
+                   "primary": "necessary_adapted_generations",
+                   "necessary_adapted_generations":
+                       "one candidate-producing ARDY generation per attempted clip",
+                   "ardy_calls": "one candidate-producing ARDY invocation per attempt",
+                   "legacy_ardy_calls":
+                       "historical v1 implementation: candidate plus unused path reference",
+                   "executed_fields": "cache-dependent diagnostics, not method complexity"},
                "stand_top_m": STAND_TOP, "summary": summary, "by_beam_count": by_count,
                "repair_stats": repair_stats, "n_skipped": len(skipped), "skipped": skipped,
                "rows": rows}

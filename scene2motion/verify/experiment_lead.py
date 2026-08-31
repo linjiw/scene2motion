@@ -85,7 +85,8 @@ def main() -> int:
                                  "n_repairs": len(r.repairs),
                                  "onset_shift_m": round(float(np.mean(
                                      [p.onset_shift_m for p in r.repairs])), 4) if r.repairs else 0.0,
-                                 "ardy_calls": 2 * len(r.attempts)})
+                                 "ardy_calls": len(r.attempts),
+                                 "legacy_ardy_calls": 2 * len(r.attempts)})
                 print(f"n={n} h={h:.2f} g={g:.1f} done ({time.time()-t0:.0f}s)", flush=True)
 
     out = {"generated_at": time.time(), "elapsed_s": round(time.time() - t0, 1),

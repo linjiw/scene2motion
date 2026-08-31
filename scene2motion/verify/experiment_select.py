@@ -100,7 +100,8 @@ def main() -> int:
                                      provenance={"scene": sc.scene_id, "route": s.route.label})
                         tried.append({"index": int(i), "label": s.route.label,
                                       "outcome": r.outcome, "repaired": r.repaired,
-                                      "ardy_calls": 2 * len(r.attempts),
+                                      "ardy_calls": len(r.attempts),
+                                      "legacy_ardy_calls": 2 * len(r.attempts),
                                       "min_overhead_m": round(r.final.trace.min_overhead_m, 4)})
                         if r.outcome != "rejected":
                             chosen, ver = int(i), r

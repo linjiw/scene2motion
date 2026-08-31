@@ -1,0 +1,155 @@
+{
+  "generated_at": 1788065941.7858064,
+  "elapsed_s": 1.5,
+  "experiment": "phase4e_proposer_feedback_architecture",
+  "target_m": 0.18,
+  "preference": "shortest",
+  "width_m": 2.25,
+  "n_beams": [
+    3
+  ],
+  "heights": [
+    0.95
+  ],
+  "gaps": [
+    1.5
+  ],
+  "seeds": [
+    100
+  ],
+  "resample_seed_stride": 10000,
+  "allow_generate": false,
+  "tcn_dir": "outputs/duck_model_v3_m018",
+  "stand_top_m": 1.35,
+  "method_specs": [
+    {
+      "name": "heuristic",
+      "proposer": "heuristic",
+      "feedback": "none",
+      "max_adapted_generations": 1,
+      "schedule_key": "heuristic",
+      "max_repairs": 0
+    }
+  ],
+  "cost_accounting": {
+    "primary": "necessary_adapted_generations",
+    "necessary_adapted_generations": "one candidate-producing ARDY generation per attempted clip",
+    "ardy_calls": "one candidate-producing ARDY invocation per attempt",
+    "legacy_ardy_calls": "historical v1 implementation: candidate plus unused path reference",
+    "executed_fields": "cache-dependent diagnostics, not method complexity",
+    "budget_semantics": "maximum adapted generations; methods stop on target acceptance"
+  },
+  "frozen_provenance": {
+    "code": {
+      "commit": "d54565b0b48081c119f0456dda9962e6874567c6",
+      "dirty": true,
+      "status": [
+        " M README.md",
+        " M docs/REPORT.md",
+        " M docs/design.md",
+        " M experiments/exp011_tracked_addressability.py",
+        " M scene2motion/demo/accept_v31.py",
+        " M scene2motion/demo/cache.py",
+        " M scene2motion/robot.py",
+        " M scene2motion/runner.py",
+        " M scene2motion/verify/experiment_lead.py",
+        " M scene2motion/verify/experiment_repair.py",
+        " M scene2motion/verify/experiment_select.py",
+        " M scene2motion/verify/loop.py",
+        " M tests/test_verify.py",
+        "?? docs/exec-gate-audit.md",
+        "?? docs/guidance-2026-08-29-phase4-reviews.md",
+        "?? docs/revalidation-2026-08-30.md",
+        "?? experiments/exp015b_spatial_reanalysis.py",
+        "?? experiments/exp016_semantic_geometric_stepover.py",
+        "?? outputs/exp015b_spatial_reanalysis/",
+        "?? outputs/phase4e_architecture_inventory/",
+        "?? outputs/phase4e_v2_cache_smoke/",
+        "?? scene2motion/semantic_scaffold.py",
+        "?? scene2motion/sonic_state_export.py",
+        "?? scene2motion/stepover_eval.py",
+        "?? scene2motion/verify/experiment_architecture.py",
+        "?? tests/test_exp016.py",
+        "?? tests/test_runner.py",
+        "?? tests/test_semantic_scaffold.py",
+        "?? tests/test_sonic_state_export.py",
+        "?? tests/test_stepover_eval.py"
+      ],
+      "tracked_diff_sha256": "75c68ac7a6b2473b315522242e0f4b7ebeb86ef96a919a9465bb98d65a39764a"
+    },
+    "source_sha256": {
+      "scene2motion/verify/experiment_architecture.py": "69f5c7d7a92210b35deb840135c7bdf25d9d67ac54327020625e52f89e616cb3",
+      "scene2motion/verify/loop.py": "96f1eecf1731228f2fdd8776d7f0d6505e39299de77ac3ae3d3bad28e35fd7d8",
+      "scene2motion/verify/experiment_repair.py": "fef1c341ffa9f572c70f095b10ff6014c8edabe81cd9a30cfda4daaf4556ef08",
+      "scene2motion/runner.py": "29139739ebce4891ebbe694010ff367e281a8f12cb3440a4db5410220b372aa0",
+      "scene2motion/demo/cache.py": "f938c75746f3624fa37a0d47871e09738a254e481cd68c7ab66c0321ecdbc053"
+    },
+    "tcn": {
+      "directory": "/home/linjiw/scene2motion/outputs/duck_model_v3_m018",
+      "checkpoint": "/home/linjiw/scene2motion/outputs/duck_model_v3_m018/tcn.pt",
+      "checkpoint_sha256": "bd52a34445bd5faef9c291e03914270ba4a6dae0b6fd34536760acbea685c3a2",
+      "metadata": "/home/linjiw/scene2motion/outputs/duck_model_v3_m018/tcn.json",
+      "metadata_sha256": "71542b5699d20225c8b1a742a1dc70a1157048fa8e854bb18ff16a629b1ca106",
+      "dataset": "duck_dataset_v3_m018",
+      "dataset_hash": "0c63b0b0ce3c0eb1",
+      "margin_m": 0.18,
+      "training_seed": 0
+    },
+    "duck_response": {
+      "path": "/home/linjiw/scene2motion/outputs/duck_response/response.json",
+      "sha256": "77bf943c0b28882588463d280805a20170d6c8514981ad5bc2cf407f18e33f17"
+    },
+    "generation_identity": {
+      "noise_stream_version": 2,
+      "clip_cache_version": 2
+    }
+  },
+  "summary": {},
+  "by_beam_count": {},
+  "summary_complete": false,
+  "repair_stats": {
+    "n_repair_steps": 0
+  },
+  "n_skipped": 0,
+  "skipped": [],
+  "n_unverified": 1,
+  "unverified": [
+    {
+      "scene_id": "demo_partial_beam_h0.950_w2.250_n3_g1.50",
+      "method": "heuristic",
+      "seed": 100,
+      "reason": "clip not cached and generation disabled",
+      "n_cached_attempts": 0
+    }
+  ],
+  "rows": [
+    {
+      "scene_id": "demo_partial_beam_h0.950_w2.250_n3_g1.50",
+      "n_beams": 3,
+      "beam_h": 0.95,
+      "beam_w": 2.25,
+      "gap": 1.5,
+      "method": "heuristic",
+      "seed": 100,
+      "outcome": "unverified",
+      "reason": "clip not cached and generation disabled",
+      "ardy_calls": 0,
+      "n_attempts": 0,
+      "legacy_ardy_calls": 0,
+      "ardy_calls_executed": 0,
+      "cache_hits": 0,
+      "necessary_adapted_generations": 0,
+      "adapted_generations_executed": 0,
+      "selected_attempt": null,
+      "n_repairs": 0,
+      "repaired": false,
+      "initial_schedule_hash": "5de4aabb00e27f58",
+      "final_schedule_hash": null,
+      "repairs": [],
+      "attempt_ledger": [],
+      "proposer": "heuristic",
+      "feedback": "none",
+      "max_adapted_generation_budget": 1
+    }
+  ]
+}

@@ -1,5 +1,11 @@
 # Scene2Motion-G1 — design, findings, and where the research actually is
 
+> **2026-08-30 revalidation notice.** Long clips produced through the legacy per-sample
+> `seeds=` path repeated one latent row across ARDY's autoregressive windows. Noise stream v2
+> fixes the stream and cache v2 prevents mixing. Historical numerical results below remain the
+> chronological audit record, but affected headline claims are pending the locked reruns in
+> [`revalidation-2026-08-30.md`](revalidation-2026-08-30.md).
+
 **Working thesis.** A large pretrained humanoid motion prior can be turned into a
 *whole-body* navigation planner by learning how 3D scene geometry should modify its root
 trajectory and its body pose, with a physics critic closing the kinematic-to-executable gap.
@@ -2405,3 +2411,37 @@ usable result and it is not the one I expected to write.
 the excess-crouch sweep), `outputs/duck_model/compare_test.json`,
 `scene2motion/demo_outputs/shots/learned_planner.png`. `tests/` 28 passed;
 `demo.acceptance` 16/16.
+
+---
+
+## 38. Correction to §32: the 86 mm execution threshold is not identified
+
+The latest artifact audit found **zero achieved-state qpos archives**. Existing SONIC outputs
+contain tracker survival/progress and scalar pose-error summaries only. They cannot remeasure
+the robot's signed clearance against the scene it was supposed to traverse.
+
+That exposes three errors in §32's later “correction”:
+
+1. SONIC's `vr_3points` group is `torso_link` plus the two wrist-yaw links, not head plus hands.
+2. `mpjpe_l` removes root translation per frame and averages unsigned Euclidean errors; it is
+   not a bound on the worst directional loss of overhead clearance.
+3. `G1Body` already expands every scene box by `BODY_MARGIN = 0.04 m` before returning
+   clearance. Adding 40 mm again double-counted the mesh-coverage correction.
+
+On the legacy ledger, 23.5% of clips lie below 85.6 mm and 9.7% below 45.6 mm. Neither is an
+execution-failure estimate. The earlier number survived only as a proxy computed from two
+incommensurate quantities, not as a checked certificate.
+
+The correct empirical target for the same scene geometry (with the body margin applied once) is
+
+    loss_i,o = c_ref^M(i,o) - c_exec^M(i,o)
+
+with termination before obstacle passage counted as failure. A one-sided held-out or conformal
+bound `tau_alpha(d)` on that loss yields two distinct gates:
+
+    generated clearance >= tau_alpha(d)          # executed collision-free
+    generated clearance >= 0.18 + tau_alpha(d)   # retains the 18 cm target
+
+The new `sonic_state_export` callback now saves the achieved qpos needed for this measurement.
+It has not yet been run, so no depth-dependent threshold is currently defensible. Full inventory,
+formula, and next-run schema: [`exec-gate-audit.md`](exec-gate-audit.md).

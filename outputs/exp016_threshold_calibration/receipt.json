@@ -1,0 +1,5630 @@
+{
+  "experiment": "stepover_threshold_calibration",
+  "status": "calibrated",
+  "consumed_by": "exp016 --threshold_calibration_receipt",
+  "stepover_thresholds": {
+    "support_height_m": 0.04649341314007449,
+    "support_speed_mps": 1.1753078750567545,
+    "min_contralateral_support_fraction": 0.9,
+    "max_unsupported_run_s": 0.2,
+    "landing_dwell_s": 0.12,
+    "landing_horizon_s": 0.75,
+    "max_floor_penetration_m": 0.02,
+    "lateral_corridor_half_width_m": 0.3,
+    "corridor_longitudinal_pad_m": 0.3
+  },
+  "temporal_gate_units": "seconds, converted to frames at each evaluation rate",
+  "calibration": {
+    "n_clips": 284,
+    "n_accepted": 265,
+    "outlier_clip_indices": [
+      6,
+      11,
+      50,
+      52,
+      65,
+      96,
+      99,
+      107,
+      119,
+      146,
+      149,
+      157,
+      165,
+      189,
+      194,
+      243,
+      248,
+      250,
+      254
+    ],
+    "stance_quantile": 0.45,
+    "corpus_quantile": 0.95,
+    "headroom": 1.25,
+    "min_side_support_fraction": 0.45,
+    "max_unsupported_fraction": 0.05,
+    "max_outlier_fraction": 0.1,
+    "corpus_stance_height_quantile_m": 0.03719473051205959,
+    "corpus_stance_speed_quantile_mps": 0.9402463000454035,
+    "landing_dwell_cap_s": 0.26,
+    "base_thresholds": {
+      "support_height_m": 0.02,
+      "support_speed_mps": 0.2,
+      "min_contralateral_support_fraction": 0.9,
+      "max_unsupported_run_s": 0.08,
+      "landing_dwell_s": 0.12,
+      "landing_horizon_s": 0.75,
+      "max_floor_penetration_m": 0.02,
+      "lateral_corridor_half_width_m": 0.3,
+      "corridor_longitudinal_pad_m": 0.3
+    },
+    "calibrated_fields": [
+      "support_height_m",
+      "support_speed_mps",
+      "max_unsupported_run_s",
+      "landing_dwell_s"
+    ],
+    "clips": [
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.66,
+          "right": 0.64
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.72,
+          "right": 0.72
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l05__s1400",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.925,
+          "right": 0.565
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 6.52,
+          "right": 1.0
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l05__s1401",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.915,
+          "right": 0.905
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 5.96,
+          "right": 6.12
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l05__s1402",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.645,
+          "right": 0.655
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.64,
+          "right": 0.6
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l05__s1403",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.84,
+          "right": 0.86
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 3.88,
+          "right": 1.92
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l05__s1404",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.635,
+          "right": 0.665
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.72,
+          "right": 0.68
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l05__s1405",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.87,
+          "right": 0.0
+        },
+        "unsupported_fraction": 0.13,
+        "max_unsupported_run_s": 0.4,
+        "longest_support_run_s": {
+          "left": 2.64,
+          "right": 0.0
+        },
+        "outlier_reasons": [
+          "right_support_fraction<0.45",
+          "unsupported_fraction>0.05"
+        ],
+        "label": "ctrl-l05__s1406",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.68,
+          "right": 0.645
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.72,
+          "right": 0.72
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l05__s1407",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.68,
+          "right": 0.63
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.64,
+          "right": 0.56
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l05__s1408",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.625,
+          "right": 0.595
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.72,
+          "right": 0.68
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l05__s1409",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.65,
+          "right": 0.68
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.8,
+          "right": 0.76
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l05__s1410",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.92,
+          "right": 0.38
+        },
+        "unsupported_fraction": 0.005,
+        "max_unsupported_run_s": 0.04,
+        "longest_support_run_s": {
+          "left": 5.56,
+          "right": 0.56
+        },
+        "outlier_reasons": [
+          "right_support_fraction<0.45"
+        ],
+        "label": "ctrl-l05__s1411",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.76,
+          "right": 0.515
+        },
+        "unsupported_fraction": 0.02,
+        "max_unsupported_run_s": 0.12,
+        "longest_support_run_s": {
+          "left": 2.0,
+          "right": 0.84
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l05__s1412",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.63,
+          "right": 0.68
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.72,
+          "right": 0.72
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l05__s1413",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.89,
+          "right": 0.935
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 4.96,
+          "right": 6.32
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l05__s1414",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.77,
+          "right": 0.785
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 1.44,
+          "right": 1.76
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l05__s1415",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.68,
+          "right": 0.69
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 1.12,
+          "right": 1.2
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l05__s1416",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.955,
+          "right": 0.93
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 6.68,
+          "right": 3.96
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l05__s1417",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.805,
+          "right": 0.845
+        },
+        "unsupported_fraction": 0.03,
+        "max_unsupported_run_s": 0.12,
+        "longest_support_run_s": {
+          "left": 1.8,
+          "right": 2.04
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l05__s1418",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.61,
+          "right": 0.54
+        },
+        "unsupported_fraction": 0.015,
+        "max_unsupported_run_s": 0.08,
+        "longest_support_run_s": {
+          "left": 0.8,
+          "right": 0.72
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l05__s1419",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.635,
+          "right": 0.63
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.56,
+          "right": 0.6
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l05__s1420",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.92,
+          "right": 0.88
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 4.2,
+          "right": 2.0
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l05__s1421",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.93,
+          "right": 0.93
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 6.04,
+          "right": 6.44
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l05__s1422",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.615,
+          "right": 0.665
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.64,
+          "right": 0.64
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l05__s1423",
+        "source": "reference"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.702020202020202,
+          "right": 0.6590909090909091
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.74,
+          "right": 0.76
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l05__s1400.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.9696969696969697,
+          "right": 0.9823232323232324
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 7.34,
+          "right": 7.78
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l05__s1401.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.952020202020202,
+          "right": 0.9494949494949495
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 6.38,
+          "right": 6.76
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l05__s1402.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.6944444444444444,
+          "right": 0.6691919191919192
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.66,
+          "right": 0.62
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l05__s1403.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.9444444444444444,
+          "right": 0.952020202020202
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 6.06,
+          "right": 5.72
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l05__s1404.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.6515151515151515,
+          "right": 0.7045454545454546
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.7,
+          "right": 0.72
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l05__s1405.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.98989898989899,
+          "right": 0.9671717171717171
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 7.68,
+          "right": 7.48
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l05__s1406.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.6818181818181818,
+          "right": 0.6414141414141414
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.76,
+          "right": 0.74
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l05__s1407.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.6944444444444444,
+          "right": 0.6767676767676768
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.64,
+          "right": 0.62
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l05__s1408.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.7272727272727273,
+          "right": 0.7121212121212122
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.82,
+          "right": 0.78
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l05__s1409.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.6464646464646465,
+          "right": 0.702020202020202
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.78,
+          "right": 0.76
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l05__s1410.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.9570707070707071,
+          "right": 0.946969696969697
+        },
+        "unsupported_fraction": 0.005050505050505051,
+        "max_unsupported_run_s": 0.04,
+        "longest_support_run_s": {
+          "left": 6.4,
+          "right": 6.0
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l05__s1411.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.8888888888888888,
+          "right": 0.8813131313131313
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 4.78,
+          "right": 3.88
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l05__s1412.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.6262626262626263,
+          "right": 0.6818181818181818
+        },
+        "unsupported_fraction": 0.007575757575757576,
+        "max_unsupported_run_s": 0.06,
+        "longest_support_run_s": {
+          "left": 0.7,
+          "right": 0.72
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l05__s1413.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.9797979797979798,
+          "right": 0.9873737373737373
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 7.64,
+          "right": 7.26
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l05__s1414.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.8914141414141414,
+          "right": 0.8813131313131313
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 3.52,
+          "right": 2.86
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l05__s1415.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.8106060606060606,
+          "right": 0.8131313131313131
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 2.32,
+          "right": 2.68
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l05__s1416.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.9772727272727273,
+          "right": 0.9924242424242424
+        },
+        "unsupported_fraction": 0.0025252525252525255,
+        "max_unsupported_run_s": 0.02,
+        "longest_support_run_s": {
+          "left": 5.62,
+          "right": 7.86
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l05__s1417.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.9444444444444444,
+          "right": 0.9671717171717171
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 5.62,
+          "right": 5.96
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l05__s1418.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.702020202020202,
+          "right": 0.7121212121212122
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.92,
+          "right": 1.0
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l05__s1419.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.7146464646464646,
+          "right": 0.702020202020202
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.64,
+          "right": 0.68
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l05__s1420.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.9621212121212122,
+          "right": 0.9621212121212122
+        },
+        "unsupported_fraction": 0.0025252525252525255,
+        "max_unsupported_run_s": 0.02,
+        "longest_support_run_s": {
+          "left": 5.96,
+          "right": 5.56
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l05__s1421.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.9873737373737373,
+          "right": 0.9848484848484849
+        },
+        "unsupported_fraction": 0.005050505050505051,
+        "max_unsupported_run_s": 0.04,
+        "longest_support_run_s": {
+          "left": 7.6,
+          "right": 7.66
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l05__s1422.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.6641414141414141,
+          "right": 0.7045454545454546
+        },
+        "unsupported_fraction": 0.005050505050505051,
+        "max_unsupported_run_s": 0.04,
+        "longest_support_run_s": {
+          "left": 0.7,
+          "right": 0.7
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l05__s1423.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.6,
+          "right": 0.63
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.68,
+          "right": 0.72
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l08__s1500",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.655,
+          "right": 0.655
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.72,
+          "right": 0.76
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l08__s1501",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.895,
+          "right": 0.175
+        },
+        "unsupported_fraction": 0.02,
+        "max_unsupported_run_s": 0.08,
+        "longest_support_run_s": {
+          "left": 3.72,
+          "right": 0.76
+        },
+        "outlier_reasons": [
+          "right_support_fraction<0.45"
+        ],
+        "label": "ctrl-l08__s1502",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.635,
+          "right": 0.625
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.72,
+          "right": 0.8
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l08__s1503",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.925,
+          "right": 0.015
+        },
+        "unsupported_fraction": 0.075,
+        "max_unsupported_run_s": 0.28,
+        "longest_support_run_s": {
+          "left": 5.76,
+          "right": 0.12
+        },
+        "outlier_reasons": [
+          "right_support_fraction<0.45",
+          "unsupported_fraction>0.05"
+        ],
+        "label": "ctrl-l08__s1504",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.87,
+          "right": 0.84
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 4.16,
+          "right": 3.24
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l08__s1505",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.715,
+          "right": 0.765
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 1.52,
+          "right": 2.04
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l08__s1506",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.88,
+          "right": 0.84
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 3.6,
+          "right": 2.16
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l08__s1507",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.645,
+          "right": 0.545
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.68,
+          "right": 0.6
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l08__s1508",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.85,
+          "right": 0.815
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 4.8,
+          "right": 1.92
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l08__s1509",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.64,
+          "right": 0.635
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.64,
+          "right": 0.64
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l08__s1510",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.65,
+          "right": 0.625
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.72,
+          "right": 0.72
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l08__s1511",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.59,
+          "right": 0.665
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.72,
+          "right": 0.72
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l08__s1512",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.635,
+          "right": 0.65
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.68,
+          "right": 0.76
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l08__s1513",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.97,
+          "right": 0.575
+        },
+        "unsupported_fraction": 0.02,
+        "max_unsupported_run_s": 0.08,
+        "longest_support_run_s": {
+          "left": 6.2,
+          "right": 1.8
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l08__s1514",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.905,
+          "right": 0.87
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 6.24,
+          "right": 2.24
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l08__s1515",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.89,
+          "right": 0.885
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 5.4,
+          "right": 3.92
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l08__s1516",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.89,
+          "right": 0.35
+        },
+        "unsupported_fraction": 0.015,
+        "max_unsupported_run_s": 0.08,
+        "longest_support_run_s": {
+          "left": 3.64,
+          "right": 0.48
+        },
+        "outlier_reasons": [
+          "right_support_fraction<0.45"
+        ],
+        "label": "ctrl-l08__s1517",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.64,
+          "right": 0.625
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.64,
+          "right": 0.68
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l08__s1518",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.62,
+          "right": 0.665
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.84,
+          "right": 0.84
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l08__s1519",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.815,
+          "right": 0.82
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 4.04,
+          "right": 3.8
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l08__s1520",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.66,
+          "right": 0.63
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.64,
+          "right": 0.68
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l08__s1521",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.86,
+          "right": 0.82
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 4.64,
+          "right": 2.12
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l08__s1522",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.83,
+          "right": 0.84
+        },
+        "unsupported_fraction": 0.03,
+        "max_unsupported_run_s": 0.08,
+        "longest_support_run_s": {
+          "left": 1.72,
+          "right": 1.44
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l08__s1523",
+        "source": "reference"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.7323232323232324,
+          "right": 0.76010101010101
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.8,
+          "right": 0.84
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l08__s1500.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.6641414141414141,
+          "right": 0.6540404040404041
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.72,
+          "right": 0.76
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l08__s1501.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.9873737373737373,
+          "right": 0.9722222222222222
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 6.02,
+          "right": 7.46
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l08__s1502.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.7676767676767676,
+          "right": 0.75
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.96,
+          "right": 0.98
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l08__s1503.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.9797979797979798,
+          "right": 0.9797979797979798
+        },
+        "unsupported_fraction": 0.007575757575757576,
+        "max_unsupported_run_s": 0.06,
+        "longest_support_run_s": {
+          "left": 7.66,
+          "right": 7.46
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l08__s1504.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.9141414141414141,
+          "right": 0.9040404040404041
+        },
+        "unsupported_fraction": 0.0025252525252525255,
+        "max_unsupported_run_s": 0.02,
+        "longest_support_run_s": {
+          "left": 5.74,
+          "right": 5.32
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l08__s1505.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.8383838383838383,
+          "right": 0.8585858585858586
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 2.72,
+          "right": 3.08
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l08__s1506.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.9545454545454546,
+          "right": 0.9570707070707071
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 5.88,
+          "right": 5.46
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l08__s1507.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.7272727272727273,
+          "right": 0.7095959595959596
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.78,
+          "right": 0.84
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l08__s1508.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.9646464646464646,
+          "right": 0.9419191919191919
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 6.26,
+          "right": 5.2
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l08__s1509.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.6868686868686869,
+          "right": 0.6717171717171717
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.68,
+          "right": 0.7
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l08__s1510.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.6994949494949495,
+          "right": 0.6616161616161617
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.88,
+          "right": 0.78
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l08__s1511.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.6616161616161617,
+          "right": 0.7297979797979798
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.8,
+          "right": 0.82
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l08__s1512.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.6767676767676768,
+          "right": 0.6944444444444444
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.7,
+          "right": 0.88
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l08__s1513.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.98989898989899,
+          "right": 0.9696969696969697
+        },
+        "unsupported_fraction": 0.0025252525252525255,
+        "max_unsupported_run_s": 0.02,
+        "longest_support_run_s": {
+          "left": 7.22,
+          "right": 7.64
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l08__s1514.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.9873737373737373,
+          "right": 0.9646464646464646
+        },
+        "unsupported_fraction": 0.0025252525252525255,
+        "max_unsupported_run_s": 0.02,
+        "longest_support_run_s": {
+          "left": 7.3,
+          "right": 6.9
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l08__s1515.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.946969696969697,
+          "right": 0.946969696969697
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 6.5,
+          "right": 5.92
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l08__s1516.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.9823232323232324,
+          "right": 0.9797979797979798
+        },
+        "unsupported_fraction": 0.0025252525252525255,
+        "max_unsupported_run_s": 0.02,
+        "longest_support_run_s": {
+          "left": 7.64,
+          "right": 7.76
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l08__s1517.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.7146464646464646,
+          "right": 0.7222222222222222
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.72,
+          "right": 0.78
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l08__s1518.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.6641414141414141,
+          "right": 0.7095959595959596
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.86,
+          "right": 0.9
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l08__s1519.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.9040404040404041,
+          "right": 0.8838383838383839
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 4.1,
+          "right": 4.46
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l08__s1520.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.6590909090909091,
+          "right": 0.6742424242424242
+        },
+        "unsupported_fraction": 0.025252525252525252,
+        "max_unsupported_run_s": 0.06,
+        "longest_support_run_s": {
+          "left": 0.58,
+          "right": 0.7
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l08__s1521.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.9722222222222222,
+          "right": 0.9848484848484849
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 6.14,
+          "right": 7.36
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l08__s1522.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.9722222222222222,
+          "right": 0.9797979797979798
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 6.76,
+          "right": 7.24
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l08__s1523.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.98,
+          "right": 0.21
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 7.68,
+          "right": 0.88
+        },
+        "outlier_reasons": [
+          "right_support_fraction<0.45"
+        ],
+        "label": "ctrl-l12__s1600",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.85,
+          "right": 0.89
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 3.6,
+          "right": 3.88
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l12__s1601",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.65,
+          "right": 0.64
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.68,
+          "right": 0.68
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l12__s1602",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.96,
+          "right": 0.27
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 6.12,
+          "right": 0.92
+        },
+        "outlier_reasons": [
+          "right_support_fraction<0.45"
+        ],
+        "label": "ctrl-l12__s1603",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.63,
+          "right": 0.65
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.72,
+          "right": 0.76
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l12__s1604",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.64,
+          "right": 0.57
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.92,
+          "right": 0.68
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l12__s1605",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.69,
+          "right": 0.7
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 1.24,
+          "right": 1.04
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l12__s1606",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.89,
+          "right": 0.91
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 4.72,
+          "right": 3.16
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l12__s1607",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.645,
+          "right": 0.61
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.68,
+          "right": 0.68
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l12__s1608",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.635,
+          "right": 0.665
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.68,
+          "right": 0.68
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l12__s1609",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.62,
+          "right": 0.64
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.64,
+          "right": 0.68
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l12__s1610",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.675,
+          "right": 0.41
+        },
+        "unsupported_fraction": 0.045,
+        "max_unsupported_run_s": 0.12,
+        "longest_support_run_s": {
+          "left": 0.84,
+          "right": 0.48
+        },
+        "outlier_reasons": [
+          "right_support_fraction<0.45"
+        ],
+        "label": "ctrl-l12__s1611",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.66,
+          "right": 0.575
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.84,
+          "right": 0.68
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l12__s1612",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.925,
+          "right": 0.96
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 4.2,
+          "right": 5.6
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l12__s1613",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.63,
+          "right": 0.625
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.68,
+          "right": 0.68
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l12__s1614",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.77,
+          "right": 0.805
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 2.2,
+          "right": 1.92
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l12__s1615",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.86,
+          "right": 0.535
+        },
+        "unsupported_fraction": 0.005,
+        "max_unsupported_run_s": 0.04,
+        "longest_support_run_s": {
+          "left": 5.24,
+          "right": 1.2
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l12__s1616",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.64,
+          "right": 0.635
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.6,
+          "right": 0.6
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l12__s1617",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.63,
+          "right": 0.635
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.56,
+          "right": 0.76
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l12__s1618",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.64,
+          "right": 0.67
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.72,
+          "right": 0.76
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l12__s1619",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.605,
+          "right": 0.6
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.64,
+          "right": 0.68
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l12__s1620",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.625,
+          "right": 0.65
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.64,
+          "right": 0.64
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l12__s1621",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.645,
+          "right": 0.635
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.56,
+          "right": 0.64
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l12__s1622",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.925,
+          "right": 0.18
+        },
+        "unsupported_fraction": 0.02,
+        "max_unsupported_run_s": 0.08,
+        "longest_support_run_s": {
+          "left": 3.76,
+          "right": 0.8
+        },
+        "outlier_reasons": [
+          "right_support_fraction<0.45"
+        ],
+        "label": "ctrl-l12__s1623",
+        "source": "reference"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.9848484848484849,
+          "right": 0.9873737373737373
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 7.72,
+          "right": 7.52
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l12__s1600.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.9494949494949495,
+          "right": 0.9646464646464646
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 6.58,
+          "right": 6.16
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l12__s1601.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.6818181818181818,
+          "right": 0.6843434343434344
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.72,
+          "right": 0.78
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l12__s1602.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.9797979797979798,
+          "right": 0.9772727272727273
+        },
+        "unsupported_fraction": 0.0025252525252525255,
+        "max_unsupported_run_s": 0.02,
+        "longest_support_run_s": {
+          "left": 7.34,
+          "right": 7.52
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l12__s1603.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.7828282828282829,
+          "right": 0.7651515151515151
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 1.12,
+          "right": 1.06
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l12__s1604.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.8611111111111112,
+          "right": 0.8282828282828283
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 3.02,
+          "right": 1.1
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l12__s1605.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.8055555555555556,
+          "right": 0.7777777777777778
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 1.18,
+          "right": 1.66
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l12__s1606.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.9722222222222222,
+          "right": 0.9545454545454546
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 5.68,
+          "right": 5.04
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l12__s1607.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.6691919191919192,
+          "right": 0.6590909090909091
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.68,
+          "right": 0.7
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l12__s1608.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.6616161616161617,
+          "right": 0.6893939393939394
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.7,
+          "right": 0.72
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l12__s1609.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.7196969696969697,
+          "right": 0.7247474747474747
+        },
+        "unsupported_fraction": 0.007575757575757576,
+        "max_unsupported_run_s": 0.06,
+        "longest_support_run_s": {
+          "left": 0.74,
+          "right": 0.8
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l12__s1610.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.8560606060606061,
+          "right": 0.8358585858585859
+        },
+        "unsupported_fraction": 0.0025252525252525255,
+        "max_unsupported_run_s": 0.02,
+        "longest_support_run_s": {
+          "left": 1.46,
+          "right": 1.22
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l12__s1611.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.75,
+          "right": 0.7449494949494949
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.88,
+          "right": 1.32
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l12__s1612.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.9873737373737373,
+          "right": 0.98989898989899
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 7.68,
+          "right": 7.48
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l12__s1613.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.6515151515151515,
+          "right": 0.6843434343434344
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.7,
+          "right": 0.76
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l12__s1614.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.952020202020202,
+          "right": 0.952020202020202
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 6.1,
+          "right": 5.7
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l12__s1616.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.7272727272727273,
+          "right": 0.7070707070707071
+        },
+        "unsupported_fraction": 0.0025252525252525255,
+        "max_unsupported_run_s": 0.02,
+        "longest_support_run_s": {
+          "left": 0.66,
+          "right": 0.66
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l12__s1617.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.7878787878787878,
+          "right": 0.7575757575757576
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 1.34,
+          "right": 0.82
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l12__s1618.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.6464646464646465,
+          "right": 0.6818181818181818
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.72,
+          "right": 0.76
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l12__s1619.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.6868686868686869,
+          "right": 0.6565656565656566
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.72,
+          "right": 0.72
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l12__s1620.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.6616161616161617,
+          "right": 0.6818181818181818
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.68,
+          "right": 0.72
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l12__s1621.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.7272727272727273,
+          "right": 0.7095959595959596
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.9,
+          "right": 0.92
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l12__s1622.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.9848484848484849,
+          "right": 1.0
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 7.6,
+          "right": 7.92
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l12__s1623.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.895,
+          "right": 0.47
+        },
+        "unsupported_fraction": 0.005,
+        "max_unsupported_run_s": 0.04,
+        "longest_support_run_s": {
+          "left": 4.44,
+          "right": 2.56
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l16__s1700",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.615,
+          "right": 0.625
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.64,
+          "right": 0.68
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l16__s1701",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.64,
+          "right": 0.64
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.52,
+          "right": 0.56
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l16__s1702",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.925,
+          "right": 0.315
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 6.36,
+          "right": 0.68
+        },
+        "outlier_reasons": [
+          "right_support_fraction<0.45"
+        ],
+        "label": "ctrl-l16__s1703",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.66,
+          "right": 0.62
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.68,
+          "right": 0.6
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l16__s1704",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.9,
+          "right": 0.87
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 5.04,
+          "right": 4.48
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l16__s1705",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.57,
+          "right": 0.085
+        },
+        "unsupported_fraction": 0.425,
+        "max_unsupported_run_s": 1.12,
+        "longest_support_run_s": {
+          "left": 0.96,
+          "right": 0.4
+        },
+        "outlier_reasons": [
+          "right_support_fraction<0.45",
+          "unsupported_fraction>0.05"
+        ],
+        "label": "ctrl-l16__s1706",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.6,
+          "right": 0.605
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.68,
+          "right": 0.68
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l16__s1707",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.73,
+          "right": 0.69
+        },
+        "unsupported_fraction": 0.03,
+        "max_unsupported_run_s": 0.16,
+        "longest_support_run_s": {
+          "left": 1.6,
+          "right": 1.28
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l16__s1708",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.86,
+          "right": 0.865
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 5.04,
+          "right": 2.48
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l16__s1709",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.93,
+          "right": 0.98
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 6.36,
+          "right": 6.04
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l16__s1710",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.85,
+          "right": 0.785
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 3.64,
+          "right": 1.92
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l16__s1711",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.795,
+          "right": 0.845
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 4.2,
+          "right": 3.88
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l16__s1712",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.635,
+          "right": 0.675
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.76,
+          "right": 0.88
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l16__s1713",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.97,
+          "right": 0.28
+        },
+        "unsupported_fraction": 0.03,
+        "max_unsupported_run_s": 0.12,
+        "longest_support_run_s": {
+          "left": 3.48,
+          "right": 1.76
+        },
+        "outlier_reasons": [
+          "right_support_fraction<0.45"
+        ],
+        "label": "ctrl-l16__s1714",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.825,
+          "right": 0.815
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 4.16,
+          "right": 3.84
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l16__s1715",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.935,
+          "right": 0.97
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 4.2,
+          "right": 6.32
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l16__s1716",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.655,
+          "right": 0.625
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.64,
+          "right": 0.68
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l16__s1717",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.625,
+          "right": 0.675
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.6,
+          "right": 0.72
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l16__s1718",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.635,
+          "right": 0.635
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.72,
+          "right": 0.72
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l16__s1719",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.65,
+          "right": 0.635
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.68,
+          "right": 0.68
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l16__s1720",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.93,
+          "right": 0.775
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 6.32,
+          "right": 2.48
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l16__s1721",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.745,
+          "right": 0.235
+        },
+        "unsupported_fraction": 0.06,
+        "max_unsupported_run_s": 0.2,
+        "longest_support_run_s": {
+          "left": 3.0,
+          "right": 0.52
+        },
+        "outlier_reasons": [
+          "right_support_fraction<0.45",
+          "unsupported_fraction>0.05"
+        ],
+        "label": "ctrl-l16__s1722",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.615,
+          "right": 0.65
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.68,
+          "right": 0.64
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l16__s1723",
+        "source": "reference"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.7272727272727273,
+          "right": 0.7171717171717171
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.84,
+          "right": 0.86
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l16__s1701.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.8131313131313131,
+          "right": 0.797979797979798
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 1.06,
+          "right": 1.0
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l16__s1702.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.9823232323232324,
+          "right": 0.9848484848484849
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 7.62,
+          "right": 7.8
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l16__s1703.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.7424242424242424,
+          "right": 0.73989898989899
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.72,
+          "right": 0.78
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l16__s1704.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.9646464646464646,
+          "right": 0.9621212121212122
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 6.9,
+          "right": 6.5
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l16__s1705.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.9696969696969697,
+          "right": 0.9696969696969697
+        },
+        "unsupported_fraction": 0.005050505050505051,
+        "max_unsupported_run_s": 0.04,
+        "longest_support_run_s": {
+          "left": 7.3,
+          "right": 7.38
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l16__s1706.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.6919191919191919,
+          "right": 0.6893939393939394
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.74,
+          "right": 0.78
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l16__s1707.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.9191919191919192,
+          "right": 0.9141414141414141
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 4.36,
+          "right": 3.88
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l16__s1708.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.9545454545454546,
+          "right": 0.9696969696969697
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 5.74,
+          "right": 6.02
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l16__s1709.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.9848484848484849,
+          "right": 0.9797979797979798
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 7.42,
+          "right": 7.54
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l16__s1710.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.952020202020202,
+          "right": 0.9494949494949495
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 5.62,
+          "right": 5.98
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l16__s1711.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.9494949494949495,
+          "right": 0.9242424242424242
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 5.14,
+          "right": 3.84
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l16__s1712.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.6767676767676768,
+          "right": 0.6666666666666666
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.9,
+          "right": 0.88
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l16__s1713.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.9873737373737373,
+          "right": 0.9747474747474747
+        },
+        "unsupported_fraction": 0.0025252525252525255,
+        "max_unsupported_run_s": 0.02,
+        "longest_support_run_s": {
+          "left": 7.7,
+          "right": 7.54
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l16__s1714.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.9393939393939394,
+          "right": 0.9318181818181818
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 4.2,
+          "right": 4.68
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l16__s1715.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.9848484848484849,
+          "right": 0.9924242424242424
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 7.72,
+          "right": 7.28
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l16__s1716.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.7297979797979798,
+          "right": 0.7045454545454546
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.7,
+          "right": 0.74
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l16__s1717.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.6843434343434344,
+          "right": 0.7095959595959596
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.64,
+          "right": 0.66
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l16__s1718.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.6565656565656566,
+          "right": 0.6818181818181818
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.8,
+          "right": 0.72
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l16__s1719.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.7323232323232324,
+          "right": 0.7348484848484849
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.76,
+          "right": 0.76
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l16__s1720.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.9848484848484849,
+          "right": 0.9848484848484849
+        },
+        "unsupported_fraction": 0.0025252525252525255,
+        "max_unsupported_run_s": 0.02,
+        "longest_support_run_s": {
+          "left": 7.6,
+          "right": 6.88
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l16__s1721.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.8585858585858586,
+          "right": 0.8661616161616161
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 4.16,
+          "right": 3.84
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l16__s1722.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.84,
+          "right": 0.22
+        },
+        "unsupported_fraction": 0.095,
+        "max_unsupported_run_s": 0.36,
+        "longest_support_run_s": {
+          "left": 2.32,
+          "right": 0.88
+        },
+        "outlier_reasons": [
+          "right_support_fraction<0.45",
+          "unsupported_fraction>0.05"
+        ],
+        "label": "ctrl-l20__s1800",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.77,
+          "right": 0.71
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 2.48,
+          "right": 2.08
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l20__s1801",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.805,
+          "right": 0.85
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 3.92,
+          "right": 2.72
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l20__s1802",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.755,
+          "right": 0.735
+        },
+        "unsupported_fraction": 0.005,
+        "max_unsupported_run_s": 0.04,
+        "longest_support_run_s": {
+          "left": 2.36,
+          "right": 1.8
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l20__s1803",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.655,
+          "right": 0.64
+        },
+        "unsupported_fraction": 0.005,
+        "max_unsupported_run_s": 0.04,
+        "longest_support_run_s": {
+          "left": 0.84,
+          "right": 0.76
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l20__s1804",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.955,
+          "right": 0.09
+        },
+        "unsupported_fraction": 0.025,
+        "max_unsupported_run_s": 0.12,
+        "longest_support_run_s": {
+          "left": 3.64,
+          "right": 0.72
+        },
+        "outlier_reasons": [
+          "right_support_fraction<0.45"
+        ],
+        "label": "ctrl-l20__s1805",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.895,
+          "right": 0.905
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 3.36,
+          "right": 3.12
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l20__s1806",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.845,
+          "right": 0.845
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 1.88,
+          "right": 3.8
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l20__s1807",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.645,
+          "right": 0.655
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.64,
+          "right": 0.72
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l20__s1808",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.61,
+          "right": 0.62
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.64,
+          "right": 0.64
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l20__s1809",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.6,
+          "right": 0.655
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.64,
+          "right": 0.76
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l20__s1810",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.96,
+          "right": 0.94
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 4.04,
+          "right": 4.92
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l20__s1811",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.83,
+          "right": 0.855
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 2.32,
+          "right": 1.92
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l20__s1812",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.84,
+          "right": 0.865
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 2.92,
+          "right": 1.88
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l20__s1813",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.76,
+          "right": 0.745
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 1.4,
+          "right": 1.0
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l20__s1814",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.735,
+          "right": 0.755
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.96,
+          "right": 1.84
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l20__s1815",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.91,
+          "right": 0.865
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 4.2,
+          "right": 3.84
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l20__s1816",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.635,
+          "right": 0.65
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.56,
+          "right": 0.6
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l20__s1817",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.815,
+          "right": 0.82
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 4.68,
+          "right": 3.96
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l20__s1818",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.62,
+          "right": 0.675
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.64,
+          "right": 0.96
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l20__s1819",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.95,
+          "right": 0.955
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 5.96,
+          "right": 3.96
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l20__s1820",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.635,
+          "right": 0.635
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.64,
+          "right": 0.68
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l20__s1821",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.915,
+          "right": 0.94
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 5.88,
+          "right": 6.2
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l20__s1822",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.64,
+          "right": 0.625
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.56,
+          "right": 0.56
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l20__s1823",
+        "source": "reference"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.9848484848484849,
+          "right": 0.9949494949494949
+        },
+        "unsupported_fraction": 0.0025252525252525255,
+        "max_unsupported_run_s": 0.02,
+        "longest_support_run_s": {
+          "left": 7.68,
+          "right": 7.52
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l20__s1800.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.8232323232323232,
+          "right": 0.8106060606060606
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 2.5,
+          "right": 2.92
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l20__s1801.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.9848484848484849,
+          "right": 0.9671717171717171
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 7.72,
+          "right": 6.32
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l20__s1802.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.8560606060606061,
+          "right": 0.8535353535353535
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 3.36,
+          "right": 2.84
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l20__s1803.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.7727272727272727,
+          "right": 0.7474747474747475
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 2.16,
+          "right": 1.06
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l20__s1804.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.9797979797979798,
+          "right": 0.9747474747474747
+        },
+        "unsupported_fraction": 0.007575757575757576,
+        "max_unsupported_run_s": 0.06,
+        "longest_support_run_s": {
+          "left": 7.5,
+          "right": 7.32
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l20__s1805.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.9848484848484849,
+          "right": 0.9772727272727273
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 7.72,
+          "right": 7.52
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l20__s1806.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.9191919191919192,
+          "right": 0.9393939393939394
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 4.74,
+          "right": 5.1
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l20__s1807.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.6666666666666666,
+          "right": 0.6666666666666666
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.72,
+          "right": 0.74
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l20__s1808.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.6767676767676768,
+          "right": 0.6868686868686869
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.7,
+          "right": 0.74
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l20__s1809.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.6717171717171717,
+          "right": 0.6893939393939394
+        },
+        "unsupported_fraction": 0.005050505050505051,
+        "max_unsupported_run_s": 0.02,
+        "longest_support_run_s": {
+          "left": 0.7,
+          "right": 0.8
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l20__s1810.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.98989898989899,
+          "right": 0.9873737373737373
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 7.7,
+          "right": 7.82
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l20__s1811.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.9545454545454546,
+          "right": 0.9494949494949495
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 5.5,
+          "right": 4.82
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l20__s1812.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.9772727272727273,
+          "right": 0.9949494949494949
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 7.64,
+          "right": 7.22
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l20__s1813.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.8686868686868687,
+          "right": 0.8863636363636364
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 3.48,
+          "right": 3.94
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l20__s1814.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.9646464646464646,
+          "right": 0.9722222222222222
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 6.24,
+          "right": 5.74
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l20__s1816.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.6944444444444444,
+          "right": 0.6868686868686869
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.62,
+          "right": 0.6
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l20__s1817.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.9166666666666666,
+          "right": 0.9191919191919192
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 4.74,
+          "right": 5.16
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l20__s1818.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.6767676767676768,
+          "right": 0.7222222222222222
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.66,
+          "right": 1.0
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l20__s1819.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.9873737373737373,
+          "right": 0.9722222222222222
+        },
+        "unsupported_fraction": 0.005050505050505051,
+        "max_unsupported_run_s": 0.04,
+        "longest_support_run_s": {
+          "left": 7.74,
+          "right": 7.56
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l20__s1820.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.7121212121212122,
+          "right": 0.6818181818181818
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.7,
+          "right": 0.72
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l20__s1821.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.9671717171717171,
+          "right": 0.9747474747474747
+        },
+        "unsupported_fraction": 0.005050505050505051,
+        "max_unsupported_run_s": 0.04,
+        "longest_support_run_s": {
+          "left": 6.72,
+          "right": 6.24
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l20__s1822.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.7196969696969697,
+          "right": 0.7146464646464646
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.66,
+          "right": 0.66
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l20__s1823.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.965,
+          "right": 0.955
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 6.84,
+          "right": 6.36
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l28__s1900",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.93,
+          "right": 0.975
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 2.04,
+          "right": 4.4
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l28__s1901",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.89,
+          "right": 0.89
+        },
+        "unsupported_fraction": 0.01,
+        "max_unsupported_run_s": 0.08,
+        "longest_support_run_s": {
+          "left": 2.16,
+          "right": 1.92
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l28__s1902",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.89,
+          "right": 0.885
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 4.32,
+          "right": 4.0
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l28__s1903",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.645,
+          "right": 0.635
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.68,
+          "right": 0.68
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l28__s1904",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.625,
+          "right": 0.635
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.72,
+          "right": 0.64
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l28__s1905",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.655,
+          "right": 0.64
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.68,
+          "right": 0.72
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l28__s1906",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.84,
+          "right": 0.045
+        },
+        "unsupported_fraction": 0.13,
+        "max_unsupported_run_s": 0.36,
+        "longest_support_run_s": {
+          "left": 3.76,
+          "right": 0.28
+        },
+        "outlier_reasons": [
+          "right_support_fraction<0.45",
+          "unsupported_fraction>0.05"
+        ],
+        "label": "ctrl-l28__s1907",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.915,
+          "right": 0.97
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 6.2,
+          "right": 5.92
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l28__s1908",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.67,
+          "right": 0.63
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.72,
+          "right": 0.68
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l28__s1909",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.9,
+          "right": 0.88
+        },
+        "unsupported_fraction": 0.01,
+        "max_unsupported_run_s": 0.04,
+        "longest_support_run_s": {
+          "left": 3.8,
+          "right": 1.92
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l28__s1910",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.64,
+          "right": 0.625
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.6,
+          "right": 0.6
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l28__s1911",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.93,
+          "right": 0.355
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 6.36,
+          "right": 0.64
+        },
+        "outlier_reasons": [
+          "right_support_fraction<0.45"
+        ],
+        "label": "ctrl-l28__s1912",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.88,
+          "right": 0.935
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 2.08,
+          "right": 2.32
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l28__s1913",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.67,
+          "right": 0.275
+        },
+        "unsupported_fraction": 0.085,
+        "max_unsupported_run_s": 0.52,
+        "longest_support_run_s": {
+          "left": 2.08,
+          "right": 0.56
+        },
+        "outlier_reasons": [
+          "right_support_fraction<0.45",
+          "unsupported_fraction>0.05"
+        ],
+        "label": "ctrl-l28__s1914",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.655,
+          "right": 0.6
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.56,
+          "right": 0.64
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l28__s1915",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.645,
+          "right": 0.65
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.68,
+          "right": 0.68
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l28__s1916",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.92,
+          "right": 0.875
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 4.28,
+          "right": 5.88
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l28__s1917",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.645,
+          "right": 0.695
+        },
+        "unsupported_fraction": 0.085,
+        "max_unsupported_run_s": 0.16,
+        "longest_support_run_s": {
+          "left": 1.08,
+          "right": 1.0
+        },
+        "outlier_reasons": [
+          "unsupported_fraction>0.05"
+        ],
+        "label": "ctrl-l28__s1918",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.9,
+          "right": 0.825
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 6.16,
+          "right": 5.12
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l28__s1919",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.855,
+          "right": 0.83
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 3.88,
+          "right": 4.0
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l28__s1920",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.635,
+          "right": 0.6
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.68,
+          "right": 0.64
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l28__s1921",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.955,
+          "right": 0.97
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 3.8,
+          "right": 5.8
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l28__s1922",
+        "source": "reference"
+      },
+      {
+        "fps": 25.0,
+        "n_frames": 200,
+        "support_fraction": {
+          "left": 0.65,
+          "right": 0.635
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.72,
+          "right": 0.72
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l28__s1923",
+        "source": "reference"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.98989898989899,
+          "right": 0.9848484848484849
+        },
+        "unsupported_fraction": 0.0025252525252525255,
+        "max_unsupported_run_s": 0.02,
+        "longest_support_run_s": {
+          "left": 7.84,
+          "right": 7.62
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l28__s1900.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.9772727272727273,
+          "right": 0.9873737373737373
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 7.44,
+          "right": 7.82
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l28__s1901.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.9797979797979798,
+          "right": 0.9873737373737373
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 7.66,
+          "right": 7.46
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l28__s1902.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.9873737373737373,
+          "right": 0.9873737373737373
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 5.98,
+          "right": 5.88
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l28__s1903.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.6944444444444444,
+          "right": 0.6792929292929293
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.74,
+          "right": 0.72
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l28__s1904.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.6868686868686869,
+          "right": 0.7272727272727273
+        },
+        "unsupported_fraction": 0.005050505050505051,
+        "max_unsupported_run_s": 0.04,
+        "longest_support_run_s": {
+          "left": 0.72,
+          "right": 0.76
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l28__s1905.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.6717171717171717,
+          "right": 0.648989898989899
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.72,
+          "right": 0.7
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l28__s1906.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.9646464646464646,
+          "right": 0.9570707070707071
+        },
+        "unsupported_fraction": 0.0025252525252525255,
+        "max_unsupported_run_s": 0.02,
+        "longest_support_run_s": {
+          "left": 7.08,
+          "right": 5.78
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l28__s1907.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.9848484848484849,
+          "right": 0.9797979797979798
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 7.62,
+          "right": 7.5
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l28__s1908.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.7373737373737373,
+          "right": 0.6868686868686869
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.78,
+          "right": 0.78
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l28__s1909.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.9570707070707071,
+          "right": 0.9722222222222222
+        },
+        "unsupported_fraction": 0.005050505050505051,
+        "max_unsupported_run_s": 0.04,
+        "longest_support_run_s": {
+          "left": 6.94,
+          "right": 7.38
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l28__s1910.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.696969696969697,
+          "right": 0.6893939393939394
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.66,
+          "right": 0.62
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l28__s1911.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 1.0,
+          "right": 0.9772727272727273
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 7.92,
+          "right": 7.64
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l28__s1912.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.9848484848484849,
+          "right": 0.9722222222222222
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 7.68,
+          "right": 7.34
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l28__s1913.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.8914141414141414,
+          "right": 0.9040404040404041
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 5.34,
+          "right": 3.68
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l28__s1914.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.75,
+          "right": 0.7272727272727273
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.64,
+          "right": 0.88
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l28__s1915.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.6616161616161617,
+          "right": 0.6616161616161617
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.72,
+          "right": 0.72
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l28__s1916.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.9444444444444444,
+          "right": 0.9191919191919192
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 6.24,
+          "right": 5.84
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l28__s1917.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.9772727272727273,
+          "right": 0.9696969696969697
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 7.18,
+          "right": 7.56
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l28__s1918.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.9747474747474747,
+          "right": 0.9621212121212122
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 7.12,
+          "right": 6.62
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l28__s1919.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.9090909090909091,
+          "right": 0.8863636363636364
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 5.4,
+          "right": 5.04
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l28__s1920.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.6691919191919192,
+          "right": 0.6666666666666666
+        },
+        "unsupported_fraction": 0.0,
+        "max_unsupported_run_s": 0.0,
+        "longest_support_run_s": {
+          "left": 0.74,
+          "right": 0.72
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l28__s1921.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.9797979797979798,
+          "right": 0.9848484848484849
+        },
+        "unsupported_fraction": 0.0025252525252525255,
+        "max_unsupported_run_s": 0.02,
+        "longest_support_run_s": {
+          "left": 7.66,
+          "right": 7.48
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l28__s1922.achieved",
+        "source": "achieved"
+      },
+      {
+        "fps": 50.0,
+        "n_frames": 396,
+        "support_fraction": {
+          "left": 0.7222222222222222,
+          "right": 0.6994949494949495
+        },
+        "unsupported_fraction": 0.0025252525252525255,
+        "max_unsupported_run_s": 0.02,
+        "longest_support_run_s": {
+          "left": 0.78,
+          "right": 0.76
+        },
+        "outlier_reasons": [],
+        "label": "ctrl-l28__s1923.achieved",
+        "source": "achieved"
+      }
+    ]
+  },
+  "corpus": {
+    "exp1c_dir": "outputs/exp1c_stepover",
+    "arms": [
+      "ctrl-l05",
+      "ctrl-l08",
+      "ctrl-l12",
+      "ctrl-l16",
+      "ctrl-l20",
+      "ctrl-l28"
+    ],
+    "sources": "both",
+    "reference_fps": 25.0,
+    "selection": "tracker-successful (non-terminated, not in failed_keys) achieved rollouts plus their ARDY reference clips",
+    "reference": [
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l05__s1400.npy",
+        "sha256": "2b9787f5d59896d58ed563e80a4d91a2d228e60dc3cfa675b0a1fb3e68973d34"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l05__s1401.npy",
+        "sha256": "5322f84dfe80829b1af8dd85453429bf28194e3d6bce3275256da6b8e22fe80a"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l05__s1402.npy",
+        "sha256": "7cb56ab6233d75d5b5d1b7c2552dfcee0bf26377c6a9ef0616284905a4bb85e2"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l05__s1403.npy",
+        "sha256": "7ffe8d0aa41fd33b166d4d8bd8cfc0cbe94a475d4e0e95f185be2ec26ecdbe7e"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l05__s1404.npy",
+        "sha256": "70209b08bffd6ceecfbde5446667144cac773ee4b7ade98c162b8e95a30dc894"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l05__s1405.npy",
+        "sha256": "6bfb74bc1a30aadf2ca930629bd77adbef66e3b9156d73f5382af9bb234aced8"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l05__s1406.npy",
+        "sha256": "64117610e3e85111de2f93f02839897905c07430590ab91fbdad1358a9e4e575"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l05__s1407.npy",
+        "sha256": "407753b5116942a56805e52c310bf40fae85c884f21b5a0243fc4ef81b17e6c4"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l05__s1408.npy",
+        "sha256": "ef1192741c5f23597be1f66b28e653facfb55790d87efc59f8f3846d6c7f7d5f"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l05__s1409.npy",
+        "sha256": "8fb8008daa95d461beaa40d066a0a344edce8e9ec58d51b066aa434813042a95"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l05__s1410.npy",
+        "sha256": "e198c39009e65ac8f5ad6d77d2a12b489ecc2a1e88b7cc2478903238deef44e5"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l05__s1411.npy",
+        "sha256": "dea9cd7dd5d51afc7abcf3daec56cd1feba56263dad42e88c57f48271461be51"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l05__s1412.npy",
+        "sha256": "62702b5507b431e2830e493d853863565b4b104c6b396e05c4313c6c603ca8b1"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l05__s1413.npy",
+        "sha256": "51f4367d56d49827fa3bcf7e2391265ad6214b222f46ffcb2d7654aa44380e9b"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l05__s1414.npy",
+        "sha256": "6aa8e166d3c777d201a9ddea1ec27b903fa2050976d3c5a78dde6587c8a75938"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l05__s1415.npy",
+        "sha256": "65b92bf1b6296a78bbfba15f86e9170b9bff7558620d17c31661881794d92cfc"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l05__s1416.npy",
+        "sha256": "038d2d8453c2d4b4031929ece7290651e6fc879d6e1da00c4ef921aa430f8bf0"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l05__s1417.npy",
+        "sha256": "f15ca0708771c48ae812ece6cc7bb31d88c167bebd5f0b9a5479ae19f755ca1e"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l05__s1418.npy",
+        "sha256": "9e8c1f4f7c37f8eda720f8de5b525b243cfce917dc31ef647c4e0c9c7fd0a819"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l05__s1419.npy",
+        "sha256": "46ead23dd57da5b88b5c035f05e969d4244ac9ee8b4f8d0083133df55b562c1e"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l05__s1420.npy",
+        "sha256": "717022f31cee465f797541de6efd39f2f47fabdc54f7770adba85404f354eaf9"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l05__s1421.npy",
+        "sha256": "beb2c562356314cc4ecdbb0aef49be5c57876e93a9c748842de137ffc5416da7"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l05__s1422.npy",
+        "sha256": "aa69b975184c380adaf220cffed233fef55cdc7689222d91f7edc0e2db19f36e"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l05__s1423.npy",
+        "sha256": "cc2001cc990a1e8d3af47ef6144e35c13abb82294eb5827b9f6c7d12f0d5de31"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l08__s1500.npy",
+        "sha256": "83a8f0fe538b092de2bc673deb5d74156aa5dd0151b05f67c2da4c46f892d162"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l08__s1501.npy",
+        "sha256": "d165213b90ea8565a193dbf260a89dd3302f52cce14abf65625fe21bdc24ac7b"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l08__s1502.npy",
+        "sha256": "529f9be14ca243948ab1ac86b6c456c8ff437494d8fc3ff1eb3a37df6b09a8f4"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l08__s1503.npy",
+        "sha256": "7dda03230e78567a84d248f41c761f9f67dd14ce88b122eabecd8bf19c75d51b"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l08__s1504.npy",
+        "sha256": "0018d3cf34dcbd3b3ded34298d17916a15f92d38ed68f1b68c8a8724c9ee730e"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l08__s1505.npy",
+        "sha256": "f0afd587e17d65361bfa4c7d83c00ec54331855b2740d46f650b535e729c375f"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l08__s1506.npy",
+        "sha256": "591e2881ea1f4225843bed6ca45458009511074bbdc3ffbe49d2e4d668fc2540"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l08__s1507.npy",
+        "sha256": "7b479ba5fd28817c82e58185d1b67897690673205aa3bdaa8005e15b83a2f009"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l08__s1508.npy",
+        "sha256": "0e05c5cf89c49332022c576666cbda3976e48e85643678e3c79fafcfa1a36890"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l08__s1509.npy",
+        "sha256": "1341b67d25ffedf8c9aece1162c0ee83721916644419146237acb39be8252999"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l08__s1510.npy",
+        "sha256": "91cf1071309c6730da0e2821349525c9f62b5c7d37a7fede111e0a25ad7b63b9"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l08__s1511.npy",
+        "sha256": "0bdf44cf22e047eff50634d4150a17bb2dc8dfd7954657be28fd6ebbe03793be"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l08__s1512.npy",
+        "sha256": "775c82d93142450a04b5305c1ffd2b3861ba9d395fee563f57f449651384c4c1"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l08__s1513.npy",
+        "sha256": "e7b122160fcfd65af0f89d95bd6ecd5ceea00555265ab8e96f5bfa3913eb4324"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l08__s1514.npy",
+        "sha256": "9af4c89c1aa16d77c530df99284783dc4dadd0177a863c7dcf18a4a41a74caa0"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l08__s1515.npy",
+        "sha256": "985d7590b9ae2d1fd15ae103458c0d6e075310921d6e8f30805740287ea8c022"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l08__s1516.npy",
+        "sha256": "8313bb849861b7d193a9a89a4c5c046b183d3d38b997bee607b2060223043211"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l08__s1517.npy",
+        "sha256": "4759849b7916601f45aff7337c278b4f41f6ab92ff4edd71f523aaeb37b48865"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l08__s1518.npy",
+        "sha256": "09aea24382ad2c82699031eeb4fc98db506c9a538ae06a597781e4a19b6f8814"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l08__s1519.npy",
+        "sha256": "b10e726257fd7ba36f1b1bab3cb8a061c8725b63ad9b9a4c0c4b0192e4851776"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l08__s1520.npy",
+        "sha256": "1be12123f747a8850268561d749020fc66f0e38c7a880afe8e1c87d353ef5915"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l08__s1521.npy",
+        "sha256": "08f196617aa26ac4c744d0ab84efdda45b575db68097ae214fda22f3a743c3ee"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l08__s1522.npy",
+        "sha256": "4a74ae5b51e3eea776403ee6ec71270363e6f0c3bba84a0b988444eeed0f8341"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l08__s1523.npy",
+        "sha256": "a8988543c4c26cb509a2c64f4d32beb2117642c9909d2d0feb50ee65ef06cc26"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l12__s1600.npy",
+        "sha256": "520270fb0eeb7191a74e9904f9af6913d38afda56c35910dbb693291578c952b"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l12__s1601.npy",
+        "sha256": "fc95041c12e38711262d18f98b59f1a3ddcd5e3617bae9d94e3af5bc61f969af"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l12__s1602.npy",
+        "sha256": "c683223d0e215913edd39afb6a56ff06d001e8969bb54b97f9b3b04d86b70127"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l12__s1603.npy",
+        "sha256": "5c9ee6fca9c8ea5e158a0bd8ca5f2f59c298e82daa93fc205d6df022ce670838"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l12__s1604.npy",
+        "sha256": "6cce17ede8be2ab5cb3c98a69f121fd3dd78916d7fb75203ad231c8b922dc64f"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l12__s1605.npy",
+        "sha256": "97751063d9ae53dc9e569b3ec6ddedf70848f07007bac22d00d188a3e7c91865"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l12__s1606.npy",
+        "sha256": "1a411a2850e3154666ca5d03b306c64f913910f2897806c364c425b2dbe22664"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l12__s1607.npy",
+        "sha256": "063fe03ba09253a65885b280912c65baca65d4119bbb081878d38e633c98db99"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l12__s1608.npy",
+        "sha256": "b897d4533d77c1b31874f957598891b759be08abd1d11340674c2e02628e34e1"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l12__s1609.npy",
+        "sha256": "6e0a278b81944a69cf3c2b47dacbea96011e015839fa6997dd627708d80546df"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l12__s1610.npy",
+        "sha256": "e7e571b25abd8faa101c067a8689d7de8ce1f00d509ad812c263b5a0fe7adf6e"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l12__s1611.npy",
+        "sha256": "e1ba327362e0d4024950406aa7a4993e0d4852cb3ffa4d2f02e49c800cd15b78"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l12__s1612.npy",
+        "sha256": "2473f857f6b66533016f41462424e8831e3625f3b0370579990b16b90fc0fd84"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l12__s1613.npy",
+        "sha256": "1fc50b2f6b1778fe37313031d9d6ff569b515bdb2ac7215b83250a9f624e1ae1"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l12__s1614.npy",
+        "sha256": "245e60d4efce8445cb237c427448596b25517426b1b7ace0244c01c93e9adfb6"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l12__s1615.npy",
+        "sha256": "669917e2813542f6e273c3276c06d639ad5803ddf2f781e854b08c39da3fb928"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l12__s1616.npy",
+        "sha256": "dcf8f524b40591987e251560456b82738c39d67aa55d56a59d2ebbe0d0b731b8"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l12__s1617.npy",
+        "sha256": "0396213f152f7359e72ed4cd335d3302d0fc0271f81e11d7fcb1f4c968adebb8"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l12__s1618.npy",
+        "sha256": "93ceaedede6f05bfb2a0e0ff6ef3fbde42c217f70b1122ac22d80758649f1820"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l12__s1619.npy",
+        "sha256": "3d1c50c9dd8d07210e116e7a84addbdf80672e6d0daeabe9db5dae24010bdddb"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l12__s1620.npy",
+        "sha256": "87304c12abe4fbfa74beb2c6ab55518c780546d78cd0e9af31a1ce46be03fab6"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l12__s1621.npy",
+        "sha256": "c3d90f65c8f1f8365f68b545237996e262fb22807608ba74014e13fbadfe0ed5"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l12__s1622.npy",
+        "sha256": "92f20f51b2832b33790f3b7c81ed9c074dd94b7be2165ae86da985d1555d0b10"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l12__s1623.npy",
+        "sha256": "3f2a5933c0158855a7d1d5982bfb286321718294543c65fd3e229eb78e0f1b26"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l16__s1700.npy",
+        "sha256": "71500d4d5198dc7290b6088354795ea34bb273db6d90644ae299208e5ce9e427"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l16__s1701.npy",
+        "sha256": "92a9d6d1d1b05cde375aea2dcff8a5dfc04901f6500540f9a50dcc8230b5f337"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l16__s1702.npy",
+        "sha256": "1add52084a6931a1ae5443f29fe78b47bcc7c3b757f2c10be87327487a86ce61"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l16__s1703.npy",
+        "sha256": "cbd191ed8b2067a987c6fbbec139275f078707f0b4380d21caca9dc121d9388a"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l16__s1704.npy",
+        "sha256": "09c9ee6cf7ecd39438cd65ae956f019f2bfda762101cff0d0588c5b5ebf101f4"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l16__s1705.npy",
+        "sha256": "546e6d64e1b72126b90eceff10c7cd34f829a92608e7a9cd02869b627d0103d7"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l16__s1706.npy",
+        "sha256": "44dd0655cc69f84425bfd09796e24e9b4067cfcee62aa998082f2901a1458ebd"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l16__s1707.npy",
+        "sha256": "e6bc079de596987349f440b870cd29750300e57a648f08c28047f51cbc166725"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l16__s1708.npy",
+        "sha256": "6db041ef61baa23448b9385b1d1fa461216ddba2b2b812b5bc48bcb2e6b46ca6"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l16__s1709.npy",
+        "sha256": "5fd2a28386c79e33f238633f75231a061e12443d070406cbf31fff6458dc60be"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l16__s1710.npy",
+        "sha256": "ada099eeb36e2387bf6bbbe74144a2ebcc11041d960b352ef7724570a9cdc5b8"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l16__s1711.npy",
+        "sha256": "474fc907e489cb735b68d5c5e602d5dcb63def20ee0826303fb6f7c1245cb46f"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l16__s1712.npy",
+        "sha256": "1d909676acc821f1d550d527c94876dfb003580751f3a0a6cadd6d74485cd0b1"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l16__s1713.npy",
+        "sha256": "124369cf860ed090c1369424dfbd0b4f7a88678f068c3e7d64d59b368495fd76"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l16__s1714.npy",
+        "sha256": "21a1b988b2e288e272e55192ee26eb1fa240550dc6c6f8ac99f588cd7c84d1a1"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l16__s1715.npy",
+        "sha256": "532538ccbd3e05267ce9c73962407a3f67775825d6db8d6f4f1f03ade2378260"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l16__s1716.npy",
+        "sha256": "8f76568b4a332acfb37a23b7ea60092d14525eda2ea814c922c1b321676fb442"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l16__s1717.npy",
+        "sha256": "f207695f015b7cf6d4a99b5bce1c0fec4b74acca3543b34a53ee3ddde36449e6"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l16__s1718.npy",
+        "sha256": "978e4070bedbad18f78fe7950f389a3a0912524d357dba6f10d7ddcd15c908ca"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l16__s1719.npy",
+        "sha256": "d3ec56444eba64463f43efc17b7d763e47125d5b514536c61219132e1e8ba092"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l16__s1720.npy",
+        "sha256": "c9d4b5c2896a80cf971ee49e89cdc07cac5db68c8ad448a599209e8013a82508"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l16__s1721.npy",
+        "sha256": "00ae2845cf0e3bfd266f2138a1d9ddb1b1d4504b58e874850d5dfd932a460039"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l16__s1722.npy",
+        "sha256": "6df9b7a75124c2e58e7e2444a56f380d1dd6b515a2097b15c7656e04397fd54e"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l16__s1723.npy",
+        "sha256": "cb19401313a6476db3af5c6cc1d9dcbf7f854b32f24796d4a1dbf49a075a324f"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l20__s1800.npy",
+        "sha256": "249172be86b0f1c5a748a1c6074854836ee5d20c47b4ffc6d3fac320b39217c1"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l20__s1801.npy",
+        "sha256": "6344baa3e2a36b4ba94f513494ec33c7a25b697eb579946b852daba8c410edf4"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l20__s1802.npy",
+        "sha256": "15dbfaf088d8cc9d975face337193f5fc64e669e347190607231f5ef5238d089"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l20__s1803.npy",
+        "sha256": "7358a99ae18e85a8f1d8d559d7e6e4849a335ddf582ced7df0a7b299bb3e7d4d"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l20__s1804.npy",
+        "sha256": "078c4db97afb90f4fa43dff6de9214e614bdb8038745725e6043786cea2de0a7"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l20__s1805.npy",
+        "sha256": "f181dbcee13448586b16959002188ca7c1556eba3bac39b5f61ff1e042059a4f"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l20__s1806.npy",
+        "sha256": "6d35ee52616c4a6fefe1ace1f2afb2da4f90d33419b5a3392a89069ff68ab99b"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l20__s1807.npy",
+        "sha256": "a133a2a2ecfc11aece3d854bb598aaea65d4919c7aa80aa3f7efa1f42f1becf2"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l20__s1808.npy",
+        "sha256": "954518f75c6eea86855b80a88e1a8fcaca6dd3a108120631f331d725fcc8a497"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l20__s1809.npy",
+        "sha256": "239fac53ccb10a3bae54e33cddb7b45b741a79d2cb8d552a3ecfb0e8ae4d5d19"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l20__s1810.npy",
+        "sha256": "b7243fd12158b58f58a9e67c4b03c5acb7fc4cc665fc33ac839bfa72d09eb922"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l20__s1811.npy",
+        "sha256": "5834dc40b3fbae15517b7f338bbdf9e959214e500be9637b285dd18128965b94"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l20__s1812.npy",
+        "sha256": "20d21bf32edca65b1b2001f413165aaa96b25df1d48e23db984747dde823ef2b"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l20__s1813.npy",
+        "sha256": "23aeec1ea82e40ef34d63f867c3e0abe8a77a4dea2f5c3fc7a48321550fb9a5e"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l20__s1814.npy",
+        "sha256": "c353379754b183bfe7bab004f301354514d0a73c2f4e950ed6bec755df4bec89"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l20__s1815.npy",
+        "sha256": "63b6a7c233244513bad4cd25252922134cc74363a421162f7cae8e0adf59d879"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l20__s1816.npy",
+        "sha256": "686440bddf174a216b6bc7950744db8dded49db154ae2f6b99aa25578352bb83"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l20__s1817.npy",
+        "sha256": "6db883040484d863746dddd97162548d1ae38bc3bba145e115c0b4363b2f8020"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l20__s1818.npy",
+        "sha256": "82963617405ce0ebe9db1fd1b970d8181c306f133b1d44d77494a636cb329902"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l20__s1819.npy",
+        "sha256": "b4e312f6004cd7a13fda7a08a2ec8aeee2e4266496102f92868b02e5d6fcae87"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l20__s1820.npy",
+        "sha256": "53758ee0e373e56786b44ac96166c9a0916954477e3005315a4766f6d3ecbbd8"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l20__s1821.npy",
+        "sha256": "2b9a01e9b725ca6229df71c26d043ad0729ddd081b3e684f6843e1038a853b96"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l20__s1822.npy",
+        "sha256": "44f5d4aeb43a210da25dbf6c9ec7b37a9987a630b185aa0a57e558ff61059edd"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l20__s1823.npy",
+        "sha256": "ce8519aee6a9d3db8f905c81d1b79b614ac3d26f2b9820c6bc18345427f5a5ee"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l28__s1900.npy",
+        "sha256": "f80a1edad9df7336a6362687d5e35cf45889a1c131139f082a68c6abc47e0e8c"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l28__s1901.npy",
+        "sha256": "a8728b03465daaed60ba3f0afa24b8e9ef7bf4ec916b1d16cdd7d0f70e0d7318"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l28__s1902.npy",
+        "sha256": "d63a92fa861636d23c7cf5c2e85c21ec12b2d36ae59c6ce90ade52d178f7eb2e"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l28__s1903.npy",
+        "sha256": "e1e9ff716502fb5eeda85edd8b39dbacf3ea9203749ff11fa1d85368b9bce077"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l28__s1904.npy",
+        "sha256": "908d90c76844110febbb10c6a3e2b4e27b5177c7278bea9f10cd98c561dc4b75"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l28__s1905.npy",
+        "sha256": "df8012308861d4ab8750f6c876030c8d5db7502eae5c624be2c9f91922bee676"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l28__s1906.npy",
+        "sha256": "ac026cab2e08d9cf193d98bf7b6ace9380861100a92b678c12ee0975faded0a8"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l28__s1907.npy",
+        "sha256": "ea3fa4434cadc44e3fbf8bf54fe45623bf3a9e42810f639d3622f2bc522411d3"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l28__s1908.npy",
+        "sha256": "d5d9ff10408ec0e34668b2dd642708a83bbd43e7b39955d51523e100104feffa"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l28__s1909.npy",
+        "sha256": "28c6c313dbc72c20528af66cf069cbdff1cc8a30d3108b34d81392fd954c505f"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l28__s1910.npy",
+        "sha256": "5fa9cc7bf7ad83eeb5a2c7bd9e82d7194330b3941fc1e7509f96b89bf01e92a7"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l28__s1911.npy",
+        "sha256": "f1bef0af975371523e6b1a1e0a29caa4edf2b1b4ce89c9a57d76b2250d7c383d"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l28__s1912.npy",
+        "sha256": "cad359d2fc2fc0063c0877380d66444fa7363ced62b41e5d1c267ad009a98ab2"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l28__s1913.npy",
+        "sha256": "a04bf7ed16ebbdbf8871cfe4ff606c51c24ab25ea739207bdeb2efef3d56c2c5"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l28__s1914.npy",
+        "sha256": "53d7fee9b685a5566d05b6223fefdbd8afaf77930e7594d2fbe7633033ba3017"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l28__s1915.npy",
+        "sha256": "f457d2b9211758b640e5fc835b00dba9e90108696fa47df5ff19acb810ebe116"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l28__s1916.npy",
+        "sha256": "fd3050482fe509b80e0330902b66bb69d735fc85abe7a20310b867f65ac9d476"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l28__s1917.npy",
+        "sha256": "159b13d8d80692f0a49ce5f81f546ed12e2141c1ecfe3583f32d38d7c97e8d87"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l28__s1918.npy",
+        "sha256": "ed1f22b479c5c961fde2c27d98caf2f3f9c1dd7517895958a12a1ebd1713dd44"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l28__s1919.npy",
+        "sha256": "dcec1aee9ecaf9f8bea912a56a06fe38e1e16c43d23cc78bd5e186b3385544cd"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l28__s1920.npy",
+        "sha256": "cc34d00ec4be1ea49077cdc1d44c5b8d4b5e10edb703c364d6beea49b680813f"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l28__s1921.npy",
+        "sha256": "63b93079f3b1e7703e85875e1fa25f20b494baf1d10473c45ab17f5db80bb9cd"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l28__s1922.npy",
+        "sha256": "4d6eed899e4f9791e6830e5748b1a0d9c0c91a9ed70aeb199f4973246e27bd6a"
+      },
+      {
+        "path": "outputs/exp1c_stepover/qpos/ctrl-l28__s1923.npy",
+        "sha256": "87b9ebde73c4aa02e8a5eddd3c0b97085620a37a1d1194a5a0f72e87f01454d4"
+      }
+    ],
+    "achieved": [
+      {
+        "arm": "ctrl-l05",
+        "archive": "outputs/exp1c_stepover/ctrl-l05/achieved_qpos.npz",
+        "sha256": "d422962de173b4d70a8714de96efbdbe8ad2ab226ecbf6e8252ed1624cb6003a",
+        "sample_dt_s": 0.02,
+        "n_successful": 24,
+        "final_frame_dropped": true
+      },
+      {
+        "arm": "ctrl-l08",
+        "archive": "outputs/exp1c_stepover/ctrl-l08/achieved_qpos.npz",
+        "sha256": "346d81a59b2607e6a74e439899aa61ceffb00382659d63c8298513a15f3a8b44",
+        "sample_dt_s": 0.02,
+        "n_successful": 24,
+        "final_frame_dropped": true
+      },
+      {
+        "arm": "ctrl-l12",
+        "archive": "outputs/exp1c_stepover/ctrl-l12/achieved_qpos.npz",
+        "sha256": "dbe1a7b22f70990bbefc98c146f929162a9b632e44a4d82742d6c7ed5572616b",
+        "sample_dt_s": 0.02,
+        "n_successful": 23,
+        "final_frame_dropped": true
+      },
+      {
+        "arm": "ctrl-l16",
+        "archive": "outputs/exp1c_stepover/ctrl-l16/achieved_qpos.npz",
+        "sha256": "0ed20738ba39c1f03403fa2af82ebc542c5a07a89dd1a01c34c35707bc4a7d52",
+        "sample_dt_s": 0.02,
+        "n_successful": 22,
+        "final_frame_dropped": true
+      },
+      {
+        "arm": "ctrl-l20",
+        "archive": "outputs/exp1c_stepover/ctrl-l20/achieved_qpos.npz",
+        "sha256": "44ff78b598da1966247beaaede464d7d6b71ec85e0067ecb0a197851b2c46554",
+        "sample_dt_s": 0.02,
+        "n_successful": 23,
+        "final_frame_dropped": true
+      },
+      {
+        "arm": "ctrl-l28",
+        "archive": "outputs/exp1c_stepover/ctrl-l28/achieved_qpos.npz",
+        "sha256": "03b25d9e4f1b8cdcb69e7c3421eb70c31106c2493caff2939643521d314937ea",
+        "sample_dt_s": 0.02,
+        "n_successful": 24,
+        "final_frame_dropped": true
+      }
+    ],
+    "excluded_achieved": [
+      {
+        "motion_key": "ctrl-l12__s1615",
+        "reason": "terminated"
+      },
+      {
+        "motion_key": "ctrl-l16__s1700",
+        "reason": "terminated"
+      },
+      {
+        "motion_key": "ctrl-l16__s1723",
+        "reason": "terminated"
+      },
+      {
+        "motion_key": "ctrl-l20__s1815",
+        "reason": "terminated"
+      }
+    ]
+  },
+  "seed": 16016,
+  "max_clips_per_arm": 0,
+  "provenance": {
+    "code": {
+      "commit": "00d6e3e4b841fbb7be166482e844bfab69d0daad",
+      "dirty": true,
+      "status": [
+        " M docs/REPORT.md",
+        " M docs/design.md",
+        " M docs/paper-draft-v0.md",
+        " M experiments/exp016_semantic_geometric_stepover.py",
+        " M scene2motion/sonic_state_export.py",
+        " M scene2motion/stepover_eval.py",
+        " M tests/test_sonic_state_export.py",
+        "?? docs/paper-draft-v1-ramp.md",
+        "?? experiments/calibrate_stepover_thresholds.py",
+        "?? run/"
+      ],
+      "tracked_diff_sha256": "53a10ed6e031cbb57f61325855bf1261b1a7dd89a8dc31c751bc81b33a86e7c8"
+    },
+    "source_sha256": {
+      "experiments/calibrate_stepover_thresholds.py": "80593d1d95601e0ed1abd072f824d9b69b7ea759293392c59b551e4c37deffcc",
+      "scene2motion/stepover_eval.py": "f0e344def2133f3a45935bb1b7ffad8fb2591145557e6b136d50871827cf77b4",
+      "scene2motion/sonic_state_export.py": "1606286b1e934dda2203f5f7e57cf4a8b5df76b87cf558e77ff9a7c3957d75a4"
+    }
+  },
+  "wall_clock_s": 7.2
+}

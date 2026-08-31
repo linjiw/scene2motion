@@ -13,12 +13,13 @@ motion planner for the Unitree G1 — scene geometry plus start and goal in, who
 that reaches the goal, avoids obstacles with the whole body, and is physically executable.
 
 **What was found:** the frozen prior exposes a 43-dimensional constraint interface whose
-*reliably commandable* subset, on this robot, is **narrow — duck depth, plus a weak
-small-amplitude step-over.** Everything else is
-either not requestable, not distinguishable from the prior's own sampling noise, structurally
-capped by the robot's geometry, or not executable by a physics tracker. The planning decision
-this supports is real but scalar: *duck, and by how much*. No learned generator, set-valued
-proposer or reranker is justified.
+*reliably commandable* subset, on this robot, is **narrow — duck depth.** The "weak
+small-amplitude step-over" earlier drafts of this report carried was an 8-seed, v1-sampler
+reading; the completed 24-seed ladder under the intended sampler killed it (§19). Everything
+else is either not requestable, not distinguishable from the prior's own sampling noise,
+structurally capped by the robot's geometry, or not executable by a physics tracker. The
+planning decision this supports is real but scalar: *duck, and by how much*. No learned
+generator, set-valued proposer or reranker is justified.
 
 **What the audit is worth, as a number.** The same 36 programs and the same generated clips,
 counted four ways — each naive row a choice a careful person could make without doing anything
@@ -39,11 +40,12 @@ kinematically and ~10× after physics.** That gap is the contribution
 **What the project is actually a contribution to:** a **capability-auditing methodology** for
 frozen generative priors used as robot planners — how to measure what such a prior will
 *reliably* let you ask for, calibrated against its own stochasticity, with the controls needed to
-keep the answer honest. Along the way it produced a catalogue of twelve measurement defects, ten
-of which biased results *toward* the hypothesis under test.
+keep the answer honest. Along the way it produced a catalogue of roughly **30** measurement
+defects, most of which biased results *toward* the hypothesis under test (the count and its
+scoping are reconciled in §5).
 
-Status: 57 commits, 12 experiment families, ~34 000 ARDY generations, one end-to-end physics
-validation. Research log: `docs/design.md` (33 sections, chronological — later sections correct
+Status: 80 commits, 12 experiment families, ~34 000 ARDY generations, one end-to-end physics
+validation. Research log: `docs/design.md` (39 sections, chronological — later sections correct
 earlier ones). This report is the current state, organised by topic rather than by date.
 
 ---
@@ -194,7 +196,7 @@ Three runs of the same code, same scenes, same seeds, changing only the configur
   →  13.2 kinematically valid        (goal reached, collision-free, > half the seeds)
   →  10.8 valid AND stable           (one modal active set on ≥ 80 % of seeds)
   →   1.7 distinct addressable modes
-  →  1-2   dynamically executable     (duck, strong; small gated step-over, weak — §4.7)
+  →   1   dynamically executable      (duck; the gated step-over died on the v2 ladder — §19)
 ```
 
 The originally reported 3.00 modes/scene decomposes into **2.17 of behaviour** (once a
@@ -299,6 +301,11 @@ pre-committed to in §8.1 — withdrawal at ≥ 0.5 success over 16 seeds — 0.
 difference is in how the request was formed. The boundary lies somewhere between 0.08 m (tracks,
 1.45 contacts) and 0.35 m (does not, 0.05 contacts) and has not been located.
 
+*(Update, 2026-08-31.)* The 0.375 was an 8-seed reading under the quarantined v1 sampler.
+EXP-1C ran the full amplitude ladder at 24 seeds under noise stream v2 with the same per-side
+gating and **no amplitude survived**: best success 0.25 at 0.05 m, falling to 0.0 by 0.16 m,
+while matched controls held 0.92–1.00. **"Weakly executable" is withdrawn — see §19.**
+
 **A result that has to be restated.** The conformal kinematic envelope refused `low_obstacle`
 0/20, and the tracker initially appeared to confirm it at lift 0/8 — two independent methods
 agreeing. That agreement is now known to be partly coincidental: the tracker's 0/8 was measuring
@@ -349,6 +356,16 @@ hypothesis under test.** The skew is real and, at the census count, larger in ab
 the running tally suggested. What is *not* reliable is any precise ratio, and this report should
 not have quoted one — a tally accumulated across a research log is not a measurement, and I
 applied less rigour to counting my own errors than to any experiment in this report.
+
+**One number, and its scoping — because this report and the paper draft were quoting two.**
+The ~24 census above covers the *audit phase* only — the research log as it stood when the
+census was taken on 2026-08-29 (at the census's own bundling; ~32 if split). Since then the
+ledger has grown by exactly six enumerable entries: the five Phase 4 defects in §17 (#15–19)
+and the noise-stream v1 sampler defect (per-window latent replay,
+`revalidation-2026-08-30.md`). 24 + 5 + 1 = **~30 project-wide**, which is the number the
+frozen paper draft carries. The convention from here on: **~30** when counting the project,
+**~24** only when explicitly scoped to the audit phase. Both remain "~" numbers — the census
+bundling is a judgement call, not a measurement.
 
 That direction is not bad luck — each defect sat where I had a hypothesis and the metric had
 freedom to agree with it.
@@ -412,16 +429,17 @@ the ledger existed, a hardcoded-threshold bug was repaired post-hoc with zero GP
 ## 6. What this means
 
 **For this system.** ARDY-G1 exposes a rich-looking interface — 5 channels, 43 program
-dimensions, 36 spread requests — and delivers **one strong executable body axis and one weak
-one**. The boundary between
+dimensions, 36 spread requests — and delivers **one strong executable body axis** (the weak
+second axis this section once carried did not survive the v2 ladder — §19). The boundary between
 what works and what does not is predictable from the *representation* (absolute-height versus
 root-relative-lateral), from the *robot* (the thighs cap narrowing), and from the *action space*
 (no yaw field), and **not** from anything one would call the model's competence.
 
 **For the original goal.** Scene-conditioned whole-body traversal on G1 is achievable for
-overhead clearance, and — through text rather than through the constraint interface — for the
-lower half of the `low_obstacle` ladder. The 0/20 refusal of that family was correct *for the
-action space it was calibrated over* and wrong about the robot.
+overhead clearance. The text route to the `low_obstacle` ladder is weaker than first reported:
+the elicited lift is behaviourally real but lands ~0.14 m from where a placed obstacle needs it
+and clears a 0-cm box in 8/8 seeds (§20), so the 0/20 refusal of that family stands until
+EXP-016 shows the behaviour can be *placed*.
 
 **For the learned-model question.** Settled, negatively, three times over: a perfect reranker
 wins 0.023; the bottleneck is candidate *support* rather than selection; and the surviving
@@ -481,7 +499,8 @@ partially (**0.375**, 1.45 contacts). The pre-committed bar was ≥ 0.5 over 16 
 over 8 does not clear, so what remains is to run the intermediate amplitudes (0.12, 0.16, 0.20,
 0.25) at 16 seeds and locate the boundary. **This is now the highest-value experiment in the
 project**, because it decides whether the executable repertoire is one axis plus a fringe case or
-genuinely two.
+genuinely two. *(Done — EXP-1C, §19: 24 seeds × 6 amplitudes under v2, no amplitude survived.
+The repertoire is one axis.)*
 
 **(b) Elicit the behaviour with TEXT, address it with the ROOT.** *The best idea to come out of
 the next-steps panel, and one I had not considered.* ARDY is text-conditioned, and the root
@@ -581,7 +600,9 @@ step-over is only **weakly** executable. It rests on 8 seeds at a single amplitu
 0.5-over-16-seeds bar this report set for itself. The amplitude ladder in (a) is unfinished, and
 the boundary between 0.08 m (works) and 0.35 m (does not) is unlocated. If the band is wider than
 it currently looks, the executable repertoire is two solid axes and several conclusions in §6
-soften further.
+soften further. *(Resolved the other way — §19: the band is empty at 24 seeds under v2. The
+"weakly executable" half of the claim is withdrawn, and the streak of capability-absent claims
+failing on a better request ends at five.)*
 
 *One methodological note for whoever continues.* A claim in the panel that fed this section — that
 the scene suite labels only two adaptation types — was **false**: the 128-scene suite carries six
@@ -618,6 +639,12 @@ tracks at 0.625 against the walk's 0.875, so it is not free. And it does not res
 — the planner needs "duck by 0.31 m here, then step over that", and nothing here shows text can
 be steered that precisely.
 
+*(Update, 2026-08-31.)* A spatial re-analysis of these same clips (EXP-015b, §20) found the
+elicited lift **behaviourally real but spatially unplaced**: against a virtual obstacle at a
+fixed route coordinate, whole-body box clearance is 0.0 m in 8/8 seeds at every probed height,
+with the swing peak landing ~0.14 m from the obstacle. Text elicits the behaviour; nothing yet
+places it.
+
 ---
 
 # Phase 4 — Generate → Verify → Repair → Select
@@ -627,9 +654,11 @@ the body, hand it to the frozen prior, and hope. Phase 3's convex teacher halved
 at 100% collision-free on single-beam scenes, which was the first genuine improvement in the
 project — and it was measured entirely inside the distribution the surrogate was fitted on.
 
-The table in this phase is a **legacy noise-stream-v1 result pending exact v2 replication**.
-Its generate→verify→repair architecture remains the hypothesis under test; its numerical
-effect sizes are not current headline claims.
+The tables in this phase are **legacy noise-stream-v1 results**. The exact v2 replication has
+now landed (§21): the generate→verify→repair architecture survives it, with one honest
+exception (equal-budget resampling beats repair on margin for the heuristic proposer). The v1
+numerical effect sizes below are kept for the record and are not current headline claims —
+quote §21.
 
 Phase 4 closes the loop. The system now generates, measures what the motion *actually*
 cleared, corrects locally from that measurement, regenerates, and reverifies.
@@ -859,3 +888,151 @@ What does work is measuring. Two bounded corrections driven by actual geometry t
 from 0.750 to 1.000 collision-free on scenes it was never trained for, with zero regressions,
 at 2.7× the ARDY calls. That is a smaller and less elegant claim than "the learned planner
 generalises", and it is the one the evidence supports.
+
+---
+
+# Phase 5 — Noise stream v2: what survived replication
+
+Everything in this part ran under the corrected per-sample sampler (`NOISE_STREAM_VERSION = 2`,
+`CACHE_VERSION = 2`; scope and locked rerun order in
+[`revalidation-2026-08-30.md`](revalidation-2026-08-30.md)) except where a **v1 quarantine
+banner** says otherwise. Two of the four rerun items on the locked list are done and both
+changed a conclusion; the third landed with an honest wrinkle; the fourth (the audit-cell
+re-check of the 6× counting result) has not run.
+
+## 19. EXP-1C: the step-over ladder was finished, and the claim is dead
+
+§4.7 and §8.1(a) left the position-channel step-over "weakly executable" — 0.375 tracked
+success over 8 seeds at one amplitude, under the v1 sampler — with the amplitude boundary
+unlocated. EXP-1C (`experiments/exp001c_step_over.py`, `outputs/exp1c_stepover/`) located it:
+**24 seeds × 6 lifts** (0.05–0.28 m), per-seed `planner._limb_targets` gating on each seed's
+*own* control clip, matched controls at every rung, noise stream v2, 735.5 s.
+
+| lift request | overshoot | contacts (lift / ctrl) | bilateral flight | SONIC success (lift / ctrl) |
+|---|---|---|---|---|
+| 0.05 m | 2.32× | 0.35 / 3.55 | 0.906 | **0.250** / 1.000 |
+| 0.08 m | 1.98× | 0.25 / 3.03 | 0.948 | 0.083 / 1.000 |
+| 0.12 m | 1.88× | 0.29 / 3.60 | 0.942 | 0.042 / 0.958 |
+| 0.16 m | 1.92× | 0.20 / 2.18 | 0.958 | **0.000** / 0.917 |
+| 0.20 m | 1.76× | 0.28 / 3.23 | 0.933 | 0.000 / 0.958 |
+| 0.28 m | 1.68× | 0.12 / 3.18 | 0.975 | 0.000 / 1.000 |
+
+The pre-committed kill condition — some amplitude with tracked success ≥ 0.5 **and** median
+clearance-at-peak ≥ 0.05 m at 24 seeds — fired at no rung; the receipt's verdict field reads
+**"claim KILLED on this ladder"** with an empty `survived_amplitudes` list. The failure mode is
+the same at every amplitude: ARDY over-responds 1.68–2.32× and puts the reference into
+bilateral flight on 91–98 % of gated frames, while the matched controls track at 0.92–1.00.
+There is no amplitude band where the position channel buys a placed, contact-consistent
+step-over — the 0.375 was a v1-sampler, 8-seed artefact of the one amplitude that was tried.
+
+This supersedes `outputs/exp014_small` (single-seed gating defect;
+`review-2026-08-30-codex-changeset.md`) and it is the sixth time a step-over claim changed when
+the experiment asked properly — this time in the *unfavourable* direction, which is worth
+noting: the elicitation principle of §35 (design.md) cuts both ways.
+
+## 20. EXP-015b: the text-elicited step-over is behaviourally real and spatially useless
+
+> **v1 quarantine.** This re-analysis scores the *saved EXP-015 clips*, which were generated
+> under the legacy v1 sampler. It is diagnostic, not confirmatory
+> (`receipt.json: status = post_hoc_exploratory`); the held-out v2 test is EXP-016, authored
+> (`experiments/exp016_semantic_geometric_stepover.py`) but not yet run.
+
+§4.9 reported that seven words of prompt raise the swing foot +57 mm while preserving contact.
+EXP-015b (`outputs/exp015b_spatial_reanalysis/`) asks the question EXP-015's design did not: did
+that lift happen *where an obstacle would need it*? A virtual corridor-spanning box at a fixed
+route coordinate (x = 3.8 m, 0.2 m deep), whole-body clearance from exact collision geometry:
+
+| arm | box clear-rate @ 0.05/0.08/0.12 m | \|phase error\| | swing foot at crossing |
+|---|---|---|---|
+| A walk text | 0.0 / 0.0 / 0.0 | 0.080 m | 0.024 m |
+| B step-over text | **0.0 / 0.0 / 0.0** | **0.144 m** | 0.055 m |
+| C walk + position lift | 0.0 / 0.0 / 0.0 | 0.140 m | 0.352 m |
+
+**Max box height cleared by the whole body: 0.000 m, in 8/8 seeds, in every arm.** Arm B's lift
+is real (+31 mm of swing foot at the crossing over arm A, paired) but its peak lands ~0.14 m
+from the obstacle, and 0.14 m of phase error at 0.9 m/s is the difference between stepping over
+a box and stepping on it. So the §4.9 result decomposes cleanly: **text supplies the behaviour,
+nothing supplies the placement.** That is precisely the semantic × geometric composition
+question, and it is what EXP-016 is built to answer.
+
+## 21. Table 2 landed: proposer × feedback × equal-budget resampling, 8 seeds, v2
+
+The §12 table was one seed under the v1 sampler. Its exact replication — plus the control the
+field usually omits — is now committed: `outputs/phase4e_architecture_v2_s8/experiment.json`,
+36 OOD scenes (3–6 beams × heights 0.95/1.05/1.20 × gaps 1.5/2.5/3.5) × 8 paired seeds
+(100–107) × 15 arms = **4 320 rows**, 2 241.9 s, provenance frozen per row (commit `d54565b`,
+checkpoint and dataset hashes, `noise_stream_version: 2`). The resampling arms regenerate with
+the proposal held byte-identical at the same generation budget, so "feedback helps" cannot be
+confused with "more samples help". Cells: collision-free / meets-0.18 m / mean generations:
+
+| proposer | one-shot | +1 repair | +2 repairs | best-of-2 | best-of-3 |
+|---|---|---|---|---|---|
+| heuristic | .983 / .535 / 1.0 | 1.000 / .622 / 1.5 | 1.000 / .646 / 1.8 | .993 / .656 / 1.5 | 1.000 / **.726** / 1.8 |
+| qp | .872 / .007 / 1.0 | 1.000 / .326 / 2.0 | 1.000 / .417 / 2.7 | .944 / .017 / 2.0 | .972 / .031 / 3.0 |
+| tcn | .729 / .003 / 1.0 | .913 / .278 / 2.0 | .993 / .375 / 2.7 | .764 / .007 / 2.0 | .774 / .014 / 3.0 |
+
+Three things, two expected and one not:
+
+* **The v1 architecture conclusion replicates.** Repair dominates resampling wherever the
+  proposal itself is wrong: for the TCN, +2 repairs beats equal-budget best-of-3 .993 vs .774
+  collision-free (paired discordance **63 vs 0** rows), and .375 vs .014 on margin (104 vs 0);
+  for the QP, .417 vs .031 on margin (112 vs 1). Resampling an optimistic schedule redraws the
+  noise around the same mistake.
+* **The honest wrinkle: for the heuristic proposer, resampling beats repair on margin.**
+  Equal-budget best-of-3 reaches **0.726** margin satisfaction against repair's **0.646**
+  (row-paired discordance 41 vs 18 in resampling's favour; both reach 1.000 collision-free).
+  A proposal that is already *shaped* right and generously deep has nothing for repair to fix
+  that seed luck cannot also fix — repair earns its cost exactly where the proposer is the
+  weak link, and the report should not pretend otherwise.
+* **tcn+2 is 0.993, not the v1 table's 1.000** (286/288; Wilson 95 % lower bound at n = 288 is
+  0.987 for a true 1.000). "Two repairs restore 1.000 at every beam count" was a one-seed
+  statement; under 8 seeds it holds for heuristic+1/+2 and qp+1/+2 but not for the TCN.
+
+Seeds are nested in scenes, so the scene (n = 36) is the inference unit for any confirmatory
+claim; the row-level discordances above are stated as ledger counts, not tests.
+
+## 22. Corpus pilot v2: the loop as a data engine, measured
+
+`outputs/corpus_pilot_v2/` — 300 randomized scenes through the full accept loop (heuristic
+proposer, ≤ 2 repairs, seed 7), **301.9 s wall-clock** on one consumer GPU: **192 accepted,
+76 accepted-margin, 6 rejected, 26 refused-with-reason**. That is 268 kinematically verified
+traversal records — with per-record manifest, schedule hashes and v2 cache keys — in five
+minutes, and 0 records silently dropped. The throughput tiers the paper draft commits to
+(generated / kinematically scored / accepted / SONIC-executed) are measurable from this
+manifest for the first three; the fourth still requires the achieved-state archive of §4.8.
+
+## 23. Redirection, 2026-08-31: the audit becomes infrastructure; the method is RAMP
+
+The sixth guidance document (`guidance-2026-08-31-ramp-refocus.md`, review verbatim in
+`guidance-2026-08-31-ramp-refocus-full.md`) redirects the project. The audit-shaped paper
+draft (`paper-draft-v0.md`) is **frozen as the baseline technical report**, and everything
+this report measures — Table 2, the τ(d) execution gate, the cross-prior audit — is
+reclassified as **baseline, regression test and evaluation infrastructure** for a method
+contribution: **Scene2Motion-RAMP** (Response-Adaptive Motion Programs) — event-aligned,
+prior-compatible motion programs, coherent adaptation residuals transported onto the current
+seed's own phase-matched nominal, and response-conditioned repair that modifies the program
+from the observed generation failure. The bar the guidance sets is explicit: the next result
+that matters is whether coherent residual + response adaptation turns placed step-over,
+lateral squeeze and composed traversal from failures (§19, §20) into stable executable
+successes — not another defect count or overstatement factor. This report remains the ledger
+of record for the baseline numbers; RAMP work is documented from its own drafts forward.
+
+## 24. Kimodo-G1 replication: numbers real, artifacts lost — a provenance gap
+
+The frozen paper draft (`paper-draft-v0.md:228–237`) quotes a reduced audit on Kimodo-G1-RP-v1:
+naive counts 8.0/9.0/9.0 vs calibrated 2.0 — a 4.5× overstatement — from 84 clips in 173 s.
+**No `outputs/` directory backs those numbers.** The provenance hunt (2026-08-31) found the
+run: it executed on this machine on 2026-08-31 ~04:40 UTC from a Claude session working in
+`/home/linjiw/ardy`, and wrote everything to that session's **temporary scratchpad**
+(`/tmp/claude-1000/-home-linjiw-ardy/f4440d67-…/scratchpad/kimodo/`, including
+`audit_out/receipt.json` with `n_clips: 84`, `wall_clock_s: 172.7`, counts matching the draft
+digit-for-digit). That directory **no longer exists** — `/tmp` scratchpads are session-scoped
+and were cleaned. The numbers survive only in the session transcript
+(`~/.claude/projects/-home-linjiw-ardy/f4440d67-ed27-4331-be07-dc169754a80c.jsonl`), which
+captured the receipt fields and per-program console output verbatim, and the generating
+scripts (`kimodo_runner.py`, `kimodo_reduced_audit.py`) are recoverable from the same
+session's subagent transcript. So the result is *attested but not re-derivable*: every other
+number in this report traces to a committed ledger; this one traces to a chat log. Until the
+audit is re-run with its receipt landed under `outputs/`, the Kimodo row does not meet this
+project's own evidence bar and must be labelled transcript-sourced wherever it is quoted.
+Full trail and rerun checklist: [`../run/KIMODO-PROVENANCE.md`](../run/KIMODO-PROVENANCE.md).

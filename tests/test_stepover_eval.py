@@ -3,6 +3,7 @@ import pytest
 
 from scene2motion.stepover_eval import (
     StepOverThresholds,
+    calibrate_stepover_thresholds,
     evaluate_local_step,
     foot_clearance_series,
     foot_kinematics_series,
@@ -101,12 +102,13 @@ def valid_step_qpos():
 
 
 def relaxed_thresholds(**changes):
+    # 0.2 s and 0.3 s equal the historical 2- and 3-frame gates at these tests' 10 fps.
     values = dict(
         support_height_m=0.02,
         support_speed_mps=0.20,
         min_contralateral_support_fraction=0.90,
-        max_unsupported_run_frames=2,
-        landing_dwell_frames=3,
+        max_unsupported_run_s=0.2,
+        landing_dwell_s=0.3,
         landing_horizon_s=0.75,
         max_floor_penetration_m=0.02,
         lateral_corridor_half_width_m=0.30,
@@ -260,3 +262,119 @@ def test_local_step_input_validation(bad_depth, bad_fps):
             FakeFootBody(), FakeObstacleBody(), valid_step_qpos(),
             1.0, bad_depth, bad_fps, obstacle_margin_m=0.0,
         )
+
+
+def test_temporal_gates_are_seconds_converted_per_fps():
+    # Defaults reproduce the historical 2- and 3-frame gates at 25 fps, and scale at the
+    # 50 Hz SONIC replay rate instead of silently doubling stringency (review defect 4/6).
+    default = StepOverThresholds()
+    assert default.max_unsupported_run_s == pytest.approx(0.08)
+    assert default.landing_dwell_s == pytest.approx(0.12)
+    assert default.max_unsupported_run_frames(25.0) == 2
+    assert default.landing_dwell_frames(25.0) == 3
+    assert default.max_unsupported_run_frames(50.0) == 4
+    assert default.landing_dwell_frames(50.0) == 6
+    assert StepOverThresholds(max_unsupported_run_s=0.0).max_unsupported_run_frames(50.0) == 0
+    assert StepOverThresholds(landing_dwell_s=1e-6).landing_dwell_frames(25.0) == 1
+    with pytest.raises(ValueError):
+        StepOverThresholds(max_unsupported_run_s=-0.1).validate()
+    with pytest.raises(ValueError):
+        StepOverThresholds(landing_dwell_s=0.0).validate()
+
+
+def test_landing_dwell_gate_is_a_duration_at_the_evaluated_rate():
+    # The trailing foot's landing run in valid_step_qpos is frames 19..24: six frames, i.e.
+    # 0.6 s at these tests' 10 fps.  A 0.6 s dwell passes and a 0.7 s dwell fails, which
+    # only holds if the gate converts seconds through the fps actually passed in.
+    q = valid_step_qpos()
+    passing = evaluate_local_step(
+        FakeFootBody(), FakeObstacleBody(), q, 1.0, 0.2, 10.0,
+        obstacle_margin_m=0.0, thresholds=relaxed_thresholds(landing_dwell_s=0.6))
+    failing = evaluate_local_step(
+        FakeFootBody(), FakeObstacleBody(), q, 1.0, 0.2, 10.0,
+        obstacle_margin_m=0.0, thresholds=relaxed_thresholds(landing_dwell_s=0.7))
+    assert passing["gates"]["trail_landing_dwell"]
+    assert not failing["gates"]["trail_landing_dwell"]
+
+
+def test_unsupported_run_gate_is_a_duration_at_the_evaluated_rate():
+    q = valid_step_qpos()
+    q[:, 5] = q[:, 2]
+    q[:, 7] = q[:, 4]
+    strict = evaluate_local_step(
+        FakeFootBody(), FakeObstacleBody(), q, 1.0, 0.2, 10.0,
+        obstacle_margin_m=0.0, thresholds=relaxed_thresholds())
+    generous = evaluate_local_step(
+        FakeFootBody(), FakeObstacleBody(), q, 1.0, 0.2, 10.0,
+        obstacle_margin_m=0.0,
+        thresholds=relaxed_thresholds(max_unsupported_run_s=10.0))
+    assert not strict["gates"]["bounded_unsupported_run"]
+    assert generous["gates"]["bounded_unsupported_run"]
+
+
+def _synthetic_walk_kinematics(T=60, period=20, duty=12, stance_clearance=0.005,
+                               swing_clearance=0.09, stance_speed=0.30,
+                               swing_speed=1.20, phase_offset=10):
+    """Alternating-gait clearance/speed series shaped like a supported walk."""
+    def series(offset):
+        stance = (np.arange(T) + offset) % period < duty
+        return {
+            "bottom_clearance_m": np.where(stance, stance_clearance, swing_clearance),
+            "planar_speed_mps": np.where(stance, stance_speed, swing_speed),
+        }
+    return {"left": series(0), "right": series(phase_offset)}
+
+
+def test_calibration_locks_support_thresholds_from_synthetic_walk_masks():
+    clips = [_synthetic_walk_kinematics(), _synthetic_walk_kinematics(T=80)]
+    thresholds, diagnostics = calibrate_stepover_thresholds(clips, [25.0, 25.0])
+
+    # Stance speed 0.30 sits above the conservative 0.20 default, so calibration must
+    # loosen the speed threshold (stance quantile 0.30 times headroom 1.25) while the
+    # already-sufficient height default is kept rather than tightened to 1.25 * 0.005.
+    assert thresholds.support_speed_mps == pytest.approx(0.375)
+    assert thresholds.support_height_m == pytest.approx(0.02)
+    assert thresholds.max_unsupported_run_s == pytest.approx(0.08)
+    assert thresholds.landing_dwell_s == pytest.approx(0.12)
+    assert diagnostics["n_accepted"] == 2
+    assert diagnostics["outlier_clip_indices"] == []
+    for clip in diagnostics["clips"]:
+        assert clip["unsupported_fraction"] == 0.0
+        for side in ("left", "right"):
+            assert clip["support_fraction"][side] == pytest.approx(0.6)
+    again, _ = calibrate_stepover_thresholds(clips, [25.0, 25.0])
+    assert again == thresholds
+
+
+def test_calibration_reports_floaters_as_outliers_within_budget_and_fails_beyond():
+    walk = _synthetic_walk_kinematics()
+    floater = {
+        side: {"bottom_clearance_m": np.full(60, 0.20),
+               "planar_speed_mps": np.full(60, 2.0)}
+        for side in ("left", "right")
+    }
+    clips = [walk] * 11 + [floater]
+    # In a 12-clip corpus the default 0.95 corpus quantile would land inside the floater's
+    # own statistics; a corpus quantile below its 1/12 mass keeps the thresholds honest.
+    thresholds, diagnostics = calibrate_stepover_thresholds(
+        clips, [25.0] * 12, corpus_quantile=0.9)
+    assert diagnostics["outlier_clip_indices"] == [11]
+    assert diagnostics["clips"][11]["outlier_reasons"]
+    # The floater is excluded from the temporal gates rather than inflating them.
+    assert thresholds.max_unsupported_run_s == pytest.approx(0.08)
+    with pytest.raises(ValueError, match="outlier"):
+        calibrate_stepover_thresholds(clips, [25.0] * 12, corpus_quantile=0.9,
+                                      max_outlier_fraction=0.0)
+    with pytest.raises(ValueError, match="outlier"):
+        calibrate_stepover_thresholds(
+            [walk] * 2 + [floater], [25.0] * 3, corpus_quantile=0.5)
+
+
+def test_calibration_input_validation():
+    walk = _synthetic_walk_kinematics()
+    with pytest.raises(ValueError, match="align"):
+        calibrate_stepover_thresholds([walk], [25.0, 25.0])
+    with pytest.raises(ValueError, match="at least one"):
+        calibrate_stepover_thresholds([], [])
+    with pytest.raises(ValueError, match="fps"):
+        calibrate_stepover_thresholds([walk], [0.0])

@@ -9,11 +9,15 @@ from scene2motion.sonic_export import G1_29DOF
 from scene2motion.sonic_state_export import (
     ARCHIVE_NAME,
     CALLBACK_TARGET,
+    FRAME_CONVENTION,
     QPOS_WIDTH,
+    SAMPLE_OFFSET_STEPS,
     SonicRollout,
+    SonicStateExportCallback,
     achieved_qpos_by_key,
     isaac_state_to_mujoco_qpos,
     load_sonic_state_rollouts,
+    sonic_state_archive_schema,
     sonic_state_hydra_overrides,
     sonic_state_sample_dt,
     sonic_state_subprocess_env,
@@ -82,6 +86,101 @@ def test_archive_loader_trims_padding_and_preserves_outcomes(tmp_path):
     keyed = achieved_qpos_by_key(archive)
     assert set(keyed) == {"early-stop", "late"}
     assert keyed["early-stop"].shape == (1, 36)
+
+
+def write_v1_archive(path, records, sample_dt_s=0.02):
+    """The pre-fix on-disk layout: schema 1, teleport frame kept for non-terminated envs."""
+    max_len = max(r.valid_length for r in records)
+    padded = np.full((len(records), max_len, QPOS_WIDTH), np.nan, dtype=np.float32)
+    for i, r in enumerate(records):
+        padded[i, : r.valid_length] = r.qpos
+    np.savez_compressed(
+        path,
+        schema_version=np.asarray(1, dtype=np.int16),
+        qpos=padded,
+        valid_lengths=np.asarray([r.valid_length for r in records], dtype=np.int32),
+        terminated=np.asarray([r.terminated for r in records], dtype=np.bool_),
+        progress=np.asarray([r.progress for r in records], dtype=np.float32),
+        motion_keys=np.asarray([r.motion_key for r in records], dtype=np.str_),
+        motion_ids=np.asarray([r.motion_id for r in records], dtype=np.int64),
+        joint_names=np.asarray(G1_29DOF, dtype=np.str_),
+        root_frame=np.asarray("isaac_env_local", dtype=np.str_),
+        root_quaternion_order=np.asarray("wxyz", dtype=np.str_),
+        sample_dt_s=np.asarray(sample_dt_s, dtype=np.float64),
+    )
+
+
+def test_v2_archive_encodes_frame_rate_convention():
+    # Pins review defect #2: the achieved[i] <-> reference frame mapping must live in the
+    # archive, not in a consumer's head.
+    assert SAMPLE_OFFSET_STEPS == 1
+    assert "no frame-0 sample" in FRAME_CONVENTION
+
+
+def test_v2_archive_carries_convention_fields(tmp_path):
+    archive = write_sonic_state_archive(
+        [SonicRollout("only", _qpos(2, 0), 2, False, 1.0, 0)],
+        tmp_path / ARCHIVE_NAME,
+        sample_dt_s=0.02,
+    )
+    with np.load(archive, allow_pickle=False) as raw:
+        assert int(raw["schema_version"]) == 2
+        assert int(raw["sample_offset_steps"]) == 1
+        assert bool(raw["timeout_frame_dropped"])
+        assert str(raw["frame_convention"].item()) == FRAME_CONVENTION
+    assert sonic_state_archive_schema(archive) == 2
+    # A v2 loader must not trim again: the writer's convention already excludes the teleport.
+    assert load_sonic_state_rollouts(archive)[0].valid_length == 2
+
+
+def test_v1_archive_loader_drops_the_nonterminated_teleport_frame(tmp_path):
+    # Measured on heuristic_00..04: every non-terminated rollout's final v1 frame is the
+    # post-reset frame-0 pose at the env origin (|a[-1] - ref[0]| = 0.000 m across 43 envs).
+    timed_out = _qpos(4, 50)
+    timed_out[-1] = timed_out[0]  # the teleport: back to the start pose
+    early_stop = _qpos(3, 10)
+    path = tmp_path / ARCHIVE_NAME
+    write_v1_archive(
+        path,
+        [
+            SonicRollout("timed-out", timed_out, 4, False, 1.0, 0),
+            SonicRollout("early-stop", early_stop, 3, True, 0.5, 1),
+        ],
+    )
+    assert sonic_state_archive_schema(path) == 1
+    loaded = {r.motion_key: r for r in load_sonic_state_rollouts(path)}
+    assert loaded["timed-out"].valid_length == 3  # teleport frame gone
+    np.testing.assert_array_equal(loaded["timed-out"].qpos, timed_out[:3])
+    assert loaded["early-stop"].valid_length == 3  # terminated rollouts are untouched
+    np.testing.assert_array_equal(loaded["early-stop"].qpos, early_stop)
+
+
+def test_callback_batch_trim_excludes_timeout_teleport_frame():
+    # Pins review defect #1 at the source, without an Isaac environment: a non-terminated env
+    # must archive ref_len - 1 samples because the snapshot at index ref_len - 1 is the
+    # post-reset pose Isaac produced inside motion_time_out's own step().
+    from types import SimpleNamespace
+
+    cb = object.__new__(SonicStateExportCallback)
+    cb._achieved_records = []
+    steps = 6
+    cb._batch_qpos = [np.full((2, QPOS_WIDTH), float(t), dtype=np.float32) for t in range(steps)]
+    cb._batch_motion_ids = np.asarray([0, 1], dtype=np.int64)
+    cb._batch_reference_lengths = np.asarray([steps, steps], dtype=np.int64)
+    cb.terminate_memory = [np.asarray([False, True])]
+    cb.progress_memory = [np.asarray([1.0, 0.5])]
+    cb.env = SimpleNamespace(
+        _motion_lib=SimpleNamespace(_num_unique_motions=2, _motion_data_keys=["walk", "duck"])
+    )
+    cb._finish_achieved_batch()
+
+    by_key = {r.motion_key: r for r in cb._achieved_records}
+    assert by_key["walk"].valid_length == steps - 1
+    assert by_key["walk"].progress == 1.0
+    assert not by_key["walk"].terminated
+    np.testing.assert_array_equal(by_key["walk"].qpos[:, 0], np.arange(steps - 1))
+    assert by_key["duck"].valid_length == 3  # rint(0.5 * 6): terminated trim is unchanged
+    assert by_key["duck"].terminated
 
 
 def test_directory_loader_merges_rank_shards_by_global_motion_id(tmp_path):

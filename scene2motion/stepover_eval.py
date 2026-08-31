@@ -7,8 +7,8 @@ a clip failed without substituting for that collision test.
 
 from __future__ import annotations
 
-from dataclasses import asdict, dataclass
-from typing import Literal
+from dataclasses import asdict, dataclass, replace
+from typing import Literal, Sequence
 
 import numpy as np
 import mujoco
@@ -35,8 +35,12 @@ class StepOverThresholds:
     support_height_m: float = 0.02
     support_speed_mps: float = 0.20
     min_contralateral_support_fraction: float = 0.90
-    max_unsupported_run_frames: int = 2
-    landing_dwell_frames: int = 3
+    # Temporal gates are durations, not frame counts: the same clip is evaluated at ARDY's
+    # 25 fps and at SONIC's 50 Hz achieved-state rate, and a frame-count gate would double
+    # its stringency at replay.  The defaults equal the historical 2- and 3-frame gates at
+    # 25 fps.
+    max_unsupported_run_s: float = 0.08
+    landing_dwell_s: float = 0.12
     landing_horizon_s: float = 0.75
     max_floor_penetration_m: float = 0.02
     lateral_corridor_half_width_m: float = 0.30
@@ -47,12 +51,20 @@ class StepOverThresholds:
             raise ValueError("support height and speed thresholds must be non-negative")
         if not 0 <= self.min_contralateral_support_fraction <= 1:
             raise ValueError("minimum contralateral support fraction must be in [0, 1]")
-        if self.max_unsupported_run_frames < 0 or self.landing_dwell_frames < 1:
+        if self.max_unsupported_run_s < 0 or self.landing_dwell_s <= 0:
             raise ValueError("run bound must be non-negative and landing dwell positive")
         if self.landing_horizon_s <= 0 or self.max_floor_penetration_m < 0:
             raise ValueError("landing horizon must be positive and penetration non-negative")
         if self.lateral_corridor_half_width_m < 0 or self.corridor_longitudinal_pad_m < 0:
             raise ValueError("corridor dimensions must be non-negative")
+
+    def max_unsupported_run_frames(self, fps: float) -> int:
+        """The duration gate expressed at a sampling rate (rounded to nearest frame)."""
+        return int(round(self.max_unsupported_run_s * float(fps)))
+
+    def landing_dwell_frames(self, fps: float) -> int:
+        """The dwell gate expressed at a sampling rate; a dwell is at least one frame."""
+        return max(1, int(round(self.landing_dwell_s * float(fps))))
 
 
 @dataclass(frozen=True)
@@ -229,6 +241,129 @@ def _support_masks(kinematics: dict[Side, dict[str, np.ndarray]],
     }
 
 
+def calibrate_stepover_thresholds(
+        kinematics_by_clip: Sequence[dict[Side, dict[str, np.ndarray]]],
+        fps_by_clip: Sequence[float],
+        *,
+        base: StepOverThresholds | None = None,
+        stance_quantile: float = 0.45,
+        corpus_quantile: float = 0.95,
+        headroom: float = 1.25,
+        min_side_support_fraction: float = 0.45,
+        max_unsupported_fraction: float = 0.05,
+        max_outlier_fraction: float = 0.10,
+) -> tuple[StepOverThresholds, dict]:
+    """Lock support/contact thresholds from tracker-successful neutral-walk kinematics.
+
+    A walking gait keeps each foot on the ground for over half of every stride, so the
+    ``stance_quantile`` of a foot's per-clip clearance and planar-speed distributions lies
+    inside stance.  The support thresholds are the ``corpus_quantile`` of those per-clip/
+    per-foot statistics expanded by ``headroom`` -- a corpus quantile rather than a maximum,
+    because a generated reference can be tracker-successful while its own kinematics float
+    or skate, and one such clip must not degrade the thresholds into vacuity.  Calibration
+    only ever loosens the conservative ``base`` defaults, never tightens them.
+
+    Every clip is then re-read under the calibrated support masks.  Clips that still fail
+    the per-side support and bilateral-flight acceptance tests are reported as outliers and
+    excluded from the temporal gates; more than ``max_outlier_fraction`` of them fails the
+    calibration with a ``ValueError`` naming the offenders.  From the accepted clips, the
+    unsupported-run bound covers the longest observed bilateral-flight run (with headroom)
+    and the landing dwell is capped at half the shortest observed longest stance run.
+    Deterministic throughout: no randomness, order-independent statistics.
+    """
+    base = base or StepOverThresholds()
+    base.validate()
+    if len(kinematics_by_clip) != len(fps_by_clip):
+        raise ValueError("kinematics_by_clip and fps_by_clip must align")
+    if not kinematics_by_clip:
+        raise ValueError("calibration requires at least one clip")
+    if not 0 < stance_quantile < 1 or not 0 < corpus_quantile <= 1:
+        raise ValueError("stance_quantile and corpus_quantile must be in (0, 1]")
+    if headroom < 1:
+        raise ValueError("headroom must be at least 1")
+    if (not 0 < min_side_support_fraction <= 1 or
+            not 0 <= max_unsupported_fraction <= 1 or
+            not 0 <= max_outlier_fraction < 1):
+        raise ValueError("acceptance fractions must be valid proportions")
+    for clip, fps in zip(kinematics_by_clip, fps_by_clip):
+        if not np.isfinite(fps) or fps <= 0:
+            raise ValueError("fps must be positive and finite")
+        for side in _SIDES:
+            series = clip[side]
+            for name in ("bottom_clearance_m", "planar_speed_mps"):
+                values = np.asarray(series[name], dtype=float)
+                if values.ndim != 1 or not len(values) or not np.isfinite(values).all():
+                    raise ValueError(f"{side} {name} must be a finite 1-D series")
+
+    stance_heights = [float(np.quantile(clip[side]["bottom_clearance_m"], stance_quantile))
+                      for clip in kinematics_by_clip for side in _SIDES]
+    stance_speeds = [float(np.quantile(clip[side]["planar_speed_mps"], stance_quantile))
+                     for clip in kinematics_by_clip for side in _SIDES]
+    height_q = float(np.quantile(stance_heights, corpus_quantile))
+    speed_q = float(np.quantile(stance_speeds, corpus_quantile))
+    thresholds = replace(
+        base,
+        support_height_m=max(base.support_height_m, headroom * height_q),
+        support_speed_mps=max(base.support_speed_mps, headroom * speed_q),
+    )
+
+    clip_diags: list[dict] = []
+    for clip, fps in zip(kinematics_by_clip, fps_by_clip):
+        support = _support_masks(clip, thresholds)
+        unsupported = ~(support["left"] | support["right"])
+        diag = {
+            "fps": float(fps),
+            "n_frames": int(len(unsupported)),
+            "support_fraction": {s: float(support[s].mean()) for s in _SIDES},
+            "unsupported_fraction": float(unsupported.mean()),
+            "max_unsupported_run_s": float(_longest_true_run(unsupported) / fps),
+            "longest_support_run_s": {
+                s: float(_longest_true_run(support[s]) / fps) for s in _SIDES},
+        }
+        reasons = [f"{s}_support_fraction<{min_side_support_fraction}" for s in _SIDES
+                   if diag["support_fraction"][s] < min_side_support_fraction]
+        if diag["unsupported_fraction"] > max_unsupported_fraction:
+            reasons.append(f"unsupported_fraction>{max_unsupported_fraction}")
+        diag["outlier_reasons"] = reasons
+        clip_diags.append(diag)
+
+    outliers = [i for i, d in enumerate(clip_diags) if d["outlier_reasons"]]
+    accepted = [d for d in clip_diags if not d["outlier_reasons"]]
+    if len(outliers) > max_outlier_fraction * len(clip_diags) or not accepted:
+        raise ValueError(
+            "calibration corpus does not read as supported walking: "
+            f"{len(outliers)}/{len(clip_diags)} outlier clips at indices {outliers} "
+            f"(budget {max_outlier_fraction:.0%})")
+
+    dwell_cap = 0.5 * min(d["longest_support_run_s"][s] for d in accepted for s in _SIDES)
+    thresholds = replace(
+        thresholds,
+        max_unsupported_run_s=max(base.max_unsupported_run_s, headroom * max(
+            d["max_unsupported_run_s"] for d in accepted)),
+        landing_dwell_s=min(base.landing_dwell_s, dwell_cap),
+    )
+    thresholds.validate()
+    diagnostics = {
+        "n_clips": len(clip_diags),
+        "n_accepted": len(accepted),
+        "outlier_clip_indices": outliers,
+        "stance_quantile": stance_quantile,
+        "corpus_quantile": corpus_quantile,
+        "headroom": headroom,
+        "min_side_support_fraction": min_side_support_fraction,
+        "max_unsupported_fraction": max_unsupported_fraction,
+        "max_outlier_fraction": max_outlier_fraction,
+        "corpus_stance_height_quantile_m": height_q,
+        "corpus_stance_speed_quantile_mps": speed_q,
+        "landing_dwell_cap_s": float(dwell_cap),
+        "base_thresholds": asdict(base),
+        "calibrated_fields": ["support_height_m", "support_speed_mps",
+                              "max_unsupported_run_s", "landing_dwell_s"],
+        "clips": clip_diags,
+    }
+    return thresholds, diagnostics
+
+
 def select_kinematic_step_event(
         body: G1Body,
         qpos: np.ndarray,
@@ -363,7 +498,8 @@ def _foot_crossing(
         latest = min(len(after) - 1,
                      after_frame + int(np.ceil(thresholds.landing_horizon_s * fps)))
         landing_start, landing_end = _first_dwell(
-            support[side] & after, after_frame, latest, thresholds.landing_dwell_frames)
+            support[side] & after, after_frame, latest,
+            thresholds.landing_dwell_frames(fps))
     else:
         overlap_frames = np.flatnonzero(overlap)
         if len(overlap_frames):
@@ -540,7 +676,7 @@ def evaluate_local_step(
         "lead_overlap_has_trailing_support": lead_support_gate,
         "trail_overlap_has_lead_support": trail_support_gate,
         "bounded_unsupported_run": (
-            max_unsupported_run <= thresholds.max_unsupported_run_frames),
+            max_unsupported_run <= thresholds.max_unsupported_run_frames(fps)),
         "lead_landing_dwell": lead_landing,
         "trail_landing_dwell": trail_landing,
         "lead_lands_before_or_during_trailing_overlap": lead_landing_timing,

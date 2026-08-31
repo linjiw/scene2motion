@@ -2,8 +2,9 @@
 
 **Draft v0 — 2026-08-31.** Target: CoRL / RSS systems track. Anonymous for review; artifact
 release under the project name **Scene2Motion-G1**. Numbers marked ⟨v2⟩ come from the fixed
-sampler and are final pending only seed-count notes; the Table 2 cells marked ⟨4E⟩ are being
-produced by the 8-seed run now in flight and slot in without any other text change.
+sampler and are final pending only seed-count notes; the Table 2 cells marked ⟨4E⟩ landed
+from the 8-seed run (`outputs/phase4e_architecture_v2_s8`, seeds 100–107, 4 320 rows,
+summary complete, 2 242 s) and are filled in below.
 
 > **Framing decision:** this is a **methods + systems paper** whose released artifact is a
 > **stable baseline and verified-dataset generator** for scene-conditioned humanoid
@@ -22,9 +23,10 @@ and traversal should follow. We test that proposition end-to-end on a released
 prior–tracker stack (ARDY-G1 → SONIC) and find it fails in a specific, measurable, and
 repairable way. First, we introduce a **calibrated capability audit** for frozen priors used
 as actuators: paired-seed generation, null-calibrated distinguishability thresholds, a
-stability gate, and a physics stage. Under this audit, the prior's nominally 43-dimensional
-constraint interface collapses to roughly **one reliably commandable, physically executable
-behavior axis** — a naive single-seed count overstates the repertoire **6× kinematically and
+stability gate, and a physics stage. Under this audit — within the tested request families, sampler,
+embodiment, and task metrics; capability-absent claims are scoped to the requests tried —
+the prior's nominally 43-dimensional constraint interface collapses to roughly **one
+reliably commandable, physically executable behavior axis** — a naive single-seed count overstates the repertoire **6× kinematically and
 ~10× after tracking**, and we show the same counting mistakes arise from choices a careful
 evaluator could make without noticing; the overcount replicates on a second released prior
 (Kimodo-G1: 4.5× under the identical protocol), and so does the channel asymmetry that
@@ -33,15 +35,17 @@ a black-box **generate → verify → repair → refuse** planner that measures 
 motion *actually* cleared against the robot's simulation collision model (with a separately
 measured coverage margin), corrects the command locally from the measured deficit, and
 refuses with a quantified reason when no body mode fits. On
-out-of-distribution multi-beam scenes (8 paired seeds, 4 320 runs) this loop lifts every
-proposer to ≥ 0.99 collision-free with zero regressions, while the equal-budget control the
-field usually omits — independent resampling of the unchanged proposal — recovers only a
-fraction of the gap, and a retrained imitation proposer none of it: measurement supplies
-information that neither more samples nor more teacher data can. Third, we release the harness that
+out-of-distribution multi-beam scenes (36 scenes × 8 paired seeds, 4 320 runs), ≤2 repairs
+under a fixed generation budget fix **118 of the 120 one-shot collision failures** across
+the three proposers (5/5 heuristic, 37/37 QP, 76/78 TCN; final rates 1.000 / 1.000 / 0.993)
+with zero regressions, while the equal-budget control the field usually omits — independent
+resampling of the unchanged proposal — recovers only a fraction of the gap for the proposers
+that fail out of distribution, and a retrained imitation proposer none of it: there,
+measurement supplies information that neither more samples nor more teacher data did. Third, we release the harness that
 makes every number in this paper re-derivable: provenance-frozen ledgers for ~34 000
-generations, a defect catalogue of ~30 measurement errors our own controls caught (most
-biased toward our hypotheses), and an audit toolkit whose acceptance test is reproducing our
-own earlier wrong answers. The system plans, generates, verifies, and repairs a scene →
+generations and an audit toolkit whose acceptance test is reproducing our own earlier wrong
+answers; an appendix catalogues the ~30 measurement defects our own controls caught along
+the way (most biased toward our hypotheses). The system plans, generates, verifies, and repairs a scene →
 whole-body motion in ~1–3 s per scene on one consumer GPU — in a measured pilot, 300
 randomized scenes yielded 268 kinematically verified traversal records in 302 s. (Throughput
 is tiered: raw generation, kinematic verification, accepted records, and physics-executed
@@ -88,12 +92,17 @@ tried.**
 **Why closing the loop beats better proposing.** The prior's response to a command drifts out
 of distribution exactly where planning gets interesting (more obstacles, deeper crouches). A
 convex-optimal teacher and its distilled student both certify against a fitted response model
-that is optimistic there; adding teacher data does not help because the teacher is the
-ceiling. Verification against measured geometry sidesteps the ceiling: bounded local repairs, driven
-by the measured clearance deficit, lift every proposer to ≥ 0.99 collision-free on 8-seed
-out-of-distribution scenes (TCN 0.729 → 0.993; QP 0.872 → 1.000) with zero regressions —
+that stayed optimistic under this shift; adding teacher data did not help, because a student
+distilled by open-loop imitation cannot recover information absent from that teacher (which
+says nothing about better teachers or response-conditioned learners — §5). Verification
+against measured geometry sidesteps that ceiling: bounded local repairs, driven
+by the measured clearance deficit, fix 118 of 120 one-shot collision failures across the
+three proposers under a fixed generation budget on 8-seed
+out-of-distribution scenes (TCN 0.729 → 0.993; QP 0.872 → 1.000; heuristic 0.983 → 1.000)
+with zero regressions —
 while equal-budget *resampling* of the unchanged proposal, the control the field usually
-omits, recovers only a fraction of the gap (TCN best-of-3: 0.774). Because the loop never
+omits, recovers only a fraction of the gap for those proposers (TCN best-of-3: 0.774) —
+though for the already-calibrated heuristic it buys margin instead (§5). Because the loop never
 trusts the request, it also knows when to stop: refusal is an output with a quantified
 reason, not a failure mode.
 
@@ -113,8 +122,8 @@ reason, not a failure mode.
    so the margin a plan must certify is depth-dependent; we specify the signed-loss
    calibration τ(d) and release the achieved-state instrumentation for it (§7).
 5. **The artifact**: scene grammar and hard set, provenance-frozen ledgers (~34 k
-   generations), the ~30-defect catalogue with the controls that caught each, the demo, and
-   the full harness (§8).
+   generations), the demo, and the full harness (§8); an appendix table documents the ~30
+   measurement defects our controls caught, with the control that caught each.
 
 ## 2. Related work
 
@@ -160,8 +169,10 @@ native interface: root path, heading, and absolute pelvis height; deterministic 
 per-sample seed streams (one advancing stream per sample per generation — we found and fixed
 a subtle sampler defect here, §8), ~0.4 s per clip at 5 denoising steps.
 
-**Verification layer.** Exact MuJoCo collision geometry — the robot's shipped primitives
-inflated by a *measured* 4 cm mesh-coverage margin — evaluated per route position and split
+**Verification layer.** The robot's simulation collision model, with a separately measured
+geometric coverage margin — the shipped MuJoCo primitives under-cover the visual meshes by
+up to 3.56 cm at the rest pose, so every body extent is inflated by a *measured* 4 cm
+mesh-coverage margin — evaluated per route position and split
 by contact normal into **overhead** (the duck schedule's responsibility) and **lateral** (the
 route's responsibility). The split matters: an undifferentiated minimum tells a repair loop
 to crouch at walls.
@@ -348,11 +359,12 @@ deficit; on the demo's 0.60 m beam: deficit 0.279 m against the deepest calibrat
 foot-peak delta) turned out right under the whole-body metric, and the audit trail is what
 settled it both times.
 
-## 7. From kinematic certificates to executable ones
+## 7. From kinematic acceptance to an execution-calibrated acceptance rule
 
 A collision-free *generated* clip is not a collision-free *executed* one: tracking error at
 the clearance-critical bodies grows with adaptation depth (torso+wrist proxy: 33.5 → 45.6 →
-71.9 mm at duck 0 / 0.35 / 0.50 m), so the certificate a plan needs is depth-dependent. We
+71.9 mm at duck 0 / 0.35 / 0.50 m), so the acceptance threshold a plan needs is
+depth-dependent. We
 specify the calibration: signed clearance loss τ(d) = one-sided conformal bound on
 c_ref − c_exec over the *same* margin-inflated geometry, with early termination counted as
 failure — and we release the achieved-state export instrumentation for SONIC that makes
@@ -360,7 +372,10 @@ c_exec measurable at all (with the reviewed off-by-one at rollout end corrected)
 follow: c_ref ≥ τ(d) (executable) and c_ref ≥ 0.18 + τ(d) (retains margin). We report the
 risk–coverage curve of the acceptance rule rather than a single rate, with a pre-declared
 acceptance target: **≥ 95 % executed success among gate-accepted trajectories** at the
-declared coverage — the gate is only a certificate if what it accepts survives dynamics.
+declared coverage — the rule earns the name *execution-calibrated* only if what it accepts
+survives dynamics. τ(d)'s conformal calibration/test split is by scene (and, once staged,
+route topology), never by clip; seeds estimate within-scene stochasticity; and, as in §5,
+paired McNemar tests are auxiliary to scene-level cluster-bootstrap CIs.
 The demo makes the same point visually: a naive accepted trajectory whose tracking drift
 clips the beam, side by side with the τ(d)-gated one passing cleanly (Fig. 6 / video).
 
@@ -370,7 +385,7 @@ confirmed the defect our pre-run review predicted: the final snapshot of a succe
 is a post-reset teleport (6.875 m root jump on the last interval vs 6.5 mm the interval
 before), removed by the consumer-side truncation. The first two executed-clearance readings
 preview §7's stakes: on an upright detour, tracking drift consumed 0.251 m of a 0.270 m
-certified margin (executed minimum 18.6 mm, with a lateral contact the kinematic certificate
+certified margin (executed minimum 18.6 mm, with a lateral contact the kinematic check
 never sees); a deep-duck reference terminated at 50 % progress. Kinematic acceptance without
 τ(d) is not a safety statement — which is the point of this section. ⟨Full 36-scene × 8-seed
 1B table and τ(d) fit slot here.⟩
@@ -384,12 +399,14 @@ version, and repair iteration, so a pre-repair clip cannot be served for a post-
 The audit toolkit's acceptance test is that it **reproduces our own wrong answers** (10.00
 naive, 1.67 calibrated) from the shipped ledgers.
 
-**The defect catalogue.** ~30 measurement, control, and harness defects, most favoring the
-hypothesis under test, each with the control that caught it — including a sampler defect
-(per-window latent replay) found by an independent implementation agent and verified against
-the model's autoregressive loop, after which every affected number was relabeled and is being
-regenerated under the fixed sampler. We believe this catalogue is a contribution in itself:
-it is what "evaluating a generative robot prior carefully" actually costs.
+**Defect provenance.** ~30 measurement, control, and harness defects, most favoring the
+hypothesis under test, each caught by one of the harness's own controls — including a sampler
+defect (per-window latent replay) found by an independent implementation agent and verified
+against the model's autoregressive loop, after which every affected number was relabeled and
+regenerated under the fixed sampler. The full catalogue (phenomenon → the false conclusion
+it would have produced → the control that caught it) lives in the appendix, generated from
+the ledgers; in the main text it serves as provenance for the numbers, not as a headline
+contribution.
 
 **Demo (Fig. 3, video).** Four scenes through the full loop under v2: (a) proposal 15 mm
 short → one repair → accepted at 187 mm; (b) five OOD beams, proposal at 40 mm → two repairs
@@ -412,9 +429,13 @@ verified, refusal-labeled traversals of arbitrarily hard multi-obstacle scenes a
 is directly useful training and benchmarking substrate for end-to-end RL and distilled
 policies — the label quality, not the verb count, is what such consumers lack today.
 
-Three properties make this corpus useful beyond this paper. **Scale:** at ~0.5 s per verified
-candidate, one consumer GPU yields on the order of 10⁵ verified, labeled traversals per day
-across procedurally sampled scenes. **Trust:** the audit protocol (§4) guarantees the
+Three properties make this corpus useful beyond this paper. **Scale — stated per tier,
+because the tiers differ by orders of magnitude:** *raw generated* candidates run at ~0.4 s
+per clip; *kinematically scored* candidates at ~0.5 s each — on the order of 10⁵ per
+consumer-GPU-day — across procedurally sampled scenes; *accepted records* are measured below
+(268 of 300 scenes in 302 s, ~86 000 scenes/GPU-day under contention); and *SONIC-executed*
+records are dominated by the tracker's per-launch cost (58 s in the §7 smoke test) — the
+measured executed-tier rate is ⟨pending exp1b⟩. **Trust:** the audit protocol (§4) guarantees the
 generator only emits behaviors it can reliably produce, the verification layer guarantees
 every clearance label is measured rather than requested, and the defect catalogue (§8)
 documents exactly which measurement mistakes the harness defends against. **Coverage
@@ -426,19 +447,27 @@ scenes in 302 s on a GPU shared with a training job — 268 verified traversals 
 the full 18 cm margin, 76 collision-free below it and labeled as such), 6 rejections after
 repair, 26 refusals each carrying its binding constraint and deficit** — 13 MB compressed
 including per-position clearance traces, i.e. ~86 000 scenes per GPU-day even under
-contention. Intended uses include
-benchmarking scene-aware motion generation, training scene-conditioned navigation and
-whole-body planning models, and — as future work we deliberately do not claim here —
-privileged-to-proprioceptive distillation of a student policy from SONIC-tracked rollouts of
-the verified references.
+contention.
+
+The corpus's designated downstream consumer is the successor method's learned repair
+operator: every closed-loop run — success, repair, and refusal alike — emits a
+**(scene, program, measured response, repair, outcome) transition**, and these transitions
+are precisely the training data for the **RAMP RepairNet**
+(Scene2Motion-RAMP; guidance 2026-08-31), whose pre-registered downstream experiment —
+traversal success rising and generator calls falling as transition-data scale grows — belongs
+to the successor paper. Here we release the pipeline as that data engine, with the transition
+schema frozen into the ledgers. Secondary uses include benchmarking scene-aware motion
+generation, training scene-conditioned navigation and whole-body planning models, and — as
+future work we deliberately do not claim here — privileged-to-proprioceptive distillation of
+a student policy from SONIC-tracked rollouts of the verified references.
 
 ## 10. Limitations
 
 The counting and channel-asymmetry results now replicate on Kimodo-G1 (reduced audit);
-executability, repair, and the certificate remain single-prior, single-robot,
+executability, repair, and the acceptance calibration remain single-prior, single-robot,
 single-tracker. Scenes are procedural corridor ladders,
-not scans; topology-level hold-out and non-beam geometry are staged. The certificate is
-kinematic until §7's calibration lands. The executable repertoire is duck: the
+not scans; topology-level hold-out and non-beam geometry are staged. The acceptance rule is
+kinematic until §7's execution calibration (τ(d)) lands. The executable repertoire is duck: the
 position-channel step-over was killed on a pre-registered 24-seed ladder (§6), and richer
 request families (rotation scaffolds, text × keyframes) remain open but unproven. We say
 "scene-conditioned clearance adaptation", not "general obstacle traversal". Historical v1 numbers are labeled and quarantined; headline claims ride
@@ -451,7 +480,8 @@ multi-seed.
 - **Fig. 1** System diagram: scene+start/goal → route ×3 preferences → proposal → ARDY →
   directional verify → repair ≤2 → accept/refuse (assets exist in the demo page).
 - **Fig. 2** The counting funnel + audit protocol schematic (Table 1 inline).
-- **Table 2** phase4e 8-seed matrix ⟨run in flight⟩ + McNemar/regression/executable columns.
+- **Table 2** phase4e 8-seed matrix ⟨landed: `outputs/phase4e_architecture_v2_s8`, filled
+  in §5⟩ + McNemar/regression/executable columns.
 - **Fig. 3** Demo quartet: stills + attempt ladders + clearance traces (rendered, in page).
 - **Fig. 4** Channel signal-to-noise chart — the contrast IS the figure: root height clean
   and executable, position targets drowned in the seed-noise floor (≤1.6 σ, sign-flipping),

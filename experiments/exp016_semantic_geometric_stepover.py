@@ -303,17 +303,26 @@ def _parse_sonic(log: str) -> dict:
     return out
 
 
-def _resample_plan(root_xz: np.ndarray, n_frames: int) -> np.ndarray:
-    """Sample the same geometric route at an achieved roll-out's control rate."""
+def _resample_plan(root_xz: np.ndarray, n_frames: int,
+                   valid_frames: int | None = None) -> np.ndarray:
+    """Sample the same geometric route at an achieved roll-out's control rate.
+
+    ``n_frames`` is the frame count of a full-length rollout at that rate.  A terminated
+    rollout passes its ``valid_frames`` too, so its surviving frames are compared with the
+    route prefix their reference frames covered — not the whole route compressed onto them.
+    """
     if n_frames < 1:
         raise ValueError("n_frames must be positive")
+    valid = n_frames if valid_frames is None else int(valid_frames)
+    if not 1 <= valid <= n_frames:
+        raise ValueError("valid_frames must lie in [1, n_frames]")
     root_xz = np.asarray(root_xz, dtype=float)
-    if n_frames == len(root_xz):
-        return root_xz
-    source = np.linspace(0.0, 1.0, len(root_xz))
-    target = np.linspace(0.0, 1.0, n_frames)
-    return np.stack([np.interp(target, source, root_xz[:, axis])
-                     for axis in range(2)], axis=-1)
+    if n_frames != len(root_xz):
+        source = np.linspace(0.0, 1.0, len(root_xz))
+        target = np.linspace(0.0, 1.0, n_frames)
+        root_xz = np.stack([np.interp(target, source, root_xz[:, axis])
+                            for axis in range(2)], axis=-1)
+    return root_xz[:valid]
 
 
 def main() -> None:
@@ -343,8 +352,10 @@ def main() -> None:
     ap.add_argument("--support_height_m", type=float, default=0.02)
     ap.add_argument("--support_speed_mps", type=float, default=0.20)
     ap.add_argument("--min_contralateral_support", type=float, default=0.90)
-    ap.add_argument("--max_unsupported_run_frames", type=int, default=2)
-    ap.add_argument("--landing_dwell_frames", type=int, default=3)
+    ap.add_argument("--max_unsupported_run_s", type=float, default=0.08,
+                    help="duration gate; converted to frames at each evaluation rate")
+    ap.add_argument("--landing_dwell_s", type=float, default=0.12,
+                    help="duration gate; converted to frames at each evaluation rate")
     ap.add_argument("--landing_horizon_s", type=float, default=0.75)
     ap.add_argument("--max_floor_penetration_m", type=float, default=0.02)
     ap.add_argument("--lateral_corridor_half_width_m", type=float, default=0.30)
@@ -376,8 +387,8 @@ def main() -> None:
         support_height_m=args.support_height_m,
         support_speed_mps=args.support_speed_mps,
         min_contralateral_support_fraction=args.min_contralateral_support,
-        max_unsupported_run_frames=args.max_unsupported_run_frames,
-        landing_dwell_frames=args.landing_dwell_frames,
+        max_unsupported_run_s=args.max_unsupported_run_s,
+        landing_dwell_s=args.landing_dwell_s,
         landing_horizon_s=args.landing_horizon_s,
         max_floor_penetration_m=args.max_floor_penetration_m,
         lateral_corridor_half_width_m=args.lateral_corridor_half_width_m,
@@ -701,9 +712,13 @@ def main() -> None:
                     continue
                 exec_fps = 1.0 / float(sonic[row["arm"]]["sample_dt_s"])
                 obstacle_body = probe.body(args.obstacle_height)
+                # A terminated rollout kept only a prefix of its reference, so map the route
+                # onto the full-length frame count first and truncate to what survived.
+                ref_frames = max(int(rollout.valid_length),
+                                 int(round(T * exec_fps / fps)))
                 executed_metrics = motion_metrics(
                     free_body, obstacle_body, probe, rollout.qpos,
-                    _resample_plan(root_xz, rollout.valid_length),
+                    _resample_plan(root_xz, ref_frames, rollout.valid_length),
                     placement["obstacle_x_m"], event.side, fps=exec_fps,
                     thresholds=thresholds)
                 executed_metrics["kinematic_step_success"] = bool(

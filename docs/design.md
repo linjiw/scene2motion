@@ -2196,6 +2196,12 @@ merely unfamiliar, but that is an argument, not a measurement.
 
 ## 35. §4.7 is overturned: a correctly-gated small step-over DOES track
 
+> *Update, 2026-08-31 (§39):* this section's 0.375 was 8 seeds, one amplitude, v1 sampler.
+> EXP-1C ran the full ladder — 24 seeds × 6 amplitudes, per-seed gating, noise stream v2 —
+> and **no amplitude survived** (best 0.25 at 0.05 m; 0.0 from 0.16 m up). The overturning
+> below stands as a correction of *how the request was formed*; the "weak but present"
+> conclusion it reached does not.
+
 | body (lift = 0.08 m) | contacts | success | progress | accel_dist |
 |---|---|---|---|---|
 | neutral | 5.63 | 1.000 | 1.000 | 1.71 |
@@ -2255,6 +2261,11 @@ methodology, and it belongs in the paper as prominently as the funnel does.
 ---
 
 ## 36. EXP-015: text reaches a capability the 43-dimensional constraint interface cannot
+
+> *Update, 2026-08-31 (§39):* these clips were generated under the quarantined v1 sampler,
+> and EXP-015b re-scored them against a placed virtual obstacle: whole-body box clearance
+> **0.0 m in 8/8 seeds at every probed height**, swing-peak phase error ~0.14 m. The
+> behaviour is real; its placement is not. Held-out v2 test: EXP-016 (authored, unrun).
 
 Three arms. **A and B differ only in the prompt** — identical root constraints, identical
 per-sample seeds, no body slice written in either. C is the constraint interface's own attempt.
@@ -2445,3 +2456,75 @@ bound `tau_alpha(d)` on that loss yields two distinct gates:
 The new `sonic_state_export` callback now saves the achieved qpos needed for this measurement.
 It has not yet been run, so no depth-dependent threshold is currently defensible. Full inventory,
 formula, and next-run schema: [`exec-gate-audit.md`](exec-gate-audit.md).
+
+---
+
+## 39. The v2 reruns land: the step-over dies at 24 seeds, resampling embarrasses repair once, and the pilot corpus exists
+
+Four results under the corrected sampler (noise stream v2, cache v2), executing items 1 and 2a
+of `revalidation-2026-08-30.md`'s locked order. Two changed a conclusion this log had already
+corrected once, which is the strongest argument yet for the revalidation discipline.
+
+### EXP-1C kills the position-channel step-over (`outputs/exp1c_stepover/`)
+
+The §35 boundary hunt is over: 24 seeds × 6 lifts (0.05/0.08/0.12/0.16/0.20/0.28 m), per-seed
+`_limb_targets` gating computed on each seed's *own* control clip (fixing exp014's single-seed
+gating defect), matched controls per rung, SONIC on all 288 clips, 735.5 s. SONIC success on
+the lift arm: **0.250 → 0.083 → 0.042 → 0.000 → 0.000 → 0.000** across the ladder, controls
+0.92–1.00 throughout. Mechanism unchanged at every rung: overshoot 1.68–2.32×, bilateral
+flight 0.91–0.975 of gated frames, mean contacts 0.12–0.35 against 2.18–3.60 for controls.
+Pre-committed kill condition (success ≥ 0.5 **and** median clearance-at-peak ≥ 0.05 m at some
+amplitude): not met anywhere; receipt verdict **"claim KILLED on this ladder"**. §35's "weak
+but present" was one amplitude, 8 seeds, and the wrong sampler. The executable repertoire
+through the constraint interface is **duck, alone** — and this is the first time in six
+step-over corrections that the *better-formed request made the capability smaller*.
+
+### EXP-015b: the text lift is 0.14 m from where it needs to be (`outputs/exp015b_spatial_reanalysis/`)
+
+Post-hoc, CPU-only, explicitly exploratory, and scored on the **v1** EXP-015 clips — labelled
+as such in the receipt. A virtual corridor-spanning box at x = 3.8 m against exact collision
+geometry: max box height cleared by the whole body **0.000 m in 8/8 seeds in all three arms**;
+clear-rate 0.0 at 0.05/0.08/0.12 m. Arm B's swing foot at the crossing is +31.6 mm over arm A
+(paired) — the elicited behaviour is real at the obstacle too — but the swing *peak* sits at
+mean |phase error| 0.144 m from it. Text names the behaviour; nothing places it. That
+decomposition (semantic elicitation vs geometric placement) is EXP-016's question, and 015b
+is its motivation, not its answer.
+
+### Phase 4E: the architecture matrix at 8 seeds (`outputs/phase4e_architecture_v2_s8/experiment.json`)
+
+The Phase 4 tables were one seed, v1. Now: 36 OOD scenes × 8 paired seeds × 15 arms = 4 320
+rows, 2 241.9 s, per-row frozen provenance, plus the missing control — resampling with the
+proposal held byte-identical at equal generation budget. Collision-free / meets-0.18 / mean
+generations, v2:
+
+| arm | heuristic | qp | tcn |
+|---|---|---|---|
+| one-shot | .983 / .535 / 1.0 | .872 / .007 / 1.0 | .729 / .003 / 1.0 |
+| +2 repairs | 1.000 / .646 / 1.8 | 1.000 / .417 / 2.7 | .993 / .375 / 2.7 |
+| best-of-3 resample | 1.000 / **.726** / 1.8 | .972 / .031 / 3.0 | .774 / .014 / 3.0 |
+
+Repair-over-resampling survives replication where it matters — tcn+2 vs tcn-resample3 paired
+discordance 63 vs 0 on collision-free, 104 vs 0 on margin; qp 112 vs 1 on margin — and fails
+it where I would have preferred it didn't: **for the heuristic proposer, equal-budget
+resampling beats two repairs on margin, .726 vs .646** (41 vs 18 row-paired). A well-shaped
+generous proposal leaves repair nothing that seed luck can't also buy. Also gone under 8
+seeds: "tcn+2 restores 1.000 at every beam count" — it is .993 (286/288). Both wrinkles are in
+REPORT §21 and neither was in the v1 table.
+
+### corpus_pilot_v2 (`outputs/corpus_pilot_v2/`)
+
+300 randomized scenes through the accept loop (heuristic, ≤ 2 repairs, seed 7) in **301.9 s**:
+192 accepted / 76 accepted-margin / 6 rejected / 26 refused. 268 verified traversal records
+with manifest and v2 cache keys in five minutes — the data-engine rate the paper draft's
+throughput-tier claim now cites for its first three tiers.
+
+### Bookkeeping from the same day
+
+The 2026-08-31 guidance (`guidance-2026-08-31-ramp-refocus.md`) freezes the audit draft as
+baseline and redirects the method work to Scene2Motion-RAMP — recorded in REPORT §23. The
+defect count is reconciled in REPORT §5: ~24 was the audit-phase census, ~30 (= 24 + the five
+Phase 4 ledger entries + the v1 sampler defect) is the project-wide number and the one to
+quote. And the Kimodo-G1 reduced-audit numbers in the frozen draft turned out to trace to a
+deleted session scratchpad, not a ledger — attested by transcript, re-derivable by nobody;
+provenance trail and rerun checklist in `run/KIMODO-PROVENANCE.md`, gap recorded in REPORT
+§24.

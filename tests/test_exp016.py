@@ -1,3 +1,5 @@
+import json
+
 import numpy as np
 import pytest
 from types import SimpleNamespace
@@ -76,7 +78,22 @@ def test_exact_mcnemar_and_route_resampling():
     np.testing.assert_allclose(_resample_plan(plan, 3), [[0, 0], [0, 1], [0, 2]])
 
 
-def test_exp016_cpu_orchestration_smoke(monkeypatch, tmp_path):
+def test_terminated_rollout_gets_the_route_prefix_not_the_compressed_route():
+    # An early fall keeps valid_frames of a ref_len-frame rollout; its plan must be the
+    # matching prefix of the full-rate route, not the whole route squeezed into the
+    # surviving frames (review defect 5).
+    plan = np.asarray([[0.0, 0.0], [0.0, 3.0]])
+    full = _resample_plan(plan, 7)
+    np.testing.assert_allclose(_resample_plan(plan, 7, 3), full[:3])
+    np.testing.assert_allclose(_resample_plan(plan, 7, 3)[-1], [0.0, 1.0])
+    np.testing.assert_allclose(_resample_plan(plan, 2, 2), plan)
+    with pytest.raises(ValueError, match="valid_frames"):
+        _resample_plan(plan, 4, 0)
+    with pytest.raises(ValueError, match="valid_frames"):
+        _resample_plan(plan, 4, 5)
+
+
+def _run_cpu_smoke(monkeypatch, out, extra_argv=()):
     names = ["pelvis", "left_knee", "left_ankle", "left_toe",
              "right_knee", "right_ankle", "right_toe", "torso"]
 
@@ -180,17 +197,59 @@ def test_exp016_cpu_orchestration_smoke(monkeypatch, tmp_path):
         lambda _clips, path, **_kwargs: path.write_bytes(b"fake"))
     monkeypatch.setattr(exp016, "_sha256", lambda _path: "fake-sha")
     monkeypatch.setattr(exp016, "_git_state", lambda _path: {"commit": "fake"})
-    out = tmp_path / "exp016"
     monkeypatch.setattr(
         exp016.sys, "argv",
         ["exp016", "--out", str(out), "--n_seeds", "1", "--n_donors", "1",
-         "--target_frames", "56", "--skip_sonic"])
+         "--target_frames", "56", "--skip_sonic", *extra_argv])
 
     exp016.main()
 
-    receipt = __import__("json").loads((out / "receipt.json").read_text())
+    return json.loads((out / "receipt.json").read_text())
+
+
+def test_exp016_cpu_orchestration_smoke(monkeypatch, tmp_path):
+    out = tmp_path / "exp016"
+    receipt = _run_cpu_smoke(monkeypatch, out)
     assert receipt["status"] == "pilot_kinematics_complete_sonic_skipped"
     assert receipt["noise_stream_version"] == 2
     assert receipt["query_accounting"]["held_out_evaluation_ardy_samples"] == 8
     assert receipt["query_accounting"]["held_out_seed_position_rows"] == 8
+    assert receipt["success_gate"]["threshold_source"] == "cli_pilot_defaults"
+    assert receipt["success_gate"]["thresholds"]["max_unsupported_run_s"] == 0.08
+    assert receipt["success_gate"]["thresholds"]["landing_dwell_s"] == 0.12
     assert len((out / "rows.jsonl").read_text().splitlines()) == 8
+
+
+def test_exp016_consumes_a_calibration_receipt_in_the_tool_schema(
+        monkeypatch, tmp_path):
+    from scene2motion.stepover_eval import StepOverThresholds
+
+    calibrated = StepOverThresholds(
+        support_height_m=0.0465, support_speed_mps=1.175,
+        max_unsupported_run_s=0.2, landing_dwell_s=0.12)
+    calibration_path = tmp_path / "calibration_receipt.json"
+    calibration_path.write_text(json.dumps(
+        {"experiment": "stepover_threshold_calibration",
+         "stepover_thresholds": exp016.asdict(calibrated)}))
+
+    receipt = _run_cpu_smoke(
+        monkeypatch, tmp_path / "exp016",
+        extra_argv=["--threshold_calibration_receipt", str(calibration_path)])
+
+    gate = receipt["success_gate"]
+    assert gate["threshold_source"] == "calibration_receipt"
+    assert gate["thresholds"] == exp016.asdict(calibrated)
+    assert gate["threshold_calibration_receipt"] == str(calibration_path)
+
+
+def test_exp016_rejects_a_frame_based_calibration_receipt(monkeypatch, tmp_path):
+    stale = tmp_path / "stale_receipt.json"
+    stale.write_text(json.dumps(
+        {"stepover_thresholds": {"max_unsupported_run_frames": 2,
+                                 "landing_dwell_frames": 3}}))
+    monkeypatch.setattr(
+        exp016.sys, "argv",
+        ["exp016", "--out", str(tmp_path / "out"), "--skip_sonic",
+         "--threshold_calibration_receipt", str(stale)])
+    with pytest.raises(SystemExit, match="invalid threshold_calibration_receipt"):
+        exp016.main()

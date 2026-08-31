@@ -17,6 +17,16 @@ by name instead of trusting Isaac Lab's interleaved storage order.
 Terminated trajectories are trimmed to the last step SONIC counted as alive.  The padded on-disk
 array uses NaNs after ``valid_lengths`` so an accidental unsliced consumer fails loudly rather
 than treating reset-state padding as achieved motion.
+
+Frame convention (schema v2)
+----------------------------
+There is no frame-0 sample: ``qpos[i]`` is the state *after* physics step ``i+1``, at time
+``(i+1) * sample_dt_s``.  Against a 25 fps reference played at SONIC's 50 Hz control rate,
+``qpos[1::2][k]`` aligns with reference frame ``k+1``.  ``motion_time_out`` fires during
+iteration ``ref_len-1`` and Isaac resets the env inside that same ``step()``, so the snapshot at
+index ``ref_len-1`` of a *non-terminated* rollout is the post-reset frame-0 teleport pose, not
+achieved motion; schema v2 archives exclude it (``valid = ref_len - 1``) and record
+``timeout_frame_dropped``.  Loading a schema v1 archive drops that frame at read time instead.
 """
 
 from __future__ import annotations
@@ -31,9 +41,19 @@ import numpy as np
 from scene2motion.sonic_export import G1_29DOF
 
 ARCHIVE_NAME = "achieved_qpos.npz"
-ARCHIVE_SCHEMA_VERSION = 1
+ARCHIVE_SCHEMA_VERSION = 2
+# v1 archives (the exp1b heuristic_00..04 launches) keep the post-reset teleport frame as the
+# final sample of every non-terminated rollout; the loader drops it so both versions read alike.
+SUPPORTED_SCHEMA_VERSIONS = (1, 2)
 CALLBACK_TARGET = "scene2motion.sonic_state_export.SonicStateExportCallback"
 QPOS_WIDTH = 7 + len(G1_29DOF)
+# qpos[i] is the post-step state at time (i+1)*sample_dt_s; there is no frame-0 sample, so
+# qpos[1::2][k] aligns with 25 fps reference frame k+1 when sample_dt_s == 0.02.
+SAMPLE_OFFSET_STEPS = 1
+FRAME_CONVENTION = (
+    "qpos[i] = state after physics step i+1 at t=(i+1)*sample_dt_s; no frame-0 sample; "
+    "qpos[1::2][k] aligns with reference frame k+1 at 2*sample_dt_s per reference frame"
+)
 
 
 try:  # Available in the Isaac/SONIC subprocess, intentionally absent from CPU-only tests.
@@ -183,11 +203,14 @@ def write_sonic_state_archive(
         root_frame=np.asarray("isaac_env_local", dtype=np.str_),
         root_quaternion_order=np.asarray("wxyz", dtype=np.str_),
         sample_dt_s=np.asarray(float(sample_dt_s), dtype=np.float64),
+        sample_offset_steps=np.asarray(SAMPLE_OFFSET_STEPS, dtype=np.int16),
+        frame_convention=np.asarray(FRAME_CONVENTION, dtype=np.str_),
+        timeout_frame_dropped=np.asarray(True, dtype=np.bool_),
     )
     return path
 
 
-def _load_archive(path: Path) -> tuple[list[SonicRollout], float]:
+def _load_archive(path: Path) -> tuple[list[SonicRollout], float, int]:
     with np.load(path, allow_pickle=False) as data:
         required = {
             "schema_version",
@@ -206,10 +229,19 @@ def _load_archive(path: Path) -> tuple[list[SonicRollout], float]:
         if missing:
             raise ValueError(f"{path} is missing achieved-state fields: {missing}")
         version = int(np.asarray(data["schema_version"]).item())
-        if version != ARCHIVE_SCHEMA_VERSION:
+        if version not in SUPPORTED_SCHEMA_VERSIONS:
             raise ValueError(
-                f"{path} has schema version {version}; expected {ARCHIVE_SCHEMA_VERSION}"
+                f"{path} has schema version {version}; expected one of "
+                f"{SUPPORTED_SCHEMA_VERSIONS}"
             )
+        if version >= 2:
+            v2_fields = sorted(
+                {"sample_offset_steps", "timeout_frame_dropped"}.difference(data.files)
+            )
+            if v2_fields:
+                raise ValueError(f"{path} is a v{version} archive missing {v2_fields}")
+            if not bool(np.asarray(data["timeout_frame_dropped"]).item()):
+                raise ValueError(f"{path} claims schema v{version} with the timeout frame kept")
         if str(np.asarray(data["root_frame"]).item()) != "isaac_env_local":
             raise ValueError(f"{path} does not contain environment-local root positions")
         if str(np.asarray(data["root_quaternion_order"]).item()) != "wxyz":
@@ -236,6 +268,10 @@ def _load_archive(path: Path) -> tuple[list[SonicRollout], float]:
     result = []
     for i in range(n):
         valid = int(lengths[i])
+        if version < 2 and not terminated[i] and valid > 0:
+            # v1 kept the post-reset teleport frame (frame-0 pose at the env origin) that
+            # motion_time_out's in-step reset produced; normalize to the v2 convention.
+            valid -= 1
         achieved = qpos[i, :valid].copy()
         if not np.all(np.isfinite(achieved)):
             raise ValueError(f"{path} motion {keys[i]!r} contains non-finite valid qpos")
@@ -249,7 +285,7 @@ def _load_archive(path: Path) -> tuple[list[SonicRollout], float]:
                 motion_id=int(ids[i]),
             )
         )
-    return result, sample_dt_s
+    return result, sample_dt_s, version
 
 
 def load_sonic_state_rollouts(path: str | Path) -> list[SonicRollout]:
@@ -269,13 +305,17 @@ def load_sonic_state_rollouts(path: str | Path) -> list[SonicRollout]:
         paths = [source]
     records: list[SonicRollout] = []
     sample_dts: list[float] = []
+    versions: set[int] = set()
     for archive in paths:
-        loaded, sample_dt_s = _load_archive(archive)
+        loaded, sample_dt_s, version = _load_archive(archive)
         records.extend(loaded)
+        versions.add(version)
         if np.isfinite(sample_dt_s):
             sample_dts.append(sample_dt_s)
     if sample_dts and not np.allclose(sample_dts, sample_dts[0], rtol=0.0, atol=1e-12):
         raise ValueError(f"rank shards disagree on sample_dt_s: {sample_dts}")
+    if len(versions) > 1:
+        raise ValueError(f"rank shards disagree on schema version: {sorted(versions)}")
     keys = [r.motion_key for r in records]
     ids = [r.motion_id for r in records]
     if len(keys) != len(set(keys)) or len(ids) != len(set(ids)):
@@ -309,6 +349,36 @@ def sonic_state_sample_dt(path: str | Path) -> float:
     if not np.allclose(values, values[0], rtol=0.0, atol=1e-12):
         raise ValueError(f"rank shards disagree on sample_dt_s: {values}")
     return values[0]
+
+
+def sonic_state_archive_schema(path: str | Path) -> int:
+    """Return the on-disk schema version, requiring shard agreement.
+
+    A join must record this per launch: v1 rollouts had their non-terminated teleport frame
+    dropped at load time, v2 rollouts at write time, and downstream provenance needs to say
+    which convention the raw artifact used.
+    """
+    source = Path(path)
+    if source.is_dir():
+        canonical = source / ARCHIVE_NAME
+        paths = [canonical] if canonical.exists() else sorted(source.glob("achieved_qpos.rank*.npz"))
+        if not paths:
+            raise FileNotFoundError(f"no achieved-state archive found in {source}")
+    else:
+        paths = [source]
+    versions = set()
+    for archive in paths:
+        with np.load(archive, allow_pickle=False) as data:
+            if "schema_version" not in data.files:
+                raise ValueError(f"{archive} is missing schema_version")
+            versions.add(int(np.asarray(data["schema_version"]).item()))
+    if len(versions) > 1:
+        raise ValueError(f"rank shards disagree on schema version: {sorted(versions)}")
+    (version,) = versions
+    if version not in SUPPORTED_SCHEMA_VERSIONS:
+        raise ValueError(f"{path} has schema version {version}; expected one of "
+                         f"{SUPPORTED_SCHEMA_VERSIONS}")
+    return version
 
 
 def achieved_qpos_by_key(path: str | Path) -> dict[str, np.ndarray]:
@@ -422,7 +492,10 @@ class SonicStateExportCallback(_ImEvalCallback):
                 valid = int(np.rint(progress_raw[env_idx] * ref_len))
                 progress = float(np.clip(progress_raw[env_idx], 0.0, 1.0))
             else:
-                valid = ref_len
+                # motion_time_out fires during iteration ref_len-1 and Isaac resets the env
+                # inside that same step(), so the snapshot at index ref_len-1 is the post-reset
+                # frame-0 teleport pose.  SONIC's own metrics slice [: i-1] for this reason.
+                valid = ref_len - 1
                 progress = 1.0
             valid = min(max(valid, 0), states.shape[0], ref_len)
             key = keys[motion_id]

@@ -1,14 +1,36 @@
 # Execution-aware acceptance-gate audit — 2026-08-30
 
-## Verdict
+## Completed campaign update — 2026-08-31
+
+The missing achieved-state instrument described below has now been run on all **859** selected
+Phase-4E candidates across 36 scenes and three methods.  The durable ledger is
+`outputs/exp1b_execution_clearance_v2/rows.jsonl`; its receipt records the mixed archive-schema
+recovery and hashes every committed result file.
+
+The result is informative but does **not** identify a clearance-loss threshold.  Of 859
+rollouts, 554 terminated or fell below the progress criterion, only 200 reached the first
+obstacle, **none passed the last obstacle**, and therefore none supplied an uncensored
+reference-to-execution clearance-loss observation.  `gate.json` correctly returns
+`status: insufficient_data` with zero calibration observations.  The apparent completion of
+some non-terminated rollouts was motion-clock completion while the robot had stalled far behind
+the reference, not scene traversal.
+
+This changes the execution-model design.  It must first model the probability of reaching and
+passing the interaction (including forward-progress stall and termination), then model
+clearance loss conditional on reaching it.  A scalar \(\tau(d)\) is only the second stage and
+cannot be fit from this deep-crouch campaign.  The pre-run audit is retained below because it
+records the preregistered metric and explains why MPJPE cannot substitute for achieved-state
+geometry.
+
+## Pre-run verdict
 
 No depth-dependent execution-clearance threshold can be fit legitimately from the artifacts
 currently on disk. There are **zero** `achieved_qpos*.npz` archives. Existing SONIC runs pair a
 generated reference with per-motion scalar tracking summaries, termination, and progress, but do
 not retain the achieved trajectory needed to recompute signed scene clearance.
 
-The new `scene2motion.sonic_state_export` callback supplies the missing achieved state, but it has
-not yet been run. Its archive stores environment-local MuJoCo-compatible qpos, valid length,
+The new `scene2motion.sonic_state_export` callback supplies the missing achieved state. Its
+archive stores environment-local MuJoCo-compatible qpos, valid length,
 termination, progress, motion key/id, joint order, quaternion convention, and sampling period.
 
 ## What exists

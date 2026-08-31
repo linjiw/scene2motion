@@ -1,0 +1,72 @@
+{
+  "experiment": "exp1b_execution_clearance",
+  "artifact_version": 2,
+  "completed_at": "2026-08-31T14:29:55-04:00",
+  "status": "completed_negative",
+  "selection": {
+    "source_ledger": "outputs/phase4e_architecture_v2_s8/experiment.json",
+    "methods": ["heuristic", "heuristic+1", "heuristic+2"],
+    "preference": "shortest",
+    "target_m": 0.18,
+    "n_selected": 859,
+    "n_kinematically_verified": 859,
+    "n_scenes": 36,
+    "n_unique_clips": 526,
+    "noise_stream_version": 2,
+    "clip_cache_version": 2
+  },
+  "execution": {
+    "tracker": "SONIC",
+    "tracker_commit": "fb57e8613fdbcffbaeca4f5ab1e5f80935a4c095",
+    "callback": "scene2motion.sonic_state_export.SonicStateExportCallback",
+    "physics_seeds": [0],
+    "n_launches": 24,
+    "n_rows": 859,
+    "archive_schema_rows": {"1": 180, "2": 679},
+    "schema_v1_teleport_handling": "post-reset frame dropped at load",
+    "schema_v2_teleport_handling": "post-reset frame excluded at write"
+  },
+  "outcomes": {
+    "terminated": 554,
+    "progress_below_0_95": 550,
+    "execution_failure": 554,
+    "reached_first_obstacle": 200,
+    "passed_last_obstacle": 0,
+    "executed_success": 0,
+    "valid_clearance_loss_observations": 0,
+    "by_method": {
+      "heuristic": {"n": 283, "execution_failure": 183, "reached_first_obstacle": 66,
+                    "passed_last_obstacle": 0, "executed_success": 0},
+      "heuristic+1": {"n": 288, "execution_failure": 184, "reached_first_obstacle": 68,
+                      "passed_last_obstacle": 0, "executed_success": 0},
+      "heuristic+2": {"n": 288, "execution_failure": 187, "reached_first_obstacle": 66,
+                      "passed_last_obstacle": 0, "executed_success": 0}
+    }
+  },
+  "gate": {
+    "status": "insufficient_data",
+    "alpha": 0.1,
+    "n_calibration_observations": 0,
+    "reason": "No achieved rollout passed the last obstacle, so none yields an uncensored clearance-loss observation."
+  },
+  "code_provenance": {
+    "selection_ledger_commit": "d54565b0b48081c119f0456dda9962e6874567c6",
+    "recovery_driver_commit": "d170c543e5b09c29085a969aedf93fa887cd30cd",
+    "curation_parent_commit": "2da648828eb1a43cc58d31e2ca01f37672222da1",
+    "driver": "experiments/exp1b_execution_clearance.py",
+    "diagnosis": "docs/exp1b-frame-diagnosis-2026-08-31.md"
+  },
+  "files": {
+    "rows.jsonl": {"sha256": "c8e12aa84aa60e6a8ccd945e2da07c9df67f641d9c07c5c44b2869afe011158b", "rows": 859},
+    "gate.json": {"sha256": "3de78d7f48cc23380973fac5086222d62b2cae56004e52bc6dce56db71e26589"},
+    "launches.jsonl": {"sha256": "3dd469e448c1ea51cfab39a7d84b0e603c8a5bec8ef0b0c7badacdb4f344ef7f", "rows": 24},
+    "selection_receipt.json": {"sha256": "002026ae24f70a2268f6287064f1889b3f0dbc0dc83e483a2b34ea96e2f49332"}
+  },
+  "raw_artifacts": {
+    "committed": false,
+    "description": "Machine-local motion pickles, achieved-state arrays, metrics, and logs remain in ignored run/ state.",
+    "achieved_archive_count": 24,
+    "achieved_archive_bytes": 48649045
+  },
+  "interpretation": "The achieved-state instrument and joins are validated, but this deep-crouch campaign cannot identify tau(d): forward traversal fails before the interaction endpoint. Future execution modeling must first predict reach/survival and only then model conditional clearance loss."
+}

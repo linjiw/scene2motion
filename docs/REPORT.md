@@ -999,7 +999,8 @@ proposer, ≤ 2 repairs, seed 7), **301.9 s wall-clock** on one consumer GPU: **
 traversal records — with per-record manifest, schedule hashes and v2 cache keys — in five
 minutes, and 0 records silently dropped. The throughput tiers the paper draft commits to
 (generated / kinematically scored / accepted / SONIC-executed) are measurable from this
-manifest for the first three; the fourth still requires the achieved-state archive of §4.8.
+manifest for the first three. The fourth is now measured by EXP-1B (§25), with a negative
+result that must not be conflated with kinematic acceptance.
 
 ## 23. Redirection, 2026-08-31: the audit becomes infrastructure; the method is RAMP
 
@@ -1037,3 +1038,28 @@ audit is re-run with its receipt landed under `outputs/`, the Kimodo row does no
 project's own evidence bar and must be labelled transcript-sourced wherever it is quoted.
 Full trail and rerun checklist:
 [`kimodo-provenance-2026-08-31.md`](kimodo-provenance-2026-08-31.md).
+
+## 25. EXP-1B completed: the execution gate fails before clearance calibration
+
+The recovered, resumable achieved-state campaign is complete and curated at
+`outputs/exp1b_execution_clearance_v2/`: **859** kinematically accepted Phase-4E selections,
+36 scenes, 526 unique clips, 24 SONIC launches, noise-stream/cache v2. The recovery combines
+180 schema-v1 rows (the post-reset teleport frame dropped at load) and 679 schema-v2 rows (the
+frame excluded at write); hashes and both code commits are pinned in `receipt.json`.
+
+This is a strong negative execution result. **554/859** rollouts terminated or missed the
+progress criterion; **200/859** reached the first obstacle; **0/859** passed the last obstacle;
+and **0/859** were executed traversal successes. The same endpoint is zero for heuristic
+(0/283), heuristic+1 (0/288), and heuristic+2 (0/288). Deep requested crouches preserve local
+posture much better than global root motion: the robot generally stalls before or among the
+beams while the reference continues down the route. The frame-level diagnosis and exclusion
+of an environment-origin bug are in
+[`exp1b-frame-diagnosis-2026-08-31.md`](exp1b-frame-diagnosis-2026-08-31.md).
+
+Consequently, the predeclared execution-calibrated acceptance rule is **not fit**:
+`gate.json` reports `insufficient_data`, because no rollout passed the last obstacle and hence
+no row provides a valid, uncensored clearance-loss observation. This is not an instrumentation
+failure. It is evidence that execution modeling must be hierarchical: first predict
+reach/survival and forward-progress retention, then model clearance loss conditional on reaching
+the interaction. It also prevents the paper from using kinematic acceptance as a proxy for
+physical traversal success.

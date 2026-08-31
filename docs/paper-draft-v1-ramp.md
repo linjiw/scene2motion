@@ -117,10 +117,13 @@ released priors sharing the G1 embodiment", never "arbitrary priors".
 
 **Evidence slot.** E4 (route–body joint planning) and E3 (ARDY→Kimodo response transfer).
 Data sources landed: SONIC achieved-state export (`scene2motion/sonic_state_export.py`;
-`run/receipt.json` — exp1b_execution_clearance, 859 verified selections, 36 scenes, 526
-unique clips, SONIC commit fb57e86 pinned) and the Kimodo reduced-audit harness
-(v0 §4: 4.5× overcount, duck ladder stability 1.00, 84 clips / 173 s). Route-selection
-baseline machinery: `outputs/phase4b_select` (Experiment E, `REPORT.md` §13).
+`outputs/exp1b_execution_clearance_v2/` — 859 verified selections, 36 scenes, 526 unique
+clips, SONIC commit fb57e86 pinned). That campaign validates achieved-state measurement but
+also exposes a stricter first-stage problem: 0/859 executions passed the last obstacle, so no
+conditional clearance-loss bound can be fit. C3 therefore models reach/survival before
+conditional executed clearance. The Kimodo reduced-audit result remains transcript-sourced
+until its lost harness and ledger are reconstructed (v0 §4; provenance note in `docs/`).
+Route-selection baseline machinery: `outputs/phase4b_select` (Experiment E, `REPORT.md` §13).
 
 ---
 
@@ -220,8 +223,11 @@ primary endpoint here.
   and the repair operator (`REPORT.md` §10); numbers from
   `outputs/phase4e_architecture_v2_s8`.
 - **SONIC achieved-state export → execution-model data source**:
-  `scene2motion/sonic_state_export.py`; landed dataset `run/` (exp1b_execution_clearance,
-  859 rows / 36 scenes / 526 clips, post-reset-teleport truncation fixed).
+  `scene2motion/sonic_state_export.py`; durable dataset
+  `outputs/exp1b_execution_clearance_v2/` (859 rows / 36 scenes / 526 clips,
+  post-reset-teleport truncation fixed). No row passes the last obstacle, so the execution
+  response begins with a reach/survival outcome rather than pretending every selected clip
+  supplies a clearance-loss target.
 - Donor/transplant machinery: `scene2motion/semantic_scaffold.py` (exp016's scaffold builder)
   becomes the absolute-packet arm of E1 and the starting point for residual extraction.
 
@@ -267,9 +273,10 @@ horizon) come from `experiments/exp016_semantic_geometric_stepover.py`
 - Table 2 (`outputs/phase4e_architecture_v2_s8/experiment.json`) as the **L0 baseline block**
   and the equal-budget-control protocol template (zero-regression accounting, at-risk
   denominators, saturation labeled `accepted_margin`).
-- exp1b executed-clearance data (`run/`) feeding the execution block; v0 §7's two-gate
-  acceptance rule (c_ref ≥ τ(d); c_ref ≥ 0.18 + τ(d)) with the ≥95 % executed-success-among-
-  accepted target, reported as risk–coverage.
+- exp1b achieved-state data (`outputs/exp1b_execution_clearance_v2/`) feeding the execution
+  block. Its completed negative result is 0/859 passing the final obstacle and zero valid loss
+  observations; the hierarchy is therefore reach/survival first, followed by the v0 §7
+  conditional gates (c_ref ≥ τ(d); c_ref ≥ 0.18 + τ(d)) only on interaction-reaching data.
 - Route-selection baselines from `outputs/phase4b_select` (`REPORT.md` §13: length-only
   agreement 0.139, tcn_body regret 2.70, TCN 649× batched-scoring speedup at k=128) as the
   E4 comparison scaffold.
@@ -376,15 +383,15 @@ started" = neither.
 | # | Claim | Status | Artifact / planned experiment |
 |---|---|---|---|
 | 1 | Naive counting overstates repertoire 6× (ARDY), ~10× after tracking | landed | `outputs/audit_delta.json`, v0 Table 1 (⟨v2⟩ recheck in standing revalidation) |
-| 2 | Overcount + channel asymmetry replicate on Kimodo-G1 (4.5×) | landed (ledger path to pin under `outputs/`) | v0 §4 reduced audit; 84 clips / 173 s |
+| 2 | Overcount + channel asymmetry replicate on Kimodo-G1 (4.5×) | provenance gap; rerun required | transcript-sourced v0 §4 result; `docs/kimodo-provenance-2026-08-31.md` |
 | 3 | Duck is addressable and executable with graceful dose-response | landed | `outputs/exp011`; `REPORT.md` §4.7 |
 | 4 | Position-channel step-over fails at every amplitude (request family scoped) | landed | `outputs/exp1c_stepover` (24 seeds, pre-registered ladder) |
 | 5 | Text elicits step-over but does not place it (box clearance 0.0, 8/8) | landed (v1 sampler, labeled post-hoc) | `outputs/exp015`, `outputs/exp015b_spatial_reanalysis` |
-| 6 | Text × coherent scaffold factorial (semantic × geometric roles) | in-flight | `experiments/exp016_semantic_geometric_stepover.py`; no `outputs/exp016*` yet |
+| 6 | Text × coherent scaffold factorial (semantic × geometric roles) | harness landed; run not started | `experiments/exp016_semantic_geometric_stepover.py`; threshold calibration only |
 | 7 | L0 repair lifts every proposer to ≥0.99 collision-free, zero regressions, beats equal-budget resampling | landed | `outputs/phase4e_architecture_v2_s8/experiment.json` (4 320 runs) |
 | 8 | Open-loop TCN inherits its teacher's OOD optimism (scoped per claim-fix 2) | landed | same artifact + `outputs/phase4d_hard`, `REPORT.md` §15 |
-| 9 | Executed clearance measurable; achieved-state export validated | landed | `run/` (exp1b, 859 rows); `scene2motion/sonic_state_export.py` |
-| 10 | τ(d) fit + risk–coverage of the execution-calibrated acceptance rule (≥95 % target) | in-flight | fit over `run/rows.jsonl`; v0 §7 spec; `docs/exec-gate-audit.md` schema |
+| 9 | Achieved-state export and scene replay are validated; current deep-crouch clips fail route progress | landed negative | `outputs/exp1b_execution_clearance_v2/` (0/859 pass last obstacle) |
+| 10 | Conditional τ(d) fit + risk–coverage of the execution-calibrated acceptance rule | not identifiable on EXP-1B; new interaction-reaching campaign required | `gate.json: insufficient_data`, 0 valid loss observations; `docs/exec-gate-audit.md` |
 | 11 | Residual packets beat synthetic + absolute packets on duck/step-over/squeeze (E1 endpoint) | not started | E1; donor machinery in `scene2motion/semantic_scaffold.py` |
 | 12 | Local response optimizer beats scalar secant on multi-axis tasks | not started | E2 arm; teacher for #13 |
 | 13 | RepairNet-B beats Best-of-B at equal budget (core E2) | not started | E2; ablation table (scene/program/response conditioning) |

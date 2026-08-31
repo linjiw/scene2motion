@@ -1,0 +1,163 @@
+{
+ "generated_at": 1788195226.3334851,
+ "experiment": "exp1b_execution_clearance",
+ "ledger": "/home/linjiw/scene2motion/outputs/phase4e_architecture_v2_s8/experiment.json",
+ "ledger_generated_at": 1788150346.4643586,
+ "ledger_code_commit": "d54565b0b48081c119f0456dda9962e6874567c6",
+ "methods": [
+  "heuristic",
+  "heuristic+1",
+  "heuristic+2"
+ ],
+ "preference": "shortest",
+ "target_m": 0.18,
+ "progress_ok": 0.95,
+ "n_selected": 859,
+ "n_verified": 859,
+ "n_skipped": 0,
+ "n_scenes": 36,
+ "n_unique_clips": 526,
+ "clip_cache_dir": "/home/linjiw/scene2motion/scene2motion/demo_outputs/clips",
+ "clip_cache_version": 2,
+ "noise_stream_version": 2,
+ "sonic": {
+  "checkout": "/home/linjiw/lucid/GR00T-WholeBodyControl",
+  "commit": "fb57e8613fdbcffbaeca4f5ab1e5f80935a4c095",
+  "ckpt": "/home/linjiw/lucid/GR00T-WholeBodyControl/sonic_release/last.pt",
+  "python": "/home/linjiw/isaaclab-install/env_isaaclab/bin/python",
+  "callback": "scene2motion.sonic_state_export.SonicStateExportCallback",
+  "archive_schema_version": 1
+ },
+ "s2m_commit": "d54565b0b48081c119f0456dda9962e6874567c6",
+ "num_envs_cap": 36,
+ "physics_seeds": 1,
+ "launch_plan": [
+  {
+   "method": "heuristic",
+   "chunk": 0,
+   "n_rows": 36
+  },
+  {
+   "method": "heuristic",
+   "chunk": 1,
+   "n_rows": 36
+  },
+  {
+   "method": "heuristic",
+   "chunk": 2,
+   "n_rows": 36
+  },
+  {
+   "method": "heuristic",
+   "chunk": 3,
+   "n_rows": 36
+  },
+  {
+   "method": "heuristic",
+   "chunk": 4,
+   "n_rows": 36
+  },
+  {
+   "method": "heuristic",
+   "chunk": 5,
+   "n_rows": 36
+  },
+  {
+   "method": "heuristic",
+   "chunk": 6,
+   "n_rows": 36
+  },
+  {
+   "method": "heuristic",
+   "chunk": 7,
+   "n_rows": 31
+  },
+  {
+   "method": "heuristic+1",
+   "chunk": 0,
+   "n_rows": 36
+  },
+  {
+   "method": "heuristic+1",
+   "chunk": 1,
+   "n_rows": 36
+  },
+  {
+   "method": "heuristic+1",
+   "chunk": 2,
+   "n_rows": 36
+  },
+  {
+   "method": "heuristic+1",
+   "chunk": 3,
+   "n_rows": 36
+  },
+  {
+   "method": "heuristic+1",
+   "chunk": 4,
+   "n_rows": 36
+  },
+  {
+   "method": "heuristic+1",
+   "chunk": 5,
+   "n_rows": 36
+  },
+  {
+   "method": "heuristic+1",
+   "chunk": 6,
+   "n_rows": 36
+  },
+  {
+   "method": "heuristic+1",
+   "chunk": 7,
+   "n_rows": 36
+  },
+  {
+   "method": "heuristic+2",
+   "chunk": 0,
+   "n_rows": 36
+  },
+  {
+   "method": "heuristic+2",
+   "chunk": 1,
+   "n_rows": 36
+  },
+  {
+   "method": "heuristic+2",
+   "chunk": 2,
+   "n_rows": 36
+  },
+  {
+   "method": "heuristic+2",
+   "chunk": 3,
+   "n_rows": 36
+  },
+  {
+   "method": "heuristic+2",
+   "chunk": 4,
+   "n_rows": 36
+  },
+  {
+   "method": "heuristic+2",
+   "chunk": 5,
+   "n_rows": 36
+  },
+  {
+   "method": "heuristic+2",
+   "chunk": 6,
+   "n_rows": 36
+  },
+  {
+   "method": "heuristic+2",
+   "chunk": 7,
+   "n_rows": 36
+  }
+ ],
+ "n_launches": 24,
+ "gpu_before": "7686 MiB, 16303 MiB, NVIDIA GeForce RTX 5080",
+ "argv": [
+  "exp1b_full.py",
+  "--out",
+  "run"
+ ]
+}

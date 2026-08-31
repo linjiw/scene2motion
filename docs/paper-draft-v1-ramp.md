@@ -25,7 +25,11 @@ only as an Introduction punch line, never as a title.
 
 ---
 
-## Abstract (draft, from guidance 十 — adapted to what the repo actually has)
+## Target abstract (future method/results; not the current repository status)
+
+This is the abstract the completed RAMP program is intended to support. The local optimizer,
+RepairNet, Kimodo transfer, execution-aware routing, and bracketed results below are not yet
+implemented or measured; the evidence table remains authoritative about present status.
 
 > Large humanoid motion priors provide diverse and natural whole-body behaviors, but their
 > conditioning interfaces do not directly expose a scene-grounded action space: requested
@@ -65,25 +69,35 @@ Adaptations vs the guidance text, on purpose:
 
 ### C1. Prior-compatible scene motion programs
 
-**Claim.** An event-aligned, phase-aware scene adaptation representation: per obstacle
+**Claim target.** An event-aligned, phase-aware scene adaptation representation: per obstacle
 e_j = (s_j path progress, Δs_j extent, g_j geometry, b_j body region, m_j mode, φ_j target
 gait/contact phase, a_j continuous params), realized as **coherent residual packets**
-ΔP = P_adapt ⊖ P_nominal transported onto the current seed's own phase-matched nominal walk
-with warp W_{γ,τ,ρ} (amplitude, path shift, time scale). This puts duck, step-over, and
-squeeze at the correct path position and gait phase while preserving the seed's gait style,
-swing side, velocity, heading, and history — "the foot in swing when the robot reaches s_j
-peaks its clearance arc at the obstacle, stance foot keeps contact", never "frame 104, left
-foot +8 cm". Novelty is *not* "primitives" (MotionBricks owns that); it is scene-aligned
-residual programs corrected by realized response.
+ΔP = P_adapted-source ⊖ P_neutral-source transported onto a held-out, phase-matched nominal
+walk. The implemented v1 packet contains hierarchy-local full-body rotation residuals and a
+root-height residual, uses a bounded event-center shift, prescribes route XZ, and leaves the
+ARDY body-heading feature free. It does not yet represent root-speed, heading, or time-scale
+residuals, and realized gait-style/history preservation is an empirical question rather than a
+guarantee. Duck/double-support, squeeze/turn, duration scaling, and richer event controls are
+future schemas. The intended novelty is *not* "primitives" (MotionBricks owns that); it is
+scene-aligned residual programs corrected by realized response.
 
 **Evidence slot.** E1 (residual-packet pilot) is the deciding experiment. Design basis
 migrates from v0 §6 (interface mechanism: absolute-height vs root-relative encoding,
 rotations as the clean leg channel — `REPORT.md` §4.2/§4.4, exp008/exp010 ledgers) and from
 the exp015b failure (text elicits the behavior but places it nowhere —
 `outputs/exp015b_spatial_reanalysis/receipt.json`: box clearance 0.0 m in 8/8, peak-x sd
-≈ 0.70 m). Donor machinery already exists: `scene2motion/semantic_scaffold.py` (donor bank,
-phase-matched selection, obstacle-centered transplant) — currently absolute-pose transplant;
-E1 upgrades it to residual form.
+≈ 0.70 m). The strict v1 **step-event representation foundation** now exists in
+`scene2motion/ramp/packet.py`, `scene2motion/ramp/phase.py`, and
+`scene2motion/ramp/step_phase.py`: qpos-derived physical step cycles and stance receipts feed
+source/target cyclic-phase alignment; a paired extractor builds absolute and hierarchy-local
+residual packets on identical adapted queries; and rendering transports either packet onto a
+held-out nominal gait with the same ARDY channel/frame/joint support. The fail-closed exp017
+harness and CPU orchestration tests now exist in
+`experiments/exp017_ramp_residual_stepover.py` and `tests/test_exp017.py`; they lock the
+`2D + N + 2NP` sample budget and freeze program manifests before final generation. This is
+implementation evidence, not an E1 result: no real ARDY/GPU exp017 row has been generated.
+V1 is deliberately step-only; duck/double-support and squeeze/turn events still require their
+own event, contact, and body-heading contracts.
 
 ### C2. Response-adaptive repair
 
@@ -192,10 +206,12 @@ primary endpoint here.
 **(a) Contents.** Six components, in pipeline order:
 1. **Event representation** — path-progress events, never frame schedules (fixes seed-phase
    variation, speed, placement, prompt window timing, autoregressive drift).
-2. **Residual packet construction** — ΔP = P_adapt ⊖ P_nominal (pelvis vertical, swing-arc,
-   hip/knee/ankle rotations, root-speed, torso/arm counterbalance, timing residuals);
-   transport P_target = P_nominal ⊕ W_{γ,τ,ρ}(ΔP) onto the current seed's phase-matched
-   nominal walk.
+2. **Residual packet construction** — implemented v1 computes
+   ΔP = P_adapted-source ⊖ P_neutral-source in hierarchy-local full-body rotations plus root
+   height, then transports it onto a held-out nominal at a qpos-derived target phase and a
+   bounded path-position shift. Route XZ is prescribed and body heading is unconstrained.
+   Root-speed/body-heading residuals, duration scaling, and duck/squeeze packet schemas are
+   explicitly future extensions.
 3. **Response measurement** — r_k = Φ(S, u_k, x_ref, x_exec), the full deficit vector.
 4. **Local response optimizer** — u_k ± ε_i paired-stream counterfactuals → local Jacobian
    r(u_k+Δu) ≈ r_k + A_kΔu → QP: min ‖W(r\*−r_k−A_kΔu)‖² + λ‖Δu‖² + ηJ_deform s.t.
@@ -228,12 +244,19 @@ primary endpoint here.
   post-reset-teleport truncation fixed). No row passes the last obstacle, so the execution
   response begins with a reach/survival outcome rather than pretending every selected clip
   supplies a clearance-loss target.
-- Donor/transplant machinery: `scene2motion/semantic_scaffold.py` (exp016's scaffold builder)
-  becomes the absolute-packet arm of E1 and the starting point for residual extraction.
+- Donor/transplant machinery: `scene2motion/semantic_scaffold.py` remains exp016's legacy
+  absolute-position scaffold. The fair E1 absolute/residual pair instead uses the strict
+  common-support implementation in `scene2motion/ramp/packet.py`, with phase/contact receipts
+  from `scene2motion/ramp/phase.py` and `scene2motion/ramp/step_phase.py`.
 
-**(c) New result needed.** The method components 2, 4, 5, 6 do not exist as code yet (only
-their ingredients do). Implementation order per guidance 十二: residual packets → local
-optimizer → RepairNet → execution model in the route cost.
+**(c) New result needed.** Component 2's strict v1 step-event foundation and paired exp017
+harness have landed, but there is **no real ARDY/GPU E1 result yet** and therefore no evidence
+of step-over capability. Components 4, 5, and 6 remain unimplemented: no local response
+optimizer, RepairNet, hierarchical execution-outcome model, or RAMP-aware route cost exists.
+The immediate dependency is the clean-worktree `D=1, N=1, P=1` five-sample preflight, then the
+paired absolute-vs-residual pilot specified in `docs/ramp-e1-protocol.md`; only after that
+representation test should work proceed to the optimizer, RepairNet, and execution-aware
+route objective.
 
 ### §5 Experimental Setup
 
@@ -260,9 +283,10 @@ see "Statistics protocol" below (inlined here in the paper).
 
 **(c) New result needed.** Scene generators for L1–L4 families (floor obstacles at
 parametric placements, narrow slots, composed beam+floor sequences, left/right-forcing
-layouts). E1's six placement strata (two absolute-history levels × phase within the 52-frame
-horizon) come from `experiments/exp016_semantic_geometric_stepover.py`
-(DEFAULT_TARGET_FRAMES) and generalize into the L1 generator.
+layouts). The exp017 descriptive pilot uses fixed, seed-independent path positions (default
+`x = 2.4, 3.6, 4.8 m`) crossed with held-out seeds. Exp016's six frame anchors remain an
+autoregressive-history diagnostic; they are not the scene strata or inferential units for
+exp017. A confirmatory L1 generator must vary geometry/topology independently.
 
 ### §6 Main Results
 
@@ -283,23 +307,26 @@ horizon) come from `experiments/exp016_semantic_geometric_stepover.py`
 
 **(c) New results — the four deciding experiments, with kill conditions and endpoints.**
 
-**E1 — residual-packet pilot** (decides: representation bottleneck vs absent capability).
-Tasks: overhead duck, floor step-over, lateral squeeze / turn-and-tuck. Arms per task:
-current synthetic constraints · absolute donor packet · phase-matched residual packet ·
-residual + 1 response repair · residual + 2 response repairs.
-**Step-over primary endpoint (fixed, non-negotiable): obstacle-centered whole-body box
-clearance + crossing position error + correct swing foot + stance-foot contact + SONIC
-execution success — never foot peak.** (Probe exists: `scene2motion/stepover_eval.py`;
-local-structure gates in exp016.) Baselines to beat are already measured: synthetic/text arms
-sit at box clearance 0.0 m in 8/8 (`outputs/exp015b_spatial_reanalysis`), position-channel
-lift killed at 24 seeds (`outputs/exp1c_stepover`: success 0.250 → 0.000 over 0.05–0.28 m,
-bilateral flight 0.91–0.98 despite gating).
-*Kill condition:* if residual packets (with ≤2 response repairs) do not beat the absolute
-packet AND do not move the step-over endpoint off the floor (local-step success > 0 with
-stance contact at matched SONIC success), the public conditioning interface is the
-bottleneck → pivot to the output-space residual adapter x_adapt = x_nominal ⊕ A_ψ(S,
-x_nominal) or per-window latent optimization — per guidance, keep designing the stronger
-method, do not retreat to the audit paper.
+**E1a — exp017 kinematic step-representation screen.** On one box geometry at fixed,
+seed-independent path positions, compare the exact same-support absolute donor packet against
+the phase-matched source-pair residual packet. The endpoint vector is obstacle-centered
+whole-body box clearance, crossing error, selected swing side, stance/contact structure,
+progress, and deformation—never foot peak. This single-donor, crossed-placement pilot is
+descriptive and can reveal whether the residual representation has enough signal to justify
+building the local optimizer; it cannot establish execution or multi-behavior capability.
+Baselines are contextual evidence only: synthetic/text arms have box clearance 0.0 m in 8/8
+(`outputs/exp015b_spatial_reanalysis`), and the position-channel lift ladder failed at 24 seeds
+(`outputs/exp1c_stepover`).
+
+**E1b — independently varied, execution-confirmed representation test.** Add multiple donor
+bundles, independent scene geometries/topologies, equal-budget SONIC replay, and the synthetic
+baseline; only then test the full step-over endpoint including achieved-state clearance,
+crossing, contact, and progress. Duck/double-support and squeeze/turn require separate packet
+schemas and become later multi-behavior E1 extensions. E1a signal may license optimizer
+implementation, but only E1b can support or kill a public-interface execution claim. If E1b
+shows neither a residual advantage over same-support absolute packets nor any physically valid
+achieved step, pivot to `x_adapt = x_nominal ⊕ A_ψ(S, x_nominal)` or per-window latent
+optimization; do not retreat to an audit-paper claim.
 
 **E2 — feedback vs equal-budget sampling.** Fixed generator budget B ∈ {1,2,3}; arms:
 one-shot, independent best-of-B, current monotone repair, local response optimizer,
@@ -377,8 +404,9 @@ it did not, and to what level.
 ## Evidence status table
 
 Every claim the paper will make, with status and artifact. "Landed" = number exists under the
-v2 sampler with a committed ledger; "in-flight" = harness exists / run started; "not
-started" = neither.
+v2 sampler with a committed ledger; "implementation core landed" means tested method code
+exists but supplies no result; "in-flight" = harness exists / run started; "not started" =
+neither. Only the first status licenses an empirical claim.
 
 | # | Claim | Status | Artifact / planned experiment |
 |---|---|---|---|
@@ -392,16 +420,17 @@ started" = neither.
 | 8 | Open-loop TCN inherits its teacher's OOD optimism (scoped per claim-fix 2) | landed | same artifact + `outputs/phase4d_hard`, `REPORT.md` §15 |
 | 9 | Achieved-state export and scene replay are validated; current deep-crouch clips fail route progress | landed negative | `outputs/exp1b_execution_clearance_v2/` (0/859 pass last obstacle) |
 | 10 | Conditional τ(d) fit + risk–coverage of the execution-calibrated acceptance rule | not identifiable on EXP-1B; new interaction-reaching campaign required | `gate.json: insufficient_data`, 0 valid loss observations; `docs/exec-gate-audit.md` |
-| 11 | Residual packets beat synthetic + absolute packets on duck/step-over/squeeze (E1 endpoint) | not started | E1; donor machinery in `scene2motion/semantic_scaffold.py` |
-| 12 | Local response optimizer beats scalar secant on multi-axis tasks | not started | E2 arm; teacher for #13 |
-| 13 | RepairNet-B beats Best-of-B at equal budget (core E2) | not started | E2; ablation table (scene/program/response conditioning) |
-| 14 | Response-conditioned repair transfers ARDY→Kimodo zero-shot with retained gain | not started | E3 |
-| 15 | RAMP-aware route cost changes route choice and wins vs mode-cost A* | not started | E4; baseline scaffold `outputs/phase4b_select` |
-| 16 | Data engine: RepairNet success ↑ / calls ↓ with transition-data scale | not started (seed corpus landed) | `outputs/corpus_pilot_v2` + E2 training curves |
-| 17 | Route selection that prices the body beats length-only (baseline block) | landed | `outputs/phase4b_select`, `REPORT.md` §13 |
-| 18 | Repairability-aware curriculum improves RepairNet over difficulty-ordered sampling | not started | E2/E3 training ablation (L0–L5 pools, D_repair) |
+| 11 | Step-only same-support absolute-vs-residual packet comparison (exp017 / E1a) | representation/phase core + fail-closed harness landed; real ARDY/GPU row not run | `scene2motion/ramp/{packet,phase,step_phase}.py`; `experiments/exp017_ramp_residual_stepover.py`; `tests/test_exp017.py`; `docs/ramp-e1-protocol.md`; no outcome claim |
+| 12 | Residual programs beat synthetic + absolute programs across step/duck/squeeze with SONIC retention (E1b + extensions) | not started | independent geometries, donor bundles, behavior schemas, and equal-budget SONIC required |
+| 13 | Local response optimizer beats scalar secant on multi-axis tasks | not started | E2 arm; teacher for #14 |
+| 14 | RepairNet-B beats Best-of-B at equal budget (core E2) | not started | E2; ablation table (scene/program/response conditioning) |
+| 15 | Response-conditioned repair transfers ARDY→Kimodo zero-shot with retained gain | not started | E3 |
+| 16 | RAMP-aware route cost changes route choice and wins vs mode-cost A* | not started | E4; baseline scaffold `outputs/phase4b_select` |
+| 17 | Data engine: RepairNet success ↑ / calls ↓ with transition-data scale | not started (seed corpus landed) | `outputs/corpus_pilot_v2` + E2 training curves |
+| 18 | Route selection that prices the body beats length-only (baseline block) | landed | `outputs/phase4b_select`, `REPORT.md` §13 |
+| 19 | Repairability-aware curriculum improves RepairNet over difficulty-ordered sampling | not started | E2/E3 training ablation (L0–L5 pools, D_repair) |
 
-Rule: abstract placeholders [X]/[Y]/[Z] map to rows 11+13 ([X]), 13 ([Y]), 14 ([Z]) and stay
+Rule: abstract placeholders [X]/[Y]/[Z] map to rows 12+14 ([X]), 14 ([Y]), 15 ([Z]) and stay
 bracketed until those rows read **landed**.
 
 ---

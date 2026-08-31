@@ -1063,3 +1063,57 @@ failure. It is evidence that execution modeling must be hierarchical: first pred
 reach/survival and forward-progress retention, then model clearance loss conditional on reaching
 the interaction. It also prevents the paper from using kinematic acceptance as a proxy for
 physical traversal success.
+
+## 26. RAMP step-event foundation and exp017 harness landed, 2026-08-31; E1 remains unrun
+
+The first method implementation after the §23 redirection is now present under
+`scene2motion/ramp/`, deliberately separate from the frozen 43-D audit representation in
+`scene2motion/program.py`. It is a strict **v1 step-event foundation**, not evidence that RAMP
+already solves step-over:
+
+* `step_phase.py` derives takeoff, physical-foot apex, landing, swing side, and contralateral
+  stance evidence from exact qpos foot envelopes and locked height/speed support masks. It
+  rejects truncated cycles, bilateral flight, excessive penetration, insufficient lift, and
+  inadequate stance support instead of synthesizing a phase label.
+* `phase.py` aligns complete source phase windows and inverts a held-out target's measured
+  phase trace onto the packet grid. Both source and target receipts retain the measured
+  support fractions, locked threshold/window, named stance side, and evidence source.
+* `packet.py` extracts a causally paired absolute/residual packet on identical adapted phase
+  queries and renders either arm onto the same held-out nominal gait. The residual is formed
+  in hierarchy-local rotations relative to an independently aligned neutral source; source
+  route heading is explicit, and the generated body-heading feature is not misused as route
+  yaw. The two arms are required to have identical adapted event, phase knots, taper, route
+  frame, skeleton, generator/checkpoint/seed/noise-stream provenance, and exact ARDY
+  channel/frame/joint support. Rendering requires a target-phase receipt and uses the held-out
+  nominal root height rather than a constant surrogate.
+
+The deliberately narrow scope matters. V1 implements the physical contact contract for one
+unilateral step event; it does **not** yet implement duck/double-support, squeeze/turn,
+multi-event composition, or a body-heading conditioning program. The ARDY heading feature is
+left free in the paired step pilot so route canonicalization does not erase a donor's body-yaw
+residual.
+
+The CPU-testable exp017 orchestration now exists at
+`experiments/exp017_ramp_residual_stepover.py`, with fail-closed tests in
+`tests/test_exp017.py`. A completed run spends exactly `2D + N + 2NP` frozen-prior samples:
+matched adapted/neutral donor sources, one immutable nominal per held-out seed, and paired
+absolute/residual final calls for fixed seed-independent scenes. It freezes and hashes every
+program decision before final sampling; requires identical prompt, seed, CFG, diffusion
+settings, target-phase receipt and ARDY support for each pair; archives source/nominal qpos;
+and reports descriptive paired effects by fixed placement after collapsing repeated seeds. It
+does not attach a confidence interval to the three crossed placements of one box geometry.
+It refuses a dirty worktree, non-empty output directory, non-v2 sampler, malformed calibration
+identity/provenance, stalled source/nominal clips, incomplete physical cycles, a protocol-hash
+mismatch, or unequal channel support. Canonical experiment/program/output identities bind the
+checkpoint, code, threshold receipt, prompts, settings, clips, packet/program/support hashes,
+and outputs without creating a cyclic manifest hash.
+The final receipt separately anchors `rows.jsonl`, the output-identity set, and both logical
+and archive hashes for `qpos.npz`.
+
+This is still **implementation evidence, not a capability result**. No real ARDY exp017 call,
+GPU E1 ledger, or SONIC execution comparison exists. The next dependency is the five-sample
+`D=1, N=1, P=1` preflight in [`ramp-e1-protocol.md`](ramp-e1-protocol.md); only a valid
+preflight licenses the larger paired kinematic pilot, and equal-budget SONIC replay is still
+required before an execution claim. The local response optimizer, RepairNet, hierarchical
+execution model, and RAMP-aware route cost remain unimplemented and must not be described as
+landed methods.

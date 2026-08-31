@@ -1,7 +1,16 @@
-# Scene2Motion-G1
+# Scene2Motion-RAMP
 
-Turning NVIDIA **ARDY**'s pretrained humanoid motion prior into a scene-conditioned
-*whole-body* traversal planner for the Unitree G1, and measuring honestly what that buys.
+**Response-Adaptive Motion Programs for Frozen Humanoid Priors.** Scene2Motion converts a
+frozen motion prior into a scene-conditioned whole-body traversal module by placing coherent,
+phase-aligned adaptation programs on a route and, in the next method stage, repairing those
+programs from the motion response the prior actually realizes.
+
+> **Method status (2026-08-31).** The strict v1 step-event representation and its paired
+> absolute-vs-residual exp017 harness are implemented and CPU-tested. No real exp017/GPU
+> outcome exists yet, so the repository does **not** claim that residual packets solve
+> step-over. The next run is the five-sample preflight locked in
+> [`docs/ramp-e1-protocol.md`](docs/ramp-e1-protocol.md). Duck, squeeze, response optimization,
+> RepairNet, cross-prior transfer, and execution-aware route cost remain later stages.
 
 > **Revalidation in progress (2026-08-30).** The repository's per-sample seeded runner used
 > the correct seed but restarted it at every 52-frame autoregressive window. Long clips made
@@ -10,28 +19,45 @@ Turning NVIDIA **ARDY**'s pretrained humanoid motion prior into a scene-conditio
 > historical v1 results below are retained as audit evidence but are not confirmatory ARDY
 > results until rerun. See [`docs/revalidation-2026-08-30.md`](docs/revalidation-2026-08-30.md).
 
-**Start with [`docs/design.md`](docs/design.md)** — findings, corrected framing, and the
-experiment ladder. Section 0 explains why the obvious framing ("a G1 ducks under a beam")
-is already two papers old, and what survives.
+**Start with [`docs/paper-draft-v1-ramp.md`](docs/paper-draft-v1-ramp.md)** for the method
+framing and evidence ledger, [`docs/ramp-e1-protocol.md`](docs/ramp-e1-protocol.md) for the
+next experiment, and [`docs/REPORT.md`](docs/REPORT.md) for the baseline research record.
+The audit-shaped v0 draft is retained as a technical report and evaluation infrastructure,
+not as the identity of the proposed paper.
 
 ## Layout
 
 | path | what |
 |---|---|
 | `scene2motion/scenes.py` | procedural scene families, built as **counterfactual ladders** (one clearance-critical dimension swept, nuisance parameters pinned by seed) |
-| `scene2motion/robot.py` | exact G1 collision via MuJoCo FK on ARDY-exported qpos, using Unitree's own primitives + a measured safety margin |
+| `scene2motion/robot.py` | collision checking against the G1 simulation collision model via MuJoCo FK, with a separately measured coverage margin |
 | `scene2motion/constraints.py` | the ARDY-native constraint **action space** — what the frozen prior can be asked for |
+| `scene2motion/ramp/` | physical step-phase receipts, common-phase alignment, and paired coherent absolute/residual motion packets |
 | `scene2motion/planner.py` | PELVIS / STANDING / ADAPTIVE planners; A\* over `(x, y, body mode)` |
 | `scene2motion/runner.py` | batched ARDY generation with a prompt-embedding cache and qpos export |
+| `experiments/exp017_ramp_residual_stepover.py` | fail-closed paired step-over representation pilot (`2D + N + 2NP` samples) |
 | `experiments/` | one script per experiment; each writes `rows.jsonl` + `receipt.json` |
 | `outputs/body_modes.json` | body envelopes **derived from measurement**, not assumed |
 
-## Running
+## Next method preflight
 
 ```bash
 source env.sh
-# the Llama-3-8B text encoder must be up on CPU (it does not fit beside the model on 16 GB):
-#   .venv/bin/python scripts/run_text_encoder_server.py --device cpu
+$S2M_PY experiments/exp017_ramp_residual_stepover.py \
+  --out outputs/exp017_ramp_preflight_d1_n1_p1 \
+  --n_donors 1 --n_seeds 1 --obstacle_x 3.6 \
+  --threshold_calibration_receipt outputs/exp016_threshold_calibration/receipt.json
+```
+
+Exp017 is single-shot and refuses a dirty worktree or non-empty output directory. A completed
+preflight spends five frozen-prior samples; an eligibility failure records its partial spend
+and makes no capability claim. The two required prompt embeddings are already in
+`outputs/text_cache.npz`.
+
+## Legacy baseline experiments
+
+```bash
+source env.sh
 $S2M_PY experiments/exp000_geometry_audit.py        # ~5 s   geometry sanity, sets BODY_MARGIN
 $S2M_PY experiments/exp001_capability_envelope.py   # ~20 s  duck / tuck / sidle envelopes
 $S2M_PY experiments/exp001b_min_halfwidth.py        # ~13 s  how narrow can it get
@@ -44,9 +70,12 @@ $S2M_PY experiments/exp003_multimodality.py         # ~143 s strategy multimodal
 `derive_modes.py` must be re-run after any EXP-001* change: the planner only claims
 envelopes the prior was measured to reach, aggregated **worst-case over seeds**.
 
-## Historical v1 headline numbers (pending v2 revalidation)
+## Historical v1 kinematic baseline numbers (pending v2 revalidation)
 
-- Whole-body traversal end-to-end success: **68.8 %**, against 24.2 % (pelvis-only) and 31.2 % (standing) (EXP-002, 128 scenes). Adaptive is **100 % collision-free on every feasible plan** — the remaining failure is refusing scenes, never colliding in them.
+- Reference-motion traversal success in the simulation collision model: **68.8 %**, against
+  24.2 % (pelvis-only) and 31.2 % (standing) (EXP-002, 128 scenes). Among plans marked
+  feasible, adaptive reference motions are **100 % collision-free under that model**. These
+  are not SONIC execution rates.
 - On overhead-beam scenes: 12.5 % → **83.3 %**; on `beam_and_gap` (two adaptations in sequence): 0 % → **100 %**.
 - Handed either of two enumerated strategies for the same aperture, the frozen prior
   instantiates both: **2.00 distinct strategies realised per ambiguous scene**, every seed

@@ -1035,4 +1035,5 @@ session's subagent transcript. So the result is *attested but not re-derivable*:
 number in this report traces to a committed ledger; this one traces to a chat log. Until the
 audit is re-run with its receipt landed under `outputs/`, the Kimodo row does not meet this
 project's own evidence bar and must be labelled transcript-sourced wherever it is quoted.
-Full trail and rerun checklist: [`../run/KIMODO-PROVENANCE.md`](../run/KIMODO-PROVENANCE.md).
+Full trail and rerun checklist:
+[`kimodo-provenance-2026-08-31.md`](kimodo-provenance-2026-08-31.md).

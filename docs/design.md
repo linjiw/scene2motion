@@ -2526,5 +2526,5 @@ defect count is reconciled in REPORT §5: ~24 was the audit-phase census, ~30 (=
 Phase 4 ledger entries + the v1 sampler defect) is the project-wide number and the one to
 quote. And the Kimodo-G1 reduced-audit numbers in the frozen draft turned out to trace to a
 deleted session scratchpad, not a ledger — attested by transcript, re-derivable by nobody;
-provenance trail and rerun checklist in `run/KIMODO-PROVENANCE.md`, gap recorded in REPORT
+provenance trail and rerun checklist in `docs/kimodo-provenance-2026-08-31.md`, gap recorded in REPORT
 §24.

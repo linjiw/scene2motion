@@ -14,7 +14,8 @@ achieved-state export callback -> join achieved qpos back to the exact scene geo
 `run/rows.jsonl` -> fit the one-sided conformal execution gate tau(d) of
 docs/exec-gate-audit.md with the scene-level calibration split the RAMP guidance requires.
 
-What changed relative to the lost run (run/DIAGNOSIS.md has the numbers):
+What changed relative to the lost run
+(`docs/exp1b-frame-diagnosis-2026-08-31.md` has the numbers):
 
 * The frame red-flag is NOT an env-origin offset — achieved and reference roots agree to
   ~2.6 cm at frame 0 and the error grows monotonically to metres because the tracker stalls.

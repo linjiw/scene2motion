@@ -9,3 +9,8 @@ __pycache__/
 *.log
 outputs/*.log
 outputs/.duck_dataset_v3_*.building/
+
+# Resumable, machine-local physics campaign state.  Durable ledgers and diagnoses belong in
+# outputs/ and docs/ respectively; raw motion pickles, achieved-state arrays, and subprocess
+# logs are regenerable campaign state and should not make the worktree permanently dirty.
+/run/

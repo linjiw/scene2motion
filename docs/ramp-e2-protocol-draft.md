@@ -1,8 +1,8 @@
-# E2 protocol (draft — selection budget pending exp021)
+# E2 protocol (draft — ready to preregister)
 
-**Status: draft, not yet preregistered.** The numbered budget in §Design is left open
-until `outputs/exp021_elicited_lift_distribution_v2/` lands; everything else below is
-settled by measurement and is not expected to move. Nothing here licenses a claim.
+**Status: draft with its budget now measured; not yet preregistered.** exp021 has landed
+(`docs/ramp-exp021-addressable-region-2026-09-01.md`) and supplies the selection budget
+and the staging geometry. Nothing here licenses a claim.
 
 ## What E1a and its controls already decided
 
@@ -41,8 +41,15 @@ prior campaign.
 **Scene side.** A scene-specified obstacle at a predeclared route position: unlike E1a's
 per-seed gait-matched placement, the obstacle does **not** follow the gait, because the
 whole point is scene-conditioned traversal. Graded box heights 0.03–0.30 m, with 0.05 m
-as the primary operating point and 0.08 m secondary — the envelope E1a measured, not the
-one the earlier scenes assumed.
+as the primary operating point and 0.08 m secondary.
+
+**Staging (the placement mechanism).** exp021 measured that the prior emits its
+text-requested step-over once, at median clip frame 34 (1.36 s), with 80 % inside the
+first 50 frames, and that the per-clip hit rate against an obstacle is 0.25–0.31 at
+1.0–1.4 m of route and **zero beyond 3.4 m**. E2 therefore does not command placement: it
+**stages** it, generating each clip from a route that begins ≈ 1.2 m before the obstacle.
+An arm with the obstacle at mid-route (3.6 m) is the negative control that shows staging
+is doing the work — exp021 predicts it scores ~0.
 
 **Selection rule.** Sample N clips; accept the first whose measured whole-body box
 clearance at the obstacle meets the height threshold; report calls spent. Selection is on
@@ -50,12 +57,15 @@ clearance at the obstacle meets the height threshold; report calls spent. Select
 and a learned verifier is Texedo's contribution, not ours.
 
 **Arms.**
-1. `one_shot` — N = 1, the honest floor.
-2. `selection` — N from the exp021 curve, geometric acceptance.
-3. `packet_selection` — the same budget spent on packet arms, to show the representation
-   does not become useful when resampled (it should lose; E1a says its per-clip rate is
-   0/16 against text's 3/8).
-4. `nominal` — WALK, free, the no-elicitation floor.
+1. `one_shot` — N = 1 staged, the honest floor (exp021 predicts ≈ 0.31 at 5 cm).
+2. `selection` — staged, **N = 8** with geometric acceptance; exp021 predicts ≈ 0.90 at
+   5 cm and ≈ 0.90 at 8 cm from per-clip 0.312 / 0.266. N = 8 is preregistered rather than
+   fitted per height.
+3. `unstaged_selection` — the same N = 8 with the obstacle at mid-route: the control that
+   isolates staging from resampling. Predicted ≈ 0.
+4. `packet_selection` — the same N = 8 spent on packet arms, to show the representation
+   does not become useful when resampled (E1a: per-clip 0/16 against text's 3/8).
+5. `nominal` — WALK, free, the no-elicitation floor.
 
 **Endpoints.** E1a's vector, graded: box clearance at the obstacle at each height,
 collision-free, crossing error, stance/contact, progress, plus **generator calls and
@@ -82,7 +92,7 @@ honest end of this line rather than a further controller.
 
 ## Open items before this becomes preregistered
 
-* Fill N from the exp021 best-of-N curve at h = 0.05 m and r = 0.10/0.25 m.
+* ~~Fill N from the exp021 best-of-N curve~~ — done: N = 8, staged at 1.2 m, r = 0.25 m.
 * Decide whether the obstacle position is drawn per scene or fixed, and state whether the
   17 % eligibility figure from E1a is seed-dependent or scene-dependent — a deployed
   system can redraw seeds but not scenes.

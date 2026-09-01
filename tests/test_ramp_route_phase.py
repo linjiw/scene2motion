@@ -510,6 +510,7 @@ def test_selection_key_has_stable_digest_tie_break_and_rejects_bad_digest():
         program, low
     )
     assert route_progress_selection_key(program, low)[:3] == program.selection_cost
+    assert route_progress_selection_key(program, low) == (*program.selection_cost, low)
     with pytest.raises(ValueError, match="SHA-256"):
         route_progress_selection_key(program, "bad")
 

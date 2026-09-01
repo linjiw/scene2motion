@@ -347,18 +347,13 @@ class RouteProgressProgram:
 
 def route_progress_selection_key(
     program: RouteProgressProgram, candidate_digest: str
-) -> tuple[float, float, float, int, str, str]:
+) -> tuple[float, float, float, str]:
     """Stable outcome-free tie-break key for otherwise feasible cycle candidates."""
     if not isinstance(program, RouteProgressProgram):
         raise TypeError("program must be a RouteProgressProgram")
     if not _is_sha256(candidate_digest):
         raise ValueError("candidate_digest must be a lowercase SHA-256 digest")
-    return (
-        *program.selection_cost,
-        program.event_frame,
-        candidate_digest,
-        program.digest(),
-    )
+    return (*program.selection_cost, candidate_digest)
 
 
 def _validate_route(route_xz: Any) -> tuple[np.ndarray, np.ndarray, np.ndarray]:

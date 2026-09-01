@@ -50,6 +50,10 @@ FAILURE_SCHEMA_VERSION = "exp021-elicited-lift-distribution-failure-v1"
 
 POOL_SEEDS = tuple(range(4400, 4464))
 BATCH_SIZE = 8
+# 6.6 m of scannable route at 120 points is 5.5 cm resolution, well under the 0.28 m
+# expanded footprint the probe integrates over; the 400-point default is wasted here and
+# dominates wall clock (one collision sweep per point per clip).
+SCAN_POINTS = 120
 GRADED_HEIGHTS_M = (0.03, 0.05, 0.08, 0.12, 0.20, 0.30)
 SELECTION_RADII_M = (0.10, 0.25, 0.50)
 BEST_OF_N = (1, 2, 4, 8, 16, 32)
@@ -180,7 +184,8 @@ def run_distribution(
                 qpos = np.asarray(runner.to_qpos(sample), dtype=float)
                 key = f"s{seed}"
                 qpos_archive[key] = np.asarray(qpos, dtype=np.float32)
-                xs, heights = box_height_profile(qpos, route, e19.OBSTACLE_DEPTH_M)
+                xs, heights = box_height_profile(
+                    qpos, route, e19.OBSTACLE_DEPTH_M, n_points=SCAN_POINTS)
                 profiles.append((xs, heights))
                 lift = lift_location(xs, heights)
                 row = {

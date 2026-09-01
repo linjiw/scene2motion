@@ -456,22 +456,26 @@ def test_separation_uses_selected_side_cycle_not_unused_high_prominence_cycle():
             )
         )
     _, selected = calibration.build_and_select_programs(
-        clips, target_min_prominence_m=0.01
+        clips, target_min_prominence_m=0.01, pool_speed_strata=True
     )
-    separation = calibration.validation_reference_separation(
+    separation = calibration.validation_pooled_separation(
         clips,
         selected,
         target_min_prominence_m=0.01,
-        non_attrited_seeds=list(calibration.VALIDATION_SEEDS),
+        non_washout_seeds=list(calibration.VALIDATION_SEEDS),
     )
-    left = separation["side_results"]["left"]
-    assert set(left["selected_signal_by_seed_m"].values()) == {0.045}
-    assert left["required_signal_floor_m"] == pytest.approx(0.05)
-    assert left["passed"] is False
+    left_signals = {
+        key: value
+        for key, value in separation["selected_signal_by_seed_side_m"].items()
+        if key.endswith("/left")
+    }
+    assert set(left_signals.values()) == {0.045}
+    # Pooled Q25 lands on the selected left signal, and the 0.20 m cycle that lost
+    # selection cannot raise it above the background floor.
+    assert separation["selected_signal_q25_m"] == pytest.approx(0.045)
+    assert separation["required_signal_floor_m"] == pytest.approx(0.05)
     assert separation["passed"] is False
     assert separation["unused_high_prominence_cycles_cannot_satisfy_separation"] is True
-    right = separation["side_results"]["right"]
-    assert right["passed"] is True
 
 
 def test_background_nulls_deduplicate_by_physical_window_not_prominence():
@@ -605,18 +609,14 @@ def test_validation_cannot_widen_frozen_bounds_and_triggers_kill_rule():
     assert frozen.as_dict() == before
     assert validation["frozen_route_timing_bounds"] == before
     assert validation["validation_cannot_widen_calibration"] is True
-    assert validation["gated_stratum"] == "reference"
     assert any(
-        "full-frozen feasible coverage" in reason
+        "any-stratum program coverage" in reason
         for reason in validation["kill_reasons"]
     )
     assert any(
         "separation failed" in reason for reason in validation["kill_reasons"]
     )
-    assert not any(
-        reason.startswith("slow:") or reason.startswith("fast:")
-        for reason in validation["kill_reasons"]
-    )
+    assert set(validation["descriptive_strata"]) == {"slow", "reference", "fast"}
     for stratum in validation["descriptive_strata"].values():
         assert stratum["gated"] is False
 
@@ -659,30 +659,26 @@ def test_validation_background_and_side_kill_rules_are_fail_closed():
     assert any(
         "background exceedance" in reason for reason in validation["kill_reasons"]
     )
-    # The right side has no selected signals at all, so side evidence fails inside
-    # the separation rule rather than passing vacuously.
-    assert any(
-        "separation failed" in reason for reason in validation["kill_reasons"]
-    )
-    right = validation["reference"]["separation"]["side_results"]["right"]
-    assert right["passed"] is False
-    assert right["n_selected_signals"] == 0
+    # Left-only evidence still supplies enough pooled signals; the side imbalance is
+    # recorded descriptively rather than gated.
+    separation = validation["pooled"]["separation"]
+    assert separation["passed"] is True
+    assert separation["signals_per_side"] == {"left": 8, "right": 0}
 
 
-def test_validation_reference_attrition_gate_counts_zero_cycle_seeds():
+def _attrition_clips(*, washout_seeds=(), reference_only_attrited=()):
     clips = []
-    for speed_label, _ in calibration.SPEEDS:
+    for speed_label, speed in calibration.SPEEDS:
         for seed in calibration.VALIDATION_SEEDS:
-            attrited = (
-                speed_label == "reference"
-                and seed in calibration.VALIDATION_SEEDS[:4]
+            attrited = seed in washout_seeds or (
+                speed_label == "reference" and seed in reference_only_attrited
             )
             clips.append(
                 calibration.AnalyzedClip(
                     split="validation",
                     seed=seed,
                     speed_label=speed_label,
-                    requested_speed_mps=dict(calibration.SPEEDS)[speed_label],
+                    requested_speed_mps=speed,
                     sample_sha256="1" * 64,
                     qpos_content_sha256="2" * 64,
                     qpos_archive_key=f"validation__{speed_label}__seed{seed}",
@@ -693,7 +689,7 @@ def test_validation_reference_attrition_gate_counts_zero_cycle_seeds():
                             split="validation",
                             seed=seed,
                             speed_label=speed_label,
-                            requested_speed_mps=dict(calibration.SPEEDS)[speed_label],
+                            requested_speed_mps=speed,
                             side="left",
                             apex=99,
                         ),
@@ -701,7 +697,7 @@ def test_validation_reference_attrition_gate_counts_zero_cycle_seeds():
                             split="validation",
                             seed=seed,
                             speed_label=speed_label,
-                            requested_speed_mps=dict(calibration.SPEEDS)[speed_label],
+                            requested_speed_mps=speed,
                             side="right",
                             apex=100,
                         ),
@@ -709,7 +705,11 @@ def test_validation_reference_attrition_gate_counts_zero_cycle_seeds():
                     measurement_rejection="no cycles" if attrited else None,
                 )
             )
-    permissive = RouteTimingBounds(
+    return clips
+
+
+def _permissive_bounds():
+    return RouteTimingBounds(
         fps=25.0,
         min_discrete_route_progress_speed_mps=0.6,
         max_discrete_route_progress_speed_mps=1.2,
@@ -718,16 +718,40 @@ def test_validation_reference_attrition_gate_counts_zero_cycle_seeds():
         reference_route_progress_speed_mps=calibration.REFERENCE_SPEED_MPS,
         max_endpoint_route_progress_speed_deviation_mps=1.0,
     )
+
+
+def test_validation_substrate_washout_gate_counts_all_strata_zero_seeds():
     validation = calibration.validate_frozen_calibration(
-        clips,
+        _attrition_clips(washout_seeds=calibration.VALIDATION_SEEDS[:3]),
         target_min_prominence_m=0.01,
-        frozen_bounds=permissive,
+        frozen_bounds=_permissive_bounds(),
     )
-    assert validation["reference"]["n_attrited"] == 4
+    assert validation["pooled"]["n_washout"] == 3
     assert any(
-        "substrate attrition 4/8 > 3/8" in reason
+        "substrate washout 3/8 > 2/8" in reason
         for reason in validation["kill_reasons"]
     )
+
+
+def test_reference_only_attrition_is_recovered_through_other_strata():
+    # A seed with no reference cycles is not a washout: its program must come from
+    # another stratum, and the reference stratum must win ties everywhere else.
+    validation = calibration.validate_frozen_calibration(
+        _attrition_clips(reference_only_attrited=calibration.VALIDATION_SEEDS[:4]),
+        target_min_prominence_m=0.01,
+        frozen_bounds=_permissive_bounds(),
+    )
+    assert validation["pooled"]["n_washout"] == 0
+    assert validation["passed"] is True
+    assert validation["pooled"]["program_seeds"] == list(calibration.VALIDATION_SEEDS)
+    by_seed_stratum = {
+        (item["cycle"]["seed"], item["cycle"]["swing_side"]): item["cycle"]["speed_label"]
+        for item in validation["pooled"]["selected_programs"]
+    }
+    for seed in calibration.VALIDATION_SEEDS[:4]:
+        assert by_seed_stratum[(seed, "left")] != "reference"
+    for seed in calibration.VALIDATION_SEEDS[4:]:
+        assert by_seed_stratum[(seed, "left")] == "reference"
 
 
 def test_calibration_attrition_tolerance_and_floor():

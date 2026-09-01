@@ -1350,7 +1350,7 @@ placements with the phase-observability enumerator while the transport consumes
 `step_phase` cycles, which is now prevented by an outcome-free constructibility probe that
 runs the real assignment and both renders before a candidate is eligible.
 
-## 34. The first completed E1 packet comparison ran — and its scenes were unwinnable
+## 34. The first completed E1 packet comparison ran (superseded reading; see §35)
 
 The rate-honest rerun (K=32 fresh seeds 4000–4031, N=8) cleared its gate at **17/32**
 constructible seeds and, for the first time in the E1 family, **generated and scored every
@@ -1373,19 +1373,56 @@ Every arm collides, including the unmodified nominal walk. Residual − absolute
 every endpoint (box clearance exactly 0 for both; min clearance median +0.4 mm, 5/3 split).
 Both packets make crossing-position error *worse* than nominal (+0.15 m).
 
-**Cause: the placement rule matched the apex but not the footprint.** The obstacle was
-placed where the swing foot is highest, but its expanded footprint (±0.14 m) still
-contained a support-phase footfall in **all 8 seeds** (nearest footfall 0.007–0.115 m). The
-robot plants a foot inside the box, so no whole-body box clears the ground there and no
-arm — packet or not — can succeed. The scenes were unwinnable before any packet was
-applied.
+**Correction (2026-09-01, see §35).** This section first read the all-zero nominal as
+proof of an unwinnable scene. That was wrong. The box probe requires the whole body to
+clear the box across the whole trajectory, and a walking swing foot sweeps through every
+route position at low height, so **an ordinary walk scores zero at every x on its route** —
+the nominal arm scoring zero is the correct baseline, not a defective placement. The
+donor step-over scores 0.30 m on the same probe, so the endpoint discriminates properly.
+The footfall-clearance rule added here is a mild scene-quality improvement, not the
+validity fix it was described as.
 
-Replay on the same pool: an apex-placed obstacle is footfall-free for only **43 %** of
-candidates, while a footfall-free placement exists for **87 %** of candidates and **25/32**
-seeds. The placement rule now requires the expanded footprint to contain no support-phase
-footfall of either foot, which is outcome-free (measured on the nominal clip alone) and
-abundantly satisfiable.
+The placement rule now also requires the expanded footprint to contain no support-phase
+footfall of either foot, which is outcome-free and cheap to satisfy.
 
-This is the third time in this arc that adding a *reference* measurement caught an
-invalid comparison before it produced a claim — after Stage-A persistence in exp018 and
-the constructibility probe in exp019. The nominal arm cost nothing and is now permanent.
+The free nominal arm remains permanent and was still what forced this section to be
+re-read: it is the control that separates "the packet failed" from "the endpoint is
+insensitive". Here it did the latter job.
+
+## 35. E1a lands: the packet elicits the step-over reliably but places it 1–3 m away
+
+The gait-matched pilot completed at K = 64 — `outputs/exp019_gait_matched_stepover_v7/`,
+status `complete`, **216/216 samples exact**, 13/64 eligible, N = 8 evaluated with three
+arms each. Full write-up: `docs/ramp-e1a-result-2026-09-01.md`.
+
+**The endpoint discriminates.** The selected donor step-over clears a 0.3013 m box; its
+own neutral WALK clip and 7 of 8 evaluated nominals clear 0.0000 m at every position on
+their routes. A walking gait scores zero because the swing foot sweeps through every x at
+low height — so a zero nominal is the expected baseline, which corrects §34's reading of
+the same measurement as an unwinnable scene.
+
+**At the commanded obstacle, all three arms score identically zero** (box clearance
+0.0000, collision-free 0/8, step success 0/8). Residual − absolute is noise on every
+endpoint; both packets slightly worsen min clearance versus nominal (−0.090 / −0.096 vs
+−0.079 m) and break the swing-side match the nominal had (absolute 5/8 wrong, residual
+3/8).
+
+**But the packets are not inert.** Scanning each generated clip's whole route, **8/8**
+absolute and **8/8** residual arms contain a real step-over-like lift (mean best clearance
+0.070 / 0.061 m) against **1/8** for the nominal — and that lift sits a median **2.33 m**
+(absolute) / **1.62 m** (residual) from where it was commanded.
+
+So the coherent packet **elicits the behavior and fails to place it** — the same failure
+mode exp015 found for text prompts (box clearance 0.0, random placement, 8/8), now
+reproduced through the strongest structured channel we have: the target swing identified
+from measured physical gait phase, the obstacle anchored to that swing's own apex on the
+nominal's own route, a center shift of exactly zero, and both arms rendered with identical
+channel support. Spatial placement is therefore not a text-conditioning artefact; it
+survives phase-matched coherent packet transport.
+
+Under exp017's preregistered decision rule the residual arm shows no clearance advantage
+and degrades another gate, so the stated fallback applies: stop expanding the open-loop
+packet path and pivot to correcting the realized response. The positive reading is that
+this is exactly a response-space error — signed, directional, measurable from the
+generated clip — which is the signal a response-conditioned repair policy consumes. E1's
+negative motivates E2 directly rather than ending the line.

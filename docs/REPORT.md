@@ -1255,3 +1255,47 @@ representation must instead couple route timing/root-speed scheduling to the sel
 phase while keeping the obstacle fixed, then use new disjoint calibration/donor/evaluation
 seeds. Exp018 response optimization remains blocked until that redesign produces at least one
 placed residual response.
+
+## 32. Route-phase calibration lands on its third preregistration; warp identities frozen
+
+The route-timing redesign demanded by §31 is now calibrated and held-out validated. Three
+preregistered campaigns ran on 2026-09-01, each 72 fresh paired samples (16+8 seeds × 3
+speeds, nine batches of eight, ~24 s wall clock each), each fail-closed, all three committed
+with full evidence:
+
+- **v1 (seeds 3200s/3300s) refused at calibration.** Two calibration seeds produced no
+  physically-complete unilateral swing at any speed, so the "every seed supplies background"
+  requirement was unsatisfiable. Diagnosis (`analyze_calibrate_ramp_route_phase_v1.py`):
+  24 % of clips have zero support-consistent complete cycles; seed-level washout is
+  speed-invariant (the paired design shows it); a single fixed 3.6 m event admits a warp for
+  only 25 % of valid cycles under the [0.6, 1.2] m/s envelope; endpoint-speed coverage rules
+  were sized above the measured washout rate. Artifact:
+  `outputs/calibrate_ramp_route_phase/`.
+- **v2 (seeds 3400s/3500s) refused at held-out validation.** The five-point placement set
+  and attrition-tolerant calibration worked (Pmin 0.042 m vs 0.041 informative from v1;
+  15/16 seeds evidenced), and separation passed where evidenced (right Q25 0.0605 m vs
+  floor 0.0503 m) — but per-seed reference-stratum warp feasibility measured 3/7 against
+  the gated 5/7 (pooled 9/14 ≈ 0.64). The descriptive strata showed the same fresh seeds
+  feasible at other speeds (union 6/8). Artifact: `outputs/calibrate_ramp_route_phase_v2/`.
+- **v3 (seeds 3600s/3700s) passed every gate.** The speed stratum became an outcome-free
+  program parameter — selected per seed/side by the frozen minimum-deformation key with
+  reference preferred on ties, the same move the placement set made for event position —
+  and the gates became rate-honest pooled quantities. Result: Pmin 0.042 m (third
+  replication); caps 0.19 m/s² / 1.2 m/s³ / 0.17 m/s from exactly 10/16 contributing
+  seeds; validation with zero washouts, zero background exceedances, 7/8 program-covered
+  seeds, and pooled separation Q25 0.0459 m against the 0.042 m floor with balanced sides
+  (6 left / 7 right, 13 signals). Artifact: `outputs/calibrate_ramp_route_phase_v3/`.
+
+Two substrate properties measured by the refusals now bind the E1 pilot design: (a)
+nominal-substrate attrition — ~6 % of seeds are all-speed washouts and ~20 % of clips are
+unusable at any single speed, so the nominal pool budget must be sized for it; (b) the
+selected strata skew heavily to fast (11/13 selected programs) because faster gaits put
+more apexes inside the feasibility window — the pilot's nominal substrates will mostly walk
+fast, and any speed-sensitivity of packet transport must be read against that skew, not
+assumed away.
+
+The passing receipt authorizes exactly one thing: the route-warped packet pilot at frozen
+Pmin, caps, placement set, and per-seed (stratum, placement, program) triples, with pool
+budget from the measured rates. It is not evidence that any packet representation improves
+traversal. Protocols: `docs/ramp-route-phase-calibration-protocol{,-v2,-v3}.md`; refusal
+records: `docs/ramp-route-phase-calibration-refusal-2026-09-01{,-v2}.md`.

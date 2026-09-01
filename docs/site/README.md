@@ -7,9 +7,14 @@ Claude Artifact (no `<!doctype>` wrapper; the host supplies it).
 ## Rebuilding
 
 ```
-$S2M_PY experiments/export_demo_motions.py     # motion payload from committed archives
-$S2M_PY docs/site/build.py                     # concatenate parts -> index/artifact
+$S2M_PY experiments/export_demo_motions.py           # skeleton tracks from archives
+MUJOCO_GL=glfw $S2M_PY experiments/render_demo_videos.py   # MuJoCo simulation video
+$S2M_PY docs/site/build.py                           # concatenate -> index/artifact
 ```
+
+Rendering needs `MUJOCO_GL=glfw` (EGL and OSMesa both fail on this box) and `ffmpeg`. The
+five clips encode to ~0.55 MB total, small enough to inline as data URIs; the artifact
+limit is 16 MB and the built page is under 1 MB.
 
 The figure numbers in `_payload.js` come from `outputs/figure_data.json`, written by the
 analysis scripts; the motion tracks are world-space forward kinematics of archived clips,

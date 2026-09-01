@@ -20,6 +20,7 @@
   }
 
   /* ---------------- motion players ---------------- */
+  var LEFT_FOOT = 5, RIGHT_FOOT = 8;   // indices into the drawn-body list
   var players = [];
 
   function buildPlayer(host) {
@@ -32,13 +33,26 @@
       : (Math.abs(err) < 0.005 ? "0.00 m"
          : (err > 0 ? "+" : "") + err.toFixed(2) + " m");
 
+    // The rendered MuJoCo clip leads; the measurement canvas sits under it, and panels
+    // that only need the simulation ask for it with data-video-only.
+    var video = (S2M.videos || {})[clip.key];
+    var videoOnly = host.hasAttribute("data-video-only");
+    var videoHtml = video
+      ? '<div class="vidwrap"><video src="' + video.uri + '" width="' + video.w +
+        '" height="' + video.h + '" controls loop muted playsinline preload="metadata"' +
+        ' aria-label="MuJoCo simulation of ' + clip.title + '"></video>' +
+        '<span class="vidtag">MuJoCo · released G1</span></div>'
+      : "";
+
     host.innerHTML =
       '<div class="stage-head"><h3>' + clip.title + '</h3>' +
       '<span class="badge ' + tone + '">' + clip.badge + "</span></div>" +
-      '<canvas></canvas>' +
+      videoHtml +
+      (videoOnly ? "" : '<canvas></canvas>') +
+      (videoOnly ? "" :
       '<div class="controls"><button class="play" type="button" aria-label="Play or pause">Play</button>' +
       '<input type="range" min="0" max="' + (clip.frames.length - 1) + '" value="0" aria-label="Scrub motion">' +
-      '<span class="tick mono">0.00 s</span></div>' +
+      '<span class="tick mono">0.00 s</span></div>') +
       '<div class="stage-foot"><div class="readout">' +
       '<div class="ro"><span class="k">Tallest box cleared here</span><span class="v ' +
         (cleared > 0 ? "good" : "bad") + '">' + cleared.toFixed(3) + " m</span></div>" +
@@ -47,10 +61,27 @@
       '<div class="ro"><span class="k">Lift vs obstacle</span><span class="v">' + errTxt + "</span></div>" +
       "</div><p class=\"cap\">" + clip.caption + "</p></div>";
 
+    // Seek the video to the same apex the canvas opens on, so a still of the page shows
+    // the moment that matters rather than the robot standing at the start line.  The
+    // render is strided identically to the frame list, so the index maps straight across.
+    var posterFrame = 0, posterBest = -1;
+    for (var pf = 0; pf < clip.frames.length; pf++) {
+      var pr = clip.frames[pf];
+      var ptop = Math.max(pr[LEFT_FOOT * 3 + 2], pr[RIGHT_FOOT * 3 + 2]);
+      if (ptop > posterBest) { posterBest = ptop; posterFrame = pf; }
+    }
+    var videoEl = host.querySelector("video");
+    if (videoEl && video) {
+      videoEl.addEventListener("loadedmetadata", function () {
+        try { videoEl.currentTime = posterFrame / video.fps; } catch (e) { /* ignore */ }
+      });
+    }
+
     var canvas = host.querySelector("canvas"),
         button = host.querySelector("button"),
         range = host.querySelector("input"),
         tick = host.querySelector(".tick");
+    if (!canvas) return;   // video-only panel: nothing to animate
     // Open on the apex of the highest swing, not on frame 0: a still of this page should
     // already show the foot at its highest point relative to the box.
     var poster = 0, best = -1;
@@ -73,8 +104,6 @@
     players.push(state);
     draw(state);
   }
-
-  var LEFT_FOOT = 5, RIGHT_FOOT = 8;   // indices into the drawn-body list
 
   function draw(st) {
     var clip = st.clip, idx = Math.floor(st.frame);

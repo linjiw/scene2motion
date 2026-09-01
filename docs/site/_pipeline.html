@@ -1,0 +1,141 @@
+<!-- ================= HOW ARDY IS USED ================= -->
+<section id="pipeline">
+  <div class="shead"><span class="snum">System</span><h2>How the prior is driven, and what we measure</h2></div>
+  <p class="lede">
+    ARDY-G1 is an autoregressive diffusion motion prior for the Unitree G1: it rolls a clip
+    out in windows, each conditioned on a text embedding, on sparse kinematic constraints,
+    and on the motion it has already produced. We never update its weights. Everything in
+    this work is a question about what its <em>conditioning interface</em> can be made to do.
+  </p>
+
+  <figure class="figure">
+    <svg viewBox="0 0 980 380" role="img" width="980" height="380"
+      aria-label="Pipeline: text and kinematic channels condition the frozen ARDY prior, which rolls out a reference motion; our geometry measurement scores clearance at the obstacle and drives accept-or-resample; the SONIC tracker stage is not yet in the endpoint. Route position is honoured to about 1.4 centimetres, rotations have negative compliance, and the event's timing is set inside the rollout rather than by any channel.">
+      <defs>
+        <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7"
+          markerHeight="7" orient="auto-start-reverse">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="currentColor"/>
+        </marker>
+        <marker id="arDim" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7"
+          markerHeight="7" orient="auto-start-reverse">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="currentColor" opacity=".45"/>
+        </marker>
+      </defs>
+
+      <!-- channels -->
+      <text x="14" y="24" font-size="11" font-weight="600" letter-spacing="1.4"
+        fill="currentColor" opacity=".55">CONDITIONING CHANNELS</text>
+
+      <rect x="14" y="40" width="196" height="46" rx="3" fill="none"
+        stroke="currentColor" stroke-opacity=".45"/>
+      <text x="26" y="60" font-size="13" fill="currentColor">text prompt</text>
+      <text x="26" y="76" font-size="11" fill="currentColor" opacity=".6">"steps over an obstacle"</text>
+
+      <rect x="14" y="98" width="196" height="46" rx="3" fill="none"
+        stroke="var(--pine)" stroke-width="1.6"/>
+      <text x="26" y="118" font-size="13" fill="currentColor">route (root x, z)</text>
+      <text x="26" y="134" font-size="11" fill="var(--pine)">honoured to ~1.4 cm</text>
+
+      <rect x="14" y="156" width="196" height="46" rx="3" fill="none"
+        stroke="var(--clay)" stroke-width="1.6" stroke-dasharray="4 3"/>
+      <text x="26" y="176" font-size="13" fill="currentColor">global joint rotations</text>
+      <text x="26" y="192" font-size="11" fill="var(--clay)">compliance −0.26 · unread</text>
+
+      <rect x="14" y="214" width="196" height="46" rx="3" fill="none"
+        stroke="currentColor" stroke-opacity=".3" stroke-dasharray="4 3"/>
+      <text x="26" y="234" font-size="13" fill="currentColor" opacity=".65">root height</text>
+      <text x="26" y="250" font-size="11" fill="currentColor" opacity=".5">clean, but tiny here</text>
+
+      <rect x="14" y="272" width="196" height="46" rx="3" fill="none"
+        stroke="currentColor" stroke-opacity=".3" stroke-dasharray="4 3"/>
+      <text x="26" y="292" font-size="13" fill="currentColor" opacity=".65">joint positions</text>
+      <text x="26" y="308" font-size="11" fill="currentColor" opacity=".5">literal · destroys gait</text>
+
+      <!-- arrows into the prior -->
+      <line x1="212" y1="63" x2="286" y2="140" stroke="currentColor" stroke-opacity=".45" marker-end="url(#arDim)"/>
+      <line x1="212" y1="121" x2="286" y2="152" stroke="var(--pine)" stroke-width="1.6" marker-end="url(#ar)"/>
+      <line x1="212" y1="179" x2="286" y2="168" stroke="var(--clay)" stroke-width="1.6" stroke-dasharray="4 3" marker-end="url(#ar)"/>
+      <line x1="212" y1="237" x2="286" y2="182" stroke="currentColor" stroke-opacity=".3" stroke-dasharray="4 3" marker-end="url(#arDim)"/>
+      <line x1="212" y1="295" x2="286" y2="196" stroke="currentColor" stroke-opacity=".3" stroke-dasharray="4 3" marker-end="url(#arDim)"/>
+
+      <!-- the prior -->
+      <rect x="290" y="106" width="212" height="126" rx="3" fill="none"
+        stroke="currentColor" stroke-width="1.8"/>
+      <text x="396" y="132" font-size="14" font-weight="600" text-anchor="middle" fill="currentColor">frozen ARDY-G1</text>
+      <text x="396" y="150" font-size="11" text-anchor="middle" fill="currentColor" opacity=".6">autoregressive diffusion</text>
+      <line x1="308" y1="164" x2="484" y2="164" stroke="currentColor" stroke-opacity=".25"/>
+      <text x="396" y="184" font-size="11.5" text-anchor="middle" fill="var(--clay)">the rollout decides WHEN</text>
+      <text x="396" y="202" font-size="11" text-anchor="middle" fill="currentColor" opacity=".6">event lands at frame 34 ± 17</text>
+      <text x="396" y="219" font-size="11" text-anchor="middle" fill="currentColor" opacity=".6">no channel moves it</text>
+
+      <!-- reference motion -->
+      <line x1="504" y1="169" x2="566" y2="169" stroke="currentColor" marker-end="url(#ar)"/>
+      <text x="535" y="160" font-size="10.5" text-anchor="middle" fill="currentColor" opacity=".6">200 frames</text>
+      <rect x="570" y="132" width="150" height="74" rx="3" fill="none" stroke="currentColor" stroke-opacity=".55"/>
+      <text x="645" y="160" font-size="13" text-anchor="middle" fill="currentColor">reference motion</text>
+      <text x="645" y="178" font-size="11" text-anchor="middle" fill="currentColor" opacity=".6">qpos, 25 fps</text>
+      <text x="645" y="194" font-size="11" text-anchor="middle" fill="currentColor" opacity=".6">kinematic only</text>
+
+      <!-- measurement -->
+      <line x1="722" y1="169" x2="784" y2="169" stroke="currentColor" marker-end="url(#ar)"/>
+      <rect x="788" y="120" width="178" height="98" rx="3" fill="none"
+        stroke="var(--pine)" stroke-width="1.8"/>
+      <text x="877" y="144" font-size="13" font-weight="600" text-anchor="middle" fill="currentColor">our measurement</text>
+      <text x="877" y="164" font-size="11" text-anchor="middle" fill="currentColor" opacity=".7">whole-body box clearance</text>
+      <text x="877" y="180" font-size="11" text-anchor="middle" fill="currentColor" opacity=".7">at the obstacle</text>
+      <text x="877" y="202" font-size="11" text-anchor="middle" fill="var(--pine)">accept · or resample</text>
+
+      <!-- resample loop -->
+      <path d="M 877 218 L 877 268 L 396 268 L 396 236" fill="none" stroke="var(--pine)"
+        stroke-width="1.6" marker-end="url(#ar)"/>
+      <text x="640" y="284" font-size="11.5" text-anchor="middle" fill="var(--pine)">resample: a new seed, staged 1.2 m before the obstacle</text>
+
+      <!-- tracker, deferred -->
+      <rect x="788" y="292" width="178" height="52" rx="3" fill="none"
+        stroke="currentColor" stroke-opacity=".35" stroke-dasharray="5 4"/>
+      <text x="877" y="314" font-size="12.5" text-anchor="middle" fill="currentColor" opacity=".65">SONIC tracker</text>
+      <text x="877" y="331" font-size="10.5" text-anchor="middle" fill="currentColor" opacity=".5">next campaign · not yet scored</text>
+      <line x1="877" y1="220" x2="877" y2="290" stroke="currentColor" stroke-opacity=".35"
+        stroke-dasharray="5 4" marker-end="url(#arDim)"/>
+    </svg>
+    <figcaption>
+      Solid marks are channels the decoder demonstrably reads; dashed marks are channels it
+      does not, or that we deliberately do not use. The route is honoured closely enough to
+      plan against. The rotation channel that carries a coherent motion packet is not:
+      constrained frames end further from the command than the untouched clip was. And the
+      quantity a planner most needs — <em>when</em> the behaviour happens — is decided inside
+      the rollout, which is why the loop closes through measurement rather than through a
+      better command.
+    </figcaption>
+  </figure>
+
+  <div class="grid2">
+    <div class="card">
+      <h3>What we send in</h3>
+      <p>A prompt, a dense root path along the route, and (in the packet arms) full-body
+      global rotations plus a root-height trace over a five-frame window aligned to a
+      measured gait cycle. Identical channel support across compared arms, asserted before
+      generation.</p>
+    </div>
+    <div class="card">
+      <h3>What comes back</h3>
+      <p>A 200-frame, 25 fps joint trajectory. Nothing about clearance, contact, or success
+      is provided by the prior — every endpoint on this page is measured afterwards against
+      the robot's own MuJoCo collision primitives.</p>
+    </div>
+    <div class="card">
+      <h3>Where the tracker sits</h3>
+      <p>SONIC converts a reference clip into executed whole-body motion. It is staged and
+      callable but deliberately not yet in the endpoint: at the 5–8 cm amplitudes this work
+      lives at, tracking error previously consumed most of the margin, so putting it in
+      before the kinematic story was settled would have confounded both.</p>
+    </div>
+    <div class="card">
+      <h3>Why a frozen prior at all</h3>
+      <p>Retraining buys placement trivially and gives up the reason to use a prior: broad,
+      natural, human-like motion learned from data no robotics lab will re-collect. The
+      question worth answering is what the frozen artefact can be made to do — which is
+      what a practitioner picking it off the shelf actually faces.</p>
+    </div>
+  </div>
+</section>

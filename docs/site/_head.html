@@ -105,6 +105,18 @@ section:last-of-type{border-bottom:0}
 .badge.bad{color:var(--clay); background:var(--clay-soft)}
 .badge.neutral{color:var(--ink-3)}
 canvas{display:block; width:100%; background:transparent}
+video{display:block; width:100%; background:#1a2230; border-bottom:1px solid var(--rule)}
+.vidwrap{position:relative}
+.vidtag{
+  position:absolute; left:10px; top:10px; font-family:var(--f-mono); font-size:.62rem;
+  letter-spacing:.08em; text-transform:uppercase; padding:3px 7px; border-radius:2px;
+  background:rgba(12,16,20,.72); color:#EAEEE9; border:1px solid rgba(255,255,255,.18);
+}
+figure.figure{margin:30px 0 8px; padding:0}
+figure.figure svg{width:100%; height:auto; display:block; color:var(--ink);
+  background:var(--panel); border:1px solid var(--rule); border-radius:3px; padding:18px 14px}
+figure.figure figcaption{font-size:.9rem; color:var(--ink-2); margin-top:14px;
+  max-width:70ch; line-height:1.5}
 .stage-foot{padding:12px 18px 16px; border-top:1px solid var(--rule)}
 .readout{display:flex; gap:22px; flex-wrap:wrap; margin-bottom:10px}
 .ro{display:flex; flex-direction:column; gap:1px}

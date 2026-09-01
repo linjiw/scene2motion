@@ -1,0 +1,106 @@
+<!-- ================= HOW THE RESEARCH WENT ================= -->
+<section id="workflow">
+  <div class="shead"><span class="snum">Process</span><h2>How the work actually went</h2></div>
+  <p class="lede">
+    Nine of the fifteen campaigns behind this page stopped without producing the result they
+    were built to produce. That is the method working, not the method failing: each was
+    preregistered with gates that could refuse it, and every refusal is kept as evidence and
+    diagnosed before anything is changed.
+  </p>
+
+  <figure class="figure">
+    <svg viewBox="0 0 980 300" role="img" width="980" height="300"
+      aria-label="The campaign loop: preregister gates and seeds, generate, then either the gates pass and the result is reported, or the campaign fails closed, is diagnosed, and is resized on fresh seeds. Gate outcomes are never rerun; only harness defects are. Nine of fifteen campaigns took the refusal branch.">
+      <defs>
+        <marker id="w-ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7"
+          markerHeight="7" orient="auto-start-reverse">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="currentColor"/>
+        </marker>
+      </defs>
+
+      <rect x="16" y="96" width="150" height="62" rx="3" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <text x="91" y="122" font-size="13" font-weight="600" text-anchor="middle" fill="currentColor">preregister</text>
+      <text x="91" y="140" font-size="10.5" text-anchor="middle" fill="currentColor" opacity=".6">gates, seeds, budget</text>
+
+      <line x1="168" y1="127" x2="216" y2="127" stroke="currentColor" marker-end="url(#w-ar)"/>
+
+      <rect x="220" y="96" width="150" height="62" rx="3" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <text x="295" y="122" font-size="13" font-weight="600" text-anchor="middle" fill="currentColor">generate</text>
+      <text x="295" y="140" font-size="10.5" text-anchor="middle" fill="currentColor" opacity=".6">exact sample accounting</text>
+
+      <line x1="372" y1="127" x2="420" y2="127" stroke="currentColor" marker-end="url(#w-ar)"/>
+
+      <polygon points="500,86 574,127 500,168 426,127" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <text x="500" y="124" font-size="12.5" font-weight="600" text-anchor="middle" fill="currentColor">gates</text>
+      <text x="500" y="140" font-size="10.5" text-anchor="middle" fill="currentColor" opacity=".6">pass?</text>
+
+      <!-- pass branch -->
+      <line x1="576" y1="127" x2="646" y2="127" stroke="var(--pine)" stroke-width="1.8" marker-end="url(#w-ar)"/>
+      <text x="611" y="118" font-size="11" text-anchor="middle" fill="var(--pine)">6 of 15</text>
+      <rect x="650" y="96" width="164" height="62" rx="3" fill="none" stroke="var(--pine)" stroke-width="1.8"/>
+      <text x="732" y="122" font-size="13" font-weight="600" text-anchor="middle" fill="currentColor">report the result</text>
+      <text x="732" y="140" font-size="10.5" text-anchor="middle" fill="currentColor" opacity=".6">with its scope</text>
+
+      <!-- refuse branch -->
+      <line x1="500" y1="170" x2="500" y2="212" stroke="var(--clay)" stroke-width="1.8" marker-end="url(#w-ar)"/>
+      <text x="516" y="194" font-size="11" fill="var(--clay)">9 of 15 · fail closed</text>
+      <rect x="392" y="216" width="216" height="60" rx="3" fill="none" stroke="var(--clay)" stroke-width="1.8"/>
+      <text x="500" y="240" font-size="13" font-weight="600" text-anchor="middle" fill="currentColor">diagnose the refusal</text>
+      <text x="500" y="258" font-size="10.5" text-anchor="middle" fill="currentColor" opacity=".6">evidence kept · nothing relaxed</text>
+
+      <!-- loop back -->
+      <path d="M 392 246 L 91 246 L 91 160" fill="none" stroke="var(--clay)" stroke-width="1.8" marker-end="url(#w-ar)"/>
+      <text x="240" y="266" font-size="11" text-anchor="middle" fill="var(--clay)">resize on FRESH seeds</text>
+
+      <text x="16" y="34" font-size="11" font-weight="600" letter-spacing="1.4" fill="currentColor" opacity=".55">THE LOOP</text>
+      <text x="16" y="56" font-size="11.5" fill="currentColor" opacity=".7">A gate outcome is never rerun. Only a harness defect is — into a fresh directory,</text>
+      <text x="16" y="72" font-size="11.5" fill="currentColor" opacity=".7">with the failed attempt preserved beside it.</text>
+    </svg>
+    <figcaption>
+      The rule that makes the loop honest is the one on the return edge: a campaign that
+      fails its own gate is never rerun on the same seeds with a looser gate. It is
+      diagnosed, and any successor draws seeds it has never seen. Twice this forced us to
+      retract our own estimates when fresh pools contradicted them.
+    </figcaption>
+  </figure>
+
+  <div class="tablewrap">
+    <table>
+      <thead><tr>
+        <th>What stopped it</th><th>Where</th><th>What the refusal taught</th>
+      </tr></thead>
+      <tbody>
+        <tr><td class="lab">Substrate attrition</td><td class="mono">calibration v1</td>
+          <td>Two seeds had no complete gait cycle at any speed — ~6 % of seeds are
+            washouts, which every later pool budget had to carry.</td></tr>
+        <tr><td class="lab">Optimistic gate</td><td class="mono">calibration v2</td>
+          <td>A coverage rate estimated at 5/7 measured 3/7. The gate was resized to the
+            measurement, on fresh seeds, and passed at v3.</td></tr>
+        <tr><td class="lab">Pool exhaustion</td><td class="mono">exp017</td>
+          <td>Waiting for a gait event at a predeclared obstacle yields 1 seed in 8. The
+            fixed-frame design was closed rather than widened.</td></tr>
+        <tr><td class="lab">Gait re-planning</td><td class="mono">exp018</td>
+          <td>Warping route timing to move the root re-plans the gait: 1 of 6 seeds kept
+            the swing the program was built around.</td></tr>
+        <tr><td class="lab">Two enumerators</td><td class="mono">exp019 v1</td>
+          <td>Placement was chosen with one cycle detector and executed with another. Fixed
+            by making selection dry-run the real render — outcome-free, but binding.</td></tr>
+        <tr><td class="lab">Insufficient control</td><td class="mono">exp019 v3</td>
+          <td>All arms scored zero and we first read it as a broken scene. The free nominal
+            arm proved the endpoint was simply strict: a walk clears nothing anywhere.</td></tr>
+        <tr class="hi"><td class="lab">Our own estimate</td><td class="mono">exp019 v5–v6</td>
+          <td>An offline replay predicted 13/32 eligibility; three real pools returned
+            6, 6 and 5. The estimate was retracted in the record, and the pool doubled.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note">
+    <span class="eyebrow">Two defects the process caught that a passing run would have hidden</span>
+    exp017's channel guard listed names from the wrong namespace, so it would have aborted
+    <em>any</em> real arm generation — it survived only because no campaign had yet reached
+    that line. And the first complete arm set was scored on scenes we had mis-specified;
+    the control arm that cost nothing to add is what made that legible. Both are in the
+    committed record with the commits that fixed them.
+  </div>
+</section>

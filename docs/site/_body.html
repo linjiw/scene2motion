@@ -17,7 +17,7 @@
     <div class="byline">
       <span><b>Prior</b> ARDY-G1, frozen</span>
       <span><b>Tracker</b> SONIC (staged, not yet in the endpoint)</span>
-      <span><b>Spend</b> 826 generator samples, exact accounting</span>
+      <span><b>Spend</b> 1,150 samples · 15 preregistered campaigns</span>
       <span><b>Status</b> kinematic stage · pre-execution</span>
     </div>
   </div>
@@ -79,6 +79,148 @@
       or on semantic similarity to a prompt, all of it passes. Scored on whether the robot
       clears the box that was actually in front of it, almost none of it does.
     </p>
+  </div>
+</section>
+
+<!-- ================= HOW ARDY IS USED ================= -->
+<section id="pipeline">
+  <div class="shead"><span class="snum">System</span><h2>How the prior is driven, and what we measure</h2></div>
+  <p class="lede">
+    ARDY-G1 is an autoregressive diffusion motion prior for the Unitree G1: it rolls a clip
+    out in windows, each conditioned on a text embedding, on sparse kinematic constraints,
+    and on the motion it has already produced. We never update its weights. Everything in
+    this work is a question about what its <em>conditioning interface</em> can be made to do.
+  </p>
+
+  <figure class="figure">
+    <svg viewBox="0 0 980 380" role="img" width="980" height="380"
+      aria-label="Pipeline: text and kinematic channels condition the frozen ARDY prior, which rolls out a reference motion; our geometry measurement scores clearance at the obstacle and drives accept-or-resample; the SONIC tracker stage is not yet in the endpoint. Route position is honoured to about 1.4 centimetres, rotations have negative compliance, and the event's timing is set inside the rollout rather than by any channel.">
+      <defs>
+        <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7"
+          markerHeight="7" orient="auto-start-reverse">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="currentColor"/>
+        </marker>
+        <marker id="arDim" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7"
+          markerHeight="7" orient="auto-start-reverse">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="currentColor" opacity=".45"/>
+        </marker>
+      </defs>
+
+      <!-- channels -->
+      <text x="14" y="24" font-size="11" font-weight="600" letter-spacing="1.4"
+        fill="currentColor" opacity=".55">CONDITIONING CHANNELS</text>
+
+      <rect x="14" y="40" width="196" height="46" rx="3" fill="none"
+        stroke="currentColor" stroke-opacity=".45"/>
+      <text x="26" y="60" font-size="13" fill="currentColor">text prompt</text>
+      <text x="26" y="76" font-size="11" fill="currentColor" opacity=".6">"steps over an obstacle"</text>
+
+      <rect x="14" y="98" width="196" height="46" rx="3" fill="none"
+        stroke="var(--pine)" stroke-width="1.6"/>
+      <text x="26" y="118" font-size="13" fill="currentColor">route (root x, z)</text>
+      <text x="26" y="134" font-size="11" fill="var(--pine)">honoured to ~1.4 cm</text>
+
+      <rect x="14" y="156" width="196" height="46" rx="3" fill="none"
+        stroke="var(--clay)" stroke-width="1.6" stroke-dasharray="4 3"/>
+      <text x="26" y="176" font-size="13" fill="currentColor">global joint rotations</text>
+      <text x="26" y="192" font-size="11" fill="var(--clay)">compliance −0.26 · unread</text>
+
+      <rect x="14" y="214" width="196" height="46" rx="3" fill="none"
+        stroke="currentColor" stroke-opacity=".3" stroke-dasharray="4 3"/>
+      <text x="26" y="234" font-size="13" fill="currentColor" opacity=".65">root height</text>
+      <text x="26" y="250" font-size="11" fill="currentColor" opacity=".5">clean, but tiny here</text>
+
+      <rect x="14" y="272" width="196" height="46" rx="3" fill="none"
+        stroke="currentColor" stroke-opacity=".3" stroke-dasharray="4 3"/>
+      <text x="26" y="292" font-size="13" fill="currentColor" opacity=".65">joint positions</text>
+      <text x="26" y="308" font-size="11" fill="currentColor" opacity=".5">literal · destroys gait</text>
+
+      <!-- arrows into the prior -->
+      <line x1="212" y1="63" x2="286" y2="140" stroke="currentColor" stroke-opacity=".45" marker-end="url(#arDim)"/>
+      <line x1="212" y1="121" x2="286" y2="152" stroke="var(--pine)" stroke-width="1.6" marker-end="url(#ar)"/>
+      <line x1="212" y1="179" x2="286" y2="168" stroke="var(--clay)" stroke-width="1.6" stroke-dasharray="4 3" marker-end="url(#ar)"/>
+      <line x1="212" y1="237" x2="286" y2="182" stroke="currentColor" stroke-opacity=".3" stroke-dasharray="4 3" marker-end="url(#arDim)"/>
+      <line x1="212" y1="295" x2="286" y2="196" stroke="currentColor" stroke-opacity=".3" stroke-dasharray="4 3" marker-end="url(#arDim)"/>
+
+      <!-- the prior -->
+      <rect x="290" y="106" width="212" height="126" rx="3" fill="none"
+        stroke="currentColor" stroke-width="1.8"/>
+      <text x="396" y="132" font-size="14" font-weight="600" text-anchor="middle" fill="currentColor">frozen ARDY-G1</text>
+      <text x="396" y="150" font-size="11" text-anchor="middle" fill="currentColor" opacity=".6">autoregressive diffusion</text>
+      <line x1="308" y1="164" x2="484" y2="164" stroke="currentColor" stroke-opacity=".25"/>
+      <text x="396" y="184" font-size="11.5" text-anchor="middle" fill="var(--clay)">the rollout decides WHEN</text>
+      <text x="396" y="202" font-size="11" text-anchor="middle" fill="currentColor" opacity=".6">event lands at frame 34 ± 17</text>
+      <text x="396" y="219" font-size="11" text-anchor="middle" fill="currentColor" opacity=".6">no channel moves it</text>
+
+      <!-- reference motion -->
+      <line x1="504" y1="169" x2="566" y2="169" stroke="currentColor" marker-end="url(#ar)"/>
+      <text x="535" y="160" font-size="10.5" text-anchor="middle" fill="currentColor" opacity=".6">200 frames</text>
+      <rect x="570" y="132" width="150" height="74" rx="3" fill="none" stroke="currentColor" stroke-opacity=".55"/>
+      <text x="645" y="160" font-size="13" text-anchor="middle" fill="currentColor">reference motion</text>
+      <text x="645" y="178" font-size="11" text-anchor="middle" fill="currentColor" opacity=".6">qpos, 25 fps</text>
+      <text x="645" y="194" font-size="11" text-anchor="middle" fill="currentColor" opacity=".6">kinematic only</text>
+
+      <!-- measurement -->
+      <line x1="722" y1="169" x2="784" y2="169" stroke="currentColor" marker-end="url(#ar)"/>
+      <rect x="788" y="120" width="178" height="98" rx="3" fill="none"
+        stroke="var(--pine)" stroke-width="1.8"/>
+      <text x="877" y="144" font-size="13" font-weight="600" text-anchor="middle" fill="currentColor">our measurement</text>
+      <text x="877" y="164" font-size="11" text-anchor="middle" fill="currentColor" opacity=".7">whole-body box clearance</text>
+      <text x="877" y="180" font-size="11" text-anchor="middle" fill="currentColor" opacity=".7">at the obstacle</text>
+      <text x="877" y="202" font-size="11" text-anchor="middle" fill="var(--pine)">accept · or resample</text>
+
+      <!-- resample loop -->
+      <path d="M 877 218 L 877 268 L 396 268 L 396 236" fill="none" stroke="var(--pine)"
+        stroke-width="1.6" marker-end="url(#ar)"/>
+      <text x="640" y="284" font-size="11.5" text-anchor="middle" fill="var(--pine)">resample: a new seed, staged 1.2 m before the obstacle</text>
+
+      <!-- tracker, deferred -->
+      <rect x="788" y="292" width="178" height="52" rx="3" fill="none"
+        stroke="currentColor" stroke-opacity=".35" stroke-dasharray="5 4"/>
+      <text x="877" y="314" font-size="12.5" text-anchor="middle" fill="currentColor" opacity=".65">SONIC tracker</text>
+      <text x="877" y="331" font-size="10.5" text-anchor="middle" fill="currentColor" opacity=".5">next campaign · not yet scored</text>
+      <line x1="877" y1="220" x2="877" y2="290" stroke="currentColor" stroke-opacity=".35"
+        stroke-dasharray="5 4" marker-end="url(#arDim)"/>
+    </svg>
+    <figcaption>
+      Solid marks are channels the decoder demonstrably reads; dashed marks are channels it
+      does not, or that we deliberately do not use. The route is honoured closely enough to
+      plan against. The rotation channel that carries a coherent motion packet is not:
+      constrained frames end further from the command than the untouched clip was. And the
+      quantity a planner most needs — <em>when</em> the behaviour happens — is decided inside
+      the rollout, which is why the loop closes through measurement rather than through a
+      better command.
+    </figcaption>
+  </figure>
+
+  <div class="grid2">
+    <div class="card">
+      <h3>What we send in</h3>
+      <p>A prompt, a dense root path along the route, and (in the packet arms) full-body
+      global rotations plus a root-height trace over a five-frame window aligned to a
+      measured gait cycle. Identical channel support across compared arms, asserted before
+      generation.</p>
+    </div>
+    <div class="card">
+      <h3>What comes back</h3>
+      <p>A 200-frame, 25 fps joint trajectory. Nothing about clearance, contact, or success
+      is provided by the prior — every endpoint on this page is measured afterwards against
+      the robot's own MuJoCo collision primitives.</p>
+    </div>
+    <div class="card">
+      <h3>Where the tracker sits</h3>
+      <p>SONIC converts a reference clip into executed whole-body motion. It is staged and
+      callable but deliberately not yet in the endpoint: at the 5–8 cm amplitudes this work
+      lives at, tracking error previously consumed most of the margin, so putting it in
+      before the kinematic story was settled would have confounded both.</p>
+    </div>
+    <div class="card">
+      <h3>Why a frozen prior at all</h3>
+      <p>Retraining buys placement trivially and gives up the reason to use a prior: broad,
+      natural, human-like motion learned from data no robotics lab will re-collect. The
+      question worth answering is what the frozen artefact can be made to do — which is
+      what a practitioner picking it off the shelf actually faces.</p>
+    </div>
   </div>
 </section>
 
@@ -184,10 +326,15 @@
   </p>
 
   <div class="trio">
-    <div class="stage" data-clip="donor"></div>
-    <div class="stage" data-clip="walk"></div>
-    <div class="stage" data-clip="packet"></div>
+    <div class="stage" data-clip="donor" data-video-only></div>
+    <div class="stage" data-clip="walk" data-video-only></div>
+    <div class="stage" data-clip="packet" data-video-only></div>
   </div>
+  <p class="fig-note">
+    Rendered in MuJoCo from the released G1 model with the scored obstacle welded into the
+    world, straight from the archived joint trajectories — the same clips the numbers above
+    come from, not re-runs or illustrations.
+  </p>
 </section>
 
 <!-- ================= MECHANISM ================= -->
@@ -351,6 +498,211 @@
     <div class="card"><h3>Controls that caught errors</h3><p>A free nominal arm, an
       outcome-free constructibility probe, and a byte-identical determinism replay. Each
       caught an invalid comparison before it produced a claim.</p></div>
+  </div>
+</section>
+
+<!-- ================= HOW THE RESEARCH WENT ================= -->
+<section id="workflow">
+  <div class="shead"><span class="snum">Process</span><h2>How the work actually went</h2></div>
+  <p class="lede">
+    Nine of the fifteen campaigns behind this page stopped without producing the result they
+    were built to produce. That is the method working, not the method failing: each was
+    preregistered with gates that could refuse it, and every refusal is kept as evidence and
+    diagnosed before anything is changed.
+  </p>
+
+  <figure class="figure">
+    <svg viewBox="0 0 980 300" role="img" width="980" height="300"
+      aria-label="The campaign loop: preregister gates and seeds, generate, then either the gates pass and the result is reported, or the campaign fails closed, is diagnosed, and is resized on fresh seeds. Gate outcomes are never rerun; only harness defects are. Nine of fifteen campaigns took the refusal branch.">
+      <defs>
+        <marker id="w-ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7"
+          markerHeight="7" orient="auto-start-reverse">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="currentColor"/>
+        </marker>
+      </defs>
+
+      <rect x="16" y="96" width="150" height="62" rx="3" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <text x="91" y="122" font-size="13" font-weight="600" text-anchor="middle" fill="currentColor">preregister</text>
+      <text x="91" y="140" font-size="10.5" text-anchor="middle" fill="currentColor" opacity=".6">gates, seeds, budget</text>
+
+      <line x1="168" y1="127" x2="216" y2="127" stroke="currentColor" marker-end="url(#w-ar)"/>
+
+      <rect x="220" y="96" width="150" height="62" rx="3" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <text x="295" y="122" font-size="13" font-weight="600" text-anchor="middle" fill="currentColor">generate</text>
+      <text x="295" y="140" font-size="10.5" text-anchor="middle" fill="currentColor" opacity=".6">exact sample accounting</text>
+
+      <line x1="372" y1="127" x2="420" y2="127" stroke="currentColor" marker-end="url(#w-ar)"/>
+
+      <polygon points="500,86 574,127 500,168 426,127" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <text x="500" y="124" font-size="12.5" font-weight="600" text-anchor="middle" fill="currentColor">gates</text>
+      <text x="500" y="140" font-size="10.5" text-anchor="middle" fill="currentColor" opacity=".6">pass?</text>
+
+      <!-- pass branch -->
+      <line x1="576" y1="127" x2="646" y2="127" stroke="var(--pine)" stroke-width="1.8" marker-end="url(#w-ar)"/>
+      <text x="611" y="118" font-size="11" text-anchor="middle" fill="var(--pine)">6 of 15</text>
+      <rect x="650" y="96" width="164" height="62" rx="3" fill="none" stroke="var(--pine)" stroke-width="1.8"/>
+      <text x="732" y="122" font-size="13" font-weight="600" text-anchor="middle" fill="currentColor">report the result</text>
+      <text x="732" y="140" font-size="10.5" text-anchor="middle" fill="currentColor" opacity=".6">with its scope</text>
+
+      <!-- refuse branch -->
+      <line x1="500" y1="170" x2="500" y2="212" stroke="var(--clay)" stroke-width="1.8" marker-end="url(#w-ar)"/>
+      <text x="516" y="194" font-size="11" fill="var(--clay)">9 of 15 · fail closed</text>
+      <rect x="392" y="216" width="216" height="60" rx="3" fill="none" stroke="var(--clay)" stroke-width="1.8"/>
+      <text x="500" y="240" font-size="13" font-weight="600" text-anchor="middle" fill="currentColor">diagnose the refusal</text>
+      <text x="500" y="258" font-size="10.5" text-anchor="middle" fill="currentColor" opacity=".6">evidence kept · nothing relaxed</text>
+
+      <!-- loop back -->
+      <path d="M 392 246 L 91 246 L 91 160" fill="none" stroke="var(--clay)" stroke-width="1.8" marker-end="url(#w-ar)"/>
+      <text x="240" y="266" font-size="11" text-anchor="middle" fill="var(--clay)">resize on FRESH seeds</text>
+
+      <text x="16" y="34" font-size="11" font-weight="600" letter-spacing="1.4" fill="currentColor" opacity=".55">THE LOOP</text>
+      <text x="16" y="56" font-size="11.5" fill="currentColor" opacity=".7">A gate outcome is never rerun. Only a harness defect is — into a fresh directory,</text>
+      <text x="16" y="72" font-size="11.5" fill="currentColor" opacity=".7">with the failed attempt preserved beside it.</text>
+    </svg>
+    <figcaption>
+      The rule that makes the loop honest is the one on the return edge: a campaign that
+      fails its own gate is never rerun on the same seeds with a looser gate. It is
+      diagnosed, and any successor draws seeds it has never seen. Twice this forced us to
+      retract our own estimates when fresh pools contradicted them.
+    </figcaption>
+  </figure>
+
+  <div class="tablewrap">
+    <table>
+      <thead><tr>
+        <th>What stopped it</th><th>Where</th><th>What the refusal taught</th>
+      </tr></thead>
+      <tbody>
+        <tr><td class="lab">Substrate attrition</td><td class="mono">calibration v1</td>
+          <td>Two seeds had no complete gait cycle at any speed — ~6 % of seeds are
+            washouts, which every later pool budget had to carry.</td></tr>
+        <tr><td class="lab">Optimistic gate</td><td class="mono">calibration v2</td>
+          <td>A coverage rate estimated at 5/7 measured 3/7. The gate was resized to the
+            measurement, on fresh seeds, and passed at v3.</td></tr>
+        <tr><td class="lab">Pool exhaustion</td><td class="mono">exp017</td>
+          <td>Waiting for a gait event at a predeclared obstacle yields 1 seed in 8. The
+            fixed-frame design was closed rather than widened.</td></tr>
+        <tr><td class="lab">Gait re-planning</td><td class="mono">exp018</td>
+          <td>Warping route timing to move the root re-plans the gait: 1 of 6 seeds kept
+            the swing the program was built around.</td></tr>
+        <tr><td class="lab">Two enumerators</td><td class="mono">exp019 v1</td>
+          <td>Placement was chosen with one cycle detector and executed with another. Fixed
+            by making selection dry-run the real render — outcome-free, but binding.</td></tr>
+        <tr><td class="lab">Insufficient control</td><td class="mono">exp019 v3</td>
+          <td>All arms scored zero and we first read it as a broken scene. The free nominal
+            arm proved the endpoint was simply strict: a walk clears nothing anywhere.</td></tr>
+        <tr class="hi"><td class="lab">Our own estimate</td><td class="mono">exp019 v5–v6</td>
+          <td>An offline replay predicted 13/32 eligibility; three real pools returned
+            6, 6 and 5. The estimate was retracted in the record, and the pool doubled.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note">
+    <span class="eyebrow">Two defects the process caught that a passing run would have hidden</span>
+    exp017's channel guard listed names from the wrong namespace, so it would have aborted
+    <em>any</em> real arm generation — it survived only because no campaign had yet reached
+    that line. And the first complete arm set was scored on scenes we had mis-specified;
+    the control arm that cost nothing to add is what made that legible. Both are in the
+    committed record with the commits that fixed them.
+  </div>
+</section>
+
+<!-- ================= DATA SHAPES ================= -->
+<section id="data">
+  <div class="shead"><span class="snum">Data</span><h2>What the pipeline emits, and why it is a dataset</h2></div>
+  <p class="lede">
+    A frozen prior plus a geometric scorer is, incidentally, a generator of labelled
+    traversal data — the thing humanoid navigation research is usually short of. Every
+    campaign on this page wrote the same record shape, and the negatives are as labelled as
+    the positives.
+  </p>
+
+  <div class="tablewrap">
+    <table>
+      <thead><tr>
+        <th>Artefact</th><th>Shape</th><th>What it carries</th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td><span class="lab">Motion</span><br><span class="mono" style="font-size:.76rem;color:var(--ink-3)">qpos.npz</span></td>
+          <td class="mono">200 × n<sub>q</sub> float, 25 fps</td>
+          <td>The joint trajectory exactly as the prior emitted it, archived before any gate
+            so a rejected clip stays replayable.</td>
+        </tr>
+        <tr>
+          <td><span class="lab">Scene</span><br><span class="mono" style="font-size:.76rem;color:var(--ink-3)">receipt.json</span></td>
+          <td class="mono">route + box (x, half, height)</td>
+          <td>The prescribed root path and the obstacle the clip was scored against, with
+            the body margin used by the collision model.</td>
+        </tr>
+        <tr>
+          <td><span class="lab">Request</span><br><span class="mono" style="font-size:.76rem;color:var(--ink-3)">program_rows.jsonl</span></td>
+          <td class="mono">prompt + channel usage + hashes</td>
+          <td>What was asked for: prompt string, which ARDY channels were written at which
+            frames and joints, packet and program digests, control parameters.</td>
+        </tr>
+        <tr>
+          <td><span class="lab">Response</span><br><span class="mono" style="font-size:.76rem;color:var(--ink-3)">arm_rows.jsonl</span></td>
+          <td class="mono">~20 scalars per clip</td>
+          <td>Whole-body box clearance at the obstacle and its profile along the route,
+            collision-free flag, crossing position and frame error, lead side, stance and
+            contact fractions, foot-floor penetration, progress ratio, deformation.</td>
+        </tr>
+        <tr class="hi">
+          <td><span class="lab">Refusal</span><br><span class="mono" style="font-size:.76rem;color:var(--ink-3)">attrition + kill reasons</span></td>
+          <td class="mono">reason string per rejected unit</td>
+          <td>Why a seed, cycle, placement or whole campaign was rejected — the label that
+            makes a negative usable rather than merely absent.</td>
+        </tr>
+        <tr>
+          <td><span class="lab">Provenance</span><br><span class="mono" style="font-size:.76rem;color:var(--ink-3)">receipt.json</span></td>
+          <td class="mono">content hashes, revalidated</td>
+          <td>Repository commit, checkpoint manifest, text-cache embedding, runtime and
+            physical-model identities, bound before generation and rechecked after.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <div class="stat">1,150</div>
+      <h3>Generator samples archived</h3>
+      <p>Across 15 preregistered campaigns, every one with exact launched-versus-returned
+      accounting. 1,152 joint trajectories are stored and replayable, including every clip
+      that failed a gate.</p>
+    </div>
+    <div class="card">
+      <div class="stat">~7.7 s</div>
+      <h3>Per clip, end to end</h3>
+      <p>Generation is fast — batches of eight return in under a second on one RTX 5080.
+      The cost is in scoring: a clearance profile sweeps the whole route against the
+      collision model, which is what makes the labels trustworthy.</p>
+    </div>
+    <div class="card">
+      <div class="stat good">0.31</div>
+      <h3>Yield at the staged optimum</h3>
+      <p>Roughly one clip in three clears a 5 cm obstacle when the scene is staged to the
+      prior's window. A dataset builder can either keep the winners or — more usefully —
+      keep everything and label it, which is what the record shape above is for.</p>
+    </div>
+    <div class="card">
+      <h3>The honest caveat</h3>
+      <p>These are <em>kinematic</em> labels against a simulation collision model. They are
+      not physics-verified traversals and must not be reported as such until the tracker is
+      in the endpoint. Any throughput figure quoted from this pipeline should name which
+      tier it refers to.</p>
+    </div>
+  </div>
+
+  <div class="note">
+    <span class="eyebrow">Why the negatives are the valuable part</span>
+    A corpus of successful step-overs teaches a downstream policy what success looks like.
+    A corpus that also carries <em>where the prior tried and missed, by how much, and in
+    which direction</em> is a corpus you can learn a correction from. That is the shape this
+    work argues for: scene, request, response, measured error, outcome — with the error
+    signed and spatial, not a scalar reward.
   </div>
 </section>
 

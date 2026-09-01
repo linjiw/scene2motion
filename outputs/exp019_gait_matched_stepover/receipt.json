@@ -1,0 +1,572 @@
+{
+  "actual_ardy_samples": 56,
+  "blocked": true,
+  "complete": false,
+  "conservative_charged_ardy_samples": 56,
+  "design": {
+    "arms": [
+      "nominal",
+      "absolute",
+      "residual"
+    ],
+    "budget_equation": "2D + 3K + 2N = 8 + 48 + 20 = 76",
+    "center_shift_frames": 0,
+    "donor_seeds": [
+      2600,
+      2601,
+      2602,
+      2603
+    ],
+    "expected_swing_side": "left",
+    "half_window_frames": 2,
+    "n_select": 10,
+    "nominal_arm_is_free": "the unmodified pool clip scored against the same obstacle; no sample",
+    "obstacle_depth_m": 0.2,
+    "obstacle_half_extent_m": 0.14,
+    "obstacle_height_m": 0.08,
+    "placement_lever": "obstacle placed at the nominal's own swing apex on the nominal's own generating route; exp017 center shift is zero by construction",
+    "pool_batches": [
+      {
+        "index": 0,
+        "requested_speed_mps": 0.6,
+        "seed_block": 0,
+        "seeds": [
+          3900,
+          3901,
+          3902,
+          3903,
+          3904,
+          3905,
+          3906,
+          3907
+        ],
+        "speed_label": "slow"
+      },
+      {
+        "index": 1,
+        "requested_speed_mps": 0.9045226130653267,
+        "seed_block": 0,
+        "seeds": [
+          3900,
+          3901,
+          3902,
+          3903,
+          3904,
+          3905,
+          3906,
+          3907
+        ],
+        "speed_label": "reference"
+      },
+      {
+        "index": 2,
+        "requested_speed_mps": 1.2,
+        "seed_block": 0,
+        "seeds": [
+          3900,
+          3901,
+          3902,
+          3903,
+          3904,
+          3905,
+          3906,
+          3907
+        ],
+        "speed_label": "fast"
+      },
+      {
+        "index": 3,
+        "requested_speed_mps": 0.6,
+        "seed_block": 1,
+        "seeds": [
+          3908,
+          3909,
+          3910,
+          3911,
+          3912,
+          3913,
+          3914,
+          3915
+        ],
+        "speed_label": "slow"
+      },
+      {
+        "index": 4,
+        "requested_speed_mps": 0.9045226130653267,
+        "seed_block": 1,
+        "seeds": [
+          3908,
+          3909,
+          3910,
+          3911,
+          3912,
+          3913,
+          3914,
+          3915
+        ],
+        "speed_label": "reference"
+      },
+      {
+        "index": 5,
+        "requested_speed_mps": 1.2,
+        "seed_block": 1,
+        "seeds": [
+          3908,
+          3909,
+          3910,
+          3911,
+          3912,
+          3913,
+          3914,
+          3915
+        ],
+        "speed_label": "fast"
+      }
+    ],
+    "pool_seeds": [
+      3900,
+      3901,
+      3902,
+      3903,
+      3904,
+      3905,
+      3906,
+      3907,
+      3908,
+      3909,
+      3910,
+      3911,
+      3912,
+      3913,
+      3914,
+      3915
+    ],
+    "scope": "per-seed placement supports the paired representation comparison only; it is not a fixed scene and supports no scene-specified-placement claim",
+    "selection_key": [
+      "abs(obstacle_x - route midpoint)",
+      "-prominence",
+      "stratum order (reference, slow, fast)",
+      "apex frame",
+      "phase-evidence receipt digest"
+    ]
+  },
+  "error": "duration scale collapses the packet context window",
+  "error_type": "ValueError",
+  "evidence_anchors": {
+    "arm_qpos": {
+      "archive_sha256": "8739c76e681f900923b900c9df0ef75cf421d39cabb54650c4b9ad19b6a76d85",
+      "content_sha256": null,
+      "n_arrays": 0,
+      "path": "arm_qpos.npz"
+    },
+    "arm_rows": {
+      "file_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "logical_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "n_rows": 0,
+      "path": "arm_rows.jsonl"
+    },
+    "donor_candidates": {
+      "file_sha256": "c783b5732ee57d91c2d02f4ffc003db755325a5f6092a0a271a402ff38cf0a9f",
+      "logical_sha256": "5100817e7862a9a04048acced4c52b04b71fa09fd9befdcdf70b1a9cbc024612",
+      "n_rows": 4,
+      "path": "donor_candidates.jsonl"
+    },
+    "donor_qpos": {
+      "archive_sha256": "4a8cb4949687ab19c96f3afdbb989b8ab9373e22254191b641956eb9a9227c95",
+      "content_sha256": "218d86f3f32e6e97ec85fda8e88c4e16bb622289dae3f195388ea8910c782f59",
+      "n_arrays": 8,
+      "path": "donor_qpos.npz"
+    },
+    "placement_rows": {
+      "file_sha256": "1e27d4ab01f21db682ec1e4369170a4bcfc321a3a86ee821f47b54982d0efd48",
+      "logical_sha256": "d587f98667141f062348ebc5e117762d54ea90b7478447ec3ace94913ba02623",
+      "n_rows": 16,
+      "path": "placement_rows.jsonl"
+    },
+    "pool_qpos": {
+      "archive_sha256": "e2ab988faac22e700e2dba89e550d72cd854527e2e09338044c34862c18a6508",
+      "content_sha256": "af917e9e8926ca1384232e45e8f1e89419b2b4e62b0328f5500774dda9b85bc1",
+      "n_arrays": 48,
+      "path": "pool_qpos.npz"
+    },
+    "pool_rows": {
+      "file_sha256": "9e05c6a6924f895b93300692de99482393fb6ba95cb413ce7ed9240030b101d0",
+      "logical_sha256": "ccf6e6bf15f3a138059719622e1da7bc50afbf2c9b88ef49e501792c37c075f8",
+      "n_rows": 48,
+      "path": "pool_rows.jsonl"
+    },
+    "program_rows": {
+      "file_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "logical_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "n_rows": 0,
+      "path": "program_rows.jsonl"
+    }
+  },
+  "experiment": "exp019_ramp_gait_matched_stepover",
+  "failed_stage": "program_render",
+  "packet_pair": {
+    "pair_hash": "12e9266936b8a204068a2110bb06bf6c16a59903bc4ee7e8547209b24ae32a55",
+    "payload_content_sha256": "2f70610b3d19e316f71ab6f5a8101413e17e6b6f393aacdab6c4995b00209aca",
+    "selected_donor_seed": 2603,
+    "swing_side": "left"
+  },
+  "placement_selection": {
+    "eligibility": "12/16",
+    "eligible_seeds": [
+      3901,
+      3902,
+      3904,
+      3905,
+      3907,
+      3908,
+      3910,
+      3911,
+      3912,
+      3913,
+      3914,
+      3915
+    ],
+    "frozen_pmin_m": 0.042,
+    "per_seed": {
+      "3901": {
+        "apex_frame": 90,
+        "distance_from_route_midpoint_m": 0.6247858163911779,
+        "obstacle_x_m": 4.151214183608822,
+        "prominence_m": 0.04228314797455171,
+        "speed_label": "fast"
+      },
+      "3902": {
+        "apex_frame": 103,
+        "distance_from_route_midpoint_m": 0.0441769077912646,
+        "obstacle_x_m": 4.820176907791264,
+        "prominence_m": 0.04894553314342706,
+        "speed_label": "fast"
+      },
+      "3904": {
+        "apex_frame": 139,
+        "distance_from_route_midpoint_m": 0.9468279829789816,
+        "obstacle_x_m": 3.3348279829789815,
+        "prominence_m": 0.07576753413793369,
+        "speed_label": "slow"
+      },
+      "3905": {
+        "apex_frame": 185,
+        "distance_from_route_midpoint_m": 3.9204881469176147,
+        "obstacle_x_m": 8.696488146917615,
+        "prominence_m": 0.04390223627485469,
+        "speed_label": "fast"
+      },
+      "3907": {
+        "apex_frame": 104,
+        "distance_from_route_midpoint_m": 0.028285348470836524,
+        "obstacle_x_m": 4.804285348470836,
+        "prominence_m": 0.04281802269951986,
+        "speed_label": "fast"
+      },
+      "3908": {
+        "apex_frame": 74,
+        "distance_from_route_midpoint_m": 1.020268929093882,
+        "obstacle_x_m": 2.579731070906118,
+        "prominence_m": 0.047195164079374796,
+        "speed_label": "reference"
+      },
+      "3910": {
+        "apex_frame": 94,
+        "distance_from_route_midpoint_m": 0.31251262911802336,
+        "obstacle_x_m": 3.2874873708819767,
+        "prominence_m": 0.058603696464975895,
+        "speed_label": "reference"
+      },
+      "3911": {
+        "apex_frame": 119,
+        "distance_from_route_midpoint_m": 0.5105670628235894,
+        "obstacle_x_m": 4.1105670628235895,
+        "prominence_m": 0.04461334226254543,
+        "speed_label": "reference"
+      },
+      "3912": {
+        "apex_frame": 101,
+        "distance_from_route_midpoint_m": 0.005395052566062208,
+        "obstacle_x_m": 3.594604947433938,
+        "prominence_m": 0.04398049025810398,
+        "speed_label": "reference"
+      },
+      "3913": {
+        "apex_frame": 137,
+        "distance_from_route_midpoint_m": 1.5321805010556027,
+        "obstacle_x_m": 6.3081805010556025,
+        "prominence_m": 0.04282651882611584,
+        "speed_label": "fast"
+      }
+    },
+    "selected_seeds": [
+      3901,
+      3902,
+      3904,
+      3905,
+      3907,
+      3908,
+      3910,
+      3911,
+      3912,
+      3913
+    ]
+  },
+  "provenance": {
+    "archived_donor_bundle": {
+      "archived_clip_sha256_by_seed": {
+        "2600": [
+          "866bbd0ebceabe7d1d09717f99fd4761871e2a3e517fc32e3e449f897aa587f7",
+          "8ba5b4bd6a7426a3da390865ba527588900ce7301adb1f150d0cef93efe3057d"
+        ],
+        "2601": [
+          "9bdef61ec5411ed9ae05144ce8789cf80eb95ba295abf05e3f04bcd840362fdc",
+          "553ca0ec458237df209eea1bda5bc68cdcfd9245b7ffedbd6c51feb3c68f87ea"
+        ],
+        "2602": [
+          "d85e98896132e9c2002cfd407f4aa7deaaefd31481a38727a8e65bd38928d288",
+          "e8ed0718c995cfbee031b1b8e538870f477f372d0248393654e9dfdb3fb00587"
+        ],
+        "2603": [
+          "928870d0caacd5c89c24bbf2919b1ff1b819cd7a856187d6e54011ea0dd404db",
+          "b243a4e0950fca9732b4c5d3e61d1df915fb3c20f4010dad9da8136b80a8cab1"
+        ]
+      },
+      "archived_measurement_protocol_hash": "b4c01b6d335420e84429d2260d5c578ddb269621aafe4e69691f07546de675e4",
+      "archived_pair_hash": "5f056ec098213d7885aad0af307811fb88ad073b2550ad62bd5b0d297a675303",
+      "archived_payload_content_sha256": "2f70610b3d19e316f71ab6f5a8101413e17e6b6f393aacdab6c4995b00209aca",
+      "donor_candidates_jsonl": "/home/linjiw/scene2motion/outputs/exp017_ramp_pool_d4_k8_n2_p1/donor_candidates.jsonl",
+      "donor_candidates_jsonl_sha256": "46ce0069f5b691920287e8c12ee8d4092fb2840776ec40dcfa30b4548a170b4e",
+      "packet_pair_json": "/home/linjiw/scene2motion/outputs/exp017_ramp_pool_d4_k8_n2_p1/packet_pair.json",
+      "packet_pair_json_sha256": "3bdaace6d9d1161cb579fb469fa14e733808cc78bc4033f254c17e836d7da773"
+    },
+    "code": {
+      "commit": "2bdfee811c0a479128cf5cd65cf02c08ec974265",
+      "dirty": false,
+      "status": [],
+      "tracked_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "generator": {
+      "checkpoint": {
+        "checkpoint_sha256": "0c16ac26c1ab75e511cd24bb25bd9ad92078a2460b4ce78529788b5da22647a2",
+        "denoiser_path": "/home/linjiw/.cache/huggingface/hub/models--nvidia--ARDY-G1-RP-25FPS-Horizon52/snapshots/059b8007df0ba194a006a877b59a563955ac7b70/denoiser.safetensors",
+        "generator_id": "nvidia/ARDY-G1-RP-25FPS-Horizon52@059b8007df0ba194a006a877b59a563955ac7b70",
+        "hf_hub_cache": "/home/linjiw/.cache/huggingface/hub",
+        "hf_revision": "059b8007df0ba194a006a877b59a563955ac7b70",
+        "model_name": "ARDY-G1-RP-25FPS-Horizon52",
+        "required_model_files": [
+          "config.yaml",
+          "denoiser.safetensors",
+          "stats/motion/mean.npy",
+          "stats/motion/std.npy",
+          "stats/post_quantization/mean.npy",
+          "stats/post_quantization/std.npy",
+          "stats/pre_quantization/mean.npy",
+          "stats/pre_quantization/std.npy",
+          "tokenizer.safetensors"
+        ],
+        "snapshot_file_count": 12,
+        "snapshot_file_sha256": {
+          ".gitattributes": "11ad7efa24975ee4b0c3c3a38ed18737f0658a5f75a0a96787b576a78a023361",
+          "LICENSE": "11ccdcb47db87ac30b63765b5e5154403026c4fbb52c19919d99d912ec454e19",
+          "README.md": "e82149308c3f797631250eef6a104ec17b1d531bb671a5db57d1f5640a088e3b",
+          "config.yaml": "d34bcd2a43e5bade030e2779bd11e0c3d8ce7eeea6b636e7504efe9a404ec757",
+          "denoiser.safetensors": "0c16ac26c1ab75e511cd24bb25bd9ad92078a2460b4ce78529788b5da22647a2",
+          "stats/motion/mean.npy": "b6d2c72548475e9c82a80899429c955840796a06a82c88e646e7a0125f997407",
+          "stats/motion/std.npy": "ee6069988035de4339b44fd229f169456d4bd86671fc4dbcfd293c4d41caa1a8",
+          "stats/post_quantization/mean.npy": "78d5bbd3d22ca1866770a370f0fb9da15663cbbc63a0b8851f124dae78a2f8c0",
+          "stats/post_quantization/std.npy": "289d21ca46aa8300cd213993a64efbd03d35440178de19b38cc8ee76d69499a1",
+          "stats/pre_quantization/mean.npy": "14bf165f6cf79276bc45ea24d6101f320b9007854b2ddb86babdd057af287a8c",
+          "stats/pre_quantization/std.npy": "413dbb9b736a41d033a5c0dbd0a632970b0e23737f39dd8eb0e859fe7a7e9556",
+          "tokenizer.safetensors": "6f2f75f738b8d6fb1b196d3253c7accc90494b9c12669b35968425fef54c8896"
+        },
+        "snapshot_manifest_sha256": "6f1ebebb7f3b28ac37bee66167a6eb8501c453640ec789dc1d61596dc96ddaf0",
+        "snapshot_path": "/home/linjiw/.cache/huggingface/hub/models--nvidia--ARDY-G1-RP-25FPS-Horizon52/snapshots/059b8007df0ba194a006a877b59a563955ac7b70",
+        "snapshot_path_derived_from_loaded_motion_stats": true
+      },
+      "generation_horizon_frames": 52,
+      "history_frames": 196,
+      "noise_stream_version": 2,
+      "runner_class": "ArdyRunner",
+      "runner_fps": 25.0,
+      "sampler": "ARDY deterministic DDIM, eta=0 (Scene2Motion runner contract)",
+      "text_cache": {
+        "path": "outputs/text_cache.npz",
+        "runner_memory_byte_matches_file": true,
+        "runner_memory_embedding_content_sha256": "24addf2aae79b99c52f71ebdf1d441b0142a1b98ba9224334c6129d435b13b5f",
+        "sha256": "330c6996bbf5edea426c3d69bc2d67025b1df0d4801a84cb30a672758052afec",
+        "walk_prompt": "A person walks forward.",
+        "walk_prompt_cache_key_sha1": "ee0c0e25966c51825e19aa4c9e48eb01dc8b7c46",
+        "walk_prompt_embedding_content_sha256": "24addf2aae79b99c52f71ebdf1d441b0142a1b98ba9224334c6129d435b13b5f",
+        "walk_prompt_embedding_dtype": "float32",
+        "walk_prompt_embedding_shape": [
+          1,
+          4096
+        ]
+      }
+    },
+    "physical_model": {
+      "fields": {
+        "path": "/home/linjiw/ardy/ardy/assets/skeletons/g1skel34/xml/g1.xml",
+        "role": "physical-foot-geometries-and-forward-kinematics",
+        "sha256": "5d76cf92f00dd49d6eb9fae38d7d38e46886848b602ac691051e886c3bcccfb1"
+      },
+      "schema": "ramp-exact-foot-kinematics-model-v1",
+      "sha256": "cdd42514a8edee69d535ba3e156a3c334e56b26606f882a351f3cced88ad3f51"
+    },
+    "physical_threshold_dependency": {
+      "fields": {
+        "evidentiary_role": "fixed-common-support-dependency-only",
+        "experiment": "stepover_threshold_calibration",
+        "file_sha256": "f6dba8be84a9d5d0b76c8114d4b93b1707bc1bb8a6fec1a26a22aa1780a6e9bf",
+        "locked_expected_file_sha256": "f6dba8be84a9d5d0b76c8114d4b93b1707bc1bb8a6fec1a26a22aa1780a6e9bf",
+        "locked_expected_normalized_receipt_sha256": "0f6365718b6dd31aace2addca613777a6bb18bb343a1de92ed16694f6d024e7c",
+        "n_accepted": 265,
+        "n_clips": 284,
+        "new_confirmatory_evidence_for_support_thresholds": false,
+        "normalized_receipt_sha256": "0f6365718b6dd31aace2addca613777a6bb18bb343a1de92ed16694f6d024e7c",
+        "path": "outputs/exp016_threshold_calibration/receipt.json",
+        "status": "calibrated",
+        "thresholds": {
+          "corridor_longitudinal_pad_m": 0.3,
+          "landing_dwell_s": 0.12,
+          "landing_horizon_s": 0.75,
+          "lateral_corridor_half_width_m": 0.3,
+          "max_floor_penetration_m": 0.02,
+          "max_unsupported_run_s": 0.2,
+          "min_contralateral_support_fraction": 0.9,
+          "support_height_m": 0.04649341314007449,
+          "support_speed_mps": 1.1753078750567545
+        }
+      },
+      "schema": "ramp-fixed-common-support-dependency-v1",
+      "sha256": "1b10351e34aaafc788e8bd7a176a6b2e2cc43adbefa496ada04656d9efc4adf5"
+    },
+    "post_pool_identity_revalidation": {
+      "commit_unchanged": true,
+      "generator_unchanged": true,
+      "physical_model_unchanged": true,
+      "runtime_unchanged": true,
+      "sources_unchanged": true
+    },
+    "route_phase_calibration": {
+      "consumed_quantities": "frozen target prominence gate only; exp019 warps no route, so the timing caps and placement set do not apply",
+      "event_placements_m": [
+        3.0,
+        3.3,
+        3.6,
+        3.9,
+        4.2
+      ],
+      "file_sha256": "745c8ad3c7784c686ba03434a84c980b5f1a6be65b5b48fc16fa6973e31c2b58",
+      "path": "outputs/calibrate_ramp_route_phase_v3/receipt.json",
+      "route_timing_receipt_sha256": "cd8e7ab956e6400f0eb2e09e57f43a6f72eae1c5f72619dc7652a41287c770e1",
+      "target_min_prominence_m": 0.042,
+      "target_prominence_receipt_sha256": "aa521abde4c9cb53349090ad0b48e9a874968cbdc67f77035eff5f8a4a6e1add"
+    },
+    "runtime": {
+      "fields": {
+        "ardy_git_commit": "693f74d13b3d04a0a22ce127ee79c929dd89756b",
+        "ardy_package_root": "/home/linjiw/ardy/ardy",
+        "ardy_python_source_count": 54,
+        "ardy_python_source_manifest_sha256": "f79d8b330d37c3fa94615aedb264f20bb780421fb5d260dec119ab23357ac5b2",
+        "ardy_python_source_sha256": {
+          "__init__.py": "1c84133148843972777013a5d33c83a957936c11219301a34e10bd6273c46bbb",
+          "assets.py": "df261ed2d6021c389ea6578c2f377ac7984806b7fa5f5fcf43be9df1d22bee39",
+          "constraints.py": "57d0b1418cfe689b9c69c41120d9ef2d6a65a59f3bf8ffc21d7fec06380ed7ef",
+          "data_processing/__init__.py": "39b67a3543de12fbe919327958818a53222b223688ef8ece33a12bc1e46d1f14",
+          "data_processing/bvh.py": "7504e4811bd9526edfcff5e23e9ab6835ea8ae1051951e83945878f9ecad54e4",
+          "data_processing/skeleton.py": "e39ba723fa77efb3e1d95197432a53f840c5866d6160d3f5563ea045cfce5447",
+          "exports/__init__.py": "018bcb15b4efed6e6c7a6471c3c70d7fb257ec2071b3875af732598b4e63c747",
+          "exports/mujoco.py": "3d3d16b80c24e6a68f329504edd72b400f2df998ca7bdfddbf548674a9e79fa5",
+          "geometry.py": "4d5a5d8c71e3cd9f3f10fc837698652a78fad621cdd25b1d4b0e8515153f20d9",
+          "model/__init__.py": "984d21defa5001d276aba8c0bffff649a9ec117f5cdd9ca2d199718d2a5b0684",
+          "model/ardy_model.py": "3fc21ad6a53a41ad4f968f18e2d7f27d8212bf123544503cf21151bfd783b338",
+          "model/auto_latent_twostage_denoiser.py": "7a5b49c90f46c9507f2175b9180de5bdd9c114743abbbe2771efc21066f25b00",
+          "model/autoencoder/__init__.py": "83379d29bca875b122df43be9f30d0210a8ade9a32c0f8b830ca2d19737376cc",
+          "model/autoencoder/fsq.py": "f46306ba9610d57cfaf1d134ef96e9b17a48acf5b61d5d2342077aa06b6828f6",
+          "model/autoencoder/transformer.py": "245a9041f67a26c38d307d55568427773a0e3da477cd0b827b0dae0b42e00407",
+          "model/backbone.py": "16b55c5330a9cd46d6aff496222a479ee251a52bff401a7b568f29255bba3346",
+          "model/cfg.py": "d47c213f63d159d38b8df07a39a19c2bf8944474984a0086eda73916be2a8964",
+          "model/diffusion.py": "783122d3d2782043e956f106ac420d601fcfb653ae4d60e0937f9b41b9887d70",
+          "model/latent_utils.py": "bbf6bf81bfbc96d6fcc225e99c2675bf5769a8d32a2840e6d9e4b6e444688bac",
+          "model/llm2vec/__init__.py": "217714cb3a5cf5b3733feaec6e87d83a4191cd65eda6abecc2da827c5ce066ad",
+          "model/llm2vec/llm2vec.py": "e3f78a9e931b2b4fea29b625b9570d1c45f71941c4104706b46ba0edc5b63436",
+          "model/llm2vec/llm2vec_wrapper.py": "2d80c51d6d44048ec83d457bdf138b783bbe4342b52204b606790f41a367460e",
+          "model/llm2vec/models/__init__.py": "c47228e98e752ddaf3ad5b71967820fc276723a5518f2df0c06b45914f0d1961",
+          "model/llm2vec/models/attn_mask_utils.py": "ebac1133236a4d9cd56747d23c9c0355b3b9d0652910f6b60b01d773721aee98",
+          "model/llm2vec/models/bidirectional_llama.py": "5d446109170e3aed437c5039661e6c23b3455ea5b3df866ece5b84bbd6fcfdca",
+          "model/llm2vec/models/utils.py": "2a361b55e067ae450152920dcb5b5f9e4694ac91ac1a0aa325799bcb5ee37153",
+          "model/load_model.py": "3249c864d11f977056c191408a5b6e0670ac2ba4cfbff0acaac76b60e3e68554",
+          "model/loading.py": "1857e14ed49423ca9f310ec6b428d25f10af7dbbd4897696fabc0923f6d177bc",
+          "model/registry.py": "1a6a6552a7b47e881b94a99659092d966152cf8024736b26d316040621e03968",
+          "model/text_encoder_api.py": "2d9e4652ef85bd49a86abcad7c1c29cae871fd6d5730c286e145f49a94ff3f91",
+          "model/trt.py": "44021ff563d758d123ba90bf3965ce26c68d85ca057ce477ea9ce899d97ba15f",
+          "motion_rep/__init__.py": "917ca1876a39df876484e2402c0dabe81ad79dc147e4f1b5be4e9cd865fbf933",
+          "motion_rep/conditioning.py": "cab545e3325065f4fe5a48a6b2dab807e37ebd22f6fc69e08930f98d542f1944",
+          "motion_rep/feet.py": "a89a5b57cb7e505dd2ed35e2dbef9a326bd8831d922be8087f5ce6c2fc92fdb6",
+          "motion_rep/reps/__init__.py": "2ec6e639d6690b5c41ef62f05dfd51f07a840f0a051026383cb0e321bba00bb8",
+          "motion_rep/reps/ardy_motionrep.py": "83231aac1b2e77b34e3dcd3d71f97b92f5b73537d1d2ca8915b53128aa3b5980",
+          "motion_rep/reps/base.py": "4c27eab1964402a2dba6d960a2fe0eab92ab9520d754e8b6c3ec045cdd1b52ab",
+          "motion_rep/smooth_root.py": "5776896446788655365f083b78ce715ab8853912b52e46374c4952e3751db711",
+          "motion_rep/stats.py": "61e64fc70d54cc48e0ebe9cc80bbb932424f9ea8137e133a8495ea14b9b3340e",
+          "motion_rep/tools.py": "58c7724e36853731b0767ef52f5349f3dd641a25fe23f72bbde93beb28351ff6",
+          "postprocess.py": "646a495330548dbaca4911bf02fef33bec8b09e90da939161fc4258a7db843d4",
+          "skeleton/__init__.py": "953be64bba3df61b6aee0e25032e5f0b5c969170dfefa68b7fccb6bc223361fb",
+          "skeleton/base.py": "cff3089f3ac38a8f1f8cbf88d6d087a08bba3b289ac42762ae03a44ecd109e4e",
+          "skeleton/bvh.py": "2aeea04251713ab2757fdf1bcd978189707ba7f60c78ddb833c7000e36984bd8",
+          "skeleton/definitions.py": "790ecd42819c3bc35e61631925671c5b8d757c1932045ab55bffb713db91033a",
+          "skeleton/kinematics.py": "7113ae39074b98e96f8d53310a1706c8c2e66ead8c5b1f3a8b83a0fbccb39aa7",
+          "skeleton/registry.py": "d0a13e96c5b2e12b63933275905e3dfc523af4507bd68d03bf1fd794078ef4bc",
+          "skeleton/transforms.py": "b845b90bc1f6ac350cf7325d0bcd08e54f2ce4d255171c20ef3e5d0c32946969",
+          "tools.py": "2b0f462a2be34a6e8d0adabdc663a9530c741ef052fae834daed4cdb90507983",
+          "viz/__init__.py": "a43983b5b9c8d31ab92420124d5e507bf78bcbda8b752e4d07224ae42fc6df2a",
+          "viz/core_skin.py": "670dc6be751b66a6e32b85f42d317078c61fcf32859ea2e401a44d9400e639c4",
+          "viz/g1_rig.py": "2fbc523d0dfb9d0ed8ad09144b82ca31d8497530b7223c21f0101ceb4a76d7d7",
+          "viz/soma_skin.py": "709b6057d68b15176c92af136f4152fdebff575401e56ebd80843dc9f33e9ff4",
+          "viz/viser_utils.py": "65c4c6930f3ec9480ce581b23fbba4e518715e223f9a99d6a999a1ada55f8098"
+        },
+        "ardy_tracked_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "ardy_tracked_status": [],
+        "mujoco_version": "3.12.0",
+        "numpy_version": "1.26.4",
+        "python": "3.11.16 | packaged by conda-forge | (main, Aug 21 2026, 22:44:51) [GCC 14.4.0]",
+        "torch_cuda_version": "12.8",
+        "torch_cudnn_version": 91900,
+        "torch_version": "2.11.0+cu128"
+      },
+      "schema": "ramp-ardy-runtime-identity-v1",
+      "sha256": "aa653c1010f770ec66e471ea525abcd0a95b4a92cbab14a798dececcb28caaca"
+    },
+    "source_sha256": {
+      "experiments/calibrate_ramp_route_phase.py": "ccbf5a13a78578c31579121650ab9378468c5b73e8c61c758a7c9cc9b503c26a",
+      "experiments/exp017_ramp_residual_stepover.py": "6d907bc573d627e348f117959750c64144965f7ebfe1dde3ed2a6c0a5bc22085",
+      "experiments/exp018_ramp_route_warped_stepover.py": "e14fc3ac4c716b4ddb07d133f505ad74dbf55a20ac4b48e152fbd7fb6bc25a26",
+      "experiments/exp019_ramp_gait_matched_stepover.py": "f06e90283b7037bbfa69f53cdf612d4dfa20a156f8483a942a1f5e3f117b8c79",
+      "scene2motion/constraints.py": "6dca56cf5ff98869a5bacee024dcaebb0b9e4a451a170834a96c407725d120a2",
+      "scene2motion/ramp/packet.py": "e2d434fd79f8eb3e6cd01a664c1aa13786bd84af164b143dab757d04b1472ccb",
+      "scene2motion/ramp/phase_observability.py": "3adf57060e2ba58bc529959bada936c6bd39c62a2b18245706e8fab9e9bf7766",
+      "scene2motion/ramp/route_phase.py": "f84a7c72444b008831c68600327241890c6aee4e32decfd9ac208d6b106a18b8",
+      "scene2motion/ramp/step_phase.py": "3a4e896f81e05220df652eb0b40ac97106a4831bb707372c20d8d0be7e949d15",
+      "scene2motion/robot.py": "c12b59a999969dd910e0aaef25322695d247bd392899394dd5d35cfc1252fc82",
+      "scene2motion/runner.py": "29139739ebce4891ebbe694010ff367e281a8f12cb3440a4db5410220b372aa0",
+      "scene2motion/stepover_eval.py": "f0e344def2133f3a45935bb1b7ffad8fb2591145557e6b136d50871827cf77b4"
+    }
+  },
+  "query_accounting": {
+    "arm_samples_launched": 0,
+    "arm_samples_returned": 0,
+    "donor_samples_launched": 8,
+    "donor_samples_returned": 8,
+    "generate_invocations": 7,
+    "pool_samples_launched": 48,
+    "pool_samples_returned": 48
+  },
+  "resume_supported": false,
+  "returned_ardy_samples_lower_bound": 56,
+  "sample_count_exact": true,
+  "schema": "exp019-gait-matched-stepover-failure-v1",
+  "stage": "program_render",
+  "status": "blocked",
+  "wall_clock_s": 10.709884039999451
+}

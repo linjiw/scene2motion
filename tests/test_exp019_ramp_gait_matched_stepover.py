@@ -122,6 +122,11 @@ def test_placement_rejects_prominence_window_side_and_route_margin():
     assert "expanded_obstacle_outside_route" in rejections
 
 
+def _constructible(candidates):
+    return [{**row, "constructible": True} if row.get("placeable") else row
+            for row in candidates]
+
+
 def test_selection_prefers_mid_route_then_prominence_then_stratum():
     route, qpos, feet = _scene()
     far = _clip([_cycle(apex=40)])
@@ -131,7 +136,7 @@ def test_selection_prefers_mid_route_then_prominence_then_stratum():
     for clip in (far, near_low, near_high):
         candidates.extend(pilot.placeable_candidates(
             clip, qpos, feet, route, target_min_prominence_m=0.042))
-    chosen = pilot.select_placement(candidates)
+    chosen = pilot.select_placement(_constructible(candidates))
     assert chosen["apex_frame"] == 100
     assert chosen["prominence_m"] == pytest.approx(0.09)
 
@@ -149,7 +154,26 @@ def test_select_placement_returns_none_without_placeable_candidates():
     clip = _clip([_cycle(apex=100, prominence=0.001)])
     candidates = pilot.placeable_candidates(
         clip, qpos, feet, route, target_min_prominence_m=0.042)
+    assert pilot.select_placement(_constructible(candidates)) is None
+
+
+def test_placeable_but_unconstructible_candidates_are_never_selected():
+    """Placement eligibility and packet constructibility are different gates.
+
+    exp019's first run selected a seed whose observability apex had no step_phase
+    cycle, and only found out at render time.  Selection must require the probe.
+    """
+    route, qpos, feet = _scene()
+    candidates = pilot.placeable_candidates(
+        _clip([_cycle(apex=100)]), qpos, feet, route,
+        target_min_prominence_m=0.042)
+    assert candidates[0]["placeable"] is True
+    # Placeable but not probed / probe failed: not eligible.
     assert pilot.select_placement(candidates) is None
+    assert pilot.select_placement(
+        [{**candidates[0], "constructible": False,
+          "construct_rejection": "no step_phase cycle"}]) is None
+    assert pilot.select_placement(_constructible(candidates)) is not None
 
 
 def test_selection_is_deterministic_under_candidate_reordering():
@@ -159,6 +183,7 @@ def test_selection_is_deterministic_under_candidate_reordering():
         candidates.extend(pilot.placeable_candidates(
             _clip([_cycle(apex=apex)]), qpos, feet, route,
             target_min_prominence_m=0.042))
+    candidates = _constructible(candidates)
     first = pilot.select_placement(candidates)
     second = pilot.select_placement(list(reversed(candidates)))
     assert first["selection_key"] == second["selection_key"]

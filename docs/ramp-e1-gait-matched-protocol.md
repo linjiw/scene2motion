@@ -53,9 +53,21 @@ representation only.
   3. stratum order (reference, slow, fast);
   4. apex frame;
   5. phase-evidence receipt digest.
+
+  **Constructibility probe.** Placement eligibility (phase-observability cycles above
+  Pmin) and packet constructibility (a `step_phase` cycle at the same apex, a zero-shift
+  assignment, two successful renders, and the matched-channel assertions) are *different*
+  gates: exp019's first attempt selected a seed whose observability apex had no
+  `step_phase` cycle and only discovered it at render time. A candidate is therefore
+  eligible only if the full assignment-and-render path succeeds, and the selected
+  candidate's probe output is reused verbatim so the evaluated programs are the ones
+  eligibility was decided on. The probe is outcome-free: it consumes only the nominal
+  clip and the frozen packet, and no arm sample exists when it runs.
+
   No generated arm response, collision result, or traversal outcome may enter selection.
   **N = 10** evaluation seeds are the first ten eligible in predeclared seed order; fewer
-  than ten ⇒ fail-closed pool-exhaustion stop (replay rate predicts ≈ 12/16).
+  than ten ⇒ fail-closed pool-exhaustion stop (replay of the archived first-attempt pool
+  gives 12/16 placeable and 11/16 also cycle-matched, before the render gate).
 * **Arms.** For each selected seed, exactly one `absolute` and one `residual` arm (STEP
   prompt both, strength 1, duration scale 1, shift 0, identical support hashes and channel
   usage, no joint-position channel, free body heading) on the nominal's own route.

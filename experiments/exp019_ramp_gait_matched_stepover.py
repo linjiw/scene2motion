@@ -193,11 +193,106 @@ def placeable_candidates(
 
 
 def select_placement(candidates: Sequence[Mapping[str, Any]]) -> dict[str, Any] | None:
-    """Frozen outcome-free key: mid-route, then prominence, stratum, apex, digest."""
-    placeable = [row for row in candidates if row.get("placeable")]
+    """Frozen outcome-free key: mid-route, then prominence, stratum, apex, digest.
+
+    Only candidates that already survived the constructibility probe are eligible.
+    """
+    placeable = [
+        row for row in candidates
+        if row.get("placeable") and row.get("constructible")
+    ]
     if not placeable:
         return None
     return dict(min(placeable, key=lambda row: tuple(row["selection_key"])))
+
+
+def probe_constructibility(
+    candidate: Mapping[str, Any],
+    *,
+    pair: Any,
+    sample: Mapping[str, Any],
+    qpos: np.ndarray,
+    foot_kinematics: Mapping[str, Mapping[str, np.ndarray]],
+    route_xz: np.ndarray,
+    route_heading: np.ndarray,
+    thresholds: Any,
+    min_stance_support_fraction: float,
+    runner: Any,
+    body: Any,
+) -> dict[str, Any]:
+    """Can this candidate actually be turned into a matched pair of programs?
+
+    Placement eligibility is measured with the phase-observability enumerator, but the
+    packet transport consumes ``step_phase`` cycles and then a rendered ConstraintSpec.
+    Those are different gates, so a candidate that passes the first can still be
+    unbuildable.  This probe runs the real assignment, both renders, and the channel
+    assertions, so selection can never choose something the render stage will reject.
+
+    It is outcome-free: it consumes only the nominal clip and the frozen packet, and no
+    generated arm response, collision result, or traversal outcome exists yet.
+    """
+    result: dict[str, Any] = {"constructible": False, "construct_rejection": None}
+    try:
+        cycles = e17._phase_cycles(
+            body, qpos, FPS, thresholds, swing_side=EXPECTED_SWING_SIDE,
+            support_window_s=SUPPORT_WINDOW_S,
+            min_stance_support_fraction=min_stance_support_fraction,
+            min_relative_lift_m=TARGET_MIN_RELATIVE_LIFT_M)
+    except ValueError as exc:
+        result["construct_rejection"] = f"step_phase_cycles: {exc}"
+        return result
+    matching = [
+        cycle for cycle in cycles
+        if int(cycle.apex_frame) == int(candidate["apex_frame"])
+    ]
+    if not matching:
+        result["construct_rejection"] = (
+            "no step_phase cycle at the observability apex "
+            f"{candidate['apex_frame']} (available: "
+            f"{sorted(int(c.apex_frame) for c in cycles)})"
+        )
+        return result
+    try:
+        assignments, _ = e17._target_assignment(
+            matching, qpos, foot_kinematics, route_xz,
+            [float(candidate["obstacle_x_m"])], pair.absolute,
+            source_common_physical_protocol_hash=(
+                pair.absolute.common_physical_protocol_hash),
+            half_window_frames=HALF_WINDOW_FRAMES,
+            max_center_shift_frames=0)
+    except (e17.TargetAssignmentError, ValueError) as exc:
+        result["construct_rejection"] = f"target_assignment: {exc}"
+        return result
+    assignment = assignments[0]
+    if int(assignment["controls"].center_shift_frames) != 0:
+        result["construct_rejection"] = "nonzero center shift"
+        return result
+    common = dict(
+        target_nominal=sample, target_event=assignment["cycle"].event,
+        joint_names=runner.joint_names, root_xz=route_xz,
+        route_heading=route_heading,
+        target_phase_match=assignment["target_phase_match"],
+        nominal_route_heading=route_heading, target_fps=FPS,
+        controls=assignment["controls"], first_heading=0.0)
+    try:
+        absolute_spec, absolute_info = render_packet(pair.absolute, **common)
+        residual_spec, residual_info = render_packet(pair.residual, **common)
+        absolute_usage = e17._actual_channel_usage(runner, absolute_spec)
+        residual_usage = e17._actual_channel_usage(runner, residual_spec)
+        e17._assert_matched_programs(
+            absolute_spec, residual_spec, absolute_info, residual_info,
+            absolute_usage, residual_usage)
+    except (TypeError, ValueError) as exc:
+        result["construct_rejection"] = f"{type(exc).__name__}: {exc}"
+        return result
+    result.update({
+        "constructible": True,
+        "_assignment": assignment,
+        "_specs": {"absolute": absolute_spec, "residual": residual_spec},
+        "_infos": {"absolute": absolute_info, "residual": residual_info},
+        "_usages": {"absolute": absolute_usage, "residual": residual_usage},
+    })
+    return result
 
 
 def run_pilot(
@@ -596,6 +691,7 @@ def run_pilot(
         receipt["provenance"]["post_pool_identity_revalidation"] = (
             revalidate_identities())
         selection_by_seed: dict[int, dict[str, Any]] = {}
+        probe_by_key: dict[tuple[int, str, int], dict[str, Any]] = {}
         for seed in POOL_SEEDS:
             all_candidates: list[dict[str, Any]] = []
             for label, _ in cal.SPEEDS:
@@ -609,14 +705,32 @@ def run_pilot(
                         "rejection": f"foot_kinematics: {exc}",
                     })
                     continue
-                all_candidates.extend(placeable_candidates(
+                for candidate in placeable_candidates(
                     clip, qpos, feet, routes_by_label[label],
-                    target_min_prominence_m=pmin))
+                    target_min_prominence_m=pmin,
+                ):
+                    if candidate.get("placeable"):
+                        probe = probe_constructibility(
+                            candidate, pair=pair,
+                            sample=samples_by_key[(seed, label)], qpos=qpos,
+                            foot_kinematics=feet, route_xz=routes_by_label[label],
+                            route_heading=route_heading, thresholds=thresholds,
+                            min_stance_support_fraction=min_stance_support_fraction,
+                            runner=runner, body=body)
+                        probe_by_key[
+                            (seed, label, int(candidate["apex_frame"]))] = probe
+                        candidate.update({
+                            key: value for key, value in probe.items()
+                            if not key.startswith("_")
+                        })
+                    all_candidates.append(candidate)
             chosen = select_placement(all_candidates)
             placement_rows.append({
                 "seed": seed,
                 "n_candidates": len(all_candidates),
                 "n_placeable": sum(1 for c in all_candidates if c.get("placeable")),
+                "n_constructible": sum(
+                    1 for c in all_candidates if c.get("constructible")),
                 "eligible": chosen is not None,
                 "selected": chosen,
                 "candidates": all_candidates,
@@ -627,6 +741,12 @@ def run_pilot(
         selected_seeds = eligible_seeds[:N_SELECT]
         receipt["placement_selection"] = {
             "frozen_pmin_m": pmin,
+            "eligibility_definition": (
+                "phase-observability cycle above frozen Pmin with a valid packet "
+                "window, an in-route obstacle at route_progress(apex)+foot_offset, and "
+                "a successful outcome-free constructibility probe (step_phase cycle at "
+                "the same apex, zero-shift assignment, both renders, channel assertions)"
+            ),
             "eligible_seeds": eligible_seeds,
             "eligibility": f"{len(eligible_seeds)}/{len(POOL_SEEDS)}",
             "selected_seeds": selected_seeds,
@@ -657,47 +777,22 @@ def run_pilot(
             sample = samples_by_key[(seed, label)]
             qpos = qpos_by_key[(seed, label)]
             clip = clips_by_key[(seed, label)]
-            feet = foot_kinematics_series(body, qpos, FPS)
-            cycles = e17._phase_cycles(
-                body, qpos, FPS, thresholds, swing_side=EXPECTED_SWING_SIDE,
-                support_window_s=SUPPORT_WINDOW_S,
-                min_stance_support_fraction=min_stance_support_fraction,
-                min_relative_lift_m=TARGET_MIN_RELATIVE_LIFT_M)
-            assignments, diagnostics = e17._target_assignment(
-                cycles, qpos, feet, route, [obstacle_x], pair.absolute,
-                source_common_physical_protocol_hash=(
-                    pair.absolute.common_physical_protocol_hash),
-                half_window_frames=HALF_WINDOW_FRAMES,
-                max_center_shift_frames=0)
-            assignment = assignments[0]
-            if int(assignment["controls"].center_shift_frames) != 0:
-                raise ValueError(
-                    "gait-matched placement did not yield a zero center shift")
+            # The selection probe already built these outcome-free; reuse them so the
+            # rendered programs are byte-identical to what eligibility was decided on.
+            probe = probe_by_key[(seed, label, int(chosen["apex_frame"]))]
+            if not probe.get("constructible"):
+                raise RuntimeError("selected candidate is not constructible")
+            assignment = probe["_assignment"]
             scene_id = e17._scene_id(obstacle_x, OBSTACLE_HEIGHT_M, OBSTACLE_DEPTH_M)
-            common = dict(
-                target_nominal=sample, target_event=assignment["cycle"].event,
-                joint_names=runner.joint_names, root_xz=route,
-                route_heading=route_heading,
-                target_phase_match=assignment["target_phase_match"],
-                nominal_route_heading=route_heading, target_fps=FPS,
-                controls=assignment["controls"], first_heading=0.0)
-            absolute_spec, absolute_info = render_packet(pair.absolute, **common)
-            residual_spec, residual_info = render_packet(pair.residual, **common)
-            absolute_usage = e17._actual_channel_usage(runner, absolute_spec)
-            residual_usage = e17._actual_channel_usage(runner, residual_spec)
-            e17._assert_matched_programs(
-                absolute_spec, residual_spec, absolute_info, residual_info,
-                absolute_usage, residual_usage)
             context[seed] = {
                 "speed_label": label, "route": route, "obstacle_x_m": obstacle_x,
                 "scene_id": scene_id, "qpos": qpos, "clip": clip,
-                "assignment_diagnostics": diagnostics,
                 "target_apex_frame": int(assignment["cycle"].apex_frame),
             }
-            for arm, spec, info, usage in (
-                ("absolute", absolute_spec, absolute_info, absolute_usage),
-                ("residual", residual_spec, residual_info, residual_usage),
-            ):
+            for arm in PACKET_ARMS:
+                spec = probe["_specs"][arm]
+                info = probe["_infos"][arm]
+                usage = probe["_usages"][arm]
                 rendered[(seed, arm)] = spec
                 program_rows.append({
                     "seed": seed, "arm": arm, "prompt": STEP, "scene_id": scene_id,

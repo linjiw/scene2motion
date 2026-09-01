@@ -512,7 +512,7 @@ def _target_assignment(
     obstacle_x: Sequence[float],
     packet: Any,
     *,
-    source_measurement_protocol_hash: str,
+    source_common_physical_protocol_hash: str,
     half_window_frames: int,
     max_center_shift_frames: int,
 ) -> tuple[list[dict[str, Any]], dict[str, Any]]:
@@ -542,7 +542,8 @@ def _target_assignment(
                 target_match = align_step_target_phase(
                     packet.phase_knots,
                     cycle,
-                    source_measurement_protocol_hash=source_measurement_protocol_hash,
+                    source_common_physical_protocol_hash=(
+                        source_common_physical_protocol_hash),
                     expected_swing_side=packet.swing_side,
                     search_half_window_frames=half_window_frames,
                 )
@@ -1205,8 +1206,13 @@ def run_experiment(
                 "neutral_clip_sha256": selected_row["neutral_clip_sha256"],
             },
         )
-        if pair.absolute.measurement_protocol_hash != adapted_cycle.measurement_protocol_hash:
-            raise ValueError("serialized packet lost its source measurement protocol identity")
+        if (
+            pair.absolute.measurement_protocol_hash
+            != adapted_cycle.common_physical_protocol_hash
+        ):
+            raise ValueError(
+                "serialized packet lost its common physical phase protocol identity"
+            )
         packet_arrays = _packet_arrays(pair)
         np.savez(out / "packet_pair.npz", **packet_arrays)
         packet_record = {
@@ -1437,7 +1443,7 @@ def run_experiment(
             try:
                 assignments, assignment_diagnostics = _target_assignment(
                     cycles, qpos, feet, root_xz, args.obstacle_x, pair.absolute,
-                    source_measurement_protocol_hash=(
+                    source_common_physical_protocol_hash=(
                         pair.absolute.measurement_protocol_hash),
                     half_window_frames=args.half_window_frames,
                     max_center_shift_frames=args.max_center_shift_frames,

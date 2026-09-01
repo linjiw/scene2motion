@@ -17,6 +17,8 @@ from scene2motion.ramp.step_phase import (
     enumerate_step_phase_cycles,
     enumerate_step_phase_cycles_from_qpos,
     step_phase_cycle_from_qpos,
+    step_phase_common_physical_protocol_hash,
+    step_phase_measurement_protocol_hash,
     validate_step_phase_cycle,
 )
 
@@ -103,6 +105,11 @@ def test_enumeration_derives_auditable_physical_landmarks_and_phase():
     assert archived["takeoff_dwell_frames"] == 3
     assert archived["landing_dwell_frames"] == 3
     assert archived["min_relative_lift_m"] == pytest.approx(0.04)
+    assert archived["measurement_protocol_hash"] == receipt.measurement_protocol_hash
+    assert (
+        archived["common_physical_protocol_hash"]
+        == receipt.common_physical_protocol_hash
+    )
     json.dumps(archived, sort_keys=True)
     with pytest.raises(FrozenInstanceError):
         receipt.fps = 25.0
@@ -149,7 +156,7 @@ def test_target_alignment_returns_absolute_event_receipt_for_renderer():
         source.adapted_phase_knots,
         target,
         expected_swing_side="left",
-        source_measurement_protocol_hash=adapted.measurement_protocol_hash,
+        source_common_physical_protocol_hash=adapted.common_physical_protocol_hash,
         search_half_window_frames=5,
     )
 
@@ -332,8 +339,110 @@ def test_measurement_protocol_identity_is_rate_independent_but_dwell_samples_are
         kin, fps=20.0, swing_side="left", support_window_s=0.4
     )[0]
     assert at_10_hz.measurement_protocol_hash == at_20_hz.measurement_protocol_hash
+    assert (
+        at_10_hz.common_physical_protocol_hash
+        == at_20_hz.common_physical_protocol_hash
+    )
     assert at_10_hz.landing_dwell_frames == 3
     assert at_20_hz.landing_dwell_frames == 4
+
+
+def test_common_physical_protocol_excludes_only_relative_lift_quality_gate():
+    thresholds = StepOverThresholds()
+    common = step_phase_common_physical_protocol_hash(
+        thresholds,
+        support_window_s=0.4,
+        min_stance_support_fraction=0.8,
+    )
+    assert common == step_phase_common_physical_protocol_hash(
+        thresholds,
+        support_window_s=0.4,
+        min_stance_support_fraction=0.8,
+    )
+    strict = step_phase_measurement_protocol_hash(
+        thresholds,
+        support_window_s=0.4,
+        min_stance_support_fraction=0.8,
+        min_relative_lift_m=0.04,
+    )
+    permissive = step_phase_measurement_protocol_hash(
+        thresholds,
+        support_window_s=0.4,
+        min_stance_support_fraction=0.8,
+        min_relative_lift_m=0.0,
+    )
+    assert strict != permissive
+    assert common not in (strict, permissive)
+
+
+def test_target_with_distinct_lift_gate_aligns_under_common_physics():
+    adapted = cycle(takeoff=7, apex=10, landing=14)
+    neutral = cycle(takeoff=5, apex=10, landing=16)
+    source = align_step_phase_cycles(adapted, neutral, half_window_frames=2)
+
+    target_kinematics = swing_kinematics(length=31, takeoff=8, apex=15, landing=22)
+    rise = np.linspace(0.01, 0.03, 8)
+    fall = np.linspace(0.03, 0.01, 7)[1:]
+    target_kinematics["left"]["bottom_clearance_m"][8:22] = np.concatenate(
+        (rise, fall)
+    )
+    target = enumerate_step_phase_cycles(
+        target_kinematics,
+        fps=10.0,
+        swing_side="left",
+        support_window_s=0.4,
+        min_relative_lift_m=0.0,
+    )[0]
+    assert target.event.relative_lift_m < 0.04
+    assert target.measurement_protocol_hash != adapted.measurement_protocol_hash
+    assert target.common_physical_protocol_hash == adapted.common_physical_protocol_hash
+
+    receipt = align_step_target_phase(
+        source.adapted_phase_knots,
+        target,
+        expected_swing_side="left",
+        source_common_physical_protocol_hash=source.measurement_protocol_hash,
+        search_half_window_frames=5,
+    )
+    assert receipt.target_center_frame == 15
+    assert receipt.measurement_protocol_hash == target.common_physical_protocol_hash
+
+
+def test_source_pair_keeps_same_lift_quality_gate_despite_common_identity():
+    strict = cycle()
+    permissive = enumerate_step_phase_cycles(
+        swing_kinematics(),
+        fps=10.0,
+        swing_side="left",
+        support_window_s=0.4,
+        min_relative_lift_m=0.0,
+    )[0]
+    assert strict.common_physical_protocol_hash == permissive.common_physical_protocol_hash
+    assert strict.measurement_protocol_hash != permissive.measurement_protocol_hash
+    with pytest.raises(ValueError, match="one locked phase protocol"):
+        align_step_phase_cycles(strict, permissive, half_window_frames=2)
+
+
+def test_target_alignment_rejects_actual_common_physical_gate_mismatch():
+    source_cycle = cycle()
+    source = align_step_phase_cycles(source_cycle, source_cycle, half_window_frames=2)
+    target = enumerate_step_phase_cycles(
+        swing_kinematics(),
+        fps=10.0,
+        swing_side="left",
+        support_window_s=0.4,
+        thresholds=StepOverThresholds(support_speed_mps=0.3),
+        min_relative_lift_m=0.0,
+    )[0]
+    assert target.common_physical_protocol_hash != source_cycle.common_physical_protocol_hash
+    with pytest.raises(ValueError, match="different common physical protocols"):
+        align_step_target_phase(
+            source.adapted_phase_knots,
+            target,
+            expected_swing_side="left",
+            source_common_physical_protocol_hash=source.measurement_protocol_hash,
+            search_half_window_frames=2,
+        )
 
 
 def test_alignment_never_extrapolates_outside_physical_landmarks():
@@ -347,7 +456,7 @@ def test_alignment_never_extrapolates_outside_physical_landmarks():
             source.adapted_phase_knots,
             receipt,
             expected_swing_side="left",
-            source_measurement_protocol_hash=receipt.measurement_protocol_hash,
+            source_common_physical_protocol_hash=receipt.common_physical_protocol_hash,
             search_half_window_frames=4,
         )
 
@@ -362,18 +471,18 @@ def test_alignment_rejects_side_or_protocol_mismatch():
             left.phase_trace,
             right,
             expected_swing_side="left",
-            source_measurement_protocol_hash=left.measurement_protocol_hash,
+            source_common_physical_protocol_hash=left.common_physical_protocol_hash,
             search_half_window_frames=2,
         )
 
     with pytest.raises(ValueError, match="measurement_protocol_hash"):
         replace(left, support_window_s=0.5)
-    with pytest.raises(ValueError, match="different measurement protocols"):
+    with pytest.raises(ValueError, match="different common physical protocols"):
         align_step_target_phase(
             left.phase_trace,
             left,
             expected_swing_side="left",
-            source_measurement_protocol_hash="2" * 64,
+            source_common_physical_protocol_hash="2" * 64,
             search_half_window_frames=2,
         )
 

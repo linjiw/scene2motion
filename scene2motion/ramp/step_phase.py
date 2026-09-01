@@ -41,6 +41,7 @@ _SIDES: tuple[Side, Side] = ("left", "right")
 STEP_PHASE_METHOD = "qpos-physical-foot-swing-landmarks-v1"
 STANCE_EVIDENCE_METHOD = "qpos-physical-foot-support-mask-v1"
 STEP_PHASE_PROTOCOL_VERSION = "qpos-step-phase-measurement-v2"
+COMMON_STEP_PHASE_PROTOCOL_VERSION = "qpos-step-phase-common-physics-v1"
 TAKEOFF_PHASE = 0.25
 APEX_PHASE = 0.50
 LANDING_PHASE = 0.75
@@ -121,6 +122,42 @@ def step_phase_measurement_protocol_hash(
     for name, value in payload.items():
         if name not in ("protocol_version", "phase_convention") and not np.isfinite(value):
             raise ValueError(f"measurement protocol field {name!r} must be finite")
+    encoded = json.dumps(payload, sort_keys=True, separators=(",", ":"), allow_nan=False)
+    return hashlib.sha256(encoded.encode()).hexdigest()
+
+
+def step_phase_common_physical_protocol_hash(
+    thresholds: StepOverThresholds,
+    *,
+    support_window_s: float,
+    min_stance_support_fraction: float,
+) -> str:
+    """Identity of shared physical phase measurement, excluding quality prominence.
+
+    ``min_relative_lift_m`` decides whether a measured swing is prominent enough for a
+    particular role.  It is intentionally absent here so a high-quality donor and an
+    ordinary target gait can share one physical phase convention while retaining distinct
+    gate-specific :func:`step_phase_measurement_protocol_hash` receipts.
+    """
+    thresholds.validate()
+    payload = {
+        "protocol_version": COMMON_STEP_PHASE_PROTOCOL_VERSION,
+        "support_height_m": float(thresholds.support_height_m),
+        "support_speed_mps": float(thresholds.support_speed_mps),
+        "min_stance_support_fraction": float(min_stance_support_fraction),
+        "support_window_s": float(support_window_s),
+        "max_floor_penetration_m": float(thresholds.max_floor_penetration_m),
+        "stable_support_dwell_s": float(thresholds.landing_dwell_s),
+        "phase_convention": {
+            "method": STEP_PHASE_METHOD,
+            "takeoff": TAKEOFF_PHASE,
+            "apex": APEX_PHASE,
+            "landing": LANDING_PHASE,
+        },
+    }
+    for name, value in payload.items():
+        if name not in ("protocol_version", "phase_convention") and not np.isfinite(value):
+            raise ValueError(f"common physical protocol field {name!r} must be finite")
     encoded = json.dumps(payload, sort_keys=True, separators=(",", ":"), allow_nan=False)
     return hashlib.sha256(encoded.encode()).hexdigest()
 
@@ -251,6 +288,7 @@ class StepPhaseCycle:
     landing_dwell_frames: int
     min_relative_lift_m: float
     measurement_protocol_hash: str
+    common_physical_protocol_hash: str
 
     def __post_init__(self) -> None:
         if self.method != STEP_PHASE_METHOD:
@@ -410,6 +448,21 @@ class StepPhaseCycle:
         )
         if _protocol_hash(self.measurement_protocol_hash) != expected_protocol_hash:
             raise ValueError("measurement_protocol_hash does not match the receipt gates")
+        expected_common_hash = step_phase_common_physical_protocol_hash(
+            StepOverThresholds(
+                support_height_m=self.support_height_m,
+                support_speed_mps=self.support_speed_mps,
+                min_contralateral_support_fraction=self.min_stance_support_fraction,
+                max_floor_penetration_m=self.max_floor_penetration_m,
+                landing_dwell_s=self.landing_dwell_s,
+            ),
+            support_window_s=self.support_window_s,
+            min_stance_support_fraction=self.min_stance_support_fraction,
+        )
+        if _protocol_hash(self.common_physical_protocol_hash) != expected_common_hash:
+            raise ValueError(
+                "common_physical_protocol_hash does not match the receipt physics"
+            )
 
     @property
     def swing_side(self) -> Side:
@@ -473,6 +526,7 @@ class StepPhaseCycle:
             "landing_dwell_frames": self.landing_dwell_frames,
             "min_relative_lift_m": self.min_relative_lift_m,
             "measurement_protocol_hash": self.measurement_protocol_hash,
+            "common_physical_protocol_hash": self.common_physical_protocol_hash,
             "support_source": self.support_source,
         }
 
@@ -633,6 +687,11 @@ def _cycle_from_event(
             support_window_s=support_window_s,
             min_stance_support_fraction=min_stance_support_fraction,
             min_relative_lift_m=min_relative_lift_m,
+        ),
+        common_physical_protocol_hash=step_phase_common_physical_protocol_hash(
+            thresholds,
+            support_window_s=support_window_s,
+            min_stance_support_fraction=min_stance_support_fraction,
         ),
     )
 
@@ -848,7 +907,7 @@ def align_step_phase_cycles(
         swing_side=adapted.swing_side,
         adapted_stance=adapted.stance_evidence(absolute_frame=False),
         neutral_stance=neutral.stance_evidence(absolute_frame=False),
-        measurement_protocol_hash=adapted.measurement_protocol_hash,
+        measurement_protocol_hash=adapted.common_physical_protocol_hash,
         min_stance_support_fraction=adapted.min_stance_support_fraction,
         support_window_s=adapted.support_window_s,
         max_phase_error=max_phase_error,
@@ -861,7 +920,7 @@ def align_step_target_phase(
     target: StepPhaseCycle,
     *,
     expected_swing_side: Side,
-    source_measurement_protocol_hash: str,
+    source_common_physical_protocol_hash: str,
     search_half_window_frames: int,
     max_phase_error: float = 0.05,
     min_packet_phase_span_per_side: float = 0.02,
@@ -878,9 +937,9 @@ def align_step_target_phase(
         raise ValueError("expected_swing_side must be 'left' or 'right'")
     if target.swing_side != expected_swing_side:
         raise ValueError("target cycle swing side does not match the packet")
-    source_protocol_hash = _protocol_hash(source_measurement_protocol_hash)
-    if target.measurement_protocol_hash != source_protocol_hash:
-        raise ValueError("target and source use different measurement protocols")
+    source_protocol_hash = _protocol_hash(source_common_physical_protocol_hash)
+    if target.common_physical_protocol_hash != source_protocol_hash:
+        raise ValueError("target and source use different common physical protocols")
     target.require_phase_window(search_half_window_frames)
     receipt = align_target_phase_window(
         target.phase_trace,
@@ -900,6 +959,7 @@ def align_step_target_phase(
 
 __all__ = [
     "APEX_PHASE",
+    "COMMON_STEP_PHASE_PROTOCOL_VERSION",
     "LANDING_PHASE",
     "STANCE_EVIDENCE_METHOD",
     "STEP_PHASE_METHOD",
@@ -912,6 +972,7 @@ __all__ = [
     "enumerate_step_phase_cycles",
     "enumerate_step_phase_cycles_from_qpos",
     "step_phase_cycle_from_qpos",
+    "step_phase_common_physical_protocol_hash",
     "step_phase_measurement_protocol_hash",
     "validate_step_phase_cycle",
 ]

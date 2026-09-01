@@ -1,0 +1,140 @@
+{
+  "actual_ardy_samples": 8,
+  "blocked": false,
+  "complete": true,
+  "design": {
+    "arms_compared": [
+      "nominal (WALK, from e1a)",
+      "text_only (STEP, generated here)",
+      "absolute (from e1a)",
+      "residual (from e1a)"
+    ],
+    "budget": "exactly 8 frozen-prior samples",
+    "conditioning": "route root_xz only; no packet, no rotations, no root height",
+    "e1a_source": "outputs/exp019_gait_matched_stepover_v7",
+    "prompt": "A person steps over an obstacle.",
+    "question": "does the coherent packet add anything over the STEP prompt alone, on the same seeds, strata, routes and endpoint vector"
+  },
+  "evidence_anchors": {
+    "qpos": {
+      "content_sha256": "ff7b8352898a054d36cef9c0c7da9671130e8a06c6d1047866edc1f5e4c1c724",
+      "n_arrays": 8,
+      "path": "qpos.npz"
+    },
+    "rows": {
+      "file_sha256": "a9cc99f1c3cfa5d84a6b57188228f1782bbe7340b9ea9e101dd0c0ba9cbce5b1",
+      "logical_sha256": "fa836d856adbc3b90ded4a079c7fb95c9bafb2e32111972205f30847069e1fe2",
+      "n_rows": 8,
+      "path": "rows.jsonl"
+    }
+  },
+  "experiment": "exp020_text_only_control",
+  "provenance": {
+    "code": {
+      "commit": "9a2f509258f44efdf89eef26d63e1f4f4d502296",
+      "dirty": false,
+      "status": [],
+      "tracked_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "e1a": {
+      "path": "outputs/exp019_gait_matched_stepover_v7",
+      "placement_analysis_sha256": "172fffef5b24d64c4e69a7fb6adee152d2c0983c1b360e97426868694f28bb85",
+      "receipt_sha256": "026719b8460a5ee2e7134cce2490c2d6574bae35cbb06e900b4bc5e18d01572e"
+    },
+    "physical_threshold_dependency": {
+      "fields": {
+        "evidentiary_role": "fixed-common-support-dependency-only",
+        "experiment": "stepover_threshold_calibration",
+        "file_sha256": "f6dba8be84a9d5d0b76c8114d4b93b1707bc1bb8a6fec1a26a22aa1780a6e9bf",
+        "locked_expected_file_sha256": "f6dba8be84a9d5d0b76c8114d4b93b1707bc1bb8a6fec1a26a22aa1780a6e9bf",
+        "locked_expected_normalized_receipt_sha256": "0f6365718b6dd31aace2addca613777a6bb18bb343a1de92ed16694f6d024e7c",
+        "n_accepted": 265,
+        "n_clips": 284,
+        "new_confirmatory_evidence_for_support_thresholds": false,
+        "normalized_receipt_sha256": "0f6365718b6dd31aace2addca613777a6bb18bb343a1de92ed16694f6d024e7c",
+        "path": "outputs/exp016_threshold_calibration/receipt.json",
+        "status": "calibrated",
+        "thresholds": {
+          "corridor_longitudinal_pad_m": 0.3,
+          "landing_dwell_s": 0.12,
+          "landing_horizon_s": 0.75,
+          "lateral_corridor_half_width_m": 0.3,
+          "max_floor_penetration_m": 0.02,
+          "max_unsupported_run_s": 0.2,
+          "min_contralateral_support_fraction": 0.9,
+          "support_height_m": 0.04649341314007449,
+          "support_speed_mps": 1.1753078750567545
+        }
+      },
+      "schema": "ramp-fixed-common-support-dependency-v1",
+      "sha256": "1b10351e34aaafc788e8bd7a176a6b2e2cc43adbefa496ada04656d9efc4adf5"
+    }
+  },
+  "query_accounting": {
+    "generate_invocations": 1,
+    "samples_launched": 8,
+    "samples_returned": 8
+  },
+  "schema": "exp020-text-only-control-v1",
+  "stage": "complete",
+  "status": "complete",
+  "summary": {
+    "absolute": {
+      "elicitation_rate": 1.0,
+      "elicitation_wilson95": [
+        0.6755843804891231,
+        1.0
+      ],
+      "max_lift_height_m": 0.13769531250000003,
+      "mean_abs_placement_error_m": 2.064205364627668,
+      "mean_lift_height_m": 0.07211914062500001,
+      "n": 8,
+      "n_clearing_obstacle": 0,
+      "n_with_lift": 8,
+      "sd_signed_placement_error_m": 2.4325854409197722
+    },
+    "nominal": {
+      "elicitation_rate": 0.375,
+      "elicitation_wilson95": [
+        0.13684175946152105,
+        0.6942621454161981
+      ],
+      "max_lift_height_m": 0.005,
+      "mean_abs_placement_error_m": 1.016115220799535,
+      "mean_lift_height_m": 0.001875,
+      "n": 8,
+      "n_clearing_obstacle": 0,
+      "n_with_lift": 3,
+      "sd_signed_placement_error_m": 1.4249705113445068
+    },
+    "residual": {
+      "elicitation_rate": 1.0,
+      "elicitation_wilson95": [
+        0.6755843804891231,
+        1.0
+      ],
+      "max_lift_height_m": 0.14386718750000002,
+      "mean_abs_placement_error_m": 1.851950123015433,
+      "mean_lift_height_m": 0.06093261718750001,
+      "n": 8,
+      "n_clearing_obstacle": 0,
+      "n_with_lift": 8,
+      "sd_signed_placement_error_m": 1.6639928458322073
+    },
+    "text_only": {
+      "elicitation_rate": 0.875,
+      "elicitation_wilson95": [
+        0.5291051942301386,
+        0.9775830911367038
+      ],
+      "max_lift_height_m": 0.2117578125,
+      "mean_abs_placement_error_m": 2.30069438089048,
+      "mean_lift_height_m": 0.1212548828125,
+      "n": 8,
+      "n_clearing_obstacle": 3,
+      "n_with_lift": 7,
+      "sd_signed_placement_error_m": 2.061374057400709
+    }
+  },
+  "wall_clock_s": 188.6601092560013
+}

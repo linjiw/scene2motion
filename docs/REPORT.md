@@ -1224,3 +1224,34 @@ The repository-wide CPU suite passed 251 tests, and independent review found no 
 P0/P1 issues. This licenses only the locked exploratory GPU launch at
 `outputs/exp017_ramp_pool_d4_k8_n2_p1`; it does not license a representation, execution, or
 planner claim before that ledger is inspected.
+
+## 31. Frozen nominal pool exhausts at 1/8 eligibility; no packet arm is generated
+
+The locked `D=4, K=8, N=2, P=1` run executed from clean commit `3e4ba7f` and stopped exactly
+at its preregistered pool-exhaustion rule. It launched and returned eight donor-source plus
+eight nominal samples (`16` exact total), made zero paired-arm calls, selected no partial
+cohort, and wrote no final program or outcome row. All logical, file, qpos-content, and nominal-
+substrate hashes were independently rechecked against the receipt.
+
+Only seed 2805 was eligible (`E/K=1/8`), using a left-swing apex at frame 95 and a required
+`+8`-frame shift exactly on the locked boundary. Seeds 2800, 2804, and 2806 had physical target
+cycles but failed bounded fixed-placement assignment; their nearest accepted-side shifts were
+`+65`, `+28`, and `-15` frames. Seeds 2801, 2802, 2803, and 2807 had no left-swing cycle under
+the locked target contract. The frozen attrition ledger therefore reads four `phase_cycle`,
+three `target_assignment`, and one `eligible`. The durable artifact is
+`outputs/exp017_ramp_pool_d4_k8_n2_p1/`.
+
+This is negative evidence about the v1 event-placement substrate, not an absolute-versus-
+residual packet outcome. Offline same-qpos diagnostics found 25 phase-alignable right donor
+pairs but no additional right-side target satisfying source phase, window, and `+/-8`
+placement; bilateral support would still give `E/K=1/8`. A target-only lift sensitivity from
+0 to 4 cm exposed additional ordinary-walk cycles but also left `E/K=1/8`; fixed placement,
+not render-window or lift threshold, remained binding. These are retrospective mechanism
+checks, not new arm results.
+
+The pool will not be extended and its gate will not be relaxed. The method implication is that
+RAMP v1 still waits for a nominal gait cycle to occur near fixed scene progress. The next
+representation must instead couple route timing/root-speed scheduling to the selected gait
+phase while keeping the obstacle fixed, then use new disjoint calibration/donor/evaluation
+seeds. Exp018 response optimization remains blocked until that redesign produces at least one
+placed residual response.

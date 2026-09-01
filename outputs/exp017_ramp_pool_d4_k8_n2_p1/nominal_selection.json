@@ -1,0 +1,114 @@
+{
+  "schema": "exp017-nominal-selection-receipt-v3",
+  "status": "insufficient_eligible_candidates",
+  "policy": "first-n-eligible-in-predeclared-seed-order-v1",
+  "nominal_candidate_seeds": [
+    2800,
+    2801,
+    2802,
+    2803,
+    2804,
+    2805,
+    2806,
+    2807
+  ],
+  "eligible_seeds_in_pool_order": [
+    2805
+  ],
+  "eligible_prefix_seeds": [
+    2805
+  ],
+  "selected_evaluation_seeds": [],
+  "required_selected_count": 2,
+  "candidate_pool_size": 8,
+  "attrition_counts": {
+    "target_assignment": 3,
+    "phase_cycle": 4,
+    "eligible": 1
+  },
+  "candidate_core_sha256": "7490ac2d848c915fb94841f8e4fbba190a28656bb62c2f2ad23d2cb6c4c7f6d5",
+  "candidate_eligibility_identity_sha256": [
+    "1c9583dc862a6044a7f2aae9d366377600ca9464857138d1a5964d671df83759",
+    "8508b96e4cb3c6ff8f046a205125e6e19a1da646835d966a23a0e8da61ca4909",
+    "5765eb3fb04f214c2f58364badc0a0bab089f89c6648255cba3ea140aa4940ff",
+    "b4926d1665454d629dedbbbc3d3c9fa4f1479d53c293868c1a5af0e106c7ea52",
+    "c0d3b6fe3f6adbe044f627d5c3635382f5eb59352064c9e712795f0d29bad521",
+    "3a8f342d60871d89a85c7904b9b1375ca6320d082a26dfc36f3ee1f6af5702d6",
+    "e55b851796c73d6ab9191a10fa7711a5d4d967666264100c8997013b2cebb4f9",
+    "f2604601b2380c3c97241418f6eb39ba9aeac83358441522883cf2e60813ecd4"
+  ],
+  "eligibility_protocol": {
+    "minimum_nominal_final_progress_ratio_vs_prescribed_route": 0.75,
+    "half_window_frames": 2,
+    "max_center_shift_frames": 8,
+    "support_window_s": 0.24,
+    "min_stance_support_fraction": 0.9,
+    "min_relative_lift_m": 0.04,
+    "measurement_protocol_hash": "b4c01b6d335420e84429d2260d5c578ddb269621aafe4e69691f07546de675e4",
+    "fixed_scene_ids": [
+      "step_x3.600_h0.080_d0.200"
+    ]
+  },
+  "n_eligible": 1,
+  "eligibility_fraction": 0.125,
+  "n_selected": 0,
+  "selected_fraction_of_eligible": 0.0,
+  "n_unselected_eligible": 1,
+  "planned_arm_denominator_np_per_arm": 2,
+  "selection_identity": {
+    "fields": {
+      "candidate_core_sha256": "7490ac2d848c915fb94841f8e4fbba190a28656bb62c2f2ad23d2cb6c4c7f6d5",
+      "candidate_eligibility_identity_sha256": [
+        "1c9583dc862a6044a7f2aae9d366377600ca9464857138d1a5964d671df83759",
+        "8508b96e4cb3c6ff8f046a205125e6e19a1da646835d966a23a0e8da61ca4909",
+        "5765eb3fb04f214c2f58364badc0a0bab089f89c6648255cba3ea140aa4940ff",
+        "b4926d1665454d629dedbbbc3d3c9fa4f1479d53c293868c1a5af0e106c7ea52",
+        "c0d3b6fe3f6adbe044f627d5c3635382f5eb59352064c9e712795f0d29bad521",
+        "3a8f342d60871d89a85c7904b9b1375ca6320d082a26dfc36f3ee1f6af5702d6",
+        "e55b851796c73d6ab9191a10fa7711a5d4d967666264100c8997013b2cebb4f9",
+        "f2604601b2380c3c97241418f6eb39ba9aeac83358441522883cf2e60813ecd4"
+      ],
+      "candidate_pool_size": 8,
+      "eligibility_fraction": 0.125,
+      "eligibility_protocol": {
+        "fixed_scene_ids": [
+          "step_x3.600_h0.080_d0.200"
+        ],
+        "half_window_frames": 2,
+        "max_center_shift_frames": 8,
+        "measurement_protocol_hash": "b4c01b6d335420e84429d2260d5c578ddb269621aafe4e69691f07546de675e4",
+        "min_relative_lift_m": 0.04,
+        "min_stance_support_fraction": 0.9,
+        "minimum_nominal_final_progress_ratio_vs_prescribed_route": 0.75,
+        "support_window_s": 0.24
+      },
+      "eligible_prefix_seeds": [
+        2805
+      ],
+      "eligible_seeds_in_pool_order": [
+        2805
+      ],
+      "n_eligible": 1,
+      "n_selected": 0,
+      "n_unselected_eligible": 1,
+      "nominal_candidate_seeds": [
+        2800,
+        2801,
+        2802,
+        2803,
+        2804,
+        2805,
+        2806,
+        2807
+      ],
+      "planned_arm_denominator_np_per_arm": 2,
+      "policy": "first-n-eligible-in-predeclared-seed-order-v1",
+      "required_selected_count": 2,
+      "selected_evaluation_seeds": [],
+      "selected_fraction_of_eligible": 0.0
+    },
+    "schema": "exp017-nominal-selection-v3",
+    "sha256": "92a2bc6168c35e94cbb7b737a44d868ac70d38a85142aba8f3ce988a784c7d49"
+  },
+  "selection_identity_sha256": "92a2bc6168c35e94cbb7b737a44d868ac70d38a85142aba8f3ce988a784c7d49"
+}

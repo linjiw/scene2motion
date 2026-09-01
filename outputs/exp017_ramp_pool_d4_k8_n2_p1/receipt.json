@@ -1,0 +1,279 @@
+{
+  "schema": "exp017-failure-receipt-v4",
+  "experiment": "exp017_ramp_residual_stepover",
+  "status": "failed_closed",
+  "execution_mode": "single-shot_non_resumable_pilot",
+  "resume_supported": false,
+  "failed_stage": "nominal_discovery",
+  "error_type": "ValueError",
+  "error": "nominal candidate pool has 1 eligible seeds; requires N=2 from frozen K=8",
+  "query_accounting": {
+    "donor_source_samples_launched": 8,
+    "donor_source_samples_returned": 8,
+    "nominal_samples_launched": 8,
+    "nominal_samples_returned": 8,
+    "paired_evaluation_samples_launched": 0,
+    "paired_evaluation_samples_returned": 0,
+    "generate_invocations": 2
+  },
+  "evidence_anchors": {
+    "donor_qpos": {
+      "archive": "donor_qpos.npz",
+      "n_candidates": 4,
+      "n_qpos_arrays": 8,
+      "content_sha256": "d34bf14fc535eb1417657d7c87bdd2e12d4259c40e2ff36c2a799228a351831a",
+      "archive_sha256": "4a8cb4949687ab19c96f3afdbb989b8ab9373e22254191b641956eb9a9227c95"
+    },
+    "nominal_qpos": {
+      "archive": "nominal_qpos.npz",
+      "n_predeclared_candidates": 8,
+      "n_attempted_seeds": 8,
+      "n_qpos_arrays": 8,
+      "content_sha256": "cddfcea207f5eb421c5247f10b383d808664bf4cb391e8ae4b7a84c3194ffa1e",
+      "archive_sha256": "53c9a54593d386d88f7c045dbc165f1ff08de2e7c1b7807aea1b8556672678c7"
+    },
+    "nominal_substrate": {
+      "archive": "nominal_substrate.npz",
+      "n_predeclared_candidates": 8,
+      "n_attempted_seeds": 8,
+      "n_complete_candidates": 8,
+      "n_candidates": 8,
+      "n_arrays": 16,
+      "content_sha256": "8f9b4a712760a7115c702fed66df6a12927571ac95ce54142fa0e0fbd0b53202",
+      "archive_sha256": "53cad2293d75c3a439479c3d9b7f0dbad87006cdcc37876dba7a55f221f4a7e2"
+    },
+    "nominal_rows": {
+      "path": "nominal_rows.jsonl",
+      "n_rows": 8,
+      "logical_sha256": "b0b63540ba1fc7f80174aaa3f40ee8aa41ae077aa5ea5c1b43f91a30bc46d899",
+      "file_sha256": "f620991b9d0349fc9ad7ca3406d70dd41c9128c428bef0c5e2c5b2a1e4c8fe83",
+      "candidate_core_sha256": "7490ac2d848c915fb94841f8e4fbba190a28656bb62c2f2ad23d2cb6c4c7f6d5"
+    },
+    "nominal_selection": {
+      "path": "nominal_selection.json",
+      "logical_sha256": "e9be8174a2b202aaa62bee5d1ef9aade66edf9f867391ef6c529fdfd7e82554c",
+      "file_sha256": "8a64b66d3ca964b98c2315ac8b9f7726b7d7d61d2d643e71a6154f2aa1b8fe75",
+      "selection_identity_sha256": "92a2bc6168c35e94cbb7b737a44d868ac70d38a85142aba8f3ce988a784c7d49"
+    },
+    "experiment_identity": {
+      "schema": "exp017-experiment-v3",
+      "sha256": "cd54b49964117569665dfb2ccd6ec028d6ac47849e4c14a748778a5f57d680d7"
+    }
+  },
+  "run_provenance": {
+    "schema": "exp017-run-provenance-v3",
+    "prepared_through": "source_generation_ready",
+    "complete_before_source_generation": true,
+    "code": {
+      "commit": "3e4ba7f80adad32555a326310e50a861c1fee6e3",
+      "dirty": false,
+      "status": [],
+      "tracked_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "checkpoint": {
+      "generator_id": "nvidia/ARDY-G1-RP-25FPS-Horizon52@059b8007df0ba194a006a877b59a563955ac7b70",
+      "model_name": "ARDY-G1-RP-25FPS-Horizon52",
+      "hf_revision": "059b8007df0ba194a006a877b59a563955ac7b70",
+      "checkpoint_path": "/home/linjiw/.cache/huggingface/hub/models--nvidia--ARDY-G1-RP-25FPS-Horizon52/snapshots/059b8007df0ba194a006a877b59a563955ac7b70/denoiser.safetensors",
+      "checkpoint_sha256": "0c16ac26c1ab75e511cd24bb25bd9ad92078a2460b4ce78529788b5da22647a2"
+    },
+    "threshold_calibration": {
+      "path": "outputs/exp016_threshold_calibration/receipt.json",
+      "sha256": "f6dba8be84a9d5d0b76c8114d4b93b1707bc1bb8a6fec1a26a22aa1780a6e9bf",
+      "experiment": "stepover_threshold_calibration",
+      "status": "calibrated",
+      "n_clips": 284,
+      "n_accepted": 265,
+      "normalized_receipt_sha256": "0f6365718b6dd31aace2addca613777a6bb18bb343a1de92ed16694f6d024e7c"
+    },
+    "prompts": {
+      "adapted_source": "A person steps over an obstacle.",
+      "neutral_source": "A person walks forward.",
+      "nominal": "A person walks forward.",
+      "paired_evaluation": "A person steps over an obstacle."
+    },
+    "generation_settings": {
+      "runner_class": "ArdyRunner",
+      "diffusion_steps": 5,
+      "cfg_weight": [
+        2.0,
+        2.0
+      ],
+      "noise_stream_version": 2,
+      "sampler": "ARDY deterministic DDIM, eta=0 (Scene2Motion runner contract)",
+      "history_frames": 196,
+      "generation_horizon_frames": 52,
+      "fps": 25.0
+    },
+    "D": 4,
+    "K": 8,
+    "N": 2,
+    "P": 1,
+    "budget_formula": "2D+K+2NP",
+    "planned_ardy_samples": 20,
+    "donor_seeds": [
+      2600,
+      2601,
+      2602,
+      2603
+    ],
+    "nominal_candidate_seeds": [
+      2800,
+      2801,
+      2802,
+      2803,
+      2804,
+      2805,
+      2806,
+      2807
+    ],
+    "evaluation_seeds": null,
+    "nominal_selection_policy": "first-n-eligible-in-predeclared-seed-order-v1",
+    "nominal_selection_identity_sha256": null,
+    "fixed_scenes": [
+      {
+        "scene_id": "step_x3.600_h0.080_d0.200",
+        "obstacle_x_m": 3.6,
+        "obstacle_height_m": 0.08,
+        "obstacle_depth_m": 0.2,
+        "simulation_body_margin_m": 0.04
+      }
+    ],
+    "route_content_sha256": "e75c90d3b66f994a1d44b2d29f9fd4c8fe4c5bd729c3ce87033b4b5516d2b333"
+  },
+  "run_provenance_sha256": "fccc92925f306787647a1b0d552752a53fd9f604572dab65443972bc713e8b2b",
+  "wall_clock_s": 4.818,
+  "sample_count_exact": true,
+  "returned_ardy_samples_lower_bound": 16,
+  "conservative_charged_ardy_samples": 16,
+  "actual_ardy_samples": 16,
+  "n_eligible": 1,
+  "eligibility_fraction": 0.125,
+  "n_selected": 0,
+  "selected_fraction_of_eligible": 0.0,
+  "n_unselected_eligible": 1,
+  "planned_arm_denominator_np_per_arm": 2,
+  "status_counts_per_arm": {
+    "absolute": {},
+    "residual": {}
+  },
+  "terminal_counts_per_arm": {
+    "absolute": 0,
+    "residual": 0
+  },
+  "actual_attempted_seeds": [],
+  "n_actual_attempted_seeds": 0,
+  "actual_evaluated_seeds": [],
+  "n_actual_evaluated_seeds": 0,
+  "actual_attempted_arm_counts_per_arm": {
+    "absolute": 0,
+    "residual": 0
+  },
+  "actual_evaluated_arm_counts_per_arm": {
+    "absolute": 0,
+    "residual": 0
+  },
+  "experiment_identity": {
+    "fields": {
+      "D": 4,
+      "K": 8,
+      "N": 2,
+      "P": 1,
+      "all_donor_qpos_content_sha256": "d34bf14fc535eb1417657d7c87bdd2e12d4259c40e2ff36c2a799228a351831a",
+      "all_nominal_qpos_content_sha256": "cddfcea207f5eb421c5247f10b383d808664bf4cb391e8ae4b7a84c3194ffa1e",
+      "all_nominal_substrate_content_sha256": "8f9b4a712760a7115c702fed66df6a12927571ac95ce54142fa0e0fbd0b53202",
+      "budget_formula": "2D+K+2NP",
+      "checkpoint_sha256": "0c16ac26c1ab75e511cd24bb25bd9ad92078a2460b4ce78529788b5da22647a2",
+      "code_commit": "3e4ba7f80adad32555a326310e50a861c1fee6e3",
+      "code_tracked_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "donor_seeds": [
+        2600,
+        2601,
+        2602,
+        2603
+      ],
+      "eligibility_fraction": 0.125,
+      "eligible_seeds_in_pool_order": [
+        2805
+      ],
+      "evaluation_seeds": [],
+      "execution_mode": "single-shot_non_resumable_pilot",
+      "experiment": "exp017_ramp_residual_stepover",
+      "fixed_scenes": [
+        {
+          "obstacle_depth_m": 0.2,
+          "obstacle_height_m": 0.08,
+          "obstacle_x_m": 3.6,
+          "scene_id": "step_x3.600_h0.080_d0.200",
+          "simulation_body_margin_m": 0.04
+        }
+      ],
+      "generation_settings": {
+        "cfg_weight": [
+          2.0,
+          2.0
+        ],
+        "diffusion_steps": 5,
+        "fps": 25.0,
+        "generation_horizon_frames": 52,
+        "history_frames": 196,
+        "noise_stream_version": 2,
+        "runner_class": "ArdyRunner",
+        "sampler": "ARDY deterministic DDIM, eta=0 (Scene2Motion runner contract)"
+      },
+      "generator_id": "nvidia/ARDY-G1-RP-25FPS-Horizon52@059b8007df0ba194a006a877b59a563955ac7b70",
+      "measurement_protocol_hash": "b4c01b6d335420e84429d2260d5c578ddb269621aafe4e69691f07546de675e4",
+      "n_eligible": 1,
+      "n_selected": 0,
+      "n_unselected_eligible": 1,
+      "nominal_attrition_counts": {
+        "eligible": 1,
+        "phase_cycle": 4,
+        "target_assignment": 3
+      },
+      "nominal_candidate_core_sha256": "7490ac2d848c915fb94841f8e4fbba190a28656bb62c2f2ad23d2cb6c4c7f6d5",
+      "nominal_candidate_seeds": [
+        2800,
+        2801,
+        2802,
+        2803,
+        2804,
+        2805,
+        2806,
+        2807
+      ],
+      "nominal_selection_identity_sha256": "92a2bc6168c35e94cbb7b737a44d868ac70d38a85142aba8f3ce988a784c7d49",
+      "nominal_selection_logical_sha256": "e9be8174a2b202aaa62bee5d1ef9aade66edf9f867391ef6c529fdfd7e82554c",
+      "nominal_selection_policy": "first-n-eligible-in-predeclared-seed-order-v1",
+      "packet_pair_hash": "5f056ec098213d7885aad0af307811fb88ad073b2550ad62bd5b0d297a675303",
+      "planned_arm_denominator_np_per_arm": 2,
+      "prompts": {
+        "adapted_source": "A person steps over an obstacle.",
+        "neutral_source": "A person walks forward.",
+        "nominal": "A person walks forward.",
+        "paired_evaluation": "A person steps over an obstacle."
+      },
+      "route_content_sha256": "e75c90d3b66f994a1d44b2d29f9fd4c8fe4c5bd729c3ce87033b4b5516d2b333",
+      "selected_adapted_clip_sha256": "928870d0caacd5c89c24bbf2919b1ff1b819cd7a856187d6e54011ea0dd404db",
+      "selected_fraction_of_eligible": 0.0,
+      "selected_neutral_clip_sha256": "b243a4e0950fca9732b4c5d3e61d1df915fb3c20f4010dad9da8136b80a8cab1",
+      "selected_source_qpos_content_sha256": "b560dd2b22d90807db1231b69a3306e019252d2eca4e92148b3d8c1742be29f2",
+      "threshold_normalized_receipt_sha256": "0f6365718b6dd31aace2addca613777a6bb18bb343a1de92ed16694f6d024e7c",
+      "threshold_receipt_sha256": "f6dba8be84a9d5d0b76c8114d4b93b1707bc1bb8a6fec1a26a22aa1780a6e9bf",
+      "thresholds": {
+        "corridor_longitudinal_pad_m": 0.3,
+        "landing_dwell_s": 0.12,
+        "landing_horizon_s": 0.75,
+        "lateral_corridor_half_width_m": 0.3,
+        "max_floor_penetration_m": 0.02,
+        "max_unsupported_run_s": 0.2,
+        "min_contralateral_support_fraction": 0.9,
+        "support_height_m": 0.04649341314007449,
+        "support_speed_mps": 1.1753078750567545
+      }
+    },
+    "schema": "exp017-experiment-v3",
+    "sha256": "cd54b49964117569665dfb2ccd6ec028d6ac47849e4c14a748778a5f57d680d7"
+  },
+  "experiment_identity_sha256": "cd54b49964117569665dfb2ccd6ec028d6ac47849e4c14a748778a5f57d680d7"
+}

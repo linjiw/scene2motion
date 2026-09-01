@@ -5,7 +5,7 @@ frozen motion prior into a scene-conditioned whole-body traversal module by plac
 phase-aligned adaptation programs on a route and, in the next method stage, repairing those
 programs from the motion response the prior actually realizes.
 
-> **Method status (2026-08-31).** The strict v1 step-event representation and its paired
+> **Method status (2026-09-01).** The strict v1 step-event representation and its paired
 > absolute-vs-residual exp017 harness are implemented and CPU-tested. The first real `D=1`
 > preflight failed closed after two donor samples. A sequential `D=4` retry found three
 > eligible donor pairs and selected seed 2603, then stopped after nominal seed 2800 could not
@@ -13,9 +13,11 @@ programs from the motion response the prior actually realizes.
 > replay reproduced the source clips and exposed the binding gate: seed 2800 had exact phase
 > alignment and a valid render window, but fixed placement required a `+65`-frame shift beyond
 > the locked `+/-8` bound. These are infrastructure/eligibility results, not packet outcomes.
-> A reviewed candidate-pool harness now freezes `K` nominal candidates, reports addressability
-> separately from the conditional arm effect, and durably accounts for every planned arm. The
-> evidence and locked exploratory launch are recorded in
+> A reviewed candidate-pool harness froze `K=8` nominal candidates, reported addressability
+> separately from the conditional arm effect, and durably accounted for every planned arm. The
+> locked run found only one eligible nominal (`E/K=1/8`), selected no partial cohort, and made
+> zero final-arm calls. This is negative event-placement evidence, not a packet comparison. The
+> evidence and method implications are recorded in
 > [`docs/ramp-e1-protocol.md`](docs/ramp-e1-protocol.md). Duck, squeeze, response optimization,
 > RepairNet, cross-prior transfer, and execution-aware route cost remain later stages.
 
@@ -60,11 +62,11 @@ Exp017 is single-shot and refuses a dirty worktree or non-empty output directory
 used the same donor seeds 2600–2603, evaluation seed 2800, fixed scene, calibration, and gates
 as the failed second preflight; only failure-evidence logging changed. It stopped after nine
 frozen-prior samples, with no final-arm generation. The ledger is
-`outputs/exp017_ramp_preflight_d4_n1_p1_v2/`. The next exploratory pilot uses a predeclared
-nominal-candidate pool under unchanged gates; its eligibility coverage and conditional arm
-effect are separate endpoints, not an unconditional success claim.
+`outputs/exp017_ramp_preflight_d4_n1_p1_v2/`. The subsequent exploratory pilot used a
+predeclared nominal-candidate pool under unchanged gates so eligibility coverage and the
+conditional arm effect would remain separate endpoints.
 
-## Next locked exploratory preflight
+## Completed candidate-pool preflight
 
 ```bash
 source env.sh
@@ -75,12 +77,14 @@ $S2M_PY experiments/exp017_ramp_residual_stepover.py \
   --threshold_calibration_receipt outputs/exp016_threshold_calibration/receipt.json
 ```
 
-This run keeps donor seeds 2600--2603, screens the complete ordered pool 2800--2807 under
-the unchanged fixed-placement and `+/-8`-frame gates, and selects the first two eligible seeds
-only if at least two exist. A completed run spends exactly 20 frozen-prior samples. Pool
-exhaustion stops after 16, reports `E/K`, selects/evaluates no partial cohort, and does not
-extend the pool. The harness separately records launched and returned samples, so an exception
-cannot be misreported as an exact partial budget.
+This run kept donor seeds 2600--2603 and screened the complete ordered pool 2800--2807 under
+the unchanged fixed-placement and `+/-8`-frame gates. It would select the first two eligible
+seeds only if at least two existed. It stopped after exactly 16 frozen-prior samples because
+only seed 2805 was eligible; four candidates lacked a valid target phase cycle and three failed bounded
+fixed-placement assignment. No arm was generated, and the pool will not be extended. Offline
+same-gate checks show that right-foot donor support and lower target-only lift thresholds do not
+rescue this pool; the next method step must actively couple route progress to gait phase rather
+than rejection-screen more seeds.
 
 ## Legacy baseline experiments
 

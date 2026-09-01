@@ -297,7 +297,24 @@ planner success. Low `E/K` is itself negative method evidence. Confirmation requ
 frozen, disjoint pool, independent geometries, and multiple donor bundles rather than repeated
 expansion of this pool.
 
-A completed preflight remains a schema/eligibility check, not a result. Inspect
+### Locked pool outcome
+
+The run from clean commit `3e4ba7f` stopped after exactly 16 launched and returned samples:
+eight donor-source samples and all eight nominal candidates, with no final-arm call. Only seed
+2805 passed (`E/K=1/8`), exactly at the `+8`-frame placement boundary. Four candidates failed
+target phase-cycle eligibility and three had valid cycles but no assignment within `+/-8`;
+therefore `E<N`, the selector chose no partial cohort, and no manifest or absolute/residual
+outcome exists. The complete hash-verified ledger is
+`outputs/exp017_ramp_pool_d4_k8_n2_p1/`.
+
+The pool is closed: do not extend `K`, move the obstacle, relax the shift bound, or relabel the
+single eligible seed as E1. Retrospective same-qpos mechanism checks indicate that neither a
+right-swing source packet nor lowering the target-only lift threshold changes eligibility for
+these eight seeds; those checks are post-outcome diagnostics and do not alter the recorded
+labels. The result instead motivates a new program component that couples route timing to gait
+phase at fixed path progress. Any such redesign requires a new protocol and disjoint seeds.
+
+A completed preflight remains a schema/eligibility check, not a representation result. Inspect
 `receipt.json`, `manifest.json`, both packet/program support hashes, physical cycle receipts,
 and all row counts before scheduling the larger kinematic pilot. The current harness
 intentionally stops at kinematics; an equal-budget `2NP` SONIC achieved-qpos stage must be

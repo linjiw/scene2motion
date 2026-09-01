@@ -198,10 +198,32 @@ $S2M_PY experiments/exp017_ramp_residual_stepover.py \
   --threshold_calibration_receipt outputs/exp016_threshold_calibration/receipt.json
 ```
 
-It uses donor seeds 2600–2603, evaluation seed 2800, the unchanged calibration receipt and
-gates, and one fixed placement. A completed run spends eleven samples (`8 + 1 + 2`); failure
-to find a donor stops after eight. Regenerated seed-2600 samples count again. Inspect the
-complete donor qpos archive/support diagnostics before any third attempt.
+It used donor seeds 2600–2603, evaluation seed 2800, the unchanged calibration receipt and
+gates, and one fixed placement. Three donor pairs were eligible and the deterministic selector
+chose seed 2603: a coherent left-swing source with 0.232 m adapted relative lift. The run then
+failed target assignment for nominal seed 2800 after nine samples (`8 + 1`), before its
+manifest or either final arm. The ledger is archived at
+`outputs/exp017_ramp_preflight_d4_n1_p1/`. This establishes source eligibility for the fixed
+design, not packet performance.
+
+The second failure exposed the same evidence-order issue on the target side: nominal qpos and
+per-cycle assignment checks were not written before the exception. The harness now archives
+all returned nominal qpos before any gate, records phase/shift/window rejections per cycle,
+and hash-anchors the finalized nominal ledger. Before inspecting any new nominal outcome, the
+third attempt is locked as an exact-design replay whose only intended difference is logging:
+
+```bash
+source env.sh
+$S2M_PY experiments/exp017_ramp_residual_stepover.py \
+  --out outputs/exp017_ramp_preflight_d4_n1_p1_v2 \
+  --n_donors 4 --n_seeds 1 --obstacle_x 3.6 \
+  --threshold_calibration_receipt outputs/exp016_threshold_calibration/receipt.json
+```
+
+The replay keeps donor seeds 2600–2603, evaluation seed 2800, placement, thresholds, shift
+bound, prompts, and sampler fixed. All regenerated samples count again. If assignment repeats
+its failure, the run stops after nine samples and the archived checks determine the binding
+gate; if it reaches both arms, it spends eleven.
 
 A completed preflight remains a schema/eligibility check, not a result. Inspect
 `receipt.json`, `manifest.json`, both packet/program support hashes, physical cycle receipts,

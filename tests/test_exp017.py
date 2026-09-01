@@ -309,9 +309,33 @@ def test_cpu_orchestration_freezes_manifest_and_spends_exact_budget(
     assert manifest["threshold_calibration"]["status"] == "calibrated"
     assert manifest["threshold_calibration"]["n_accepted"] == 9
     assert manifest["qpos_evidence"]["all_donor_candidates"] == donor_anchor
+    nominal_anchor = receipt["evidence_anchors"]["nominal_qpos"]
+    assert manifest["qpos_evidence"]["all_nominal_candidates"] == nominal_anchor
+    assert nominal_anchor["n_attempted_seeds"] == 2
+    assert nominal_anchor["n_qpos_arrays"] == 2
+    assert (experiment_identity["fields"]["all_nominal_qpos_content_sha256"]
+            == nominal_anchor["content_sha256"])
     assert donor_anchor["archive_sha256"] == exp017._sha256(out / "donor_qpos.npz")
     assert (out / "selected_source_qpos.npz").exists()
     assert (out / "nominal_qpos.npz").exists()
+    with np.load(out / "nominal_qpos.npz") as stored:
+        nominal_arrays = {key: np.array(stored[key], copy=True) for key in stored.files}
+    assert nominal_anchor["content_sha256"] == exp017._array_hash(nominal_arrays)
+    assert nominal_anchor["archive_sha256"] == exp017._sha256(
+        out / "nominal_qpos.npz")
+    nominal_rows = [json.loads(line) for line in
+                    (out / "nominal_rows.jsonl").read_text().splitlines()]
+    assert len(nominal_rows) == 2
+    assert all(row["processing_status"] == "programs_rendered"
+               for row in nominal_rows)
+    assert all(row["assignment_diagnostics"]["assignment_status"] == "assigned"
+               for row in nominal_rows)
+    nominal_rows_anchor = receipt["evidence_anchors"]["nominal_rows"]
+    assert manifest["evidence_anchors"]["nominal_rows"] == nominal_rows_anchor
+    assert nominal_rows_anchor["n_rows"] == len(nominal_rows)
+    assert nominal_rows_anchor["logical_sha256"] == exp017._json_hash(nominal_rows)
+    assert nominal_rows_anchor["file_sha256"] == exp017._sha256(
+        out / "nominal_rows.jsonl")
     summary = json.loads((out / "summary.json").read_text())
     assert summary["inference_unit"].startswith("descriptive only")
     assert summary["n_fixed_placements"] == 2
@@ -464,6 +488,105 @@ def test_missing_target_cycle_aborts_before_manifest_or_paired_budget(
     assert receipt["query_accounting"]["donor_source_samples"] == 2
     assert receipt["query_accounting"]["nominal_samples"] == 1
     assert receipt["query_accounting"]["paired_evaluation_samples"] == 0
+    archive = out / "nominal_qpos.npz"
+    assert archive.exists()
+    with np.load(archive) as stored:
+        arrays = {key: np.array(stored[key], copy=True) for key in stored.files}
+    assert set(arrays) == {"s200"}
+    anchor = receipt["evidence_anchors"]["nominal_qpos"]
+    assert anchor["content_sha256"] == exp017._array_hash(arrays)
+    assert anchor["archive_sha256"] == exp017._sha256(archive)
+    nominal_row = json.loads((out / "nominal_rows.jsonl").read_text())
+    assert nominal_row["processing_status"] == "rejected_phase_cycle"
+    assert nominal_row["clip_sha256"]
+    assert nominal_row["qpos_content_sha256"] == exp017._array_hash(
+        {"s200": arrays["s200"]})
+    assert nominal_row["final_progress_ratio_vs_prescribed_route"] == pytest.approx(
+        3 / 3.1)
+    assert nominal_row["support_diagnostics"]["interpretation"].startswith(
+        "descriptive only")
+    assert "no target cycle" in nominal_row["phase_cycle_error"]
+    assert "no target cycle" in nominal_row["assignment_reason"]
+    assert (receipt["experiment_identity"]["fields"]
+            ["all_nominal_qpos_content_sha256"] == anchor["content_sha256"])
+    assert receipt["experiment_identity_sha256"] == receipt[
+        "evidence_anchors"]["experiment_identity"]["sha256"]
+    row_anchor = receipt["evidence_anchors"]["nominal_rows"]
+    assert row_anchor["n_rows"] == 1
+    assert row_anchor["logical_sha256"] == exp017._json_hash([nominal_row])
+    assert row_anchor["file_sha256"] == exp017._sha256(
+        out / "nominal_rows.jsonl")
+
+
+def test_bounded_assignment_failure_preserves_all_nominals_and_rejection_details(
+    monkeypatch, tmp_path
+):
+    _patch_cpu_dependencies(monkeypatch)
+    args = _args(tmp_path, donors=1, seeds=2, obstacles=(1.5,))
+    args.max_center_shift_frames = 0
+    runner = FakeRunner(tmp_path / "exp017")
+
+    with pytest.raises(exp017.ExperimentAbort,
+                       match="no bounded one-to-one target-cycle assignment"):
+        exp017.run_experiment(args, runner=runner, body=object())
+
+    out = tmp_path / "exp017"
+    assert not (out / "manifest.json").exists()
+    assert len(runner.calls) == 2
+    receipt = json.loads((out / "receipt.json").read_text())
+    assert receipt["failed_stage"] == "nominal_discovery"
+    assert receipt["query_accounting"]["donor_source_samples"] == 2
+    assert receipt["query_accounting"]["nominal_samples"] == 2
+    assert receipt["query_accounting"]["paired_evaluation_samples"] == 0
+
+    with np.load(out / "nominal_qpos.npz") as stored:
+        arrays = {key: np.array(stored[key], copy=True) for key in stored.files}
+    assert set(arrays) == {"s200", "s201"}
+    anchor = receipt["evidence_anchors"]["nominal_qpos"]
+    assert anchor["n_attempted_seeds"] == 2
+    assert anchor["n_qpos_arrays"] == 2
+    assert anchor["content_sha256"] == exp017._array_hash(arrays)
+    assert anchor["archive_sha256"] == exp017._sha256(out / "nominal_qpos.npz")
+
+    nominal_rows = [json.loads(line) for line in
+                    (out / "nominal_rows.jsonl").read_text().splitlines()]
+    assert len(nominal_rows) == 2
+    row_anchor = receipt["evidence_anchors"]["nominal_rows"]
+    assert row_anchor["n_rows"] == 2
+    assert row_anchor["logical_sha256"] == exp017._json_hash(nominal_rows)
+    assert row_anchor["file_sha256"] == exp017._sha256(
+        out / "nominal_rows.jsonl")
+    failed, unprocessed = nominal_rows
+    assert failed["processing_status"] == "rejected_target_assignment"
+    assert "no bounded one-to-one" in failed["assignment_reason"]
+    assert len(failed["cycles"]) == 2
+    assert failed["support_diagnostics"]["n_frames"] == 31
+    checks = failed["assignment_diagnostics"]["cycle_scene_checks"]
+    assert len(checks) == 2
+    assert all(check["alignment_error"] is None for check in checks)
+    assert all(check["maximum_alignment_phase_error"] >= 0 for check in checks)
+    assert all(check["rejection_stage"] == "center_shift_bound"
+               for check in checks)
+    assert all(check["shift_within_bound"] is False for check in checks)
+    assert all(abs(check["required_center_shift_frames"]) > 0 for check in checks)
+    assert all("render_first_frame" in check and "render_last_frame" in check
+               and "window_within_clip" in check for check in checks)
+
+    assert unprocessed["processing_status"] == (
+        "not_processed_due_prior_nominal_failure")
+    assert "earlier nominal seed failed" in unprocessed["assignment_reason"]
+    # Descriptive evidence is still populated for later batch members.
+    assert len(unprocessed["cycles"]) == 2
+    assert unprocessed["support_diagnostics"]["n_frames"] == 31
+    assert unprocessed["final_progress_ratio_vs_prescribed_route"] == pytest.approx(
+        3 / 3.1)
+    for row in nominal_rows:
+        key = row["qpos_archive_key"]
+        assert row["qpos_content_sha256"] == exp017._array_hash(
+            {key: arrays[key]})
+        assert row["nominal_qpos_archive_sha256"] == anchor["archive_sha256"]
+        assert (row["nominal_qpos_archive_content_sha256"]
+                == anchor["content_sha256"])
 
 
 def test_prescribed_route_progress_gates_stalled_sources_before_selection(

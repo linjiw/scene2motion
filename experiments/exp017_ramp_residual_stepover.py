@@ -493,6 +493,14 @@ def _assert_matched_programs(
         raise ValueError("absolute/residual programs use different target phase receipts")
 
 
+class TargetAssignmentError(ValueError):
+    """Fail-closed target assignment with JSON-ready diagnostic evidence."""
+
+    def __init__(self, message: str, diagnostics: Mapping[str, Any]):
+        super().__init__(message)
+        self.diagnostics = dict(diagnostics)
+
+
 def _target_assignment(
     cycles: Sequence[StepPhaseCycle],
     qpos: np.ndarray,
@@ -504,20 +512,29 @@ def _target_assignment(
     source_measurement_protocol_hash: str,
     half_window_frames: int,
     max_center_shift_frames: int,
-) -> list[dict[str, Any]]:
-    """One-to-one nominal-cycle assignment to fixed scenes, using nominal data only."""
+) -> tuple[list[dict[str, Any]], dict[str, Any]]:
+    """One-to-one nominal-cycle assignment plus diagnostic-only rejection evidence."""
     candidates = [cycle for cycle in cycles if cycle.swing_side == packet.swing_side]
-    if len(candidates) < len(obstacle_x):
-        raise ValueError(
-            f"nominal clip has {len(candidates)} usable {packet.swing_side} cycles for "
-            f"{len(obstacle_x)} fixed scenes"
-        )
-    best: tuple[tuple[Any, ...], list[dict[str, Any]]] | None = None
-    for ordered in itertools.permutations(candidates, len(obstacle_x)):
-        assignments: list[dict[str, Any]] = []
-        cost = 0.0
-        valid = True
-        for scene_index, (x, cycle) in enumerate(zip(obstacle_x, ordered)):
+    diagnostics: dict[str, Any] = {
+        "interpretation": "diagnostic only; uses the unchanged locked assignment gates",
+        "swing_side": packet.swing_side,
+        "n_candidate_cycles": len(candidates),
+        "n_fixed_scenes": len(obstacle_x),
+        "max_center_shift_frames": int(max_center_shift_frames),
+        "cycle_scene_checks": [],
+        "assignment_status": "not_solved",
+    }
+    feasible: dict[tuple[int, int], dict[str, Any]] = {}
+    for scene_index, x in enumerate(obstacle_x):
+        for cycle_index, cycle in enumerate(candidates):
+            check: dict[str, Any] = {
+                "scene_index": scene_index,
+                "obstacle_x_m": float(x),
+                "cycle_index": cycle_index,
+                "apex_frame": int(cycle.apex_frame),
+                "swing_side": cycle.swing_side,
+                "eligible": False,
+            }
             try:
                 target_match = align_step_target_phase(
                     packet.phase_knots,
@@ -526,29 +543,63 @@ def _target_assignment(
                     expected_swing_side=packet.swing_side,
                     search_half_window_frames=half_window_frames,
                 )
-            except ValueError:
-                valid = False
-                break
+            except ValueError as exc:
+                check.update({"rejection_stage": "phase_alignment",
+                              "alignment_error": str(exc)})
+                diagnostics["cycle_scene_checks"].append(check)
+                continue
+            phase_errors = [float(value) for value in target_match.phase_errors]
+            check.update({
+                "alignment_error": None,
+                "alignment_phase_errors": phase_errors,
+                "maximum_alignment_phase_error": max(phase_errors, default=0.0),
+                "allowed_maximum_alignment_phase_error": float(
+                    target_match.max_phase_error),
+            })
             side = cycle.swing_side
             foot = foot_kinematics[side]["forward_representative_m"]
             foot_offset = float(foot[cycle.apex_frame] - qpos[cycle.apex_frame, 0])
             desired_root = float(x) - foot_offset
             desired_frame = int(np.argmin(np.abs(root_xz[:, 1] - desired_root)))
             shift = desired_frame - cycle.apex_frame
-            if abs(shift) > max_center_shift_frames:
-                valid = False
-                break
+            check.update({
+                "nominal_foot_forward_offset_m": foot_offset,
+                "desired_root_frame": desired_frame,
+                "required_center_shift_frames": int(shift),
+                "absolute_required_shift_frames": int(abs(shift)),
+                "shift_within_bound": bool(abs(shift) <= max_center_shift_frames),
+            })
             target_queries = np.asarray(
                 target_match.target_query_offsets_frames, dtype=float)
             first_target = desired_frame + int(np.ceil(target_queries[0] - 1e-12))
             last_target = desired_frame + int(np.floor(target_queries[-1] + 1e-12))
+            check.update({
+                "render_first_frame": first_target,
+                "render_last_frame": last_target,
+                "clip_first_frame": 0,
+                "clip_last_frame": int(len(root_xz) - 1),
+                "window_within_clip": bool(
+                    first_target >= 0 and last_target < len(root_xz)),
+            })
+            if abs(shift) > max_center_shift_frames:
+                check.update({"rejection_stage": "center_shift_bound",
+                              "rejection_reason": (
+                                  f"required shift {shift} exceeds locked +/-"
+                                  f"{max_center_shift_frames} frame bound")})
+                diagnostics["cycle_scene_checks"].append(check)
+                continue
             if first_target < 0 or last_target >= len(root_xz):
-                valid = False
-                break
+                check.update({"rejection_stage": "window_bound",
+                              "rejection_reason": "rendered packet window exceeds clip"})
+                diagnostics["cycle_scene_checks"].append(check)
+                continue
             predicted_foot = float(root_xz[desired_frame, 1] + foot_offset)
             spatial_error = predicted_foot - float(x)
-            cost += abs(spatial_error) + 1e-6 * abs(shift)
-            assignments.append({
+            check.update({"eligible": True, "rejection_stage": None,
+                          "predicted_foot_center_m": predicted_foot,
+                          "predicted_spatial_error_m": spatial_error})
+            diagnostics["cycle_scene_checks"].append(check)
+            feasible[(scene_index, cycle_index)] = {
                 "scene_index": scene_index,
                 "obstacle_x_m": float(x),
                 "cycle": cycle,
@@ -562,17 +613,43 @@ def _target_assignment(
                 "desired_root_frame": desired_frame,
                 "predicted_foot_center_m": predicted_foot,
                 "predicted_spatial_error_m": spatial_error,
-            })
-        if not valid:
+            }
+
+    if len(candidates) < len(obstacle_x):
+        message = (f"nominal clip has {len(candidates)} usable {packet.swing_side} cycles for "
+                   f"{len(obstacle_x)} fixed scenes")
+        diagnostics.update({"assignment_status": "failed",
+                            "assignment_failure_reason": message})
+        raise TargetAssignmentError(message, diagnostics)
+    best: tuple[tuple[Any, ...], list[dict[str, Any]]] | None = None
+    for ordered_indices in itertools.permutations(range(len(candidates)), len(obstacle_x)):
+        if any((scene_index, cycle_index) not in feasible
+               for scene_index, cycle_index in enumerate(ordered_indices)):
             continue
+        assignments = [feasible[(scene_index, cycle_index)]
+                       for scene_index, cycle_index in enumerate(ordered_indices)]
+        cost = sum(abs(entry["predicted_spatial_error_m"])
+                   + 1e-6 * abs(entry["controls"].center_shift_frames)
+                   for entry in assignments)
         tie = tuple((entry["cycle"].apex_frame,
                      entry["controls"].center_shift_frames) for entry in assignments)
         key = (round(cost, 12), tie)
         if best is None or key < best[0]:
             best = (key, assignments)
     if best is None:
-        raise ValueError("no bounded one-to-one target-cycle assignment for fixed scenes")
-    return best[1]
+        message = "no bounded one-to-one target-cycle assignment for fixed scenes"
+        diagnostics.update({"assignment_status": "failed",
+                            "assignment_failure_reason": message})
+        raise TargetAssignmentError(message, diagnostics)
+    diagnostics.update({
+        "assignment_status": "assigned",
+        "selected": [{
+            "scene_index": int(entry["scene_index"]),
+            "apex_frame": int(entry["cycle"].apex_frame),
+            "center_shift_frames": int(entry["controls"].center_shift_frames),
+        } for entry in best[1]],
+    })
+    return best[1], diagnostics
 
 
 def _score(
@@ -1076,6 +1153,98 @@ def run_experiment(
             "npz_sha256": _sha256(out / "packet_pair.npz"),
         }
         _write_json(out / "packet_pair.json", packet_record)
+
+        # ---- N held-out nominal clips ------------------------------------------------
+        stage = "nominal_discovery"
+        nominals = runner.generate(
+            [WALK] * args.n_seeds,
+            [base] * args.n_seeds,
+            frames,
+            args.diffusion_steps,
+            cfg_weight=cfg_weight,
+            seeds=eval_seeds,
+        )
+        counters["generate_invocations"] += 1
+        counters["nominal_samples"] += len(nominals)
+        if len(nominals) != args.n_seeds:
+            raise ValueError("runner returned the wrong number of nominal samples")
+
+        nominal_rows: list[dict[str, Any]] = []
+        nominal_qpos_archive: dict[str, np.ndarray] = {}
+        nominal_by_seed: dict[int, tuple[Mapping[str, Any], np.ndarray]] = {}
+        nominal_cycles_by_seed: dict[int, tuple[StepPhaseCycle, ...]] = {}
+        program_records: list[dict[str, Any]] = []
+        rendered: dict[tuple[int, int, str], ConstraintSpec] = {}
+
+        # Convert and preserve every returned nominal before any progress, phase, or
+        # assignment gate.  This makes a failed held-out seed independently replayable.
+        for seed, nominal in zip(eval_seeds, nominals):
+            nominal_hash = _sample_hash(nominal)
+            qpos = np.array(runner.to_qpos(nominal), copy=True)
+            qpos_key = f"s{seed}"
+            nominal_qpos_archive[qpos_key] = qpos
+            nominal_by_seed[seed] = (nominal, qpos)
+            nominal_rows.append({
+                "seed": seed,
+                "prompt": WALK,
+                "clip_sha256": nominal_hash,
+                "qpos_archive_key": qpos_key,
+                "qpos_sha256": _array_hash({"qpos": qpos}),
+                "qpos_content_sha256": _array_hash({qpos_key: qpos}),
+                "final_progress_ratio_vs_prescribed_route": None,
+                "support_diagnostics": None,
+                "cycles": [],
+                "assignments": [],
+                "assignment_diagnostics": None,
+                "assignment_reason": None,
+                "processing_status": "generated_not_processed",
+            })
+        np.savez(out / "nominal_qpos.npz", **nominal_qpos_archive)
+        nominal_qpos_evidence = {
+            "archive": "nominal_qpos.npz",
+            "n_attempted_seeds": len(eval_seeds),
+            "n_qpos_arrays": len(nominal_qpos_archive),
+            "content_sha256": _array_hash(nominal_qpos_archive),
+            "archive_sha256": _sha256(out / "nominal_qpos.npz"),
+        }
+        evidence_anchors["nominal_qpos"] = nominal_qpos_evidence
+        for row in nominal_rows:
+            row["nominal_qpos_archive"] = nominal_qpos_evidence["archive"]
+            row["nominal_qpos_archive_sha256"] = nominal_qpos_evidence[
+                "archive_sha256"]
+            row["nominal_qpos_archive_content_sha256"] = nominal_qpos_evidence[
+                "content_sha256"]
+
+        # Populate descriptive evidence for every returned seed before applying the
+        # sequential fail-closed gates.  Exceptions are recorded and then enforced in
+        # the locked order below; they cannot silently change assignment eligibility.
+        for row in nominal_rows:
+            seed = int(row["seed"])
+            _, qpos = nominal_by_seed[seed]
+            try:
+                row["final_progress_ratio_vs_prescribed_route"] = (
+                    _prescribed_progress_ratio(qpos, root_xz))
+            except (IndexError, TypeError, ValueError) as exc:
+                row["progress_measurement_error"] = str(exc)
+            try:
+                row["support_diagnostics"] = _support_diagnostics(
+                    body, qpos, fps, thresholds)
+            except (KeyError, TypeError, ValueError) as exc:
+                row["support_diagnostics_error"] = str(exc)
+            try:
+                cycles = _phase_cycles(
+                    body, qpos, fps, thresholds,
+                    swing_side=pair.absolute.swing_side,
+                    support_window_s=args.support_window_s,
+                    min_stance_support_fraction=min_stance_support_fraction,
+                    min_relative_lift_m=args.min_relative_lift_m,
+                )
+                nominal_cycles_by_seed[seed] = cycles
+                row["cycles"] = [cycle.as_dict() for cycle in cycles]
+            except (KeyError, TypeError, ValueError) as exc:
+                row["phase_cycle_error"] = str(exc)
+        _write_jsonl(out / "nominal_rows.jsonl", nominal_rows)
+
         experiment_identity = _identity("exp017-experiment-v1", {
             "experiment": "exp017_ramp_residual_stepover",
             "execution_mode": "single-shot_non_resumable_pilot",
@@ -1100,154 +1269,170 @@ def run_experiment(
             "selected_neutral_clip_sha256": selected_row["neutral_clip_sha256"],
             "selected_source_qpos_content_sha256": _array_hash(selected_source_qpos),
             "all_donor_qpos_content_sha256": donor_qpos_evidence["content_sha256"],
+            "all_nominal_qpos_content_sha256": nominal_qpos_evidence["content_sha256"],
             "D": args.n_donors,
             "N": args.n_seeds,
             "P": len(args.obstacle_x),
         })
+        evidence_anchors["experiment_identity"] = {
+            "schema": experiment_identity["schema"],
+            "sha256": experiment_identity["sha256"],
+        }
 
-        # ---- N held-out nominal clips ------------------------------------------------
-        stage = "nominal_discovery"
-        nominals = runner.generate(
-            [WALK] * args.n_seeds,
-            [base] * args.n_seeds,
-            frames,
-            args.diffusion_steps,
-            cfg_weight=cfg_weight,
-            seeds=eval_seeds,
-        )
-        counters["generate_invocations"] += 1
-        counters["nominal_samples"] += len(nominals)
-        if len(nominals) != args.n_seeds:
-            raise ValueError("runner returned the wrong number of nominal samples")
-
-        nominal_rows: list[dict[str, Any]] = []
-        nominal_qpos_archive: dict[str, np.ndarray] = {}
-        program_records: list[dict[str, Any]] = []
-        rendered: dict[tuple[int, int, str], ConstraintSpec] = {}
-        for seed, nominal in zip(eval_seeds, nominals):
-            qpos = runner.to_qpos(nominal)
-            nominal_progress_ratio = _prescribed_progress_ratio(qpos, root_xz)
-            if nominal_progress_ratio < args.min_nominal_progress_ratio:
-                raise ValueError(
-                    f"nominal seed {seed} progress ratio {nominal_progress_ratio:.4f} "
-                    f"is below locked {args.min_nominal_progress_ratio:.4f}"
-                )
-            cycles = _phase_cycles(
-                body, qpos, fps, thresholds,
-                swing_side=pair.absolute.swing_side,
-                support_window_s=args.support_window_s,
-                min_stance_support_fraction=min_stance_support_fraction,
-                min_relative_lift_m=args.min_relative_lift_m,
-            )
-            feet = foot_kinematics_series(body, qpos, fps)
-            assignments = _target_assignment(
-                cycles, qpos, feet, root_xz, args.obstacle_x, pair.absolute,
-                source_measurement_protocol_hash=(
-                    pair.absolute.measurement_protocol_hash),
-                half_window_frames=args.half_window_frames,
-                max_center_shift_frames=args.max_center_shift_frames,
-            )
-            nominal_hash = _sample_hash(nominal)
-            nominal_qpos_archive[f"s{seed}"] = np.asarray(qpos, dtype=np.float32)
-            nominal_rows.append({
-                "seed": seed,
-                "prompt": WALK,
-                "clip_sha256": nominal_hash,
-                "qpos_sha256": _array_hash({"qpos": qpos}),
-                "final_progress_ratio_vs_prescribed_route": nominal_progress_ratio,
-                "cycles": [cycle.as_dict() for cycle in cycles],
-                "assignments": [{
+        try:
+            for row in nominal_rows:
+                seed = int(row["seed"])
+                nominal, qpos = nominal_by_seed[seed]
+                row["processing_status"] = "processing"
+                if "progress_measurement_error" in row:
+                    row["processing_status"] = "rejected_progress_measurement"
+                    row["assignment_reason"] = row["progress_measurement_error"]
+                    raise ValueError(row["progress_measurement_error"])
+                nominal_progress_ratio = float(
+                    row["final_progress_ratio_vs_prescribed_route"])
+                if nominal_progress_ratio < args.min_nominal_progress_ratio:
+                    reason = (
+                        f"nominal seed {seed} progress ratio "
+                        f"{nominal_progress_ratio:.4f} is below locked "
+                        f"{args.min_nominal_progress_ratio:.4f}")
+                    row["processing_status"] = "rejected_progress_gate"
+                    row["assignment_reason"] = reason
+                    raise ValueError(reason)
+                if "phase_cycle_error" in row:
+                    row["processing_status"] = "rejected_phase_cycle"
+                    row["assignment_reason"] = row["phase_cycle_error"]
+                    raise ValueError(row["phase_cycle_error"])
+                cycles = nominal_cycles_by_seed[seed]
+                feet = foot_kinematics_series(body, qpos, fps)
+                try:
+                    assignments, assignment_diagnostics = _target_assignment(
+                        cycles, qpos, feet, root_xz, args.obstacle_x, pair.absolute,
+                        source_measurement_protocol_hash=(
+                            pair.absolute.measurement_protocol_hash),
+                        half_window_frames=args.half_window_frames,
+                        max_center_shift_frames=args.max_center_shift_frames,
+                    )
+                except TargetAssignmentError as exc:
+                    row["processing_status"] = "rejected_target_assignment"
+                    row["assignment_diagnostics"] = exc.diagnostics
+                    row["assignment_reason"] = str(exc)
+                    raise
+                row["assignments"] = [{
                     key: (value.as_dict() if hasattr(value, "as_dict") else value)
                     for key, value in assignment.items() if key != "cycle"
                 } | {"cycle": assignment["cycle"].as_dict()}
-                    for assignment in assignments],
-            })
-            for assignment in assignments:
-                scene_index = int(assignment["scene_index"])
-                event = assignment["cycle"].event
-                common = dict(
-                    target_nominal=nominal,
-                    target_event=event,
-                    joint_names=runner.joint_names,
-                    root_xz=root_xz,
-                    route_heading=route_heading,
-                    target_phase_match=assignment["target_phase_match"],
-                    nominal_route_heading=route_heading,
-                    target_fps=fps,
-                    controls=assignment["controls"],
-                    first_heading=0.0,
-                )
-                absolute_spec, absolute_info = render_packet(pair.absolute, **common)
-                residual_spec, residual_info = render_packet(pair.residual, **common)
-                absolute_usage = _actual_channel_usage(runner, absolute_spec)
-                residual_usage = _actual_channel_usage(runner, residual_spec)
-                _assert_matched_programs(
-                    absolute_spec, residual_spec, absolute_info, residual_info,
-                    absolute_usage, residual_usage,
-                )
-                scene_id = _scene_id(
-                    float(assignment["obstacle_x_m"]),
-                    args.obstacle_height,
-                    args.obstacle_depth,
-                )
-                for arm, spec, info, usage in (
-                    ("absolute", absolute_spec, absolute_info, absolute_usage),
-                    ("residual", residual_spec, residual_info, residual_usage),
-                ):
-                    key = (seed, scene_index, arm)
-                    rendered[key] = spec
-                    deformation = _program_deformation(spec, nominal, fps)
-                    program = {
-                        "scene_id": scene_id,
-                        "scene_index": scene_index,
-                        "obstacle_x_m": float(assignment["obstacle_x_m"]),
-                        "seed": seed,
-                        "arm": arm,
-                        "prompt": STEP,
-                        "nominal_clip_sha256": nominal_hash,
-                        "packet_hash": info.packet_hash,
-                        "packet_pair_hash": pair.digest(),
-                        "program_hash": info.program_hash,
-                        "support_hash": info.support_hash,
-                        "target_phase_match_hash": info.target_phase_match_hash,
-                        "target_phase_match": assignment["target_phase_match"].as_dict(),
-                        "target_cycle": assignment["cycle"].as_dict(),
-                        "controls": assignment["controls"].as_dict(),
-                        "target_frames": list(info.target_frames),
-                        "joint_indices": list(info.joint_indices),
-                        "channel_usage": dict(usage),
-                        "deformation_vs_nominal": deformation,
-                        "predicted_spatial_error_m": float(
-                            assignment["predicted_spatial_error_m"]),
-                    }
-                    program_identity = _identity("exp017-program-v1", {
-                        "experiment_identity_sha256": experiment_identity["sha256"],
-                        "scene_id": scene_id,
-                        "scene_index": scene_index,
-                        "seed": seed,
-                        "arm": arm,
-                        "prompt": STEP,
-                        "nominal_clip_sha256": nominal_hash,
-                        "packet_hash": info.packet_hash,
-                        "packet_pair_hash": pair.digest(),
-                        "program_hash": info.program_hash,
-                        "support_hash": info.support_hash,
-                        "target_phase_match_hash": info.target_phase_match_hash,
-                        "target_cycle_sha256": _json_hash(
-                            assignment["cycle"].as_dict()),
-                        "controls": assignment["controls"].as_dict(),
-                        "channel_usage": dict(usage),
-                        "deformation_sha256": _json_hash(deformation),
-                    })
-                    program.update({
-                        "experiment_identity_sha256": experiment_identity["sha256"],
-                        "program_identity": program_identity,
-                        "program_identity_sha256": program_identity["sha256"],
-                    })
-                    program_records.append(program)
-        _write_jsonl(out / "nominal_rows.jsonl", nominal_rows)
-        np.savez(out / "nominal_qpos.npz", **nominal_qpos_archive)
-        _write_jsonl(out / "programs.jsonl", program_records)
+                    for assignment in assignments]
+                row["assignment_diagnostics"] = assignment_diagnostics
+                row["assignment_reason"] = "bounded one-to-one assignment accepted"
+                row["processing_status"] = "assigned"
+
+                for assignment in assignments:
+                    scene_index = int(assignment["scene_index"])
+                    event = assignment["cycle"].event
+                    common = dict(
+                        target_nominal=nominal,
+                        target_event=event,
+                        joint_names=runner.joint_names,
+                        root_xz=root_xz,
+                        route_heading=route_heading,
+                        target_phase_match=assignment["target_phase_match"],
+                        nominal_route_heading=route_heading,
+                        target_fps=fps,
+                        controls=assignment["controls"],
+                        first_heading=0.0,
+                    )
+                    absolute_spec, absolute_info = render_packet(pair.absolute, **common)
+                    residual_spec, residual_info = render_packet(pair.residual, **common)
+                    absolute_usage = _actual_channel_usage(runner, absolute_spec)
+                    residual_usage = _actual_channel_usage(runner, residual_spec)
+                    _assert_matched_programs(
+                        absolute_spec, residual_spec, absolute_info, residual_info,
+                        absolute_usage, residual_usage,
+                    )
+                    scene_id = _scene_id(
+                        float(assignment["obstacle_x_m"]),
+                        args.obstacle_height,
+                        args.obstacle_depth,
+                    )
+                    for arm, spec, info, usage in (
+                        ("absolute", absolute_spec, absolute_info, absolute_usage),
+                        ("residual", residual_spec, residual_info, residual_usage),
+                    ):
+                        key = (seed, scene_index, arm)
+                        rendered[key] = spec
+                        deformation = _program_deformation(spec, nominal, fps)
+                        program = {
+                            "scene_id": scene_id,
+                            "scene_index": scene_index,
+                            "obstacle_x_m": float(assignment["obstacle_x_m"]),
+                            "seed": seed,
+                            "arm": arm,
+                            "prompt": STEP,
+                            "nominal_clip_sha256": row["clip_sha256"],
+                            "packet_hash": info.packet_hash,
+                            "packet_pair_hash": pair.digest(),
+                            "program_hash": info.program_hash,
+                            "support_hash": info.support_hash,
+                            "target_phase_match_hash": info.target_phase_match_hash,
+                            "target_phase_match": assignment[
+                                "target_phase_match"].as_dict(),
+                            "target_cycle": assignment["cycle"].as_dict(),
+                            "controls": assignment["controls"].as_dict(),
+                            "target_frames": list(info.target_frames),
+                            "joint_indices": list(info.joint_indices),
+                            "channel_usage": dict(usage),
+                            "deformation_vs_nominal": deformation,
+                            "predicted_spatial_error_m": float(
+                                assignment["predicted_spatial_error_m"]),
+                        }
+                        program_identity = _identity("exp017-program-v1", {
+                            "experiment_identity_sha256": experiment_identity["sha256"],
+                            "scene_id": scene_id,
+                            "scene_index": scene_index,
+                            "seed": seed,
+                            "arm": arm,
+                            "prompt": STEP,
+                            "nominal_clip_sha256": row["clip_sha256"],
+                            "packet_hash": info.packet_hash,
+                            "packet_pair_hash": pair.digest(),
+                            "program_hash": info.program_hash,
+                            "support_hash": info.support_hash,
+                            "target_phase_match_hash": info.target_phase_match_hash,
+                            "target_cycle_sha256": _json_hash(
+                                assignment["cycle"].as_dict()),
+                            "controls": assignment["controls"].as_dict(),
+                            "channel_usage": dict(usage),
+                            "deformation_sha256": _json_hash(deformation),
+                        })
+                        program.update({
+                            "experiment_identity_sha256": experiment_identity["sha256"],
+                            "program_identity": program_identity,
+                            "program_identity_sha256": program_identity["sha256"],
+                        })
+                        program_records.append(program)
+                row["processing_status"] = "programs_rendered"
+        finally:
+            active_error = sys.exc_info()[1]
+            blocked = False
+            for row in nominal_rows:
+                if (active_error is not None
+                        and row["processing_status"] in {"processing", "assigned"}):
+                    row["processing_status"] = "rejected_processing"
+                    row["assignment_reason"] = str(active_error)
+                if row["processing_status"].startswith("rejected_"):
+                    blocked = True
+                elif blocked and row["processing_status"] == "generated_not_processed":
+                    row["processing_status"] = "not_processed_due_prior_nominal_failure"
+                    row["assignment_reason"] = (
+                        "not processed because an earlier nominal seed failed closed")
+            _write_jsonl(out / "nominal_rows.jsonl", nominal_rows)
+            _write_jsonl(out / "programs.jsonl", program_records)
+            evidence_anchors["nominal_rows"] = {
+                "path": "nominal_rows.jsonl",
+                "n_rows": len(nominal_rows),
+                "logical_sha256": _json_hash(nominal_rows),
+                "file_sha256": _sha256(out / "nominal_rows.jsonl"),
+            }
 
         # Freeze every decision informed by source/nominal outputs before final sampling.
         stage = "manifest"
@@ -1275,6 +1460,7 @@ def run_experiment(
             "experiment_identity_sha256": experiment_identity["sha256"],
             "run_provenance": run_provenance,
             "run_provenance_sha256": _json_hash(run_provenance),
+            "evidence_anchors": evidence_anchors,
             "threshold_calibration": threshold_identity,
             "thresholds": asdict(thresholds),
             "progress_gates": {
@@ -1285,6 +1471,7 @@ def run_experiment(
             },
             "qpos_evidence": {
                 "all_donor_candidates": donor_qpos_evidence,
+                "all_nominal_candidates": nominal_qpos_evidence,
                 "selected_source_archive": "selected_source_qpos.npz",
                 "selected_source_content_sha256": _array_hash(selected_source_qpos),
                 "selected_source_archive_sha256": _sha256(
@@ -1448,6 +1635,9 @@ def run_experiment(
             "run_provenance_sha256": _json_hash(run_provenance),
             "wall_clock_s": round(time.time() - started, 3),
         }
+        if "experiment_identity" in locals():
+            failure["experiment_identity"] = experiment_identity
+            failure["experiment_identity_sha256"] = experiment_identity["sha256"]
         _write_json(out / "receipt.json", failure)
         if isinstance(exc, ExperimentAbort):
             raise

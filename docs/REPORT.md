@@ -1144,3 +1144,26 @@ Before seeing any additional donor outcome, the next diagnostic is locked as
 `x=3.6 m`, and the same calibration/gates. It spends eight samples if source discovery fails
 or eleven if it reaches the paired arms. A successful schema preflight would still not be a
 capability result or license an execution claim.
+
+## 28. Sequential donor discovery passed; nominal target assignment failed before arms
+
+The predeclared `D=4, N=1, P=1` attempt ran from clean commit `7b488f3` and spent nine ARDY
+samples: eight matched donor-source samples and nominal seed 2800, with zero paired-arm calls.
+Seeds 2601, 2602, and 2603 admitted physical adapted/neutral cycle pairs. The deterministic
+selector chose seed 2603 and successfully constructed the absolute/residual packet pair from
+a left-swing adapted event with 0.232 m relative lift and full contralateral support. Source
+eligibility therefore exists under the locked calibration; the prior D=1 failure was a
+single-seed donor issue, not a universal absence of source steps.
+
+The run then stopped because no target cycle for nominal seed 2800 admitted the locked bounded
+one-to-one assignment at `x=3.6 m`. No manifest, absolute output, residual output, or packet
+comparison exists. The durable ledger is
+`outputs/exp017_ramp_preflight_d4_n1_p1/`, including all eight donor qpos, source-cycle
+receipts, selected packet arrays, full pre-source provenance, and partial-spend receipt.
+
+Nominal qpos were not yet persisted before that exception, so the binding sub-gate—phase
+alignment, ±8-frame placement shift, or packet-window boundary—was not identifiable from this
+ledger. The harness now archives every nominal before gates, preserves later batch members,
+records per-cycle phase/shift/window checks, and anchors `nominal_rows.jsonl` logically and by
+file hash in success/failure receipts and the pre-final manifest. The exact `D=4, N=1, P=1`
+design is locked for one diagnostic replay; no gate or sample selection changes.

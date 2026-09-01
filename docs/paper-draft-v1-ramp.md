@@ -95,8 +95,9 @@ held-out nominal gait with the same ARDY channel/frame/joint support. The fail-c
 harness and CPU orchestration tests now exist in
 `experiments/exp017_ramp_residual_stepover.py` and `tests/test_exp017.py`; they lock the
 `2D + N + 2NP` sample budget and freeze program manifests before final generation. This is
-implementation evidence, not an E1 result: the first `D=1` GPU preflight stopped after two
-ineligible donor-source samples and generated no nominal or final-arm row.
+implementation evidence, not an E1 result: a sequential `D=4` GPU retry found three eligible
+donor pairs and built the packet, but nominal seed 2800 failed bounded target assignment before
+either final arm was generated.
 V1 is deliberately step-only; duck/double-support and squeeze/turn events still require their
 own event, contact, and body-heading contracts.
 
@@ -421,7 +422,7 @@ neither. Only the first status licenses an empirical claim.
 | 8 | Open-loop TCN inherits its teacher's OOD optimism (scoped per claim-fix 2) | landed | same artifact + `outputs/phase4d_hard`, `REPORT.md` §15 |
 | 9 | Achieved-state export and scene replay are validated; current deep-crouch clips fail route progress | landed negative | `outputs/exp1b_execution_clearance_v2/` (0/859 pass last obstacle) |
 | 10 | Conditional τ(d) fit + risk–coverage of the execution-calibrated acceptance rule | not identifiable on EXP-1B; new interaction-reaching campaign required | `gate.json: insufficient_data`, 0 valid loss observations; `docs/exec-gate-audit.md` |
-| 11 | Step-only same-support absolute-vs-residual packet comparison (exp017 / E1a) | representation/phase core + fail-closed harness landed; D=1 preflight stopped after 2 donor samples, before final arms | `scene2motion/ramp/{packet,phase,step_phase}.py`; `experiments/exp017_ramp_residual_stepover.py`; `tests/test_exp017.py`; `outputs/exp017_ramp_preflight_d1_n1_p1/`; no outcome claim |
+| 11 | Step-only same-support absolute-vs-residual packet comparison (exp017 / E1a) | source packet built in D=4 retry; nominal target assignment failed after 9 samples, before final arms | `scene2motion/ramp/{packet,phase,step_phase}.py`; `experiments/exp017_ramp_residual_stepover.py`; `outputs/exp017_ramp_preflight_d4_n1_p1/`; no outcome claim |
 | 12 | Residual programs beat synthetic + absolute programs across step/duck/squeeze with SONIC retention (E1b + extensions) | not started | independent geometries, donor bundles, behavior schemas, and equal-budget SONIC required |
 | 13 | Local response optimizer beats scalar secant on multi-axis tasks | not started | E2 arm; teacher for #14 |
 | 14 | RepairNet-B beats Best-of-B at equal budget (core E2) | not started | E2; ablation table (scene/program/response conditioning) |

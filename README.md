@@ -7,9 +7,11 @@ programs from the motion response the prior actually realizes.
 
 > **Method status (2026-08-31).** The strict v1 step-event representation and its paired
 > absolute-vs-residual exp017 harness are implemented and CPU-tested. The first real `D=1`
-> preflight failed closed after two donor samples because seed 2600 had no phase-alignable
-> adapted/neutral cycle; no nominal or final arm was generated. This is not a packet outcome.
-> The next sequential `D=4` diagnostic, with complete rejected-donor qpos archival, is locked in
+> preflight failed closed after two donor samples. A sequential `D=4` retry found three
+> eligible donor pairs and selected seed 2603, then stopped after nominal seed 2800 could not
+> satisfy the locked bounded target assignment; no final arm was generated. These are
+> infrastructure/eligibility results, not packet outcomes. The exact-design diagnostic replay,
+> now with complete nominal evidence, is locked in
 > [`docs/ramp-e1-protocol.md`](docs/ramp-e1-protocol.md). Duck, squeeze, response optimization,
 > RepairNet, cross-prior transfer, and execution-aware route cost remain later stages.
 
@@ -45,16 +47,16 @@ not as the identity of the proposed paper.
 ```bash
 source env.sh
 $S2M_PY experiments/exp017_ramp_residual_stepover.py \
-  --out outputs/exp017_ramp_preflight_d4_n1_p1 \
+  --out outputs/exp017_ramp_preflight_d4_n1_p1_v2 \
   --n_donors 4 --n_seeds 1 --obstacle_x 3.6 \
   --threshold_calibration_receipt outputs/exp016_threshold_calibration/receipt.json
 ```
 
-Exp017 is single-shot and refuses a dirty worktree or non-empty output directory. This second
-preflight uses the predeclared sequential donor seeds 2600–2603, not a post-hoc successful
-seed. A completed run spends eleven frozen-prior samples; donor failure stops after eight and
-makes no capability claim. The two required prompt embeddings are already in
-`outputs/text_cache.npz`.
+Exp017 is single-shot and refuses a dirty worktree or non-empty output directory. This replay
+uses the same donor seeds 2600–2603, evaluation seed 2800, fixed scene, calibration, and gates
+as the failed second preflight; only failure evidence logging changed. A completed run spends
+eleven frozen-prior samples, while a repeated nominal failure stops after nine and makes no
+capability claim. The two required prompt embeddings are already in `outputs/text_cache.npz`.
 
 ## Legacy baseline experiments
 

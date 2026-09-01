@@ -34,9 +34,12 @@ representation only.
 * **Donor bundle:** exp017's archived bank, regenerated deterministically and required to
   reproduce the archived clip hashes, selected seed (2603), swing side (left), center
   frame, and packet payload content hash — same gates as exp018. 2D = 8 samples.
-* **Nominal pool:** K = 16 fresh seeds 3900–3915, disjoint from all prior campaigns, each
-  at the three calibrated speeds (six batches of eight) on that stratum's own constant
-  route (4.776 / 7.200 / 9.552 m). 3K = 48 samples.
+* **Nominal pool (v2):** K = 32 fresh seeds 4000–4031, disjoint from all prior campaigns,
+  each at the three calibrated speeds (twelve batches of eight) on that stratum's own
+  constant route (4.776 / 7.200 / 9.552 m). 3K = 96 samples. K is sized to the
+  constructibility rate the v1 attempts measured (5/16 seeds ≈ 0.31; see
+  `docs/ramp-exp019-constructibility-2026-09-01.md`), so the expected yield is ≈ 10
+  against the requirement below. The v1 seeds 3900–3915 are closed.
 * **Outcome-free placement selection.** For each pool clip, enumerate complete left-swing
   cycles under the frozen v3 Pmin (0.042 m) and the ±2-frame packet window. The obstacle
   is placed at `x = route_progress(apex) + foot_offset`, where
@@ -65,18 +68,18 @@ representation only.
   clip and the frozen packet, and no arm sample exists when it runs.
 
   No generated arm response, collision result, or traversal outcome may enter selection.
-  **N = 10** evaluation seeds are the first ten eligible in predeclared seed order; fewer
-  than ten ⇒ fail-closed pool-exhaustion stop (replay of the archived first-attempt pool
-  gives 12/16 placeable and 11/16 also cycle-matched, before the render gate).
+  **N = 8** evaluation seeds are the first eight eligible in predeclared seed order; fewer
+  than eight ⇒ fail-closed pool-exhaustion stop. The requirement is unchanged in kind from
+  v1's; only the pool is resized to the measured rate.
 * **Arms.** For each selected seed, exactly one `absolute` and one `residual` arm (STEP
   prompt both, strength 1, duration scale 1, shift 0, identical support hashes and channel
   usage, no joint-position channel, free body heading) on the nominal's own route.
-  2N = 20 samples. A third **`nominal`** reference arm costs nothing: the pool clip itself
+  2N = 16 samples. A third **`nominal`** reference arm costs nothing: the pool clip itself
   is scored against the same obstacle, answering whether either packet adds clearance over
   the gait that was already there.
 
-Completed budget: `2D + 3K + 2N = 8 + 48 + 20 = 76` frozen-prior samples, exact accounting;
-every planned arm stays in its denominator.
+Completed budget: `2D + 3K + 2N = 8 + 96 + 16 = 120` frozen-prior samples, exact
+accounting; every planned arm stays in its denominator.
 
 ## Endpoints and analysis
 

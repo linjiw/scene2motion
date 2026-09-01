@@ -61,14 +61,22 @@ def _scene(speed_label="reference", *, foot_offset=0.15):
 
 def test_pool_plan_and_seeds_are_fresh_and_budget_is_exact():
     batches = pilot.pool_batch_plan()
-    assert len(batches) == 6 and all(len(b["seeds"]) == 8 for b in batches)
+    assert len(batches) == 3 * len(pilot.POOL_SEEDS) // 8
+    assert all(len(b["seeds"]) == 8 for b in batches)
+    seeds = sorted(seed for batch in batches for seed in batch["seeds"])
+    assert seeds == sorted(list(pilot.POOL_SEEDS) * 3)
+    assert [b["speed_label"] for b in batches[:3]] == ["slow", "reference", "fast"]
     prior = set(range(3200, 3216)) | set(range(3300, 3308)) | \
         set(range(3400, 3416)) | set(range(3500, 3508)) | \
         set(range(3600, 3616)) | set(range(3700, 3708)) | \
-        set(range(3800, 3816)) | set(range(2800, 2808)) | set(pilot.DONOR_SEEDS)
+        set(range(3800, 3816)) | set(range(3900, 3916)) | \
+        set(range(2800, 2808)) | set(pilot.DONOR_SEEDS)
     assert set(pilot.POOL_SEEDS).isdisjoint(prior)
+    # v2 pool sized to the measured 5/16 constructibility rate: K=32 -> ~10 expected
+    # against the unchanged N=8 requirement.
+    assert len(pilot.POOL_SEEDS) == 32 and pilot.N_SELECT == 8
     assert 2 * len(pilot.DONOR_SEEDS) + 3 * len(pilot.POOL_SEEDS) \
-        + 2 * pilot.N_SELECT == 76
+        + 2 * pilot.N_SELECT == 120
 
 
 def test_placement_is_route_anchored_so_exp017_shift_is_exactly_zero():

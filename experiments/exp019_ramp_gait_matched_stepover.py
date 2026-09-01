@@ -37,8 +37,8 @@ from scene2motion.runner import ArdyRunner  # noqa: E402
 from scene2motion.stepover_eval import BoxHeightProbe, foot_kinematics_series  # noqa: E402
 
 
-SCHEMA_VERSION = "exp019-gait-matched-stepover-v1"
-FAILURE_SCHEMA_VERSION = "exp019-gait-matched-stepover-failure-v1"
+SCHEMA_VERSION = "exp019-gait-matched-stepover-v2"
+FAILURE_SCHEMA_VERSION = "exp019-gait-matched-stepover-failure-v2"
 
 WALK = e17.WALK
 STEP = e17.STEP
@@ -47,9 +47,12 @@ FPS = cal.FPS
 N_FRAMES = cal.N_FRAMES
 
 DONOR_SEEDS = e18.DONOR_SEEDS
-POOL_SEEDS = tuple(range(3900, 3916))
+# v2 pool, sized to the constructibility rate the v1 attempts measured (5/16 seeds; see
+# docs/ramp-exp019-constructibility-2026-09-01.md).  K=32 fresh seeds yields ~10 expected
+# constructible seeds against the unchanged N=8 requirement; the v1 seeds are closed.
+POOL_SEEDS = tuple(range(4000, 4032))
 POOL_BATCH_SIZE = 8
-N_SELECT = 10
+N_SELECT = 8
 EXPECTED_SWING_SIDE = e18.EXPECTED_SWING_SIDE
 STRATUM_ORDER = cal.STRATUM_SELECTION_ORDER
 
@@ -93,10 +96,13 @@ def _source_hashes(repo: Path) -> dict[str, str]:
 
 
 def pool_batch_plan() -> tuple[dict[str, Any], ...]:
-    """Six batch invocations of eight: two seed blocks x three calibrated speeds."""
-    blocks = (POOL_SEEDS[:POOL_BATCH_SIZE], POOL_SEEDS[POOL_BATCH_SIZE:])
+    """One batch invocation per (seed block, calibrated speed), eight samples each."""
+    blocks = tuple(
+        POOL_SEEDS[start:start + POOL_BATCH_SIZE]
+        for start in range(0, len(POOL_SEEDS), POOL_BATCH_SIZE)
+    )
     if any(len(block) != POOL_BATCH_SIZE for block in blocks):
-        raise RuntimeError("locked pool no longer splits into two blocks of eight")
+        raise RuntimeError("locked pool no longer splits into blocks of eight")
     batches: list[dict[str, Any]] = []
     for block_index, block in enumerate(blocks):
         for speed_label, speed in cal.SPEEDS:
@@ -368,7 +374,7 @@ def run_pilot(
                 "phase-evidence receipt digest",
             ],
             "pool_batches": [dict(batch) for batch in pool_batch_plan()],
-            "budget_equation": "2D + 3K + 2N = 8 + 48 + 20 = 76",
+            "budget_equation": "2D + 3K + 2N",
         },
         "query_accounting": counters,
         "sample_count_exact": True,

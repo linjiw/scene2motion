@@ -14,6 +14,25 @@ from scene2motion.stepover_eval import StepOverThresholds
 NAMES = ["pelvis", "hip", "knee"]
 PARENTS = np.array([-1, 0, 1], dtype=int)
 
+# The released ARDY-G1 motion_rep.slice_dict namespace, which is what channel_usage
+# reports.  Pinned here so the exp017 channel guard is exercised against the real names
+# rather than the ConstraintSpec builder's internal keys; mixing the two namespaces made
+# the guard dead code until exp018 first rendered programs on a live model.
+ARDY_SLICE_DICT_CHANNELS = frozenset({
+    "root_pos", "global_root_heading", "local_joints_positions",
+    "global_rot_data", "velocities", "foot_contacts",
+})
+ARDY_SLICE_DICT_USAGE = {"root_pos": 600, "global_rot_data": 24}
+
+
+def test_allowed_channels_live_in_the_model_slice_dict_namespace():
+    assert exp017.ALLOWED_NONZERO_CHANNELS <= ARDY_SLICE_DICT_CHANNELS
+    # Joint positions and body heading must stay free; velocities/contacts are never ours.
+    assert exp017.ALLOWED_NONZERO_CHANNELS.isdisjoint({
+        "local_joints_positions", "global_root_heading", "velocities", "foot_contacts",
+    })
+    assert set(ARDY_SLICE_DICT_USAGE) == exp017.ALLOWED_NONZERO_CHANNELS
+
 
 class FakeTensor:
     def __init__(self, value):
@@ -243,11 +262,8 @@ def _patch_cpu_dependencies(
         return {"left": values, "right": values}
 
     monkeypatch.setattr(exp017, "foot_kinematics_series", feet)
-    monkeypatch.setattr(exp017, "_actual_channel_usage", lambda _runner, _spec: {
-        "root_2d": 62,
-        "root_y_pos": 62,
-        "global_joints_rots": 15,
-    })
+    monkeypatch.setattr(exp017, "_actual_channel_usage",
+                        lambda _runner, _spec: dict(ARDY_SLICE_DICT_USAGE))
     monkeypatch.setattr(exp017, "BoxHeightProbe", lambda x, depth: SimpleNamespace(
         x=x, depth=depth))
 

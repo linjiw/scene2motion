@@ -67,8 +67,14 @@ ARMS = ("absolute", "residual")
 EVENT_SELECTOR = "qpos-step-cycle-adapted-lift-neutral-progress-v1"
 NOMINAL_SELECTOR = "first-n-eligible-in-predeclared-seed-order-v1"
 DEFAULT_OBSTACLE_X = (2.4, 3.6, 4.8)
+# Names in the model's motion_rep.slice_dict, which is what channel_usage reports.  These
+# are NOT the ConstraintSpec builder's internal keys (root_2d / root_y_pos /
+# global_joints_rots): mixing the two namespaces made this guard dead code until exp018
+# first reached program rendering on a real model.  Intent is unchanged - dense root
+# position (XZ path plus packet height) and global joint rotations are constrained, while
+# local_joints_positions, global_root_heading, velocities, and foot_contacts stay free.
 ALLOWED_NONZERO_CHANNELS = {
-    "root_2d", "root_y_pos", "global_joints_rots",
+    "root_pos", "global_rot_data",
 }
 
 

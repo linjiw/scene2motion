@@ -8,6 +8,7 @@ __pycache__/
 # sitting beside margin-0.12 metadata).
 *.log
 outputs/*.log
+outputs/**/motions.pkl
 outputs/.duck_dataset_v3_*.building/
 
 # Resumable, machine-local physics campaign state.  Durable ledgers and diagnoses belong in

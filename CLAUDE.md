@@ -37,11 +37,15 @@ fixed centre `x=1.2 m`, exact `BoxHeightProbe.clears` gives only 12/64 and 11/64
 chosen clip's lift. Preserve these as addressable-window/capability analyses; prospective fresh
 seeds and exact obstacle-centred scoring are required before calling staging a method result.
 
-**The two holes.** No prompt-elicited v2 step-over has ever been replayed through SONIC, and no
-WALK→STEP history handoff has tested whether prompt onset resets the early-event clock. EXP-022A
-tracks all 64 archived exp021 clips as a post-hoc bridge; EXP-023 tests delayed prompting on fresh
-paired seeds. Do not run `experiments/exp016_semantic_geometric_stepover.py` unchanged: it is an
-older donor/scaffold factorial and lacks the current fail-closed/resume safeguards.
+**Tracking result and remaining hole.** EXP-022A replayed all 64 archived exp021 clips through
+SONIC. All 12/11 references that clear the staged 5/8 cm box were lost: guarded achieved-state
+retention is 0 at every height, 53/64 rollouts terminated, and even dropping the non-termination
+guard recovers no trajectory that both passes and clears. Raw achieved `exact_clears` is vacuous
+for nonarrivals and must never be quoted as execution clearance. See
+`docs/ramp-exp022-exact-tracking-result-2026-09-01.md`. The remaining decisive hole is WALK→STEP
+history handoff: EXP-023 tests whether prompt onset resets the early-event clock on fresh paired
+seeds. Do not run `experiments/exp016_semantic_geometric_stepover.py` unchanged: it is an older
+donor/scaffold factorial and lacks the current fail-closed/resume safeguards.
 
 **Dead lines — do not propose again as the next native-interface experiment:** coherent packets /
 RepairNet / local response optimizer / re-anchoring through the unread rotation packet; route

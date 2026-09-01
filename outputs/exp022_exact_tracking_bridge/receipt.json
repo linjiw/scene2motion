@@ -1,0 +1,2817 @@
+{
+  "actual_ardy_samples": 0,
+  "blocked": false,
+  "campaign_identity_sha256": "ed4a3b83522be1972c0831e180103299ae33db26ef4380ce737185651ac39248",
+  "claim_scope": "post-hoc achieved-state bridge over the complete archived EXP-021 pool",
+  "complete": true,
+  "design": {
+    "all_archived_references_tracked": true,
+    "endpoint": "exact fixed-centre BoxHeightProbe, never +/- radius; achieved retention requires non-termination, in-corridor passage, and finishing beyond the box",
+    "graded_heights_m": [
+      0.03,
+      0.05,
+      0.08,
+      0.12,
+      0.2,
+      0.3
+    ],
+    "launch_plan": [
+      {
+        "chunk": 0,
+        "motion_keys": [
+          "s4400",
+          "s4401",
+          "s4402",
+          "s4403",
+          "s4404",
+          "s4405",
+          "s4406",
+          "s4407",
+          "s4408",
+          "s4409",
+          "s4410",
+          "s4411",
+          "s4412",
+          "s4413",
+          "s4414",
+          "s4415",
+          "s4416",
+          "s4417",
+          "s4418",
+          "s4419",
+          "s4420",
+          "s4421",
+          "s4422",
+          "s4423",
+          "s4424",
+          "s4425",
+          "s4426",
+          "s4427",
+          "s4428",
+          "s4429",
+          "s4430",
+          "s4431"
+        ],
+        "n_motions": 32,
+        "name": "chunk00_seed0",
+        "physics_seed": 0,
+        "seeds": [
+          4400,
+          4401,
+          4402,
+          4403,
+          4404,
+          4405,
+          4406,
+          4407,
+          4408,
+          4409,
+          4410,
+          4411,
+          4412,
+          4413,
+          4414,
+          4415,
+          4416,
+          4417,
+          4418,
+          4419,
+          4420,
+          4421,
+          4422,
+          4423,
+          4424,
+          4425,
+          4426,
+          4427,
+          4428,
+          4429,
+          4430,
+          4431
+        ]
+      },
+      {
+        "chunk": 1,
+        "motion_keys": [
+          "s4432",
+          "s4433",
+          "s4434",
+          "s4435",
+          "s4436",
+          "s4437",
+          "s4438",
+          "s4439",
+          "s4440",
+          "s4441",
+          "s4442",
+          "s4443",
+          "s4444",
+          "s4445",
+          "s4446",
+          "s4447",
+          "s4448",
+          "s4449",
+          "s4450",
+          "s4451",
+          "s4452",
+          "s4453",
+          "s4454",
+          "s4455",
+          "s4456",
+          "s4457",
+          "s4458",
+          "s4459",
+          "s4460",
+          "s4461",
+          "s4462",
+          "s4463"
+        ],
+        "n_motions": 32,
+        "name": "chunk01_seed0",
+        "physics_seed": 0,
+        "seeds": [
+          4432,
+          4433,
+          4434,
+          4435,
+          4436,
+          4437,
+          4438,
+          4439,
+          4440,
+          4441,
+          4442,
+          4443,
+          4444,
+          4445,
+          4446,
+          4447,
+          4448,
+          4449,
+          4450,
+          4451,
+          4452,
+          4453,
+          4454,
+          4455,
+          4456,
+          4457,
+          4458,
+          4459,
+          4460,
+          4461,
+          4462,
+          4463
+        ]
+      }
+    ],
+    "obstacle_depth_m": 0.2,
+    "obstacle_half_width_m": 1.4,
+    "obstacles": [
+      {
+        "label": "staged",
+        "x_m": 1.2
+      },
+      {
+        "label": "unstaged",
+        "x_m": 3.6
+      }
+    ],
+    "physics_seed": 0
+  },
+  "evidence_anchors": {
+    "achieved_rows": {
+      "file_sha256": "70cef0916289b37c23795988402d14369838c3ad2418727c7fe82e76319e5c02",
+      "logical_sha256": "4e9d8c1391cb79f0ed746733eee164db55e65da25ce97a2a56b5a068f3329c25",
+      "n_rows": 128
+    },
+    "reference_rows": {
+      "file_sha256": "0808b3728881a5ed87e85dcc8ddf6cb0e75e946afaf62b436692f20944d43f78",
+      "logical_sha256": "588392c53188a9d5aae85018b84a1a25dcc223da813e4e7e8c74e02a57eec7c5",
+      "n_rows": 128
+    },
+    "summary": {
+      "file_sha256": "0c2e23666d9b707764e8a218211c038ddeadf208ce5b114f31e28c7a23aa6ed6",
+      "logical_sha256": "5644cb42a989c8d062e913426f464479e092f2f4a108e3a29e8adeac7d2a9681"
+    }
+  },
+  "experiment": "exp022_exact_tracking_bridge",
+  "launches": {
+    "chunk00_seed0": {
+      "archive_aggregate": {
+        "progress_rate": 0.22785804051090963,
+        "success_rate": 0.15625
+      },
+      "archive_schema_version": 2,
+      "artifacts": {
+        "archive_sha256": {
+          "achieved_qpos.npz": "5c23897ecc8b02aeafc89895aaf88956955c14f2c5f9efe5fe0717a89117f6a6"
+        },
+        "log_sha256": "b63bd4755e773ef63c952aaa170f2a79b2a7cd65b0048fa3a755463016010ac3",
+        "metrics_sha256": "5cd8e35a94b5fa583422a88a24d48e4e843c52fdb500e46d17c0c3c90698914c"
+      },
+      "attempt": "/home/linjiw/scene2motion/outputs/exp022_exact_tracking_bridge/launches/chunk00_seed0/attempt-000",
+      "attempt_receipt_sha256": "dc5109b39e833c582dce700ec7e31501846b558c0e0f5f2ecc2ed635dd2bfcb4",
+      "chunk": "chunk00_seed0",
+      "elapsed_s": 38.65638812999532,
+      "metrics_key_set": [
+        "eval/all/accel_dist",
+        "eval/all/accel_dist_foot",
+        "eval/all/accel_dist_legs",
+        "eval/all/accel_dist_other_upper_bodies",
+        "eval/all/accel_dist_vr_3points",
+        "eval/all/mpjpe_g",
+        "eval/all/mpjpe_g_foot",
+        "eval/all/mpjpe_g_legs",
+        "eval/all/mpjpe_g_other_upper_bodies",
+        "eval/all/mpjpe_g_vr_3points",
+        "eval/all/mpjpe_l",
+        "eval/all/mpjpe_l_foot",
+        "eval/all/mpjpe_l_legs",
+        "eval/all/mpjpe_l_other_upper_bodies",
+        "eval/all/mpjpe_l_vr_3points",
+        "eval/all/mpjpe_pa",
+        "eval/all/mpjpe_pa_foot",
+        "eval/all/mpjpe_pa_legs",
+        "eval/all/mpjpe_pa_other_upper_bodies",
+        "eval/all/mpjpe_pa_vr_3points",
+        "eval/all/vel_dist",
+        "eval/all/vel_dist_foot",
+        "eval/all/vel_dist_legs",
+        "eval/all/vel_dist_other_upper_bodies",
+        "eval/all/vel_dist_vr_3points",
+        "eval/all_metrics_dict",
+        "eval/failed_metrics_dict",
+        "eval/success/accel_dist",
+        "eval/success/accel_dist_foot",
+        "eval/success/accel_dist_legs",
+        "eval/success/accel_dist_other_upper_bodies",
+        "eval/success/accel_dist_vr_3points",
+        "eval/success/mpjpe_g",
+        "eval/success/mpjpe_g_foot",
+        "eval/success/mpjpe_g_legs",
+        "eval/success/mpjpe_g_other_upper_bodies",
+        "eval/success/mpjpe_g_vr_3points",
+        "eval/success/mpjpe_l",
+        "eval/success/mpjpe_l_foot",
+        "eval/success/mpjpe_l_legs",
+        "eval/success/mpjpe_l_other_upper_bodies",
+        "eval/success/mpjpe_l_vr_3points",
+        "eval/success/mpjpe_pa",
+        "eval/success/mpjpe_pa_foot",
+        "eval/success/mpjpe_pa_legs",
+        "eval/success/mpjpe_pa_other_upper_bodies",
+        "eval/success/mpjpe_pa_vr_3points",
+        "eval/success/progress_rate",
+        "eval/success/success_rate",
+        "eval/success/vel_dist",
+        "eval/success/vel_dist_foot",
+        "eval/success/vel_dist_legs",
+        "eval/success/vel_dist_other_upper_bodies",
+        "eval/success/vel_dist_vr_3points",
+        "failed_idxes",
+        "failed_keys",
+        "log_keys"
+      ],
+      "motion_id_key_map_sha256": "bc10fde478816b74a2a1004132ad8166e9f69ba09c93774c328fc0d02a063275",
+      "motion_keys": [
+        "s4400",
+        "s4401",
+        "s4402",
+        "s4403",
+        "s4404",
+        "s4405",
+        "s4406",
+        "s4407",
+        "s4408",
+        "s4409",
+        "s4410",
+        "s4411",
+        "s4412",
+        "s4413",
+        "s4414",
+        "s4415",
+        "s4416",
+        "s4417",
+        "s4418",
+        "s4419",
+        "s4420",
+        "s4421",
+        "s4422",
+        "s4423",
+        "s4424",
+        "s4425",
+        "s4426",
+        "s4427",
+        "s4428",
+        "s4429",
+        "s4430",
+        "s4431"
+      ],
+      "motion_pkl_sha256": "d81707e8c2ec2dda92f42773c811070a22727558d4acac124b0cba432291489b",
+      "n_rollouts": 32,
+      "physics_seed": 0,
+      "process_result": {
+        "chunk": "chunk00_seed0",
+        "file_sha256": "b0979cfff61a24cd75bc69eeeee8b8191ccf6d1724c772925ef3af02f3ae2da1",
+        "motion_keys": [
+          "s4400",
+          "s4401",
+          "s4402",
+          "s4403",
+          "s4404",
+          "s4405",
+          "s4406",
+          "s4407",
+          "s4408",
+          "s4409",
+          "s4410",
+          "s4411",
+          "s4412",
+          "s4413",
+          "s4414",
+          "s4415",
+          "s4416",
+          "s4417",
+          "s4418",
+          "s4419",
+          "s4420",
+          "s4421",
+          "s4422",
+          "s4423",
+          "s4424",
+          "s4425",
+          "s4426",
+          "s4427",
+          "s4428",
+          "s4429",
+          "s4430",
+          "s4431"
+        ],
+        "motion_pkl_sha256": "d81707e8c2ec2dda92f42773c811070a22727558d4acac124b0cba432291489b",
+        "physics_seed": 0,
+        "returncode": 0,
+        "returncode_observed": true,
+        "schema": "exp022a-sonic-process-result-v1",
+        "sonic_log_sha256": "b63bd4755e773ef63c952aaa170f2a79b2a7cd65b0048fa3a755463016010ac3"
+      },
+      "recovered_or_resumed": false,
+      "returncode": 0,
+      "returncode_observed": true,
+      "sample_dt_s": 0.02,
+      "sonic_log": {
+        "progress_rate": 0.2278580405,
+        "success_rate": 0.15625
+      },
+      "status": "complete"
+    },
+    "chunk01_seed0": {
+      "archive_aggregate": {
+        "progress_rate": 0.2848618101561442,
+        "success_rate": 0.1875
+      },
+      "archive_schema_version": 2,
+      "artifacts": {
+        "archive_sha256": {
+          "achieved_qpos.npz": "73ac1b5277c5c5badda8e31e014ae0301d020053f00c9957ea9627825de5d323"
+        },
+        "log_sha256": "03512f56fc3d0bac7a220f578681d885c3d6d6b9cb30ddb8496164be2ee90412",
+        "metrics_sha256": "c92ced8e196cd18a2ad9ee05a02689e28d3898d34455d2c3baf4b96d981f6d09"
+      },
+      "attempt": "/home/linjiw/scene2motion/outputs/exp022_exact_tracking_bridge/launches/chunk01_seed0/attempt-000",
+      "attempt_receipt_sha256": "601ed2e6088fe010e0b077cf39136f7705b439d50799c00d09f5d8e7e6bae4c8",
+      "chunk": "chunk01_seed0",
+      "elapsed_s": 38.57327889199951,
+      "metrics_key_set": [
+        "eval/all/accel_dist",
+        "eval/all/accel_dist_foot",
+        "eval/all/accel_dist_legs",
+        "eval/all/accel_dist_other_upper_bodies",
+        "eval/all/accel_dist_vr_3points",
+        "eval/all/mpjpe_g",
+        "eval/all/mpjpe_g_foot",
+        "eval/all/mpjpe_g_legs",
+        "eval/all/mpjpe_g_other_upper_bodies",
+        "eval/all/mpjpe_g_vr_3points",
+        "eval/all/mpjpe_l",
+        "eval/all/mpjpe_l_foot",
+        "eval/all/mpjpe_l_legs",
+        "eval/all/mpjpe_l_other_upper_bodies",
+        "eval/all/mpjpe_l_vr_3points",
+        "eval/all/mpjpe_pa",
+        "eval/all/mpjpe_pa_foot",
+        "eval/all/mpjpe_pa_legs",
+        "eval/all/mpjpe_pa_other_upper_bodies",
+        "eval/all/mpjpe_pa_vr_3points",
+        "eval/all/vel_dist",
+        "eval/all/vel_dist_foot",
+        "eval/all/vel_dist_legs",
+        "eval/all/vel_dist_other_upper_bodies",
+        "eval/all/vel_dist_vr_3points",
+        "eval/all_metrics_dict",
+        "eval/failed_metrics_dict",
+        "eval/success/accel_dist",
+        "eval/success/accel_dist_foot",
+        "eval/success/accel_dist_legs",
+        "eval/success/accel_dist_other_upper_bodies",
+        "eval/success/accel_dist_vr_3points",
+        "eval/success/mpjpe_g",
+        "eval/success/mpjpe_g_foot",
+        "eval/success/mpjpe_g_legs",
+        "eval/success/mpjpe_g_other_upper_bodies",
+        "eval/success/mpjpe_g_vr_3points",
+        "eval/success/mpjpe_l",
+        "eval/success/mpjpe_l_foot",
+        "eval/success/mpjpe_l_legs",
+        "eval/success/mpjpe_l_other_upper_bodies",
+        "eval/success/mpjpe_l_vr_3points",
+        "eval/success/mpjpe_pa",
+        "eval/success/mpjpe_pa_foot",
+        "eval/success/mpjpe_pa_legs",
+        "eval/success/mpjpe_pa_other_upper_bodies",
+        "eval/success/mpjpe_pa_vr_3points",
+        "eval/success/progress_rate",
+        "eval/success/success_rate",
+        "eval/success/vel_dist",
+        "eval/success/vel_dist_foot",
+        "eval/success/vel_dist_legs",
+        "eval/success/vel_dist_other_upper_bodies",
+        "eval/success/vel_dist_vr_3points",
+        "failed_idxes",
+        "failed_keys",
+        "log_keys"
+      ],
+      "motion_id_key_map_sha256": "576d49b5ebe7106a9ce6533c2230652ccbbf83ffc8cd969629c73a8943593839",
+      "motion_keys": [
+        "s4432",
+        "s4433",
+        "s4434",
+        "s4435",
+        "s4436",
+        "s4437",
+        "s4438",
+        "s4439",
+        "s4440",
+        "s4441",
+        "s4442",
+        "s4443",
+        "s4444",
+        "s4445",
+        "s4446",
+        "s4447",
+        "s4448",
+        "s4449",
+        "s4450",
+        "s4451",
+        "s4452",
+        "s4453",
+        "s4454",
+        "s4455",
+        "s4456",
+        "s4457",
+        "s4458",
+        "s4459",
+        "s4460",
+        "s4461",
+        "s4462",
+        "s4463"
+      ],
+      "motion_pkl_sha256": "7ed177e2559539cfeacd8eaaed59c09bb2cf8f52b704e2ab373e8ff771b552d6",
+      "n_rollouts": 32,
+      "physics_seed": 0,
+      "process_result": {
+        "chunk": "chunk01_seed0",
+        "file_sha256": "6abd6565aebda66ae3992cb3beed78db8dc3f05daeeeccc7fe7bc9c4f3e5be60",
+        "motion_keys": [
+          "s4432",
+          "s4433",
+          "s4434",
+          "s4435",
+          "s4436",
+          "s4437",
+          "s4438",
+          "s4439",
+          "s4440",
+          "s4441",
+          "s4442",
+          "s4443",
+          "s4444",
+          "s4445",
+          "s4446",
+          "s4447",
+          "s4448",
+          "s4449",
+          "s4450",
+          "s4451",
+          "s4452",
+          "s4453",
+          "s4454",
+          "s4455",
+          "s4456",
+          "s4457",
+          "s4458",
+          "s4459",
+          "s4460",
+          "s4461",
+          "s4462",
+          "s4463"
+        ],
+        "motion_pkl_sha256": "7ed177e2559539cfeacd8eaaed59c09bb2cf8f52b704e2ab373e8ff771b552d6",
+        "physics_seed": 0,
+        "returncode": 0,
+        "returncode_observed": true,
+        "schema": "exp022a-sonic-process-result-v1",
+        "sonic_log_sha256": "03512f56fc3d0bac7a220f578681d885c3d6d6b9cb30ddb8496164be2ee90412"
+      },
+      "recovered_or_resumed": false,
+      "returncode": 0,
+      "returncode_observed": true,
+      "sample_dt_s": 0.02,
+      "sonic_log": {
+        "progress_rate": 0.2848618102,
+        "success_rate": 0.1875
+      },
+      "status": "complete"
+    }
+  },
+  "not_contact_rich_execution": true,
+  "not_fresh_seed_evidence": true,
+  "post_launch_revalidation": {
+    "chunk00_seed0": {
+      "project": {
+        "allowed_output_status": [
+          "?? outputs/exp022_exact_tracking_bridge/"
+        ],
+        "commit_unchanged": true,
+        "tracked_diff_unchanged": true,
+        "unexpected_status": []
+      },
+      "source_exp021_unchanged": true,
+      "tracker_identity_unchanged": true
+    },
+    "chunk01_seed0": {
+      "project": {
+        "allowed_output_status": [
+          "?? outputs/exp022_exact_tracking_bridge/"
+        ],
+        "commit_unchanged": true,
+        "tracked_diff_unchanged": true,
+        "unexpected_status": []
+      },
+      "source_exp021_unchanged": true,
+      "tracker_identity_unchanged": true
+    }
+  },
+  "provenance": {
+    "project": {
+      "git": {
+        "commit": "291f2ecbf90307c6c80d2a89b2d82d7c134e63e2",
+        "dirty": false,
+        "status": [],
+        "tracked_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "physical_model": {
+        "body_margin_m": 0.04,
+        "path": "/home/linjiw/ardy/ardy/assets/skeletons/g1skel34/xml/g1.xml",
+        "sha256": "5d76cf92f00dd49d6eb9fae38d7d38e46886848b602ac691051e886c3bcccfb1"
+      },
+      "runtime": {
+        "fields": {
+          "ardy_git_commit": "693f74d13b3d04a0a22ce127ee79c929dd89756b",
+          "ardy_package_root": "/home/linjiw/ardy/ardy",
+          "ardy_python_source_count": 54,
+          "ardy_python_source_manifest_sha256": "f79d8b330d37c3fa94615aedb264f20bb780421fb5d260dec119ab23357ac5b2",
+          "ardy_python_source_sha256": {
+            "__init__.py": "1c84133148843972777013a5d33c83a957936c11219301a34e10bd6273c46bbb",
+            "assets.py": "df261ed2d6021c389ea6578c2f377ac7984806b7fa5f5fcf43be9df1d22bee39",
+            "constraints.py": "57d0b1418cfe689b9c69c41120d9ef2d6a65a59f3bf8ffc21d7fec06380ed7ef",
+            "data_processing/__init__.py": "39b67a3543de12fbe919327958818a53222b223688ef8ece33a12bc1e46d1f14",
+            "data_processing/bvh.py": "7504e4811bd9526edfcff5e23e9ab6835ea8ae1051951e83945878f9ecad54e4",
+            "data_processing/skeleton.py": "e39ba723fa77efb3e1d95197432a53f840c5866d6160d3f5563ea045cfce5447",
+            "exports/__init__.py": "018bcb15b4efed6e6c7a6471c3c70d7fb257ec2071b3875af732598b4e63c747",
+            "exports/mujoco.py": "3d3d16b80c24e6a68f329504edd72b400f2df998ca7bdfddbf548674a9e79fa5",
+            "geometry.py": "4d5a5d8c71e3cd9f3f10fc837698652a78fad621cdd25b1d4b0e8515153f20d9",
+            "model/__init__.py": "984d21defa5001d276aba8c0bffff649a9ec117f5cdd9ca2d199718d2a5b0684",
+            "model/ardy_model.py": "3fc21ad6a53a41ad4f968f18e2d7f27d8212bf123544503cf21151bfd783b338",
+            "model/auto_latent_twostage_denoiser.py": "7a5b49c90f46c9507f2175b9180de5bdd9c114743abbbe2771efc21066f25b00",
+            "model/autoencoder/__init__.py": "83379d29bca875b122df43be9f30d0210a8ade9a32c0f8b830ca2d19737376cc",
+            "model/autoencoder/fsq.py": "f46306ba9610d57cfaf1d134ef96e9b17a48acf5b61d5d2342077aa06b6828f6",
+            "model/autoencoder/transformer.py": "245a9041f67a26c38d307d55568427773a0e3da477cd0b827b0dae0b42e00407",
+            "model/backbone.py": "16b55c5330a9cd46d6aff496222a479ee251a52bff401a7b568f29255bba3346",
+            "model/cfg.py": "d47c213f63d159d38b8df07a39a19c2bf8944474984a0086eda73916be2a8964",
+            "model/diffusion.py": "783122d3d2782043e956f106ac420d601fcfb653ae4d60e0937f9b41b9887d70",
+            "model/latent_utils.py": "bbf6bf81bfbc96d6fcc225e99c2675bf5769a8d32a2840e6d9e4b6e444688bac",
+            "model/llm2vec/__init__.py": "217714cb3a5cf5b3733feaec6e87d83a4191cd65eda6abecc2da827c5ce066ad",
+            "model/llm2vec/llm2vec.py": "e3f78a9e931b2b4fea29b625b9570d1c45f71941c4104706b46ba0edc5b63436",
+            "model/llm2vec/llm2vec_wrapper.py": "2d80c51d6d44048ec83d457bdf138b783bbe4342b52204b606790f41a367460e",
+            "model/llm2vec/models/__init__.py": "c47228e98e752ddaf3ad5b71967820fc276723a5518f2df0c06b45914f0d1961",
+            "model/llm2vec/models/attn_mask_utils.py": "ebac1133236a4d9cd56747d23c9c0355b3b9d0652910f6b60b01d773721aee98",
+            "model/llm2vec/models/bidirectional_llama.py": "5d446109170e3aed437c5039661e6c23b3455ea5b3df866ece5b84bbd6fcfdca",
+            "model/llm2vec/models/utils.py": "2a361b55e067ae450152920dcb5b5f9e4694ac91ac1a0aa325799bcb5ee37153",
+            "model/load_model.py": "3249c864d11f977056c191408a5b6e0670ac2ba4cfbff0acaac76b60e3e68554",
+            "model/loading.py": "1857e14ed49423ca9f310ec6b428d25f10af7dbbd4897696fabc0923f6d177bc",
+            "model/registry.py": "1a6a6552a7b47e881b94a99659092d966152cf8024736b26d316040621e03968",
+            "model/text_encoder_api.py": "2d9e4652ef85bd49a86abcad7c1c29cae871fd6d5730c286e145f49a94ff3f91",
+            "model/trt.py": "44021ff563d758d123ba90bf3965ce26c68d85ca057ce477ea9ce899d97ba15f",
+            "motion_rep/__init__.py": "917ca1876a39df876484e2402c0dabe81ad79dc147e4f1b5be4e9cd865fbf933",
+            "motion_rep/conditioning.py": "cab545e3325065f4fe5a48a6b2dab807e37ebd22f6fc69e08930f98d542f1944",
+            "motion_rep/feet.py": "a89a5b57cb7e505dd2ed35e2dbef9a326bd8831d922be8087f5ce6c2fc92fdb6",
+            "motion_rep/reps/__init__.py": "2ec6e639d6690b5c41ef62f05dfd51f07a840f0a051026383cb0e321bba00bb8",
+            "motion_rep/reps/ardy_motionrep.py": "83231aac1b2e77b34e3dcd3d71f97b92f5b73537d1d2ca8915b53128aa3b5980",
+            "motion_rep/reps/base.py": "4c27eab1964402a2dba6d960a2fe0eab92ab9520d754e8b6c3ec045cdd1b52ab",
+            "motion_rep/smooth_root.py": "5776896446788655365f083b78ce715ab8853912b52e46374c4952e3751db711",
+            "motion_rep/stats.py": "61e64fc70d54cc48e0ebe9cc80bbb932424f9ea8137e133a8495ea14b9b3340e",
+            "motion_rep/tools.py": "58c7724e36853731b0767ef52f5349f3dd641a25fe23f72bbde93beb28351ff6",
+            "postprocess.py": "646a495330548dbaca4911bf02fef33bec8b09e90da939161fc4258a7db843d4",
+            "skeleton/__init__.py": "953be64bba3df61b6aee0e25032e5f0b5c969170dfefa68b7fccb6bc223361fb",
+            "skeleton/base.py": "cff3089f3ac38a8f1f8cbf88d6d087a08bba3b289ac42762ae03a44ecd109e4e",
+            "skeleton/bvh.py": "2aeea04251713ab2757fdf1bcd978189707ba7f60c78ddb833c7000e36984bd8",
+            "skeleton/definitions.py": "790ecd42819c3bc35e61631925671c5b8d757c1932045ab55bffb713db91033a",
+            "skeleton/kinematics.py": "7113ae39074b98e96f8d53310a1706c8c2e66ead8c5b1f3a8b83a0fbccb39aa7",
+            "skeleton/registry.py": "d0a13e96c5b2e12b63933275905e3dfc523af4507bd68d03bf1fd794078ef4bc",
+            "skeleton/transforms.py": "b845b90bc1f6ac350cf7325d0bcd08e54f2ce4d255171c20ef3e5d0c32946969",
+            "tools.py": "2b0f462a2be34a6e8d0adabdc663a9530c741ef052fae834daed4cdb90507983",
+            "viz/__init__.py": "a43983b5b9c8d31ab92420124d5e507bf78bcbda8b752e4d07224ae42fc6df2a",
+            "viz/core_skin.py": "670dc6be751b66a6e32b85f42d317078c61fcf32859ea2e401a44d9400e639c4",
+            "viz/g1_rig.py": "2fbc523d0dfb9d0ed8ad09144b82ca31d8497530b7223c21f0101ceb4a76d7d7",
+            "viz/soma_skin.py": "709b6057d68b15176c92af136f4152fdebff575401e56ebd80843dc9f33e9ff4",
+            "viz/viser_utils.py": "65c4c6930f3ec9480ce581b23fbba4e518715e223f9a99d6a999a1ada55f8098"
+          },
+          "ardy_tracked_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "ardy_tracked_status": [],
+          "mujoco_version": "3.12.0",
+          "numpy_version": "1.26.4",
+          "python": "3.11.16 | packaged by conda-forge | (main, Aug 21 2026, 22:44:51) [GCC 14.4.0]",
+          "torch_cuda_version": "12.8",
+          "torch_cudnn_version": 91900,
+          "torch_version": "2.11.0+cu128"
+        },
+        "schema": "ramp-ardy-runtime-identity-v1",
+        "sha256": "aa653c1010f770ec66e471ea525abcd0a95b4a92cbab14a798dececcb28caaca"
+      },
+      "source_sha256": {
+        "env.sh": "59889bac7a9a688472c6bac730d6229c0a299bd58d735e8d4ff04b5411cf95d6",
+        "experiments/calibrate_ramp_route_phase.py": "ccbf5a13a78578c31579121650ab9378468c5b73e8c61c758a7c9cc9b503c26a",
+        "experiments/exp022_exact_tracking_bridge.py": "83fa1b1f42c0162028e3d94caaa047763d4ddc01a22105e6cefeb47169f5e112",
+        "experiments/exp1b_execution_clearance.py": "7170cbaa5063429d0e3de121b08a3ce90b099e50d4efcd5a77cd3aa95f464b71",
+        "scene2motion/robot.py": "c12b59a999969dd910e0aaef25322695d247bd392899394dd5d35cfc1252fc82",
+        "scene2motion/scenes.py": "5bf05d72777ad137e8407ad8e1e16113e8803dc0d4147c899fafbbd5bf41f4a5",
+        "scene2motion/sonic_export.py": "c79b3edad46175829b411455d64f5ca1a798f4fde5833d8845fd341e2931262c",
+        "scene2motion/sonic_state_export.py": "1606286b1e934dda2203f5f7e57cf4a8b5df76b87cf558e77ff9a7c3957d75a4",
+        "scene2motion/stepover_eval.py": "f0e344def2133f3a45935bb1b7ffad8fb2591145557e6b136d50871827cf77b4"
+      }
+    },
+    "source_exp021": {
+      "historical_source_sha256": {
+        "experiments/calibrate_ramp_route_phase.py": "ccbf5a13a78578c31579121650ab9378468c5b73e8c61c758a7c9cc9b503c26a",
+        "experiments/exp021_elicited_lift_distribution.py": "c68dd1c50f5e8d60eb12f17f0909c9b08cbdf4a11157f17d21c0b6224c603258",
+        "scene2motion/runner.py": "29139739ebce4891ebbe694010ff367e281a8f12cb3440a4db5410220b372aa0"
+      },
+      "n_qpos": 64,
+      "n_rows": 64,
+      "noise_stream_evidence": "the locked clean EXP-021 source asserts runner.noise_stream_version == cal.NOISE_STREAM_VERSION before generation; the locked constant is 2",
+      "noise_stream_version": 2,
+      "path": "/home/linjiw/scene2motion/outputs/exp021_elicited_lift_distribution_v2",
+      "pool_seeds": [
+        4400,
+        4401,
+        4402,
+        4403,
+        4404,
+        4405,
+        4406,
+        4407,
+        4408,
+        4409,
+        4410,
+        4411,
+        4412,
+        4413,
+        4414,
+        4415,
+        4416,
+        4417,
+        4418,
+        4419,
+        4420,
+        4421,
+        4422,
+        4423,
+        4424,
+        4425,
+        4426,
+        4427,
+        4428,
+        4429,
+        4430,
+        4431,
+        4432,
+        4433,
+        4434,
+        4435,
+        4436,
+        4437,
+        4438,
+        4439,
+        4440,
+        4441,
+        4442,
+        4443,
+        4444,
+        4445,
+        4446,
+        4447,
+        4448,
+        4449,
+        4450,
+        4451,
+        4452,
+        4453,
+        4454,
+        4455,
+        4456,
+        4457,
+        4458,
+        4459,
+        4460,
+        4461,
+        4462,
+        4463
+      ],
+      "qpos_archive_sha256": "2a4b34479aa24894b854301d91bafe1ad870dc530b70eed5b6703eb02c284687",
+      "qpos_content_sha256": "50c27a6b9d61433a1562d1e704d453b2c907ba9d719f7c23d36acb08a8f61ed0",
+      "receipt_sha256": "0c53d8c5dc2bdfa587f8c0b35d069fcd677f1cdc30221b5ce1afa70d1a5ccf7e",
+      "rows_file_sha256": "1d8cc57df2494bd7179940bfe57325ac922f3f41e2581fcc7cb789b5e0c28f71",
+      "rows_logical_sha256": "1a3a2e83a66119fb6b983da883e5182fa82e9d4b2e26cdc0a0fa20722dcbaa24",
+      "source_commit": "cde0246fc89d45cb71f23fa6b8b3d8729ec00e6b",
+      "source_exp021_sha256_at_commit": "c68dd1c50f5e8d60eb12f17f0909c9b08cbdf4a11157f17d21c0b6224c603258"
+    },
+    "tracker": {
+      "callback_schema_version": 2,
+      "checkpoint": {
+        "path": "/home/linjiw/lucid/GR00T-WholeBodyControl/sonic_release/last.pt",
+        "sha256": "e6bdab3f64a39336b3d41877d4f497d05f58af275f288ec0e6746c283ded8909",
+        "size_bytes": 469418283
+      },
+      "core_source_manifest_sha256": "44e98c45f840ed32cd54d0dbc322e4ed1ef1743625e70ca94c7af01eb70efe0a",
+      "core_source_sha256": {
+        "gear_sonic/config/callbacks/im_eval.yaml": "9253ae831e6af47c5693ffb8a24e497b3eb7097e52b2f0f3033606bc5c8c6c5f",
+        "gear_sonic/config/manager_env/terminations/tracking/eval.yaml": "5ca7fbe4c9dbad836667902c7927a68b947b3cc332292bf486048dde00e6fb83",
+        "gear_sonic/data_process/convert_soma_csv_to_motion_lib.py": "ab8361a08894c19b7160278d25cf3d47aad924f5be78c72fc0f1a38eba68e9dd",
+        "gear_sonic/envs/manager_env/modular_tracking_env_cfg.py": "5451b745996e97d2917270dbbeba3fcda8816ca06e2db7fdc79cd5ec37946104",
+        "gear_sonic/eval_agent_trl.py": "2b77eb71e481d014e48eb6b81de62c4e70c8fd701640234e1a45765242d18f01",
+        "gear_sonic/trl/callbacks/im_eval_callback.py": "9c21b68e556dbecaf7945be8c6253963f3f7307b1d8e37f5bc6dae117bbeb8c2",
+        "sonic_release/config.yaml": "f08187795fa16a839a28bc1c18e0555d38d9420e03733744341cdcb56ab629c7"
+      },
+      "expected_achieved_sample_dt_s": 0.02,
+      "git": {
+        "commit": "dd0fd61b6bf6090d9f0f1c430b2ec895f9e9dc1e",
+        "dirty": true,
+        "status": [
+          "?? gear_sonic/research/practice_utility/learnability_gate.py",
+          "?? scripts/practice_utility/audit_evaluation_receipt.py",
+          "?? scripts/practice_utility/run_fixed_u150_arm.sh",
+          "?? scripts/practice_utility/run_gate_a.py",
+          "?? tests/practice_utility/test_learnability_gate.py"
+        ],
+        "tracked_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "tracked_dirty": false,
+        "tracked_status": []
+      },
+      "isaaclab": {
+        "git": {
+          "commit": "37ddf626871758333d6ed89cf64ad702aef127d0",
+          "dirty": false,
+          "status": [],
+          "tracked_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "tracked_dirty": false,
+          "tracked_status": []
+        },
+        "root": "/home/linjiw/isaaclab-install/IsaacLab"
+      },
+      "physics_seed": 0,
+      "python": "/home/linjiw/.local/share/uv/python/cpython-3.11.16-linux-x86_64-gnu/bin/python3.11",
+      "python_runtime": {
+        "executable": "/home/linjiw/isaaclab-install/env_isaaclab/bin/python",
+        "executable_sha256": "bba9c5269e5794349c1b3bf2bcec677315462a4419dadcc3caefd43fb24d8c94",
+        "packages": {
+          "isaaclab": "0.54.2",
+          "isaacsim": "5.1.0.0",
+          "numpy": "1.26.0",
+          "torch": "2.7.0+cu128",
+          "warp-lang": "1.16.0"
+        },
+        "python": "3.11.16 (main, Aug 25 2026, 14:00:53) [Clang 22.1.3 ]",
+        "requested_executable": "/home/linjiw/.local/share/uv/python/cpython-3.11.16-linux-x86_64-gnu/bin/python3.11",
+        "torch_cuda_version": "12.8",
+        "torch_cudnn_version": 90701
+      },
+      "root": "/home/linjiw/lucid/GR00T-WholeBodyControl"
+    }
+  },
+  "resume_project_check": null,
+  "resume_supported": true,
+  "reused_archived_ardy_samples": 64,
+  "schema": "exp022a-exact-tracking-bridge-v1",
+  "sonic_rollouts_requested": 64,
+  "sonic_rollouts_returned": 64,
+  "stage": "complete",
+  "status": "complete",
+  "summary": {
+    "achieved": {
+      "staged": {
+        "achieved_replay_clear_after_passing": {
+          "0.03": 0,
+          "0.05": 0,
+          "0.08": 0,
+          "0.12": 0,
+          "0.2": 0,
+          "0.3": 0
+        },
+        "exact_clears": {
+          "0.03": 43,
+          "0.05": 43,
+          "0.08": 42,
+          "0.12": 39,
+          "0.2": 34,
+          "0.3": 33
+        },
+        "finished_beyond_obstacle": 14,
+        "n": 64,
+        "passed_obstacle": 14,
+        "passed_within_lateral_corridor": 14,
+        "route_completed": 5,
+        "stalled": 6,
+        "stalled_before_obstacle": 0,
+        "tracker_terminated": 53
+      },
+      "unstaged": {
+        "achieved_replay_clear_after_passing": {
+          "0.03": 0,
+          "0.05": 0,
+          "0.08": 0,
+          "0.12": 0,
+          "0.2": 0,
+          "0.3": 0
+        },
+        "exact_clears": {
+          "0.03": 53,
+          "0.05": 53,
+          "0.08": 53,
+          "0.12": 53,
+          "0.2": 53,
+          "0.3": 53
+        },
+        "finished_beyond_obstacle": 11,
+        "n": 64,
+        "passed_obstacle": 11,
+        "passed_within_lateral_corridor": 11,
+        "route_completed": 5,
+        "stalled": 6,
+        "stalled_before_obstacle": 0,
+        "tracker_terminated": 53
+      }
+    },
+    "interpretation_guard": "SONIC tracked references without an Isaac obstacle. Achieved states were replayed against Scene2Motion geometry; these are not contact-rich execution outcomes.",
+    "paired_reference_to_achieved_retention": {
+      "staged": {
+        "0.03": {
+          "achieved_guarded_clear": 0,
+          "achieved_only_gain": 0,
+          "endpoint_guard": "achieved replay must be non-terminated, clear the exact box, pass inside the lateral corridor, and finish beyond the obstacle",
+          "lost_reference_clear": 13,
+          "n_paired": 64,
+          "neither_clear": 51,
+          "reference_clear": 13,
+          "retained_and_route_complete": 0,
+          "retained_reference_clear": 0,
+          "retention_fraction_of_reference_clear": 0.0
+        },
+        "0.05": {
+          "achieved_guarded_clear": 0,
+          "achieved_only_gain": 0,
+          "endpoint_guard": "achieved replay must be non-terminated, clear the exact box, pass inside the lateral corridor, and finish beyond the obstacle",
+          "lost_reference_clear": 12,
+          "n_paired": 64,
+          "neither_clear": 52,
+          "reference_clear": 12,
+          "retained_and_route_complete": 0,
+          "retained_reference_clear": 0,
+          "retention_fraction_of_reference_clear": 0.0
+        },
+        "0.08": {
+          "achieved_guarded_clear": 0,
+          "achieved_only_gain": 0,
+          "endpoint_guard": "achieved replay must be non-terminated, clear the exact box, pass inside the lateral corridor, and finish beyond the obstacle",
+          "lost_reference_clear": 11,
+          "n_paired": 64,
+          "neither_clear": 53,
+          "reference_clear": 11,
+          "retained_and_route_complete": 0,
+          "retained_reference_clear": 0,
+          "retention_fraction_of_reference_clear": 0.0
+        },
+        "0.12": {
+          "achieved_guarded_clear": 0,
+          "achieved_only_gain": 0,
+          "endpoint_guard": "achieved replay must be non-terminated, clear the exact box, pass inside the lateral corridor, and finish beyond the obstacle",
+          "lost_reference_clear": 7,
+          "n_paired": 64,
+          "neither_clear": 57,
+          "reference_clear": 7,
+          "retained_and_route_complete": 0,
+          "retained_reference_clear": 0,
+          "retention_fraction_of_reference_clear": 0.0
+        },
+        "0.2": {
+          "achieved_guarded_clear": 0,
+          "achieved_only_gain": 0,
+          "endpoint_guard": "achieved replay must be non-terminated, clear the exact box, pass inside the lateral corridor, and finish beyond the obstacle",
+          "lost_reference_clear": 6,
+          "n_paired": 64,
+          "neither_clear": 58,
+          "reference_clear": 6,
+          "retained_and_route_complete": 0,
+          "retained_reference_clear": 0,
+          "retention_fraction_of_reference_clear": 0.0
+        },
+        "0.3": {
+          "achieved_guarded_clear": 0,
+          "achieved_only_gain": 0,
+          "endpoint_guard": "achieved replay must be non-terminated, clear the exact box, pass inside the lateral corridor, and finish beyond the obstacle",
+          "lost_reference_clear": 2,
+          "n_paired": 64,
+          "neither_clear": 62,
+          "reference_clear": 2,
+          "retained_and_route_complete": 0,
+          "retained_reference_clear": 0,
+          "retention_fraction_of_reference_clear": 0.0
+        }
+      },
+      "unstaged": {
+        "0.03": {
+          "achieved_guarded_clear": 0,
+          "achieved_only_gain": 0,
+          "endpoint_guard": "achieved replay must be non-terminated, clear the exact box, pass inside the lateral corridor, and finish beyond the obstacle",
+          "lost_reference_clear": 2,
+          "n_paired": 64,
+          "neither_clear": 62,
+          "reference_clear": 2,
+          "retained_and_route_complete": 0,
+          "retained_reference_clear": 0,
+          "retention_fraction_of_reference_clear": 0.0
+        },
+        "0.05": {
+          "achieved_guarded_clear": 0,
+          "achieved_only_gain": 0,
+          "endpoint_guard": "achieved replay must be non-terminated, clear the exact box, pass inside the lateral corridor, and finish beyond the obstacle",
+          "lost_reference_clear": 2,
+          "n_paired": 64,
+          "neither_clear": 62,
+          "reference_clear": 2,
+          "retained_and_route_complete": 0,
+          "retained_reference_clear": 0,
+          "retention_fraction_of_reference_clear": 0.0
+        },
+        "0.08": {
+          "achieved_guarded_clear": 0,
+          "achieved_only_gain": 0,
+          "endpoint_guard": "achieved replay must be non-terminated, clear the exact box, pass inside the lateral corridor, and finish beyond the obstacle",
+          "lost_reference_clear": 2,
+          "n_paired": 64,
+          "neither_clear": 62,
+          "reference_clear": 2,
+          "retained_and_route_complete": 0,
+          "retained_reference_clear": 0,
+          "retention_fraction_of_reference_clear": 0.0
+        },
+        "0.12": {
+          "achieved_guarded_clear": 0,
+          "achieved_only_gain": 0,
+          "endpoint_guard": "achieved replay must be non-terminated, clear the exact box, pass inside the lateral corridor, and finish beyond the obstacle",
+          "lost_reference_clear": 1,
+          "n_paired": 64,
+          "neither_clear": 63,
+          "reference_clear": 1,
+          "retained_and_route_complete": 0,
+          "retained_reference_clear": 0,
+          "retention_fraction_of_reference_clear": 0.0
+        },
+        "0.2": {
+          "achieved_guarded_clear": 0,
+          "achieved_only_gain": 0,
+          "endpoint_guard": "achieved replay must be non-terminated, clear the exact box, pass inside the lateral corridor, and finish beyond the obstacle",
+          "lost_reference_clear": 0,
+          "n_paired": 64,
+          "neither_clear": 64,
+          "reference_clear": 0,
+          "retained_and_route_complete": 0,
+          "retained_reference_clear": 0,
+          "retention_fraction_of_reference_clear": null
+        },
+        "0.3": {
+          "achieved_guarded_clear": 0,
+          "achieved_only_gain": 0,
+          "endpoint_guard": "achieved replay must be non-terminated, clear the exact box, pass inside the lateral corridor, and finish beyond the obstacle",
+          "lost_reference_clear": 0,
+          "n_paired": 64,
+          "neither_clear": 64,
+          "reference_clear": 0,
+          "retained_and_route_complete": 0,
+          "retained_reference_clear": 0,
+          "retention_fraction_of_reference_clear": null
+        }
+      }
+    },
+    "reference": {
+      "staged": {
+        "achieved_replay_clear_after_passing": {
+          "0.03": 13,
+          "0.05": 12,
+          "0.08": 11,
+          "0.12": 7,
+          "0.2": 6,
+          "0.3": 2
+        },
+        "exact_clears": {
+          "0.03": 13,
+          "0.05": 12,
+          "0.08": 11,
+          "0.12": 7,
+          "0.2": 6,
+          "0.3": 2
+        },
+        "finished_beyond_obstacle": 64,
+        "n": 64,
+        "passed_obstacle": 64,
+        "passed_within_lateral_corridor": 64,
+        "route_completed": 64,
+        "stalled": 0,
+        "stalled_before_obstacle": 0,
+        "tracker_terminated": 0
+      },
+      "unstaged": {
+        "achieved_replay_clear_after_passing": {
+          "0.03": 2,
+          "0.05": 2,
+          "0.08": 2,
+          "0.12": 1,
+          "0.2": 0,
+          "0.3": 0
+        },
+        "exact_clears": {
+          "0.03": 2,
+          "0.05": 2,
+          "0.08": 2,
+          "0.12": 1,
+          "0.2": 0,
+          "0.3": 0
+        },
+        "finished_beyond_obstacle": 64,
+        "n": 64,
+        "passed_obstacle": 64,
+        "passed_within_lateral_corridor": 64,
+        "route_completed": 64,
+        "stalled": 0,
+        "stalled_before_obstacle": 0,
+        "tracker_terminated": 0
+      }
+    },
+    "selection_n8_descriptive": {
+      "staged": {
+        "0.03": {
+          "blocks": [
+            {
+              "achieved_replay_retained": false,
+              "block": 0,
+              "calls_spent": 3,
+              "reference_selected": true,
+              "seeds": [
+                4400,
+                4401,
+                4402,
+                4403,
+                4404,
+                4405,
+                4406,
+                4407
+              ],
+              "selected_seed": 4402
+            },
+            {
+              "achieved_replay_retained": false,
+              "block": 1,
+              "calls_spent": 2,
+              "reference_selected": true,
+              "seeds": [
+                4408,
+                4409,
+                4410,
+                4411,
+                4412,
+                4413,
+                4414,
+                4415
+              ],
+              "selected_seed": 4409
+            },
+            {
+              "achieved_replay_retained": false,
+              "block": 2,
+              "calls_spent": 8,
+              "reference_selected": false,
+              "seeds": [
+                4416,
+                4417,
+                4418,
+                4419,
+                4420,
+                4421,
+                4422,
+                4423
+              ],
+              "selected_seed": null
+            },
+            {
+              "achieved_replay_retained": false,
+              "block": 3,
+              "calls_spent": 1,
+              "reference_selected": true,
+              "seeds": [
+                4424,
+                4425,
+                4426,
+                4427,
+                4428,
+                4429,
+                4430,
+                4431
+              ],
+              "selected_seed": 4424
+            },
+            {
+              "achieved_replay_retained": false,
+              "block": 4,
+              "calls_spent": 6,
+              "reference_selected": true,
+              "seeds": [
+                4432,
+                4433,
+                4434,
+                4435,
+                4436,
+                4437,
+                4438,
+                4439
+              ],
+              "selected_seed": 4437
+            },
+            {
+              "achieved_replay_retained": false,
+              "block": 5,
+              "calls_spent": 8,
+              "reference_selected": true,
+              "seeds": [
+                4440,
+                4441,
+                4442,
+                4443,
+                4444,
+                4445,
+                4446,
+                4447
+              ],
+              "selected_seed": 4447
+            },
+            {
+              "achieved_replay_retained": false,
+              "block": 6,
+              "calls_spent": 1,
+              "reference_selected": true,
+              "seeds": [
+                4448,
+                4449,
+                4450,
+                4451,
+                4452,
+                4453,
+                4454,
+                4455
+              ],
+              "selected_seed": 4448
+            },
+            {
+              "achieved_replay_retained": false,
+              "block": 7,
+              "calls_spent": 2,
+              "reference_selected": true,
+              "seeds": [
+                4456,
+                4457,
+                4458,
+                4459,
+                4460,
+                4461,
+                4462,
+                4463
+              ],
+              "selected_seed": 4457
+            }
+          ],
+          "blocks_with_achieved_replay_retention": 0,
+          "blocks_with_reference_selection": 7,
+          "inference_guard": "post-hoc deterministic partitions of one archived scene; descriptive only",
+          "n_descriptive_seed_blocks": 8
+        },
+        "0.05": {
+          "blocks": [
+            {
+              "achieved_replay_retained": false,
+              "block": 0,
+              "calls_spent": 3,
+              "reference_selected": true,
+              "seeds": [
+                4400,
+                4401,
+                4402,
+                4403,
+                4404,
+                4405,
+                4406,
+                4407
+              ],
+              "selected_seed": 4402
+            },
+            {
+              "achieved_replay_retained": false,
+              "block": 1,
+              "calls_spent": 2,
+              "reference_selected": true,
+              "seeds": [
+                4408,
+                4409,
+                4410,
+                4411,
+                4412,
+                4413,
+                4414,
+                4415
+              ],
+              "selected_seed": 4409
+            },
+            {
+              "achieved_replay_retained": false,
+              "block": 2,
+              "calls_spent": 8,
+              "reference_selected": false,
+              "seeds": [
+                4416,
+                4417,
+                4418,
+                4419,
+                4420,
+                4421,
+                4422,
+                4423
+              ],
+              "selected_seed": null
+            },
+            {
+              "achieved_replay_retained": false,
+              "block": 3,
+              "calls_spent": 1,
+              "reference_selected": true,
+              "seeds": [
+                4424,
+                4425,
+                4426,
+                4427,
+                4428,
+                4429,
+                4430,
+                4431
+              ],
+              "selected_seed": 4424
+            },
+            {
+              "achieved_replay_retained": false,
+              "block": 4,
+              "calls_spent": 6,
+              "reference_selected": true,
+              "seeds": [
+                4432,
+                4433,
+                4434,
+                4435,
+                4436,
+                4437,
+                4438,
+                4439
+              ],
+              "selected_seed": 4437
+            },
+            {
+              "achieved_replay_retained": false,
+              "block": 5,
+              "calls_spent": 8,
+              "reference_selected": true,
+              "seeds": [
+                4440,
+                4441,
+                4442,
+                4443,
+                4444,
+                4445,
+                4446,
+                4447
+              ],
+              "selected_seed": 4447
+            },
+            {
+              "achieved_replay_retained": false,
+              "block": 6,
+              "calls_spent": 8,
+              "reference_selected": false,
+              "seeds": [
+                4448,
+                4449,
+                4450,
+                4451,
+                4452,
+                4453,
+                4454,
+                4455
+              ],
+              "selected_seed": null
+            },
+            {
+              "achieved_replay_retained": false,
+              "block": 7,
+              "calls_spent": 2,
+              "reference_selected": true,
+              "seeds": [
+                4456,
+                4457,
+                4458,
+                4459,
+                4460,
+                4461,
+                4462,
+                4463
+              ],
+              "selected_seed": 4457
+            }
+          ],
+          "blocks_with_achieved_replay_retention": 0,
+          "blocks_with_reference_selection": 6,
+          "inference_guard": "post-hoc deterministic partitions of one archived scene; descriptive only",
+          "n_descriptive_seed_blocks": 8
+        },
+        "0.08": {
+          "blocks": [
+            {
+              "achieved_replay_retained": false,
+              "block": 0,
+              "calls_spent": 3,
+              "reference_selected": true,
+              "seeds": [
+                4400,
+                4401,
+                4402,
+                4403,
+                4404,
+                4405,
+                4406,
+                4407
+              ],
+              "selected_seed": 4402
+            },
+            {
+              "achieved_replay_retained": false,
+              "block": 1,
+              "calls_spent": 2,
+              "reference_selected": true,
+              "seeds": [
+                4408,
+                4409,
+                4410,
+                4411,
+                4412,
+                4413,
+                4414,
+                4415
+              ],
+              "selected_seed": 4409
+            },
+            {
+              "achieved_replay_retained": false,
+              "block": 2,
+              "calls_spent": 8,
+              "reference_selected": false,
+              "seeds": [
+                4416,
+                4417,
+                4418,
+                4419,
+                4420,
+                4421,
+                4422,
+                4423
+              ],
+              "selected_seed": null
+            },
+            {
+              "achieved_replay_retained": false,
+              "block": 3,
+              "calls_spent": 1,
+              "reference_selected": true,
+              "seeds": [
+                4424,
+                4425,
+                4426,
+                4427,
+                4428,
+                4429,
+                4430,
+                4431
+              ],
+              "selected_seed": 4424
+            },
+            {
+              "achieved_replay_retained": false,
+              "block": 4,
+              "calls_spent": 6,
+              "reference_selected": true,
+              "seeds": [
+                4432,
+                4433,
+                4434,
+                4435,
+                4436,
+                4437,
+                4438,
+                4439
+              ],
+              "selected_seed": 4437
+            },
+            {
+              "achieved_replay_retained": false,
+              "block": 5,
+              "calls_spent": 8,
+              "reference_selected": false,
+              "seeds": [
+                4440,
+                4441,
+                4442,
+                4443,
+                4444,
+                4445,
+                4446,
+                4447
+              ],
+              "selected_seed": null
+            },
+            {
+              "achieved_replay_retained": false,
+              "block": 6,
+              "calls_spent": 8,
+              "reference_selected": false,
+              "seeds": [
+                4448,
+                4449,
+                4450,
+                4451,
+                4452,
+                4453,
+                4454,
+                4455
+              ],
+              "selected_seed": null
+            },
+            {
+              "achieved_replay_retained": false,
+              "block": 7,
+              "calls_spent": 2,
+              "reference_selected": true,
+              "seeds": [
+                4456,
+                4457,
+                4458,
+                4459,
+                4460,
+                4461,
+                4462,
+                4463
+              ],
+              "selected_seed": 4457
+            }
+          ],
+          "blocks_with_achieved_replay_retention": 0,
+          "blocks_with_reference_selection": 5,
+          "inference_guard": "post-hoc deterministic partitions of one archived scene; descriptive only",
+          "n_descriptive_seed_blocks": 8
+        },
+        "0.12": {
+          "blocks": [
+            {
+              "achieved_replay_retained": false,
+              "block": 0,
+              "calls_spent": 3,
+              "reference_selected": true,
+              "seeds": [
+                4400,
+                4401,
+                4402,
+                4403,
+                4404,
+                4405,
+                4406,
+                4407
+              ],
+              "selected_seed": 4402
+            },
+            {
+              "achieved_replay_retained": false,
+              "block": 1,
+              "calls_spent": 8,
+              "reference_selected": true,
+              "seeds": [
+                4408,
+                4409,
+                4410,
+                4411,
+                4412,
+                4413,
+                4414,
+                4415
+              ],
+              "selected_seed": 4415
+            },
+            {
+              "achieved_replay_retained": false,
+              "block": 2,
+              "calls_spent": 8,
+              "reference_selected": false,
+              "seeds": [
+                4416,
+                4417,
+                4418,
+                4419,
+                4420,
+                4421,
+                4422,
+                4423
+              ],
+              "selected_seed": null
+            },
+            {
+              "achieved_replay_retained": false,
+              "block": 3,
+              "calls_spent": 8,
+              "reference_selected": false,
+              "seeds": [
+                4424,
+                4425,
+                4426,
+                4427,
+                4428,
+                4429,
+                4430,
+                4431
+              ],
+              "selected_seed": null
+            },
+            {
+              "achieved_replay_retained": false,
+              "block": 4,
+              "calls_spent": 6,
+              "reference_selected": true,
+              "seeds": [
+                4432,
+                4433,
+                4434,
+                4435,
+                4436,
+                4437,
+                4438,
+                4439
+              ],
+              "selected_seed": 4437
+            },
+            {
+              "achieved_replay_retained": false,
+              "block": 5,
+              "calls_spent": 8,
+              "reference_selected": false,
+              "seeds": [
+                4440,
+                4441,
+                4442,
+                4443,
+                4444,
+                4445,
+                4446,
+                4447
+              ],
+              "selected_seed": null
+            },
+            {
+              "achieved_replay_retained": false,
+              "block": 6,
+              "calls_spent": 8,
+              "reference_selected": false,
+              "seeds": [
+                4448,
+                4449,
+                4450,
+                4451,
+                4452,
+                4453,
+                4454,
+                4455
+              ],
+              "selected_seed": null
+            },
+            {
+              "achieved_replay_retained": false,
+              "block": 7,
+              "calls_spent": 7,
+              "reference_selected": true,
+              "seeds": [
+                4456,
+                4457,
+                4458,
+                4459,
+                4460,
+                4461,
+                4462,
+                4463
+              ],
+              "selected_seed": 4462
+            }
+          ],
+          "blocks_with_achieved_replay_retention": 0,
+          "blocks_with_reference_selection": 4,
+          "inference_guard": "post-hoc deterministic partitions of one archived scene; descriptive only",
+          "n_descriptive_seed_blocks": 8
+        },
+        "0.2": {
+          "blocks": [
+            {
+              "achieved_replay_retained": false,
+              "block": 0,
+              "calls_spent": 3,
+              "reference_selected": true,
+              "seeds": [
+                4400,
+                4401,
+                4402,
+                4403,
+                4404,
+                4405,
+                4406,
+                4407
+              ],
+              "selected_seed": 4402
+            },
+            {
+              "achieved_replay_retained": false,
+              "block": 1,
+              "calls_spent": 8,
+              "reference_selected": false,
+              "seeds": [
+                4408,
+                4409,
+                4410,
+                4411,
+                4412,
+                4413,
+                4414,
+                4415
+              ],
+              "selected_seed": null
+            },
+            {
+              "achieved_replay_retained": false,
+              "block": 2,
+              "calls_spent": 8,
+              "reference_selected": false,
+              "seeds": [
+                4416,
+                4417,
+                4418,
+                4419,
+                4420,
+                4421,
+                4422,
+                4423
+              ],
+              "selected_seed": null
+            },
+            {
+              "achieved_replay_retained": false,
+              "block": 3,
+              "calls_spent": 8,
+              "reference_selected": false,
+              "seeds": [
+                4424,
+                4425,
+                4426,
+                4427,
+                4428,
+                4429,
+                4430,
+                4431
+              ],
+              "selected_seed": null
+            },
+            {
+              "achieved_replay_retained": false,
+              "block": 4,
+              "calls_spent": 6,
+              "reference_selected": true,
+              "seeds": [
+                4432,
+                4433,
+                4434,
+                4435,
+                4436,
+                4437,
+                4438,
+                4439
+              ],
+              "selected_seed": 4437
+            },
+            {
+              "achieved_replay_retained": false,
+              "block": 5,
+              "calls_spent": 8,
+              "reference_selected": false,
+              "seeds": [
+                4440,
+                4441,
+                4442,
+                4443,
+                4444,
+                4445,
+                4446,
+                4447
+              ],
+              "selected_seed": null
+            },
+            {
+              "achieved_replay_retained": false,
+              "block": 6,
+              "calls_spent": 8,
+              "reference_selected": false,
+              "seeds": [
+                4448,
+                4449,
+                4450,
+                4451,
+                4452,
+                4453,
+                4454,
+                4455
+              ],
+              "selected_seed": null
+            },
+            {
+              "achieved_replay_retained": false,
+              "block": 7,
+              "calls_spent": 7,
+              "reference_selected": true,
+              "seeds": [
+                4456,
+                4457,
+                4458,
+                4459,
+                4460,
+                4461,
+                4462,
+                4463
+              ],
+              "selected_seed": 4462
+            }
+          ],
+          "blocks_with_achieved_replay_retention": 0,
+          "blocks_with_reference_selection": 3,
+          "inference_guard": "post-hoc deterministic partitions of one archived scene; descriptive only",
+          "n_descriptive_seed_blocks": 8
+        },
+        "0.3": {
+          "blocks": [
+            {
+              "achieved_replay_retained": false,
+              "block": 0,
+              "calls_spent": 8,
+              "reference_selected": false,
+              "seeds": [
+                4400,
+                4401,
+                4402,
+                4403,
+                4404,
+                4405,
+                4406,
+                4407
+              ],
+              "selected_seed": null
+            },
+            {
+              "achieved_replay_retained": false,
+              "block": 1,
+              "calls_spent": 8,
+              "reference_selected": false,
+              "seeds": [
+                4408,
+                4409,
+                4410,
+                4411,
+                4412,
+                4413,
+                4414,
+                4415
+              ],
+              "selected_seed": null
+            },
+            {
+              "achieved_replay_retained": false,
+              "block": 2,
+              "calls_spent": 8,
+              "reference_selected": false,
+              "seeds": [
+                4416,
+                4417,
+                4418,
+                4419,
+                4420,
+                4421,
+                4422,
+                4423
+              ],
+              "selected_seed": null
+            },
+            {
+              "achieved_replay_retained": false,
+              "block": 3,
+              "calls_spent": 8,
+              "reference_selected": false,
+              "seeds": [
+                4424,
+                4425,
+                4426,
+                4427,
+                4428,
+                4429,
+                4430,
+                4431
+              ],
+              "selected_seed": null
+            },
+            {
+              "achieved_replay_retained": false,
+              "block": 4,
+              "calls_spent": 6,
+              "reference_selected": true,
+              "seeds": [
+                4432,
+                4433,
+                4434,
+                4435,
+                4436,
+                4437,
+                4438,
+                4439
+              ],
+              "selected_seed": 4437
+            },
+            {
+              "achieved_replay_retained": false,
+              "block": 5,
+              "calls_spent": 8,
+              "reference_selected": false,
+              "seeds": [
+                4440,
+                4441,
+                4442,
+                4443,
+                4444,
+                4445,
+                4446,
+                4447
+              ],
+              "selected_seed": null
+            },
+            {
+              "achieved_replay_retained": false,
+              "block": 6,
+              "calls_spent": 8,
+              "reference_selected": false,
+              "seeds": [
+                4448,
+                4449,
+                4450,
+                4451,
+                4452,
+                4453,
+                4454,
+                4455
+              ],
+              "selected_seed": null
+            },
+            {
+              "achieved_replay_retained": false,
+              "block": 7,
+              "calls_spent": 8,
+              "reference_selected": false,
+              "seeds": [
+                4456,
+                4457,
+                4458,
+                4459,
+                4460,
+                4461,
+                4462,
+                4463
+              ],
+              "selected_seed": null
+            }
+          ],
+          "blocks_with_achieved_replay_retention": 0,
+          "blocks_with_reference_selection": 1,
+          "inference_guard": "post-hoc deterministic partitions of one archived scene; descriptive only",
+          "n_descriptive_seed_blocks": 8
+        }
+      },
+      "unstaged": {
+        "0.03": {
+          "blocks": [
+            {
+              "achieved_replay_retained": false,
+              "block": 0,
+              "calls_spent": 3,
+              "reference_selected": true,
+              "seeds": [
+                4400,
+                4401,
+                4402,
+                4403,
+                4404,
+                4405,
+                4406,
+                4407
+              ],
+              "selected_seed": 4402
+            },
+            {
+              "achieved_replay_retained": false,
+              "block": 1,
+              "calls_spent": 8,
+              "reference_selected": false,
+              "seeds": [
+                4408,
+                4409,
+                4410,
+                4411,
+                4412,
+                4413,
+                4414,
+                4415
+              ],
+              "selected_seed": null
+            },
+            {
+              "achieved_replay_retained": false,
+              "block": 2,
+              "calls_spent": 8,
+              "reference_selected": false,
+              "seeds": [
+                4416,
+                4417,
+                4418,
+                4419,
+                4420,
+                4421,
+                4422,
+                4423
+              ],
+              "selected_seed": null
+            },
+            {
+              "achieved_replay_retained": false,
+              "block": 3,
+              "calls_spent": 8,
+              "reference_selected": false,
+              "seeds": [
+                4424,
+                4425,
+                4426,
+                4427,
+                4428,
+                4429,
+                4430,
+                4431
+              ],
+              "selected_seed": null
+            },
+            {
+              "achieved_replay_retained": false,
+              "block": 4,
+              "calls_spent": 8,
+              "reference_selected": false,
+              "seeds": [
+                4432,
+                4433,
+                4434,
+                4435,
+                4436,
+                4437,
+                4438,
+                4439
+              ],
+              "selected_seed": null
+            },
+            {
+              "achieved_replay_retained": false,
+              "block": 5,
+              "calls_spent": 8,
+              "reference_selected": false,
+              "seeds": [
+                4440,
+                4441,
+                4442,
+                4443,
+                4444,
+                4445,
+                4446,
+                4447
+              ],
+              "selected_seed": null
+            },
+            {
+              "achieved_replay_retained": false,
+              "block": 6,
+              "calls_spent": 8,
+              "reference_selected": false,
+              "seeds": [
+                4448,
+                4449,
+                4450,
+                4451,
+                4452,
+                4453,
+                4454,
+                4455
+              ],
+              "selected_seed": null
+            },
+            {
+              "achieved_replay_retained": false,
+              "block": 7,
+              "calls_spent": 8,
+              "reference_selected": false,
+              "seeds": [
+                4456,
+                4457,
+                4458,
+                4459,
+                4460,
+                4461,
+                4462,
+                4463
+              ],
+              "selected_seed": null
+            }
+          ],
+          "blocks_with_achieved_replay_retention": 0,
+          "blocks_with_reference_selection": 1,
+          "inference_guard": "post-hoc deterministic partitions of one archived scene; descriptive only",
+          "n_descriptive_seed_blocks": 8
+        },
+        "0.05": {
+          "blocks": [
+            {
+              "achieved_replay_retained": false,
+              "block": 0,
+              "calls_spent": 3,
+              "reference_selected": true,
+              "seeds": [
+                4400,
+                4401,
+                4402,
+                4403,
+                4404,
+                4405,
+                4406,
+                4407
+              ],
+              "selected_seed": 4402
+            },
+            {
+              "achieved_replay_retained": false,
+              "block": 1,
+              "calls_spent": 8,
+              "reference_selected": false,
+              "seeds": [
+                4408,
+                4409,
+                4410,
+                4411,
+                4412,
+                4413,
+                4414,
+                4415
+              ],
+              "selected_seed": null
+            },
+            {
+              "achieved_replay_retained": false,
+              "block": 2,
+              "calls_spent": 8,
+              "reference_selected": false,
+              "seeds": [
+                4416,
+                4417,
+                4418,
+                4419,
+                4420,
+                4421,
+                4422,
+                4423
+              ],
+              "selected_seed": null
+            },
+            {
+              "achieved_replay_retained": false,
+              "block": 3,
+              "calls_spent": 8,
+              "reference_selected": false,
+              "seeds": [
+                4424,
+                4425,
+                4426,
+                4427,
+                4428,
+                4429,
+                4430,
+                4431
+              ],
+              "selected_seed": null
+            },
+            {
+              "achieved_replay_retained": false,
+              "block": 4,
+              "calls_spent": 8,
+              "reference_selected": false,
+              "seeds": [
+                4432,
+                4433,
+                4434,
+                4435,
+                4436,
+                4437,
+                4438,
+                4439
+              ],
+              "selected_seed": null
+            },
+            {
+              "achieved_replay_retained": false,
+              "block": 5,
+              "calls_spent": 8,
+              "reference_selected": false,
+              "seeds": [
+                4440,
+                4441,
+                4442,
+                4443,
+                4444,
+                4445,
+                4446,
+                4447
+              ],
+              "selected_seed": null
+            },
+            {
+              "achieved_replay_retained": false,
+              "block": 6,
+              "calls_spent": 8,
+              "reference_selected": false,
+              "seeds": [
+                4448,
+                4449,
+                4450,
+                4451,
+                4452,
+                4453,
+                4454,
+                4455
+              ],
+              "selected_seed": null
+            },
+            {
+              "achieved_replay_retained": false,
+              "block": 7,
+              "calls_spent": 8,
+              "reference_selected": false,
+              "seeds": [
+                4456,
+                4457,
+                4458,
+                4459,
+                4460,
+                4461,
+                4462,
+                4463
+              ],
+              "selected_seed": null
+            }
+          ],
+          "blocks_with_achieved_replay_retention": 0,
+          "blocks_with_reference_selection": 1,
+          "inference_guard": "post-hoc deterministic partitions of one archived scene; descriptive only",
+          "n_descriptive_seed_blocks": 8
+        },
+        "0.08": {
+          "blocks": [
+            {
+              "achieved_replay_retained": false,
+              "block": 0,
+              "calls_spent": 3,
+              "reference_selected": true,
+              "seeds": [
+                4400,
+                4401,
+                4402,
+                4403,
+                4404,
+                4405,
+                4406,
+                4407
+              ],
+              "selected_seed": 4402
+            },
+            {
+              "achieved_replay_retained": false,
+              "block": 1,
+              "calls_spent": 8,
+              "reference_selected": false,
+              "seeds": [
+                4408,
+                4409,
+                4410,
+                4411,
+                4412,
+                4413,
+                4414,
+                4415
+              ],
+              "selected_seed": null
+            },
+            {
+              "achieved_replay_retained": false,
+              "block": 2,
+              "calls_spent": 8,
+              "reference_selected": false,
+              "seeds": [
+                4416,
+                4417,
+                4418,
+                4419,
+                4420,
+                4421,
+                4422,
+                4423
+              ],
+              "selected_seed": null
+            },
+            {
+              "achieved_replay_retained": false,
+              "block": 3,
+              "calls_spent": 8,
+              "reference_selected": false,
+              "seeds": [
+                4424,
+                4425,
+                4426,
+                4427,
+                4428,
+                4429,
+                4430,
+                4431
+              ],
+              "selected_seed": null
+            },
+            {
+              "achieved_replay_retained": false,
+              "block": 4,
+              "calls_spent": 8,
+              "reference_selected": false,
+              "seeds": [
+                4432,
+                4433,
+                4434,
+                4435,
+                4436,
+                4437,
+                4438,
+                4439
+              ],
+              "selected_seed": null
+            },
+            {
+              "achieved_replay_retained": false,
+              "block": 5,
+              "calls_spent": 8,
+              "reference_selected": false,
+              "seeds": [
+                4440,
+                4441,
+                4442,
+                4443,
+                4444,
+                4445,
+                4446,
+                4447
+              ],
+              "selected_seed": null
+            },
+            {
+              "achieved_replay_retained": false,
+              "block": 6,
+              "calls_spent": 8,
+              "reference_selected": false,
+              "seeds": [
+                4448,
+                4449,
+                4450,
+                4451,
+                4452,
+                4453,
+                4454,
+                4455
+              ],
+              "selected_seed": null
+            },
+            {
+              "achieved_replay_retained": false,
+              "block": 7,
+              "calls_spent": 8,
+              "reference_selected": false,
+              "seeds": [
+                4456,
+                4457,
+                4458,
+                4459,
+                4460,
+                4461,
+                4462,
+                4463
+              ],
+              "selected_seed": null
+            }
+          ],
+          "blocks_with_achieved_replay_retention": 0,
+          "blocks_with_reference_selection": 1,
+          "inference_guard": "post-hoc deterministic partitions of one archived scene; descriptive only",
+          "n_descriptive_seed_blocks": 8
+        },
+        "0.12": {
+          "blocks": [
+            {
+              "achieved_replay_retained": false,
+              "block": 0,
+              "calls_spent": 7,
+              "reference_selected": true,
+              "seeds": [
+                4400,
+                4401,
+                4402,
+                4403,
+                4404,
+                4405,
+                4406,
+                4407
+              ],
+              "selected_seed": 4406
+            },
+            {
+              "achieved_replay_retained": false,
+              "block": 1,
+              "calls_spent": 8,
+              "reference_selected": false,
+              "seeds": [
+                4408,
+                4409,
+                4410,
+                4411,
+                4412,
+                4413,
+                4414,
+                4415
+              ],
+              "selected_seed": null
+            },
+            {
+              "achieved_replay_retained": false,
+              "block": 2,
+              "calls_spent": 8,
+              "reference_selected": false,
+              "seeds": [
+                4416,
+                4417,
+                4418,
+                4419,
+                4420,
+                4421,
+                4422,
+                4423
+              ],
+              "selected_seed": null
+            },
+            {
+              "achieved_replay_retained": false,
+              "block": 3,
+              "calls_spent": 8,
+              "reference_selected": false,
+              "seeds": [
+                4424,
+                4425,
+                4426,
+                4427,
+                4428,
+                4429,
+                4430,
+                4431
+              ],
+              "selected_seed": null
+            },
+            {
+              "achieved_replay_retained": false,
+              "block": 4,
+              "calls_spent": 8,
+              "reference_selected": false,
+              "seeds": [
+                4432,
+                4433,
+                4434,
+                4435,
+                4436,
+                4437,
+                4438,
+                4439
+              ],
+              "selected_seed": null
+            },
+            {
+              "achieved_replay_retained": false,
+              "block": 5,
+              "calls_spent": 8,
+              "reference_selected": false,
+              "seeds": [
+                4440,
+                4441,
+                4442,
+                4443,
+                4444,
+                4445,
+                4446,
+                4447
+              ],
+              "selected_seed": null
+            },
+            {
+              "achieved_replay_retained": false,
+              "block": 6,
+              "calls_spent": 8,
+              "reference_selected": false,
+              "seeds": [
+                4448,
+                4449,
+                4450,
+                4451,
+                4452,
+                4453,
+                4454,
+                4455
+              ],
+              "selected_seed": null
+            },
+            {
+              "achieved_replay_retained": false,
+              "block": 7,
+              "calls_spent": 8,
+              "reference_selected": false,
+              "seeds": [
+                4456,
+                4457,
+                4458,
+                4459,
+                4460,
+                4461,
+                4462,
+                4463
+              ],
+              "selected_seed": null
+            }
+          ],
+          "blocks_with_achieved_replay_retention": 0,
+          "blocks_with_reference_selection": 1,
+          "inference_guard": "post-hoc deterministic partitions of one archived scene; descriptive only",
+          "n_descriptive_seed_blocks": 8
+        },
+        "0.2": {
+          "blocks": [
+            {
+              "achieved_replay_retained": false,
+              "block": 0,
+              "calls_spent": 8,
+              "reference_selected": false,
+              "seeds": [
+                4400,
+                4401,
+                4402,
+                4403,
+                4404,
+                4405,
+                4406,
+                4407
+              ],
+              "selected_seed": null
+            },
+            {
+              "achieved_replay_retained": false,
+              "block": 1,
+              "calls_spent": 8,
+              "reference_selected": false,
+              "seeds": [
+                4408,
+                4409,
+                4410,
+                4411,
+                4412,
+                4413,
+                4414,
+                4415
+              ],
+              "selected_seed": null
+            },
+            {
+              "achieved_replay_retained": false,
+              "block": 2,
+              "calls_spent": 8,
+              "reference_selected": false,
+              "seeds": [
+                4416,
+                4417,
+                4418,
+                4419,
+                4420,
+                4421,
+                4422,
+                4423
+              ],
+              "selected_seed": null
+            },
+            {
+              "achieved_replay_retained": false,
+              "block": 3,
+              "calls_spent": 8,
+              "reference_selected": false,
+              "seeds": [
+                4424,
+                4425,
+                4426,
+                4427,
+                4428,
+                4429,
+                4430,
+                4431
+              ],
+              "selected_seed": null
+            },
+            {
+              "achieved_replay_retained": false,
+              "block": 4,
+              "calls_spent": 8,
+              "reference_selected": false,
+              "seeds": [
+                4432,
+                4433,
+                4434,
+                4435,
+                4436,
+                4437,
+                4438,
+                4439
+              ],
+              "selected_seed": null
+            },
+            {
+              "achieved_replay_retained": false,
+              "block": 5,
+              "calls_spent": 8,
+              "reference_selected": false,
+              "seeds": [
+                4440,
+                4441,
+                4442,
+                4443,
+                4444,
+                4445,
+                4446,
+                4447
+              ],
+              "selected_seed": null
+            },
+            {
+              "achieved_replay_retained": false,
+              "block": 6,
+              "calls_spent": 8,
+              "reference_selected": false,
+              "seeds": [
+                4448,
+                4449,
+                4450,
+                4451,
+                4452,
+                4453,
+                4454,
+                4455
+              ],
+              "selected_seed": null
+            },
+            {
+              "achieved_replay_retained": false,
+              "block": 7,
+              "calls_spent": 8,
+              "reference_selected": false,
+              "seeds": [
+                4456,
+                4457,
+                4458,
+                4459,
+                4460,
+                4461,
+                4462,
+                4463
+              ],
+              "selected_seed": null
+            }
+          ],
+          "blocks_with_achieved_replay_retention": 0,
+          "blocks_with_reference_selection": 0,
+          "inference_guard": "post-hoc deterministic partitions of one archived scene; descriptive only",
+          "n_descriptive_seed_blocks": 8
+        },
+        "0.3": {
+          "blocks": [
+            {
+              "achieved_replay_retained": false,
+              "block": 0,
+              "calls_spent": 8,
+              "reference_selected": false,
+              "seeds": [
+                4400,
+                4401,
+                4402,
+                4403,
+                4404,
+                4405,
+                4406,
+                4407
+              ],
+              "selected_seed": null
+            },
+            {
+              "achieved_replay_retained": false,
+              "block": 1,
+              "calls_spent": 8,
+              "reference_selected": false,
+              "seeds": [
+                4408,
+                4409,
+                4410,
+                4411,
+                4412,
+                4413,
+                4414,
+                4415
+              ],
+              "selected_seed": null
+            },
+            {
+              "achieved_replay_retained": false,
+              "block": 2,
+              "calls_spent": 8,
+              "reference_selected": false,
+              "seeds": [
+                4416,
+                4417,
+                4418,
+                4419,
+                4420,
+                4421,
+                4422,
+                4423
+              ],
+              "selected_seed": null
+            },
+            {
+              "achieved_replay_retained": false,
+              "block": 3,
+              "calls_spent": 8,
+              "reference_selected": false,
+              "seeds": [
+                4424,
+                4425,
+                4426,
+                4427,
+                4428,
+                4429,
+                4430,
+                4431
+              ],
+              "selected_seed": null
+            },
+            {
+              "achieved_replay_retained": false,
+              "block": 4,
+              "calls_spent": 8,
+              "reference_selected": false,
+              "seeds": [
+                4432,
+                4433,
+                4434,
+                4435,
+                4436,
+                4437,
+                4438,
+                4439
+              ],
+              "selected_seed": null
+            },
+            {
+              "achieved_replay_retained": false,
+              "block": 5,
+              "calls_spent": 8,
+              "reference_selected": false,
+              "seeds": [
+                4440,
+                4441,
+                4442,
+                4443,
+                4444,
+                4445,
+                4446,
+                4447
+              ],
+              "selected_seed": null
+            },
+            {
+              "achieved_replay_retained": false,
+              "block": 6,
+              "calls_spent": 8,
+              "reference_selected": false,
+              "seeds": [
+                4448,
+                4449,
+                4450,
+                4451,
+                4452,
+                4453,
+                4454,
+                4455
+              ],
+              "selected_seed": null
+            },
+            {
+              "achieved_replay_retained": false,
+              "block": 7,
+              "calls_spent": 8,
+              "reference_selected": false,
+              "seeds": [
+                4456,
+                4457,
+                4458,
+                4459,
+                4460,
+                4461,
+                4462,
+                4463
+              ],
+              "selected_seed": null
+            }
+          ],
+          "blocks_with_achieved_replay_retention": 0,
+          "blocks_with_reference_selection": 0,
+          "inference_guard": "post-hoc deterministic partitions of one archived scene; descriptive only",
+          "n_descriptive_seed_blocks": 8
+        }
+      }
+    },
+    "status": "complete"
+  },
+  "wall_clock_s": 139.56883928799652
+}

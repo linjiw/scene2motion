@@ -37,8 +37,8 @@ from scene2motion.runner import ArdyRunner  # noqa: E402
 from scene2motion.stepover_eval import BoxHeightProbe, foot_kinematics_series  # noqa: E402
 
 
-SCHEMA_VERSION = "exp019-gait-matched-stepover-v2"
-FAILURE_SCHEMA_VERSION = "exp019-gait-matched-stepover-failure-v2"
+SCHEMA_VERSION = "exp019-gait-matched-stepover-v3"
+FAILURE_SCHEMA_VERSION = "exp019-gait-matched-stepover-failure-v3"
 
 WALK = e17.WALK
 STEP = e17.STEP
@@ -47,10 +47,12 @@ FPS = cal.FPS
 N_FRAMES = cal.N_FRAMES
 
 DONOR_SEEDS = e18.DONOR_SEEDS
-# v2 pool, sized to the constructibility rate the v1 attempts measured (5/16 seeds; see
-# docs/ramp-exp019-constructibility-2026-09-01.md).  K=32 fresh seeds yields ~10 expected
-# constructible seeds against the unchanged N=8 requirement; the v1 seeds are closed.
-POOL_SEEDS = tuple(range(4000, 4032))
+# v3 pool.  Sized to the *joint* rate of footfall-free placement and packet
+# constructibility, which are anti-correlated: individually ~21/32 and ~17/32, jointly
+# 6/32 at a pinned apex placement but 13/32 once the obstacle may sit at the
+# footfall-free frame nearest the apex within the packet's own half-window.  Seeds
+# 4000-4031 are closed (their v2 outcome was observed).
+POOL_SEEDS = tuple(range(4100, 4132))
 POOL_BATCH_SIZE = 8
 N_SELECT = 8
 EXPECTED_SWING_SIDE = e18.EXPECTED_SWING_SIDE
@@ -59,6 +61,11 @@ STRATUM_ORDER = cal.STRATUM_SELECTION_ORDER
 OBSTACLE_HEIGHT_M = e18.OBSTACLE_HEIGHT_M
 OBSTACLE_DEPTH_M = e18.OBSTACLE_DEPTH_M
 HALF_WINDOW_FRAMES = e18.HALF_WINDOW_FRAMES
+# The obstacle sits at the footfall-free route frame nearest the swing apex, searched
+# within the packet's own half-window.  Pinning it to the apex exactly (shift 0) leaves
+# only 6/32 seeds jointly placeable and constructible; +/-2 gives 13/32.  This is well
+# inside exp017's +/-8 gate and never exceeds the packet's temporal footprint.
+MAX_CENTER_SHIFT_FRAMES = HALF_WINDOW_FRAMES
 SUPPORT_WINDOW_S = e18.SUPPORT_WINDOW_S
 DONOR_MIN_RELATIVE_LIFT_M = e18.DONOR_MIN_RELATIVE_LIFT_M
 TARGET_MIN_RELATIVE_LIFT_M = e18.TARGET_MIN_RELATIVE_LIFT_M
@@ -207,39 +214,63 @@ def placeable_candidates(
             row["rejection"] = "packet_half_window_two_not_supported"
             candidates.append(row)
             continue
-        foot_offset = float(forward[cycle.apex_frame]) - float(
-            qpos[cycle.apex_frame, 0])
-        obstacle_x = float(route[cycle.apex_frame, 1]) + foot_offset
+        apex = cycle.apex_frame
+        foot_offset = float(forward[apex]) - float(qpos[apex, 0])
         row["nominal_foot_forward_offset_m"] = foot_offset
-        row["achieved_foot_x_m"] = float(forward[cycle.apex_frame])
-        row["route_progress_at_apex_m"] = float(route[cycle.apex_frame, 1])
-        row["obstacle_x_m"] = obstacle_x
+        row["achieved_foot_x_m"] = float(forward[apex])
+        row["route_progress_at_apex_m"] = float(route[apex, 1])
         row["route_low_m"] = low
         row["route_high_m"] = high
         row["obstacle_half_extent_m"] = OBSTACLE_HALF_EXTENT_M
-        if not (
-            low < obstacle_x - OBSTACLE_HALF_EXTENT_M
-            and obstacle_x + OBSTACLE_HALF_EXTENT_M < high
-        ):
-            row["rejection"] = "expanded_obstacle_outside_route"
-            candidates.append(row)
-            continue
-        nearest_footfall = (
-            float(np.min(np.abs(footfalls - obstacle_x))) if footfalls.size
-            else float("inf")
+        row["max_center_shift_frames"] = MAX_CENTER_SHIFT_FRAMES
+        # Search the route frames within the packet's own half-window, nearest the apex
+        # first, for one whose expanded footprint holds no support-phase footfall.  A
+        # footfall inside the box makes the scene unwinnable for every arm, nominal
+        # included, so this is a validity requirement rather than a preference.
+        window = sorted(
+            range(max(0, apex - MAX_CENTER_SHIFT_FRAMES),
+                  min(len(route), apex + MAX_CENTER_SHIFT_FRAMES + 1)),
+            key=lambda frame: (abs(frame - apex), frame),
         )
-        row["nearest_support_footfall_m"] = nearest_footfall
-        if nearest_footfall <= OBSTACLE_HALF_EXTENT_M:
-            # The swing arcs over this x, but a footfall of either foot lands inside the
-            # expanded footprint, so no arm - packet or nominal - can clear the box.
-            row["rejection"] = "support_footfall_inside_obstacle_footprint"
+        chosen_frame: int | None = None
+        outside_route = False
+        best_nearest = 0.0
+        for frame in window:
+            candidate_x = float(route[frame, 1]) + foot_offset
+            if not (
+                low < candidate_x - OBSTACLE_HALF_EXTENT_M
+                and candidate_x + OBSTACLE_HALF_EXTENT_M < high
+            ):
+                outside_route = True
+                continue
+            nearest = (
+                float(np.min(np.abs(footfalls - candidate_x))) if footfalls.size
+                else float("inf")
+            )
+            best_nearest = max(best_nearest, nearest)
+            if nearest <= OBSTACLE_HALF_EXTENT_M:
+                continue
+            chosen_frame = frame
+            break
+        row["nearest_support_footfall_m"] = best_nearest
+        row["searched_route_frames"] = list(window)
+        if chosen_frame is None:
+            row["rejection"] = (
+                "expanded_obstacle_outside_route" if outside_route
+                else "support_footfall_inside_obstacle_footprint"
+            )
             candidates.append(row)
             continue
+        obstacle_x = float(route[chosen_frame, 1]) + foot_offset
         row.update({
             "placeable": True,
+            "obstacle_x_m": obstacle_x,
+            "obstacle_route_frame": chosen_frame,
+            "center_shift_frames": chosen_frame - apex,
             "distance_from_route_midpoint_m": abs(obstacle_x - midpoint),
             "selection_key": [
                 abs(obstacle_x - midpoint),
+                abs(chosen_frame - apex),
                 -float(cycle.prominence_m),
                 int(STRATUM_ORDER[clip.speed_label]),
                 int(cycle.apex_frame),
@@ -317,13 +348,20 @@ def probe_constructibility(
             source_common_physical_protocol_hash=(
                 pair.absolute.common_physical_protocol_hash),
             half_window_frames=HALF_WINDOW_FRAMES,
-            max_center_shift_frames=0)
+            max_center_shift_frames=MAX_CENTER_SHIFT_FRAMES)
     except (e17.TargetAssignmentError, ValueError) as exc:
         result["construct_rejection"] = f"target_assignment: {exc}"
         return result
     assignment = assignments[0]
-    if int(assignment["controls"].center_shift_frames) != 0:
-        result["construct_rejection"] = "nonzero center shift"
+    shift = int(assignment["controls"].center_shift_frames)
+    if abs(shift) > MAX_CENTER_SHIFT_FRAMES:
+        result["construct_rejection"] = f"center shift {shift} exceeds the locked bound"
+        return result
+    if shift != int(candidate.get("center_shift_frames", shift)):
+        result["construct_rejection"] = (
+            f"assignment shift {shift} disagrees with the placement's "
+            f"{candidate.get('center_shift_frames')}"
+        )
         return result
     common = dict(
         target_nominal=sample, target_event=assignment["cycle"].event,
@@ -419,9 +457,15 @@ def run_pilot(
             "obstacle_depth_m": OBSTACLE_DEPTH_M,
             "obstacle_half_extent_m": OBSTACLE_HALF_EXTENT_M,
             "half_window_frames": HALF_WINDOW_FRAMES,
-            "center_shift_frames": 0,
+            "max_center_shift_frames": MAX_CENTER_SHIFT_FRAMES,
+            "placement_rule": (
+                "obstacle at route_progress(f) + foot_offset for the footfall-free "
+                "route frame f nearest the swing apex within the packet half-window; "
+                "the expanded footprint must contain no support-phase footfall of "
+                "either foot, otherwise every arm including nominal collides"
+            ),
             "selection_key": [
-                "abs(obstacle_x - route midpoint)", "-prominence",
+                "abs(obstacle_x - route midpoint)", "abs(center shift)", "-prominence",
                 "stratum order (reference, slow, fast)", "apex frame",
                 "phase-evidence receipt digest",
             ],
@@ -856,7 +900,8 @@ def run_pilot(
                     "seed": seed, "arm": arm, "prompt": STEP, "scene_id": scene_id,
                     "obstacle_x_m": obstacle_x, "speed_label": label,
                     "target_apex_frame": int(assignment["cycle"].apex_frame),
-                    "center_shift_frames": 0,
+                    "center_shift_frames": int(
+                        assignment["controls"].center_shift_frames),
                     "predicted_spatial_error_m": float(
                         assignment["predicted_spatial_error_m"]),
                     "packet_hash": info.packet_hash,

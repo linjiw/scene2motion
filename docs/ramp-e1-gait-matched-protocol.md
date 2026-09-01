@@ -34,19 +34,26 @@ representation only.
 * **Donor bundle:** exp017's archived bank, regenerated deterministically and required to
   reproduce the archived clip hashes, selected seed (2603), swing side (left), center
   frame, and packet payload content hash — same gates as exp018. 2D = 8 samples.
-* **Nominal pool (v2):** K = 32 fresh seeds 4000–4031, disjoint from all prior campaigns,
+* **Nominal pool (v3):** K = 32 fresh seeds 4100–4131, disjoint from all prior campaigns,
   each at the three calibrated speeds (twelve batches of eight) on that stratum's own
   constant route (4.776 / 7.200 / 9.552 m). 3K = 96 samples. K is sized to the
-  constructibility rate the v1 attempts measured (5/16 seeds ≈ 0.31; see
-  `docs/ramp-exp019-constructibility-2026-09-01.md`), so the expected yield is ≈ 10
-  against the requirement below. The v1 seeds 3900–3915 are closed.
+  *joint* rate of footfall-free placement and packet constructibility, which are
+  anti-correlated: individually ~21/32 and ~17/32, jointly 6/32 with the obstacle pinned
+  to the apex but **13/32** once it may sit at the footfall-free route frame nearest the
+  apex within the packet's own half-window (see
+  `docs/ramp-exp019-constructibility-2026-09-01.md`). Expected yield ≈ 13 against the
+  requirement below. Seeds 3900–3915 and 4000–4031 are closed.
 * **Outcome-free placement selection.** For each pool clip, enumerate complete left-swing
   cycles under the frozen v3 Pmin (0.042 m) and the ±2-frame packet window. The obstacle
-  is placed at `x = route_progress(apex) + foot_offset`, where
+  is placed at `x = route_progress(f) + foot_offset` for the route frame `f` nearest the
+  apex within `±2` frames (the packet's own half-window, and well inside exp017's ±8 gate)
+  whose footprint is footfall-free; where
   `foot_offset = foot_x(apex) − root_x(apex)` — the swing foot's apex position measured
   against the *prescribed* route rather than the achieved root, so exp017's assignment
-  solves `desired_root = route_progress(apex)` and the center shift is **exactly** zero
-  rather than zero up to the ~1.4 cm root-tracking residual. A cycle is
+  solves `desired_root = route_progress(f)` and the center shift is **exactly** `f − apex`
+  rather than an artefact of the ~1.4 cm root-tracking residual. Pinning `f = apex`
+  (shift 0) is preferred by the selection key but is not required: it leaves only 6/32
+  seeds jointly placeable and constructible. A cycle is
   placeable when that obstacle lies strictly inside the clip's route with the simulation
   body margin (`route_lo < x − (depth/2 + margin)` and `x + (depth/2 + margin) < route_hi`)
   **and its expanded footprint contains no support-phase footfall of either foot**
@@ -61,10 +68,11 @@ representation only.
   25/32 seeds. Per seed,
   pooling strata, select the placeable cycle minimizing the frozen key:
   1. |x − route midpoint| (margin and autoregressive-history depth);
-  2. −prominence;
-  3. stratum order (reference, slow, fast);
-  4. apex frame;
-  5. phase-evidence receipt digest.
+  2. |center shift| (prefer the obstacle exactly at the apex);
+  3. −prominence;
+  4. stratum order (reference, slow, fast);
+  5. apex frame;
+  6. phase-evidence receipt digest.
 
   **Constructibility probe.** Placement eligibility (phase-observability cycles above
   Pmin) and packet constructibility (a `step_phase` cycle at the same apex, a zero-shift
@@ -81,7 +89,7 @@ representation only.
   than eight ⇒ fail-closed pool-exhaustion stop. The requirement is unchanged in kind from
   v1's; only the pool is resized to the measured rate.
 * **Arms.** For each selected seed, exactly one `absolute` and one `residual` arm (STEP
-  prompt both, strength 1, duration scale 1, shift 0, identical support hashes and channel
+  prompt both, strength 1, duration scale 1, the placement's own shift, identical support hashes and channel
   usage, no joint-position channel, free body heading) on the nominal's own route.
   2N = 16 samples. A third **`nominal`** reference arm costs nothing: the pool clip itself
   is scored against the same obstacle, answering whether either packet adds clearance over

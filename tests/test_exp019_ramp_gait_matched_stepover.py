@@ -160,10 +160,13 @@ def test_placement_rejects_obstacles_containing_a_support_footfall():
     """
     route, qpos, feet = _scene()
     forward = feet["left"]["forward_representative_m"]
-    obstacle_x = float(route[100, 1]) + 0.15
-    # Plant a foot ~5 cm from the obstacle centre, well inside the expanded footprint.
-    contact = int(np.argmin(np.abs(forward - (obstacle_x - 0.05))))
-    route_c, qpos_c, feet_c = _scene(support_frames=(contact,))
+    # Plant feet so every route frame the placement may search is blocked.
+    blocked = []
+    for frame in range(100 - pilot.MAX_CENTER_SHIFT_FRAMES,
+                       100 + pilot.MAX_CENTER_SHIFT_FRAMES + 1):
+        target = float(route[frame, 1]) + 0.15
+        blocked.append(int(np.argmin(np.abs(forward - target))))
+    route_c, qpos_c, feet_c = _scene(support_frames=tuple(blocked))
     rows = pilot.placeable_candidates(
         _clip([_cycle(apex=100)]), qpos_c, feet_c, route_c,
         target_min_prominence_m=0.042, thresholds=_Thresholds())
@@ -172,7 +175,7 @@ def test_placement_rejects_obstacles_containing_a_support_footfall():
     assert rows[0]["nearest_support_footfall_m"] <= pilot.OBSTACLE_HALF_EXTENT_M
 
     # The same cycle with the footfall well clear of the footprint stays placeable.
-    far = int(np.argmin(np.abs(forward - (obstacle_x - 1.0))))
+    far = int(np.argmin(np.abs(forward - (float(route[100, 1]) + 0.15 - 1.0))))
     rows_clear = pilot.placeable_candidates(
         _clip([_cycle(apex=100)]), *_scene(support_frames=(far,))[1:],
         route_xz=route, target_min_prominence_m=0.042, thresholds=_Thresholds())

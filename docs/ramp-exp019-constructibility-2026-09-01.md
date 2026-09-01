@@ -68,3 +68,40 @@ K = 32 fresh seeds (4000–4031) with N = 8 keeps a real requirement (expected y
 while sizing the pool to the measured rate — the same rate-honest resizing the calibration
 family used at v2 → v3. The donor bundle, Pmin, placement rule, selection key,
 constructibility probe, endpoints, and decision rule are unchanged.
+
+## Addendum (v3/v4 attempts): placement validity and constructibility are anti-correlated
+
+The K=32 rerun (seeds 4000–4031) cleared its gate at **17/32** and produced the E1
+family's first complete set of arms — 8 nominal, 8 absolute, 8 residual, 120 samples
+exact (`outputs/exp019_gait_matched_stepover_v3/`). It made no representation claim: the
+obstacle was placed at the swing apex without requiring a footfall-free footprint, so in
+**all 8 seeds** a support-phase footfall sat 0.007–0.115 m from the obstacle centre inside
+the 0.140 m half-extent. Every arm — including the unmodified nominal — collided and
+scored zero whole-body clearance, and residual − absolute was noise on every endpoint. The
+free nominal reference arm is what made this legible; it is now permanent.
+
+Adding the footfall requirement with the obstacle still pinned to the apex
+(`outputs/exp019_gait_matched_stepover_v4/`) fails closed the other way: **6/32**. The two
+requirements are anti-correlated, because constructibility wants the 8–9-frame target
+swings above while footfall-free footprints want longer strides:
+
+| requirement (K=32 pool) | seeds |
+|---|---:|
+| packet constructible | 17/32 |
+| footfall-free footprint at the apex | 21/32 |
+| **both, obstacle pinned to the apex** | **6/32** |
+| both, obstacle at the footfall-free frame nearest the apex, ±1 | 11/32 |
+| **both, same within ±2 (the packet half-window)** | **13/32** |
+| both, same within ±4 | 14/32 |
+
+The v3 protocol therefore lets the obstacle sit at the footfall-free route frame nearest
+the apex within ±2 frames — the packet's own temporal footprint, and a quarter of exp017's
+±8 gate — with |shift| entering the outcome-free selection key so an exactly-at-apex
+placement still wins when one exists. Seeds 4000–4031 are closed; the rerun uses
+4100–4131.
+
+**The standing finding, independent of what the comparison shows:** for this frozen prior
+and this donor bundle, a scene where the step-over packet is both *applicable* and
+*winnable* exists for roughly **40 %** of walk seeds, and only because the obstacle is
+allowed to follow the gait. That number, not any residual-minus-absolute delta, is the
+honest headline about how far a coherent packet extends the prior's usable capability.

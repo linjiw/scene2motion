@@ -89,14 +89,14 @@
   },
   "evidence_anchors": {
     "qpos": {
-      "content_sha256": "41db742fcf5506750db05036575fb9a0ebd854024e7c262d28b12ceb709f84bd",
-      "n_arrays": 16,
+      "content_sha256": "bea8b4340f8a0292edab9f9c52becec89f823d818798f05af39ca023d01e702f",
+      "n_arrays": 40,
       "path": "qpos.npz"
     },
     "rows": {
-      "file_sha256": "29a91f76b03d4e517c9a001973e4a40281405958dff63949781b2ab40aeab66f",
-      "logical_sha256": "e3f0201ce3f9fc03483fae7c16af065a1bb6584aea7907658d5aad4547980332",
-      "n_rows": 16,
+      "file_sha256": "0a455b8924721eae6ead1b9b592a4c4238fca5399ffcdb89294a41430d3e6726",
+      "logical_sha256": "d80f8455de6384ee69c906a3dde5d25901940d9fe82d97fbc0ba867d3bea659d",
+      "n_rows": 40,
       "path": "rows.jsonl"
     }
   },
@@ -138,12 +138,12 @@
     }
   },
   "query_accounting": {
-    "generate_invocations": 3,
-    "samples_launched": 24,
-    "samples_returned": 16
+    "generate_invocations": 6,
+    "samples_launched": 48,
+    "samples_returned": 40
   },
   "schema": "exp021-elicited-lift-distribution-v1",
   "stage": "generation",
   "status": "running",
-  "wall_clock_s": 123.09943973000918
+  "wall_clock_s": 287.9071969159995
 }

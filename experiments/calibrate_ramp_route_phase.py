@@ -410,8 +410,10 @@ class ObservedCycle:
     phase_evidence: Mapping[str, Any]
 
     def __post_init__(self) -> None:
-        if self.split not in ("calibration", "validation"):
-            raise ValueError("cycle split must be calibration or validation")
+        # "pilot" marks downstream campaigns (exp018+) that reuse this measurement
+        # machinery on their own seed pools under the frozen v3 identities.
+        if self.split not in ("calibration", "validation", "pilot"):
+            raise ValueError("cycle split must be calibration, validation, or pilot")
         object.__setattr__(self, "seed", _strict_int(self.seed, "seed"))
         if self.speed_label not in {label for label, _ in SPEEDS}:
             raise ValueError("cycle speed label is not in the locked design")

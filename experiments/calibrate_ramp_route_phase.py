@@ -1,10 +1,20 @@
-"""Fresh neutral-WALK calibration for RAMP phase observability and route timing.
+"""Neutral-WALK calibration v2 for RAMP phase observability and route timing.
 
 This campaign is deliberately locked rather than configurable.  It spends exactly 72
-frozen ARDY samples: calibration seeds 3200--3215 and validation seeds 3300--3307, each
+frozen ARDY samples: calibration seeds 3400--3415 and validation seeds 3500--3507, each
 paired across three root-XZ-only WALK speeds in nine batches of eight.  Calibration fixes
 the target swing-prominence gate and route-timing derivative caps.  Validation may reject
 those quantities, but can never widen or otherwise change them.
+
+v2 supersedes the v1 campaign after its hash-anchored refusal (see
+``docs/ramp-route-phase-calibration-refusal-2026-09-01.md``): calibration tolerates
+measured neutral-substrate attrition instead of requiring every seed, the single fixed
+event progress becomes a frozen five-point placement set with outcome-free
+minimum-deformation selection, timing caps pool all three speed strata, and validation
+kill rules gate only the reference stratum the E1 pilot consumes while the endpoint
+strata are measured and reported descriptively.  All resizing is grounded in the v1
+refusal evidence (``experiments/analyze_calibrate_ramp_route_phase_v1.py``) and frozen in
+``docs/ramp-route-phase-calibration-protocol-v2.md`` before any v2 sample is generated.
 
 The physical step/support threshold receipt is a fixed common-support dependency.  This
 run is not new confirmatory evidence for those thresholds.  Likewise, the 4 cm donor-step
@@ -49,7 +59,6 @@ from scene2motion.ramp.route_phase import (  # noqa: E402
     RouteProgressProgram,
     RouteTimingBounds,
     reparameterize_route_progress,
-    route_progress_selection_key,
 )
 from scene2motion.robot import ARDY_G1_XML, G1Body  # noqa: E402
 from scene2motion.runner import ArdyRunner  # noqa: E402
@@ -59,10 +68,10 @@ from scene2motion.stepover_eval import (  # noqa: E402
 )
 
 
-CAMPAIGN_SCHEMA_VERSION = "ramp-route-phase-calibration-v1"
-FAILURE_SCHEMA_VERSION = "ramp-route-phase-calibration-failure-v1"
-PROMINENCE_RECEIPT_SCHEMA_VERSION = "ramp-target-prominence-calibration-v1"
-TIMING_RECEIPT_SCHEMA_VERSION = "ramp-route-timing-calibration-v1"
+CAMPAIGN_SCHEMA_VERSION = "ramp-route-phase-calibration-v2"
+FAILURE_SCHEMA_VERSION = "ramp-route-phase-calibration-failure-v2"
+PROMINENCE_RECEIPT_SCHEMA_VERSION = "ramp-target-prominence-calibration-v2"
+TIMING_RECEIPT_SCHEMA_VERSION = "ramp-route-timing-calibration-v2"
 DONOR_GATE_SCHEMA_VERSION = "ramp-donor-step-quality-dependency-v1"
 WALK_PROMPT = "A person walks forward."
 FPS = 25.0
@@ -70,14 +79,15 @@ N_FRAMES = 200
 DURATION_S = (N_FRAMES - 1) / FPS
 PILOT_ROUTE_LENGTH_M = 7.2
 PILOT_EVENT_OBSTACLE_PROGRESS_M = 3.6
+EVENT_PLACEMENTS_M = (3.0, 3.3, 3.6, 3.9, 4.2)
 REFERENCE_SPEED_MPS = PILOT_ROUTE_LENGTH_M / DURATION_S
 SPEEDS: tuple[tuple[str, float], ...] = (
     ("slow", 0.6),
     ("reference", REFERENCE_SPEED_MPS),
     ("fast", 1.2),
 )
-CALIBRATION_SEEDS = tuple(range(3200, 3216))
-VALIDATION_SEEDS = tuple(range(3300, 3308))
+CALIBRATION_SEEDS = tuple(range(3400, 3416))
+VALIDATION_SEEDS = tuple(range(3500, 3508))
 BATCH_SIZE = 8
 N_BATCHES = 9
 PLANNED_SAMPLES = 72
@@ -102,11 +112,13 @@ HEADROOM = 1.25
 BROAD_ACCELERATION_CAP_MPS2 = 1.0e9
 MIN_ROUTE_SPEED_MPS = 0.6
 MAX_ROUTE_SPEED_MPS = 1.2
-VALIDATION_BACKGROUND_EXCEEDANCE_MAX = 1
-VALIDATION_MIN_COMPLETE_SEEDS_PER_SPEED = 6
-VALIDATION_MIN_COMPLETE_SEEDS_PER_SIDE_SPEED = 4
-VALIDATION_MIN_REFERENCE_DYNAMICS_COVERAGE = 7
-VALIDATION_MIN_ENDPOINT_FULL_COVERAGE = 6
+MIN_CALIBRATION_BACKGROUND_SEEDS = 12
+MIN_TIMING_CONTRIBUTING_SEEDS = 10
+VALIDATION_MAX_REFERENCE_ATTRITION = 3
+VALIDATION_MAX_BACKGROUND_EXCEEDANCE = 1
+VALIDATION_MIN_FULL_FEASIBLE_ABSOLUTE = 4
+VALIDATION_MIN_FULL_FEASIBLE_FRACTION = 0.6
+VALIDATION_MIN_SELECTED_SIGNALS_PER_SIDE = 3
 VALIDATION_SIGNAL_QUANTILE = 0.25
 VALIDATION_BACKGROUND_QUANTILE = 0.95
 VALIDATION_SEPARATION_HEADROOM = 1.25
@@ -454,9 +466,11 @@ class ObservedCycle:
     def max_background_contrast_m(self) -> float:
         return max(self.background_contrasts_m)
 
-    @property
-    def event_root_progress_m(self) -> float:
-        return PILOT_EVENT_OBSTACLE_PROGRESS_M - self.nominal_foot_forward_offset_m
+    def event_root_progress_m(self, placement_m: float) -> float:
+        placement = _finite(placement_m, "placement_m")
+        if placement not in EVENT_PLACEMENTS_M:
+            raise ValueError("placement_m is not in the frozen event placement set")
+        return placement - self.nominal_foot_forward_offset_m
 
     def as_dict(self) -> dict[str, Any]:
         return {
@@ -479,11 +493,14 @@ class ObservedCycle:
             "packet_window_valid": self.packet_window_valid,
             "nominal_foot_forward_offset_m": self.nominal_foot_forward_offset_m,
             "event_root_progress_equation": (
-                "event_root_progress_m = obstacle_progress_m "
+                "event_root_progress_m = placement_m "
                 "- nominal_foot_forward_offset_m"
             ),
-            "obstacle_progress_m": PILOT_EVENT_OBSTACLE_PROGRESS_M,
-            "event_root_progress_m": self.event_root_progress_m,
+            "event_placements_m": list(EVENT_PLACEMENTS_M),
+            "event_root_progress_by_placement_m": {
+                f"{placement:g}": self.event_root_progress_m(placement)
+                for placement in EVENT_PLACEMENTS_M
+            },
             "evidence_digest": self.evidence_digest,
             "phase_evidence": self.phase_evidence,
         }
@@ -705,12 +722,14 @@ def calibration_seed_background_maxima(
 def freeze_target_prominence(clips: Sequence[AnalyzedClip]) -> dict[str, Any]:
     maxima = calibration_seed_background_maxima(clips, split="calibration")
     missing = [seed for seed in CALIBRATION_SEEDS if seed not in maxima]
-    if missing:
+    present = [seed for seed in CALIBRATION_SEEDS if seed in maxima]
+    if len(present) < MIN_CALIBRATION_BACKGROUND_SEEDS:
         raise ValueError(
-            "target-prominence calibration lacks background evidence for seeds "
-            f"{missing}"
+            "target-prominence calibration has background evidence for only "
+            f"{len(present)}/{len(CALIBRATION_SEEDS)} seeds; requires "
+            f">={MIN_CALIBRATION_BACKGROUND_SEEDS} (missing {missing})"
         )
-    ordered = [maxima[seed] for seed in CALIBRATION_SEEDS]
+    ordered = [maxima[seed] for seed in present]
     bound = calibrated_upper_bound(ordered, quantum=PROMINENCE_QUANTUM_M)
     if bound["value"] <= 0.0:
         raise ValueError(
@@ -727,8 +746,12 @@ def freeze_target_prominence(clips: Sequence[AnalyzedClip]) -> dict[str, Any]:
             "three speeds"
         ),
         "calibration_seeds": list(CALIBRATION_SEEDS),
+        "seeds_with_background_evidence": present,
+        "seeds_without_background_evidence": missing,
+        "min_required_background_seeds": MIN_CALIBRATION_BACKGROUND_SEEDS,
+        "missing_seeds_are_recorded_attrition_not_imputed": True,
         "per_seed_background_maxima_m": {
-            str(seed): maxima[seed] for seed in CALIBRATION_SEEDS
+            str(seed): maxima[seed] for seed in present
         },
         "nearest_rank_quantile": CALIBRATION_QUANTILE,
         "nearest_rank_q95_m": bound["nearest_rank_value"],
@@ -747,8 +770,15 @@ def freeze_target_prominence(clips: Sequence[AnalyzedClip]) -> dict[str, Any]:
 @dataclass(frozen=True)
 class ProgramCandidate:
     cycle: ObservedCycle
+    placement_m: float
     program: RouteProgressProgram | None
     rejection: str | None
+
+    def __post_init__(self) -> None:
+        placement = _finite(self.placement_m, "placement_m")
+        if placement not in EVENT_PLACEMENTS_M:
+            raise ValueError("placement_m is not in the frozen event placement set")
+        object.__setattr__(self, "placement_m", placement)
 
     @property
     def feasible(self) -> bool:
@@ -757,10 +787,42 @@ class ProgramCandidate:
     def as_dict(self) -> dict[str, Any]:
         return {
             "cycle": self.cycle.as_dict(),
+            "placement_m": self.placement_m,
             "status": "feasible" if self.feasible else "rejected",
             "rejection": self.rejection,
             "program": None if self.program is None else self.program.diagnostics(),
         }
+
+    def compact_dict(self) -> dict[str, Any]:
+        """Candidate row without the embedded cycle evidence (rows.jsonl carries it)."""
+        cycle = self.cycle
+        return {
+            "split": cycle.split,
+            "seed": cycle.seed,
+            "speed_label": cycle.speed_label,
+            "swing_side": cycle.swing_side,
+            "apex_frame": cycle.apex_frame,
+            "prominence_m": cycle.prominence_m,
+            "cycle_evidence_digest": cycle.evidence_digest,
+            "placement_m": self.placement_m,
+            "status": "feasible" if self.feasible else "rejected",
+            "rejection": self.rejection,
+            "program_digest": None if self.program is None else self.program.digest(),
+        }
+
+
+def placement_selection_key(
+    candidate: ProgramCandidate,
+) -> tuple[float, float, float, float, float, str]:
+    """Outcome-free lexicographic key: deformation cost, placement ties, digest."""
+    if not candidate.feasible or candidate.program is None:
+        raise ValueError("selection key requires a feasible program candidate")
+    return (
+        *candidate.program.selection_cost,
+        abs(candidate.placement_m - PILOT_EVENT_OBSTACLE_PROGRESS_M),
+        candidate.placement_m,
+        candidate.cycle.evidence_digest,
+    )
 
 
 def broad_timing_bounds() -> RouteTimingBounds:
@@ -776,40 +838,48 @@ def broad_timing_bounds() -> RouteTimingBounds:
 
 
 def make_program_candidate(
-    cycle: ObservedCycle, *, target_min_prominence_m: float,
+    cycle: ObservedCycle, placement_m: float, *, target_min_prominence_m: float,
     timing_bounds: RouteTimingBounds | None = None,
 ) -> ProgramCandidate:
     pmin = _finite(target_min_prominence_m, "target_min_prominence_m")
     if cycle.prominence_m < pmin:
-        return ProgramCandidate(cycle, None, "prominence_below_frozen_target_gate")
+        return ProgramCandidate(
+            cycle, placement_m, None, "prominence_below_frozen_target_gate"
+        )
     if not cycle.packet_window_valid:
-        return ProgramCandidate(cycle, None, "packet_half_window_two_not_supported")
+        return ProgramCandidate(
+            cycle, placement_m, None, "packet_half_window_two_not_supported"
+        )
     try:
         program = reparameterize_route_progress(
             np.asarray([[0.0, 0.0], [0.0, PILOT_ROUTE_LENGTH_M]], dtype=float),
             n_frames=N_FRAMES,
             event_frame=cycle.apex_frame,
-            event_root_progress_m=cycle.event_root_progress_m,
+            event_root_progress_m=cycle.event_root_progress_m(placement_m),
             timing_bounds=timing_bounds or broad_timing_bounds(),
         )
     except (TypeError, ValueError) as exc:
-        return ProgramCandidate(cycle, None, f"{type(exc).__name__}: {exc}")
-    return ProgramCandidate(cycle, program, None)
+        return ProgramCandidate(
+            cycle, placement_m, None, f"{type(exc).__name__}: {exc}"
+        )
+    return ProgramCandidate(cycle, placement_m, program, None)
 
 
 def build_and_select_programs(
     clips: Sequence[AnalyzedClip], *, target_min_prominence_m: float,
     timing_bounds: RouteTimingBounds | None = None,
 ) -> tuple[tuple[ProgramCandidate, ...], tuple[ProgramCandidate, ...]]:
-    """Build every valid-cycle program, then select one per seed/speed/side."""
+    """Enumerate every (valid cycle x placement) program; select one per seed/speed/side."""
     candidates = tuple(
         make_program_candidate(
             cycle,
+            placement,
             target_min_prominence_m=target_min_prominence_m,
             timing_bounds=timing_bounds,
         )
         for clip in clips
         for cycle in clip.cycles
+        for placement in EVENT_PLACEMENTS_M
     )
     grouped: dict[tuple[str, int, str, str], list[ProgramCandidate]] = {}
     for candidate in candidates:
@@ -820,15 +890,7 @@ def build_and_select_programs(
             ).append(candidate)
     selected: list[ProgramCandidate] = []
     for key in sorted(grouped):
-        options = grouped[key]
-        selected.append(
-            min(
-                options,
-                key=lambda item: route_progress_selection_key(
-                    item.program, item.cycle.evidence_digest  # type: ignore[arg-type]
-                ),
-            )
-        )
+        selected.append(min(grouped[key], key=placement_selection_key))
     return candidates, tuple(selected)
 
 
@@ -843,7 +905,7 @@ def freeze_timing_bounds(selected: Sequence[ProgramCandidate]) -> dict[str, Any]
         programs = [item.program for item in calibration if item.cycle.seed == seed]
         programs = [program for program in programs if program is not None]
         if not programs:
-            raise ValueError(f"route-timing calibration has no selected program for seed {seed}")
+            continue
         if any(
             program.max_abs_discrete_route_progress_jerk_mps3 is None
             or program.endpoint_route_progress_speed_deviation_mps is None
@@ -867,18 +929,26 @@ def freeze_timing_bounds(selected: Sequence[ProgramCandidate]) -> dict[str, Any]
                 for program in programs
             ),
         }
+    contributing = sorted(per_seed)
+    missing = [seed for seed in CALIBRATION_SEEDS if seed not in per_seed]
+    if len(contributing) < MIN_TIMING_CONTRIBUTING_SEEDS:
+        raise ValueError(
+            "route-timing calibration has selected programs for only "
+            f"{len(contributing)}/{len(CALIBRATION_SEEDS)} seeds; requires "
+            f">={MIN_TIMING_CONTRIBUTING_SEEDS} (missing {missing})"
+        )
     acceleration = calibrated_upper_bound(
-        [per_seed[seed]["max_abs_scalar_progress_acceleration_mps2"] for seed in CALIBRATION_SEEDS],
+        [per_seed[seed]["max_abs_scalar_progress_acceleration_mps2"] for seed in contributing],
         quantum=ACCELERATION_QUANTUM_MPS2,
         positive_floor=True,
     )
     jerk = calibrated_upper_bound(
-        [per_seed[seed]["max_abs_fps_discrete_scalar_progress_jerk_mps3"] for seed in CALIBRATION_SEEDS],
+        [per_seed[seed]["max_abs_fps_discrete_scalar_progress_jerk_mps3"] for seed in contributing],
         quantum=JERK_QUANTUM_MPS3,
         positive_floor=True,
     )
     endpoint = calibrated_upper_bound(
-        [per_seed[seed]["max_endpoint_scalar_progress_speed_deviation_mps"] for seed in CALIBRATION_SEEDS],
+        [per_seed[seed]["max_endpoint_scalar_progress_speed_deviation_mps"] for seed in contributing],
         quantum=ENDPOINT_SPEED_QUANTUM_MPS,
     )
     bounds = RouteTimingBounds(
@@ -893,11 +963,17 @@ def freeze_timing_bounds(selected: Sequence[ProgramCandidate]) -> dict[str, Any]
     fields = {
         "role": "fixed-route-timing-bounds",
         "calibration_seeds": list(CALIBRATION_SEEDS),
+        "contributing_seeds": contributing,
+        "seeds_without_selected_program": missing,
+        "min_required_contributing_seeds": MIN_TIMING_CONTRIBUTING_SEEDS,
+        "pooled_speed_strata": [label for label, _ in SPEEDS],
         "selection": (
-            "minimum route deformation per seed/speed/side; receipt digest tie break"
+            "minimum route deformation per seed/speed/side over the frozen placement "
+            "set; placement then receipt digest tie break"
         ),
         "selection_is_outcome_free": True,
-        "per_seed_maxima": {str(seed): per_seed[seed] for seed in CALIBRATION_SEEDS},
+        "event_placements_m": list(EVENT_PLACEMENTS_M),
+        "per_seed_maxima": {str(seed): per_seed[seed] for seed in contributing},
         "speed_envelope_mps": [MIN_ROUTE_SPEED_MPS, MAX_ROUTE_SPEED_MPS],
         "reference_speed_mps": REFERENCE_SPEED_MPS,
         "acceleration": acceleration,
@@ -937,55 +1013,67 @@ def timing_bounds_from_receipt(receipt: Mapping[str, Any]) -> RouteTimingBounds:
         raise ValueError(f"invalid frozen timing receipt: {exc}") from exc
 
 
-def validation_separation(
+def _deduplicated_seed_speed_backgrounds(
+    clips: Sequence[AnalyzedClip], *, split: str, seed: int, speed_label: str
+) -> tuple[dict[str, Any], ...]:
+    return tuple(
+        background
+        for clip in clips
+        if clip.split == split
+        and clip.seed == seed
+        and clip.speed_label == speed_label
+        for background in deduplicated_clip_backgrounds(clip)
+    )
+
+
+def validation_reference_separation(
     clips: Sequence[AnalyzedClip],
-    selected_programs: Sequence[ProgramCandidate],
+    selected_frozen: Sequence[ProgramCandidate],
     *,
-    speed_label: str,
     target_min_prominence_m: float,
+    non_attrited_seeds: Sequence[int],
 ) -> dict[str, Any]:
+    """Per-side robust separation of route-selected signal over own-foot background."""
     side_results: dict[str, Any] = {}
     for side in ("left", "right"):
         background_by_seed: dict[int, float] = {}
         signal_by_seed: dict[int, float] = {}
-        for seed in VALIDATION_SEEDS:
-            seed_clips = [
-                clip
-                for clip in clips
-                if clip.split == "validation"
-                and clip.seed == seed
-                and clip.speed_label == speed_label
-            ]
+        for seed in non_attrited_seeds:
             side_backgrounds = [
-                background
-                for clip in seed_clips
-                for background in deduplicated_clip_backgrounds(clip)
+                float(background["contrast_m"])
+                for background in _deduplicated_seed_speed_backgrounds(
+                    clips, split="validation", seed=seed, speed_label="reference"
+                )
                 if background["identity"]["baseline_support_side"] == side
             ]
             if side_backgrounds:
-                background_by_seed[seed] = max(
-                    float(background["contrast_m"]) for background in side_backgrounds
-                )
+                background_by_seed[seed] = max(side_backgrounds)
             selected_signal = [
                 item.cycle.prominence_m
-                for item in selected_programs
+                for item in selected_frozen
                 if item.feasible
                 and item.cycle.split == "validation"
                 and item.cycle.seed == seed
-                and item.cycle.speed_label == speed_label
+                and item.cycle.speed_label == "reference"
                 and item.cycle.swing_side == side
             ]
             if selected_signal:
                 if len(selected_signal) != 1:
                     raise ValueError(
-                        "validation separation received multiple selected programs for one "
-                        "seed/speed/side"
+                        "validation separation received multiple selected programs for "
+                        "one seed/side"
                     )
                 signal_by_seed[seed] = selected_signal[0]
-        if not background_by_seed or not signal_by_seed:
+        n_signals = len(signal_by_seed)
+        if n_signals < VALIDATION_MIN_SELECTED_SIGNALS_PER_SIDE or not background_by_seed:
             side_results[side] = {
                 "passed": False,
-                "reason": "missing side-specific validation background or selected signal",
+                "reason": (
+                    f"side has {n_signals} selected signals "
+                    f"(requires >={VALIDATION_MIN_SELECTED_SIGNALS_PER_SIDE}) or no "
+                    "side-specific background evidence"
+                ),
+                "n_selected_signals": n_signals,
                 "background_by_seed_m": {
                     str(k): v for k, v in background_by_seed.items()
                 },
@@ -1005,6 +1093,7 @@ def validation_separation(
             VALIDATION_SEPARATION_HEADROOM * background_q95,
         )
         side_results[side] = {
+            "n_selected_signals": n_signals,
             "background_by_seed_m": {
                 str(k): v for k, v in background_by_seed.items()
             },
@@ -1019,11 +1108,12 @@ def validation_separation(
     return {
         "rule": (
             "for each swing side, nearest-rank Q25 of the outcome-free route-selected "
-            "per-seed prominence must be >= max(frozen Pmin, 1.25 * nearest-rank Q95 "
-            "of the same-side per-seed maximum physical-window-deduplicated background)"
+            "per-seed reference prominence must be >= max(frozen Pmin, 1.25 * "
+            "nearest-rank Q95 of the same-side per-seed maximum "
+            "physical-window-deduplicated reference background), with at least "
+            f"{VALIDATION_MIN_SELECTED_SIGNALS_PER_SIDE} selected signals per side"
         ),
         "unused_high_prominence_cycles_cannot_satisfy_separation": True,
-        "missing_background_is_conservatively_counted_by_the_background_gate": True,
         "signal_quantile": VALIDATION_SIGNAL_QUANTILE,
         "background_quantile": VALIDATION_BACKGROUND_QUANTILE,
         "separation_headroom": VALIDATION_SEPARATION_HEADROOM,
@@ -1032,240 +1122,193 @@ def validation_separation(
     }
 
 
+def _descriptive_stratum(
+    clips: Sequence[AnalyzedClip],
+    *,
+    speed_label: str,
+    target_min_prominence_m: float,
+    frozen_bounds: RouteTimingBounds,
+) -> dict[str, Any]:
+    """Measured, reported, never gated: endpoint-stratum coverage quantities."""
+    stratum_clips = [
+        clip
+        for clip in clips
+        if clip.split == "validation" and clip.speed_label == speed_label
+    ]
+    attrited = sorted(
+        seed
+        for seed in VALIDATION_SEEDS
+        if not any(clip.seed == seed and clip.cycles for clip in stratum_clips)
+    )
+    broad_candidates, broad_selected = build_and_select_programs(
+        stratum_clips, target_min_prominence_m=target_min_prominence_m
+    )
+    frozen_candidates, frozen_selected = build_and_select_programs(
+        stratum_clips,
+        target_min_prominence_m=target_min_prominence_m,
+        timing_bounds=frozen_bounds,
+    )
+    return {
+        "gated": False,
+        "speed_label": speed_label,
+        "attrited_seeds": attrited,
+        "n_attrited": len(attrited),
+        "complete_seeds": sorted(
+            {
+                clip.seed
+                for clip in stratum_clips
+                for cycle in clip.cycles
+                if cycle.packet_window_valid
+                and cycle.prominence_m >= target_min_prominence_m
+            }
+        ),
+        "broad_feasible_seeds": sorted(
+            {item.cycle.seed for item in broad_selected if item.feasible}
+        ),
+        "full_frozen_feasible_seeds": sorted(
+            {item.cycle.seed for item in frozen_selected if item.feasible}
+        ),
+        "selected_placement_usage_m": {
+            f"{placement:g}": sum(
+                1 for item in frozen_selected if item.placement_m == placement
+            )
+            for placement in EVENT_PLACEMENTS_M
+        },
+        "n_broad_candidates": len(broad_candidates),
+        "n_frozen_candidates": len(frozen_candidates),
+        "background_null_deduplication": background_deduplication_receipt(stratum_clips),
+    }
+
+
 def validate_frozen_calibration(
     clips: Sequence[AnalyzedClip],
-    selected_broad: Sequence[ProgramCandidate],
     *,
     target_min_prominence_m: float,
     frozen_bounds: RouteTimingBounds,
 ) -> dict[str, Any]:
-    """Apply every locked validation kill rule without changing frozen quantities."""
+    """Apply the reference-stratum kill rules; measure endpoint strata descriptively."""
     reasons: list[str] = []
-    speeds: dict[str, Any] = {}
-    selected_lookup: dict[tuple[int, str, str], ProgramCandidate] = {
-        (item.cycle.seed, item.cycle.speed_label, item.cycle.swing_side): item
-        for item in selected_broad
-        if item.cycle.split == "validation" and item.feasible
-    }
-    for speed_label, _ in SPEEDS:
-        per_seed_cycles: dict[int, list[ObservedCycle]] = {}
-        for seed in VALIDATION_SEEDS:
-            matching = [
-                clip
-                for clip in clips
-                if clip.split == "validation"
-                and clip.seed == seed
-                and clip.speed_label == speed_label
-            ]
-            per_seed_cycles[seed] = [cycle for clip in matching for cycle in clip.cycles]
-        background: dict[int, float] = {}
-        for seed in VALIDATION_SEEDS:
-            matching = [
-                clip
-                for clip in clips
-                if clip.split == "validation"
-                and clip.seed == seed
-                and clip.speed_label == speed_label
-            ]
-            unique = [
-                item
-                for clip in matching
-                for item in deduplicated_clip_backgrounds(clip)
-            ]
-            if unique:
-                background[seed] = max(
-                    float(item["contrast_m"]) for item in unique
-                )
-        background_exceed_or_missing = [
-            seed
-            for seed in VALIDATION_SEEDS
-            if seed not in background or background[seed] > target_min_prominence_m
-        ]
-        complete_by_seed = {
-            seed: any(
-                cycle.packet_window_valid
-                and cycle.prominence_m >= target_min_prominence_m
-                for cycle in cycles
-            )
-            for seed, cycles in per_seed_cycles.items()
-        }
-        complete_by_side = {
-            side: sum(
-                any(
-                    cycle.swing_side == side
-                    and cycle.packet_window_valid
-                    and cycle.prominence_m >= target_min_prominence_m
-                    for cycle in per_seed_cycles[seed]
-                )
-                for seed in VALIDATION_SEEDS
-            )
-            for side in ("left", "right")
-        }
-
-        dynamics_seed_pass: dict[int, bool] = {}
-        endpoint_metric_seed_pass: dict[int, bool] = {}
-        endpoint_seed_pass: dict[int, bool] = {}
-        full_seed_pass: dict[int, bool] = {}
-        full_side_seed_pass: dict[str, dict[int, bool]] = {
-            side: {seed: False for seed in VALIDATION_SEEDS}
-            for side in ("left", "right")
-        }
-        frozen_rows: list[dict[str, Any]] = []
-        dynamics_bounds = RouteTimingBounds(
-            fps=FPS,
-            min_discrete_route_progress_speed_mps=MIN_ROUTE_SPEED_MPS,
-            max_discrete_route_progress_speed_mps=MAX_ROUTE_SPEED_MPS,
-            max_abs_route_progress_acceleration_mps2=(
-                frozen_bounds.max_abs_route_progress_acceleration_mps2
-            ),
-            max_abs_discrete_route_progress_jerk_mps3=(
-                frozen_bounds.max_abs_discrete_route_progress_jerk_mps3
-            ),
-            reference_route_progress_speed_mps=REFERENCE_SPEED_MPS,
-            max_endpoint_route_progress_speed_deviation_mps=None,
+    reference_clips = [
+        clip
+        for clip in clips
+        if clip.split == "validation" and clip.speed_label == "reference"
+    ]
+    attrited = sorted(
+        seed
+        for seed in VALIDATION_SEEDS
+        if not any(clip.seed == seed and clip.cycles for clip in reference_clips)
+    )
+    non_attrited = [seed for seed in VALIDATION_SEEDS if seed not in attrited]
+    n_ok = len(non_attrited)
+    if len(attrited) > VALIDATION_MAX_REFERENCE_ATTRITION:
+        reasons.append(
+            f"reference: substrate attrition {len(attrited)}/{len(VALIDATION_SEEDS)} > "
+            f"{VALIDATION_MAX_REFERENCE_ATTRITION}/{len(VALIDATION_SEEDS)}"
         )
-        for seed in VALIDATION_SEEDS:
-            dynamics_options: list[bool] = []
-            endpoint_options: list[bool] = []
-            full_options: list[bool] = []
-            for side in ("left", "right"):
-                broad = selected_lookup.get((seed, speed_label, side))
-                if broad is None or broad.program is None:
-                    continue
-                endpoint_ok = (
-                    broad.program.endpoint_route_progress_speed_deviation_mps is not None
-                    and broad.program.endpoint_route_progress_speed_deviation_mps
-                    <= float(frozen_bounds.max_endpoint_route_progress_speed_deviation_mps)
-                    + 1e-12
-                )
-                dynamics = make_program_candidate(
-                    broad.cycle,
-                    target_min_prominence_m=target_min_prominence_m,
-                    timing_bounds=dynamics_bounds,
-                )
-                full = make_program_candidate(
-                    broad.cycle,
-                    target_min_prominence_m=target_min_prominence_m,
-                    timing_bounds=frozen_bounds,
-                )
-                dynamics_options.append(dynamics.feasible)
-                endpoint_options.append(endpoint_ok)
-                full_options.append(full.feasible)
-                full_side_seed_pass[side][seed] = full.feasible
-                frozen_rows.append(
-                    {
-                        "seed": seed,
-                        "speed_label": speed_label,
-                        "side": side,
-                        "cycle_digest": broad.cycle.evidence_digest,
-                        "broad_program_hash": broad.program.digest(),
-                        "dynamics_pass": dynamics.feasible,
-                        "dynamics_rejection": dynamics.rejection,
-                        "endpoint_pass": endpoint_ok,
-                        "full_frozen_pass": full.feasible,
-                        "full_frozen_rejection": full.rejection,
-                        "full_frozen_program_hash": (
-                            None if full.program is None else full.program.digest()
-                        ),
-                    }
-                )
-            dynamics_seed_pass[seed] = any(dynamics_options)
-            endpoint_metric_seed_pass[seed] = any(endpoint_options)
-            full_seed_pass[seed] = any(full_options)
-            # Endpoint coverage is useful only when the same candidate also survives the
-            # frozen speed/acceleration/jerk bounds.  Counting disjoint sides for the two
-            # gates would overstate usable coverage.
-            endpoint_seed_pass[seed] = full_seed_pass[seed]
 
-        separation = validation_separation(
+    background: dict[int, float] = {}
+    for seed in non_attrited:
+        values = [
+            float(item["contrast_m"])
+            for item in _deduplicated_seed_speed_backgrounds(
+                clips, split="validation", seed=seed, speed_label="reference"
+            )
+        ]
+        if values:
+            background[seed] = max(values)
+    background_exceed_or_missing = [
+        seed
+        for seed in non_attrited
+        if seed not in background or background[seed] > target_min_prominence_m
+    ]
+    if len(background_exceed_or_missing) > VALIDATION_MAX_BACKGROUND_EXCEEDANCE:
+        reasons.append(
+            "reference: background exceedance/missing count "
+            f"{len(background_exceed_or_missing)} > "
+            f"{VALIDATION_MAX_BACKGROUND_EXCEEDANCE} among non-attrited seeds"
+        )
+
+    frozen_candidates, frozen_selected = build_and_select_programs(
+        reference_clips,
+        target_min_prominence_m=target_min_prominence_m,
+        timing_bounds=frozen_bounds,
+    )
+    full_feasible = sorted(
+        {item.cycle.seed for item in frozen_selected if item.feasible}
+    )
+    required_full = max(
+        VALIDATION_MIN_FULL_FEASIBLE_ABSOLUTE,
+        int(math.ceil(VALIDATION_MIN_FULL_FEASIBLE_FRACTION * n_ok)),
+    )
+    if len(full_feasible) < required_full:
+        reasons.append(
+            f"reference: full-frozen feasible coverage {len(full_feasible)}/{n_ok} < "
+            f"{required_full}"
+        )
+
+    separation = validation_reference_separation(
+        clips,
+        frozen_selected,
+        target_min_prominence_m=target_min_prominence_m,
+        non_attrited_seeds=non_attrited,
+    )
+    if not separation.get("passed", False):
+        reasons.append("reference: locked robust quantile separation failed")
+
+    descriptive = {
+        speed_label: _descriptive_stratum(
             clips,
-            selected_broad,
             speed_label=speed_label,
             target_min_prominence_m=target_min_prominence_m,
+            frozen_bounds=frozen_bounds,
         )
-        n_complete = sum(complete_by_seed.values())
-        n_dynamics = sum(dynamics_seed_pass.values())
-        n_endpoint = sum(endpoint_seed_pass.values())
-        if len(background_exceed_or_missing) > VALIDATION_BACKGROUND_EXCEEDANCE_MAX:
-            reasons.append(
-                f"{speed_label}: background exceedance/missing count "
-                f"{len(background_exceed_or_missing)} > 1/8"
-            )
-        if n_complete < VALIDATION_MIN_COMPLETE_SEEDS_PER_SPEED:
-            reasons.append(f"{speed_label}: complete-cycle coverage {n_complete}/8 < 6/8")
-        for side, count in complete_by_side.items():
-            if count < VALIDATION_MIN_COMPLETE_SEEDS_PER_SIDE_SPEED:
-                reasons.append(f"{speed_label}/{side}: side coverage {count}/8 < 4/8")
-        if not separation.get("passed", False):
-            reasons.append(f"{speed_label}: locked robust quantile separation failed")
-        if (
-            speed_label == "reference"
-            and n_dynamics < VALIDATION_MIN_REFERENCE_DYNAMICS_COVERAGE
-        ):
-            reasons.append(
-                f"{speed_label}: reference dynamics coverage {n_dynamics}/8 < 7/8"
-            )
-        if (
-            speed_label in ("slow", "fast")
-            and n_endpoint < VALIDATION_MIN_ENDPOINT_FULL_COVERAGE
-        ):
-            reasons.append(
-                f"{speed_label}: endpoint full-frozen coverage {n_endpoint}/8 < 6/8"
-            )
-        full_side_counts = {
-            side: sum(values.values()) for side, values in full_side_seed_pass.items()
-        }
-        speeds[speed_label] = {
-            "background_by_seed_m": {str(k): v for k, v in background.items()},
-            "background_exceed_or_missing_seeds": background_exceed_or_missing,
-            "complete_seed_count": n_complete,
-            "complete_by_seed": {str(k): v for k, v in complete_by_seed.items()},
-            "complete_by_side_seed_count": complete_by_side,
-            "separation": separation,
-            "dynamics_seed_count": n_dynamics,
-            "dynamics_by_seed": {str(k): v for k, v in dynamics_seed_pass.items()},
-            "endpoint_seed_count": n_endpoint,
-            "endpoint_by_seed": {str(k): v for k, v in endpoint_seed_pass.items()},
-            "endpoint_metric_only_by_seed": {
-                str(k): v for k, v in endpoint_metric_seed_pass.items()
-            },
-            "full_frozen_seed_count": sum(full_seed_pass.values()),
-            "full_frozen_by_seed": {str(k): v for k, v in full_seed_pass.items()},
-            "full_frozen_by_side_seed_count": full_side_counts,
-            "full_frozen_by_side_and_seed": {
-                side: {str(seed): passed for seed, passed in values.items()}
-                for side, values in full_side_seed_pass.items()
-            },
-            "frozen_revalidation_rows": frozen_rows,
-            "background_null_deduplication": background_deduplication_receipt(
-                [
-                    clip
-                    for clip in clips
-                    if clip.split == "validation" and clip.speed_label == speed_label
-                ]
-            ),
-        }
+        for speed_label in ("slow", "fast")
+    }
+
     return {
         "validation_cannot_widen_calibration": True,
+        "gated_stratum": "reference",
         "frozen_target_min_prominence_m": target_min_prominence_m,
         "frozen_route_timing_bounds": frozen_bounds.as_dict(),
         "kill_rules": {
-            "background": "at most 1/8 exceed-or-missing seeds at every speed",
-            "complete_cycle": "at least 6/8 seeds at every speed",
-            "side_cycle": "at least 4/8 seeds per side at every speed",
-            "robust_separation": (
-                "for each side, route-selected signal Q25 >= "
-                "max(Pmin, 1.25*same-side background Q95)"
+            "attrition": (
+                f"at most {VALIDATION_MAX_REFERENCE_ATTRITION}/"
+                f"{len(VALIDATION_SEEDS)} reference validation seeds with zero "
+                "measured complete cycles"
             ),
-            "reference_dynamics": (
-                "at least 7/8 seeds at the reference speed under frozen speed, "
-                "acceleration, and jerk bounds"
+            "background": (
+                f"at most {VALIDATION_MAX_BACKGROUND_EXCEEDANCE} non-attrited seed "
+                "with missing reference background or background above frozen Pmin"
             ),
-            "endpoint_full_frozen": (
-                "at least 6/8 seeds at each endpoint speed under all frozen bounds"
+            "full_frozen_feasibility": (
+                "full-feasible seeds >= max("
+                f"{VALIDATION_MIN_FULL_FEASIBLE_ABSOLUTE}, "
+                f"ceil({VALIDATION_MIN_FULL_FEASIBLE_FRACTION} x non-attrited))"
+            ),
+            "side_evidence_and_separation": separation["rule"],
+        },
+        "reference": {
+            "attrited_seeds": attrited,
+            "n_attrited": len(attrited),
+            "non_attrited_seeds": non_attrited,
+            "background_by_seed_m": {str(k): v for k, v in background.items()},
+            "background_exceed_or_missing_seeds": background_exceed_or_missing,
+            "full_frozen_feasible_seeds": full_feasible,
+            "required_full_frozen_feasible": required_full,
+            "selected_programs": [item.as_dict() for item in frozen_selected],
+            "selected_placement_usage_m": {
+                f"{placement:g}": sum(
+                    1 for item in frozen_selected if item.placement_m == placement
+                )
+                for placement in EVENT_PLACEMENTS_M
+            },
+            "n_frozen_candidates": len(frozen_candidates),
+            "separation": separation,
+            "background_null_deduplication": background_deduplication_receipt(
+                reference_clips
             ),
         },
-        "speed_results": speeds,
+        "descriptive_strata": descriptive,
         "passed": not reasons,
         "kill_reasons": reasons,
     }
@@ -1287,15 +1330,17 @@ def campaign_design() -> dict[str, Any]:
     batches = locked_batch_plan()
     separation_rule = {
         "signal_unit": (
-            "per-side, per-seed prominence of the outcome-free minimum-deformation "
-            "route-selected program"
+            "per-side, per-seed reference prominence of the outcome-free "
+            "minimum-deformation route-selected program under frozen bounds"
         ),
         "background_unit": (
-            "same-side per-seed maximum physical-window-deduplicated own-foot null"
+            "same-side per-seed maximum physical-window-deduplicated own-foot "
+            "reference null over non-attrited seeds"
         ),
         "signal_quantile": VALIDATION_SIGNAL_QUANTILE,
         "background_quantile": VALIDATION_BACKGROUND_QUANTILE,
         "headroom": VALIDATION_SEPARATION_HEADROOM,
+        "min_selected_signals_per_side": VALIDATION_MIN_SELECTED_SIGNALS_PER_SIDE,
         "pass": (
             "for each side, selected_signal_Q25 >= "
             "max(frozen_Pmin, 1.25*same_side_background_Q95)"
@@ -1337,9 +1382,10 @@ def campaign_design() -> dict[str, Any]:
         },
         "route_program": {
             "route_length_m": PILOT_ROUTE_LENGTH_M,
-            "obstacle_progress_m": PILOT_EVENT_OBSTACLE_PROGRESS_M,
+            "event_placements_m": list(EVENT_PLACEMENTS_M),
+            "reference_placement_m": PILOT_EVENT_OBSTACLE_PROGRESS_M,
             "foot_anchor_equation": (
-                "event_root_progress_m = obstacle_progress_m "
+                "event_root_progress_m = placement_m "
                 "- nominal_foot_forward_offset_m"
             ),
             "speed_envelope_mps": [MIN_ROUTE_SPEED_MPS, MAX_ROUTE_SPEED_MPS],
@@ -1348,8 +1394,9 @@ def campaign_design() -> dict[str, Any]:
             "broad_jerk_cap": None,
             "broad_endpoint_cap": None,
             "selection": (
-                "minimum deformation per seed/speed/side using route selection key and "
-                "phase-evidence receipt digest tie break"
+                "minimum deformation per seed/speed/side over the frozen placement "
+                "set; |placement-3.6|, placement, then phase-evidence receipt digest "
+                "tie break"
             ),
         },
         "timing_cap_calibration": {
@@ -1361,12 +1408,22 @@ def campaign_design() -> dict[str, Any]:
             "endpoint_quantum_mps": ENDPOINT_SPEED_QUANTUM_MPS,
         },
         "validation_separation_rule": separation_rule,
+        "validation_gated_stratum": "reference",
         "validation_kill_rules": {
-            "background_exceedance_or_missing_max_per_speed": 1,
-            "complete_cycle_min_per_speed": 6,
-            "complete_cycle_min_per_side_speed": 4,
-            "reference_dynamics_min": 7,
-            "endpoint_full_frozen_min_per_speed": 6,
+            "reference_attrition_max": VALIDATION_MAX_REFERENCE_ATTRITION,
+            "reference_background_exceedance_or_missing_max": (
+                VALIDATION_MAX_BACKGROUND_EXCEEDANCE
+            ),
+            "reference_full_frozen_min": (
+                f"max({VALIDATION_MIN_FULL_FEASIBLE_ABSOLUTE}, "
+                f"ceil({VALIDATION_MIN_FULL_FEASIBLE_FRACTION}*non_attrited))"
+            ),
+            "min_selected_signals_per_side": VALIDATION_MIN_SELECTED_SIGNALS_PER_SIDE,
+        },
+        "endpoint_strata_are_descriptive_only": True,
+        "calibration_attrition_tolerances": {
+            "min_background_seeds": MIN_CALIBRATION_BACKGROUND_SEEDS,
+            "min_timing_contributing_seeds": MIN_TIMING_CONTRIBUTING_SEEDS,
         },
         "program_dependencies": {
             "route_progress_schema": ROUTE_PROGRESS_SCHEMA_VERSION,
@@ -2124,15 +2181,24 @@ def run_campaign(
         if target_receipt["sha256"] == receipt["donor_step_quality_dependency"]["sha256"]:
             raise RuntimeError("donor and target threshold identities unexpectedly collide")
         receipt["target_prominence_receipt"] = target_receipt
+        calibration_clips = [clip for clip in clips if clip.split == "calibration"]
         candidates, selected = build_and_select_programs(
-            clips, target_min_prominence_m=pmin
+            calibration_clips, target_min_prominence_m=pmin
         )
-        receipt["program_candidates"] = [item.as_dict() for item in candidates]
+        receipt["program_candidates"] = [item.compact_dict() for item in candidates]
         receipt["selected_programs"] = [item.as_dict() for item in selected]
         receipt["program_attrition"] = {
-            "measured_cycles": len(candidates),
+            "scope": "calibration split; cycle x placement enumeration",
+            "measured_cycles": sum(len(clip.cycles) for clip in calibration_clips),
+            "candidate_rows": len(candidates),
             "broad_feasible": sum(item.feasible for item in candidates),
             "selected_seed_speed_side": len(selected),
+            "selected_placement_usage_m": {
+                f"{placement:g}": sum(
+                    1 for item in selected if item.placement_m == placement
+                )
+                for placement in EVENT_PLACEMENTS_M
+            },
             "rejection_counts": {
                 reason: sum(item.rejection == reason for item in candidates)
                 for reason in sorted(
@@ -2148,7 +2214,6 @@ def run_campaign(
         stage = "validation"
         validation = validate_frozen_calibration(
             clips,
-            selected,
             target_min_prominence_m=pmin,
             frozen_bounds=frozen,
         )

@@ -322,11 +322,14 @@ def test_known_cap_quantile_headroom_and_outward_rounding_values():
     assert endpoint["value"] == pytest.approx(0.01)
 
 
-def test_foot_offset_sign_matches_obstacle_minus_nominal_foot_offset():
+def test_foot_offset_sign_matches_placement_minus_nominal_foot_offset():
     ahead = _cycle(offset=0.2)
     behind = _cycle(offset=-0.2)
-    assert ahead.event_root_progress_m == pytest.approx(3.4)
-    assert behind.event_root_progress_m == pytest.approx(3.8)
+    assert ahead.event_root_progress_m(3.6) == pytest.approx(3.4)
+    assert behind.event_root_progress_m(3.6) == pytest.approx(3.8)
+    assert ahead.event_root_progress_m(3.0) == pytest.approx(2.8)
+    with pytest.raises(ValueError, match="frozen event placement set"):
+        ahead.event_root_progress_m(3.7)
 
 
 def test_real_analyzer_wires_exact_kinematics_to_phase_v3(monkeypatch):
@@ -374,7 +377,7 @@ def test_real_analyzer_wires_exact_kinematics_to_phase_v3(monkeypatch):
     assert cycle.prominence_m == pytest.approx(0.06)
     assert len(cycle.background_contrasts_m) == 2
     assert cycle.nominal_foot_forward_offset_m == pytest.approx(0.15)
-    assert cycle.event_root_progress_m == pytest.approx(3.45)
+    assert cycle.event_root_progress_m(3.6) == pytest.approx(3.45)
     assert cycle.phase_evidence["schema_version"] == (
         calibration.PHASE_OBSERVABILITY_SCHEMA_VERSION
     )
@@ -396,6 +399,9 @@ def test_program_selection_is_minimum_deformation_then_receipt_digest():
     assert len(selected) == 1
     assert selected[0].cycle.apex_frame == 99
     assert selected[0].cycle.evidence_digest == "a" * 64
+    # Apex 99 sits at 3.96 s, where nominal reference progress is ~3.58 m, so the
+    # minimum-deformation placement must be the 3.6 m reference slot.
+    assert selected[0].placement_m == pytest.approx(3.6)
     _, reversed_selected = calibration.build_and_select_programs(
         [
             _clip(
@@ -422,11 +428,13 @@ def test_separation_uses_selected_side_cycle_not_unused_high_prominence_cycle():
                 prominence=0.045,
                 backgrounds=(0.035, 0.04),
             ),
+            # High-prominence left cycle whose apex (2.4 s) cannot reach any frozen
+            # placement inside the [0.6, 1.2] m/s envelope: it must stay unused.
             _cycle(
                 split="validation",
                 seed=seed,
                 side="left",
-                apex=90,
+                apex=60,
                 prominence=0.20,
                 backgrounds=(0.035, 0.04),
             ),
@@ -450,11 +458,11 @@ def test_separation_uses_selected_side_cycle_not_unused_high_prominence_cycle():
     _, selected = calibration.build_and_select_programs(
         clips, target_min_prominence_m=0.01
     )
-    separation = calibration.validation_separation(
+    separation = calibration.validation_reference_separation(
         clips,
         selected,
-        speed_label="reference",
         target_min_prominence_m=0.01,
+        non_attrited_seeds=list(calibration.VALIDATION_SEEDS),
     )
     left = separation["side_results"]["left"]
     assert set(left["selected_signal_by_seed_m"].values()) == {0.045}
@@ -462,6 +470,8 @@ def test_separation_uses_selected_side_cycle_not_unused_high_prominence_cycle():
     assert left["passed"] is False
     assert separation["passed"] is False
     assert separation["unused_high_prominence_cycles_cannot_satisfy_separation"] is True
+    right = separation["side_results"]["right"]
+    assert right["passed"] is True
 
 
 def test_background_nulls_deduplicate_by_physical_window_not_prominence():
@@ -573,23 +583,21 @@ def _validation_clips(*, prominence=0.06, backgrounds=(0.006, 0.008), sides=("le
 
 
 def test_validation_cannot_widen_frozen_bounds_and_triggers_kill_rule():
-    clips = _validation_clips(apex=90)
-    _, selected = calibration.build_and_select_programs(
-        clips, target_min_prominence_m=0.01
-    )
+    # Apex 80 needs a visibly warped route program at every placement, so the
+    # near-zero frozen caps must reject every candidate without being modified.
+    clips = _validation_clips(apex=80)
     frozen = RouteTimingBounds(
         fps=25.0,
         min_discrete_route_progress_speed_mps=0.6,
         max_discrete_route_progress_speed_mps=1.2,
-        max_abs_route_progress_acceleration_mps2=0.01,
-        max_abs_discrete_route_progress_jerk_mps3=0.1,
+        max_abs_route_progress_acceleration_mps2=1e-6,
+        max_abs_discrete_route_progress_jerk_mps3=1e-6,
         reference_route_progress_speed_mps=calibration.REFERENCE_SPEED_MPS,
-        max_endpoint_route_progress_speed_deviation_mps=0.01,
+        max_endpoint_route_progress_speed_deviation_mps=1e-6,
     )
     before = frozen.as_dict()
     validation = calibration.validate_frozen_calibration(
         clips,
-        selected,
         target_min_prominence_m=0.01,
         frozen_bounds=frozen,
     )
@@ -597,22 +605,28 @@ def test_validation_cannot_widen_frozen_bounds_and_triggers_kill_rule():
     assert frozen.as_dict() == before
     assert validation["frozen_route_timing_bounds"] == before
     assert validation["validation_cannot_widen_calibration"] is True
-    assert any("reference dynamics coverage" in reason for reason in validation["kill_reasons"])
-    assert any("endpoint full-frozen coverage" in reason for reason in validation["kill_reasons"])
-    assert not any(
-        reason.startswith("slow: reference dynamics")
-        or reason.startswith("fast: reference dynamics")
-        or reason.startswith("reference: endpoint full-frozen")
+    assert validation["gated_stratum"] == "reference"
+    assert any(
+        "full-frozen feasible coverage" in reason
         for reason in validation["kill_reasons"]
     )
+    assert any(
+        "separation failed" in reason for reason in validation["kill_reasons"]
+    )
+    assert not any(
+        reason.startswith("slow:") or reason.startswith("fast:")
+        for reason in validation["kill_reasons"]
+    )
+    for stratum in validation["descriptive_strata"].values():
+        assert stratum["gated"] is False
 
 
 def test_validation_background_and_side_kill_rules_are_fail_closed():
     clips = _validation_clips(sides=("left",))
-    # Two validation seeds at every speed exceed the frozen target background gate.
+    # Two non-attrited validation seeds exceed the frozen target background gate.
     modified = []
     for clip in clips:
-        if clip.seed in (3300, 3301):
+        if clip.seed in calibration.VALIDATION_SEEDS[:2]:
             cycle = clip.cycles[0]
             cycle = calibration.ObservedCycle(
                 **{
@@ -627,9 +641,6 @@ def test_validation_background_and_side_kill_rules_are_fail_closed():
                 cycles=(cycle,),
             )
         modified.append(clip)
-    _, selected = calibration.build_and_select_programs(
-        modified, target_min_prominence_m=0.01
-    )
     permissive = RouteTimingBounds(
         fps=25.0,
         min_discrete_route_progress_speed_mps=0.6,
@@ -641,13 +652,109 @@ def test_validation_background_and_side_kill_rules_are_fail_closed():
     )
     validation = calibration.validate_frozen_calibration(
         modified,
-        selected,
         target_min_prominence_m=0.01,
         frozen_bounds=permissive,
     )
     assert validation["passed"] is False
-    assert any("background exceedance" in reason for reason in validation["kill_reasons"])
-    assert any("/right: side coverage" in reason for reason in validation["kill_reasons"])
+    assert any(
+        "background exceedance" in reason for reason in validation["kill_reasons"]
+    )
+    # The right side has no selected signals at all, so side evidence fails inside
+    # the separation rule rather than passing vacuously.
+    assert any(
+        "separation failed" in reason for reason in validation["kill_reasons"]
+    )
+    right = validation["reference"]["separation"]["side_results"]["right"]
+    assert right["passed"] is False
+    assert right["n_selected_signals"] == 0
+
+
+def test_validation_reference_attrition_gate_counts_zero_cycle_seeds():
+    clips = []
+    for speed_label, _ in calibration.SPEEDS:
+        for seed in calibration.VALIDATION_SEEDS:
+            attrited = (
+                speed_label == "reference"
+                and seed in calibration.VALIDATION_SEEDS[:4]
+            )
+            clips.append(
+                calibration.AnalyzedClip(
+                    split="validation",
+                    seed=seed,
+                    speed_label=speed_label,
+                    requested_speed_mps=dict(calibration.SPEEDS)[speed_label],
+                    sample_sha256="1" * 64,
+                    qpos_content_sha256="2" * 64,
+                    qpos_archive_key=f"validation__{speed_label}__seed{seed}",
+                    cycles=()
+                    if attrited
+                    else (
+                        _cycle(
+                            split="validation",
+                            seed=seed,
+                            speed_label=speed_label,
+                            requested_speed_mps=dict(calibration.SPEEDS)[speed_label],
+                            side="left",
+                            apex=99,
+                        ),
+                        _cycle(
+                            split="validation",
+                            seed=seed,
+                            speed_label=speed_label,
+                            requested_speed_mps=dict(calibration.SPEEDS)[speed_label],
+                            side="right",
+                            apex=100,
+                        ),
+                    ),
+                    measurement_rejection="no cycles" if attrited else None,
+                )
+            )
+    permissive = RouteTimingBounds(
+        fps=25.0,
+        min_discrete_route_progress_speed_mps=0.6,
+        max_discrete_route_progress_speed_mps=1.2,
+        max_abs_route_progress_acceleration_mps2=10.0,
+        max_abs_discrete_route_progress_jerk_mps3=10.0,
+        reference_route_progress_speed_mps=calibration.REFERENCE_SPEED_MPS,
+        max_endpoint_route_progress_speed_deviation_mps=1.0,
+    )
+    validation = calibration.validate_frozen_calibration(
+        clips,
+        target_min_prominence_m=0.01,
+        frozen_bounds=permissive,
+    )
+    assert validation["reference"]["n_attrited"] == 4
+    assert any(
+        "substrate attrition 4/8 > 3/8" in reason
+        for reason in validation["kill_reasons"]
+    )
+
+
+def test_calibration_attrition_tolerance_and_floor():
+    def clips_for(n_evidenced):
+        clips = []
+        for index, seed in enumerate(calibration.CALIBRATION_SEEDS):
+            evidenced = index < n_evidenced
+            clips.append(
+                calibration.AnalyzedClip(
+                    split="calibration",
+                    seed=seed,
+                    speed_label="reference",
+                    requested_speed_mps=calibration.REFERENCE_SPEED_MPS,
+                    sample_sha256="1" * 64,
+                    qpos_content_sha256="2" * 64,
+                    qpos_archive_key=f"calibration__reference__seed{seed}",
+                    cycles=(_cycle(seed=seed),) if evidenced else (),
+                    measurement_rejection=None if evidenced else "no cycles",
+                )
+            )
+        return clips
+
+    receipt = calibration.freeze_target_prominence(clips_for(12))
+    assert receipt["fields"]["target_min_prominence_m"] == pytest.approx(0.01)
+    assert len(receipt["fields"]["seeds_without_background_evidence"]) == 4
+    with pytest.raises(ValueError, match="only 11/16"):
+        calibration.freeze_target_prominence(clips_for(11))
 
 
 def test_wrong_batch_return_preserves_partial_evidence_and_charged_budget(tmp_path):
@@ -685,7 +792,7 @@ def test_over_return_charge_covers_observed_lower_bound_and_hashes_extra(tmp_pat
 
 def test_mid_batch_analysis_failure_prehashes_all_returned_samples(tmp_path):
     def fail_fourth(**kwargs):
-        if kwargs["seed"] == 3203:
+        if kwargs["seed"] == calibration.CALIBRATION_SEEDS[3]:
             raise ValueError("synthetic exact-foot analysis failure")
         return _fake_analyzer(**kwargs)
 

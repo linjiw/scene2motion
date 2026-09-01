@@ -23,13 +23,19 @@ Conventions that DO differ, and are converted:
 
 from __future__ import annotations
 
+import os
 import pickle
 import sys
 from pathlib import Path
 
 import numpy as np
 
-SONIC_ROOT = Path("/home/linjiw/isaaclab-install/GR00T-WholeBodyControl")
+# Keep conversion and execution on the same SONIC checkout.  The editable Isaac environment
+# resolves ``gear_sonic`` from the lucid checkout, and campaign receipts bind this path and the
+# converter content hash before launching. ``SONIC_ROOT`` remains configurable for other tools;
+# execution campaigns explicitly refuse it when it differs from their bound runtime checkout.
+SONIC_ROOT = Path(os.environ.get(
+    "SONIC_ROOT", "/home/linjiw/lucid/GR00T-WholeBodyControl"))
 ARDY_FPS = 25
 NUM_DOF, NUM_BODIES = 29, 30
 

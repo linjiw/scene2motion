@@ -1,0 +1,344 @@
+<script>
+(function () {
+  "use strict";
+  var S2M = window.S2M, M = S2M.motions, F = S2M.figures;
+  var BONES = M.bones, NB = M.bodies.length;
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  function css(name) {
+    return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+  }
+  function dpr() { return Math.min(window.devicePixelRatio || 1, 2); }
+  function fit(canvas, cssHeight) {
+    var w = canvas.parentElement.clientWidth, r = dpr();
+    canvas.width = Math.max(1, Math.round(w * r));
+    canvas.height = Math.round(cssHeight * r);
+    canvas.style.height = cssHeight + "px";
+    var ctx = canvas.getContext("2d");
+    ctx.setTransform(r, 0, 0, r, 0, 0);
+    return { ctx: ctx, w: w, h: cssHeight };
+  }
+
+  /* ---------------- motion players ---------------- */
+  var players = [];
+
+  function buildPlayer(host) {
+    var clip = M.clips.filter(function (c) { return c.key === host.dataset.clip; })[0];
+    if (!clip) return;
+    var tone = clip.tone === "good" ? "good" : clip.tone === "bad" ? "bad" : "neutral";
+    var cleared = clip.height_at_obstacle_m || 0;
+    var err = clip.placement_error_m;
+    var errTxt = err == null ? "—"
+      : (Math.abs(err) < 0.005 ? "0.00 m"
+         : (err > 0 ? "+" : "") + err.toFixed(2) + " m");
+
+    host.innerHTML =
+      '<div class="stage-head"><h3>' + clip.title + '</h3>' +
+      '<span class="badge ' + tone + '">' + clip.badge + "</span></div>" +
+      '<canvas></canvas>' +
+      '<div class="controls"><button class="play" type="button" aria-label="Play or pause">Play</button>' +
+      '<input type="range" min="0" max="' + (clip.frames.length - 1) + '" value="0" aria-label="Scrub motion">' +
+      '<span class="tick mono">0.00 s</span></div>' +
+      '<div class="stage-foot"><div class="readout">' +
+      '<div class="ro"><span class="k">Tallest box cleared here</span><span class="v ' +
+        (cleared > 0 ? "good" : "bad") + '">' + cleared.toFixed(3) + " m</span></div>" +
+      '<div class="ro"><span class="k">Tallest box cleared anywhere</span><span class="v">' +
+        clip.lift_height_m.toFixed(3) + " m</span></div>" +
+      '<div class="ro"><span class="k">Lift vs obstacle</span><span class="v">' + errTxt + "</span></div>" +
+      "</div><p class=\"cap\">" + clip.caption + "</p></div>";
+
+    var canvas = host.querySelector("canvas"),
+        button = host.querySelector("button"),
+        range = host.querySelector("input"),
+        tick = host.querySelector(".tick");
+    // Open on the apex of the highest swing, not on frame 0: a still of this page should
+    // already show the foot at its highest point relative to the box.
+    var poster = 0, best = -1;
+    for (var f = 0; f < clip.frames.length; f++) {
+      var fr = clip.frames[f];
+      var top = Math.max(fr[LEFT_FOOT * 3 + 2], fr[RIGHT_FOOT * 3 + 2]);
+      if (top > best) { best = top; poster = f; }
+    }
+    var state = { clip: clip, canvas: canvas, frame: poster, playing: false,
+                  range: range, tick: tick };
+
+    button.addEventListener("click", function () {
+      state.playing = !state.playing;
+      button.textContent = state.playing ? "Pause" : "Play";
+    });
+    range.addEventListener("input", function () {
+      state.playing = false; button.textContent = "Play";
+      state.frame = +range.value; draw(state);
+    });
+    players.push(state);
+    draw(state);
+  }
+
+  var LEFT_FOOT = 5, RIGHT_FOOT = 8;   // indices into the drawn-body list
+
+  function draw(st) {
+    var clip = st.clip, idx = Math.floor(st.frame);
+    var F0 = clip.frames[idx] || clip.frames[0];
+    var g = fit(st.canvas, 262), ctx = g.ctx, W = g.w, H = g.h;
+    var pine = css("--pine"), clay = css("--clay"), ink = css("--ink"),
+        ink3 = css("--ink-3"), rule = css("--rule"), sunk = css("--sunk");
+
+    ctx.clearRect(0, 0, W, H);
+    var padL = 12, padR = 12, groundY = H - 74, topY = 10;
+    // One uniform metres-per-pixel scale, so the figure is never distorted.
+    var scale = (groundY - topY) / 1.80;
+    var viewW = (W - padL - padR) / scale;          // metres visible
+    // Camera tracks the pelvis, but holds still once the obstacle is in shot so the
+    // crossing is watched rather than chased.
+    var focus = F0[0];
+    if (clip.obstacle_x_m != null) {
+      var pull = clip.obstacle_x_m - focus;
+      if (Math.abs(pull) < viewW * 0.30) focus = focus + pull * 0.55;
+    }
+    var camX = focus - viewW * 0.42;
+    camX = Math.max(-0.4, Math.min(camX, clip.route_end_m - viewW + 0.4));
+    function px(x) { return padL + (x - camX) * scale; }
+    function pz(z) { return groundY - z * scale; }
+
+    // ground
+    ctx.strokeStyle = rule; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(padL, groundY + .5); ctx.lineTo(W - padR, groundY + .5); ctx.stroke();
+    // metre ticks, so the scale is legible
+    ctx.fillStyle = ink3; ctx.font = "400 9px JetBrains Mono, monospace";
+    ctx.textAlign = "center";
+    for (var m = Math.ceil(camX); m < camX + viewW; m++) {
+      if (m < 0) continue;
+      ctx.globalAlpha = .5;
+      ctx.beginPath(); ctx.moveTo(px(m), groundY); ctx.lineTo(px(m), groundY + 4); ctx.stroke();
+      ctx.globalAlpha = 1;
+      ctx.fillText(m + " m", px(m), groundY + 15);
+    }
+
+    // obstacle
+    if (clip.obstacle_x_m != null) {
+      var ow = clip.obstacle_depth_m * scale, oh = clip.obstacle_height_m * scale;
+      var ox = px(clip.obstacle_x_m) - ow / 2;
+      var hit = (clip.height_at_obstacle_m || 0) > 0;
+      ctx.fillStyle = hit ? pine : clay;
+      ctx.globalAlpha = .25; ctx.fillRect(ox, groundY - oh, Math.max(ow, 4), oh);
+      ctx.globalAlpha = 1; ctx.strokeStyle = hit ? pine : clay; ctx.lineWidth = 1.5;
+      ctx.strokeRect(ox, groundY - oh, Math.max(ow, 4), oh);
+      ctx.fillStyle = hit ? pine : clay;
+      ctx.font = "500 10px JetBrains Mono, monospace";
+      ctx.textAlign = "center";
+      ctx.fillText((clip.obstacle_height_m * 100).toFixed(0) + " cm obstacle",
+                   px(clip.obstacle_x_m), groundY - oh - 8);
+    }
+
+    // foot trails: the arc is the point, so draw where the feet have just been
+    // Left foot is the swing side every packet asked for, so it carries the accent;
+    // the right foot stays neutral. Clay is reserved for "missed", not for a limb.
+    [[LEFT_FOOT, pine], [RIGHT_FOOT, ink3]].forEach(function (f) {
+      var start = Math.max(0, idx - 26);
+      ctx.lineWidth = 1.6; ctx.lineCap = "round";
+      for (var k = start; k < idx; k++) {
+        var a = clip.frames[k], b2 = clip.frames[k + 1];
+        if (!a || !b2) continue;
+        ctx.globalAlpha = 0.06 + 0.5 * ((k - start) / Math.max(1, idx - start));
+        ctx.strokeStyle = f[1];
+        ctx.beginPath();
+        ctx.moveTo(px(a[f[0] * 3]), pz(a[f[0] * 3 + 2]));
+        ctx.lineTo(px(b2[f[0] * 3]), pz(b2[f[0] * 3 + 2]));
+        ctx.stroke();
+      }
+      ctx.globalAlpha = 1;
+    });
+
+    // skeleton
+    ctx.lineCap = "round"; ctx.lineJoin = "round";
+    ctx.strokeStyle = ink; ctx.lineWidth = 3; ctx.globalAlpha = .92;
+    ctx.beginPath();
+    for (var b = 0; b < BONES.length; b++) {
+      var a2 = BONES[b][0] * 3, c = BONES[b][1] * 3;
+      ctx.moveTo(px(F0[a2]), pz(F0[a2 + 2]));
+      ctx.lineTo(px(F0[c]), pz(F0[c + 2]));
+    }
+    ctx.stroke();
+    ctx.globalAlpha = 1; ctx.fillStyle = ink;
+    for (var j = 0; j < NB; j++) {
+      ctx.beginPath(); ctx.arc(px(F0[j * 3]), pz(F0[j * 3 + 2]), 2.6, 0, 6.284); ctx.fill();
+    }
+
+    // clearance profile strip: the WHOLE route, independent of the camera, so the
+    // relationship between where the prior lifts and where the obstacle sits is visible
+    // even while the camera is elsewhere.
+    var stripTop = groundY + 24, stripH = 32;
+    var sw = W - padL - padR;
+    function sx2(x) { return padL + (x / clip.route_end_m) * sw; }
+    ctx.fillStyle = sunk; ctx.fillRect(padL, stripTop, sw, stripH);
+    var maxH = 0.42;
+    var xs = clip.profile_x_m, hs = clip.profile_height_m;
+    ctx.beginPath();
+    ctx.moveTo(sx2(xs[0]), stripTop + stripH);
+    for (var i = 0; i < xs.length; i++) {
+      ctx.lineTo(sx2(xs[i]), stripTop + stripH - Math.min(hs[i] / maxH, 1) * stripH);
+    }
+    ctx.lineTo(sx2(xs[xs.length - 1]), stripTop + stripH);
+    ctx.closePath();
+    ctx.fillStyle = pine; ctx.globalAlpha = .55; ctx.fill(); ctx.globalAlpha = 1;
+    // where the robot is now
+    ctx.strokeStyle = ink3; ctx.globalAlpha = .55; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(sx2(F0[0]), stripTop); ctx.lineTo(sx2(F0[0]), stripTop + stripH);
+    ctx.stroke(); ctx.globalAlpha = 1;
+    if (clip.obstacle_x_m != null) {
+      ctx.strokeStyle = (clip.height_at_obstacle_m || 0) > 0 ? pine : clay;
+      ctx.lineWidth = 1.75; ctx.setLineDash([3, 3]);
+      ctx.beginPath();
+      ctx.moveTo(sx2(clip.obstacle_x_m), stripTop - 4);
+      ctx.lineTo(sx2(clip.obstacle_x_m), stripTop + stripH);
+      ctx.stroke(); ctx.setLineDash([]);
+    }
+    ctx.fillStyle = ink3; ctx.font = "400 9.5px JetBrains Mono, monospace";
+    ctx.textAlign = "left";
+    ctx.fillText("clearance along the whole route", padL + 3, stripTop + stripH + 13);
+    ctx.textAlign = "right";
+    ctx.fillText(clip.route_end_m.toFixed(1) + " m", W - padR, stripTop + stripH + 13);
+
+    st.range.value = Math.floor(st.frame);
+    st.tick.textContent = (st.frame / clip.fps).toFixed(2) + " s";
+  }
+
+  function loop() {
+    for (var i = 0; i < players.length; i++) {
+      var st = players[i];
+      if (!st.playing) continue;
+      st.frame += 1;
+      if (st.frame >= st.clip.frames.length) st.frame = 0;
+      draw(st);
+    }
+    requestAnimationFrame(loop);
+  }
+
+  /* ---------------- charts ---------------- */
+  function drawTiming() {
+    var canvas = document.getElementById("timing");
+    if (!canvas) return;
+    var g = fit(canvas, 300), ctx = g.ctx, W = g.w, H = g.h;
+    var pine = css("--pine"), ink3 = css("--ink-3"), ink2 = css("--ink-2"), rule = css("--rule");
+    var data = F.timing, padL = 40, padR = 14, padT = 14, padB = 42;
+    var maxCount = 0;
+    data.forEach(function (d) { maxCount = Math.max(maxCount, d.count); });
+    maxCount = Math.ceil(maxCount / 5) * 5;
+    var plotW = W - padL - padR, plotH = H - padT - padB;
+    var bw = plotW / data.length;
+
+    ctx.clearRect(0, 0, W, H);
+    ctx.strokeStyle = rule; ctx.lineWidth = 1;
+    ctx.fillStyle = ink3; ctx.font = "400 10px JetBrains Mono, monospace";
+    for (var t = 0; t <= maxCount; t += 5) {
+      var y = padT + plotH - (t / maxCount) * plotH;
+      ctx.beginPath(); ctx.moveTo(padL, y + .5); ctx.lineTo(W - padR, y + .5); ctx.stroke();
+      ctx.textAlign = "right"; ctx.fillText(String(t), padL - 8, y + 3.5);
+    }
+    data.forEach(function (d, i) {
+      if (!d.count) return;
+      var h = (d.count / maxCount) * plotH;
+      var x = padL + i * bw + 1.5, w = Math.max(bw - 3, 2);
+      var y = padT + plotH - h;
+      ctx.fillStyle = pine;
+      var r = Math.min(4, w / 2, h);
+      ctx.beginPath();
+      ctx.moveTo(x, y + h); ctx.lineTo(x, y + r);
+      ctx.quadraticCurveTo(x, y, x + r, y);
+      ctx.lineTo(x + w - r, y); ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+      ctx.lineTo(x + w, y + h); ctx.closePath(); ctx.fill();
+    });
+    // x axis labels every other bin
+    ctx.fillStyle = ink3; ctx.textAlign = "center";
+    data.forEach(function (d, i) {
+      if (i % 4) return;
+      ctx.fillText(String(d.bin), padL + i * bw + bw / 2, padT + plotH + 15);
+    });
+    ctx.fillStyle = ink2; ctx.font = "500 10.5px Archivo, sans-serif";
+    ctx.fillText("clip frame", padL + plotW / 2, H - 8);
+    ctx.save(); ctx.translate(11, padT + plotH / 2); ctx.rotate(-Math.PI / 2);
+    ctx.textAlign = "center"; ctx.fillText("clips", 0, 0); ctx.restore();
+
+    // median marker
+    var med = F.timing_stats.median_frame;
+    var mx = padL + (med / 200) * plotW;
+    ctx.strokeStyle = css("--clay"); ctx.setLineDash([4, 3]); ctx.lineWidth = 1.5;
+    ctx.beginPath(); ctx.moveTo(mx, padT); ctx.lineTo(mx, padT + plotH); ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle = css("--clay"); ctx.font = "500 10px JetBrains Mono, monospace";
+    ctx.textAlign = "left";
+    ctx.fillText("median frame " + med, mx + 6, padT + 11);
+  }
+
+  function drawRegion() {
+    var canvas = document.getElementById("region");
+    if (!canvas) return;
+    var g = fit(canvas, 300), ctx = g.ctx, W = g.w, H = g.h;
+    var pine = css("--pine"), clay = css("--clay"), ink3 = css("--ink-3"),
+        ink2 = css("--ink-2"), rule = css("--rule");
+    var data = F.region, padL = 46, padR = 56, padT = 14, padB = 42;
+    var plotW = W - padL - padR, plotH = H - padT - padB;
+    var xMin = data[0].target_m, xMax = data[data.length - 1].target_m, yMax = 0.36;
+    function X(v) { return padL + ((v - xMin) / (xMax - xMin)) * plotW; }
+    function Y(v) { return padT + plotH - (v / yMax) * plotH; }
+
+    ctx.clearRect(0, 0, W, H);
+    ctx.strokeStyle = rule; ctx.lineWidth = 1;
+    ctx.fillStyle = ink3; ctx.font = "400 10px JetBrains Mono, monospace";
+    [0, .1, .2, .3].forEach(function (t) {
+      ctx.beginPath(); ctx.moveTo(padL, Y(t) + .5); ctx.lineTo(W - padR, Y(t) + .5); ctx.stroke();
+      ctx.textAlign = "right"; ctx.fillText(t.toFixed(1), padL - 8, Y(t) + 3.5);
+    });
+    [["h05", pine, "5 cm"], ["h08", clay, "8 cm"]].forEach(function (s) {
+      ctx.strokeStyle = s[1]; ctx.lineWidth = 2; ctx.beginPath();
+      data.forEach(function (d, i) {
+        var x = X(d.target_m), y = Y(d[s[0]]);
+        if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+      });
+      ctx.stroke();
+      // The top legend carries identity; here the peak gets an emphasized marker with a
+      // surface ring instead of a text label, which would cross the descending limb.
+      var peak = data[0];
+      data.forEach(function (d) { if (d[s[0]] > peak[s[0]]) peak = d; });
+      ctx.fillStyle = css("--panel");
+      ctx.beginPath(); ctx.arc(X(peak.target_m), Y(peak[s[0]]), 6, 0, 6.284); ctx.fill();
+      ctx.fillStyle = s[1];
+      ctx.beginPath(); ctx.arc(X(peak.target_m), Y(peak[s[0]]), 4, 0, 6.284); ctx.fill();
+    });
+    ctx.fillStyle = ink3; ctx.font = "400 10px JetBrains Mono, monospace";
+    ctx.textAlign = "center";
+    [1, 2, 3, 4, 5].forEach(function (v) {
+      ctx.fillText(v + " m", X(v), padT + plotH + 15);
+    });
+    ctx.fillStyle = ink2; ctx.font = "500 10.5px Archivo, sans-serif";
+    ctx.fillText("obstacle position along the route", padL + plotW / 2, H - 8);
+    ctx.save(); ctx.translate(12, padT + plotH / 2); ctx.rotate(-Math.PI / 2);
+    ctx.textAlign = "center"; ctx.fillText("per-clip success", 0, 0); ctx.restore();
+
+    // addressable window shading
+    ctx.fillStyle = pine; ctx.globalAlpha = .07;
+    ctx.fillRect(X(1.0), padT, X(1.4) - X(1.0), plotH);
+    ctx.globalAlpha = 1;
+    ctx.fillStyle = ink3; ctx.font = "400 9.5px JetBrains Mono, monospace";
+    ctx.textAlign = "center";
+    ctx.fillText("addressable window", X(1.2), padT + plotH - 7);
+  }
+
+  function redraw() {
+    players.forEach(draw);
+    drawTiming(); drawRegion();
+  }
+
+  document.querySelectorAll(".stage[data-clip]").forEach(buildPlayer);
+  drawTiming(); drawRegion();
+  if (!reduce) requestAnimationFrame(loop);
+  var t = null;
+  window.addEventListener("resize", function () {
+    clearTimeout(t); t = setTimeout(redraw, 120);
+  });
+  if (window.matchMedia) {
+    var mq = window.matchMedia("(prefers-color-scheme: dark)");
+    if (mq.addEventListener) mq.addEventListener("change", redraw);
+  }
+})();
+</script>

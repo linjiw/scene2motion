@@ -94,7 +94,8 @@ residual packets on identical adapted queries; and rendering transports either p
 held-out nominal gait with the same ARDY channel/frame/joint support. The fail-closed exp017
 harness and CPU orchestration tests now exist in
 `experiments/exp017_ramp_residual_stepover.py` and `tests/test_exp017.py`; they lock the
-`2D + N + 2NP` sample budget and freeze program manifests before final generation. This is
+`2D + K + 2NP` sample budget, screen a complete predeclared nominal pool under common pre-arm
+gates, and freeze program plus per-arm attempt manifests before final generation. This is
 implementation evidence, not an E1 result: a sequential `D=4` GPU retry found three eligible
 donor pairs and built the packet, but nominal seed 2800 failed bounded target assignment before
 either final arm was generated. An exact-design replay reproduced the source evidence and

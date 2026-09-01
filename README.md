@@ -13,7 +13,9 @@ programs from the motion response the prior actually realizes.
 > replay reproduced the source clips and exposed the binding gate: seed 2800 had exact phase
 > alignment and a valid render window, but fixed placement required a `+65`-frame shift beyond
 > the locked `+/-8` bound. These are infrastructure/eligibility results, not packet outcomes.
-> The evidence and next exploratory design are recorded in
+> A reviewed candidate-pool harness now freezes `K` nominal candidates, reports addressability
+> separately from the conditional arm effect, and durably accounts for every planned arm. The
+> evidence and locked exploratory launch are recorded in
 > [`docs/ramp-e1-protocol.md`](docs/ramp-e1-protocol.md). Duck, squeeze, response optimization,
 > RepairNet, cross-prior transfer, and execution-aware route cost remain later stages.
 
@@ -40,7 +42,7 @@ not as the identity of the proposed paper.
 | `scene2motion/ramp/` | physical step-phase receipts, common-phase alignment, and paired coherent absolute/residual motion packets |
 | `scene2motion/planner.py` | PELVIS / STANDING / ADAPTIVE planners; A\* over `(x, y, body mode)` |
 | `scene2motion/runner.py` | batched ARDY generation with a prompt-embedding cache and qpos export |
-| `experiments/exp017_ramp_residual_stepover.py` | fail-closed paired step-over representation pilot (`2D + N + 2NP` samples) |
+| `experiments/exp017_ramp_residual_stepover.py` | fail-closed paired step-over representation pilot (`2D + K + 2NP` samples) |
 | `experiments/` | one script per experiment; each writes `rows.jsonl` + `receipt.json` |
 | `outputs/body_modes.json` | body envelopes **derived from measurement**, not assumed |
 
@@ -50,7 +52,7 @@ not as the identity of the proposed paper.
 source env.sh
 $S2M_PY experiments/exp017_ramp_residual_stepover.py \
   --out outputs/exp017_ramp_preflight_d4_n1_p1_v2 \
-  --n_donors 4 --n_seeds 1 --obstacle_x 3.6 \
+  --n_donors 4 --n_nominal_candidates 1 --n_seeds 1 --obstacle_x 3.6 \
   --threshold_calibration_receipt outputs/exp016_threshold_calibration/receipt.json
 ```
 
@@ -61,6 +63,24 @@ frozen-prior samples, with no final-arm generation. The ledger is
 `outputs/exp017_ramp_preflight_d4_n1_p1_v2/`. The next exploratory pilot uses a predeclared
 nominal-candidate pool under unchanged gates; its eligibility coverage and conditional arm
 effect are separate endpoints, not an unconditional success claim.
+
+## Next locked exploratory preflight
+
+```bash
+source env.sh
+$S2M_PY experiments/exp017_ramp_residual_stepover.py \
+  --out outputs/exp017_ramp_pool_d4_k8_n2_p1 \
+  --n_donors 4 --n_nominal_candidates 8 --n_seeds 2 \
+  --obstacle_x 3.6 \
+  --threshold_calibration_receipt outputs/exp016_threshold_calibration/receipt.json
+```
+
+This run keeps donor seeds 2600--2603, screens the complete ordered pool 2800--2807 under
+the unchanged fixed-placement and `+/-8`-frame gates, and selects the first two eligible seeds
+only if at least two exist. A completed run spends exactly 20 frozen-prior samples. Pool
+exhaustion stops after 16, reports `E/K`, selects/evaluates no partial cohort, and does not
+extend the pool. The harness separately records launched and returned samples, so an exception
+cannot be misreported as an exact partial budget.
 
 ## Legacy baseline experiments
 

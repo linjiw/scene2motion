@@ -1095,28 +1095,31 @@ residual.
 
 The CPU-testable exp017 orchestration now exists at
 `experiments/exp017_ramp_residual_stepover.py`, with fail-closed tests in
-`tests/test_exp017.py`. A completed run spends exactly `2D + N + 2NP` frozen-prior samples:
-matched adapted/neutral donor sources, one immutable nominal per held-out seed, and paired
-absolute/residual final calls for fixed seed-independent scenes. It freezes and hashes every
-program decision before final sampling; requires identical prompt, seed, CFG, diffusion
-settings, target-phase receipt and ARDY support for each pair; archives source/nominal qpos;
-and reports descriptive paired effects by fixed placement after collapsing repeated seeds. It
-does not attach a confidence interval to the three crossed placements of one box geometry.
+`tests/test_exp017.py`. A completed candidate-pool run spends exactly `2D + K + 2NP`
+frozen-prior samples: matched adapted/neutral donor sources, a fully archived pool of `K`
+immutable nominals, and paired absolute/residual calls for the first `N` commonly eligible
+seeds at fixed seed-independent scenes. It freezes and hashes every program and planned arm
+before final sampling; requires identical prompt, seed, CFG, diffusion settings, target-phase
+receipt and ARDY support for each pair; archives source/nominal qpos plus replayable nominal
+substrates; and reports eligibility separately from descriptive paired effects. It does not
+attach a confidence interval to crossed placements of one box geometry.
 It refuses a dirty worktree, non-empty output directory, non-v2 sampler, malformed calibration
 identity/provenance, stalled source/nominal clips, incomplete physical cycles, a protocol-hash
 mismatch, or unequal channel support. Canonical experiment/program/output identities bind the
 checkpoint, code, threshold receipt, prompts, settings, clips, packet/program/support hashes,
 and outputs without creating a cyclic manifest hash.
-The final receipt separately anchors `rows.jsonl`, the output-identity set, and both logical
-and archive hashes for `qpos.npz`.
+The final receipt separately anchors `rows.jsonl`, the immutable attempt plan, the durable
+per-arm attempt ledger, the output-identity set, and both logical and archive hashes for
+`qpos.npz`. Launched and returned sample counts are separate at every generation stage; a
+thrown call produces a returned lower bound and conservative charge rather than an invented
+exact spend.
 
-This is still **implementation evidence, not a capability result**. No real ARDY exp017 call,
-GPU E1 ledger, or SONIC execution comparison exists. The next dependency is the five-sample
-`D=1, N=1, P=1` preflight in [`ramp-e1-protocol.md`](ramp-e1-protocol.md); only a valid
-preflight licenses the larger paired kinematic pilot, and equal-budget SONIC replay is still
-required before an execution claim. The local response optimizer, RepairNet, hierarchical
-execution model, and RAMP-aware route cost remain unimplemented and must not be described as
-landed methods.
+This remains **implementation evidence, not a capability result**. Three real ARDY attempts
+have produced source/eligibility ledgers but no final arm, and no SONIC comparison exists. The
+next dependency is the locked `D=4, K=8, N=2, P=1` exploratory pool in
+[`ramp-e1-protocol.md`](ramp-e1-protocol.md); equal-budget SONIC replay is still required
+before an execution claim. The local response optimizer, RepairNet, hierarchical execution
+model, and RAMP-aware route cost remain unimplemented and must not be described as landed.
 
 ## 27. First exp017 GPU preflight failed before arm generation; diagnostics hardened
 
@@ -1134,7 +1137,9 @@ archived, so the first ledger cannot distinguish whether height, speed, or both 
 support failure. The harness now writes all candidate adapted/neutral qpos to
 `donor_qpos.npz` before any progress/phase gate, binds logical and archive hashes into donor
 rows and success/failure receipts, and records support/clearance/speed summaries that are
-explicitly excluded from selection. Thresholds and the `2D + N + 2NP` budget are unchanged.
+explicitly excluded from selection. Thresholds were unchanged; that historical run had
+`K=N=1`, so its then-written `2D + N + 2NP` accounting is numerically identical to the current
+`2D + K + 2NP` contract.
 Future failed receipts also carry a canonical pre-source run identity binding code,
 checkpoint, threshold receipt, prompts/settings, budget, splits, scenes, and route; the first
 already-completed v1 failure predates that hardening and remains labeled accordingly.
@@ -1195,3 +1200,27 @@ without ranking or replacement, and pool exhaustion stops the run. Its successfu
 `2D + K + 2NP = 20`; it reports `E/K` eligibility separately from the paired conditional arm
 effect. This design does not support an unconditional seed-robustness claim, and low pool
 coverage is negative evidence rather than a reason to extend the pool.
+
+## 30. Candidate-pool harness frozen before the first final-arm outcome
+
+The exploratory `D=4, K=8, N=2, P=1` harness was implemented and independently reviewed
+before any absolute/residual arm was generated. It archives and classifies every candidate in
+the ordered 2800--2807 pool under the unchanged progress, physical phase/contact, fixed-scene
+assignment, packet-window, and `+/-8`-frame shift gates. Only if `E >= N` does it select the
+first two eligible seeds; otherwise it selects no partial cohort and stops after the complete
+16-sample source-plus-pool spend. Seed 2800 and its `+65`-frame refusal remain in the ledger.
+
+The successful budget is exactly `2D + K + 2NP = 20`. `nominal_selection.json` hash-binds
+`E/K`, the first-eligible prefix, selected coverage `N/E`, attrition reasons, and the planned
+`NP` denominator per arm. Before final sampling, `attempt_plan.json` freezes all `2NP` arm
+identities into the manifest. `attempts.jsonl`, successful rows, and qpos are then persisted
+incrementally, so generation, conversion, or scoring failures stay in the denominator and
+cannot trigger candidate replacement. Every generation stage records launched versus returned
+samples; on an exception, exact spend is null and the receipt gives a returned lower bound plus
+a conservative launched charge. All `K` nominal `global_rot_mats` and `smooth_root_pos` arrays
+are archived for later response-optimizer replay but do not enter eligibility or ranking.
+
+The repository-wide CPU suite passed 251 tests, and independent review found no remaining
+P0/P1 issues. This licenses only the locked exploratory GPU launch at
+`outputs/exp017_ramp_pool_d4_k8_n2_p1`; it does not license a representation, execution, or
+planner claim before that ledger is inspected.

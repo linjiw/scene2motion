@@ -1,7 +1,8 @@
 # EXP-017 protocol: paired absolute-vs-residual step-over packets
 
-**Status: harness landed; three GPU attempts stopped before arms, 2026-08-31.** The
-representation/phase implementation and CPU-tested exp017 orchestration exist. A `D=1`
+**Status: candidate-pool harness reviewed and ready; three prior GPU attempts stopped before
+arms, 2026-08-31.** The representation/phase implementation and CPU-tested exp017
+orchestration exist. A `D=1`
 preflight had no eligible donor; a `D=4` retry found a donor but rejected nominal seed 2800;
 and its exact-design replay identified the locked placement-shift gate as binding. Therefore
 no absolute-vs-residual outcome or SONIC comparison exists. This document preserves those
@@ -30,10 +31,11 @@ squeeze/turn, multi-event traversal, route choice, or cross-prior transfer.
 Let:
 
 * `D` be the number of donor seeds;
-* `N` be the number of held-out evaluation seeds;
+* `K` be the number of predeclared held-out nominal-candidate seeds;
+* `N` be the number of first-eligible candidates selected for paired evaluation, with `K >= N`;
 * `P` be the number of route-placement strata.
 
-Donor and evaluation seed sets are disjoint. Exp017 uses fixed, seed-independent obstacle
+Donor and nominal-candidate seed sets are disjoint. Exp017 uses fixed, seed-independent obstacle
 positions; the descriptive pilot defaults to `x = (2.4, 3.6, 4.8) m`. The old exp016 frame
 anchors `(56, 78, 100, 108, 130, 152)` remain an autoregressive-history diagnostic, not the
 scene definition for this representation test. For each held-out nominal clip, exp017 locates
@@ -42,12 +44,15 @@ the fixed scenes, constructs one `TargetPhaseMatch` per scene, and derives a bou
 path-placement shift using only the prescribed route and nominal physical-foot offset. No
 final-arm outcome enters this assignment.
 
-Every nominal seed must admit all `P` assignments before the manifest is frozen. A missing
-cycle, phase extrapolation, protocol mismatch, or out-of-bound shift aborts the campaign before
-any final-arm generation and writes a partial-spend failure receipt; exp017 never substitutes a
-nearest frame or silently reduces `N` or `P`. The later confirmatory design must add genuinely
-different scene geometries/topologies rather than treating three positions of one box as a
-broad scene distribution.
+All `K` nominal candidates are generated, archived, and classified before the manifest is
+frozen. A candidate is eligible only if it admits every `P` assignment. A missing cycle, phase
+extrapolation, protocol mismatch, or out-of-bound shift rejects that candidate under a recorded
+attrition reason; it never triggers nearest-frame substitution. The deterministic selector
+uses the first `N` eligible candidates in predeclared seed order. If fewer than `N` are
+eligible, the campaign selects no partial cohort and stops before final-arm generation. It
+never silently reduces `N` or `P`, extends `K`, or changes a gate. The later confirmatory design
+must add genuinely different scene geometries/topologies rather than treating three positions
+of one box as a broad scene distribution.
 
 The pilot is conditional on the selected donor bundle. Donor-bank uncertainty is not folded
 into seed uncertainty. A later confirmatory experiment must repeat the result across donor
@@ -55,14 +60,16 @@ bundles before making a donor-general claim.
 
 ## Exact frozen-prior sample budget
 
-Every **completed** campaign spends exactly
+Every **completed candidate-pool** campaign spends exactly
 
 $$
-B_{\mathrm{physical}} = 2D + N + 2NP.
+B_{\mathrm{physical}} = 2D + K + 2NP.
 $$
 
-Cached clips still count toward this budget. A failed preflight reports the actual partial
-spend and produces no outcome claim. Kinematic analysis, qpos phase extraction, packet
+Cached clips still count toward this budget. A failed preflight reports launched and returned
+samples separately; if a generator call raises, exact physical spend is unknown and the
+receipt reports both a returned-sample lower bound and a conservative launched charge.
+Kinematic analysis, qpos phase extraction, packet
 construction, and SONIC replay do not count as frozen-prior samples, but their wall time is
 reported separately. Python `generate(...)` invocation count is reported separately from
 samples.
@@ -70,8 +77,8 @@ samples.
 | Stage | Samples | Locked purpose |
 |---|---:|---|
 | Donor bank | `2D` | For every donor seed/noise stream, generate one adapted clip with the exact step-over prompt and one neutral clip with the exact walk prompt. |
-| Held-out nominal | `N` | Generate one walk-prompt nominal per evaluation seed. Reuse that one immutable clip to measure all `P` target cycles; do not regenerate a nominal per placement or arm. |
-| Final paired arms | `2NP` | For every evaluation seed and placement, make exactly one absolute call and one residual call. |
+| Held-out nominal pool | `K` | Generate and archive one walk-prompt nominal per predeclared candidate seed. Classify all candidates under common gates, then freeze the first `N` eligible seeds. |
+| Final paired arms | `2NP` | For every selected seed and placement, make exactly one absolute call and one residual call. Every manifest-planned arm remains in the denominator, including a failed attempt. |
 
 The adapted source clip is byte-identically shared by the absolute and residual packets; the
 residual arm alone uses the paired neutral clip for subtraction. Donor eligibility and the
@@ -155,10 +162,12 @@ The generic phase arrays are not labels inferred from seed or frame number. Exp0
   while allowing their FPS-derived sample counts to differ.
 
 The source adapted and neutral cycles must have the same swing side and one locked phase/contact
-protocol. The held-out nominal target must have the packet's swing side. A donor-side failure
-is an eligibility rejection recorded in `donor_candidates.jsonl`; a target-side failure aborts
-the campaign before its manifest/final arms and is recorded in the partial-spend
-`receipt.json`. Truncated takeoff or landing, bilateral flight, insufficient lift, excessive
+protocol. An eligible held-out nominal target must have the packet's swing side. A donor-side
+failure is an eligibility rejection recorded in `donor_candidates.jsonl`; expected target-side
+gate failures reject individual candidates and enter `nominal_rows.jsonl` plus
+`nominal_selection.json`. Pool exhaustion or an unexpected evidence/protocol error aborts
+before the manifest/final arms and is recorded in the partial-spend `receipt.json`. Truncated
+takeoff or landing, bilateral flight, insufficient lift, excessive
 floor penetration, weak stance support, ambiguous phase progression, incomplete common phase
 support, or target extrapolation is never repaired by a nearest-frame fallback.
 
@@ -175,7 +184,7 @@ Exp017 refuses a dirty worktree. The first real-model preflight was locked as:
 source env.sh
 $S2M_PY experiments/exp017_ramp_residual_stepover.py \
   --out outputs/exp017_ramp_preflight_d1_n1_p1 \
-  --n_donors 1 --n_seeds 1 --obstacle_x 3.6 \
+  --n_donors 1 --n_nominal_candidates 1 --n_seeds 1 --obstacle_x 3.6 \
   --threshold_calibration_receipt outputs/exp016_threshold_calibration/receipt.json
 ```
 
@@ -195,7 +204,7 @@ wider **sequential** bank, not a cherry-picked seed:
 source env.sh
 $S2M_PY experiments/exp017_ramp_residual_stepover.py \
   --out outputs/exp017_ramp_preflight_d4_n1_p1 \
-  --n_donors 4 --n_seeds 1 --obstacle_x 3.6 \
+  --n_donors 4 --n_nominal_candidates 1 --n_seeds 1 --obstacle_x 3.6 \
   --threshold_calibration_receipt outputs/exp016_threshold_calibration/receipt.json
 ```
 
@@ -217,7 +226,7 @@ third attempt is locked as an exact-design replay whose only intended difference
 source env.sh
 $S2M_PY experiments/exp017_ramp_residual_stepover.py \
   --out outputs/exp017_ramp_preflight_d4_n1_p1_v2 \
-  --n_donors 4 --n_seeds 1 --obstacle_x 3.6 \
+  --n_donors 4 --n_nominal_candidates 1 --n_seeds 1 --obstacle_x 3.6 \
   --threshold_calibration_receipt outputs/exp016_threshold_calibration/receipt.json
 ```
 
@@ -255,6 +264,17 @@ predeclared seed order that pass the common pre-arm progress, physical phase/con
 placement, and packet-window gates for every `P` scene. It may not rank candidates by lift or
 response, replace a selected seed after an arm failure, extend `K`, or relax a gate.
 
+The reviewed implementation is frozen for launch as:
+
+```bash
+source env.sh
+$S2M_PY experiments/exp017_ramp_residual_stepover.py \
+  --out outputs/exp017_ramp_pool_d4_k8_n2_p1 \
+  --n_donors 4 --n_nominal_candidates 8 --n_seeds 2 \
+  --obstacle_x 3.6 \
+  --threshold_calibration_receipt outputs/exp016_threshold_calibration/receipt.json
+```
+
 A completed campaign spends exactly
 
 $$
@@ -264,7 +284,8 @@ $$
 frozen-prior samples. Source failure stops after eight; pool exhaustion with fewer than `N`
 eligible candidates stops after all 16 source-plus-pool samples; a selected-arm failure still
 counts in the fixed `NP` denominator for that arm. The ledger must report `E/K` nominal
-eligibility with every rejection reason, `N/E` evaluated coverage, and `NP` outcomes per arm.
+eligibility with every rejection reason, `N/E` selected coverage when a full cohort exists,
+actual attempted/evaluated seed and arm counts, and `NP` planned outcomes per arm.
 All `K` screening calls and their latency count in later test-time-budget comparisons.
 
 The primary estimand is conditional: among the first `N` members of this frozen pool satisfying

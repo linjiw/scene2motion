@@ -8,11 +8,13 @@ an absolute pose packet or as an adapted-minus-neutral residual packet.
 
 The generation budget is explicit in *samples* (not Python calls)::
 
-    2D + N + 2NP
+    2D + K + 2NP
 
 ``D`` matched discovery seeds produce one STEP-adapted and one WALK-neutral source clip.
-``N`` disjoint held-out seeds produce one WALK nominal target clip each.  The final two arms
-are generated for every nominal seed and each of ``P`` predeclared, seed-independent scenes.
+``K`` disjoint held-out seeds produce a predeclared WALK nominal candidate pool.  All are
+classified with the same locked progress, phase, and bounded-assignment gates; the first
+``N`` eligible candidates in frozen seed order are selected.  The final two arms are
+generated for every selected seed and each of ``P`` predeclared, seed-independent scenes.
 The complete program manifest is written and hashed before any final-arm output is sampled.
 
 This file implements a kinematic pilot only.  A paper claim about physical execution still
@@ -63,6 +65,7 @@ WALK = "A person walks forward."
 STEP = "A person steps over an obstacle."
 ARMS = ("absolute", "residual")
 EVENT_SELECTOR = "qpos-step-cycle-adapted-lift-neutral-progress-v1"
+NOMINAL_SELECTOR = "first-n-eligible-in-predeclared-seed-order-v1"
 DEFAULT_OBSTACLE_X = (2.4, 3.6, 4.8)
 ALLOWED_NONZERO_CHANNELS = {
     "root_2d", "root_y_pos", "global_joints_rots",
@@ -805,6 +808,49 @@ def _write_jsonl(path: Path, rows: Sequence[Mapping[str, Any]]) -> None:
             handle.write(json.dumps(row, allow_nan=False) + "\n")
 
 
+def _attempt_status_counts(rows: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
+    counts: dict[str, dict[str, int]] = {arm: {} for arm in ARMS}
+    terminal = {
+        "generation_failed", "sample_hash_failed", "conversion_failed",
+        "scoring_failed", "completed",
+    }
+    for row in rows:
+        arm = str(row["arm"])
+        status = str(row["status"])
+        counts.setdefault(arm, {})[status] = counts.setdefault(arm, {}).get(status, 0) + 1
+    return {
+        "status_counts_per_arm": counts,
+        "terminal_counts_per_arm": {
+            arm: sum(count for status, count in arm_counts.items()
+                     if status in terminal)
+            for arm, arm_counts in counts.items()
+        },
+    }
+
+
+def _attempt_coverage(rows: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
+    attempted = [row for row in rows if row["status"] != "planned"]
+    evaluated = [row for row in rows if row["status"] == "completed"]
+    attempted_seeds = sorted({int(row["seed"]) for row in attempted})
+    by_seed: dict[int, list[Mapping[str, Any]]] = {}
+    for row in rows:
+        by_seed.setdefault(int(row["seed"]), []).append(row)
+    evaluated_seeds = sorted(
+        seed for seed, seed_rows in by_seed.items()
+        if seed_rows and all(row["status"] == "completed" for row in seed_rows)
+    )
+    return {
+        "actual_attempted_seeds": attempted_seeds,
+        "n_actual_attempted_seeds": len(attempted_seeds),
+        "actual_evaluated_seeds": evaluated_seeds,
+        "n_actual_evaluated_seeds": len(evaluated_seeds),
+        "actual_attempted_arm_counts_per_arm": {
+            arm: sum(row["arm"] == arm for row in attempted) for arm in ARMS},
+        "actual_evaluated_arm_counts_per_arm": {
+            arm: sum(row["arm"] == arm for row in evaluated) for arm in ARMS},
+    }
+
+
 def _packet_arrays(pair: Any) -> dict[str, np.ndarray]:
     return {
         "absolute_rotation_payload": pair.absolute.rotation_payload,
@@ -834,14 +880,18 @@ def run_experiment(
             f"single-shot non-resumable pilot refuses non-empty output directory: {out}")
     started = time.time()
     counters = {
-        "donor_source_samples": 0,
-        "nominal_samples": 0,
-        "paired_evaluation_samples": 0,
+        "donor_source_samples_launched": 0,
+        "donor_source_samples_returned": 0,
+        "nominal_samples_launched": 0,
+        "nominal_samples_returned": 0,
+        "paired_evaluation_samples_launched": 0,
+        "paired_evaluation_samples_returned": 0,
         "generate_invocations": 0,
     }
+    sample_count_exact = True
     evidence_anchors: dict[str, Any] = {}
     run_provenance: dict[str, Any] = {
-        "schema": "exp017-run-provenance-v1",
+        "schema": "exp017-run-provenance-v3",
         "prepared_through": "initialization",
         "complete_before_source_generation": False,
         "code": None,
@@ -850,20 +900,28 @@ def run_experiment(
         "prompts": None,
         "generation_settings": None,
         "D": None,
+        "K": None,
         "N": None,
         "P": None,
-        "budget_formula": "2D+N+2NP",
+        "budget_formula": "2D+K+2NP",
         "planned_ardy_samples": None,
         "donor_seeds": None,
+        "nominal_candidate_seeds": None,
         "evaluation_seeds": None,
+        "nominal_selection_policy": NOMINAL_SELECTOR,
+        "nominal_selection_identity_sha256": None,
         "fixed_scenes": None,
         "route_content_sha256": None,
     }
     repo = Path(__file__).resolve().parents[1]
     stage = "validation"
     try:
-        if args.n_donors < 1 or args.n_seeds < 1:
-            raise ValueError("n_donors and n_seeds must be positive")
+        if (args.n_donors < 1 or args.n_seeds < 1
+                or args.n_nominal_candidates < 1):
+            raise ValueError(
+                "n_donors, n_seeds, and n_nominal_candidates must be positive")
+        if args.n_nominal_candidates < args.n_seeds:
+            raise ValueError("n_nominal_candidates K must be at least n_seeds N")
         if not args.obstacle_x:
             raise ValueError("at least one fixed obstacle placement is required")
         if len(set(args.obstacle_x)) != len(args.obstacle_x):
@@ -884,22 +942,26 @@ def run_experiment(
             raise ValueError("cfg_weight must be finite")
         donor_seeds = list(range(args.donor_seed_start,
                                  args.donor_seed_start + args.n_donors))
-        eval_seeds = list(range(args.seed_start, args.seed_start + args.n_seeds))
-        planned_samples = 2 * args.n_donors + args.n_seeds + (
+        candidate_seeds = list(range(
+            args.seed_start, args.seed_start + args.n_nominal_candidates))
+        planned_samples = 2 * args.n_donors + args.n_nominal_candidates + (
             2 * args.n_seeds * len(args.obstacle_x))
         run_provenance.update({
             "prepared_through": "design_validated",
             "prompts": {"adapted_source": STEP, "neutral_source": WALK,
                         "nominal": WALK, "paired_evaluation": STEP},
             "D": args.n_donors,
+            "K": args.n_nominal_candidates,
             "N": args.n_seeds,
             "P": len(args.obstacle_x),
             "planned_ardy_samples": planned_samples,
             "donor_seeds": donor_seeds,
-            "evaluation_seeds": eval_seeds,
+            "nominal_candidate_seeds": candidate_seeds,
+            "evaluation_seeds": None,
+            "nominal_selection_policy": NOMINAL_SELECTOR,
         })
-        if set(donor_seeds) & set(eval_seeds):
-            raise ValueError("donor and evaluation seed ranges must be disjoint")
+        if set(donor_seeds) & set(candidate_seeds):
+            raise ValueError("donor and nominal candidate seed ranges must be disjoint")
         thresholds, threshold_identity = _load_thresholds(
             Path(args.threshold_calibration_receipt))
         run_provenance.update({
@@ -992,11 +1054,16 @@ def run_experiment(
             prompts.extend((STEP, WALK))
             specs.extend((base, base))
             seeds.extend((seed, seed))
-        generated = runner.generate(
-            prompts, specs, frames, args.diffusion_steps,
-            cfg_weight=cfg_weight, seeds=seeds)
         counters["generate_invocations"] += 1
-        counters["donor_source_samples"] += len(generated)
+        counters["donor_source_samples_launched"] += 2 * args.n_donors
+        try:
+            generated = runner.generate(
+                prompts, specs, frames, args.diffusion_steps,
+                cfg_weight=cfg_weight, seeds=seeds)
+        except Exception:
+            sample_count_exact = False
+            raise
+        counters["donor_source_samples_returned"] += len(generated)
         if len(generated) != 2 * args.n_donors:
             raise ValueError("runner returned the wrong number of donor source samples")
         source_rows: list[dict[str, Any]] = []
@@ -1154,66 +1221,149 @@ def run_experiment(
         }
         _write_json(out / "packet_pair.json", packet_record)
 
-        # ---- N held-out nominal clips ------------------------------------------------
+        # ---- K predeclared held-out nominal candidates ------------------------------
         stage = "nominal_discovery"
-        nominals = runner.generate(
-            [WALK] * args.n_seeds,
-            [base] * args.n_seeds,
-            frames,
-            args.diffusion_steps,
-            cfg_weight=cfg_weight,
-            seeds=eval_seeds,
-        )
         counters["generate_invocations"] += 1
-        counters["nominal_samples"] += len(nominals)
-        if len(nominals) != args.n_seeds:
+        counters["nominal_samples_launched"] += args.n_nominal_candidates
+        try:
+            nominals = runner.generate(
+                [WALK] * args.n_nominal_candidates,
+                [base] * args.n_nominal_candidates,
+                frames,
+                args.diffusion_steps,
+                cfg_weight=cfg_weight,
+                seeds=candidate_seeds,
+            )
+        except Exception:
+            sample_count_exact = False
+            raise
+        counters["nominal_samples_returned"] += len(nominals)
+        if len(nominals) != args.n_nominal_candidates:
             raise ValueError("runner returned the wrong number of nominal samples")
 
         nominal_rows: list[dict[str, Any]] = []
         nominal_qpos_archive: dict[str, np.ndarray] = {}
+        nominal_substrate_archive: dict[str, np.ndarray] = {}
         nominal_by_seed: dict[int, tuple[Mapping[str, Any], np.ndarray]] = {}
         nominal_cycles_by_seed: dict[int, tuple[StepPhaseCycle, ...]] = {}
         program_records: list[dict[str, Any]] = []
         rendered: dict[tuple[int, int, str], ConstraintSpec] = {}
 
+        def persist_nominal_candidate_evidence() -> tuple[dict[str, Any], dict[str, Any]]:
+            np.savez(out / "nominal_qpos.npz", **nominal_qpos_archive)
+            np.savez(out / "nominal_substrate.npz", **nominal_substrate_archive)
+            qpos_evidence = {
+                "archive": "nominal_qpos.npz",
+                "n_predeclared_candidates": len(candidate_seeds),
+                "n_attempted_seeds": len(nominal_rows),
+                "n_qpos_arrays": len(nominal_qpos_archive),
+                "content_sha256": _array_hash(nominal_qpos_archive),
+                "archive_sha256": _sha256(out / "nominal_qpos.npz"),
+            }
+            substrate_evidence = {
+                "archive": "nominal_substrate.npz",
+                "n_predeclared_candidates": len(candidate_seeds),
+                "n_attempted_seeds": len(nominal_rows),
+                "n_complete_candidates": len(nominal_substrate_archive) // 2,
+                "n_candidates": len(nominal_substrate_archive) // 2,
+                "n_arrays": len(nominal_substrate_archive),
+                "content_sha256": _array_hash(nominal_substrate_archive),
+                "archive_sha256": _sha256(out / "nominal_substrate.npz"),
+            }
+            evidence_anchors["nominal_qpos"] = qpos_evidence
+            evidence_anchors["nominal_substrate"] = substrate_evidence
+            for candidate_row in nominal_rows:
+                candidate_row["nominal_qpos_archive"] = qpos_evidence["archive"]
+                candidate_row["nominal_qpos_archive_sha256"] = qpos_evidence[
+                    "archive_sha256"]
+                candidate_row["nominal_qpos_archive_content_sha256"] = qpos_evidence[
+                    "content_sha256"]
+                candidate_row["nominal_substrate_archive"] = substrate_evidence[
+                    "archive"]
+                candidate_row["nominal_substrate_archive_sha256"] = (
+                    substrate_evidence["archive_sha256"])
+                candidate_row["nominal_substrate_archive_content_sha256"] = (
+                    substrate_evidence["content_sha256"])
+            _write_jsonl(out / "nominal_rows.jsonl", nominal_rows)
+            evidence_anchors["nominal_rows"] = {
+                "path": "nominal_rows.jsonl",
+                "n_rows": len(nominal_rows),
+                "logical_sha256": _json_hash(nominal_rows),
+                "file_sha256": _sha256(out / "nominal_rows.jsonl"),
+            }
+            return qpos_evidence, substrate_evidence
+
         # Convert and preserve every returned nominal before any progress, phase, or
         # assignment gate.  This makes a failed held-out seed independently replayable.
-        for seed, nominal in zip(eval_seeds, nominals):
+        for pool_index, (seed, nominal) in enumerate(zip(candidate_seeds, nominals)):
             nominal_hash = _sample_hash(nominal)
-            qpos = np.array(runner.to_qpos(nominal), copy=True)
             qpos_key = f"s{seed}"
-            nominal_qpos_archive[qpos_key] = qpos
-            nominal_by_seed[seed] = (nominal, qpos)
-            nominal_rows.append({
+            rotations_key = f"s{seed}__global_rot_mats"
+            root_key = f"s{seed}__smooth_root_pos"
+            row = {
+                "pool_index": pool_index,
                 "seed": seed,
                 "prompt": WALK,
                 "clip_sha256": nominal_hash,
-                "qpos_archive_key": qpos_key,
-                "qpos_sha256": _array_hash({"qpos": qpos}),
-                "qpos_content_sha256": _array_hash({qpos_key: qpos}),
                 "final_progress_ratio_vs_prescribed_route": None,
                 "support_diagnostics": None,
                 "cycles": [],
                 "assignments": [],
                 "assignment_diagnostics": None,
                 "assignment_reason": None,
-                "processing_status": "generated_not_processed",
-            })
-        np.savez(out / "nominal_qpos.npz", **nominal_qpos_archive)
-        nominal_qpos_evidence = {
-            "archive": "nominal_qpos.npz",
-            "n_attempted_seeds": len(eval_seeds),
-            "n_qpos_arrays": len(nominal_qpos_archive),
-            "content_sha256": _array_hash(nominal_qpos_archive),
-            "archive_sha256": _sha256(out / "nominal_qpos.npz"),
-        }
-        evidence_anchors["nominal_qpos"] = nominal_qpos_evidence
-        for row in nominal_rows:
-            row["nominal_qpos_archive"] = nominal_qpos_evidence["archive"]
-            row["nominal_qpos_archive_sha256"] = nominal_qpos_evidence[
-                "archive_sha256"]
-            row["nominal_qpos_archive_content_sha256"] = nominal_qpos_evidence[
-                "content_sha256"]
+                "eligibility_status": "not_classified",
+                "attrition_stage": None,
+                "selected": False,
+                "selection_rank": None,
+                "processing_status": "converting_nominal_evidence",
+            }
+            nominal_rows.append(row)
+            try:
+                qpos = np.array(runner.to_qpos(nominal), copy=True)
+                nominal_qpos_archive[qpos_key] = qpos
+                row.update({
+                    "qpos_archive_key": qpos_key,
+                    "qpos_sha256": _array_hash({"qpos": qpos}),
+                    "qpos_content_sha256": _array_hash({qpos_key: qpos}),
+                })
+                rotations = np.asarray(nominal.get("global_rot_mats"))
+                smooth_root = np.asarray(nominal.get("smooth_root_pos"))
+                if (not np.issubdtype(rotations.dtype, np.number)
+                        or rotations.shape != (frames, len(runner.joint_names), 3, 3)
+                        or not np.isfinite(rotations).all()):
+                    raise ValueError(
+                        f"nominal seed {seed} has invalid global_rot_mats substrate")
+                if (not np.issubdtype(smooth_root.dtype, np.number)
+                        or smooth_root.shape != (frames, 3)
+                        or not np.isfinite(smooth_root).all()):
+                    raise ValueError(
+                        f"nominal seed {seed} has invalid smooth_root_pos substrate")
+                nominal_substrate_archive[rotations_key] = np.array(
+                    rotations, copy=True)
+                nominal_substrate_archive[root_key] = np.array(smooth_root, copy=True)
+                row.update({
+                    "global_rot_mats_archive_key": rotations_key,
+                    "global_rot_mats_content_sha256": _array_hash({
+                        rotations_key: nominal_substrate_archive[rotations_key]}),
+                    "smooth_root_pos_archive_key": root_key,
+                    "smooth_root_pos_content_sha256": _array_hash({
+                        root_key: nominal_substrate_archive[root_key]}),
+                    "processing_status": "generated_not_processed",
+                })
+                nominal_by_seed[seed] = (nominal, qpos)
+            except Exception as exc:
+                row.update({
+                    "processing_status": "rejected_nominal_evidence",
+                    "eligibility_status": "ineligible",
+                    "attrition_stage": "nominal_evidence",
+                    "assignment_reason": str(exc),
+                    "nominal_evidence_error_type": type(exc).__name__,
+                })
+                nominal_qpos_evidence, nominal_substrate_evidence = (
+                    persist_nominal_candidate_evidence())
+                raise
+            nominal_qpos_evidence, nominal_substrate_evidence = (
+                persist_nominal_candidate_evidence())
 
         # Populate descriptive evidence for every returned seed before applying the
         # sequential fail-closed gates.  Exceptions are recorded and then enforced in
@@ -1245,7 +1395,171 @@ def run_experiment(
                 row["phase_cycle_error"] = str(exc)
         _write_jsonl(out / "nominal_rows.jsonl", nominal_rows)
 
-        experiment_identity = _identity("exp017-experiment-v1", {
+        # Classify every candidate.  Expected candidate attrition is recorded and does
+        # not stop later candidates; unexpected geometry/program errors still abort.
+        assignments_by_seed: dict[int, list[dict[str, Any]]] = {}
+        for row in nominal_rows:
+            seed = int(row["seed"])
+            _, qpos = nominal_by_seed[seed]
+            row["processing_status"] = "classifying"
+            if "progress_measurement_error" in row:
+                row.update({
+                    "processing_status": "rejected_progress_measurement",
+                    "eligibility_status": "ineligible",
+                    "attrition_stage": "progress_measurement",
+                    "assignment_reason": row["progress_measurement_error"],
+                })
+                continue
+            nominal_progress_ratio = float(
+                row["final_progress_ratio_vs_prescribed_route"])
+            if nominal_progress_ratio < args.min_nominal_progress_ratio:
+                reason = (
+                    f"nominal seed {seed} progress ratio "
+                    f"{nominal_progress_ratio:.4f} is below locked "
+                    f"{args.min_nominal_progress_ratio:.4f}")
+                row.update({
+                    "processing_status": "rejected_progress_gate",
+                    "eligibility_status": "ineligible",
+                    "attrition_stage": "progress_gate",
+                    "assignment_reason": reason,
+                })
+                continue
+            if "phase_cycle_error" in row:
+                row.update({
+                    "processing_status": "rejected_phase_cycle",
+                    "eligibility_status": "ineligible",
+                    "attrition_stage": "phase_cycle",
+                    "assignment_reason": row["phase_cycle_error"],
+                })
+                continue
+            cycles = nominal_cycles_by_seed[seed]
+            feet = foot_kinematics_series(body, qpos, fps)
+            try:
+                assignments, assignment_diagnostics = _target_assignment(
+                    cycles, qpos, feet, root_xz, args.obstacle_x, pair.absolute,
+                    source_measurement_protocol_hash=(
+                        pair.absolute.measurement_protocol_hash),
+                    half_window_frames=args.half_window_frames,
+                    max_center_shift_frames=args.max_center_shift_frames,
+                )
+            except TargetAssignmentError as exc:
+                row.update({
+                    "processing_status": "rejected_target_assignment",
+                    "eligibility_status": "ineligible",
+                    "attrition_stage": "target_assignment",
+                    "assignment_diagnostics": exc.diagnostics,
+                    "assignment_reason": str(exc),
+                })
+                continue
+            assignments_by_seed[seed] = assignments
+            row["assignments"] = [{
+                key: (value.as_dict() if hasattr(value, "as_dict") else value)
+                for key, value in assignment.items() if key != "cycle"
+            } | {"cycle": assignment["cycle"].as_dict()}
+                for assignment in assignments]
+            row.update({
+                "assignment_diagnostics": assignment_diagnostics,
+                "assignment_reason": "bounded one-to-one assignment accepted",
+                "processing_status": "eligible_not_selected",
+                "eligibility_status": "eligible",
+                "attrition_stage": None,
+            })
+
+        # Hash the immutable classification core before adding derived selection fields.
+        selection_excluded = {"selected", "selection_rank"}
+        candidate_core_rows = [
+            {key: value for key, value in row.items()
+             if key not in selection_excluded}
+            for row in nominal_rows
+        ]
+        candidate_core_sha256 = _json_hash(candidate_core_rows)
+        candidate_identity_sha256: list[str] = []
+        for row, core in zip(nominal_rows, candidate_core_rows):
+            identity = _identity("exp017-nominal-candidate-eligibility-v1", core)
+            row["candidate_eligibility_identity"] = identity
+            row["candidate_eligibility_identity_sha256"] = identity["sha256"]
+            candidate_identity_sha256.append(identity["sha256"])
+        eligible_rows = [
+            row for row in nominal_rows if row["eligibility_status"] == "eligible"]
+        eligible_prefix_rows = eligible_rows[:args.n_seeds]
+        selected_rows = (eligible_prefix_rows
+                         if len(eligible_rows) >= args.n_seeds else [])
+        for rank, row in enumerate(selected_rows):
+            row["selected"] = True
+            row["selection_rank"] = rank
+            row["processing_status"] = "selected_pending_program_render"
+        eval_seeds = [int(row["seed"]) for row in selected_rows]
+        attrition_counts: dict[str, int] = {}
+        for row in nominal_rows:
+            stage_name = row["attrition_stage"] or "eligible"
+            attrition_counts[stage_name] = attrition_counts.get(stage_name, 0) + 1
+        eligibility_protocol = {
+            "minimum_nominal_final_progress_ratio_vs_prescribed_route": (
+                args.min_nominal_progress_ratio),
+            "half_window_frames": args.half_window_frames,
+            "max_center_shift_frames": args.max_center_shift_frames,
+            "support_window_s": args.support_window_s,
+            "min_stance_support_fraction": min_stance_support_fraction,
+            "min_relative_lift_m": args.min_relative_lift_m,
+            "measurement_protocol_hash": pair.absolute.measurement_protocol_hash,
+            "fixed_scene_ids": [scene["scene_id"] for scene in fixed_scenes],
+        }
+        n_eligible = len(eligible_rows)
+        n_selected = len(selected_rows)
+        coverage = {
+            "n_eligible": n_eligible,
+            "eligibility_fraction": n_eligible / args.n_nominal_candidates,
+            "n_selected": n_selected,
+            "selected_fraction_of_eligible": (
+                n_selected / n_eligible if n_eligible else None),
+            "n_unselected_eligible": n_eligible - n_selected,
+            "planned_arm_denominator_np_per_arm": (
+                args.n_seeds * len(args.obstacle_x)),
+        }
+        selection_identity = _identity("exp017-nominal-selection-v3", {
+            "policy": NOMINAL_SELECTOR,
+            "nominal_candidate_seeds": candidate_seeds,
+            "eligible_seeds_in_pool_order": [
+                int(row["seed"]) for row in eligible_rows],
+            "eligible_prefix_seeds": [
+                int(row["seed"]) for row in eligible_prefix_rows],
+            "selected_evaluation_seeds": eval_seeds,
+            "required_selected_count": args.n_seeds,
+            "candidate_pool_size": args.n_nominal_candidates,
+            "candidate_core_sha256": candidate_core_sha256,
+            "candidate_eligibility_identity_sha256": candidate_identity_sha256,
+            "eligibility_protocol": eligibility_protocol,
+            **coverage,
+        })
+        nominal_selection = {
+            "schema": "exp017-nominal-selection-receipt-v3",
+            "status": ("selected" if len(selected_rows) == args.n_seeds
+                       else "insufficient_eligible_candidates"),
+            "policy": NOMINAL_SELECTOR,
+            "nominal_candidate_seeds": candidate_seeds,
+            "eligible_seeds_in_pool_order": [
+                int(row["seed"]) for row in eligible_rows],
+            "eligible_prefix_seeds": [
+                int(row["seed"]) for row in eligible_prefix_rows],
+            "selected_evaluation_seeds": eval_seeds,
+            "required_selected_count": args.n_seeds,
+            "candidate_pool_size": args.n_nominal_candidates,
+            "attrition_counts": attrition_counts,
+            "candidate_core_sha256": candidate_core_sha256,
+            "candidate_eligibility_identity_sha256": candidate_identity_sha256,
+            "eligibility_protocol": eligibility_protocol,
+            **coverage,
+            "selection_identity": selection_identity,
+            "selection_identity_sha256": selection_identity["sha256"],
+        }
+        _write_json(out / "nominal_selection.json", nominal_selection)
+        evidence_anchors["nominal_selection"] = {
+            "path": "nominal_selection.json",
+            "logical_sha256": _json_hash(nominal_selection),
+            "file_sha256": _sha256(out / "nominal_selection.json"),
+            "selection_identity_sha256": selection_identity["sha256"],
+        }
+        experiment_identity = _identity("exp017-experiment-v3", {
             "experiment": "exp017_ramp_residual_stepover",
             "execution_mode": "single-shot_non_resumable_pilot",
             "generator_id": checkpoint["generator_id"],
@@ -1260,7 +1574,16 @@ def run_experiment(
             "prompts": {"adapted_source": STEP, "neutral_source": WALK,
                         "nominal": WALK, "paired_evaluation": STEP},
             "donor_seeds": donor_seeds,
+            "nominal_candidate_seeds": candidate_seeds,
+            "eligible_seeds_in_pool_order": [
+                int(row["seed"]) for row in eligible_rows],
             "evaluation_seeds": eval_seeds,
+            "nominal_selection_policy": NOMINAL_SELECTOR,
+            "nominal_selection_identity_sha256": selection_identity["sha256"],
+            "nominal_selection_logical_sha256": _json_hash(nominal_selection),
+            "nominal_candidate_core_sha256": candidate_core_sha256,
+            "nominal_attrition_counts": attrition_counts,
+            **coverage,
             "fixed_scenes": fixed_scenes,
             "route_content_sha256": route_content_sha256,
             "packet_pair_hash": pair.digest(),
@@ -1270,63 +1593,43 @@ def run_experiment(
             "selected_source_qpos_content_sha256": _array_hash(selected_source_qpos),
             "all_donor_qpos_content_sha256": donor_qpos_evidence["content_sha256"],
             "all_nominal_qpos_content_sha256": nominal_qpos_evidence["content_sha256"],
+            "all_nominal_substrate_content_sha256": (
+                nominal_substrate_evidence["content_sha256"]),
             "D": args.n_donors,
+            "K": args.n_nominal_candidates,
             "N": args.n_seeds,
             "P": len(args.obstacle_x),
+            "budget_formula": "2D+K+2NP",
         })
         evidence_anchors["experiment_identity"] = {
             "schema": experiment_identity["schema"],
             "sha256": experiment_identity["sha256"],
         }
 
-        try:
-            for row in nominal_rows:
-                seed = int(row["seed"])
-                nominal, qpos = nominal_by_seed[seed]
-                row["processing_status"] = "processing"
-                if "progress_measurement_error" in row:
-                    row["processing_status"] = "rejected_progress_measurement"
-                    row["assignment_reason"] = row["progress_measurement_error"]
-                    raise ValueError(row["progress_measurement_error"])
-                nominal_progress_ratio = float(
-                    row["final_progress_ratio_vs_prescribed_route"])
-                if nominal_progress_ratio < args.min_nominal_progress_ratio:
-                    reason = (
-                        f"nominal seed {seed} progress ratio "
-                        f"{nominal_progress_ratio:.4f} is below locked "
-                        f"{args.min_nominal_progress_ratio:.4f}")
-                    row["processing_status"] = "rejected_progress_gate"
-                    row["assignment_reason"] = reason
-                    raise ValueError(reason)
-                if "phase_cycle_error" in row:
-                    row["processing_status"] = "rejected_phase_cycle"
-                    row["assignment_reason"] = row["phase_cycle_error"]
-                    raise ValueError(row["phase_cycle_error"])
-                cycles = nominal_cycles_by_seed[seed]
-                feet = foot_kinematics_series(body, qpos, fps)
-                try:
-                    assignments, assignment_diagnostics = _target_assignment(
-                        cycles, qpos, feet, root_xz, args.obstacle_x, pair.absolute,
-                        source_measurement_protocol_hash=(
-                            pair.absolute.measurement_protocol_hash),
-                        half_window_frames=args.half_window_frames,
-                        max_center_shift_frames=args.max_center_shift_frames,
-                    )
-                except TargetAssignmentError as exc:
-                    row["processing_status"] = "rejected_target_assignment"
-                    row["assignment_diagnostics"] = exc.diagnostics
-                    row["assignment_reason"] = str(exc)
-                    raise
-                row["assignments"] = [{
-                    key: (value.as_dict() if hasattr(value, "as_dict") else value)
-                    for key, value in assignment.items() if key != "cycle"
-                } | {"cycle": assignment["cycle"].as_dict()}
-                    for assignment in assignments]
-                row["assignment_diagnostics"] = assignment_diagnostics
-                row["assignment_reason"] = "bounded one-to-one assignment accepted"
-                row["processing_status"] = "assigned"
+        def persist_nominal_ledgers() -> None:
+            _write_jsonl(out / "nominal_rows.jsonl", nominal_rows)
+            _write_jsonl(out / "programs.jsonl", program_records)
+            evidence_anchors["nominal_rows"] = {
+                "path": "nominal_rows.jsonl",
+                "n_rows": len(nominal_rows),
+                "logical_sha256": _json_hash(nominal_rows),
+                "file_sha256": _sha256(out / "nominal_rows.jsonl"),
+                "candidate_core_sha256": candidate_core_sha256,
+            }
 
-                for assignment in assignments:
+        persist_nominal_ledgers()
+        if len(selected_rows) < args.n_seeds:
+            raise ValueError(
+                f"nominal candidate pool has {len(eligible_rows)} eligible seeds; "
+                f"requires N={args.n_seeds} from frozen K={args.n_nominal_candidates}")
+
+        # Render only the frozen first-N selection.  Any selected-program failure is
+        # fatal and never causes replacement by a later eligible pool member.
+        try:
+            for row in selected_rows:
+                seed = int(row["seed"])
+                nominal, _ = nominal_by_seed[seed]
+                for assignment in assignments_by_seed[seed]:
                     scene_index = int(assignment["scene_index"])
                     event = assignment["cycle"].event
                     common = dict(
@@ -1410,29 +1713,63 @@ def run_experiment(
                             "program_identity_sha256": program_identity["sha256"],
                         })
                         program_records.append(program)
-                row["processing_status"] = "programs_rendered"
+                row["processing_status"] = "selected_programs_rendered"
+        except Exception as exc:
+            row["processing_status"] = "selected_program_failure"
+            row["assignment_reason"] = str(exc)
+            raise
         finally:
-            active_error = sys.exc_info()[1]
-            blocked = False
-            for row in nominal_rows:
-                if (active_error is not None
-                        and row["processing_status"] in {"processing", "assigned"}):
-                    row["processing_status"] = "rejected_processing"
-                    row["assignment_reason"] = str(active_error)
-                if row["processing_status"].startswith("rejected_"):
-                    blocked = True
-                elif blocked and row["processing_status"] == "generated_not_processed":
-                    row["processing_status"] = "not_processed_due_prior_nominal_failure"
-                    row["assignment_reason"] = (
-                        "not processed because an earlier nominal seed failed closed")
-            _write_jsonl(out / "nominal_rows.jsonl", nominal_rows)
-            _write_jsonl(out / "programs.jsonl", program_records)
-            evidence_anchors["nominal_rows"] = {
-                "path": "nominal_rows.jsonl",
-                "n_rows": len(nominal_rows),
-                "logical_sha256": _json_hash(nominal_rows),
-                "file_sha256": _sha256(out / "nominal_rows.jsonl"),
-            }
+            persist_nominal_ledgers()
+
+        planned_attempts: list[dict[str, Any]] = []
+        for planned_index, program in enumerate(program_records):
+            motion_key = (
+                f"{program['scene_id']}__{program['arm']}__s{program['seed']}")
+            attempt_identity = _identity("exp017-paired-attempt-v1", {
+                "experiment_identity_sha256": experiment_identity["sha256"],
+                "program_identity_sha256": program["program_identity_sha256"],
+                "planned_index": planned_index,
+                "motion_key": motion_key,
+                "scene_id": program["scene_id"],
+                "scene_index": program["scene_index"],
+                "seed": program["seed"],
+                "arm": program["arm"],
+                "prompt": STEP,
+            })
+            planned_attempts.append({
+                "planned_index": planned_index,
+                "motion_key": motion_key,
+                "scene_id": program["scene_id"],
+                "scene_index": program["scene_index"],
+                "seed": program["seed"],
+                "arm": program["arm"],
+                "prompt": STEP,
+                "program_identity_sha256": program["program_identity_sha256"],
+                "attempt_identity": attempt_identity,
+                "attempt_identity_sha256": attempt_identity["sha256"],
+                "status": "planned",
+                "error_type": None,
+                "error": None,
+            })
+        expected_final = 2 * args.n_seeds * len(args.obstacle_x)
+        if len(planned_attempts) != expected_final:
+            raise ValueError("program rendering did not produce exactly 2NP attempts")
+        attempt_plan = _identity("exp017-paired-attempt-plan-v1", {
+            "planned_arm_denominator_np_per_arm": coverage[
+                "planned_arm_denominator_np_per_arm"],
+            "n_planned_attempts": len(planned_attempts),
+            "attempt_identity_sha256": [
+                row["attempt_identity_sha256"] for row in planned_attempts],
+        })
+        _write_json(out / "attempt_plan.json", attempt_plan)
+        _write_jsonl(out / "attempts.jsonl", planned_attempts)
+        evidence_anchors["attempt_plan"] = {
+            "path": "attempt_plan.json",
+            "logical_sha256": _json_hash(attempt_plan),
+            "file_sha256": _sha256(out / "attempt_plan.json"),
+            "n_planned_attempts": len(planned_attempts),
+            "attempt_plan_identity_sha256": attempt_plan["sha256"],
+        }
 
         # Freeze every decision informed by source/nominal outputs before final sampling.
         stage = "manifest"
@@ -1445,13 +1782,17 @@ def run_experiment(
             "prompts": {"adapted_source": STEP, "neutral_source": WALK,
                         "nominal": WALK, "paired_evaluation": STEP},
             "donor_seeds": donor_seeds,
+            "nominal_candidate_seeds": candidate_seeds,
             "evaluation_seeds": eval_seeds,
+            "nominal_selection": nominal_selection,
+            "attempt_plan": attempt_plan,
             "fixed_scenes": fixed_scenes,
             "D": args.n_donors,
+            "K": args.n_nominal_candidates,
             "N": args.n_seeds,
             "P": len(args.obstacle_x),
             "planned_ardy_samples": planned_samples,
-            "budget_formula": "2D+N+2NP",
+            "budget_formula": "2D+K+2NP",
             "diffusion_steps": args.diffusion_steps,
             "generation_settings": generation_settings,
             "noise_stream_version": int(runner.noise_stream_version),
@@ -1472,6 +1813,7 @@ def run_experiment(
             "qpos_evidence": {
                 "all_donor_candidates": donor_qpos_evidence,
                 "all_nominal_candidates": nominal_qpos_evidence,
+                "all_nominal_substrates": nominal_substrate_evidence,
                 "selected_source_archive": "selected_source_qpos.npz",
                 "selected_source_content_sha256": _array_hash(selected_source_qpos),
                 "selected_source_archive_sha256": _sha256(
@@ -1486,6 +1828,10 @@ def run_experiment(
         }
         _write_json(out / "manifest.json", manifest)
         manifest_sha = _sha256(out / "manifest.json")
+        evidence_anchors["manifest"] = {
+            "path": "manifest.json",
+            "sha256": manifest_sha,
+        }
 
         # ---- 2NP paired final outputs ------------------------------------------------
         stage = "paired_evaluation"
@@ -1495,85 +1841,222 @@ def run_experiment(
         }
         rows: list[dict[str, Any]] = []
         qpos_archive: dict[str, np.ndarray] = {}
+        attempt_by_key = {
+            (int(row["seed"]), int(row["scene_index"]), str(row["arm"])): row
+            for row in planned_attempts
+        }
+
+        def persist_evaluation_evidence() -> None:
+            _write_jsonl(out / "attempts.jsonl", planned_attempts)
+            _write_jsonl(out / "rows.jsonl", rows)
+            np.savez(out / "qpos.npz", **qpos_archive)
+            evidence_anchors["attempts"] = {
+                "path": "attempts.jsonl",
+                "n_rows": len(planned_attempts),
+                "logical_sha256": _json_hash(planned_attempts),
+                "file_sha256": _sha256(out / "attempts.jsonl"),
+                "attempt_plan_identity_sha256": attempt_plan["sha256"],
+            }
+            evidence_anchors["paired_rows"] = {
+                "path": "rows.jsonl",
+                "n_rows": len(rows),
+                "logical_sha256": _json_hash(rows),
+                "file_sha256": _sha256(out / "rows.jsonl"),
+            }
+            evidence_anchors["paired_qpos"] = {
+                "path": "qpos.npz",
+                "n_arrays": len(qpos_archive),
+                "content_sha256": _array_hash(qpos_archive),
+                "archive_sha256": _sha256(out / "qpos.npz"),
+            }
+
         record_by_key = {
             (int(row["seed"]), int(row["scene_index"]), str(row["arm"])): row
             for row in program_records
         }
+        persist_evaluation_evidence()
         for seed in eval_seeds:
             for scene_index, x in enumerate(args.obstacle_x):
                 # Duplicate per-sample seeds give both arms byte-identical advancing random
                 # streams while preserving ARDY's batch-position independence guarantee.
-                outputs = runner.generate(
-                    [STEP, STEP],
-                    [rendered[(seed, scene_index, "absolute")],
-                     rendered[(seed, scene_index, "residual")]],
-                    frames,
-                    args.diffusion_steps,
-                    cfg_weight=cfg_weight,
-                    seeds=[seed, seed],
-                )
                 counters["generate_invocations"] += 1
-                counters["paired_evaluation_samples"] += len(outputs)
-                if len(outputs) != 2:
-                    raise ValueError("runner returned the wrong paired-arm sample count")
-                for arm, sample in zip(ARMS, outputs):
-                    program = record_by_key[(seed, scene_index, arm)]
-                    qpos = runner.to_qpos(sample)
-                    metrics = _score(
-                        body, probes[scene_index], qpos, root_xz, float(x),
-                        pair.absolute.swing_side, fps, thresholds, args.obstacle_height,
+                counters["paired_evaluation_samples_launched"] += 2
+                pair_attempts = {
+                    arm: attempt_by_key[(seed, scene_index, arm)] for arm in ARMS}
+                try:
+                    outputs = runner.generate(
+                        [STEP, STEP],
+                        [rendered[(seed, scene_index, "absolute")],
+                         rendered[(seed, scene_index, "residual")]],
+                        frames,
+                        args.diffusion_steps,
+                        cfg_weight=cfg_weight,
+                        seeds=[seed, seed],
                     )
-                    motion_key = f"{program['scene_id']}__{arm}__s{seed}"
+                except Exception as exc:
+                    sample_count_exact = False
+                    for attempt in pair_attempts.values():
+                        attempt.update({
+                            "status": "generation_failed",
+                            "error_type": type(exc).__name__,
+                            "error": str(exc),
+                        })
+                    persist_evaluation_evidence()
+                    raise
+                counters["paired_evaluation_samples_returned"] += len(outputs)
+                pair_errors: list[str] = []
+                for arm_index, arm in enumerate(ARMS):
+                    attempt = pair_attempts[arm]
+                    if arm_index >= len(outputs):
+                        message = "runner returned no sample for planned arm"
+                        attempt.update({
+                            "status": "generation_failed",
+                            "error_type": "MissingGeneratedSample",
+                            "error": message,
+                        })
+                        pair_errors.append(f"{arm}: {message}")
+                        persist_evaluation_evidence()
+                        continue
+                    sample = outputs[arm_index]
+                    program = record_by_key[(seed, scene_index, arm)]
+                    try:
+                        sample_sha = _sample_hash(sample)
+                    except Exception as exc:
+                        attempt.update({
+                            "status": "sample_hash_failed",
+                            "error_type": type(exc).__name__,
+                            "error": str(exc),
+                        })
+                        pair_errors.append(f"{arm} sample hash: {exc}")
+                        persist_evaluation_evidence()
+                        continue
+                    attempt.update({
+                        "status": "sample_hashed",
+                        "sample_sha256": sample_sha,
+                    })
+                    persist_evaluation_evidence()
+                    try:
+                        qpos = runner.to_qpos(sample)
+                        qpos_sha = _array_hash({"qpos": qpos})
+                    except Exception as exc:
+                        attempt.update({
+                            "status": "conversion_failed",
+                            "error_type": type(exc).__name__,
+                            "error": str(exc),
+                        })
+                        pair_errors.append(f"{arm} conversion: {exc}")
+                        persist_evaluation_evidence()
+                        continue
+                    motion_key = attempt["motion_key"]
                     qpos_archive[motion_key] = np.asarray(qpos, dtype=np.float32)
-                    sample_sha = _sample_hash(sample)
-                    qpos_sha = _array_hash({"qpos": qpos})
-                    metrics_sha = _json_hash(metrics)
-                    output_identity = _identity("exp017-output-v1", {
-                        "experiment_identity_sha256": experiment_identity["sha256"],
-                        "program_identity_sha256": program["program_identity_sha256"],
-                        "motion_key": motion_key,
-                        "sample_sha256": sample_sha,
+                    attempt.update({
+                        "status": "generated",
                         "qpos_sha256": qpos_sha,
-                        "metrics_sha256": metrics_sha,
-                        "seed": seed,
-                        "arm": arm,
-                        "scene_id": program["scene_id"],
+                        "qpos_archive_key": motion_key,
+                        "qpos_archive_content_sha256": _array_hash({
+                            motion_key: qpos_archive[motion_key]}),
                     })
-                    rows.append({
-                        **metrics,
-                        "motion_key": motion_key,
-                        "scene_id": program["scene_id"],
-                        "scene_index": scene_index,
-                        "seed": seed,
-                        "arm": arm,
-                        "prompt": STEP,
-                        "sample_sha256": sample_sha,
-                        "qpos_sha256": qpos_sha,
+                    persist_evaluation_evidence()
+                    try:
+                        metrics = _score(
+                            body, probes[scene_index], qpos, root_xz, float(x),
+                            pair.absolute.swing_side, fps, thresholds,
+                            args.obstacle_height,
+                        )
+                        metrics_sha = _json_hash(metrics)
+                    except Exception as exc:
+                        attempt.update({
+                            "status": "scoring_failed",
+                            "error_type": type(exc).__name__,
+                            "error": str(exc),
+                        })
+                        pair_errors.append(f"{arm} scoring: {exc}")
+                        persist_evaluation_evidence()
+                        continue
+                    try:
+                        output_identity = _identity("exp017-output-v2", {
+                            "experiment_identity_sha256": experiment_identity["sha256"],
+                            "program_identity_sha256": program[
+                                "program_identity_sha256"],
+                            "attempt_identity_sha256": attempt[
+                                "attempt_identity_sha256"],
+                            "motion_key": motion_key,
+                            "sample_sha256": sample_sha,
+                            "qpos_sha256": qpos_sha,
+                            "metrics_sha256": metrics_sha,
+                            "seed": seed,
+                            "arm": arm,
+                            "scene_id": program["scene_id"],
+                        })
+                        output_row = {
+                            **metrics,
+                            "motion_key": motion_key,
+                            "scene_id": program["scene_id"],
+                            "scene_index": scene_index,
+                            "seed": seed,
+                            "arm": arm,
+                            "prompt": STEP,
+                            "sample_sha256": sample_sha,
+                            "qpos_sha256": qpos_sha,
+                            "metrics_sha256": metrics_sha,
+                            "program_hash": program["program_hash"],
+                            "support_hash": program["support_hash"],
+                            "packet_hash": program["packet_hash"],
+                            "target_phase_match_hash": program[
+                                "target_phase_match_hash"],
+                            "program_deformation": program["deformation_vs_nominal"],
+                            "experiment_identity_sha256": experiment_identity["sha256"],
+                            "program_identity_sha256": program[
+                                "program_identity_sha256"],
+                            "attempt_identity_sha256": attempt[
+                                "attempt_identity_sha256"],
+                            "output_identity": output_identity,
+                            "output_identity_sha256": output_identity["sha256"],
+                            "manifest_sha256": manifest_sha,
+                        }
+                    except Exception as exc:
+                        attempt.update({
+                            "status": "scoring_failed",
+                            "error_type": type(exc).__name__,
+                            "error": str(exc),
+                        })
+                        pair_errors.append(f"{arm} scoring evidence: {exc}")
+                        persist_evaluation_evidence()
+                        continue
+                    rows.append(output_row)
+                    attempt.update({
+                        "status": "completed",
                         "metrics_sha256": metrics_sha,
-                        "program_hash": program["program_hash"],
-                        "support_hash": program["support_hash"],
-                        "packet_hash": program["packet_hash"],
-                        "target_phase_match_hash": program["target_phase_match_hash"],
-                        "program_deformation": program["deformation_vs_nominal"],
-                        "experiment_identity_sha256": experiment_identity["sha256"],
-                        "program_identity_sha256": program["program_identity_sha256"],
-                        "output_identity": output_identity,
                         "output_identity_sha256": output_identity["sha256"],
-                        "manifest_sha256": manifest_sha,
+                        "row_logical_sha256": _json_hash(output_row),
                     })
-        expected_final = 2 * args.n_seeds * len(args.obstacle_x)
-        if len(rows) != expected_final or counters["paired_evaluation_samples"] != expected_final:
+                    persist_evaluation_evidence()
+                if len(outputs) != 2:
+                    pair_errors.append(
+                        f"runner returned {len(outputs)} samples for two planned arms")
+                if pair_errors:
+                    persist_evaluation_evidence()
+                    raise ValueError("; ".join(pair_errors))
+        if (len(rows) != expected_final
+                or counters["paired_evaluation_samples_returned"] != expected_final
+                or counters["paired_evaluation_samples_launched"] != expected_final):
             raise ValueError("paired evaluation did not consume exactly 2NP samples")
-        np.savez(out / "qpos.npz", **qpos_archive)
-        _write_jsonl(out / "rows.jsonl", rows)
+        if any(row["status"] != "completed" for row in planned_attempts):
+            raise ValueError("paired evaluation has non-completed planned attempts")
         summary = _paired_summary(rows)
         _write_json(out / "summary.json", summary)
 
         total_spent = sum(counters[name] for name in (
-            "donor_source_samples", "nominal_samples", "paired_evaluation_samples"))
-        if total_spent != planned_samples:
-            raise ValueError("actual ARDY sample count differs from 2D+N+2NP")
+            "donor_source_samples_returned", "nominal_samples_returned",
+            "paired_evaluation_samples_returned"))
+        total_launched = sum(counters[name] for name in (
+            "donor_source_samples_launched", "nominal_samples_launched",
+            "paired_evaluation_samples_launched"))
+        if (not sample_count_exact or total_spent != planned_samples
+                or total_launched != planned_samples):
+            raise ValueError("actual ARDY sample count differs from 2D+K+2NP")
         receipt = {
+            "schema": "exp017-success-receipt-v4",
             "experiment": "exp017_ramp_residual_stepover",
             "status": "pilot_kinematics_complete_sonic_not_run",
             "claim_scope": "step-event representation E1; physical execution not evaluated",
@@ -1581,11 +2064,18 @@ def run_experiment(
             "resume_supported": False,
             "manifest_sha256": manifest_sha,
             "D": args.n_donors,
+            "K": args.n_nominal_candidates,
             "N": args.n_seeds,
             "P": len(args.obstacle_x),
-            "budget_formula": "2D+N+2NP",
+            "budget_formula": "2D+K+2NP",
             "planned_ardy_samples": planned_samples,
             "actual_ardy_samples": total_spent,
+            "sample_count_exact": True,
+            "returned_ardy_samples_lower_bound": total_spent,
+            "conservative_charged_ardy_samples": total_spent,
+            **coverage,
+            **_attempt_status_counts(planned_attempts),
+            **_attempt_coverage(planned_attempts),
             "query_accounting": counters,
             "n_programs": len(program_records),
             "n_rows": len(rows),
@@ -1622,6 +2112,7 @@ def run_experiment(
         return receipt
     except Exception as exc:
         failure = {
+            "schema": "exp017-failure-receipt-v4",
             "experiment": "exp017_ramp_residual_stepover",
             "status": "failed_closed",
             "execution_mode": "single-shot_non_resumable_pilot",
@@ -1635,6 +2126,43 @@ def run_experiment(
             "run_provenance_sha256": _json_hash(run_provenance),
             "wall_clock_s": round(time.time() - started, 3),
         }
+        returned_lower_bound = sum(counters[name] for name in (
+            "donor_source_samples_returned", "nominal_samples_returned",
+            "paired_evaluation_samples_returned"))
+        conservative_charged = (
+            max(counters["donor_source_samples_launched"],
+                counters["donor_source_samples_returned"])
+            + max(counters["nominal_samples_launched"],
+                  counters["nominal_samples_returned"])
+            + max(counters["paired_evaluation_samples_launched"],
+                  counters["paired_evaluation_samples_returned"])
+        )
+        failure["sample_count_exact"] = sample_count_exact
+        failure["returned_ardy_samples_lower_bound"] = returned_lower_bound
+        failure["conservative_charged_ardy_samples"] = conservative_charged
+        failure["actual_ardy_samples"] = (
+            returned_lower_bound if sample_count_exact else None)
+        if "coverage" in locals():
+            failure.update(coverage)
+        else:
+            try:
+                failure["planned_arm_denominator_np_per_arm"] = (
+                    int(args.n_seeds) * len(args.obstacle_x))
+            except (AttributeError, TypeError):
+                failure["planned_arm_denominator_np_per_arm"] = None
+            for name in (
+                "n_eligible", "eligibility_fraction", "n_selected",
+                "selected_fraction_of_eligible", "n_unselected_eligible",
+            ):
+                failure[name] = None
+        if "planned_attempts" in locals():
+            failure.update(_attempt_status_counts(planned_attempts))
+            failure.update(_attempt_coverage(planned_attempts))
+        else:
+            failure.update(_attempt_status_counts([]))
+            failure.update(_attempt_coverage([]))
+        if "manifest_sha" in locals():
+            failure["manifest_sha256"] = manifest_sha
         if "experiment_identity" in locals():
             failure["experiment_identity"] = experiment_identity
             failure["experiment_identity_sha256"] = experiment_identity["sha256"]
@@ -1650,6 +2178,10 @@ def _parser() -> argparse.ArgumentParser:
     parser.add_argument("--out", default="outputs/exp017_ramp_residual_stepover")
     parser.add_argument("--n_donors", type=int, default=12)
     parser.add_argument("--n_seeds", type=int, default=8)
+    parser.add_argument(
+        "--n_nominal_candidates", type=int, required=True,
+        help="Predeclared nominal pool K; must be at least selected n_seeds N.",
+    )
     parser.add_argument("--donor_seed_start", type=int, default=2600)
     parser.add_argument("--seed_start", type=int, default=2800)
     parser.add_argument("--duration", type=float, default=8.0)

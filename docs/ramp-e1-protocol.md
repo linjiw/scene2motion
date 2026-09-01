@@ -1,11 +1,12 @@
 # EXP-017 protocol: paired absolute-vs-residual step-over packets
 
-**Status: harness landed; first GPU preflight failed before arms, 2026-08-31.** The
+**Status: harness landed; three GPU attempts stopped before arms, 2026-08-31.** The
 representation/phase implementation and CPU-tested exp017 orchestration exist. A `D=1`
-preflight spent two donor samples and stopped before nominal/final generation because seed
-2600 had no phase-alignable adapted/neutral cycle. Therefore no absolute-vs-residual outcome
-or SONIC comparison exists. This document locks the next diagnostic and the first
-scientifically fair arm test. It does not claim that either arm works.
+preflight had no eligible donor; a `D=4` retry found a donor but rejected nominal seed 2800;
+and its exact-design replay identified the locked placement-shift gate as binding. Therefore
+no absolute-vs-residual outcome or SONIC comparison exists. This document preserves those
+refusals and locks the first scientifically fair, explicitly conditional arm test. It does not
+claim that either arm works.
 
 ## Question and deliberately narrow scope
 
@@ -224,6 +225,56 @@ The replay keeps donor seeds 2600–2603, evaluation seed 2800, placement, thres
 bound, prompts, and sampler fixed. All regenerated samples count again. If assignment repeats
 its failure, the run stops after nine samples and the archived checks determine the binding
 gate; if it reaches both arms, it spends eleven.
+
+The replay ran from clean commit `dad93dd` and repeated the failure after nine samples. Its
+adapted and neutral source clip hashes, paired source-qpos hash, selected donor event, and
+packet payload were identical to the preceding retry. Nominal seed 2800 progressed through
+the prescribed route (`1.013` final-progress ratio) and contained one complete left-swing
+cycle with full contralateral stance. All five alignment phase errors were exactly zero and
+the transported render window, frames 98--100, was inside the clip. The fixed obstacle at
+`x=3.6 m`, however, required target root frame 99 while the nominal apex was frame 34: a
+`+65`-frame center shift, beyond the unchanged `+/-8` bound. The binding rejection is therefore
+`center_shift_bound`, not phase or packet-window eligibility. The complete replay ledger is
+`outputs/exp017_ramp_preflight_d4_n1_p1_v2/`.
+
+Moving the obstacle to frame 34 or widening the bound after observing `+65` would change the
+intervention rather than repair the harness. Seed 2800 remains a refusal. Because neither
+final arm has yet been generated, the next pilot may separate nominal addressability from the
+within-addressable representation comparison without arm-outcome leakage. This redesign was
+adopted **after** the nominal-eligibility preflight and is labeled exploratory, not part of the
+original preregistration.
+
+### Locked exploratory nominal-pool design
+
+Let `K` be a predeclared ordered pool of held-out nominal seeds, with `K >= N`. The exploratory
+pilot is locked to `D=4`, `K=8`, `N=2`, `P=1`, donor seeds 2600--2603, nominal pool seeds
+2800--2807, and the same `x=3.6 m` scene, prompts, sampler, calibration, phase limits, and
+`+/-8` placement bound. The harness must generate, archive, and classify **all K** nominal
+candidates before final-arm generation. It then selects the first `N` candidates in the
+predeclared seed order that pass the common pre-arm progress, physical phase/contact, bounded
+placement, and packet-window gates for every `P` scene. It may not rank candidates by lift or
+response, replace a selected seed after an arm failure, extend `K`, or relax a gate.
+
+A completed campaign spends exactly
+
+$$
+B_{\mathrm{physical}} = 2D + K + 2NP = 20
+$$
+
+frozen-prior samples. Source failure stops after eight; pool exhaustion with fewer than `N`
+eligible candidates stops after all 16 source-plus-pool samples; a selected-arm failure still
+counts in the fixed `NP` denominator for that arm. The ledger must report `E/K` nominal
+eligibility with every rejection reason, `N/E` evaluated coverage, and `NP` outcomes per arm.
+All `K` screening calls and their latency count in later test-time-budget comparisons.
+
+The primary estimand is conditional: among the first `N` members of this frozen pool satisfying
+the common pre-arm gates for all fixed placements, does residual transport improve the endpoint
+over same-support absolute transport? Screening is nondifferential between arms, but may select
+gaits whose nominal phase or seed-linked random stream also correlates with prompt response.
+Consequently the pilot cannot establish unconditional ARDY-seed robustness or end-to-end
+planner success. Low `E/K` is itself negative method evidence. Confirmation requires a newly
+frozen, disjoint pool, independent geometries, and multiple donor bundles rather than repeated
+expansion of this pool.
 
 A completed preflight remains a schema/eligibility check, not a result. Inspect
 `receipt.json`, `manifest.json`, both packet/program support hashes, physical cycle receipts,

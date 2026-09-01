@@ -9,9 +9,11 @@ programs from the motion response the prior actually realizes.
 > absolute-vs-residual exp017 harness are implemented and CPU-tested. The first real `D=1`
 > preflight failed closed after two donor samples. A sequential `D=4` retry found three
 > eligible donor pairs and selected seed 2603, then stopped after nominal seed 2800 could not
-> satisfy the locked bounded target assignment; no final arm was generated. These are
-> infrastructure/eligibility results, not packet outcomes. The exact-design diagnostic replay,
-> now with complete nominal evidence, is locked in
+> satisfy the locked bounded target assignment; no final arm was generated. An exact-design
+> replay reproduced the source clips and exposed the binding gate: seed 2800 had exact phase
+> alignment and a valid render window, but fixed placement required a `+65`-frame shift beyond
+> the locked `+/-8` bound. These are infrastructure/eligibility results, not packet outcomes.
+> The evidence and next exploratory design are recorded in
 > [`docs/ramp-e1-protocol.md`](docs/ramp-e1-protocol.md). Duck, squeeze, response optimization,
 > RepairNet, cross-prior transfer, and execution-aware route cost remain later stages.
 
@@ -42,7 +44,7 @@ not as the identity of the proposed paper.
 | `experiments/` | one script per experiment; each writes `rows.jsonl` + `receipt.json` |
 | `outputs/body_modes.json` | body envelopes **derived from measurement**, not assumed |
 
-## Next method preflight
+## Completed diagnostic replay
 
 ```bash
 source env.sh
@@ -53,10 +55,12 @@ $S2M_PY experiments/exp017_ramp_residual_stepover.py \
 ```
 
 Exp017 is single-shot and refuses a dirty worktree or non-empty output directory. This replay
-uses the same donor seeds 2600–2603, evaluation seed 2800, fixed scene, calibration, and gates
-as the failed second preflight; only failure evidence logging changed. A completed run spends
-eleven frozen-prior samples, while a repeated nominal failure stops after nine and makes no
-capability claim. The two required prompt embeddings are already in `outputs/text_cache.npz`.
+used the same donor seeds 2600–2603, evaluation seed 2800, fixed scene, calibration, and gates
+as the failed second preflight; only failure-evidence logging changed. It stopped after nine
+frozen-prior samples, with no final-arm generation. The ledger is
+`outputs/exp017_ramp_preflight_d4_n1_p1_v2/`. The next exploratory pilot uses a predeclared
+nominal-candidate pool under unchanged gates; its eligibility coverage and conditional arm
+effect are separate endpoints, not an unconditional success claim.
 
 ## Legacy baseline experiments
 

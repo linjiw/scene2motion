@@ -1,0 +1,187 @@
+{
+  "experiment": "exp017_ramp_residual_stepover",
+  "status": "failed_closed",
+  "execution_mode": "single-shot_non_resumable_pilot",
+  "resume_supported": false,
+  "failed_stage": "nominal_discovery",
+  "error_type": "TargetAssignmentError",
+  "error": "no bounded one-to-one target-cycle assignment for fixed scenes",
+  "query_accounting": {
+    "donor_source_samples": 8,
+    "nominal_samples": 1,
+    "paired_evaluation_samples": 0,
+    "generate_invocations": 2
+  },
+  "evidence_anchors": {
+    "donor_qpos": {
+      "archive": "donor_qpos.npz",
+      "n_candidates": 4,
+      "n_qpos_arrays": 8,
+      "content_sha256": "d34bf14fc535eb1417657d7c87bdd2e12d4259c40e2ff36c2a799228a351831a",
+      "archive_sha256": "4a8cb4949687ab19c96f3afdbb989b8ab9373e22254191b641956eb9a9227c95"
+    },
+    "nominal_qpos": {
+      "archive": "nominal_qpos.npz",
+      "n_attempted_seeds": 1,
+      "n_qpos_arrays": 1,
+      "content_sha256": "a928d46dc6e94de02a45278d68461327e072577d4988a3aed45f847424ae4923",
+      "archive_sha256": "a44026abbeaf13f21f2001e1f8be553f85c5c0e3fa1b47d7f2c0b05a799bfcb2"
+    },
+    "experiment_identity": {
+      "schema": "exp017-experiment-v1",
+      "sha256": "7926de8d9b65b973d9faabb32c980e532d6846742feb8b19c044cb20d79d0392"
+    },
+    "nominal_rows": {
+      "path": "nominal_rows.jsonl",
+      "n_rows": 1,
+      "logical_sha256": "287785c46d9a3ccc8ecd8c9068e368a45b0169e0a670fc19e33ec25a74668340",
+      "file_sha256": "9e6729b3d549b830c54c1efc5965114c1f5d46f71629361bb9e6ac10cb6d9345"
+    }
+  },
+  "run_provenance": {
+    "schema": "exp017-run-provenance-v1",
+    "prepared_through": "source_generation_ready",
+    "complete_before_source_generation": true,
+    "code": {
+      "commit": "dad93ddfccd6fc8aab32b9a71609f7c04873a879",
+      "dirty": false,
+      "status": [],
+      "tracked_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "checkpoint": {
+      "generator_id": "nvidia/ARDY-G1-RP-25FPS-Horizon52@059b8007df0ba194a006a877b59a563955ac7b70",
+      "model_name": "ARDY-G1-RP-25FPS-Horizon52",
+      "hf_revision": "059b8007df0ba194a006a877b59a563955ac7b70",
+      "checkpoint_path": "/home/linjiw/.cache/huggingface/hub/models--nvidia--ARDY-G1-RP-25FPS-Horizon52/snapshots/059b8007df0ba194a006a877b59a563955ac7b70/denoiser.safetensors",
+      "checkpoint_sha256": "0c16ac26c1ab75e511cd24bb25bd9ad92078a2460b4ce78529788b5da22647a2"
+    },
+    "threshold_calibration": {
+      "path": "outputs/exp016_threshold_calibration/receipt.json",
+      "sha256": "f6dba8be84a9d5d0b76c8114d4b93b1707bc1bb8a6fec1a26a22aa1780a6e9bf",
+      "experiment": "stepover_threshold_calibration",
+      "status": "calibrated",
+      "n_clips": 284,
+      "n_accepted": 265,
+      "normalized_receipt_sha256": "0f6365718b6dd31aace2addca613777a6bb18bb343a1de92ed16694f6d024e7c"
+    },
+    "prompts": {
+      "adapted_source": "A person steps over an obstacle.",
+      "neutral_source": "A person walks forward.",
+      "nominal": "A person walks forward.",
+      "paired_evaluation": "A person steps over an obstacle."
+    },
+    "generation_settings": {
+      "runner_class": "ArdyRunner",
+      "diffusion_steps": 5,
+      "cfg_weight": [
+        2.0,
+        2.0
+      ],
+      "noise_stream_version": 2,
+      "sampler": "ARDY deterministic DDIM, eta=0 (Scene2Motion runner contract)",
+      "history_frames": 196,
+      "generation_horizon_frames": 52,
+      "fps": 25.0
+    },
+    "D": 4,
+    "N": 1,
+    "P": 1,
+    "budget_formula": "2D+N+2NP",
+    "planned_ardy_samples": 11,
+    "donor_seeds": [
+      2600,
+      2601,
+      2602,
+      2603
+    ],
+    "evaluation_seeds": [
+      2800
+    ],
+    "fixed_scenes": [
+      {
+        "scene_id": "step_x3.600_h0.080_d0.200",
+        "obstacle_x_m": 3.6,
+        "obstacle_height_m": 0.08,
+        "obstacle_depth_m": 0.2,
+        "simulation_body_margin_m": 0.04
+      }
+    ],
+    "route_content_sha256": "e75c90d3b66f994a1d44b2d29f9fd4c8fe4c5bd729c3ce87033b4b5516d2b333"
+  },
+  "run_provenance_sha256": "c7d84072bed03a38f798efc6f2403a635394d9d476cc88379a5c570e6984c6d1",
+  "wall_clock_s": 3.152,
+  "experiment_identity": {
+    "fields": {
+      "D": 4,
+      "N": 1,
+      "P": 1,
+      "all_donor_qpos_content_sha256": "d34bf14fc535eb1417657d7c87bdd2e12d4259c40e2ff36c2a799228a351831a",
+      "all_nominal_qpos_content_sha256": "a928d46dc6e94de02a45278d68461327e072577d4988a3aed45f847424ae4923",
+      "checkpoint_sha256": "0c16ac26c1ab75e511cd24bb25bd9ad92078a2460b4ce78529788b5da22647a2",
+      "code_commit": "dad93ddfccd6fc8aab32b9a71609f7c04873a879",
+      "code_tracked_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "donor_seeds": [
+        2600,
+        2601,
+        2602,
+        2603
+      ],
+      "evaluation_seeds": [
+        2800
+      ],
+      "execution_mode": "single-shot_non_resumable_pilot",
+      "experiment": "exp017_ramp_residual_stepover",
+      "fixed_scenes": [
+        {
+          "obstacle_depth_m": 0.2,
+          "obstacle_height_m": 0.08,
+          "obstacle_x_m": 3.6,
+          "scene_id": "step_x3.600_h0.080_d0.200",
+          "simulation_body_margin_m": 0.04
+        }
+      ],
+      "generation_settings": {
+        "cfg_weight": [
+          2.0,
+          2.0
+        ],
+        "diffusion_steps": 5,
+        "fps": 25.0,
+        "generation_horizon_frames": 52,
+        "history_frames": 196,
+        "noise_stream_version": 2,
+        "runner_class": "ArdyRunner",
+        "sampler": "ARDY deterministic DDIM, eta=0 (Scene2Motion runner contract)"
+      },
+      "generator_id": "nvidia/ARDY-G1-RP-25FPS-Horizon52@059b8007df0ba194a006a877b59a563955ac7b70",
+      "measurement_protocol_hash": "b4c01b6d335420e84429d2260d5c578ddb269621aafe4e69691f07546de675e4",
+      "packet_pair_hash": "0646e31976947fc586998bb7071221b6f86f1035e73b0af28cbf9e0e97c833f8",
+      "prompts": {
+        "adapted_source": "A person steps over an obstacle.",
+        "neutral_source": "A person walks forward.",
+        "nominal": "A person walks forward.",
+        "paired_evaluation": "A person steps over an obstacle."
+      },
+      "route_content_sha256": "e75c90d3b66f994a1d44b2d29f9fd4c8fe4c5bd729c3ce87033b4b5516d2b333",
+      "selected_adapted_clip_sha256": "928870d0caacd5c89c24bbf2919b1ff1b819cd7a856187d6e54011ea0dd404db",
+      "selected_neutral_clip_sha256": "b243a4e0950fca9732b4c5d3e61d1df915fb3c20f4010dad9da8136b80a8cab1",
+      "selected_source_qpos_content_sha256": "b560dd2b22d90807db1231b69a3306e019252d2eca4e92148b3d8c1742be29f2",
+      "threshold_normalized_receipt_sha256": "0f6365718b6dd31aace2addca613777a6bb18bb343a1de92ed16694f6d024e7c",
+      "threshold_receipt_sha256": "f6dba8be84a9d5d0b76c8114d4b93b1707bc1bb8a6fec1a26a22aa1780a6e9bf",
+      "thresholds": {
+        "corridor_longitudinal_pad_m": 0.3,
+        "landing_dwell_s": 0.12,
+        "landing_horizon_s": 0.75,
+        "lateral_corridor_half_width_m": 0.3,
+        "max_floor_penetration_m": 0.02,
+        "max_unsupported_run_s": 0.2,
+        "min_contralateral_support_fraction": 0.9,
+        "support_height_m": 0.04649341314007449,
+        "support_speed_mps": 1.1753078750567545
+      }
+    },
+    "schema": "exp017-experiment-v1",
+    "sha256": "7926de8d9b65b973d9faabb32c980e532d6846742feb8b19c044cb20d79d0392"
+  },
+  "experiment_identity_sha256": "7926de8d9b65b973d9faabb32c980e532d6846742feb8b19c044cb20d79d0392"
+}

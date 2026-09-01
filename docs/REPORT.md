@@ -1167,3 +1167,31 @@ ledger. The harness now archives every nominal before gates, preserves later bat
 records per-cycle phase/shift/window checks, and anchors `nominal_rows.jsonl` logically and by
 file hash in success/failure receipts and the pre-final manifest. The exact `D=4, N=1, P=1`
 design is locked for one diagnostic replay; no gate or sample selection changes.
+
+## 29. Exact replay identifies fixed-placement addressability as the binding gate
+
+The exact-design replay ran from clean commit `dad93dd` with the same `D=4, N=1, P=1`, donor
+and evaluation seeds, scene at `x=3.6 m`, prompts, calibration, sampler, and assignment gates.
+It spent nine ARDY samples and again produced no final arms. The selected adapted/neutral clip
+hashes, paired source qpos, left-swing donor event (0.232 m relative lift), and packet payload
+reproduced the preceding retry exactly; only code-revision-bearing provenance changed.
+
+The newly complete nominal ledger makes the failure identifiable. Seed 2800 reached a final
+route-progress ratio of 1.013 and yielded one complete left-swing cycle at frames 31/34/38
+with 0.047 m relative lift and full right-foot stance. Its five source-to-target phase errors
+were all zero, and packet frames 98--100 fit inside the 200-frame clip. Fixed obstacle placement
+required root frame 99, however, so the event center would have to move from apex frame 34 by
+`+65` frames. This exceeds the locked `+/-8` local-shift bound. The durable evidence is
+`outputs/exp017_ramp_preflight_d4_n1_p1_v2/`; its receipt anchors all donor and nominal qpos,
+the finalized nominal row, experiment identity, and partial spend.
+
+This is a refusal at the pre-arm scene-addressability gate, not evidence about absolute or
+residual packet performance. Moving the obstacle or widening the bound after observing the
+failure would change the scientific question. Instead, the next exploratory pilot was
+redesigned—after this eligibility observation and before any arm outcome—as a frozen ordered
+nominal pool with `D=4, K=8, N=2, P=1`. All seeds 2800--2807 are screened under unchanged
+common gates, all screening calls are charged, the first two eligible seeds are selected
+without ranking or replacement, and pool exhaustion stops the run. Its successful budget is
+`2D + K + 2NP = 20`; it reports `E/K` eligibility separately from the paired conditional arm
+effect. This design does not support an unconditional seed-robustness claim, and low pool
+coverage is negative evidence rather than a reason to extend the pool.

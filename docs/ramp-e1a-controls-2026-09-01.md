@@ -92,6 +92,16 @@ Placement stays bad for text too (mean |error| 2.30 m), so this does not rescue 
 — it relocates the whole question. The prompt is the better elicitor; nothing tried
 places.
 
+**Scope of this control.** It isolates *packet versus no packet*, not *rotations versus
+root height*: the packet arms add both a full-body rotation channel and a root-height
+channel over the text-only arm's route conditioning, so the attenuation cannot be
+attributed to one of them from these eight seeds alone. The compliance measurement points
+at the rotations (negative, on a 0.27–0.29 rad request) rather than the root height
+(weakly positive, on a 0.02 m request), but a channel-ablation arm would be needed to
+close that. The text-only arm's progress ratio is 0.997, so it is not winning by
+degenerating into a different motion. Eight paired seeds, one donor bundle, one box
+geometry, kinematic stage only — descriptive, no interval on the difference itself.
+
 ## What this settles for E2
 
 The guidance's E2 ordering asked for a placement-response gain measurement first and a

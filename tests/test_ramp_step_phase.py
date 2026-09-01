@@ -156,7 +156,7 @@ def test_target_alignment_returns_absolute_event_receipt_for_renderer():
         source.adapted_phase_knots,
         target,
         expected_swing_side="left",
-        source_common_physical_protocol_hash=adapted.common_physical_protocol_hash,
+        source_common_physical_protocol_hash=source.common_physical_protocol_hash,
         search_half_window_frames=5,
     )
 
@@ -352,27 +352,62 @@ def test_common_physical_protocol_excludes_only_relative_lift_quality_gate():
     common = step_phase_common_physical_protocol_hash(
         thresholds,
         support_window_s=0.4,
-        min_stance_support_fraction=0.8,
+        min_stance_support_fraction=0.9,
     )
     assert common == step_phase_common_physical_protocol_hash(
         thresholds,
         support_window_s=0.4,
-        min_stance_support_fraction=0.8,
+        min_stance_support_fraction=0.9,
     )
     strict = step_phase_measurement_protocol_hash(
         thresholds,
         support_window_s=0.4,
-        min_stance_support_fraction=0.8,
+        min_stance_support_fraction=0.9,
         min_relative_lift_m=0.04,
     )
     permissive = step_phase_measurement_protocol_hash(
         thresholds,
         support_window_s=0.4,
-        min_stance_support_fraction=0.8,
+        min_stance_support_fraction=0.9,
         min_relative_lift_m=0.0,
     )
     assert strict != permissive
     assert common not in (strict, permissive)
+
+
+@pytest.mark.parametrize(
+    ("support_window_s", "min_stance_support_fraction", "message"),
+    [
+        (0.0, 0.9, "support_window_s"),
+        (-0.1, 0.9, "support_window_s"),
+        (float("nan"), 0.9, "support_window_s"),
+        (float("inf"), 0.9, "support_window_s"),
+        (True, 0.9, "support_window_s"),
+        (0.4, 0.0, "min_stance_support_fraction"),
+        (0.4, -0.1, "min_stance_support_fraction"),
+        (0.4, 1.1, "min_stance_support_fraction"),
+        (0.4, float("nan"), "min_stance_support_fraction"),
+        (0.4, True, "min_stance_support_fraction"),
+    ],
+)
+def test_common_physical_protocol_hash_rejects_invalid_gate_values(
+    support_window_s, min_stance_support_fraction, message
+):
+    with pytest.raises(ValueError, match=message):
+        step_phase_common_physical_protocol_hash(
+            StepOverThresholds(),
+            support_window_s=support_window_s,
+            min_stance_support_fraction=min_stance_support_fraction,
+        )
+
+
+def test_common_physical_protocol_hash_requires_threshold_fraction_consistency():
+    with pytest.raises(ValueError, match="conflicts with StepOverThresholds"):
+        step_phase_common_physical_protocol_hash(
+            StepOverThresholds(min_contralateral_support_fraction=0.9),
+            support_window_s=0.4,
+            min_stance_support_fraction=0.8,
+        )
 
 
 def test_target_with_distinct_lift_gate_aligns_under_common_physics():
@@ -401,11 +436,12 @@ def test_target_with_distinct_lift_gate_aligns_under_common_physics():
         source.adapted_phase_knots,
         target,
         expected_swing_side="left",
-        source_common_physical_protocol_hash=source.measurement_protocol_hash,
+        source_common_physical_protocol_hash=source.common_physical_protocol_hash,
         search_half_window_frames=5,
     )
     assert receipt.target_center_frame == 15
-    assert receipt.measurement_protocol_hash == target.common_physical_protocol_hash
+    assert receipt.measurement_protocol_hash == target.measurement_protocol_hash
+    assert receipt.common_physical_protocol_hash == target.common_physical_protocol_hash
 
 
 def test_source_pair_keeps_same_lift_quality_gate_despite_common_identity():
@@ -440,7 +476,7 @@ def test_target_alignment_rejects_actual_common_physical_gate_mismatch():
             source.adapted_phase_knots,
             target,
             expected_swing_side="left",
-            source_common_physical_protocol_hash=source.measurement_protocol_hash,
+            source_common_physical_protocol_hash=source.common_physical_protocol_hash,
             search_half_window_frames=2,
         )
 

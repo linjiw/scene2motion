@@ -1,5 +1,6 @@
 import json
 from dataclasses import FrozenInstanceError, asdict, dataclass, replace
+from types import SimpleNamespace
 
 import numpy as np
 import pytest
@@ -17,6 +18,10 @@ from scene2motion.ramp import (
     extract_residual_packet,
     render_packet,
 )
+from scene2motion.ramp.packet import (
+    PHASE_MATCH_SCHEMA_VERSION,
+    TARGET_PHASE_MATCH_SCHEMA_VERSION,
+)
 
 
 NAMES = ("pelvis", "hip", "knee")
@@ -24,6 +29,8 @@ PARENTS = np.array([-1, 0, 1])
 ROOT = 0
 FPS = 25.0
 PROTOCOL_HASH = "1" * 64
+COMMON_PROTOCOL_HASH = "c" * 64
+TARGET_PROTOCOL_HASH = "2" * 64
 
 
 def provenance(representation="residual", *, adapted="a", neutral="b"):
@@ -65,6 +72,7 @@ def phase_match(*, half=2, adapted_offsets=None, neutral_offsets=None,
         min_stance_support_fraction=0.90,
         support_window_s=0.24,
         measurement_protocol_hash=PROTOCOL_HASH,
+        common_physical_protocol_hash=COMMON_PROTOCOL_HASH,
     )
 
 
@@ -89,7 +97,8 @@ def target_phase_match(packet, event, *, query_offsets=None, packet_knots=None,
         support_window_s=0.24,
         target_stance_source="synthetic-contact-sensor-v1",
         search_half_window_frames=max(1, int(np.ceil(np.max(np.abs(query_offsets))))),
-        measurement_protocol_hash=packet.measurement_protocol_hash,
+        measurement_protocol_hash=TARGET_PROTOCOL_HASH,
+        common_physical_protocol_hash=packet.common_physical_protocol_hash,
     )
 
 
@@ -191,11 +200,65 @@ def test_identity_donor_pair_produces_zero_residual():
     assert packet.source_offsets_frames.flags.writeable is False
     assert packet.rotation_payload.flags.writeable is False
     assert packet.schema_version == PACKET_SCHEMA_VERSION
+    assert packet.phase_match.schema_version == PHASE_MATCH_SCHEMA_VERSION
     assert len(packet.digest()) == 64
     before = packet.digest()
     detached = packet.provenance
     detached["changed"] = True
     assert packet.digest() == before
+
+
+def test_protocol_identities_are_serialized_and_hash_bound_independently():
+    _, packet = extract_pair(sample(height=0.7), sample())
+    metadata = packet.metadata()
+    assert metadata["measurement_protocol_hash"] == PROTOCOL_HASH
+    assert metadata["common_physical_protocol_hash"] == COMMON_PROTOCOL_HASH
+
+    changed_common_match = replace(
+        packet.phase_match, common_physical_protocol_hash="d" * 64
+    )
+    changed_common = replace(
+        packet,
+        common_physical_protocol_hash="d" * 64,
+        phase_match=changed_common_match,
+    )
+    changed_full_match = replace(
+        packet.phase_match, measurement_protocol_hash="e" * 64
+    )
+    changed_full = replace(
+        packet,
+        measurement_protocol_hash="e" * 64,
+        phase_match=changed_full_match,
+    )
+    assert len({packet.digest(), changed_common.digest(), changed_full.digest()}) == 3
+    with pytest.raises(ValueError, match="different common physical protocols"):
+        replace(packet, common_physical_protocol_hash="d" * 64)
+
+
+def test_legacy_phase_receipt_schemas_fail_closed():
+    _, packet = extract_pair(sample(height=0.7), sample())
+
+    class LegacyPhaseMatch(PhaseMatch):
+        schema_version = 1
+
+    legacy_source = LegacyPhaseMatch(**packet.phase_match.__dict__)
+    with pytest.raises(ValueError, match="unsupported schema version"):
+        replace(packet, phase_match=legacy_source)
+
+    target = target_phase_match(packet, Event(6))
+    legacy_target = SimpleNamespace(
+        **target.__dict__,
+        schema_version=1,
+        as_dict=target.as_dict,
+    )
+    with pytest.raises(ValueError, match="unsupported schema version"):
+        render(packet, sample(), event=Event(6), target_match=legacy_target)
+    unversioned_target = SimpleNamespace(
+        **target.__dict__,
+        as_dict=target.as_dict,
+    )
+    with pytest.raises(ValueError, match="unsupported schema version"):
+        render(packet, sample(), event=Event(6), target_match=unversioned_target)
 
 
 def test_residual_composes_with_target_while_absolute_copies_donor():
@@ -599,6 +662,7 @@ def test_discrete_schema_fields_do_not_silently_truncate(
             joint_names=NAMES,
             parent_indices=bad_parents, root_idx=ROOT, source_fps=FPS,
             half_window_frames=bad_half, measurement_protocol_hash=PROTOCOL_HASH,
+            common_physical_protocol_hash=COMMON_PROTOCOL_HASH,
             provenance=provenance("absolute"),
         )
 
@@ -614,6 +678,7 @@ def test_provenance_is_required_and_metadata_is_json_serializable():
             joint_names=NAMES,
             parent_indices=PARENTS, root_idx=ROOT, source_fps=FPS,
             half_window_frames=2, measurement_protocol_hash=PROTOCOL_HASH,
+            common_physical_protocol_hash=COMMON_PROTOCOL_HASH,
             provenance=incomplete,
         )
 
@@ -697,13 +762,33 @@ def test_target_phase_receipt_from_another_packet_fails_closed():
         render(packet, sample(), event=event, target_match=receipt)
 
 
-def test_target_phase_receipt_with_another_measurement_protocol_fails_closed():
+def test_target_phase_receipt_preserves_distinct_target_measurement_protocol():
+    _, packet = extract_pair(sample(height=0.7), sample())
+    event = Event(6)
+    baseline_receipt = target_phase_match(packet, event)
+    _, baseline_info = render(packet, sample(), event=event, target_match=baseline_receipt)
+    receipt = replace(
+        target_phase_match(packet, event), measurement_protocol_hash="3" * 64
+    )
+    _, info = render(packet, sample(), event=event, target_match=receipt)
+    assert info.measurement_protocol_hash == packet.measurement_protocol_hash
+    assert info.target_measurement_protocol_hash == "3" * 64
+    assert info.common_physical_protocol_hash == packet.common_physical_protocol_hash
+    archived = json.loads(info.target_phase_match_json)
+    assert archived["measurement_protocol_hash"] == "3" * 64
+    assert archived["common_physical_protocol_hash"] == COMMON_PROTOCOL_HASH
+    assert archived["schema_version"] == TARGET_PHASE_MATCH_SCHEMA_VERSION
+    assert info.target_phase_match_hash != baseline_info.target_phase_match_hash
+    assert info.program_hash != baseline_info.program_hash
+
+
+def test_target_phase_receipt_with_another_common_protocol_fails_closed():
     _, packet = extract_pair(sample(height=0.7), sample())
     event = Event(6)
     receipt = replace(
-        target_phase_match(packet, event), measurement_protocol_hash="2" * 64
+        target_phase_match(packet, event), common_physical_protocol_hash="3" * 64
     )
-    with pytest.raises(ValueError, match="different measurement protocols"):
+    with pytest.raises(ValueError, match="different common physical protocols"):
         render(packet, sample(), event=event, target_match=receipt)
 
 
@@ -715,6 +800,7 @@ def test_target_phase_receipt_with_another_measurement_protocol_fails_closed():
         ({"adapted_stance_source": ""}, "evidence source"),
         ({"max_phase_error": 0.5}, r"\[0, 0.5\)"),
         ({"measurement_protocol_hash": "not-a-hash"}, "SHA-256"),
+        ({"common_physical_protocol_hash": "not-a-hash"}, "SHA-256"),
     ],
 )
 def test_manual_phase_receipts_cannot_bypass_alignment_evidence(change, message):

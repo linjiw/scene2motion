@@ -34,7 +34,9 @@ from ..constraints import ConstraintSpec
 
 PacketRepresentation = Literal["absolute", "residual"]
 Side = Literal["left", "right"]
-PACKET_SCHEMA_VERSION = 1
+PACKET_SCHEMA_VERSION = 2
+PHASE_MATCH_SCHEMA_VERSION = 2
+TARGET_PHASE_MATCH_SCHEMA_VERSION = 2
 MAX_PACKET_STRENGTH = 2.0
 SO3_BRANCH_MARGIN_RAD = 1e-5
 
@@ -59,6 +61,7 @@ class EventLike(Protocol):
 class TargetPhaseMatchLike(Protocol):
     """Structural target-phase receipt; defined concretely in ramp.phase."""
 
+    schema_version: int
     method: str
     target_center_frame: int
     swing_side: Side
@@ -72,6 +75,7 @@ class TargetPhaseMatchLike(Protocol):
     support_window_s: float
     target_stance_source: str
     measurement_protocol_hash: str
+    common_physical_protocol_hash: str
 
     def as_dict(self) -> dict[str, Any]: ...
 
@@ -346,12 +350,19 @@ class PhaseMatch:
     min_stance_support_fraction: float
     support_window_s: float
     measurement_protocol_hash: str
+    common_physical_protocol_hash: str
+
+    schema_version: ClassVar[int] = PHASE_MATCH_SCHEMA_VERSION
 
     def __post_init__(self) -> None:
         if not isinstance(self.method, str) or not self.method.strip():
             raise ValueError("phase-match method must be non-empty")
         if not _is_sha256(self.measurement_protocol_hash):
             raise ValueError("measurement_protocol_hash must be a lowercase SHA-256 digest")
+        if not _is_sha256(self.common_physical_protocol_hash):
+            raise ValueError(
+                "common_physical_protocol_hash must be a lowercase SHA-256 digest"
+            )
         for name in (
             "adapted_query_offsets_frames",
             "neutral_query_offsets_frames",
@@ -441,6 +452,7 @@ class PhaseMatch:
 
     def as_dict(self) -> dict[str, Any]:
         return {
+            "schema_version": self.schema_version,
             "method": self.method,
             "adapted_query_offsets_frames": list(self.adapted_query_offsets_frames),
             "neutral_query_offsets_frames": list(self.neutral_query_offsets_frames),
@@ -457,6 +469,7 @@ class PhaseMatch:
             "min_stance_support_fraction": self.min_stance_support_fraction,
             "support_window_s": self.support_window_s,
             "measurement_protocol_hash": self.measurement_protocol_hash,
+            "common_physical_protocol_hash": self.common_physical_protocol_hash,
         }
 
 
@@ -479,6 +492,7 @@ class CoherentMotionPacket:
     adapted_route_heading_rad: np.ndarray
     adapted_center_frame: int
     measurement_protocol_hash: str
+    common_physical_protocol_hash: str
     neutral_query_offsets_frames: np.ndarray | None = None
     neutral_route_heading_rad: np.ndarray | None = None
     neutral_center_frame: int | None = None
@@ -494,6 +508,10 @@ class CoherentMotionPacket:
             raise ValueError("swing_side must be 'left' or 'right'")
         if not _is_sha256(self.measurement_protocol_hash):
             raise ValueError("measurement_protocol_hash must be a lowercase SHA-256 digest")
+        if not _is_sha256(self.common_physical_protocol_hash):
+            raise ValueError(
+                "common_physical_protocol_hash must be a lowercase SHA-256 digest"
+            )
         if not np.isfinite(self.source_fps) or self.source_fps <= 0:
             raise ValueError("source_fps must be positive and finite")
         names = tuple(str(name) for name in self.joint_names)
@@ -570,6 +588,14 @@ class CoherentMotionPacket:
                 or self.phase_match is None
             ):
                 raise ValueError("a residual packet must record neutral and phase alignment data")
+            phase_schema = getattr(self.phase_match, "schema_version", None)
+            if (
+                not isinstance(self.phase_match, PhaseMatch)
+                or isinstance(phase_schema, (bool, np.bool_))
+                or not isinstance(phase_schema, (int, np.integer))
+                or int(phase_schema) != PHASE_MATCH_SCHEMA_VERSION
+            ):
+                raise ValueError("phase match uses an unsupported schema version")
             neutral_center = _strict_int(self.neutral_center_frame, "neutral_center_frame")
             neutral_query = _readonly_array(self.neutral_query_offsets_frames, np.float64)
             neutral_route = _readonly_array(self.neutral_route_heading_rad, np.float64)
@@ -585,6 +611,13 @@ class CoherentMotionPacket:
             self.phase_match.validate(offsets, self.swing_side)
             if self.phase_match.measurement_protocol_hash != self.measurement_protocol_hash:
                 raise ValueError("packet and phase match use different measurement protocols")
+            if (
+                self.phase_match.common_physical_protocol_hash
+                != self.common_physical_protocol_hash
+            ):
+                raise ValueError(
+                    "packet and phase match use different common physical protocols"
+                )
             if not np.allclose(
                 adapted_query, self.phase_match.adapted_query_offsets_frames,
                 atol=0.0, rtol=0.0,
@@ -644,6 +677,7 @@ class CoherentMotionPacket:
             "neutral_center_frame": self.neutral_center_frame,
             "phase_match": self.phase_match.as_dict() if self.phase_match else None,
             "measurement_protocol_hash": self.measurement_protocol_hash,
+            "common_physical_protocol_hash": self.common_physical_protocol_hash,
             "provenance": self.provenance,
         }
         hasher.update(json.dumps(header, sort_keys=True, separators=(",", ":")).encode())
@@ -681,6 +715,7 @@ class CoherentMotionPacket:
             "neutral_center_frame": self.neutral_center_frame,
             "phase_match": self.phase_match.as_dict() if self.phase_match else None,
             "measurement_protocol_hash": self.measurement_protocol_hash,
+            "common_physical_protocol_hash": self.common_physical_protocol_hash,
             "provenance": self.provenance,
             "packet_hash": self.digest(),
             "max_residual_angle_rad": self.max_residual_angle_rad,
@@ -750,6 +785,8 @@ class PacketRenderInfo:
     target_phase_match_hash: str
     target_phase_match_json: str
     measurement_protocol_hash: str
+    common_physical_protocol_hash: str
+    target_measurement_protocol_hash: str
     target_fps: float
     controls: PacketControls
     packet_hash: str
@@ -777,6 +814,7 @@ class CoherentPacketPair:
             "root_idx",
             "adapted_center_frame",
             "measurement_protocol_hash",
+            "common_physical_protocol_hash",
         )
         for name in scalar_fields:
             if getattr(self.absolute, name) != getattr(self.residual, name):
@@ -814,6 +852,9 @@ class CoherentPacketPair:
             ),
             "source_offsets_frames": self.absolute.source_offsets_frames.tolist(),
             "measurement_protocol_hash": self.absolute.measurement_protocol_hash,
+            "common_physical_protocol_hash": (
+                self.absolute.common_physical_protocol_hash
+            ),
         }
 
 
@@ -876,6 +917,7 @@ def extract_absolute_packet(
     source_fps: float,
     half_window_frames: int,
     measurement_protocol_hash: str,
+    common_physical_protocol_hash: str,
     provenance: Mapping[str, Any],
 ) -> CoherentMotionPacket:
     """Extract a route-frame absolute full-body packet for the paired E1 baseline."""
@@ -912,6 +954,7 @@ def extract_absolute_packet(
         adapted_route_heading_rad=sampled_route,
         adapted_center_frame=center,
         measurement_protocol_hash=measurement_protocol_hash,
+        common_physical_protocol_hash=common_physical_protocol_hash,
         provenance_json=_canonical_provenance_json(provenance),
     )
 
@@ -993,6 +1036,9 @@ def extract_residual_packet(
         neutral_route_heading_rad=sampled_neutral_route,
         adapted_center_frame=adapted_center,
         measurement_protocol_hash=phase_match.measurement_protocol_hash,
+        common_physical_protocol_hash=(
+            phase_match.common_physical_protocol_hash
+        ),
         neutral_center_frame=neutral_center,
         phase_match=phase_match,
         provenance_json=_canonical_provenance_json(provenance),
@@ -1034,6 +1080,9 @@ def extract_packet_pair(
         source_fps=source_fps,
         half_window_frames=half_window_frames,
         measurement_protocol_hash=phase_match.measurement_protocol_hash,
+        common_physical_protocol_hash=(
+            phase_match.common_physical_protocol_hash
+        ),
         provenance=absolute_provenance,
     )
     residual = extract_residual_packet(
@@ -1138,6 +1187,15 @@ def _validate_target_phase_match(
     target_event_side: Side,
     match: TargetPhaseMatchLike,
 ) -> tuple[np.ndarray, tuple[float, ...], str, str]:
+    schema_version = getattr(match, "schema_version", None)
+    if (
+        isinstance(schema_version, (bool, np.bool_))
+        or not isinstance(schema_version, (int, np.integer))
+        or int(schema_version) != TARGET_PHASE_MATCH_SCHEMA_VERSION
+    ):
+        raise ValueError(
+            "target phase receipt uses an unsupported schema version"
+        )
     if not isinstance(match.method, str) or not match.method.strip():
         raise ValueError("target phase-match method must be non-empty")
     if _strict_int(match.target_center_frame, "target phase-match center") != target_event_center:
@@ -1146,8 +1204,12 @@ def _validate_target_phase_match(
         raise ValueError("target phase receipt belongs to a different swing side")
     if not _is_sha256(match.measurement_protocol_hash):
         raise ValueError("target phase receipt has an invalid measurement protocol hash")
-    if match.measurement_protocol_hash != packet.measurement_protocol_hash:
-        raise ValueError("target and packet use different measurement protocols")
+    if not _is_sha256(match.common_physical_protocol_hash):
+        raise ValueError(
+            "target phase receipt has an invalid common physical protocol hash"
+        )
+    if match.common_physical_protocol_hash != packet.common_physical_protocol_hash:
+        raise ValueError("target and packet use different common physical protocols")
     query = np.asarray(match.target_query_offsets_frames, dtype=float)
     packet_knots = np.asarray(match.packet_phase_knots, dtype=float)
     target_knots = np.asarray(match.target_phase_knots, dtype=float)
@@ -1357,6 +1419,10 @@ def render_packet(
         target_phase_match_hash=target_phase_match_hash,
         target_phase_match_json=target_phase_match_json,
         measurement_protocol_hash=packet.measurement_protocol_hash,
+        common_physical_protocol_hash=packet.common_physical_protocol_hash,
+        target_measurement_protocol_hash=(
+            target_phase_match.measurement_protocol_hash
+        ),
         target_fps=fps,
         controls=controls,
         packet_hash=packet_hash,

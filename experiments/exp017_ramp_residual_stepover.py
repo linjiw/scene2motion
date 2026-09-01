@@ -1208,6 +1208,13 @@ def run_experiment(
         )
         if (
             pair.absolute.measurement_protocol_hash
+            != adapted_cycle.measurement_protocol_hash
+        ):
+            raise ValueError(
+                "serialized packet lost its source measurement protocol identity"
+            )
+        if (
+            pair.absolute.common_physical_protocol_hash
             != adapted_cycle.common_physical_protocol_hash
         ):
             raise ValueError(
@@ -1444,7 +1451,7 @@ def run_experiment(
                 assignments, assignment_diagnostics = _target_assignment(
                     cycles, qpos, feet, root_xz, args.obstacle_x, pair.absolute,
                     source_common_physical_protocol_hash=(
-                        pair.absolute.measurement_protocol_hash),
+                        pair.absolute.common_physical_protocol_hash),
                     half_window_frames=args.half_window_frames,
                     max_center_shift_frames=args.max_center_shift_frames,
                 )
@@ -1508,6 +1515,8 @@ def run_experiment(
             "min_stance_support_fraction": min_stance_support_fraction,
             "min_relative_lift_m": args.min_relative_lift_m,
             "measurement_protocol_hash": pair.absolute.measurement_protocol_hash,
+            "common_physical_protocol_hash": (
+                pair.absolute.common_physical_protocol_hash),
             "fixed_scene_ids": [scene["scene_id"] for scene in fixed_scenes],
         }
         n_eligible = len(eligible_rows)
@@ -1594,6 +1603,8 @@ def run_experiment(
             "route_content_sha256": route_content_sha256,
             "packet_pair_hash": pair.digest(),
             "measurement_protocol_hash": pair.absolute.measurement_protocol_hash,
+            "common_physical_protocol_hash": (
+                pair.absolute.common_physical_protocol_hash),
             "selected_adapted_clip_sha256": selected_row["adapted_clip_sha256"],
             "selected_neutral_clip_sha256": selected_row["neutral_clip_sha256"],
             "selected_source_qpos_content_sha256": _array_hash(selected_source_qpos),
@@ -1683,6 +1694,12 @@ def run_experiment(
                             "program_hash": info.program_hash,
                             "support_hash": info.support_hash,
                             "target_phase_match_hash": info.target_phase_match_hash,
+                            "source_measurement_protocol_hash": (
+                                info.measurement_protocol_hash),
+                            "target_measurement_protocol_hash": (
+                                info.target_measurement_protocol_hash),
+                            "common_physical_protocol_hash": (
+                                info.common_physical_protocol_hash),
                             "target_phase_match": assignment[
                                 "target_phase_match"].as_dict(),
                             "target_cycle": assignment["cycle"].as_dict(),
@@ -1707,6 +1724,12 @@ def run_experiment(
                             "program_hash": info.program_hash,
                             "support_hash": info.support_hash,
                             "target_phase_match_hash": info.target_phase_match_hash,
+                            "source_measurement_protocol_hash": (
+                                info.measurement_protocol_hash),
+                            "target_measurement_protocol_hash": (
+                                info.target_measurement_protocol_hash),
+                            "common_physical_protocol_hash": (
+                                info.common_physical_protocol_hash),
                             "target_cycle_sha256": _json_hash(
                                 assignment["cycle"].as_dict()),
                             "controls": assignment["controls"].as_dict(),

@@ -14,11 +14,14 @@ backward step, so the helper rejects it as ambiguous rather than guessing.
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Any, Literal
+from typing import Any, ClassVar, Literal
 
 import numpy as np
 
-from .packet import PhaseMatch
+from .packet import (
+    TARGET_PHASE_MATCH_SCHEMA_VERSION,
+    PhaseMatch,
+)
 
 
 Side = Literal["left", "right"]
@@ -26,13 +29,13 @@ PHASE_ALIGNMENT_METHOD = "bounded-local-cyclic-inverse-v1"
 TARGET_PHASE_ALIGNMENT_METHOD = "bounded-target-cyclic-inverse-v1"
 
 
-def _protocol_hash(value: Any) -> str:
+def _protocol_hash(value: Any, name: str = "measurement_protocol_hash") -> str:
     if not (
         isinstance(value, str)
         and len(value) == 64
         and all(character in "0123456789abcdef" for character in value)
     ):
-        raise ValueError("measurement_protocol_hash must be a lowercase SHA-256 digest")
+        raise ValueError(f"{name} must be a lowercase SHA-256 digest")
     return value
 
 
@@ -97,6 +100,9 @@ class TargetPhaseMatch:
     target_stance_source: str
     search_half_window_frames: int
     measurement_protocol_hash: str
+    common_physical_protocol_hash: str
+
+    schema_version: ClassVar[int] = TARGET_PHASE_MATCH_SCHEMA_VERSION
 
     def __post_init__(self) -> None:
         if not isinstance(self.method, str) or not self.method.strip():
@@ -105,6 +111,14 @@ class TargetPhaseMatch:
             self,
             "measurement_protocol_hash",
             _protocol_hash(self.measurement_protocol_hash),
+        )
+        object.__setattr__(
+            self,
+            "common_physical_protocol_hash",
+            _protocol_hash(
+                self.common_physical_protocol_hash,
+                "common_physical_protocol_hash",
+            ),
         )
         object.__setattr__(
             self,
@@ -189,6 +203,7 @@ class TargetPhaseMatch:
 
     def as_dict(self) -> dict[str, Any]:
         return {
+            "schema_version": self.schema_version,
             "method": self.method,
             "target_center_frame": self.target_center_frame,
             "swing_side": self.swing_side,
@@ -204,6 +219,7 @@ class TargetPhaseMatch:
             "target_stance_source": self.target_stance_source,
             "search_half_window_frames": self.search_half_window_frames,
             "measurement_protocol_hash": self.measurement_protocol_hash,
+            "common_physical_protocol_hash": self.common_physical_protocol_hash,
         }
 
 
@@ -264,6 +280,7 @@ def align_target_phase_window(
     swing_side: Side,
     target_stance: StanceEvidence,
     measurement_protocol_hash: str,
+    common_physical_protocol_hash: str,
     min_stance_support_fraction: float = 0.8,
     support_window_s: float = 0.12,
     max_phase_error: float = 0.05,
@@ -281,6 +298,10 @@ def align_target_phase_window(
     """
 
     protocol_hash = _protocol_hash(measurement_protocol_hash)
+    common_protocol_hash = _protocol_hash(
+        common_physical_protocol_hash,
+        "common_physical_protocol_hash",
+    )
     target = _phase_array(target_phase, "target_phase")
     packet_grid = _phase_array(packet_phase_knots, "packet_phase_knots")
     if len(packet_grid) % 2 != 1:
@@ -388,6 +409,7 @@ def align_target_phase_window(
         target_stance_source=target_stance.source,
         search_half_window_frames=search_half_window,
         measurement_protocol_hash=protocol_hash,
+        common_physical_protocol_hash=common_protocol_hash,
     )
 
 
@@ -402,6 +424,7 @@ def align_cyclic_phase_windows(
     adapted_stance: StanceEvidence,
     neutral_stance: StanceEvidence,
     measurement_protocol_hash: str,
+    common_physical_protocol_hash: str,
     min_stance_support_fraction: float = 0.8,
     support_window_s: float = 0.12,
     max_phase_error: float = 0.05,
@@ -424,6 +447,10 @@ def align_cyclic_phase_windows(
     """
 
     protocol_hash = _protocol_hash(measurement_protocol_hash)
+    common_protocol_hash = _protocol_hash(
+        common_physical_protocol_hash,
+        "common_physical_protocol_hash",
+    )
     adapted = _phase_array(adapted_phase, "adapted_phase")
     neutral = _phase_array(neutral_phase, "neutral_phase")
     adapted_center = _strict_int(adapted_center_frame, "adapted_center_frame")
@@ -532,6 +559,7 @@ def align_cyclic_phase_windows(
         min_stance_support_fraction=float(min_stance_support_fraction),
         support_window_s=float(support_window_s),
         measurement_protocol_hash=protocol_hash,
+        common_physical_protocol_hash=common_protocol_hash,
     )
     source_offsets = np.arange(-half_window, half_window + 1, dtype=np.int64)
     match.validate(source_offsets, swing_side)
@@ -541,6 +569,7 @@ def align_cyclic_phase_windows(
 __all__ = [
     "PHASE_ALIGNMENT_METHOD",
     "TARGET_PHASE_ALIGNMENT_METHOD",
+    "TARGET_PHASE_MATCH_SCHEMA_VERSION",
     "StanceEvidence",
     "TargetPhaseMatch",
     "align_cyclic_phase_windows",

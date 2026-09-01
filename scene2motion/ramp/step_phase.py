@@ -140,12 +140,27 @@ def step_phase_common_physical_protocol_hash(
     gate-specific :func:`step_phase_measurement_protocol_hash` receipts.
     """
     thresholds.validate()
+    support_window_s = _positive_finite(support_window_s, "support_window_s")
+    threshold_fraction = _unit_fraction(
+        thresholds.min_contralateral_support_fraction,
+        "thresholds.min_contralateral_support_fraction",
+        positive=True,
+    )
+    min_stance_support_fraction = _unit_fraction(
+        min_stance_support_fraction,
+        "min_stance_support_fraction",
+        positive=True,
+    )
+    if min_stance_support_fraction != threshold_fraction:
+        raise ValueError(
+            "explicit min_stance_support_fraction conflicts with StepOverThresholds"
+        )
     payload = {
         "protocol_version": COMMON_STEP_PHASE_PROTOCOL_VERSION,
         "support_height_m": float(thresholds.support_height_m),
         "support_speed_mps": float(thresholds.support_speed_mps),
-        "min_stance_support_fraction": float(min_stance_support_fraction),
-        "support_window_s": float(support_window_s),
+        "min_stance_support_fraction": min_stance_support_fraction,
+        "support_window_s": support_window_s,
         "max_floor_penetration_m": float(thresholds.max_floor_penetration_m),
         "stable_support_dwell_s": float(thresholds.landing_dwell_s),
         "phase_convention": {
@@ -907,7 +922,8 @@ def align_step_phase_cycles(
         swing_side=adapted.swing_side,
         adapted_stance=adapted.stance_evidence(absolute_frame=False),
         neutral_stance=neutral.stance_evidence(absolute_frame=False),
-        measurement_protocol_hash=adapted.common_physical_protocol_hash,
+        measurement_protocol_hash=adapted.measurement_protocol_hash,
+        common_physical_protocol_hash=adapted.common_physical_protocol_hash,
         min_stance_support_fraction=adapted.min_stance_support_fraction,
         support_window_s=adapted.support_window_s,
         max_phase_error=max_phase_error,
@@ -948,7 +964,8 @@ def align_step_target_phase(
         search_half_window_frames=search_half_window_frames,
         swing_side=expected_swing_side,
         target_stance=target.stance_evidence(absolute_frame=False),
-        measurement_protocol_hash=source_protocol_hash,
+        measurement_protocol_hash=target.measurement_protocol_hash,
+        common_physical_protocol_hash=target.common_physical_protocol_hash,
         min_stance_support_fraction=target.min_stance_support_fraction,
         support_window_s=target.support_window_s,
         max_phase_error=max_phase_error,

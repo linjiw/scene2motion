@@ -12,9 +12,14 @@ from scene2motion.ramp.phase import (
     align_cyclic_phase_windows,
     align_target_phase_window,
 )
+from scene2motion.ramp.packet import (
+    PHASE_MATCH_SCHEMA_VERSION,
+    TARGET_PHASE_MATCH_SCHEMA_VERSION,
+)
 
 
 PROTOCOL_HASH = "1" * 64
+COMMON_PROTOCOL_HASH = "c" * 64
 
 
 def phase_trace(length, center, center_phase, cadence):
@@ -42,6 +47,7 @@ def align(adapted, neutral, *, adapted_center=7, neutral_center=7, half=3, **kwa
         adapted_stance=stance("right", adapted_center),
         neutral_stance=stance("right", neutral_center),
         measurement_protocol_hash=PROTOCOL_HASH,
+        common_physical_protocol_hash=COMMON_PROTOCOL_HASH,
         **kwargs,
     )
 
@@ -53,6 +59,9 @@ def test_different_cadences_invert_to_fractional_offsets_on_common_knots():
     match = align(adapted, neutral)
 
     assert match.method == PHASE_ALIGNMENT_METHOD
+    assert match.schema_version == PHASE_MATCH_SCHEMA_VERSION
+    assert match.measurement_protocol_hash == PROTOCOL_HASH
+    assert match.common_physical_protocol_hash == COMMON_PROTOCOL_HASH
     np.testing.assert_allclose(
         match.adapted_query_offsets_frames,
         (-1.5, -1.0, -0.5, 0.0, 0.5, 1.0, 1.5),
@@ -175,6 +184,7 @@ def test_stance_must_be_explicit_event_matched_and_contralateral(which, evidence
             half_window_frames=3,
             swing_side="left",
             measurement_protocol_hash=PROTOCOL_HASH,
+            common_physical_protocol_hash=COMMON_PROTOCOL_HASH,
             **args,
         )
 
@@ -217,6 +227,7 @@ def test_support_receipt_records_measured_fractions_and_locked_window():
         min_stance_support_fraction=0.85,
         support_window_s=0.16,
         measurement_protocol_hash=PROTOCOL_HASH,
+        common_physical_protocol_hash=COMMON_PROTOCOL_HASH,
     )
 
     assert match.adapted_stance_support_fraction == pytest.approx(0.92)
@@ -234,6 +245,7 @@ def target_align(target, packet_knots, *, center=10, half=5, **kwargs):
         swing_side="left",
         target_stance=stance("right", center, support=0.93),
         measurement_protocol_hash=PROTOCOL_HASH,
+        common_physical_protocol_hash=COMMON_PROTOCOL_HASH,
         **kwargs,
     )
 
@@ -246,6 +258,9 @@ def test_target_trace_is_inverted_onto_packet_grid_with_fractional_offsets():
 
     assert isinstance(receipt, TargetPhaseMatch)
     assert receipt.method == TARGET_PHASE_ALIGNMENT_METHOD
+    assert receipt.schema_version == TARGET_PHASE_MATCH_SCHEMA_VERSION
+    assert receipt.measurement_protocol_hash == PROTOCOL_HASH
+    assert receipt.common_physical_protocol_hash == COMMON_PROTOCOL_HASH
     np.testing.assert_allclose(
         receipt.target_query_offsets_frames,
         (-4.0, -8.0 / 3.0, -4.0 / 3.0, 0.0, 4.0 / 3.0, 8.0 / 3.0, 4.0),
@@ -321,4 +336,5 @@ def test_target_alignment_rejects_bounds_ambiguous_grid_and_bad_stance():
             swing_side="left",
             target_stance=stance("right", 10, support=0.79),
             measurement_protocol_hash=PROTOCOL_HASH,
+            common_physical_protocol_hash=COMMON_PROTOCOL_HASH,
         )

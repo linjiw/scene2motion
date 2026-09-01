@@ -1479,3 +1479,38 @@ joint distribution of (lift position, lift height) over 64 text-conditioned clip
 it. Two harness changes adopted: the box-height endpoint is reported **graded**
 (0.03–0.30 m), and the tracker belongs in the endpoint before any 5–7 cm claim, since the
 kinematic endpoint is ambiguous at that amplitude.
+
+## 37. The prior emits the behavior once, early — which makes it placeable by staging
+
+exp021 (`outputs/exp021_elicited_lift_distribution_v2/`, complete, 64/64 samples) measures
+the joint distribution of (lift position, lift height) for text-conditioned clips on a
+fixed route. Full note: `docs/ramp-exp021-addressable-region-2026-09-01.md`.
+
+**Amplitude was never the ceiling.** Elicitation is 0.77; lift heights reach a **0.400 m**
+maximum with q75 0.184 m, and 31/64 clips clear an 8 cm box somewhere. E1a's 0.06–0.07 m
+was the packet suppressing the prior's own behavior, not the prior's limit.
+
+**Timing is the constraint, and it is sharp.** Converted to clip frames, lifts have median
+**frame 34** (1.36 s), q10–q90 21–54, with **80 % inside the first 50 of 200 frames**;
+restricting to lifts ≥ 0.08 m does not move it (median 33). Only 3 of 49 lifts occur after
+frame 60. **The prior expresses the prompt once, shortly after its context is established,
+then returns to walking.** This single fact explains the whole E1 family: the event's
+*when* is set by the rollout rather than the conditioning, so no channel specifying *where*
+can move it — and exp015's "text places randomly" was never random, it was early.
+
+**There is a narrow addressable region.** Per-clip hit rate against a scene obstacle
+(peak within 0.25 m) is 0.25–0.31 at 1.0–1.4 m of route, and **exactly zero beyond 3.4 m**.
+Optimizing the target gives per-clip 0.312 at 5 cm and 0.266 at 8 cm, so **N = 7–8
+generator calls buy 90 % success** — against 0/16 for the packet at its obstacles
+(Wilson95 upper 0.19). Averaged over obstacles spread across the whole route the rate
+falls to 0.04–0.10 and the budget rises to N ≈ 16–32, which is why the headline table
+understates the achievable method.
+
+**The method that follows is staging, not control.** Walk to a point ≈ 1.2 m before the
+obstacle, generate a fresh clip there under the prompt, measure box clearance at the
+obstacle, accept or resample. This is distinct from translation-equivariance, which is
+separately measured false (§36): the offset must come from re-planning the approach, not
+from shifting an existing clip's route. Scope is kinematic, one prompt, one route, one
+depth; the history/horizon configuration is the obvious confound on the frame-34 window
+and is untested; and 5–8 cm is exactly where tracking previously ate the margin, so the
+tracker must enter the endpoint before any of this is called a traversal.

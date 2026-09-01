@@ -87,7 +87,8 @@ def test_pool_plan_and_seeds_are_fresh_and_budget_is_exact():
     prior = set(range(3200, 3216)) | set(range(3300, 3308)) | \
         set(range(3400, 3416)) | set(range(3500, 3508)) | \
         set(range(3600, 3616)) | set(range(3700, 3708)) | \
-        set(range(3800, 3816)) | set(range(3900, 3916)) | \
+        set(range(3800, 3816)) | set(range(3900, 3916)) | set(range(4000, 4032)) | \
+        set(range(4100, 4132)) | \
         set(range(2800, 2808)) | set(pilot.DONOR_SEEDS)
     assert set(pilot.POOL_SEEDS).isdisjoint(prior)
     # v2 pool sized to the measured 5/16 constructibility rate: K=32 -> ~10 expected
@@ -103,9 +104,15 @@ def test_placement_is_route_anchored_so_exp017_shift_is_exactly_zero():
     candidates = pilot.placeable_candidates(
         clip, qpos, feet, route, target_min_prominence_m=0.042,
         thresholds=_Thresholds())
-    assert len(candidates) == 1
-    chosen = candidates[0]
-    assert chosen["placeable"] is True
+    # One candidate per footfall-free route frame in the +/-2 search window; the probe
+    # then decides which of them actually builds, and the key prefers the apex.
+    assert len(candidates) == 2 * pilot.MAX_CENTER_SHIFT_FRAMES + 1
+    assert all(row["placeable"] for row in candidates)
+    shifts = sorted(row["center_shift_frames"] for row in candidates)
+    assert shifts == list(range(-pilot.MAX_CENTER_SHIFT_FRAMES,
+                                pilot.MAX_CENTER_SHIFT_FRAMES + 1))
+    chosen = pilot.select_placement(_constructible(candidates))
+    assert chosen["center_shift_frames"] == 0
     # Route-anchored, not achieved-foot-anchored: the 2 cm tracking residual shows up.
     assert chosen["obstacle_x_m"] == pytest.approx(
         float(route[100, 1]) + 0.15)
@@ -116,6 +123,26 @@ def test_placement_is_route_anchored_so_exp017_shift_is_exactly_zero():
         "nominal_foot_forward_offset_m"]
     desired_frame = int(np.argmin(np.abs(route[:, 1] - desired_root)))
     assert desired_frame == 100
+
+
+def test_every_footfall_free_frame_in_the_window_is_offered_to_the_probe():
+    """Committing to the nearest footfall-free frame loses ~half the eligible seeds.
+
+    Footfall clearance and packet constructibility are anti-correlated, so the search
+    must hand the probe every clear frame in the window rather than only the closest,
+    and every frame of one cycle must share a mid-route cost so |shift| decides.
+    """
+    route, qpos, feet = _scene()
+    rows = pilot.placeable_candidates(
+        _clip([_cycle(apex=100)]), qpos, feet, route,
+        target_min_prominence_m=0.042, thresholds=_Thresholds())
+    placeable = [row for row in rows if row["placeable"]]
+    assert len(placeable) == 2 * pilot.MAX_CENTER_SHIFT_FRAMES + 1
+    assert len({row["obstacle_route_frame"] for row in placeable}) == len(placeable)
+    assert len({row["distance_from_route_midpoint_m"] for row in placeable}) == 1
+    # Probe results are keyed per frame, so distinct frames cannot collide.
+    assert len({(row["apex_frame"], row["obstacle_route_frame"])
+                for row in placeable}) == len(placeable)
 
 
 def test_achieved_foot_anchoring_would_not_give_a_zero_shift():

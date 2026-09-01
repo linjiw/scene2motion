@@ -37,8 +37,8 @@ from scene2motion.runner import ArdyRunner  # noqa: E402
 from scene2motion.stepover_eval import BoxHeightProbe, foot_kinematics_series  # noqa: E402
 
 
-SCHEMA_VERSION = "exp019-gait-matched-stepover-v3"
-FAILURE_SCHEMA_VERSION = "exp019-gait-matched-stepover-failure-v3"
+SCHEMA_VERSION = "exp019-gait-matched-stepover-v4"
+FAILURE_SCHEMA_VERSION = "exp019-gait-matched-stepover-failure-v4"
 
 WALK = e17.WALK
 STEP = e17.STEP
@@ -51,8 +51,10 @@ DONOR_SEEDS = e18.DONOR_SEEDS
 # constructibility, which are anti-correlated: individually ~21/32 and ~17/32, jointly
 # 6/32 at a pinned apex placement but 13/32 once the obstacle may sit at the
 # footfall-free frame nearest the apex within the packet's own half-window.  Seeds
-# 4000-4031 are closed (their v2 outcome was observed).
-POOL_SEEDS = tuple(range(4100, 4132))
+# 4000-4031 and 4100-4131 are closed (their outcomes were observed; the 4100 pool ran a
+# stricter variant that committed to the nearest footfall-free frame instead of searching
+# the window for one that also builds, and returned 6/32).
+POOL_SEEDS = tuple(range(4200, 4232))
 POOL_BATCH_SIZE = 8
 N_SELECT = 8
 EXPECTED_SWING_SIDE = e18.EXPECTED_SWING_SIDE
@@ -232,9 +234,14 @@ def placeable_candidates(
                   min(len(route), apex + MAX_CENTER_SHIFT_FRAMES + 1)),
             key=lambda frame: (abs(frame - apex), frame),
         )
-        chosen_frame: int | None = None
+        # Emit one candidate per footfall-free frame in the window, not just the nearest.
+        # The constructibility probe runs on each, and the selection key's |shift| term
+        # prefers the nearest-to-apex frame among those that actually build.  Committing
+        # to the nearest footfall-free frame alone loses roughly half the eligible seeds,
+        # because footfall clearance and constructibility are anti-correlated.
         outside_route = False
         best_nearest = 0.0
+        emitted = 0
         for frame in window:
             candidate_x = float(route[frame, 1]) + foot_offset
             if not (
@@ -250,34 +257,39 @@ def placeable_candidates(
             best_nearest = max(best_nearest, nearest)
             if nearest <= OBSTACLE_HALF_EXTENT_M:
                 continue
-            chosen_frame = frame
-            break
-        row["nearest_support_footfall_m"] = best_nearest
-        row["searched_route_frames"] = list(window)
-        if chosen_frame is None:
+            emitted += 1
+            # Mid-route distance is a property of the *cycle*, measured at its apex, so
+            # every frame in one cycle's window shares it and |shift| breaks the tie.
+            # Measuring it per frame would let a few centimetres of midpoint distance
+            # outrank placing the obstacle exactly at the apex.
+            cycle_midpoint_distance = abs(
+                float(route[apex, 1]) + foot_offset - midpoint)
+            candidates.append({
+                **row,
+                "placeable": True,
+                "obstacle_x_m": candidate_x,
+                "obstacle_route_frame": frame,
+                "center_shift_frames": frame - apex,
+                "nearest_support_footfall_m": nearest,
+                "searched_route_frames": list(window),
+                "distance_from_route_midpoint_m": cycle_midpoint_distance,
+                "selection_key": [
+                    cycle_midpoint_distance,
+                    abs(frame - apex),
+                    -float(cycle.prominence_m),
+                    int(STRATUM_ORDER[clip.speed_label]),
+                    int(cycle.apex_frame),
+                    cycle.evidence_digest,
+                ],
+            })
+        if emitted == 0:
+            row["nearest_support_footfall_m"] = best_nearest
+            row["searched_route_frames"] = list(window)
             row["rejection"] = (
                 "expanded_obstacle_outside_route" if outside_route
                 else "support_footfall_inside_obstacle_footprint"
             )
             candidates.append(row)
-            continue
-        obstacle_x = float(route[chosen_frame, 1]) + foot_offset
-        row.update({
-            "placeable": True,
-            "obstacle_x_m": obstacle_x,
-            "obstacle_route_frame": chosen_frame,
-            "center_shift_frames": chosen_frame - apex,
-            "distance_from_route_midpoint_m": abs(obstacle_x - midpoint),
-            "selection_key": [
-                abs(obstacle_x - midpoint),
-                abs(chosen_frame - apex),
-                -float(cycle.prominence_m),
-                int(STRATUM_ORDER[clip.speed_label]),
-                int(cycle.apex_frame),
-                cycle.evidence_digest,
-            ],
-        })
-        candidates.append(row)
     return candidates
 
 
@@ -793,7 +805,7 @@ def run_pilot(
         receipt["provenance"]["post_pool_identity_revalidation"] = (
             revalidate_identities())
         selection_by_seed: dict[int, dict[str, Any]] = {}
-        probe_by_key: dict[tuple[int, str, int], dict[str, Any]] = {}
+        probe_by_key: dict[tuple[int, str, int, int], dict[str, Any]] = {}
         for seed in POOL_SEEDS:
             all_candidates: list[dict[str, Any]] = []
             for label, _ in cal.SPEEDS:
@@ -819,8 +831,10 @@ def run_pilot(
                             route_heading=route_heading, thresholds=thresholds,
                             min_stance_support_fraction=min_stance_support_fraction,
                             runner=runner, body=body)
-                        probe_by_key[
-                            (seed, label, int(candidate["apex_frame"]))] = probe
+                        probe_by_key[(
+                            seed, label, int(candidate["apex_frame"]),
+                            int(candidate["obstacle_route_frame"]),
+                        )] = probe
                         candidate.update({
                             key: value for key, value in probe.items()
                             if not key.startswith("_")
@@ -881,7 +895,10 @@ def run_pilot(
             clip = clips_by_key[(seed, label)]
             # The selection probe already built these outcome-free; reuse them so the
             # rendered programs are byte-identical to what eligibility was decided on.
-            probe = probe_by_key[(seed, label, int(chosen["apex_frame"]))]
+            probe = probe_by_key[(
+                seed, label, int(chosen["apex_frame"]),
+                int(chosen["obstacle_route_frame"]),
+            )]
             if not probe.get("constructible"):
                 raise RuntimeError("selected candidate is not constructible")
             assignment = probe["_assignment"]

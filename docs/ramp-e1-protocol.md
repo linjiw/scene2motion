@@ -1,9 +1,11 @@
 # EXP-017 protocol: paired absolute-vs-residual step-over packets
 
-**Status: harness landed, no real ARDY result, 2026-08-31.** The representation/phase
-implementation and CPU-tested exp017 orchestration exist; no GPU preflight, pilot outcome, or
-SONIC comparison does. This document locks the first scientifically fair test of the v1
-step-event packet before outcome inspection. It does not claim that either arm works.
+**Status: harness landed; first GPU preflight failed before arms, 2026-08-31.** The
+representation/phase implementation and CPU-tested exp017 orchestration exist. A `D=1`
+preflight spent two donor samples and stopped before nominal/final generation because seed
+2600 had no phase-alignable adapted/neutral cycle. Therefore no absolute-vs-residual outcome
+or SONIC comparison exists. This document locks the next diagnostic and the first
+scientifically fair arm test. It does not claim that either arm works.
 
 ## Question and deliberately narrow scope
 
@@ -131,7 +133,10 @@ phase/control/channel, and output hashes. Final rows additionally carry the froz
 SHA-256 as a foreign key; the manifest is deliberately absent from identity payloads to avoid
 a hash cycle. The final receipt anchors the complete rows file, output-identity set, qpos
 content, and qpos archive by SHA-256. Noise-stream version 2 is asserted before source
-generation, not merely logged.
+generation, not merely logged. A progressive `run_provenance` identity is complete before the
+first source call and is copied into success or failure receipts; it binds code/checkpoint,
+calibration, prompts/settings, exact budget, splits, fixed scenes, and route even when no
+manifest can be created.
 
 ## Physical phase and contact receipts
 
@@ -163,8 +168,7 @@ SONIC stage must reuse that exact receipt for achieved-state evaluation.
 
 ## Launch sequence
 
-Exp017 refuses a dirty worktree. After committing the implementation and verifying the
-calibration receipt, run the smallest real-model preflight first:
+Exp017 refuses a dirty worktree. The first real-model preflight was locked as:
 
 ```bash
 source env.sh
@@ -174,10 +178,34 @@ $S2M_PY experiments/exp017_ramp_residual_stepover.py \
   --threshold_calibration_receipt outputs/exp016_threshold_calibration/receipt.json
 ```
 
-A **completed** preflight spends five ARDY samples (`2 + 1 + 2`); an eligibility failure
-reports only its archived partial spend. This is a schema/eligibility preflight, not a result.
-Inspect `receipt.json`, `manifest.json`, both packet/program support hashes, physical cycle
-receipts, and all row counts before scheduling the larger kinematic pilot. The current harness
+It failed closed in source discovery after exactly two donor samples: both adapted and neutral
+cycle lists were empty for seed 2600, with no nominal or final-arm samples. This is a
+schema/eligibility failure, not a result. The v1 failure ledger is archived at
+`outputs/exp017_ramp_preflight_d1_n1_p1/`. It preserved hashes and rejection text but not the
+rejected qpos, so it cannot distinguish clearance from speed as the failed support sub-gate.
+The harness now archives and hashes every candidate donor qpos before eligibility and emits
+diagnostic-only support fractions, clearance, and speed summaries without changing thresholds
+or selection.
+
+Before inspecting any additional donor outcome, the second attempt is locked to the next
+wider **sequential** bank, not a cherry-picked seed:
+
+```bash
+source env.sh
+$S2M_PY experiments/exp017_ramp_residual_stepover.py \
+  --out outputs/exp017_ramp_preflight_d4_n1_p1 \
+  --n_donors 4 --n_seeds 1 --obstacle_x 3.6 \
+  --threshold_calibration_receipt outputs/exp016_threshold_calibration/receipt.json
+```
+
+It uses donor seeds 2600–2603, evaluation seed 2800, the unchanged calibration receipt and
+gates, and one fixed placement. A completed run spends eleven samples (`8 + 1 + 2`); failure
+to find a donor stops after eight. Regenerated seed-2600 samples count again. Inspect the
+complete donor qpos archive/support diagnostics before any third attempt.
+
+A completed preflight remains a schema/eligibility check, not a result. Inspect
+`receipt.json`, `manifest.json`, both packet/program support hashes, physical cycle receipts,
+and all row counts before scheduling the larger kinematic pilot. The current harness
 intentionally stops at kinematics; an equal-budget `2NP` SONIC achieved-qpos stage must be
 added and run before reporting execution success.
 

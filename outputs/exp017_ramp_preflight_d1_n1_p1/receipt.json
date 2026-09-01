@@ -1,0 +1,16 @@
+{
+  "experiment": "exp017_ramp_residual_stepover",
+  "status": "failed_closed",
+  "execution_mode": "single-shot_non_resumable_pilot",
+  "resume_supported": false,
+  "failed_stage": "source_discovery",
+  "error_type": "ValueError",
+  "error": "no donor seed contains a phase-alignable adapted/neutral step pair",
+  "query_accounting": {
+    "donor_source_samples": 2,
+    "nominal_samples": 0,
+    "paired_evaluation_samples": 0,
+    "generate_invocations": 1
+  },
+  "wall_clock_s": 2.709
+}

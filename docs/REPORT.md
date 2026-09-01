@@ -1117,3 +1117,30 @@ preflight licenses the larger paired kinematic pilot, and equal-budget SONIC rep
 required before an execution claim. The local response optimizer, RepairNet, hierarchical
 execution model, and RAMP-aware route cost remain unimplemented and must not be described as
 landed methods.
+
+## 27. First exp017 GPU preflight failed before arm generation; diagnostics hardened
+
+The committed `D=1, N=1, P=1` preflight ran under noise-stream v2 with donor/evaluation seeds
+2600/2800 and the locked calibration receipt. It failed closed in source discovery after
+exactly two ARDY samples. Both the adapted step prompt and paired neutral walk for seed 2600
+had empty physical-cycle lists; the enumerator reported each foot as one unsupported run from
+frame 0 through 199, so no phase-alignable source pair existed. The run generated zero nominal
+and zero absolute/residual final samples. This is an eligibility failure, **not** evidence
+against either packet representation.
+
+The failure ledger is `outputs/exp017_ramp_preflight_d1_n1_p1/receipt.json` plus
+`donor_candidates.jsonl`. It exposed a diagnostic artifact gap: rejected donor qpos were not
+archived, so the first ledger cannot distinguish whether height, speed, or both caused the
+support failure. The harness now writes all candidate adapted/neutral qpos to
+`donor_qpos.npz` before any progress/phase gate, binds logical and archive hashes into donor
+rows and success/failure receipts, and records support/clearance/speed summaries that are
+explicitly excluded from selection. Thresholds and the `2D + N + 2NP` budget are unchanged.
+Future failed receipts also carry a canonical pre-source run identity binding code,
+checkpoint, threshold receipt, prompts/settings, budget, splits, scenes, and route; the first
+already-completed v1 failure predates that hardening and remains labeled accordingly.
+
+Before seeing any additional donor outcome, the next diagnostic is locked as
+`D=4, N=1, P=1` with sequential donor seeds 2600–2603, evaluation seed 2800, obstacle
+`x=3.6 m`, and the same calibration/gates. It spends eight samples if source discovery fails
+or eleven if it reaches the paired arms. A successful schema preflight would still not be a
+capability result or license an execution claim.

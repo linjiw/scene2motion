@@ -343,6 +343,59 @@ def _prescribed_progress_ratio(qpos: np.ndarray, root_xz: np.ndarray) -> float:
     return actual / planned
 
 
+def _longest_true_run(mask: np.ndarray) -> int:
+    values = np.asarray(mask, dtype=bool)
+    padded = np.r_[False, values, False].astype(np.int8)
+    edges = np.diff(padded)
+    starts = np.flatnonzero(edges == 1)
+    ends = np.flatnonzero(edges == -1)
+    return int(np.max(ends - starts, initial=0))
+
+
+def _support_diagnostics(
+    body: Any,
+    qpos: np.ndarray,
+    fps: float,
+    thresholds: StepOverThresholds,
+) -> dict[str, Any]:
+    """Descriptive physical-foot support summary; never used for eligibility."""
+    kinematics = foot_kinematics_series(body, qpos, fps)
+    support: dict[str, np.ndarray] = {}
+    sides: dict[str, Any] = {}
+    for side in ("left", "right"):
+        clearance = np.asarray(kinematics[side]["bottom_clearance_m"], dtype=float)
+        speed = np.asarray(kinematics[side]["planar_speed_mps"], dtype=float)
+        if (clearance.ndim != 1 or speed.shape != clearance.shape
+                or len(clearance) != len(qpos)):
+            raise ValueError("support diagnostic kinematics do not align with qpos")
+        mask = ((clearance <= thresholds.support_height_m)
+                & (speed <= thresholds.support_speed_mps))
+        support[side] = mask
+        sides[side] = {
+            "support_fraction": float(np.mean(mask)),
+            "longest_unsupported_run_frames": _longest_true_run(~mask),
+            "longest_unsupported_run_s": float(_longest_true_run(~mask) / fps),
+            "minimum_bottom_clearance_m": float(np.min(clearance)),
+            "maximum_bottom_clearance_m": float(np.max(clearance)),
+            "median_planar_speed_mps": float(np.median(speed)),
+            "maximum_planar_speed_mps": float(np.max(speed)),
+        }
+    bilateral_unsupported = ~(support["left"] | support["right"])
+    return {
+        "interpretation": "descriptive only; not consumed by donor eligibility",
+        "n_frames": int(len(qpos)),
+        "fps": float(fps),
+        "support_height_m": float(thresholds.support_height_m),
+        "support_speed_mps": float(thresholds.support_speed_mps),
+        "sides": sides,
+        "bilateral_unsupported_fraction": float(np.mean(bilateral_unsupported)),
+        "longest_bilateral_unsupported_run_frames": _longest_true_run(
+            bilateral_unsupported),
+        "longest_bilateral_unsupported_run_s": float(
+            _longest_true_run(bilateral_unsupported) / fps),
+    }
+
+
 def _select_source_pair(
     source_rows: list[dict[str, Any]],
     *,
@@ -709,6 +762,26 @@ def run_experiment(
         "paired_evaluation_samples": 0,
         "generate_invocations": 0,
     }
+    evidence_anchors: dict[str, Any] = {}
+    run_provenance: dict[str, Any] = {
+        "schema": "exp017-run-provenance-v1",
+        "prepared_through": "initialization",
+        "complete_before_source_generation": False,
+        "code": None,
+        "checkpoint": None,
+        "threshold_calibration": None,
+        "prompts": None,
+        "generation_settings": None,
+        "D": None,
+        "N": None,
+        "P": None,
+        "budget_formula": "2D+N+2NP",
+        "planned_ardy_samples": None,
+        "donor_seeds": None,
+        "evaluation_seeds": None,
+        "fixed_scenes": None,
+        "route_content_sha256": None,
+    }
     repo = Path(__file__).resolve().parents[1]
     stage = "validation"
     try:
@@ -735,13 +808,31 @@ def run_experiment(
         donor_seeds = list(range(args.donor_seed_start,
                                  args.donor_seed_start + args.n_donors))
         eval_seeds = list(range(args.seed_start, args.seed_start + args.n_seeds))
+        planned_samples = 2 * args.n_donors + args.n_seeds + (
+            2 * args.n_seeds * len(args.obstacle_x))
+        run_provenance.update({
+            "prepared_through": "design_validated",
+            "prompts": {"adapted_source": STEP, "neutral_source": WALK,
+                        "nominal": WALK, "paired_evaluation": STEP},
+            "D": args.n_donors,
+            "N": args.n_seeds,
+            "P": len(args.obstacle_x),
+            "planned_ardy_samples": planned_samples,
+            "donor_seeds": donor_seeds,
+            "evaluation_seeds": eval_seeds,
+        })
         if set(donor_seeds) & set(eval_seeds):
             raise ValueError("donor and evaluation seed ranges must be disjoint")
         thresholds, threshold_identity = _load_thresholds(
             Path(args.threshold_calibration_receipt))
+        run_provenance.update({
+            "prepared_through": "threshold_calibration_validated",
+            "threshold_calibration": threshold_identity,
+        })
         min_stance_support_fraction = float(
             thresholds.min_contralateral_support_fraction)
         code = _git_state(repo)
+        run_provenance.update({"prepared_through": "code_identified", "code": code})
         if code.get("dirty") is not False:
             raise ValueError(
                 "exp017 requires an exactly clean git worktree before source generation"
@@ -754,6 +845,10 @@ def run_experiment(
             raise ValueError("exp017 requires ARDY noise_stream_version == 2")
         body = body or G1Body(None)
         checkpoint = _checkpoint_identity(runner)
+        run_provenance.update({
+            "prepared_through": "generator_identified",
+            "checkpoint": checkpoint,
+        })
         fps = float(runner.fps)
         frames = int(round(args.duration * fps))
         if frames < 2 * args.half_window_frames + 3:
@@ -782,6 +877,8 @@ def run_experiment(
             "obstacle_depth_m": args.obstacle_depth,
             "simulation_body_margin_m": BODY_MARGIN,
         } for x in args.obstacle_x]
+        route_content_sha256 = _array_hash({
+            "root_xz": root_xz, "route_heading": route_heading})
         base = _base_spec(root_xz)
         code_revision = (
             f"{code.get('commit')}:{code.get('tracked_diff_sha256')}:"
@@ -801,6 +898,13 @@ def run_experiment(
                 getattr(runner, "model", None), "gen_horizon_len", None),
             "fps": fps,
         }
+        run_provenance.update({
+            "prepared_through": "source_generation_ready",
+            "complete_before_source_generation": True,
+            "generation_settings": generation_settings,
+            "fixed_scenes": fixed_scenes,
+            "route_content_sha256": route_content_sha256,
+        })
 
         # ---- D matched source pairs -------------------------------------------------
         stage = "source_discovery"
@@ -820,10 +924,16 @@ def run_experiment(
             raise ValueError("runner returned the wrong number of donor source samples")
         source_rows: list[dict[str, Any]] = []
         source_samples: dict[int, tuple[Mapping[str, Any], Mapping[str, Any]]] = {}
+        donor_qpos_archive: dict[str, np.ndarray] = {}
         for index, seed in enumerate(donor_seeds):
             adapted, neutral = generated[2 * index:2 * index + 2]
             adapted_qpos = runner.to_qpos(adapted)
             neutral_qpos = runner.to_qpos(neutral)
+            adapted_qpos_key = f"s{seed}__adapted"
+            neutral_qpos_key = f"s{seed}__neutral"
+            # Preserve exact converter output before any progress, phase, or support gate.
+            donor_qpos_archive[adapted_qpos_key] = np.array(adapted_qpos, copy=True)
+            donor_qpos_archive[neutral_qpos_key] = np.array(neutral_qpos, copy=True)
             adapted_progress_ratio = _prescribed_progress_ratio(adapted_qpos, root_xz)
             neutral_progress_ratio = _prescribed_progress_ratio(neutral_qpos, root_xz)
             row: dict[str, Any] = {
@@ -832,9 +942,26 @@ def run_experiment(
                 "neutral_prompt": WALK,
                 "adapted_clip_sha256": _sample_hash(adapted),
                 "neutral_clip_sha256": _sample_hash(neutral),
+                "adapted_qpos_archive_key": adapted_qpos_key,
+                "neutral_qpos_archive_key": neutral_qpos_key,
+                "adapted_qpos_content_sha256": _array_hash(
+                    {adapted_qpos_key: donor_qpos_archive[adapted_qpos_key]}),
+                "neutral_qpos_content_sha256": _array_hash(
+                    {neutral_qpos_key: donor_qpos_archive[neutral_qpos_key]}),
+                "paired_qpos_content_sha256": _array_hash({
+                    adapted_qpos_key: donor_qpos_archive[adapted_qpos_key],
+                    neutral_qpos_key: donor_qpos_archive[neutral_qpos_key],
+                }),
                 "adapted_final_progress_ratio_vs_prescribed_route": adapted_progress_ratio,
                 "neutral_final_progress_ratio_vs_prescribed_route": neutral_progress_ratio,
             }
+            for label, qpos in (("adapted", adapted_qpos), ("neutral", neutral_qpos)):
+                try:
+                    row[f"{label}_support_diagnostics"] = _support_diagnostics(
+                        body, qpos, fps, thresholds)
+                except (KeyError, TypeError, ValueError) as exc:
+                    # Diagnostic extraction must never alter the locked eligibility path.
+                    row[f"{label}_support_diagnostics_error"] = str(exc)
             try:
                 if (
                     adapted_progress_ratio < args.min_source_progress_ratio
@@ -872,6 +999,20 @@ def run_experiment(
                             "_neutral_qpos": neutral_qpos,
                             "_adapted_cycles": (), "_neutral_cycles": ()})
             source_rows.append(row)
+        np.savez(out / "donor_qpos.npz", **donor_qpos_archive)
+        donor_qpos_evidence = {
+            "archive": "donor_qpos.npz",
+            "n_candidates": len(donor_seeds),
+            "n_qpos_arrays": len(donor_qpos_archive),
+            "content_sha256": _array_hash(donor_qpos_archive),
+            "archive_sha256": _sha256(out / "donor_qpos.npz"),
+        }
+        evidence_anchors["donor_qpos"] = donor_qpos_evidence
+        for row in source_rows:
+            row["donor_qpos_archive"] = donor_qpos_evidence["archive"]
+            row["donor_qpos_archive_sha256"] = donor_qpos_evidence["archive_sha256"]
+            row["donor_qpos_archive_content_sha256"] = donor_qpos_evidence[
+                "content_sha256"]
         try:
             selected_row, adapted_cycle, neutral_cycle, source_phase_match = (
                 _select_source_pair(source_rows, half_window_frames=args.half_window_frames)
@@ -952,13 +1093,13 @@ def run_experiment(
             "donor_seeds": donor_seeds,
             "evaluation_seeds": eval_seeds,
             "fixed_scenes": fixed_scenes,
-            "route_content_sha256": _array_hash({
-                "root_xz": root_xz, "route_heading": route_heading}),
+            "route_content_sha256": route_content_sha256,
             "packet_pair_hash": pair.digest(),
             "measurement_protocol_hash": pair.absolute.measurement_protocol_hash,
             "selected_adapted_clip_sha256": selected_row["adapted_clip_sha256"],
             "selected_neutral_clip_sha256": selected_row["neutral_clip_sha256"],
             "selected_source_qpos_content_sha256": _array_hash(selected_source_qpos),
+            "all_donor_qpos_content_sha256": donor_qpos_evidence["content_sha256"],
             "D": args.n_donors,
             "N": args.n_seeds,
             "P": len(args.obstacle_x),
@@ -1110,8 +1251,6 @@ def run_experiment(
 
         # Freeze every decision informed by source/nominal outputs before final sampling.
         stage = "manifest"
-        planned_samples = 2 * args.n_donors + args.n_seeds + (
-            2 * args.n_seeds * len(args.obstacle_x))
         manifest = {
             "experiment": "exp017_ramp_residual_stepover",
             "design": "paired absolute-vs-phase-aligned-residual E1 pilot",
@@ -1134,6 +1273,8 @@ def run_experiment(
             "packet_pair": packet_record,
             "experiment_identity": experiment_identity,
             "experiment_identity_sha256": experiment_identity["sha256"],
+            "run_provenance": run_provenance,
+            "run_provenance_sha256": _json_hash(run_provenance),
             "threshold_calibration": threshold_identity,
             "thresholds": asdict(thresholds),
             "progress_gates": {
@@ -1143,6 +1284,7 @@ def run_experiment(
                     args.min_nominal_progress_ratio),
             },
             "qpos_evidence": {
+                "all_donor_candidates": donor_qpos_evidence,
                 "selected_source_archive": "selected_source_qpos.npz",
                 "selected_source_content_sha256": _array_hash(selected_source_qpos),
                 "selected_source_archive_sha256": _sha256(
@@ -1270,6 +1412,9 @@ def run_experiment(
             "summary_sha256": _sha256(out / "summary.json"),
             "paired_summary": summary,
             "threshold_calibration": threshold_identity,
+            "evidence_anchors": evidence_anchors,
+            "run_provenance": run_provenance,
+            "run_provenance_sha256": _json_hash(run_provenance),
             "provenance": {
                 "checkpoint": checkpoint,
                 "code": code,
@@ -1298,6 +1443,9 @@ def run_experiment(
             "error_type": type(exc).__name__,
             "error": str(exc),
             "query_accounting": counters,
+            "evidence_anchors": evidence_anchors,
+            "run_provenance": run_provenance,
+            "run_provenance_sha256": _json_hash(run_provenance),
             "wall_clock_s": round(time.time() - started, 3),
         }
         _write_json(out / "receipt.json", failure)

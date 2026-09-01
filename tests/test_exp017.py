@@ -194,7 +194,7 @@ def _args(tmp_path, *, donors=2, seeds=2, obstacles=(1.0, 2.0)):
     )
 
 
-def _patch_cpu_dependencies(monkeypatch, *, fail_nominal=False):
+def _patch_cpu_dependencies(monkeypatch, *, fail_nominal=False, fail_source=False):
     monkeypatch.setattr(exp017, "_checkpoint_identity", lambda _runner: {
         "generator_id": "fake-generator@revision",
         "model_name": "fake-g1",
@@ -209,6 +209,8 @@ def _patch_cpu_dependencies(monkeypatch, *, fail_nominal=False):
 
     def phase_cycles(_body, qpos, _fps, _thresholds, **_kwargs):
         marker = int(round(float(np.asarray(qpos)[0, 35])))
+        if fail_source and marker in (1, 2):
+            raise ValueError("synthetic source has no supported phase cycle")
         if marker == 1:
             return (SOURCE_ADAPTED,)
         if marker == 2:
@@ -221,7 +223,11 @@ def _patch_cpu_dependencies(monkeypatch, *, fail_nominal=False):
 
     def feet(_body, qpos, _fps):
         forward = np.asarray(qpos)[:, 0] + 0.1
-        values = {"forward_representative_m": forward}
+        values = {
+            "forward_representative_m": forward,
+            "bottom_clearance_m": np.zeros(len(forward), dtype=float),
+            "planar_speed_mps": np.zeros(len(forward), dtype=float),
+        }
         return {"left": values, "right": values}
 
     monkeypatch.setattr(exp017, "foot_kinematics_series", feet)
@@ -270,6 +276,9 @@ def test_cpu_orchestration_freezes_manifest_and_spends_exact_budget(
         "paired_evaluation_samples": 8,
         "generate_invocations": 6,
     }
+    donor_anchor = receipt["evidence_anchors"]["donor_qpos"]
+    assert donor_anchor["n_candidates"] == 2
+    assert donor_anchor["n_qpos_arrays"] == 4
     assert runner.calls[0]["prompts"] == [
         exp017.STEP, exp017.WALK, exp017.STEP, exp017.WALK]
     assert runner.calls[0]["seeds"] == [100, 100, 101, 101]
@@ -299,6 +308,8 @@ def test_cpu_orchestration_freezes_manifest_and_spends_exact_budget(
     assert "manifest" not in json.dumps(experiment_identity).lower()
     assert manifest["threshold_calibration"]["status"] == "calibrated"
     assert manifest["threshold_calibration"]["n_accepted"] == 9
+    assert manifest["qpos_evidence"]["all_donor_candidates"] == donor_anchor
+    assert donor_anchor["archive_sha256"] == exp017._sha256(out / "donor_qpos.npz")
     assert (out / "selected_source_qpos.npz").exists()
     assert (out / "nominal_qpos.npz").exists()
     summary = json.loads((out / "summary.json").read_text())
@@ -475,6 +486,65 @@ def test_prescribed_route_progress_gates_stalled_sources_before_selection(
     receipt = json.loads((out / "receipt.json").read_text())
     assert receipt["query_accounting"]["donor_source_samples"] == 2
     assert receipt["query_accounting"]["nominal_samples"] == 0
+
+
+def test_source_selection_failure_archives_every_donor_qpos_with_receipt_hashes(
+    monkeypatch, tmp_path
+):
+    _patch_cpu_dependencies(monkeypatch, fail_source=True)
+    args = _args(tmp_path, donors=1, seeds=1, obstacles=(1.0,))
+    runner = FakeRunner(tmp_path / "exp017")
+
+    with pytest.raises(exp017.ExperimentAbort, match="no donor seed"):
+        exp017.run_experiment(args, runner=runner, body=object())
+
+    out = tmp_path / "exp017"
+    archive = out / "donor_qpos.npz"
+    assert archive.exists()
+    with np.load(archive) as stored:
+        arrays = {key: np.array(stored[key], copy=True) for key in stored.files}
+    assert set(arrays) == {"s100__adapted", "s100__neutral"}
+
+    receipt = json.loads((out / "receipt.json").read_text())
+    anchor = receipt["evidence_anchors"]["donor_qpos"]
+    assert anchor["n_candidates"] == 1
+    assert anchor["n_qpos_arrays"] == 2
+    assert anchor["content_sha256"] == exp017._array_hash(arrays)
+    assert anchor["archive_sha256"] == exp017._sha256(archive)
+    assert receipt["query_accounting"]["donor_source_samples"] == 2
+    assert receipt["query_accounting"]["nominal_samples"] == 0
+    provenance = receipt["run_provenance"]
+    assert provenance["prepared_through"] == "source_generation_ready"
+    assert provenance["complete_before_source_generation"] is True
+    assert provenance["code"]["commit"] == "test-commit"
+    assert provenance["code"]["tracked_diff_sha256"] == "d" * 64
+    assert provenance["checkpoint"]["generator_id"] == "fake-generator@revision"
+    assert provenance["checkpoint"]["checkpoint_sha256"] == "c" * 64
+    assert provenance["threshold_calibration"]["status"] == "calibrated"
+    assert provenance["prompts"]["adapted_source"] == exp017.STEP
+    assert provenance["prompts"]["neutral_source"] == exp017.WALK
+    assert provenance["generation_settings"]["noise_stream_version"] == 2
+    assert (provenance["D"], provenance["N"], provenance["P"]) == (1, 1, 1)
+    assert provenance["planned_ardy_samples"] == 5
+    assert provenance["donor_seeds"] == [100]
+    assert provenance["evaluation_seeds"] == [200]
+    assert len(provenance["fixed_scenes"]) == 1
+    assert len(provenance["route_content_sha256"]) == 64
+    assert "manifest" not in json.dumps(provenance).lower()
+    assert receipt["run_provenance_sha256"] == exp017._json_hash(provenance)
+
+    donor = json.loads((out / "donor_candidates.jsonl").read_text())
+    assert donor["donor_qpos_archive_sha256"] == anchor["archive_sha256"]
+    assert donor["donor_qpos_archive_content_sha256"] == anchor["content_sha256"]
+    for arm in ("adapted", "neutral"):
+        key = donor[f"{arm}_qpos_archive_key"]
+        assert donor[f"{arm}_qpos_content_sha256"] == exp017._array_hash(
+            {key: arrays[key]})
+        diagnostic = donor[f"{arm}_support_diagnostics"]
+        assert diagnostic["interpretation"].startswith("descriptive only")
+        assert diagnostic["sides"]["left"]["support_fraction"] == 1.0
+        assert diagnostic["longest_bilateral_unsupported_run_frames"] == 0
+    assert "synthetic source has no supported phase cycle" in donor["ineligible_reason"]
 
 
 def test_nominal_progress_gate_stops_before_manifest_and_final_sampling(

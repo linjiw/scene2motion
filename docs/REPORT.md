@@ -1299,3 +1299,93 @@ Pmin, caps, placement set, and per-seed (stratum, placement, program) triples, w
 budget from the measured rates. It is not evidence that any packet representation improves
 traversal. Protocols: `docs/ramp-route-phase-calibration-protocol{,-v2,-v3}.md`; refusal
 records: `docs/ramp-route-phase-calibration-refusal-2026-09-01{,-v2}.md`.
+
+## 33. Three placement levers measured; the packet's own constructibility is the binding limit
+
+With the route-phase foundation calibrated (§32), the E1 packet comparison was attempted
+on the two remaining placement levers. Both were preregistered, staged so a placement
+failure could not be confounded with a packet effect, and both produced measured negatives
+before any arm was generated. All evidence is committed.
+
+**exp018 — route warping (`docs/ramp-e1-route-warped-protocol.md`).** Stage A regenerated
+six calibrated-selected seeds under their own outcome-free route-progress warps. Only
+**1/6** still placed a complete left swing at the obstacle inside the unchanged ±8-frame
+gate, though all six tracked their routes (progress 0.996–1.003): the prior re-plans its
+gait when root-path timing changes, and two seeds lost swing structure entirely. The
+mechanism is a route-length coupling inherited from the calibration — the program
+reparameterizes a fixed 7.2 m route while cycles are observed at 4.776/7.200/9.552 m, so
+the "minimum-deformation" selection displaces conditioning by up to 2.4 m. Artifact:
+`outputs/exp018_route_warped_stepover/`; note:
+`docs/ramp-exp018-route-warp-negative-2026-09-01.md`.
+
+**exp019 — gait-matched placement (`docs/ramp-e1-gait-matched-protocol.md`).** Inverting
+the lever (obstacle at `route_progress(apex) + foot_offset` on the nominal's own route)
+makes the required shift exactly zero and reaches **12/16** placement eligibility. But
+only **5/16** seeds are *constructible*: the donor's step-over swing is 11 frames while
+the pool's median walk swing is 8 and 97 % are shorter, so the packet's ±2-frame source
+window compresses below one integer frame on one side of most target apexes (24 render
+collapses), while longer targets fail phase alignment (15). Constructibility occupies a
+narrow 8–9-frame band. Widening the source window is not an option: at half-window 3 and 4
+**no donor pair in the bank is phase-alignable at all**. Artifacts:
+`outputs/exp019_gait_matched_stepover{,_v2}/`; note:
+`docs/ramp-exp019-constructibility-2026-09-01.md`.
+
+**What this means for the method.** Across three placement designs the frozen prior has
+now been measured to resist *scene-specified* event placement in every available way:
+waiting for a gait event at a predeclared obstacle (1/8), warping route timing to move the
+root to one (1/6), and — even when placement is conceded to the gait — transporting a
+step-over packet onto the prior's own walk swings (5/16). The first two bound the
+placement lever; the third bounds the *representation* itself, because a step-over donor's
+swing is intrinsically longer than a walk swing. These rates belong in the paper next to
+whatever the absolute-vs-residual contrast eventually shows: they say how often any
+coherent packet can be applied at all, independent of whether the residual form is better
+than the absolute one.
+
+**Two latent defects were also found and fixed** by running the real path for the first
+time: exp017's channel-usage allowlist named ConstraintSpec builder keys
+(`root_2d`/`root_y_pos`/`global_joints_rots`) rather than the model's `slice_dict` names
+(`root_pos`/`global_rot_data`), so it would have aborted *any* real arm run and survived
+only because exp017 never reached rendering; and exp019's first attempt selected
+placements with the phase-observability enumerator while the transport consumes
+`step_phase` cycles, which is now prevented by an outcome-free constructibility probe that
+runs the real assignment and both renders before a candidate is eligible.
+
+## 34. The first completed E1 packet comparison ran — and its scenes were unwinnable
+
+The rate-honest rerun (K=32 fresh seeds 4000–4031, N=8) cleared its gate at **17/32**
+constructible seeds and, for the first time in the E1 family, **generated and scored every
+planned arm**: 8 nominal (free), 8 absolute, 8 residual, with the full 120-sample budget
+spent exactly. Artifact: `outputs/exp019_gait_matched_stepover_v3/` (blocked only in the
+summary stage by a `float(None)` on `lead_matches_donor_side`, a reporting defect; all 24
+arm rows are complete and hash-anchored).
+
+The result does **not** adjudicate representation, and the free nominal arm is what shows
+why:
+
+| metric (8 paired seeds) | nominal | absolute | residual |
+|---|---:|---:|---:|
+| whole-body box clearance (m) | 0.0000 | 0.0000 | 0.0000 |
+| obstacle min clearance (m) | −0.0869 | −0.0916 | −0.0903 |
+| obstacle collision-free | 0/8 | 0/8 | 0/8 |
+| kinematic step success | 0/8 | 0/8 | 0/8 |
+
+Every arm collides, including the unmodified nominal walk. Residual − absolute is noise on
+every endpoint (box clearance exactly 0 for both; min clearance median +0.4 mm, 5/3 split).
+Both packets make crossing-position error *worse* than nominal (+0.15 m).
+
+**Cause: the placement rule matched the apex but not the footprint.** The obstacle was
+placed where the swing foot is highest, but its expanded footprint (±0.14 m) still
+contained a support-phase footfall in **all 8 seeds** (nearest footfall 0.007–0.115 m). The
+robot plants a foot inside the box, so no whole-body box clears the ground there and no
+arm — packet or not — can succeed. The scenes were unwinnable before any packet was
+applied.
+
+Replay on the same pool: an apex-placed obstacle is footfall-free for only **43 %** of
+candidates, while a footfall-free placement exists for **87 %** of candidates and **25/32**
+seeds. The placement rule now requires the expanded footprint to contain no support-phase
+footfall of either foot, which is outcome-free (measured on the nominal clip alone) and
+abundantly satisfiable.
+
+This is the third time in this arc that adding a *reference* measurement caught an
+invalid comparison before it produced a claim — after Stage-A persistence in exp018 and
+the constructibility probe in exp019. The nominal arm cost nothing and is now permanent.

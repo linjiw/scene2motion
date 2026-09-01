@@ -116,6 +116,45 @@ def pool_batch_plan() -> tuple[dict[str, Any], ...]:
     return tuple(batches)
 
 
+def _mean_of_defined(rows: Any, metric: str) -> float | None:
+    """Mean over rows where the metric is present and not None.
+
+    ``lead_matches_donor_side`` is None whenever no crossing was detected, so a bare
+    ``float(row[metric])`` raises and takes the whole summary with it.
+    """
+    values = [
+        float(row[metric]) for row in rows
+        if row.get(metric) is not None
+    ]
+    return float(np.mean(values)) if values else None
+
+
+def support_footfall_positions(
+    foot_kinematics: Mapping[str, Mapping[str, np.ndarray]],
+    thresholds: Any,
+) -> np.ndarray:
+    """Forward positions of both feet whenever they are in physical support.
+
+    An obstacle footprint containing any of these is unwinnable for every arm: the
+    robot puts a foot down inside it, so no whole-body box clears the ground there.
+    """
+    positions: list[np.ndarray] = []
+    for side in ("left", "right"):
+        clearance = np.asarray(
+            foot_kinematics[side]["bottom_clearance_m"], dtype=float)
+        speed = np.asarray(foot_kinematics[side]["planar_speed_mps"], dtype=float)
+        forward = np.asarray(
+            foot_kinematics[side]["forward_representative_m"], dtype=float)
+        if clearance.shape != speed.shape or clearance.shape != forward.shape:
+            raise ValueError("foot kinematics series are misaligned")
+        supported = (
+            (clearance <= thresholds.support_height_m)
+            & (speed <= thresholds.support_speed_mps)
+        )
+        positions.append(forward[supported])
+    return np.concatenate(positions) if positions else np.zeros(0, dtype=float)
+
+
 def placeable_candidates(
     clip: Any,
     qpos: np.ndarray,
@@ -123,6 +162,7 @@ def placeable_candidates(
     route_xz: np.ndarray,
     *,
     target_min_prominence_m: float,
+    thresholds: Any,
     swing_side: str = EXPECTED_SWING_SIDE,
 ) -> list[dict[str, Any]]:
     """Gait-matched obstacle candidates: one per complete, placeable swing cycle.
@@ -141,6 +181,7 @@ def placeable_candidates(
         foot_kinematics[swing_side]["forward_representative_m"], dtype=float)
     if forward.shape != (len(qpos),) or not np.isfinite(forward).all():
         raise ValueError("swing-foot forward representative is invalid")
+    footfalls = support_footfall_positions(foot_kinematics, thresholds)
     candidates: list[dict[str, Any]] = []
     for cycle in clip.cycles:
         row: dict[str, Any] = {
@@ -181,6 +222,17 @@ def placeable_candidates(
             and obstacle_x + OBSTACLE_HALF_EXTENT_M < high
         ):
             row["rejection"] = "expanded_obstacle_outside_route"
+            candidates.append(row)
+            continue
+        nearest_footfall = (
+            float(np.min(np.abs(footfalls - obstacle_x))) if footfalls.size
+            else float("inf")
+        )
+        row["nearest_support_footfall_m"] = nearest_footfall
+        if nearest_footfall <= OBSTACLE_HALF_EXTENT_M:
+            # The swing arcs over this x, but a footfall of either foot lands inside the
+            # expanded footprint, so no arm - packet or nominal - can clear the box.
+            row["rejection"] = "support_footfall_inside_obstacle_footprint"
             candidates.append(row)
             continue
         row.update({
@@ -713,7 +765,7 @@ def run_pilot(
                     continue
                 for candidate in placeable_candidates(
                     clip, qpos, feet, routes_by_label[label],
-                    target_min_prominence_m=pmin,
+                    target_min_prominence_m=pmin, thresholds=thresholds,
                 ):
                     if candidate.get("placeable"):
                         probe = probe_constructibility(
@@ -932,14 +984,7 @@ def run_pilot(
             "seeds_with_complete_packet_pairs": complete_seeds,
             "arm_means": {
                 arm: {
-                    metric: (
-                        float(np.mean([
-                            float(row[metric]) for row in by_arm[arm].values()
-                            if metric in row
-                        ]))
-                        if any(metric in row for row in by_arm[arm].values())
-                        else None
-                    )
+                    metric: _mean_of_defined(by_arm[arm].values(), metric)
                     for metric in metrics_of_interest
                 }
                 for arm in ("nominal", *PACKET_ARMS)

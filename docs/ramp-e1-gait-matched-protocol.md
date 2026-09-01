@@ -48,8 +48,17 @@ representation only.
   solves `desired_root = route_progress(apex)` and the center shift is **exactly** zero
   rather than zero up to the ~1.4 cm root-tracking residual. A cycle is
   placeable when that obstacle lies strictly inside the clip's route with the simulation
-  body margin
-  (`route_lo < x − (depth/2 + margin)` and `x + (depth/2 + margin) < route_hi`). Per seed,
+  body margin (`route_lo < x − (depth/2 + margin)` and `x + (depth/2 + margin) < route_hi`)
+  **and its expanded footprint contains no support-phase footfall of either foot**
+  (`min |footfall_x − x| > depth/2 + margin`, over every frame where a foot meets the
+  locked support height and speed thresholds). The footfall rule is not a refinement: the
+  v3 attempt placed all eight obstacles at apexes whose footprints still contained a
+  footfall (nearest 0.007–0.115 m against a 0.140 m half-extent), so the robot planted a
+  foot inside the box and **every arm including the unmodified nominal** scored zero
+  whole-body clearance and collided — the comparison could not speak to representation at
+  all. Replay on the archived v3 pool: an apex-placed obstacle is footfall-free for only
+  43 % of candidates, while a footfall-free placement exists for 87 % of candidates and
+  25/32 seeds. Per seed,
   pooling strata, select the placeable cycle minimizing the frozen key:
   1. |x − route midpoint| (margin and autoregressive-history depth);
   2. −prominence;

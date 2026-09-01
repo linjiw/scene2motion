@@ -1,0 +1,149 @@
+{
+  "blocked": false,
+  "complete": false,
+  "design": {
+    "budget": "exactly 64 frozen-prior samples",
+    "conditioning": "route root_xz only; the reference-speed 7.2 m straight route",
+    "graded_heights_m": [
+      0.03,
+      0.05,
+      0.08,
+      0.12,
+      0.2,
+      0.3
+    ],
+    "pool_seeds": [
+      4400,
+      4401,
+      4402,
+      4403,
+      4404,
+      4405,
+      4406,
+      4407,
+      4408,
+      4409,
+      4410,
+      4411,
+      4412,
+      4413,
+      4414,
+      4415,
+      4416,
+      4417,
+      4418,
+      4419,
+      4420,
+      4421,
+      4422,
+      4423,
+      4424,
+      4425,
+      4426,
+      4427,
+      4428,
+      4429,
+      4430,
+      4431,
+      4432,
+      4433,
+      4434,
+      4435,
+      4436,
+      4437,
+      4438,
+      4439,
+      4440,
+      4441,
+      4442,
+      4443,
+      4444,
+      4445,
+      4446,
+      4447,
+      4448,
+      4449,
+      4450,
+      4451,
+      4452,
+      4453,
+      4454,
+      4455,
+      4456,
+      4457,
+      4458,
+      4459,
+      4460,
+      4461,
+      4462,
+      4463
+    ],
+    "prompt": "A person steps over an obstacle.",
+    "question": "joint distribution of (lift position, lift height) under text conditioning on a fixed route, and the best-of-N curve it implies",
+    "selection_radii_m": [
+      0.1,
+      0.25,
+      0.5
+    ],
+    "stage_scope": "kinematic only; no tracker claim"
+  },
+  "evidence_anchors": {
+    "qpos": {
+      "content_sha256": "b1110e9e8e780419a5103da23833f1b3747bf13e5c27cc8c0b43a81bec403246",
+      "n_arrays": 8,
+      "path": "qpos.npz"
+    },
+    "rows": {
+      "file_sha256": "28658ede051b516399f0b845ddf6bedc71ad0e2f38d3a3b5f910ec573c0464ae",
+      "logical_sha256": "42d56e967745d24ec706ed96c5707a89ec7e9ff9b9b2cb8e4f9f8ff7180413f2",
+      "n_rows": 8,
+      "path": "rows.jsonl"
+    }
+  },
+  "experiment": "exp021_elicited_lift_distribution",
+  "provenance": {
+    "code": {
+      "commit": "cde0246fc89d45cb71f23fa6b8b3d8729ec00e6b",
+      "dirty": false,
+      "status": [],
+      "tracked_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "physical_threshold_dependency": {
+      "fields": {
+        "evidentiary_role": "fixed-common-support-dependency-only",
+        "experiment": "stepover_threshold_calibration",
+        "file_sha256": "f6dba8be84a9d5d0b76c8114d4b93b1707bc1bb8a6fec1a26a22aa1780a6e9bf",
+        "locked_expected_file_sha256": "f6dba8be84a9d5d0b76c8114d4b93b1707bc1bb8a6fec1a26a22aa1780a6e9bf",
+        "locked_expected_normalized_receipt_sha256": "0f6365718b6dd31aace2addca613777a6bb18bb343a1de92ed16694f6d024e7c",
+        "n_accepted": 265,
+        "n_clips": 284,
+        "new_confirmatory_evidence_for_support_thresholds": false,
+        "normalized_receipt_sha256": "0f6365718b6dd31aace2addca613777a6bb18bb343a1de92ed16694f6d024e7c",
+        "path": "outputs/exp016_threshold_calibration/receipt.json",
+        "status": "calibrated",
+        "thresholds": {
+          "corridor_longitudinal_pad_m": 0.3,
+          "landing_dwell_s": 0.12,
+          "landing_horizon_s": 0.75,
+          "lateral_corridor_half_width_m": 0.3,
+          "max_floor_penetration_m": 0.02,
+          "max_unsupported_run_s": 0.2,
+          "min_contralateral_support_fraction": 0.9,
+          "support_height_m": 0.04649341314007449,
+          "support_speed_mps": 1.1753078750567545
+        }
+      },
+      "schema": "ramp-fixed-common-support-dependency-v1",
+      "sha256": "1b10351e34aaafc788e8bd7a176a6b2e2cc43adbefa496ada04656d9efc4adf5"
+    }
+  },
+  "query_accounting": {
+    "generate_invocations": 2,
+    "samples_launched": 16,
+    "samples_returned": 8
+  },
+  "schema": "exp021-elicited-lift-distribution-v1",
+  "stage": "generation",
+  "status": "running",
+  "wall_clock_s": 63.265497602013056
+}

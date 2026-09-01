@@ -1426,3 +1426,56 @@ packet path and pivot to correcting the realized response. The positive reading 
 this is exactly a response-space error — signed, directional, measurable from the
 generated clip — which is the signal a response-conditioned repair policy consumes. E1's
 negative motivates E2 directly rather than ending the line.
+
+## 36. The packet is a style cue — and it is worse than the prompt alone
+
+Four controls on top of §35, three of them replays of the archived 24 clips (arm clips
+byte-identical, 16/16) and one an 8-sample matched control. Full note:
+`docs/ramp-e1a-controls-2026-09-01.md`.
+
+**Placement does not respond to the request.** Regressing realized lift position on
+requested obstacle position gives slope −0.44 (absolute) and +0.02 (residual) where
+perfect placement is 1.0. The signed error is not consistently signed (4 after / 4 before,
+sd 2.43 m), so no open-loop lead exists. The two arms land within 0.25 m of each other in
+5/8 seeds despite different payloads — the lift belongs to the seed, not the request. Any
+clearance at the obstacle: 0/16, Wilson95 upper 0.19. The error is not stride-quantized
+(mean |frac| 0.277 vs 0.25 uniform), so selection is not rescued by lattice structure.
+
+**The command is never satisfied.** Compliance at the constrained (frame, joint) pairs —
+1 met, 0 stayed at nominal, negative moved away — is **−0.26** (absolute) and **−0.44**
+(residual) for rotations: the clips end further from the command than the nominal was.
+Root height, the historically clean channel, is +0.20/+0.14 on a 2.3 cm request at the
+tracking noise floor. Sweeping lags −40…+80 frames, **0/16 clips match the command better
+than nominal at any lag**; best lag is median +1 and correlates *negatively* with placement
+error (r = −0.48) where delayed execution predicts +1. The packet is not late — it is
+unread.
+
+**The world cannot be anchored by shifting the start.** ARDY is not translation-equivariant
+along the route: offsetting by 0.5/1.3 m gives max |qpos − shifted| of 1.4–3.5, with the
+start pinned near the origin and the endpoint moving. A route offset is absorbed as a
+speed change — the same mechanism that made exp018's warp re-plan the gait.
+
+**The control that matters (exp020, 8 samples).** Same seeds, strata, routes and endpoint
+vector, STEP prompt with route conditioning only:
+
+| arm | elicits | mean lift | max lift | clears obstacle |
+|---|---:|---:|---:|---:|
+| nominal (WALK) | 3/8 | 0.0019 m | 0.0050 m | 0/8 |
+| **text only (STEP)** | **7/8** | **0.1213 m** | **0.2118 m** | **3/8** |
+| STEP + absolute packet | 8/8 | 0.0721 m | 0.1377 m | 0/8 |
+| STEP + residual packet | 8/8 | 0.0609 m | 0.1439 m | 0/8 |
+
+Paired per seed, text-only beats the packets on amplitude by a median **+6.0 cm** and
+**+6.8 cm** (6/8 seeds each), and clears a 5 cm box in 3/8 scenes where both packet arms
+clear 0/8. **The coherent packet is not neutral but harmful**: it adds elicitation the
+prompt already gives, halves the amplitude, and removes the prompt's only successes —
+exactly what the negative compliance predicts, since its rotation targets sit off the
+prior's own coordinated manifold.
+
+This answers E2's first two planned steps without spending a campaign on them: placement
+gain is zero, and a re-anchoring fixed-point loop presumes a command honored somewhere,
+which the lag sweep rules out. What survives is measure-then-select. exp021 measures the
+joint distribution of (lift position, lift height) over 64 text-conditioned clips to size
+it. Two harness changes adopted: the box-height endpoint is reported **graded**
+(0.03–0.30 m), and the tracker belongs in the endpoint before any 5–7 cm claim, since the
+kinematic endpoint is ambiguous at that amplitude.

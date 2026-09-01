@@ -34,20 +34,25 @@ representation only.
 * **Donor bundle:** exp017's archived bank, regenerated deterministically and required to
   reproduce the archived clip hashes, selected seed (2603), swing side (left), center
   frame, and packet payload content hash — same gates as exp018. 2D = 8 samples.
-* **Nominal pool (v3):** K = 32 fresh seeds 4100–4131, disjoint from all prior campaigns,
-  each at the three calibrated speeds (twelve batches of eight) on that stratum's own
-  constant route (4.776 / 7.200 / 9.552 m). 3K = 96 samples. K is sized to the
+* **Nominal pool (v5):** K = 64 fresh seeds 4300–4363, disjoint from all prior campaigns,
+  each at the three calibrated speeds (twenty-four batches of eight) on that stratum's own
+  constant route (4.776 / 7.200 / 9.552 m). 3K = 192 samples. K is sized to the
   *joint* rate of footfall-free placement and packet constructibility, which are
-  anti-correlated: individually ~21/32 and ~17/32, jointly 6/32 with the obstacle pinned
-  to the apex but **13/32** once it may sit at the footfall-free route frame nearest the
-  apex within the packet's own half-window (see
-  `docs/ramp-exp019-constructibility-2026-09-01.md`). Expected yield ≈ 13 against the
-  requirement below. Seeds 3900–3915 and 4000–4031 are closed.
+  anti-correlated (footfall clearance wants long strides, constructibility wants the 8–9
+  frame target swings). Three independent K=32 pools through the real harness measured
+  **6/32, 6/32 and 5/32 ≈ 17 %** (an earlier 13/32 offline replay estimate is retracted;
+  see `docs/ramp-exp019-constructibility-2026-09-01.md`), so K = 64 yields ≈ 11 expected
+  against the requirement below. Seeds 3900–3915, 4000–4031, 4100–4131 and 4200–4231 are
+  closed.
 * **Outcome-free placement selection.** For each pool clip, enumerate complete left-swing
   cycles under the frozen v3 Pmin (0.042 m) and the ±2-frame packet window. The obstacle
-  is placed at `x = route_progress(f) + foot_offset` for the route frame `f` nearest the
-  apex within `±2` frames (the packet's own half-window, and well inside exp017's ±8 gate)
-  whose footprint is footfall-free; where
+  is placed at `x = route_progress(f) + foot_offset` for a route frame `f` within `±2`
+  frames of the apex (the packet's own half-window, well inside exp017's ±8 gate) whose
+  footprint is footfall-free. **Every** such frame becomes its own candidate and is probed
+  independently: committing to the frame merely nearest the apex loses about half the
+  eligible seeds, because footfall clearance and constructibility are anti-correlated.
+  Mid-route distance is scored once per cycle at its apex, so all frames of one cycle
+  share it and |shift| decides between them; where
   `foot_offset = foot_x(apex) − root_x(apex)` — the swing foot's apex position measured
   against the *prescribed* route rather than the achieved root, so exp017's assignment
   solves `desired_root = route_progress(f)` and the center shift is **exactly** `f − apex`
@@ -67,7 +72,8 @@ representation only.
   43 % of candidates, while a footfall-free placement exists for 87 % of candidates and
   25/32 seeds. Per seed,
   pooling strata, select the placeable cycle minimizing the frozen key:
-  1. |x − route midpoint| (margin and autoregressive-history depth);
+  1. |apex obstacle x − route midpoint|, a per-cycle cost (margin and
+     autoregressive-history depth);
   2. |center shift| (prefer the obstacle exactly at the apex);
   3. −prominence;
   4. stratum order (reference, slow, fast);
@@ -95,7 +101,7 @@ representation only.
   is scored against the same obstacle, answering whether either packet adds clearance over
   the gait that was already there.
 
-Completed budget: `2D + 3K + 2N = 8 + 96 + 16 = 120` frozen-prior samples, exact
+Completed budget: `2D + 3K + 2N = 8 + 192 + 16 = 216` frozen-prior samples, exact
 accounting; every planned arm stays in its denominator.
 
 ## Endpoints and analysis

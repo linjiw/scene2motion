@@ -37,8 +37,8 @@ from scene2motion.runner import ArdyRunner  # noqa: E402
 from scene2motion.stepover_eval import BoxHeightProbe, foot_kinematics_series  # noqa: E402
 
 
-SCHEMA_VERSION = "exp019-gait-matched-stepover-v4"
-FAILURE_SCHEMA_VERSION = "exp019-gait-matched-stepover-failure-v4"
+SCHEMA_VERSION = "exp019-gait-matched-stepover-v5"
+FAILURE_SCHEMA_VERSION = "exp019-gait-matched-stepover-failure-v5"
 
 WALK = e17.WALK
 STEP = e17.STEP
@@ -47,14 +47,14 @@ FPS = cal.FPS
 N_FRAMES = cal.N_FRAMES
 
 DONOR_SEEDS = e18.DONOR_SEEDS
-# v3 pool.  Sized to the *joint* rate of footfall-free placement and packet
-# constructibility, which are anti-correlated: individually ~21/32 and ~17/32, jointly
-# 6/32 at a pinned apex placement but 13/32 once the obstacle may sit at the
-# footfall-free frame nearest the apex within the packet's own half-window.  Seeds
-# 4000-4031 and 4100-4131 are closed (their outcomes were observed; the 4100 pool ran a
-# stricter variant that committed to the nearest footfall-free frame instead of searching
-# the window for one that also builds, and returned 6/32).
-POOL_SEEDS = tuple(range(4200, 4232))
+# v5 pool.  Three independent K=32 pools measured the joint rate of footfall-free
+# placement and packet constructibility at 6/32, 6/32 and 5/32 - about 17%, not the 40%
+# a permissive offline replay had suggested (that estimate is retracted; see
+# docs/ramp-exp019-constructibility-2026-09-01.md).  The two requirements are
+# anti-correlated: footfall clearance wants long strides, constructibility wants the
+# 8-9 frame target swings.  K=64 therefore yields ~11 expected against N=8.  Seeds
+# 4000-4031, 4100-4131 and 4200-4231 are closed.
+POOL_SEEDS = tuple(range(4300, 4364))
 POOL_BATCH_SIZE = 8
 N_SELECT = 8
 EXPECTED_SWING_SIDE = e18.EXPECTED_SWING_SIDE
@@ -63,10 +63,9 @@ STRATUM_ORDER = cal.STRATUM_SELECTION_ORDER
 OBSTACLE_HEIGHT_M = e18.OBSTACLE_HEIGHT_M
 OBSTACLE_DEPTH_M = e18.OBSTACLE_DEPTH_M
 HALF_WINDOW_FRAMES = e18.HALF_WINDOW_FRAMES
-# The obstacle sits at the footfall-free route frame nearest the swing apex, searched
-# within the packet's own half-window.  Pinning it to the apex exactly (shift 0) leaves
-# only 6/32 seeds jointly placeable and constructible; +/-2 gives 13/32.  This is well
-# inside exp017's +/-8 gate and never exceeds the packet's temporal footprint.
+# The obstacle sits at a footfall-free route frame within the packet's own half-window of
+# the swing apex; every such frame is probed and the selection key prefers the apex.  This
+# is well inside exp017's +/-8 gate and never exceeds the packet's temporal footprint.
 MAX_CENTER_SHIFT_FRAMES = HALF_WINDOW_FRAMES
 SUPPORT_WINDOW_S = e18.SUPPORT_WINDOW_S
 DONOR_MIN_RELATIVE_LIFT_M = e18.DONOR_MIN_RELATIVE_LIFT_M

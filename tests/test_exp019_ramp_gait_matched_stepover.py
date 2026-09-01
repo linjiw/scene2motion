@@ -88,14 +88,14 @@ def test_pool_plan_and_seeds_are_fresh_and_budget_is_exact():
         set(range(3400, 3416)) | set(range(3500, 3508)) | \
         set(range(3600, 3616)) | set(range(3700, 3708)) | \
         set(range(3800, 3816)) | set(range(3900, 3916)) | set(range(4000, 4032)) | \
-        set(range(4100, 4132)) | \
+        set(range(4100, 4132)) | set(range(4200, 4232)) | \
         set(range(2800, 2808)) | set(pilot.DONOR_SEEDS)
     assert set(pilot.POOL_SEEDS).isdisjoint(prior)
-    # v2 pool sized to the measured 5/16 constructibility rate: K=32 -> ~10 expected
-    # against the unchanged N=8 requirement.
-    assert len(pilot.POOL_SEEDS) == 32 and pilot.N_SELECT == 8
+    # Pool sized to the joint placement/constructibility rate measured across three
+    # independent K=32 pools (6/32, 6/32, 5/32 ~ 17%): K=64 -> ~11 expected against N=8.
+    assert len(pilot.POOL_SEEDS) == 64 and pilot.N_SELECT == 8
     assert 2 * len(pilot.DONOR_SEEDS) + 3 * len(pilot.POOL_SEEDS) \
-        + 2 * pilot.N_SELECT == 120
+        + 2 * pilot.N_SELECT == 216
 
 
 def test_placement_is_route_anchored_so_exp017_shift_is_exactly_zero():

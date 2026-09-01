@@ -94,14 +94,23 @@ swings above while footfall-free footprints want longer strides:
 | **both, same within ±2 (the packet half-window)** | **13/32** |
 | both, same within ±4 | 14/32 |
 
-The v3 protocol therefore lets the obstacle sit at the footfall-free route frame nearest
-the apex within ±2 frames — the packet's own temporal footprint, and a quarter of exp017's
-±8 gate — with |shift| entering the outcome-free selection key so an exactly-at-apex
-placement still wins when one exists. Seeds 4000–4031 are closed; the rerun uses
-4100–4131.
+The protocol therefore lets the obstacle sit at any footfall-free route frame within ±2
+frames of the apex — the packet's own temporal footprint, a quarter of exp017's ±8 gate —
+probing every such frame, with |shift| in the outcome-free key so an exactly-at-apex
+placement still wins when one exists.
 
-**The standing finding, independent of what the comparison shows:** for this frozen prior
-and this donor bundle, a scene where the step-over packet is both *applicable* and
-*winnable* exists for roughly **40 %** of walk seeds, and only because the obstacle is
-allowed to follow the gait. That number, not any residual-minus-absolute delta, is the
-honest headline about how far a coherent packet extends the prior's usable capability.
+## Retraction: the 13/32 replay estimate was not reproducible
+
+The ±2 row above (13/32) came from an offline replay and **is retracted**. Three
+independent fresh K=32 pools run through the real harness measured **6/32, 6/32 and
+5/32** — the last with every footfall-free frame probed, which was the one implementation
+difference the replay had exploited. The replay was permissive in some way I could not
+reproduce, and three real pools outweigh it.
+
+**The standing finding, independent of what the comparison eventually shows:** for this
+frozen prior and this donor bundle, a scene where the step-over packet is both
+*applicable* and *winnable* exists for roughly **one walk seed in six** (≈ 17 %), and only
+because the obstacle is allowed to follow the gait rather than the reverse. That rate, not
+any residual-minus-absolute delta, is the honest headline about how far a coherent packet
+extends the prior's usable capability. Pools 4000–4031, 4100–4131 and 4200–4231 are
+closed; K = 64 (seeds 4300–4363) yields ~11 expected against N = 8.

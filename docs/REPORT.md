@@ -1672,3 +1672,21 @@ often, later, and unplaced". The handoff-transmission statistic (delayed prompts
 post-switch joints by 0.14–0.20 rad RMS; prefix exactly zero) removes attenuation as the
 leading alternative. `all_walk` specificity held (0/8 sidestep, 0/8 step events).
 
+## 42. EXP-024 kinematic stage: the float under every native root contract; predictions frozen before SONIC
+
+Fresh seeds 4600–4631 × {free, pin_h, pin_y, pin_yh} (128 references, 16 paired B=8 calls),
+scored on CPU and the per-clip gate predictions committed before any launch
+(`outputs/exp024_reference_contract/predictions.jsonl`, sha `18a2fb14…`, HEAD blob `51e1a5a`;
+note `docs/ramp-exp024-kinematic-stage-2026-09-02.md`). The `free` arm replicates exp021
+prospectively (elicitation 23/32 = 0.72 vs 44/64 = 0.69 at ≥ 3 cm; exact 5 cm at the
+preregistered 1.2 m centre 7/32 = 0.22 vs 12/64 = 0.19): P2 passes. Every arm is constructible
+by its preregistered criterion, and **no clip in any arm is contact-consistent** (0/32 × 4), so
+P4 is NO-GO before tracking: the prompt elicits a bilateral no-support run under all four native
+root contracts. Pinning root height shortens the median run (0.48 → 0.36 / 0.22 s), lowers the
+root peak (0.955 → 0.78 m) and elicitation (0.72 → 0.59 / 0.34) but leaves 16–24/32 flagged;
+pinning heading alone lengthens the run (0.74 s) and raises elicitation (27/32). P1's 2×2 has
+95 flagged and 33 passed references waiting for the SONIC stage. Process note: the score stage
+was blocked twice by provenance refusals unrelated to the data (agent worktrees under
+`.claude/`, then the driver's own resume path); the resume path added in `a95e8f6` preserves
+both blocked attempts and re-scored eight rows byte-identically.
+

@@ -26,3 +26,9 @@ recorded the check here. Un-ticked rows cannot be cited.
 
 Paper text itself (`docs/paper-*.md` and the LaTeX source, when created) gets one row per
 section; figures one row each; the released dataset README one row.
+| 2026-09-02 | `docs/paper-sections-2026-09-02.md` (§4, §6, §7 drafts) | Claude | ledgers named inline; pending slots marked | | | 44/64 elicitation at ≥ 3 cm |
+| 2026-09-02 | `experiments/fig_channel_funnel.py` → `docs/figures/fig2_channel_funnel.*` | Claude (subagent) | exp021/exp1c/exp019 v7/exp020/exp023/023b/EXP-022A (hashes in numbers JSON) | | | counts asserted against receipts at render |
+| 2026-09-02 | `experiments/fig_channel_response.py` → `docs/figures/fig3_channel_response.*` | Claude (subagent) | exp019 v7 analyses, exp1c, exp020, exp021 | | | root-height dose–response omitted (v1-only artifact) |
+| 2026-09-02 | `docs/note-guided-diffusion-feasibility.md` | Claude (subagent) | ARDY code at 693f74d (file:line cited); receipts named | | | estimates labelled; probe timings uncommitted |
+| 2026-09-02 | `docs/ramp-exp024-kinematic-stage-2026-09-02.md`, REPORT §42 | Claude | `outputs/exp024_reference_contract/receipt.json` | | | |
+

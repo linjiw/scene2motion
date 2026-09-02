@@ -887,3 +887,47 @@ def test_validated_reference_score_rejects_missing_endpoints():
     broken["gate_predictions"]["secondary_threshold_s"] = 0.32
     with pytest.raises(ValueError, match="locked rules"):
         exp.validated_reference_score(broken)
+
+
+def test_score_resumes_after_a_provenance_refusal_and_preserves_the_blocked_attempt(tmp_path):
+    output = tmp_path / "resume"
+    exp.run_generate(**generate_kwargs(output))
+    exp.run_score(**score_kwargs(output))
+    rows_before = (output / "rows.jsonl").read_bytes()
+    ledger = exp.Ledger.load(output)
+    ledger.fail("score", ValueError("worktree changed outside the campaign output: ?? .claude/"),
+                "score_summary")
+    blocked = json.loads((output / "receipt.json").read_text())
+    assert blocked["blocked"] is True and blocked["failed_stage"] == "score_summary"
+    with pytest.raises(exp.CampaignAbort, match="blocked"):
+        exp.run_score(**score_kwargs(output))
+    with pytest.raises(exp.CampaignAbort, match="blocked"):
+        exp.run_predict(out=output)
+    resumed = exp.run_score(**score_kwargs(output), resume_blocked=True)
+    assert resumed["blocked"] is False and resumed["schema"] == exp.SCHEMA_VERSION
+    assert "failed_stage" not in resumed and "error" not in resumed
+    score = resumed["stages"]["score"]
+    assert score["status"] == "complete" and score["scored"] == exp.N_ROWS
+    assert score["resumed_after_harness_defect"]["failed_stage"] == "score_summary"
+    assert score["resume_rescoring_verification"]["identical"] is True
+    assert score["resume_rescoring_verification"]["n_rescored"] == 8
+    history = resumed["resume_history"]
+    assert len(history) == 1 and history[0]["resumed_stage"] == "score"
+    assert (output / "receipt.blocked-score-0.json").is_file()
+    preserved = json.loads((output / "receipt.blocked-score-0.json").read_text())
+    assert preserved["blocked"] is True and preserved["error"] == blocked["error"]
+    assert (output / "rows.blocked-score-0.jsonl").read_bytes() == rows_before
+    # Scored rows are unchanged by the resume and the later stages proceed normally.
+    assert (output / "rows.jsonl").read_bytes() == rows_before
+    assert exp.run_predict(out=output)["predictions"]["n"] == exp.N_ROWS
+
+
+def test_score_resume_refuses_a_non_resumable_block(tmp_path):
+    output = tmp_path / "nonresumable"
+    exp.run_generate(**generate_kwargs(output))
+    ledger = exp.Ledger.load(output)
+    ledger.fail("score", ValueError("threshold dependency identity differs from the generation stage"),
+                "score_preflight")
+    with pytest.raises(exp.CampaignAbort, match="blocked"):
+        exp.run_score(**score_kwargs(output), resume_blocked=True)
+    assert not (output / "receipt.blocked-score-0.json").exists()

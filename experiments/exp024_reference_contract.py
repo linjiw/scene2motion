@@ -36,6 +36,7 @@ import hashlib
 import json
 import math
 import os
+import shutil
 import subprocess
 import sys
 import time
@@ -180,6 +181,10 @@ THRESHOLD_RECEIPT_PATH = ROOT / "outputs/exp016_threshold_calibration/receipt.js
 THRESHOLD_RECEIPT_SHA256 = cal.PHYSICAL_THRESHOLD_RECEIPT_FILE_SHA256
 
 STAGES = ("generate", "score", "predict", "sonic", "analyze")
+# A blocked *score* stage may be resumed only when the recorded error is one of these
+# environment/harness refusals, which involve no clip, seed or scoring data (house rule: finish a
+# campaign killed during analysis by re-scoring byte-identical archives, never by regenerating).
+RESUMABLE_SCORE_DEFECTS = ("worktree changed outside the campaign output",)
 SOURCE_FILES = (
     PROTOCOL_PATH,
     "env.sh",
@@ -1253,7 +1258,13 @@ def _read_jsonl(path: Path) -> list[dict[str, Any]]:
         raise CampaignAbort(f"invalid JSONL artifact {path}: {exc}") from exc
 
 
-def _read_receipt(output: Path) -> dict[str, Any]:
+def _is_resumable_blocked_score(receipt: Mapping[str, Any]) -> bool:
+    return (receipt.get("blocked") is True
+            and str(receipt.get("failed_stage", "")).startswith("score")
+            and any(marker in str(receipt.get("error", "")) for marker in RESUMABLE_SCORE_DEFECTS))
+
+
+def _read_receipt(output: Path, *, allow_blocked_score_resume: bool = False) -> dict[str, Any]:
     path = output / "receipt.json"
     if not path.is_file():
         raise CampaignAbort(f"no EXP-024 receipt at {path}; run --stage generate first")
@@ -1264,6 +1275,8 @@ def _read_receipt(output: Path) -> dict[str, Any]:
     if not isinstance(receipt, dict) or receipt.get("experiment") != EXPERIMENT:
         raise CampaignAbort("existing output is not an EXP-024 campaign")
     if receipt.get("blocked") is True:
+        if allow_blocked_score_resume and _is_resumable_blocked_score(receipt):
+            return receipt
         raise CampaignAbort(
             "existing EXP-024 campaign is blocked; preserve it and use fresh output")
     return receipt
@@ -1289,8 +1302,8 @@ class Ledger:
         self.file_hashes: dict[str, str | None] = {}
 
     @classmethod
-    def load(cls, output: Path) -> "Ledger":
-        receipt = _read_receipt(output)
+    def load(cls, output: Path, *, allow_blocked_score_resume: bool = False) -> "Ledger":
+        receipt = _read_receipt(output, allow_blocked_score_resume=allow_blocked_score_resume)
         rows = _read_jsonl(output / "rows.jsonl")
         anchors = receipt.get("evidence_anchors", {}).get("rows", {})
         if (anchors.get("n_rows") != len(rows)
@@ -1324,6 +1337,48 @@ class Ledger:
             self.receipt["stage"] = stage_label
         self.receipt["wall_clock_s"] = float(time.monotonic() - self.started)
         cal._write_json(self.output / "receipt.json", self.receipt)
+
+    def begin_resume_after_harness_defect(self, stage_name: str) -> dict[str, Any]:
+        """Preserve the blocked attempt beside the ledger and re-open the stage.
+
+        Only a blocked stage whose error is in ``RESUMABLE_SCORE_DEFECTS`` reaches here: the
+        generation archive, seeds and scored rows are untouched, so the resume re-runs the stage
+        from byte-identical sources and records itself in ``resume_history``.
+        """
+        if not _is_resumable_blocked_score(self.receipt):
+            raise CampaignAbort("this blocked EXP-024 campaign is not resumable: "
+                                f"{self.receipt.get('failed_stage')!r}: {self.receipt.get('error')!r}")
+        index = len(self.receipt.get("resume_history", []))
+        preserved: list[str] = []
+        for name in ("receipt.json", "rows.jsonl"):
+            src = self.output / name
+            if src.is_file():
+                dst = self.output / f"{src.stem}.blocked-{stage_name}-{index}{src.suffix}"
+                shutil.copyfile(src, dst)
+                preserved.append(dst.name)
+        entry = {
+            "resumed_stage": stage_name,
+            "failed_stage": self.receipt.get("failed_stage"),
+            "error_type": self.receipt.get("error_type"),
+            "error": self.receipt.get("error"),
+            "preserved_files": preserved,
+            "at_unix_s": time.time(),
+            "reason": ("environment/harness refusal on a path outside the campaign output; "
+                       "no clip, seed or score was involved, so the stage is re-run from the "
+                       "byte-identical archive"),
+        }
+        self.receipt.setdefault("resume_history", []).append(entry)
+        self.receipt.update({"schema": SCHEMA_VERSION, "status": "running", "complete": False,
+                             "blocked": False})
+        for key in ("failed_stage", "error_type", "error"):
+            self.receipt.pop(key, None)
+        stage = self.stage(stage_name)
+        for key in ("error", "error_type"):
+            stage.pop(key, None)
+        stage["status"] = "resuming"
+        stage["resumed_after_harness_defect"] = entry
+        self.persist(stage_label=f"{stage_name}_resume")
+        return entry
 
     def fail(self, stage_name: str, exc: BaseException, stage_label: str) -> None:
         self.stage(stage_name).update({
@@ -1750,10 +1805,21 @@ def run_score(
     threshold_dependency_fn: Callable[[], tuple[Any, Mapping[str, Any]]] = _threshold_dependency,
     scoring_context_fn: Callable[..., Any] = build_scoring_context,
     reference_scorer_fn: Callable[[np.ndarray, str, Any], Mapping[str, Any]] = score_reference_clip,
+    resume_blocked: bool = False,
+    resume_verify_rows: int = 8,
 ) -> dict[str, Any]:
-    """Stage 2: CPU reference endpoints for every clip, written before any tracker stage."""
+    """Stage 2: CPU reference endpoints for every clip, written before any tracker stage.
+
+    ``resume_blocked`` re-opens a score stage blocked by a resumable environment refusal
+    (``RESUMABLE_SCORE_DEFECTS``): the blocked receipt and rows are preserved beside the
+    ledger, already-scored rows are kept, and ``resume_verify_rows`` of them are re-scored and
+    must reproduce byte-for-byte.
+    """
     output = Path(out)
-    ledger = Ledger.load(output)
+    ledger = Ledger.load(output, allow_blocked_score_resume=resume_blocked)
+    resume_entry: dict[str, Any] | None = None
+    if ledger.receipt.get("blocked") is True:
+        resume_entry = ledger.begin_resume_after_harness_defect("score")
     if ledger.stage("score").get("status") == "complete":
         _validate_generation_archive(ledger)
         return ledger.receipt
@@ -1790,6 +1856,20 @@ def run_score(
                 ledger.persist(stage_label="scoring")
         if sum(1 for row in ledger.rows if row.get("reference") is not None) != N_ROWS:
             raise ValueError("reference scoring did not preserve the planned denominator")
+        if resume_entry is not None and resume_verify_rows > 0:
+            stage_label = "score_resume_verification"
+            step = max(1, N_ROWS // int(resume_verify_rows))
+            checked: list[dict[str, Any]] = []
+            for row in ledger.rows[::step][:int(resume_verify_rows)]:
+                again = validated_reference_score(
+                    reference_scorer_fn(clips[row["archive_key"]], str(row["arm"]), ctx))
+                same = cal._json_hash(again) == cal._json_hash(row["reference"])
+                checked.append({"archive_key": row["archive_key"], "identical": bool(same)})
+                if not same:
+                    raise ValueError(f"resumed re-scoring of {row['archive_key']} differs from the "
+                                     "preserved blocked attempt")
+            stage["resume_rescoring_verification"] = {
+                "n_rescored": len(checked), "identical": True, "rows": checked}
         stage_label = "score_summary"
         constructibility = arm_constructibility(ledger.rows)
         records = clip_records(ledger.rows, [])
@@ -2235,6 +2315,9 @@ def _parser() -> argparse.ArgumentParser:
     parser.add_argument("--timeout-s", type=int, default=2400)
     parser.add_argument("--resume", action="store_true",
                         help="continue the SONIC stage of an existing directory")
+    parser.add_argument("--resume-blocked-score", action="store_true",
+                        help="re-open a score stage blocked by a resumable environment "
+                             "refusal (preserves the blocked attempt beside the ledger)")
     parser.add_argument("--require-committed-predictions", action="store_true",
                         help="refuse SONIC unless predictions.jsonl is committed at HEAD")
     parser.add_argument("--dry-run", action="store_true")
@@ -2276,7 +2359,8 @@ def main(argv: Sequence[str] | None = None) -> None:
                 show({"stage": "generate", "status": receipt["stages"]["generate"]["status"],
                       "actual_ardy_samples": receipt["actual_ardy_samples"]})
             elif stage == "score":
-                score_stage = run_score(out=args.out)["stages"]["score"]
+                score_stage = run_score(
+                    out=args.out, resume_blocked=args.resume_blocked_score)["stages"]["score"]
                 show({"stage": "score", "constructibility": score_stage["constructibility"],
                       "per_arm": score_stage["reference_summary_per_arm"]})
             elif stage == "predict":

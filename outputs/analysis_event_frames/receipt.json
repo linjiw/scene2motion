@@ -1,0 +1,7055 @@
+{
+ "analysis": "event_frames",
+ "blocked": false,
+ "code": {
+  "commit": "0923c54e91622efe1af28294a19708f62cb4d868",
+  "dirty": true,
+  "status": [
+   " M docs/ramp-exp023b-prompt-switch-positive-control-protocol.md",
+   " M experiments/analyze_trackability_contract.py",
+   "?? experiments/analyze_event_frames.py",
+   "?? experiments/exp023b_prompt_switch_control.py",
+   "?? experiments/exp024_reference_contract.py",
+   "?? tests/test_analyze_event_frames.py",
+   "?? tests/test_exp023b_prompt_switch_control.py"
+  ],
+  "tracked_diff_sha256": "a98f3adbfdc08b6675df41be6b5ca32cf1675b83d8ff9592e0f729cc3ef9e540"
+ },
+ "complete": true,
+ "definitions": {
+  "A_root_crossing_frame": "first frame at which qpos[:, 0] >= lift_x_m (None if the root never reaches it)",
+  "B_nominal_frame": "lift_x_m / 0.904523 m/s * 25 fps, the real-valued frame at which the prescribed route reaches lift_x_m; rounded = numpy rint (half to even), floor and ceil also reported",
+  "C0_window_frame": "same maximum restricted to |forward representative - lift_x_m| <= 0.14 m (exactly the lift_side window); sensitivity check on the region choice",
+  "C_foot_lift_frame": "frame of maximum bottom clearance of the lift_side foot among frames whose forward representative lies in [region_lo - 0.14 m, region_hi + 0.14 m], where [region_lo, region_hi] is the contiguous positive run of the profile containing lift_x_m and 0.14 m = depth/2 + BODY_MARGIN is lift_side's own window; ties -> earliest frame",
+  "C_nosupport_run": "the bilateral no-support run (neither foot inside the calibrated support envelope: bottom <= 0.0465 m and planar speed <= 1.175 m/s; analyze_trackability_contract.support_masks) that contains the C frame; onset = its first frame",
+  "after_frame_60": "frame > 60 (t > 2.4 s); real-valued B compared as B > 60",
+  "exp023_archived_event_vs_this_analysis": "EXP-023's event uses a 96-frame post-onset window, rescans that window's route segment at 120 points (a different grid), requires both physical feet to cross the slab, selects the tallest traversed profile point (earliest on ties) and takes the crossing frame with the highest foot bottom; this analysis scans the whole 200-frame clip on EXP-021's grid, needs no traversal, and takes the peak-clearance frame inside the region.  They are compared, not equated.",
+  "forward_axis": "MuJoCo world x = qpos[:, 0]; the route is prescribed along route_xz[:, 1] (ARDY z) and BoxHeightProbe places the box at world x",
+  "fps": 25.0,
+  "frame_to_seconds": "t = frame / 25; frame 0 is t = 0 (first generated frame)",
+  "inside_first_50_frames": "frame < 50 (t < 2.0 s); real-valued B compared as B < 50",
+  "intervals": "Wilson 95 % on every count, over the planned and the present denominators",
+  "lift_x_m": "EXP-021 definition, recomputed byte-identically: argmax of box_height_profile(qpos, route, depth=0.20, n_points=120) over the scan [route start + 0.3 m, route end - 0.3 m] = [0.3, 6.9] m (step 0.0555 m); a clip 'lifts' when any profile point is positive (>= the 5 mm probe resolution)",
+  "non_lifting_clips": "frame of the highest foot bottom over the whole clip (either foot); labelled as not an event",
+  "planned_denominators": {
+   "exp021": "49 lifting clips of 64 (lift_x_m not null); the 44 with lift >= 3 cm are a secondary stratum; the 15 non-lifting clips are reported separately and are not events",
+   "exp023": "8 seeds per arm; step_0 archived events 6/8; A/B/C on every clip whose full-clip profile lifts"
+  },
+  "quantiles": "numpy linear interpolation; median = q50",
+  "stage": "post hoc CPU analysis of completed archives; no generator; no tracker"
+ },
+ "generated_at_unix": 1788324052.4915307,
+ "identity": {
+  "body_margin_m": 0.04,
+  "g1_xml_path": "/home/linjiw/ardy/ardy/assets/skeletons/g1skel34/xml/g1.xml",
+  "g1_xml_sha256": "5d76cf92f00dd49d6eb9fae38d7d38e46886848b602ac691051e886c3bcccfb1",
+  "injected": false,
+  "locked_function_source_sha256": {
+   "analyze_trackability_contract.runs_of": "a816ddd96103e108528dddac25e7983eaee08ba965895b04b5d8ba5e19ee4a89",
+   "analyze_trackability_contract.support_masks": "7aeef6f225e4c73947e32cb6015da614f8de1ce6da84c9ff7856d24e1762db86"
+  },
+  "locked_source_sha256": {
+   "experiments/analyze_e1a_placement.py": "acef09868fec794ecdbd85f8b297ea40a458c2bd85b66eec31db1d6b9c4d5eaa",
+   "experiments/calibrate_ramp_route_phase.py": "ccbf5a13a78578c31579121650ab9378468c5b73e8c61c758a7c9cc9b503c26a",
+   "scene2motion/robot.py": "c12b59a999969dd910e0aaef25322695d247bd392899394dd5d35cfc1252fc82",
+   "scene2motion/stepover_eval.py": "f0e344def2133f3a45935bb1b7ffad8fb2591145557e6b136d50871827cf77b4"
+  },
+  "mujoco": "3.12.0",
+  "numpy": "1.26.4",
+  "python": "3.11.16",
+  "recorded_source_sha256": {
+   "experiments/analyze_trackability_contract.py": "3eb70997eff9d0258d05ec79450b0d91676885e5e9f115ae6881773245797e8a",
+   "experiments/exp021_elicited_lift_distribution.py": "c68dd1c50f5e8d60eb12f17f0909c9b08cbdf4a11157f17d21c0b6224c603258",
+   "experiments/exp023_prompt_handoff.py": "b9ec62d1545e26f226db6af980573211cd08bdff2256ed7a27cddd343d6dcb55"
+  }
+ },
+ "inputs": {
+  "exp021": {
+   "analysed_as": "float64",
+   "archive": "/home/linjiw/scene2motion/outputs/exp021_elicited_lift_distribution_v2",
+   "locked": true,
+   "locked_file_sha256": {
+    "qpos.npz": "2a4b34479aa24894b854301d91bafe1ad870dc530b70eed5b6703eb02c284687",
+    "receipt.json": "0c53d8c5dc2bdfa587f8c0b35d069fcd677f1cdc30221b5ce1afa70d1a5ccf7e",
+    "rows.jsonl": "1d8cc57df2494bd7179940bfe57325ac922f3f41e2581fcc7cb789b5e0c28f71"
+   },
+   "n_clips": 64,
+   "pool_seeds": [
+    4400,
+    4401,
+    4402,
+    4403,
+    4404,
+    4405,
+    4406,
+    4407,
+    4408,
+    4409,
+    4410,
+    4411,
+    4412,
+    4413,
+    4414,
+    4415,
+    4416,
+    4417,
+    4418,
+    4419,
+    4420,
+    4421,
+    4422,
+    4423,
+    4424,
+    4425,
+    4426,
+    4427,
+    4428,
+    4429,
+    4430,
+    4431,
+    4432,
+    4433,
+    4434,
+    4435,
+    4436,
+    4437,
+    4438,
+    4439,
+    4440,
+    4441,
+    4442,
+    4443,
+    4444,
+    4445,
+    4446,
+    4447,
+    4448,
+    4449,
+    4450,
+    4451,
+    4452,
+    4453,
+    4454,
+    4455,
+    4456,
+    4457,
+    4458,
+    4459,
+    4460,
+    4461,
+    4462,
+    4463
+   ],
+   "qpos_content_sha256": "50c27a6b9d61433a1562d1e704d453b2c907ba9d719f7c23d36acb08a8f61ed0",
+   "qpos_dtype_archived": "float32",
+   "receipt_schema": "exp021-elicited-lift-distribution-v1",
+   "receipt_status": "complete",
+   "source_commit": "cde0246fc89d45cb71f23fa6b8b3d8729ec00e6b"
+  },
+  "exp023": {
+   "analysed_as": "float64",
+   "archive": "/home/linjiw/scene2motion/outputs/exp023_prompt_handoff",
+   "archived_frames": 208,
+   "generation_commit": "d8882254d2d3fc2bf2911c11103381dbf3434c11",
+   "locked": true,
+   "locked_file_sha256": {
+    "qpos.npz": "14c476e5fece3238146b8d46810cf835521dfd5ad3b8359dece9c7e150ec8dd0",
+    "receipt.json": "1e002bd6402daba738fd1557c5dd6fa165adda678e36b25cff815cf440c74fae",
+    "rows.jsonl": "9a3596846519c05caf6837a0c41288024308831b40ea0e2fe6d924dfcdb19168"
+   },
+   "n_clips": 32,
+   "qpos_content_sha256": "84bbbafb76bbf1e03475aef04feac36efdc9f0f27e7fe8889ad510d92d4e8e37",
+   "qpos_dtype_archived": "float32",
+   "receipt_schema": "exp023-prompt-handoff-v1",
+   "receipt_status": "complete",
+   "scored_frames": 200
+  },
+  "route": {
+   "frames": 200,
+   "half_slab_m": 0.14,
+   "length_m": 7.2,
+   "obstacle_depth_m": 0.2,
+   "profile_points": 120,
+   "reference_speed_mps": 0.9045226130653267
+  },
+  "threshold_receipt": {
+   "max_unsupported_run_s": 0.2,
+   "path": "/home/linjiw/scene2motion/outputs/exp016_threshold_calibration/receipt.json",
+   "sha256": "f6dba8be84a9d5d0b76c8114d4b93b1707bc1bb8a6fec1a26a22aa1780a6e9bf",
+   "support_height_m": 0.04649341314007449,
+   "support_speed_mps": 1.1753078750567545
+  }
+ },
+ "n_rows": 96,
+ "schema": "analysis-event-frames-v1",
+ "script_sha256": "28fcfebb836c6c2224819c11d8cd10010f240c062fa19b7c6898ddb0304e45eb",
+ "status": "complete",
+ "summary": {
+  "exp021": {
+   "archived_row_agreement": {
+    "n_agreeing": 64,
+    "of": 64
+   },
+   "lift_ge_3cm": {
+    "A_root_crossing": {
+     "after_frame_60": {
+      "count": 3,
+      "fraction_of_planned": 0.06818181818181818,
+      "fraction_of_present": 0.06818181818181818,
+      "planned_denominator": 44,
+      "present_denominator": 44,
+      "threshold_s": 2.4,
+      "wilson95_of_planned": [
+       0.023458970172840127,
+       0.1822532133661719
+      ],
+      "wilson95_of_present": [
+       0.023458970172840127,
+       0.1822532133661719
+      ]
+     },
+     "frames": {
+      "max": 179.0,
+      "mean": 39.97727272727273,
+      "median": 35.0,
+      "min": 19.0,
+      "q10": 21.9,
+      "q90": 53.500000000000014
+     },
+     "histogram_10_frame_bins": {
+      "bin_width_s": 0.4,
+      "counts": [
+       0,
+       1,
+       12,
+       17,
+       7,
+       4,
+       1,
+       0,
+       1,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       1,
+       0,
+       0
+      ],
+      "edges_frames": [
+       0,
+       10,
+       20,
+       30,
+       40,
+       50,
+       60,
+       70,
+       80,
+       90,
+       100,
+       110,
+       120,
+       130,
+       140,
+       150,
+       160,
+       170,
+       180,
+       190,
+       200
+      ]
+     },
+     "inside_first_50_frames": {
+      "count": 37,
+      "fraction_of_planned": 0.8409090909090909,
+      "fraction_of_present": 0.8409090909090909,
+      "planned_denominator": 44,
+      "present_denominator": 44,
+      "wilson95_of_planned": [
+       0.7063350943621745,
+       0.920734234422816
+      ],
+      "wilson95_of_present": [
+       0.7063350943621745,
+       0.920734234422816
+      ],
+      "window_s": 2.0
+     },
+     "n_missing": 0,
+     "n_present": 44,
+     "planned_n": 44,
+     "seconds": {
+      "max": 7.16,
+      "mean": 1.5990909090909091,
+      "median": 1.4,
+      "min": 0.76,
+      "q10": 0.8759999999999999,
+      "q90": 2.1400000000000006
+     },
+     "values_frames": [
+      48.0,
+      29.0,
+      28.0,
+      24.0,
+      35.0,
+      35.0,
+      37.0,
+      41.0,
+      29.0,
+      33.0,
+      46.0,
+      179.0,
+      45.0,
+      20.0,
+      50.0,
+      55.0,
+      33.0,
+      65.0,
+      38.0,
+      45.0,
+      19.0,
+      87.0,
+      24.0,
+      57.0,
+      36.0,
+      32.0,
+      26.0,
+      33.0,
+      48.0,
+      32.0,
+      27.0,
+      20.0,
+      33.0,
+      40.0,
+      32.0,
+      26.0,
+      50.0,
+      35.0,
+      39.0,
+      21.0,
+      37.0,
+      37.0,
+      21.0,
+      32.0
+     ]
+    },
+    "B_nominal_speed_ceil": {
+     "after_frame_60": {
+      "count": 3,
+      "fraction_of_planned": 0.06818181818181818,
+      "fraction_of_present": 0.06818181818181818,
+      "planned_denominator": 44,
+      "present_denominator": 44,
+      "threshold_s": 2.4,
+      "wilson95_of_planned": [
+       0.023458970172840127,
+       0.1822532133661719
+      ],
+      "wilson95_of_present": [
+       0.023458970172840127,
+       0.1822532133661719
+      ]
+     },
+     "frames": {
+      "max": 179.0,
+      "mean": 40.18181818181818,
+      "median": 35.0,
+      "min": 20.0,
+      "q10": 23.3,
+      "q90": 54.10000000000001
+     },
+     "histogram_10_frame_bins": {
+      "bin_width_s": 0.4,
+      "counts": [
+       0,
+       0,
+       13,
+       18,
+       5,
+       5,
+       1,
+       0,
+       1,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       1,
+       0,
+       0
+      ],
+      "edges_frames": [
+       0,
+       10,
+       20,
+       30,
+       40,
+       50,
+       60,
+       70,
+       80,
+       90,
+       100,
+       110,
+       120,
+       130,
+       140,
+       150,
+       160,
+       170,
+       180,
+       190,
+       200
+      ]
+     },
+     "inside_first_50_frames": {
+      "count": 36,
+      "fraction_of_planned": 0.8181818181818182,
+      "fraction_of_present": 0.8181818181818182,
+      "planned_denominator": 44,
+      "present_denominator": 44,
+      "wilson95_of_planned": [
+       0.6803916324485767,
+       0.9048730744174144
+      ],
+      "wilson95_of_present": [
+       0.6803916324485767,
+       0.9048730744174144
+      ],
+      "window_s": 2.0
+     },
+     "n_missing": 0,
+     "n_present": 44,
+     "planned_n": 44,
+     "seconds": {
+      "max": 7.16,
+      "mean": 1.6072727272727272,
+      "median": 1.4,
+      "min": 0.8,
+      "q10": 0.932,
+      "q90": 2.164
+     },
+     "values_frames": [
+      49.0,
+      29.0,
+      29.0,
+      24.0,
+      35.0,
+      35.0,
+      36.0,
+      41.0,
+      29.0,
+      33.0,
+      46.0,
+      179.0,
+      44.0,
+      20.0,
+      50.0,
+      55.0,
+      33.0,
+      66.0,
+      38.0,
+      46.0,
+      20.0,
+      87.0,
+      24.0,
+      56.0,
+      36.0,
+      32.0,
+      26.0,
+      33.0,
+      50.0,
+      32.0,
+      27.0,
+      20.0,
+      33.0,
+      39.0,
+      33.0,
+      26.0,
+      52.0,
+      35.0,
+      39.0,
+      23.0,
+      39.0,
+      36.0,
+      21.0,
+      32.0
+     ]
+    },
+    "B_nominal_speed_floor": {
+     "after_frame_60": {
+      "count": 3,
+      "fraction_of_planned": 0.06818181818181818,
+      "fraction_of_present": 0.06818181818181818,
+      "planned_denominator": 44,
+      "present_denominator": 44,
+      "threshold_s": 2.4,
+      "wilson95_of_planned": [
+       0.023458970172840127,
+       0.1822532133661719
+      ],
+      "wilson95_of_present": [
+       0.023458970172840127,
+       0.1822532133661719
+      ]
+     },
+     "frames": {
+      "max": 178.0,
+      "mean": 39.18181818181818,
+      "median": 34.0,
+      "min": 19.0,
+      "q10": 22.3,
+      "q90": 53.10000000000001
+     },
+     "histogram_10_frame_bins": {
+      "bin_width_s": 0.4,
+      "counts": [
+       0,
+       3,
+       10,
+       18,
+       7,
+       3,
+       1,
+       0,
+       1,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       1,
+       0,
+       0
+      ],
+      "edges_frames": [
+       0,
+       10,
+       20,
+       30,
+       40,
+       50,
+       60,
+       70,
+       80,
+       90,
+       100,
+       110,
+       120,
+       130,
+       140,
+       150,
+       160,
+       170,
+       180,
+       190,
+       200
+      ]
+     },
+     "inside_first_50_frames": {
+      "count": 38,
+      "fraction_of_planned": 0.8636363636363636,
+      "fraction_of_present": 0.8636363636363636,
+      "planned_denominator": 44,
+      "present_denominator": 44,
+      "wilson95_of_planned": [
+       0.7329026247825904,
+       0.9359713259213994
+      ],
+      "wilson95_of_present": [
+       0.7329026247825904,
+       0.9359713259213994
+      ],
+      "window_s": 2.0
+     },
+     "n_missing": 0,
+     "n_present": 44,
+     "planned_n": 44,
+     "seconds": {
+      "max": 7.12,
+      "mean": 1.5672727272727272,
+      "median": 1.36,
+      "min": 0.76,
+      "q10": 0.892,
+      "q90": 2.1240000000000006
+     },
+     "values_frames": [
+      48.0,
+      28.0,
+      28.0,
+      23.0,
+      34.0,
+      34.0,
+      35.0,
+      40.0,
+      28.0,
+      32.0,
+      45.0,
+      178.0,
+      43.0,
+      19.0,
+      49.0,
+      54.0,
+      32.0,
+      65.0,
+      37.0,
+      45.0,
+      19.0,
+      86.0,
+      23.0,
+      55.0,
+      35.0,
+      31.0,
+      25.0,
+      32.0,
+      49.0,
+      31.0,
+      26.0,
+      19.0,
+      32.0,
+      38.0,
+      32.0,
+      25.0,
+      51.0,
+      34.0,
+      38.0,
+      22.0,
+      38.0,
+      35.0,
+      20.0,
+      31.0
+     ]
+    },
+    "B_nominal_speed_real": {
+     "after_frame_60": {
+      "count": 3,
+      "fraction_of_planned": 0.06818181818181818,
+      "fraction_of_present": 0.06818181818181818,
+      "planned_denominator": 44,
+      "present_denominator": 44,
+      "threshold_s": 2.4,
+      "wilson95_of_planned": [
+       0.023458970172840127,
+       0.1822532133661719
+      ],
+      "wilson95_of_present": [
+       0.023458970172840127,
+       0.1822532133661719
+      ]
+     },
+     "frames": {
+      "max": 178.44502801120447,
+      "mean": 39.64670868347339,
+      "median": 34.351190476190474,
+      "min": 19.022058823529413,
+      "q10": 22.547759103641457,
+      "q90": 53.3593137254902
+     },
+     "histogram_10_frame_bins": {
+      "bin_width_s": 0.4,
+      "counts": [
+       0,
+       3,
+       10,
+       18,
+       7,
+       3,
+       1,
+       0,
+       1,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       1,
+       0,
+       0
+      ],
+      "edges_frames": [
+       0,
+       10,
+       20,
+       30,
+       40,
+       50,
+       60,
+       70,
+       80,
+       90,
+       100,
+       110,
+       120,
+       130,
+       140,
+       150,
+       160,
+       170,
+       180,
+       190,
+       200
+      ]
+     },
+     "inside_first_50_frames": {
+      "count": 38,
+      "fraction_of_planned": 0.8636363636363636,
+      "fraction_of_present": 0.8636363636363636,
+      "planned_denominator": 44,
+      "present_denominator": 44,
+      "wilson95_of_planned": [
+       0.7329026247825904,
+       0.9359713259213994
+      ],
+      "wilson95_of_present": [
+       0.7329026247825904,
+       0.9359713259213994
+      ],
+      "window_s": 2.0
+     },
+     "n_missing": 0,
+     "n_present": 44,
+     "planned_n": 44,
+     "seconds": {
+      "max": 7.137801120448179,
+      "mean": 1.5858683473389357,
+      "median": 1.374047619047619,
+      "min": 0.7608823529411766,
+      "q10": 0.9019103641456583,
+      "q90": 2.134372549019608
+     },
+     "values_frames": [
+      48.14740896358544,
+      28.219537815126056,
+      28.219537815126056,
+      23.620798319327733,
+      34.351190476190474,
+      34.351190476190474,
+      35.88410364145658,
+      40.4828431372549,
+      28.219537815126056,
+      32.81827731092437,
+      45.08158263305322,
+      178.44502801120447,
+      43.548669467787114,
+      19.022058823529413,
+      49.68032212885154,
+      54.27906162464986,
+      32.81827731092437,
+      65.0094537815126,
+      37.41701680672269,
+      45.08158263305322,
+      19.022058823529413,
+      86.47023809523809,
+      23.620798319327733,
+      55.811974789915965,
+      35.88410364145658,
+      31.285364145658264,
+      25.15371148459384,
+      32.81827731092437,
+      49.68032212885154,
+      31.285364145658264,
+      26.686624649859947,
+      19.022058823529413,
+      32.81827731092437,
+      38.949929971988794,
+      32.81827731092437,
+      25.15371148459384,
+      51.213235294117645,
+      34.351190476190474,
+      38.949929971988794,
+      22.087885154061627,
+      38.949929971988794,
+      35.88410364145658,
+      20.55497198879552,
+      31.285364145658264
+     ]
+    },
+    "B_nominal_speed_rounded": {
+     "after_frame_60": {
+      "count": 3,
+      "fraction_of_planned": 0.06818181818181818,
+      "fraction_of_present": 0.06818181818181818,
+      "planned_denominator": 44,
+      "present_denominator": 44,
+      "threshold_s": 2.4,
+      "wilson95_of_planned": [
+       0.023458970172840127,
+       0.1822532133661719
+      ],
+      "wilson95_of_present": [
+       0.023458970172840127,
+       0.1822532133661719
+      ]
+     },
+     "frames": {
+      "max": 178.0,
+      "mean": 39.61363636363637,
+      "median": 34.0,
+      "min": 19.0,
+      "q10": 22.6,
+      "q90": 53.10000000000001
+     },
+     "histogram_10_frame_bins": {
+      "bin_width_s": 0.4,
+      "counts": [
+       0,
+       3,
+       10,
+       18,
+       5,
+       5,
+       1,
+       0,
+       1,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       1,
+       0,
+       0
+      ],
+      "edges_frames": [
+       0,
+       10,
+       20,
+       30,
+       40,
+       50,
+       60,
+       70,
+       80,
+       90,
+       100,
+       110,
+       120,
+       130,
+       140,
+       150,
+       160,
+       170,
+       180,
+       190,
+       200
+      ]
+     },
+     "inside_first_50_frames": {
+      "count": 36,
+      "fraction_of_planned": 0.8181818181818182,
+      "fraction_of_present": 0.8181818181818182,
+      "planned_denominator": 44,
+      "present_denominator": 44,
+      "wilson95_of_planned": [
+       0.6803916324485767,
+       0.9048730744174144
+      ],
+      "wilson95_of_present": [
+       0.6803916324485767,
+       0.9048730744174144
+      ],
+      "window_s": 2.0
+     },
+     "n_missing": 0,
+     "n_present": 44,
+     "planned_n": 44,
+     "seconds": {
+      "max": 7.12,
+      "mean": 1.5845454545454547,
+      "median": 1.36,
+      "min": 0.76,
+      "q10": 0.904,
+      "q90": 2.1240000000000006
+     },
+     "values_frames": [
+      48.0,
+      28.0,
+      28.0,
+      24.0,
+      34.0,
+      34.0,
+      36.0,
+      40.0,
+      28.0,
+      33.0,
+      45.0,
+      178.0,
+      44.0,
+      19.0,
+      50.0,
+      54.0,
+      33.0,
+      65.0,
+      37.0,
+      45.0,
+      19.0,
+      86.0,
+      24.0,
+      56.0,
+      36.0,
+      31.0,
+      25.0,
+      33.0,
+      50.0,
+      31.0,
+      27.0,
+      19.0,
+      33.0,
+      39.0,
+      33.0,
+      25.0,
+      51.0,
+      34.0,
+      39.0,
+      22.0,
+      39.0,
+      36.0,
+      21.0,
+      31.0
+     ]
+    },
+    "C0_window_foot_lift": {
+     "after_frame_60": {
+      "count": 3,
+      "fraction_of_planned": 0.06818181818181818,
+      "fraction_of_present": 0.06818181818181818,
+      "planned_denominator": 44,
+      "present_denominator": 44,
+      "threshold_s": 2.4,
+      "wilson95_of_planned": [
+       0.023458970172840127,
+       0.1822532133661719
+      ],
+      "wilson95_of_present": [
+       0.023458970172840127,
+       0.1822532133661719
+      ]
+     },
+     "frames": {
+      "max": 175.0,
+      "mean": 40.02272727272727,
+      "median": 34.0,
+      "min": 16.0,
+      "q10": 23.3,
+      "q90": 52.400000000000006
+     },
+     "histogram_10_frame_bins": {
+      "bin_width_s": 0.4,
+      "counts": [
+       0,
+       3,
+       8,
+       15,
+       11,
+       4,
+       0,
+       1,
+       1,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       1,
+       0,
+       0
+      ],
+      "edges_frames": [
+       0,
+       10,
+       20,
+       30,
+       40,
+       50,
+       60,
+       70,
+       80,
+       90,
+       100,
+       110,
+       120,
+       130,
+       140,
+       150,
+       160,
+       170,
+       180,
+       190,
+       200
+      ]
+     },
+     "inside_first_50_frames": {
+      "count": 37,
+      "fraction_of_planned": 0.8409090909090909,
+      "fraction_of_present": 0.8409090909090909,
+      "planned_denominator": 44,
+      "present_denominator": 44,
+      "wilson95_of_planned": [
+       0.7063350943621745,
+       0.920734234422816
+      ],
+      "wilson95_of_present": [
+       0.7063350943621745,
+       0.920734234422816
+      ],
+      "window_s": 2.0
+     },
+     "n_missing": 0,
+     "n_present": 44,
+     "planned_n": 44,
+     "seconds": {
+      "max": 7.0,
+      "mean": 1.6009090909090908,
+      "median": 1.36,
+      "min": 0.64,
+      "q10": 0.932,
+      "q90": 2.096
+     },
+     "values_frames": [
+      45.0,
+      31.0,
+      31.0,
+      26.0,
+      35.0,
+      37.0,
+      40.0,
+      40.0,
+      30.0,
+      31.0,
+      44.0,
+      175.0,
+      53.0,
+      20.0,
+      51.0,
+      47.0,
+      33.0,
+      71.0,
+      35.0,
+      53.0,
+      16.0,
+      82.0,
+      23.0,
+      51.0,
+      32.0,
+      33.0,
+      27.0,
+      33.0,
+      42.0,
+      32.0,
+      24.0,
+      19.0,
+      32.0,
+      40.0,
+      28.0,
+      28.0,
+      49.0,
+      43.0,
+      41.0,
+      19.0,
+      46.0,
+      36.0,
+      26.0,
+      31.0
+     ]
+    },
+    "C_foot_lift": {
+     "after_frame_60": {
+      "count": 3,
+      "fraction_of_planned": 0.06818181818181818,
+      "fraction_of_present": 0.06818181818181818,
+      "planned_denominator": 44,
+      "present_denominator": 44,
+      "threshold_s": 2.4,
+      "wilson95_of_planned": [
+       0.023458970172840127,
+       0.1822532133661719
+      ],
+      "wilson95_of_present": [
+       0.023458970172840127,
+       0.1822532133661719
+      ]
+     },
+     "frames": {
+      "max": 175.0,
+      "mean": 40.11363636363637,
+      "median": 35.5,
+      "min": 16.0,
+      "q10": 23.3,
+      "q90": 51.0
+     },
+     "histogram_10_frame_bins": {
+      "bin_width_s": 0.4,
+      "counts": [
+       0,
+       3,
+       8,
+       15,
+       12,
+       3,
+       0,
+       1,
+       1,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       1,
+       0,
+       0
+      ],
+      "edges_frames": [
+       0,
+       10,
+       20,
+       30,
+       40,
+       50,
+       60,
+       70,
+       80,
+       90,
+       100,
+       110,
+       120,
+       130,
+       140,
+       150,
+       160,
+       170,
+       180,
+       190,
+       200
+      ]
+     },
+     "inside_first_50_frames": {
+      "count": 38,
+      "fraction_of_planned": 0.8636363636363636,
+      "fraction_of_present": 0.8636363636363636,
+      "planned_denominator": 44,
+      "present_denominator": 44,
+      "wilson95_of_planned": [
+       0.7329026247825904,
+       0.9359713259213994
+      ],
+      "wilson95_of_present": [
+       0.7329026247825904,
+       0.9359713259213994
+      ],
+      "window_s": 2.0
+     },
+     "n_missing": 0,
+     "n_present": 44,
+     "planned_n": 44,
+     "seconds": {
+      "max": 7.0,
+      "mean": 1.6045454545454547,
+      "median": 1.42,
+      "min": 0.64,
+      "q10": 0.932,
+      "q90": 2.04
+     },
+     "values_frames": [
+      45.0,
+      36.0,
+      31.0,
+      26.0,
+      25.0,
+      37.0,
+      40.0,
+      41.0,
+      30.0,
+      31.0,
+      43.0,
+      175.0,
+      48.0,
+      20.0,
+      51.0,
+      47.0,
+      33.0,
+      71.0,
+      35.0,
+      54.0,
+      16.0,
+      83.0,
+      23.0,
+      51.0,
+      32.0,
+      31.0,
+      27.0,
+      33.0,
+      43.0,
+      32.0,
+      24.0,
+      19.0,
+      32.0,
+      40.0,
+      28.0,
+      28.0,
+      49.0,
+      43.0,
+      41.0,
+      19.0,
+      46.0,
+      36.0,
+      39.0,
+      31.0
+     ]
+    },
+    "C_inside_bilateral_nosupport_run": {
+     "count": 35,
+     "n_run_at_least_gate_length": 35,
+     "of": 44,
+     "wilson95": [
+      0.6549913631816677,
+      0.888468721765324
+     ]
+    },
+    "C_nosupport_run_onset": {
+     "after_frame_60": {
+      "count": 0,
+      "fraction_of_planned": 0.0,
+      "fraction_of_present": 0.0,
+      "planned_denominator": 44,
+      "present_denominator": 35,
+      "threshold_s": 2.4,
+      "wilson95_of_planned": [
+       6.938893903907228e-18,
+       0.08029831778201396
+      ],
+      "wilson95_of_present": [
+       0.0,
+       0.09890426758938868
+      ]
+     },
+     "frames": {
+      "max": 47.0,
+      "mean": 24.37142857142857,
+      "median": 23.0,
+      "min": 7.0,
+      "q10": 13.0,
+      "q90": 35.6
+     },
+     "histogram_10_frame_bins": {
+      "bin_width_s": 0.4,
+      "counts": [
+       1,
+       8,
+       18,
+       6,
+       2,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      "edges_frames": [
+       0,
+       10,
+       20,
+       30,
+       40,
+       50,
+       60,
+       70,
+       80,
+       90,
+       100,
+       110,
+       120,
+       130,
+       140,
+       150,
+       160,
+       170,
+       180,
+       190,
+       200
+      ]
+     },
+     "inside_first_50_frames": {
+      "count": 35,
+      "fraction_of_planned": 0.7954545454545454,
+      "fraction_of_present": 1.0,
+      "planned_denominator": 44,
+      "present_denominator": 35,
+      "wilson95_of_planned": [
+       0.6549913631816677,
+       0.888468721765324
+      ],
+      "wilson95_of_present": [
+       0.9010957324106112,
+       1.0
+      ],
+      "window_s": 2.0
+     },
+     "n_missing": 9,
+     "n_present": 35,
+     "planned_n": 44,
+     "seconds": {
+      "max": 1.88,
+      "mean": 0.9748571428571428,
+      "median": 0.92,
+      "min": 0.28,
+      "q10": 0.52,
+      "q90": 1.4240000000000002
+     },
+     "values_frames": [
+      22.0,
+      22.0,
+      13.0,
+      7.0,
+      11.0,
+      22.0,
+      35.0,
+      23.0,
+      23.0,
+      31.0,
+      36.0,
+      14.0,
+      47.0,
+      28.0,
+      28.0,
+      13.0,
+      22.0,
+      24.0,
+      23.0,
+      23.0,
+      27.0,
+      37.0,
+      27.0,
+      19.0,
+      14.0,
+      26.0,
+      28.0,
+      20.0,
+      42.0,
+      34.0,
+      35.0,
+      13.0,
+      28.0,
+      12.0,
+      24.0
+     ]
+    },
+    "lift_side_counts": {
+     "left": 18,
+     "right": 26,
+     "undetermined": 0
+    },
+    "n_rows": 44,
+    "pairwise_agreement": {
+     "A_minus_B_real": {
+      "diff_frames": {
+       "max": 1.4513305322128858,
+       "max_abs": 1.9499299719887944,
+       "mean": 0.33056404379933696,
+       "median": 0.5234593837535044,
+       "min": -1.9499299719887944,
+       "q10": -0.6386554621848778,
+       "q90": 1.0284313725490202
+      },
+      "diff_s": {
+       "max": 0.05805322128851543,
+       "max_abs": 0.07799719887955177,
+       "mean": 0.013222561751973479,
+       "median": 0.020938375350140176,
+       "min": -0.07799719887955177,
+       "q10": -0.025546218487395113,
+       "q90": 0.04113725490196081
+      },
+      "n_abs_diff_le_10_frames_0p4s": 44,
+      "n_abs_diff_le_2_frames": 44,
+      "n_abs_diff_le_5_frames_0p2s": 44,
+      "n_pairs": 44
+     },
+     "A_minus_B_rounded": {
+      "diff_frames": {
+       "max": 1.0,
+       "max_abs": 2.0,
+       "mean": 0.36363636363636365,
+       "median": 1.0,
+       "min": -2.0,
+       "q10": -0.7000000000000002,
+       "q90": 1.0
+      },
+      "diff_s": {
+       "max": 0.04,
+       "max_abs": 0.08,
+       "mean": 0.014545454545454545,
+       "median": 0.04,
+       "min": -0.08,
+       "q10": -0.028000000000000008,
+       "q90": 0.04
+      },
+      "n_abs_diff_le_10_frames_0p4s": 44,
+      "n_abs_diff_le_2_frames": 44,
+      "n_abs_diff_le_5_frames_0p2s": 44,
+      "n_pairs": 44
+     },
+     "A_minus_C": {
+      "diff_frames": {
+       "max": 10.0,
+       "max_abs": 18.0,
+       "mean": -0.13636363636363635,
+       "median": 0.5,
+       "min": -18.0,
+       "q10": -6.7,
+       "q90": 4.0
+      },
+      "diff_s": {
+       "max": 0.4,
+       "max_abs": 0.72,
+       "mean": -0.005454545454545454,
+       "median": 0.02,
+       "min": -0.72,
+       "q10": -0.268,
+       "q90": 0.16
+      },
+      "n_abs_diff_le_10_frames_0p4s": 43,
+      "n_abs_diff_le_2_frames": 22,
+      "n_abs_diff_le_5_frames_0p2s": 35,
+      "n_pairs": 44
+     },
+     "B_real_minus_C": {
+      "diff_frames": {
+       "max": 9.351190476190474,
+       "max_abs": 18.44502801120448,
+       "mean": -0.4669276801629733,
+       "median": -0.14880952380952195,
+       "min": -18.44502801120448,
+       "q10": -6.732212885154063,
+       "q90": 4.533613445378153
+      },
+      "diff_s": {
+       "max": 0.37404761904761896,
+       "max_abs": 0.7378011204481792,
+       "mean": -0.018677107206518932,
+       "median": -0.005952380952380878,
+       "min": -0.7378011204481792,
+       "q10": -0.2692885154061625,
+       "q90": 0.1813445378151261
+      },
+      "n_abs_diff_le_10_frames_0p4s": 43,
+      "n_abs_diff_le_2_frames": 16,
+      "n_abs_diff_le_5_frames_0p2s": 35,
+      "n_pairs": 44
+     },
+     "C_minus_C0": {
+      "diff_frames": {
+       "max": 13.0,
+       "max_abs": 13.0,
+       "mean": 0.09090909090909091,
+       "median": 0.0,
+       "min": -10.0,
+       "q10": 0.0,
+       "q90": 1.0
+      },
+      "diff_s": {
+       "max": 0.52,
+       "max_abs": 0.52,
+       "mean": 0.0036363636363636364,
+       "median": 0.0,
+       "min": -0.4,
+       "q10": 0.0,
+       "q90": 0.04
+      },
+      "n_abs_diff_le_10_frames_0p4s": 43,
+      "n_abs_diff_le_2_frames": 40,
+      "n_abs_diff_le_5_frames_0p2s": 42,
+      "n_pairs": 44
+     },
+     "C_minus_nosupport_run_onset": {
+      "diff_frames": {
+       "max": 27.0,
+       "max_abs": 27.0,
+       "mean": 8.914285714285715,
+       "median": 7.0,
+       "min": 1.0,
+       "q10": 4.4,
+       "q90": 16.400000000000006
+      },
+      "diff_s": {
+       "max": 1.08,
+       "max_abs": 1.08,
+       "mean": 0.3565714285714286,
+       "median": 0.28,
+       "min": 0.04,
+       "q10": 0.17600000000000002,
+       "q90": 0.6560000000000002
+      },
+      "n_abs_diff_le_10_frames_0p4s": 26,
+      "n_abs_diff_le_2_frames": 1,
+      "n_abs_diff_le_5_frames_0p2s": 8,
+      "n_pairs": 35
+     }
+    },
+    "planned_denominator": 44
+   },
+   "lift_ge_3cm_clips": 44,
+   "lifting_all": {
+    "A_root_crossing": {
+     "after_frame_60": {
+      "count": 4,
+      "fraction_of_planned": 0.08163265306122448,
+      "fraction_of_present": 0.08163265306122448,
+      "planned_denominator": 49,
+      "present_denominator": 49,
+      "threshold_s": 2.4,
+      "wilson95_of_planned": [
+       0.032202296241712225,
+       0.19189387041486136
+      ],
+      "wilson95_of_present": [
+       0.032202296241712225,
+       0.19189387041486136
+      ]
+     },
+     "frames": {
+      "max": 179.0,
+      "mean": 41.57142857142857,
+      "median": 35.0,
+      "min": 15.0,
+      "q10": 20.8,
+      "q90": 55.400000000000006
+     },
+     "histogram_10_frame_bins": {
+      "bin_width_s": 0.4,
+      "counts": [
+       0,
+       3,
+       12,
+       17,
+       8,
+       5,
+       1,
+       0,
+       1,
+       0,
+       0,
+       0,
+       0,
+       0,
+       1,
+       0,
+       0,
+       1,
+       0,
+       0
+      ],
+      "edges_frames": [
+       0,
+       10,
+       20,
+       30,
+       40,
+       50,
+       60,
+       70,
+       80,
+       90,
+       100,
+       110,
+       120,
+       130,
+       140,
+       150,
+       160,
+       170,
+       180,
+       190,
+       200
+      ]
+     },
+     "inside_first_50_frames": {
+      "count": 40,
+      "fraction_of_planned": 0.8163265306122449,
+      "fraction_of_present": 0.8163265306122449,
+      "planned_denominator": 49,
+      "present_denominator": 49,
+      "wilson95_of_planned": [
+       0.6864212843271743,
+       0.9002377116154164
+      ],
+      "wilson95_of_present": [
+       0.6864212843271743,
+       0.9002377116154164
+      ],
+      "window_s": 2.0
+     },
+     "n_missing": 0,
+     "n_present": 49,
+     "planned_n": 49,
+     "seconds": {
+      "max": 7.16,
+      "mean": 1.6628571428571428,
+      "median": 1.4,
+      "min": 0.6,
+      "q10": 0.8320000000000001,
+      "q90": 2.216
+     },
+     "values_frames": [
+      48.0,
+      29.0,
+      28.0,
+      15.0,
+      24.0,
+      35.0,
+      35.0,
+      37.0,
+      41.0,
+      146.0,
+      29.0,
+      33.0,
+      46.0,
+      179.0,
+      49.0,
+      45.0,
+      20.0,
+      50.0,
+      55.0,
+      33.0,
+      65.0,
+      38.0,
+      45.0,
+      19.0,
+      87.0,
+      24.0,
+      57.0,
+      50.0,
+      36.0,
+      32.0,
+      26.0,
+      33.0,
+      48.0,
+      32.0,
+      27.0,
+      20.0,
+      33.0,
+      40.0,
+      32.0,
+      26.0,
+      50.0,
+      18.0,
+      35.0,
+      39.0,
+      21.0,
+      37.0,
+      37.0,
+      21.0,
+      32.0
+     ]
+    },
+    "B_nominal_speed_ceil": {
+     "after_frame_60": {
+      "count": 4,
+      "fraction_of_planned": 0.08163265306122448,
+      "fraction_of_present": 0.08163265306122448,
+      "planned_denominator": 49,
+      "present_denominator": 49,
+      "threshold_s": 2.4,
+      "wilson95_of_planned": [
+       0.032202296241712225,
+       0.19189387041486136
+      ],
+      "wilson95_of_present": [
+       0.032202296241712225,
+       0.19189387041486136
+      ]
+     },
+     "frames": {
+      "max": 179.0,
+      "mean": 41.734693877551024,
+      "median": 35.0,
+      "min": 15.0,
+      "q10": 20.8,
+      "q90": 55.2
+     },
+     "histogram_10_frame_bins": {
+      "bin_width_s": 0.4,
+      "counts": [
+       0,
+       2,
+       13,
+       18,
+       6,
+       6,
+       1,
+       0,
+       1,
+       0,
+       0,
+       0,
+       0,
+       0,
+       1,
+       0,
+       0,
+       1,
+       0,
+       0
+      ],
+      "edges_frames": [
+       0,
+       10,
+       20,
+       30,
+       40,
+       50,
+       60,
+       70,
+       80,
+       90,
+       100,
+       110,
+       120,
+       130,
+       140,
+       150,
+       160,
+       170,
+       180,
+       190,
+       200
+      ]
+     },
+     "inside_first_50_frames": {
+      "count": 39,
+      "fraction_of_planned": 0.7959183673469388,
+      "fraction_of_present": 0.7959183673469388,
+      "planned_denominator": 49,
+      "present_denominator": 49,
+      "wilson95_of_planned": [
+       0.6636272988905616,
+       0.885182729571862
+      ],
+      "wilson95_of_present": [
+       0.6636272988905616,
+       0.885182729571862
+      ],
+      "window_s": 2.0
+     },
+     "n_missing": 0,
+     "n_present": 49,
+     "planned_n": 49,
+     "seconds": {
+      "max": 7.16,
+      "mean": 1.6693877551020408,
+      "median": 1.4,
+      "min": 0.6,
+      "q10": 0.8320000000000001,
+      "q90": 2.208
+     },
+     "values_frames": [
+      49.0,
+      29.0,
+      29.0,
+      15.0,
+      24.0,
+      35.0,
+      35.0,
+      36.0,
+      41.0,
+      145.0,
+      29.0,
+      33.0,
+      46.0,
+      179.0,
+      49.0,
+      44.0,
+      20.0,
+      50.0,
+      55.0,
+      33.0,
+      66.0,
+      38.0,
+      46.0,
+      20.0,
+      87.0,
+      24.0,
+      56.0,
+      50.0,
+      36.0,
+      32.0,
+      26.0,
+      33.0,
+      50.0,
+      32.0,
+      27.0,
+      20.0,
+      33.0,
+      39.0,
+      33.0,
+      26.0,
+      52.0,
+      18.0,
+      35.0,
+      39.0,
+      23.0,
+      39.0,
+      36.0,
+      21.0,
+      32.0
+     ]
+    },
+    "B_nominal_speed_floor": {
+     "after_frame_60": {
+      "count": 4,
+      "fraction_of_planned": 0.08163265306122448,
+      "fraction_of_present": 0.08163265306122448,
+      "planned_denominator": 49,
+      "present_denominator": 49,
+      "threshold_s": 2.4,
+      "wilson95_of_planned": [
+       0.032202296241712225,
+       0.19189387041486136
+      ],
+      "wilson95_of_present": [
+       0.032202296241712225,
+       0.19189387041486136
+      ]
+     },
+     "frames": {
+      "max": 178.0,
+      "mean": 40.734693877551024,
+      "median": 34.0,
+      "min": 14.0,
+      "q10": 19.8,
+      "q90": 54.2
+     },
+     "histogram_10_frame_bins": {
+      "bin_width_s": 0.4,
+      "counts": [
+       0,
+       5,
+       10,
+       18,
+       9,
+       3,
+       1,
+       0,
+       1,
+       0,
+       0,
+       0,
+       0,
+       0,
+       1,
+       0,
+       0,
+       1,
+       0,
+       0
+      ],
+      "edges_frames": [
+       0,
+       10,
+       20,
+       30,
+       40,
+       50,
+       60,
+       70,
+       80,
+       90,
+       100,
+       110,
+       120,
+       130,
+       140,
+       150,
+       160,
+       170,
+       180,
+       190,
+       200
+      ]
+     },
+     "inside_first_50_frames": {
+      "count": 42,
+      "fraction_of_planned": 0.8571428571428571,
+      "fraction_of_present": 0.8571428571428571,
+      "planned_denominator": 49,
+      "present_denominator": 49,
+      "wilson95_of_planned": [
+       0.7333202681083708,
+       0.9290366627945541
+      ],
+      "wilson95_of_present": [
+       0.7333202681083708,
+       0.9290366627945541
+      ],
+      "window_s": 2.0
+     },
+     "n_missing": 0,
+     "n_present": 49,
+     "planned_n": 49,
+     "seconds": {
+      "max": 7.12,
+      "mean": 1.629387755102041,
+      "median": 1.36,
+      "min": 0.56,
+      "q10": 0.792,
+      "q90": 2.168
+     },
+     "values_frames": [
+      48.0,
+      28.0,
+      28.0,
+      14.0,
+      23.0,
+      34.0,
+      34.0,
+      35.0,
+      40.0,
+      144.0,
+      28.0,
+      32.0,
+      45.0,
+      178.0,
+      48.0,
+      43.0,
+      19.0,
+      49.0,
+      54.0,
+      32.0,
+      65.0,
+      37.0,
+      45.0,
+      19.0,
+      86.0,
+      23.0,
+      55.0,
+      49.0,
+      35.0,
+      31.0,
+      25.0,
+      32.0,
+      49.0,
+      31.0,
+      26.0,
+      19.0,
+      32.0,
+      38.0,
+      32.0,
+      25.0,
+      51.0,
+      17.0,
+      34.0,
+      38.0,
+      22.0,
+      38.0,
+      35.0,
+      20.0,
+      31.0
+     ]
+    },
+    "B_nominal_speed_real": {
+     "after_frame_60": {
+      "count": 4,
+      "fraction_of_planned": 0.08163265306122448,
+      "fraction_of_present": 0.08163265306122448,
+      "planned_denominator": 49,
+      "present_denominator": 49,
+      "threshold_s": 2.4,
+      "wilson95_of_planned": [
+       0.032202296241712225,
+       0.19189387041486136
+      ],
+      "wilson95_of_present": [
+       0.032202296241712225,
+       0.19189387041486136
+      ]
+     },
+     "frames": {
+      "max": 178.44502801120447,
+      "mean": 41.20237380666553,
+      "median": 34.351190476190474,
+      "min": 14.423319327731093,
+      "q10": 20.248389355742297,
+      "q90": 54.58564425770309
+     },
+     "histogram_10_frame_bins": {
+      "bin_width_s": 0.4,
+      "counts": [
+       0,
+       5,
+       10,
+       18,
+       9,
+       3,
+       1,
+       0,
+       1,
+       0,
+       0,
+       0,
+       0,
+       0,
+       1,
+       0,
+       0,
+       1,
+       0,
+       0
+      ],
+      "edges_frames": [
+       0,
+       10,
+       20,
+       30,
+       40,
+       50,
+       60,
+       70,
+       80,
+       90,
+       100,
+       110,
+       120,
+       130,
+       140,
+       150,
+       160,
+       170,
+       180,
+       190,
+       200
+      ]
+     },
+     "inside_first_50_frames": {
+      "count": 42,
+      "fraction_of_planned": 0.8571428571428571,
+      "fraction_of_present": 0.8571428571428571,
+      "planned_denominator": 49,
+      "present_denominator": 49,
+      "wilson95_of_planned": [
+       0.7333202681083708,
+       0.9290366627945541
+      ],
+      "wilson95_of_present": [
+       0.7333202681083708,
+       0.9290366627945541
+      ],
+      "window_s": 2.0
+     },
+     "n_missing": 0,
+     "n_present": 49,
+     "planned_n": 49,
+     "seconds": {
+      "max": 7.137801120448179,
+      "mean": 1.648094952266621,
+      "median": 1.374047619047619,
+      "min": 0.5769327731092437,
+      "q10": 0.8099355742296919,
+      "q90": 2.1834257703081237
+     },
+     "values_frames": [
+      48.14740896358544,
+      28.219537815126056,
+      28.219537815126056,
+      14.423319327731093,
+      23.620798319327733,
+      34.351190476190474,
+      34.351190476190474,
+      35.88410364145658,
+      40.4828431372549,
+      144.72093837535013,
+      28.219537815126056,
+      32.81827731092437,
+      45.08158263305322,
+      178.44502801120447,
+      48.14740896358544,
+      43.548669467787114,
+      19.022058823529413,
+      49.68032212885154,
+      54.27906162464986,
+      32.81827731092437,
+      65.0094537815126,
+      37.41701680672269,
+      45.08158263305322,
+      19.022058823529413,
+      86.47023809523809,
+      23.620798319327733,
+      55.811974789915965,
+      49.68032212885154,
+      35.88410364145658,
+      31.285364145658264,
+      25.15371148459384,
+      32.81827731092437,
+      49.68032212885154,
+      31.285364145658264,
+      26.686624649859947,
+      19.022058823529413,
+      32.81827731092437,
+      38.949929971988794,
+      32.81827731092437,
+      25.15371148459384,
+      51.213235294117645,
+      17.489145658263304,
+      34.351190476190474,
+      38.949929971988794,
+      22.087885154061627,
+      38.949929971988794,
+      35.88410364145658,
+      20.55497198879552,
+      31.285364145658264
+     ]
+    },
+    "B_nominal_speed_rounded": {
+     "after_frame_60": {
+      "count": 4,
+      "fraction_of_planned": 0.08163265306122448,
+      "fraction_of_present": 0.08163265306122448,
+      "planned_denominator": 49,
+      "present_denominator": 49,
+      "threshold_s": 2.4,
+      "wilson95_of_planned": [
+       0.032202296241712225,
+       0.19189387041486136
+      ],
+      "wilson95_of_present": [
+       0.032202296241712225,
+       0.19189387041486136
+      ]
+     },
+     "frames": {
+      "max": 178.0,
+      "mean": 41.16326530612245,
+      "median": 34.0,
+      "min": 14.0,
+      "q10": 20.6,
+      "q90": 54.400000000000006
+     },
+     "histogram_10_frame_bins": {
+      "bin_width_s": 0.4,
+      "counts": [
+       0,
+       5,
+       10,
+       18,
+       6,
+       6,
+       1,
+       0,
+       1,
+       0,
+       0,
+       0,
+       0,
+       0,
+       1,
+       0,
+       0,
+       1,
+       0,
+       0
+      ],
+      "edges_frames": [
+       0,
+       10,
+       20,
+       30,
+       40,
+       50,
+       60,
+       70,
+       80,
+       90,
+       100,
+       110,
+       120,
+       130,
+       140,
+       150,
+       160,
+       170,
+       180,
+       190,
+       200
+      ]
+     },
+     "inside_first_50_frames": {
+      "count": 39,
+      "fraction_of_planned": 0.7959183673469388,
+      "fraction_of_present": 0.7959183673469388,
+      "planned_denominator": 49,
+      "present_denominator": 49,
+      "wilson95_of_planned": [
+       0.6636272988905616,
+       0.885182729571862
+      ],
+      "wilson95_of_present": [
+       0.6636272988905616,
+       0.885182729571862
+      ],
+      "window_s": 2.0
+     },
+     "n_missing": 0,
+     "n_present": 49,
+     "planned_n": 49,
+     "seconds": {
+      "max": 7.12,
+      "mean": 1.646530612244898,
+      "median": 1.36,
+      "min": 0.56,
+      "q10": 0.8240000000000001,
+      "q90": 2.176
+     },
+     "values_frames": [
+      48.0,
+      28.0,
+      28.0,
+      14.0,
+      24.0,
+      34.0,
+      34.0,
+      36.0,
+      40.0,
+      145.0,
+      28.0,
+      33.0,
+      45.0,
+      178.0,
+      48.0,
+      44.0,
+      19.0,
+      50.0,
+      54.0,
+      33.0,
+      65.0,
+      37.0,
+      45.0,
+      19.0,
+      86.0,
+      24.0,
+      56.0,
+      50.0,
+      36.0,
+      31.0,
+      25.0,
+      33.0,
+      50.0,
+      31.0,
+      27.0,
+      19.0,
+      33.0,
+      39.0,
+      33.0,
+      25.0,
+      51.0,
+      17.0,
+      34.0,
+      39.0,
+      22.0,
+      39.0,
+      36.0,
+      21.0,
+      31.0
+     ]
+    },
+    "C0_window_foot_lift": {
+     "after_frame_60": {
+      "count": 4,
+      "fraction_of_planned": 0.08163265306122448,
+      "fraction_of_present": 0.08163265306122448,
+      "planned_denominator": 49,
+      "present_denominator": 49,
+      "threshold_s": 2.4,
+      "wilson95_of_planned": [
+       0.032202296241712225,
+       0.19189387041486136
+      ],
+      "wilson95_of_present": [
+       0.032202296241712225,
+       0.19189387041486136
+      ]
+     },
+     "frames": {
+      "max": 175.0,
+      "mean": 41.734693877551024,
+      "median": 35.0,
+      "min": 16.0,
+      "q10": 19.8,
+      "q90": 53.0
+     },
+     "histogram_10_frame_bins": {
+      "bin_width_s": 0.4,
+      "counts": [
+       0,
+       5,
+       8,
+       15,
+       12,
+       5,
+       0,
+       1,
+       1,
+       0,
+       0,
+       0,
+       0,
+       0,
+       1,
+       0,
+       0,
+       1,
+       0,
+       0
+      ],
+      "edges_frames": [
+       0,
+       10,
+       20,
+       30,
+       40,
+       50,
+       60,
+       70,
+       80,
+       90,
+       100,
+       110,
+       120,
+       130,
+       140,
+       150,
+       160,
+       170,
+       180,
+       190,
+       200
+      ]
+     },
+     "inside_first_50_frames": {
+      "count": 40,
+      "fraction_of_planned": 0.8163265306122449,
+      "fraction_of_present": 0.8163265306122449,
+      "planned_denominator": 49,
+      "present_denominator": 49,
+      "wilson95_of_planned": [
+       0.6864212843271743,
+       0.9002377116154164
+      ],
+      "wilson95_of_present": [
+       0.6864212843271743,
+       0.9002377116154164
+      ],
+      "window_s": 2.0
+     },
+     "n_missing": 0,
+     "n_present": 49,
+     "planned_n": 49,
+     "seconds": {
+      "max": 7.0,
+      "mean": 1.6693877551020408,
+      "median": 1.4,
+      "min": 0.64,
+      "q10": 0.792,
+      "q90": 2.12
+     },
+     "values_frames": [
+      45.0,
+      31.0,
+      31.0,
+      16.0,
+      26.0,
+      35.0,
+      37.0,
+      40.0,
+      40.0,
+      148.0,
+      30.0,
+      31.0,
+      44.0,
+      175.0,
+      48.0,
+      53.0,
+      20.0,
+      51.0,
+      47.0,
+      33.0,
+      71.0,
+      35.0,
+      53.0,
+      16.0,
+      82.0,
+      23.0,
+      51.0,
+      53.0,
+      32.0,
+      33.0,
+      27.0,
+      33.0,
+      42.0,
+      32.0,
+      24.0,
+      19.0,
+      32.0,
+      40.0,
+      28.0,
+      28.0,
+      49.0,
+      19.0,
+      43.0,
+      41.0,
+      19.0,
+      46.0,
+      36.0,
+      26.0,
+      31.0
+     ]
+    },
+    "C_foot_lift": {
+     "after_frame_60": {
+      "count": 4,
+      "fraction_of_planned": 0.08163265306122448,
+      "fraction_of_present": 0.08163265306122448,
+      "planned_denominator": 49,
+      "present_denominator": 49,
+      "threshold_s": 2.4,
+      "wilson95_of_planned": [
+       0.032202296241712225,
+       0.19189387041486136
+      ],
+      "wilson95_of_present": [
+       0.032202296241712225,
+       0.19189387041486136
+      ]
+     },
+     "frames": {
+      "max": 175.0,
+      "mean": 41.816326530612244,
+      "median": 36.0,
+      "min": 16.0,
+      "q10": 19.8,
+      "q90": 53.2
+     },
+     "histogram_10_frame_bins": {
+      "bin_width_s": 0.4,
+      "counts": [
+       0,
+       5,
+       8,
+       15,
+       13,
+       4,
+       0,
+       1,
+       1,
+       0,
+       0,
+       0,
+       0,
+       0,
+       1,
+       0,
+       0,
+       1,
+       0,
+       0
+      ],
+      "edges_frames": [
+       0,
+       10,
+       20,
+       30,
+       40,
+       50,
+       60,
+       70,
+       80,
+       90,
+       100,
+       110,
+       120,
+       130,
+       140,
+       150,
+       160,
+       170,
+       180,
+       190,
+       200
+      ]
+     },
+     "inside_first_50_frames": {
+      "count": 41,
+      "fraction_of_planned": 0.8367346938775511,
+      "fraction_of_present": 0.8367346938775511,
+      "planned_denominator": 49,
+      "present_denominator": 49,
+      "wilson95_of_planned": [
+       0.7096339333048477,
+       0.9148740301179102
+      ],
+      "wilson95_of_present": [
+       0.7096339333048477,
+       0.9148740301179102
+      ],
+      "window_s": 2.0
+     },
+     "n_missing": 0,
+     "n_present": 49,
+     "planned_n": 49,
+     "seconds": {
+      "max": 7.0,
+      "mean": 1.6726530612244899,
+      "median": 1.44,
+      "min": 0.64,
+      "q10": 0.792,
+      "q90": 2.128
+     },
+     "values_frames": [
+      45.0,
+      36.0,
+      31.0,
+      16.0,
+      26.0,
+      25.0,
+      37.0,
+      40.0,
+      41.0,
+      148.0,
+      30.0,
+      31.0,
+      43.0,
+      175.0,
+      48.0,
+      48.0,
+      20.0,
+      51.0,
+      47.0,
+      33.0,
+      71.0,
+      35.0,
+      54.0,
+      16.0,
+      83.0,
+      23.0,
+      51.0,
+      53.0,
+      32.0,
+      31.0,
+      27.0,
+      33.0,
+      43.0,
+      32.0,
+      24.0,
+      19.0,
+      32.0,
+      40.0,
+      28.0,
+      28.0,
+      49.0,
+      19.0,
+      43.0,
+      41.0,
+      19.0,
+      46.0,
+      36.0,
+      39.0,
+      31.0
+     ]
+    },
+    "C_inside_bilateral_nosupport_run": {
+     "count": 38,
+     "n_run_at_least_gate_length": 38,
+     "of": 49,
+     "wilson95": [
+      0.6412094381295426,
+      0.8697516228527138
+     ]
+    },
+    "C_nosupport_run_onset": {
+     "after_frame_60": {
+      "count": 0,
+      "fraction_of_planned": 0.0,
+      "fraction_of_present": 0.0,
+      "planned_denominator": 49,
+      "present_denominator": 38,
+      "threshold_s": 2.4,
+      "wilson95_of_planned": [
+       0.0,
+       0.07270029673590504
+      ],
+      "wilson95_of_present": [
+       0.0,
+       0.09181293258383999
+      ]
+     },
+     "frames": {
+      "max": 50.0,
+      "mean": 24.473684210526315,
+      "median": 23.0,
+      "min": 7.0,
+      "q10": 13.0,
+      "q90": 36.300000000000004
+     },
+     "histogram_10_frame_bins": {
+      "bin_width_s": 0.4,
+      "counts": [
+       1,
+       10,
+       18,
+       6,
+       2,
+       1,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      "edges_frames": [
+       0,
+       10,
+       20,
+       30,
+       40,
+       50,
+       60,
+       70,
+       80,
+       90,
+       100,
+       110,
+       120,
+       130,
+       140,
+       150,
+       160,
+       170,
+       180,
+       190,
+       200
+      ]
+     },
+     "inside_first_50_frames": {
+      "count": 37,
+      "fraction_of_planned": 0.7551020408163265,
+      "fraction_of_present": 0.9736842105263158,
+      "planned_denominator": 49,
+      "present_denominator": 38,
+      "wilson95_of_planned": [
+       0.619134127396842,
+       0.8539779661052471
+      ],
+      "wilson95_of_present": [
+       0.8650482156319974,
+       0.9953395324464698
+      ],
+      "window_s": 2.0
+     },
+     "n_missing": 11,
+     "n_present": 38,
+     "planned_n": 49,
+     "seconds": {
+      "max": 2.0,
+      "mean": 0.9789473684210526,
+      "median": 0.92,
+      "min": 0.28,
+      "q10": 0.52,
+      "q90": 1.4520000000000002
+     },
+     "values_frames": [
+      22.0,
+      22.0,
+      13.0,
+      13.0,
+      7.0,
+      11.0,
+      22.0,
+      35.0,
+      23.0,
+      23.0,
+      31.0,
+      36.0,
+      14.0,
+      47.0,
+      28.0,
+      28.0,
+      13.0,
+      22.0,
+      50.0,
+      24.0,
+      23.0,
+      23.0,
+      27.0,
+      37.0,
+      27.0,
+      19.0,
+      14.0,
+      26.0,
+      28.0,
+      20.0,
+      42.0,
+      14.0,
+      34.0,
+      35.0,
+      13.0,
+      28.0,
+      12.0,
+      24.0
+     ]
+    },
+    "lift_side_counts": {
+     "left": 21,
+     "right": 28,
+     "undetermined": 0
+    },
+    "n_rows": 49,
+    "pairwise_agreement": {
+     "A_minus_B_real": {
+      "diff_frames": {
+       "max": 1.4513305322128858,
+       "max_abs": 1.9499299719887944,
+       "mean": 0.3690547647630472,
+       "median": 0.5297619047619122,
+       "min": -1.9499299719887944,
+       "q10": -0.33928571428571913,
+       "q90": 1.063235294117648
+      },
+      "diff_s": {
+       "max": 0.05805322128851543,
+       "max_abs": 0.07799719887955177,
+       "mean": 0.014762190590521888,
+       "median": 0.02119047619047649,
+       "min": -0.07799719887955177,
+       "q10": -0.013571428571428765,
+       "q90": 0.04252941176470592
+      },
+      "n_abs_diff_le_10_frames_0p4s": 49,
+      "n_abs_diff_le_2_frames": 49,
+      "n_abs_diff_le_5_frames_0p2s": 49,
+      "n_pairs": 49
+     },
+     "A_minus_B_rounded": {
+      "diff_frames": {
+       "max": 1.0,
+       "max_abs": 2.0,
+       "mean": 0.40816326530612246,
+       "median": 1.0,
+       "min": -2.0,
+       "q10": -0.1999999999999993,
+       "q90": 1.0
+      },
+      "diff_s": {
+       "max": 0.04,
+       "max_abs": 0.08,
+       "mean": 0.0163265306122449,
+       "median": 0.04,
+       "min": -0.08,
+       "q10": -0.007999999999999972,
+       "q90": 0.04
+      },
+      "n_abs_diff_le_10_frames_0p4s": 49,
+      "n_abs_diff_le_2_frames": 49,
+      "n_abs_diff_le_5_frames_0p2s": 49,
+      "n_pairs": 49
+     },
+     "A_minus_C": {
+      "diff_frames": {
+       "max": 10.0,
+       "max_abs": 18.0,
+       "mean": -0.24489795918367346,
+       "median": 0.0,
+       "min": -18.0,
+       "q10": -6.199999999999999,
+       "q90": 4.0
+      },
+      "diff_s": {
+       "max": 0.4,
+       "max_abs": 0.72,
+       "mean": -0.009795918367346938,
+       "median": 0.0,
+       "min": -0.72,
+       "q10": -0.24799999999999997,
+       "q90": 0.16
+      },
+      "n_abs_diff_le_10_frames_0p4s": 48,
+      "n_abs_diff_le_2_frames": 26,
+      "n_abs_diff_le_5_frames_0p2s": 40,
+      "n_pairs": 49
+     },
+     "B_real_minus_C": {
+      "diff_frames": {
+       "max": 9.351190476190474,
+       "max_abs": 18.44502801120448,
+       "mean": -0.6139527239467207,
+       "median": -0.18172268907562739,
+       "min": -18.44502801120448,
+       "q10": -6.202450980392157,
+       "q90": 4.069677871148462
+      },
+      "diff_s": {
+       "max": 0.37404761904761896,
+       "max_abs": 0.7378011204481792,
+       "mean": -0.024558108957868828,
+       "median": -0.007268907563025095,
+       "min": -0.7378011204481792,
+       "q10": -0.24809803921568627,
+       "q90": 0.1627871148459385
+      },
+      "n_abs_diff_le_10_frames_0p4s": 48,
+      "n_abs_diff_le_2_frames": 19,
+      "n_abs_diff_le_5_frames_0p2s": 40,
+      "n_pairs": 49
+     },
+     "C_minus_C0": {
+      "diff_frames": {
+       "max": 13.0,
+       "max_abs": 13.0,
+       "mean": 0.08163265306122448,
+       "median": 0.0,
+       "min": -10.0,
+       "q10": 0.0,
+       "q90": 1.0
+      },
+      "diff_s": {
+       "max": 0.52,
+       "max_abs": 0.52,
+       "mean": 0.0032653061224489793,
+       "median": 0.0,
+       "min": -0.4,
+       "q10": 0.0,
+       "q90": 0.04
+      },
+      "n_abs_diff_le_10_frames_0p4s": 48,
+      "n_abs_diff_le_2_frames": 45,
+      "n_abs_diff_le_5_frames_0p2s": 47,
+      "n_pairs": 49
+     },
+     "C_minus_nosupport_run_onset": {
+      "diff_frames": {
+       "max": 27.0,
+       "max_abs": 27.0,
+       "mean": 8.5,
+       "median": 7.0,
+       "min": 1.0,
+       "q10": 3.7,
+       "q90": 15.200000000000017
+      },
+      "diff_s": {
+       "max": 1.08,
+       "max_abs": 1.08,
+       "mean": 0.34,
+       "median": 0.28,
+       "min": 0.04,
+       "q10": 0.14800000000000002,
+       "q90": 0.6080000000000007
+      },
+      "n_abs_diff_le_10_frames_0p4s": 29,
+      "n_abs_diff_le_2_frames": 1,
+      "n_abs_diff_le_5_frames_0p2s": 11,
+      "n_pairs": 38
+     }
+    },
+    "planned_denominator": 49
+   },
+   "lifting_clips_any_positive_profile": 49,
+   "non_lifting_clips": 15,
+   "non_lifting_max_clearance_frame": {
+    "after_frame_60": {
+     "count": 1,
+     "fraction_of_planned": 0.06666666666666667,
+     "fraction_of_present": 0.06666666666666667,
+     "planned_denominator": 15,
+     "present_denominator": 15,
+     "threshold_s": 2.4,
+     "wilson95_of_planned": [
+      0.011866588606194856,
+      0.2981707755242399
+     ],
+     "wilson95_of_present": [
+      0.011866588606194856,
+      0.2981707755242399
+     ]
+    },
+    "clearance_m_sorted": [
+     0.2032,
+     0.2157,
+     0.2791,
+     0.3001,
+     0.4033,
+     0.4174,
+     0.431,
+     0.4403,
+     0.4477,
+     0.477,
+     0.5295,
+     0.5454,
+     0.5619,
+     0.6234,
+     0.6475
+    ],
+    "frames": {
+     "max": 132.0,
+     "mean": 34.46666666666667,
+     "median": 26.0,
+     "min": 7.0,
+     "q10": 10.4,
+     "q90": 55.0
+    },
+    "histogram_10_frame_bins": {
+     "bin_width_s": 0.4,
+     "counts": [
+      1,
+      5,
+      4,
+      0,
+      0,
+      4,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     "edges_frames": [
+      0,
+      10,
+      20,
+      30,
+      40,
+      50,
+      60,
+      70,
+      80,
+      90,
+      100,
+      110,
+      120,
+      130,
+      140,
+      150,
+      160,
+      170,
+      180,
+      190,
+      200
+     ]
+    },
+    "inside_first_50_frames": {
+     "count": 10,
+     "fraction_of_planned": 0.6666666666666666,
+     "fraction_of_present": 0.6666666666666666,
+     "planned_denominator": 15,
+     "present_denominator": 15,
+     "wilson95_of_planned": [
+      0.41713125151212976,
+      0.8482389930530876
+     ],
+     "wilson95_of_present": [
+      0.41713125151212976,
+      0.8482389930530876
+     ],
+     "window_s": 2.0
+    },
+    "label": "NOT an event: frame of the highest foot bottom (either foot) in the 15 clips whose profile is zero everywhere; reported for comparison only",
+    "n_missing": 0,
+    "n_present": 15,
+    "planned_n": 15,
+    "seconds": {
+     "max": 5.28,
+     "mean": 1.3786666666666667,
+     "median": 1.04,
+     "min": 0.28,
+     "q10": 0.41600000000000004,
+     "q90": 2.2
+    },
+    "values_frames": [
+     53.0,
+     26.0,
+     132.0,
+     20.0,
+     55.0,
+     10.0,
+     13.0,
+     29.0,
+     7.0,
+     13.0,
+     11.0,
+     26.0,
+     55.0,
+     13.0,
+     54.0
+    ]
+   },
+   "planned_clips": 64,
+   "provisional_numbers_in_plan": {
+    "computed_A_root_crossing": {
+     "after_frame_60": "4/49",
+     "inside_first_50_frames": "40/49",
+     "median_frame": 35.0,
+     "q10_q90_frames": [
+      20.8,
+      55.400000000000006
+     ]
+    },
+    "computed_B_nominal_real": {
+     "after_frame_60": "4/49",
+     "inside_first_50_frames": "42/49",
+     "median_frame": 34.351190476190474,
+     "q10_q90_frames": [
+      20.248389355742297,
+      54.58564425770309
+     ]
+    },
+    "quoted": {
+     "after_frame_60": "4/49 (an earlier note said 3/49)",
+     "exp023_step_0_latencies_frames": [
+      18,
+      39,
+      59,
+      50,
+      64,
+      33
+     ],
+     "exp023_step_0_median_latency_frames": 44.5,
+     "first_50_fraction_by_conversion": "80-86 % depending on the frame conversion",
+     "historical_conversion_median_frame": 34,
+     "inside_first_50_frames": "43/49",
+     "root_trajectory_median_frame": 35,
+     "root_trajectory_q10_q90_frames": [
+      21,
+      55
+     ],
+     "source": "docs/plan-2026-09-01-icra2027.md \u00a71.1 row 2 and \u00a76; CLAUDE.md audit table"
+    }
+   }
+  },
+  "exp023": {
+   "by_arm": {
+    "all_walk": {
+     "archived_control_events": {
+      "n_seeds_with_any_window_event": 0,
+      "of": 8
+     },
+     "full_clip_definitions": {
+      "A_root_crossing": {
+       "after_frame_60": {
+        "count": 0,
+        "fraction_of_planned": 0.0,
+        "fraction_of_present": null,
+        "planned_denominator": 8,
+        "present_denominator": 0,
+        "threshold_s": 2.4,
+        "wilson95_of_planned": [
+         0.0,
+         0.3244156195108769
+        ],
+        "wilson95_of_present": null
+       },
+       "frames": null,
+       "histogram_10_frame_bins": {
+        "bin_width_s": 0.4,
+        "counts": [
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0
+        ],
+        "edges_frames": [
+         0,
+         10,
+         20,
+         30,
+         40,
+         50,
+         60,
+         70,
+         80,
+         90,
+         100,
+         110,
+         120,
+         130,
+         140,
+         150,
+         160,
+         170,
+         180,
+         190,
+         200
+        ]
+       },
+       "inside_first_50_frames": {
+        "count": 0,
+        "fraction_of_planned": 0.0,
+        "fraction_of_present": null,
+        "planned_denominator": 8,
+        "present_denominator": 0,
+        "wilson95_of_planned": [
+         0.0,
+         0.3244156195108769
+        ],
+        "wilson95_of_present": null,
+        "window_s": 2.0
+       },
+       "n_missing": 8,
+       "n_present": 0,
+       "planned_n": 8,
+       "seconds": null,
+       "values_frames": []
+      },
+      "B_nominal_speed_ceil": {
+       "after_frame_60": {
+        "count": 0,
+        "fraction_of_planned": 0.0,
+        "fraction_of_present": null,
+        "planned_denominator": 8,
+        "present_denominator": 0,
+        "threshold_s": 2.4,
+        "wilson95_of_planned": [
+         0.0,
+         0.3244156195108769
+        ],
+        "wilson95_of_present": null
+       },
+       "frames": null,
+       "histogram_10_frame_bins": {
+        "bin_width_s": 0.4,
+        "counts": [
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0
+        ],
+        "edges_frames": [
+         0,
+         10,
+         20,
+         30,
+         40,
+         50,
+         60,
+         70,
+         80,
+         90,
+         100,
+         110,
+         120,
+         130,
+         140,
+         150,
+         160,
+         170,
+         180,
+         190,
+         200
+        ]
+       },
+       "inside_first_50_frames": {
+        "count": 0,
+        "fraction_of_planned": 0.0,
+        "fraction_of_present": null,
+        "planned_denominator": 8,
+        "present_denominator": 0,
+        "wilson95_of_planned": [
+         0.0,
+         0.3244156195108769
+        ],
+        "wilson95_of_present": null,
+        "window_s": 2.0
+       },
+       "n_missing": 8,
+       "n_present": 0,
+       "planned_n": 8,
+       "seconds": null,
+       "values_frames": []
+      },
+      "B_nominal_speed_floor": {
+       "after_frame_60": {
+        "count": 0,
+        "fraction_of_planned": 0.0,
+        "fraction_of_present": null,
+        "planned_denominator": 8,
+        "present_denominator": 0,
+        "threshold_s": 2.4,
+        "wilson95_of_planned": [
+         0.0,
+         0.3244156195108769
+        ],
+        "wilson95_of_present": null
+       },
+       "frames": null,
+       "histogram_10_frame_bins": {
+        "bin_width_s": 0.4,
+        "counts": [
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0
+        ],
+        "edges_frames": [
+         0,
+         10,
+         20,
+         30,
+         40,
+         50,
+         60,
+         70,
+         80,
+         90,
+         100,
+         110,
+         120,
+         130,
+         140,
+         150,
+         160,
+         170,
+         180,
+         190,
+         200
+        ]
+       },
+       "inside_first_50_frames": {
+        "count": 0,
+        "fraction_of_planned": 0.0,
+        "fraction_of_present": null,
+        "planned_denominator": 8,
+        "present_denominator": 0,
+        "wilson95_of_planned": [
+         0.0,
+         0.3244156195108769
+        ],
+        "wilson95_of_present": null,
+        "window_s": 2.0
+       },
+       "n_missing": 8,
+       "n_present": 0,
+       "planned_n": 8,
+       "seconds": null,
+       "values_frames": []
+      },
+      "B_nominal_speed_real": {
+       "after_frame_60": {
+        "count": 0,
+        "fraction_of_planned": 0.0,
+        "fraction_of_present": null,
+        "planned_denominator": 8,
+        "present_denominator": 0,
+        "threshold_s": 2.4,
+        "wilson95_of_planned": [
+         0.0,
+         0.3244156195108769
+        ],
+        "wilson95_of_present": null
+       },
+       "frames": null,
+       "histogram_10_frame_bins": {
+        "bin_width_s": 0.4,
+        "counts": [
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0
+        ],
+        "edges_frames": [
+         0,
+         10,
+         20,
+         30,
+         40,
+         50,
+         60,
+         70,
+         80,
+         90,
+         100,
+         110,
+         120,
+         130,
+         140,
+         150,
+         160,
+         170,
+         180,
+         190,
+         200
+        ]
+       },
+       "inside_first_50_frames": {
+        "count": 0,
+        "fraction_of_planned": 0.0,
+        "fraction_of_present": null,
+        "planned_denominator": 8,
+        "present_denominator": 0,
+        "wilson95_of_planned": [
+         0.0,
+         0.3244156195108769
+        ],
+        "wilson95_of_present": null,
+        "window_s": 2.0
+       },
+       "n_missing": 8,
+       "n_present": 0,
+       "planned_n": 8,
+       "seconds": null,
+       "values_frames": []
+      },
+      "B_nominal_speed_rounded": {
+       "after_frame_60": {
+        "count": 0,
+        "fraction_of_planned": 0.0,
+        "fraction_of_present": null,
+        "planned_denominator": 8,
+        "present_denominator": 0,
+        "threshold_s": 2.4,
+        "wilson95_of_planned": [
+         0.0,
+         0.3244156195108769
+        ],
+        "wilson95_of_present": null
+       },
+       "frames": null,
+       "histogram_10_frame_bins": {
+        "bin_width_s": 0.4,
+        "counts": [
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0
+        ],
+        "edges_frames": [
+         0,
+         10,
+         20,
+         30,
+         40,
+         50,
+         60,
+         70,
+         80,
+         90,
+         100,
+         110,
+         120,
+         130,
+         140,
+         150,
+         160,
+         170,
+         180,
+         190,
+         200
+        ]
+       },
+       "inside_first_50_frames": {
+        "count": 0,
+        "fraction_of_planned": 0.0,
+        "fraction_of_present": null,
+        "planned_denominator": 8,
+        "present_denominator": 0,
+        "wilson95_of_planned": [
+         0.0,
+         0.3244156195108769
+        ],
+        "wilson95_of_present": null,
+        "window_s": 2.0
+       },
+       "n_missing": 8,
+       "n_present": 0,
+       "planned_n": 8,
+       "seconds": null,
+       "values_frames": []
+      },
+      "C0_window_foot_lift": {
+       "after_frame_60": {
+        "count": 0,
+        "fraction_of_planned": 0.0,
+        "fraction_of_present": null,
+        "planned_denominator": 8,
+        "present_denominator": 0,
+        "threshold_s": 2.4,
+        "wilson95_of_planned": [
+         0.0,
+         0.3244156195108769
+        ],
+        "wilson95_of_present": null
+       },
+       "frames": null,
+       "histogram_10_frame_bins": {
+        "bin_width_s": 0.4,
+        "counts": [
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0
+        ],
+        "edges_frames": [
+         0,
+         10,
+         20,
+         30,
+         40,
+         50,
+         60,
+         70,
+         80,
+         90,
+         100,
+         110,
+         120,
+         130,
+         140,
+         150,
+         160,
+         170,
+         180,
+         190,
+         200
+        ]
+       },
+       "inside_first_50_frames": {
+        "count": 0,
+        "fraction_of_planned": 0.0,
+        "fraction_of_present": null,
+        "planned_denominator": 8,
+        "present_denominator": 0,
+        "wilson95_of_planned": [
+         0.0,
+         0.3244156195108769
+        ],
+        "wilson95_of_present": null,
+        "window_s": 2.0
+       },
+       "n_missing": 8,
+       "n_present": 0,
+       "planned_n": 8,
+       "seconds": null,
+       "values_frames": []
+      },
+      "C_foot_lift": {
+       "after_frame_60": {
+        "count": 0,
+        "fraction_of_planned": 0.0,
+        "fraction_of_present": null,
+        "planned_denominator": 8,
+        "present_denominator": 0,
+        "threshold_s": 2.4,
+        "wilson95_of_planned": [
+         0.0,
+         0.3244156195108769
+        ],
+        "wilson95_of_present": null
+       },
+       "frames": null,
+       "histogram_10_frame_bins": {
+        "bin_width_s": 0.4,
+        "counts": [
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0
+        ],
+        "edges_frames": [
+         0,
+         10,
+         20,
+         30,
+         40,
+         50,
+         60,
+         70,
+         80,
+         90,
+         100,
+         110,
+         120,
+         130,
+         140,
+         150,
+         160,
+         170,
+         180,
+         190,
+         200
+        ]
+       },
+       "inside_first_50_frames": {
+        "count": 0,
+        "fraction_of_planned": 0.0,
+        "fraction_of_present": null,
+        "planned_denominator": 8,
+        "present_denominator": 0,
+        "wilson95_of_planned": [
+         0.0,
+         0.3244156195108769
+        ],
+        "wilson95_of_present": null,
+        "window_s": 2.0
+       },
+       "n_missing": 8,
+       "n_present": 0,
+       "planned_n": 8,
+       "seconds": null,
+       "values_frames": []
+      },
+      "C_inside_bilateral_nosupport_run": {
+       "count": 0,
+       "n_run_at_least_gate_length": 0,
+       "of": 0,
+       "wilson95": null
+      },
+      "C_nosupport_run_onset": {
+       "after_frame_60": {
+        "count": 0,
+        "fraction_of_planned": 0.0,
+        "fraction_of_present": null,
+        "planned_denominator": 8,
+        "present_denominator": 0,
+        "threshold_s": 2.4,
+        "wilson95_of_planned": [
+         0.0,
+         0.3244156195108769
+        ],
+        "wilson95_of_present": null
+       },
+       "frames": null,
+       "histogram_10_frame_bins": {
+        "bin_width_s": 0.4,
+        "counts": [
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0
+        ],
+        "edges_frames": [
+         0,
+         10,
+         20,
+         30,
+         40,
+         50,
+         60,
+         70,
+         80,
+         90,
+         100,
+         110,
+         120,
+         130,
+         140,
+         150,
+         160,
+         170,
+         180,
+         190,
+         200
+        ]
+       },
+       "inside_first_50_frames": {
+        "count": 0,
+        "fraction_of_planned": 0.0,
+        "fraction_of_present": null,
+        "planned_denominator": 8,
+        "present_denominator": 0,
+        "wilson95_of_planned": [
+         0.0,
+         0.3244156195108769
+        ],
+        "wilson95_of_present": null,
+        "window_s": 2.0
+       },
+       "n_missing": 8,
+       "n_present": 0,
+       "planned_n": 8,
+       "seconds": null,
+       "values_frames": []
+      },
+      "lift_side_counts": {
+       "left": 0,
+       "right": 0,
+       "undetermined": 0
+      },
+      "n_rows": 0,
+      "pairwise_agreement": {
+       "A_minus_B_real": {
+        "n_pairs": 0
+       },
+       "A_minus_B_rounded": {
+        "n_pairs": 0
+       },
+       "A_minus_C": {
+        "n_pairs": 0
+       },
+       "B_real_minus_C": {
+        "n_pairs": 0
+       },
+       "C_minus_C0": {
+        "n_pairs": 0
+       },
+       "C_minus_nosupport_run_onset": {
+        "n_pairs": 0
+       }
+      },
+      "planned_denominator": 8
+     },
+     "lift_ge_3cm_clips_full_clip_profile": 0,
+     "lifting_clips_full_clip_profile": 0,
+     "onset_frame": null,
+     "planned_clips": 8
+    },
+    "step_0": {
+     "archived_event": {
+      "archived_frame_distribution": {
+       "after_frame_60": {
+        "count": 1,
+        "fraction_of_planned": 0.125,
+        "fraction_of_present": 0.16666666666666666,
+        "planned_denominator": 8,
+        "present_denominator": 6,
+        "threshold_s": 2.4,
+        "wilson95_of_planned": [
+         0.02241690886329617,
+         0.4708948057698615
+        ],
+        "wilson95_of_present": [
+         0.03005258587173032,
+         0.563509436563646
+        ]
+       },
+       "frames": {
+        "max": 64.0,
+        "mean": 43.833333333333336,
+        "median": 44.5,
+        "min": 18.0,
+        "q10": 25.5,
+        "q90": 61.5
+       },
+       "histogram_10_frame_bins": {
+        "bin_width_s": 0.4,
+        "counts": [
+         0,
+         1,
+         0,
+         2,
+         0,
+         2,
+         1,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0
+        ],
+        "edges_frames": [
+         0,
+         10,
+         20,
+         30,
+         40,
+         50,
+         60,
+         70,
+         80,
+         90,
+         100,
+         110,
+         120,
+         130,
+         140,
+         150,
+         160,
+         170,
+         180,
+         190,
+         200
+        ]
+       },
+       "inside_first_50_frames": {
+        "count": 3,
+        "fraction_of_planned": 0.375,
+        "fraction_of_present": 0.5,
+        "planned_denominator": 8,
+        "present_denominator": 6,
+        "wilson95_of_planned": [
+         0.13684175946152105,
+         0.6942621454161981
+        ],
+        "wilson95_of_present": [
+         0.18761280689940868,
+         0.8123871931005913
+        ],
+        "window_s": 2.0
+       },
+       "n_missing": 2,
+       "n_present": 6,
+       "planned_n": 8,
+       "seconds": {
+        "max": 2.56,
+        "mean": 1.7533333333333334,
+        "median": 1.78,
+        "min": 0.72,
+        "q10": 1.02,
+        "q90": 2.46
+       },
+       "values_frames": [
+        18.0,
+        39.0,
+        59.0,
+        50.0,
+        64.0,
+        33.0
+       ]
+      },
+      "archived_latency_frames": [
+       18,
+       39,
+       59,
+       50,
+       64,
+       33
+      ],
+      "comparison_against_full_clip_definitions": {
+       "A_minus_archived": {
+        "diff_frames": {
+         "max": 151.0,
+         "max_abs": 151.0,
+         "mean": 53.166666666666664,
+         "median": 33.0,
+         "min": -4.0,
+         "q10": -0.5,
+         "q90": 127.0
+        },
+        "diff_s": {
+         "max": 6.04,
+         "max_abs": 6.04,
+         "mean": 2.1266666666666665,
+         "median": 1.32,
+         "min": -0.16,
+         "q10": -0.02,
+         "q90": 5.08
+        },
+        "n_abs_diff_le_10_frames_0p4s": 3,
+        "n_abs_diff_le_2_frames": 0,
+        "n_abs_diff_le_5_frames_0p2s": 2,
+        "n_pairs": 6
+       },
+       "B_real_minus_archived": {
+        "diff_frames": {
+         "max": 150.17542016806723,
+         "max_abs": 150.17542016806723,
+         "mean": 52.60084033613446,
+         "median": 32.634803921568626,
+         "min": -4.918417366946777,
+         "q10": -1.0171568627450966,
+         "q90": 126.18487394957984
+        },
+        "diff_s": {
+         "max": 6.00701680672269,
+         "max_abs": 6.00701680672269,
+         "mean": 2.1040336134453783,
+         "median": 1.3053921568627451,
+         "min": -0.19673669467787108,
+         "q10": -0.04068627450980387,
+         "q90": 5.047394957983194
+        },
+        "n_abs_diff_le_10_frames_0p4s": 3,
+        "n_abs_diff_le_2_frames": 0,
+        "n_abs_diff_le_5_frames_0p2s": 2,
+        "n_pairs": 6
+       },
+       "C_minus_archived": {
+        "diff_frames": {
+         "max": 148.0,
+         "max_abs": 148.0,
+         "mean": 51.333333333333336,
+         "median": 28.0,
+         "min": 0.0,
+         "q10": 0.0,
+         "q90": 126.0
+        },
+        "diff_s": {
+         "max": 5.92,
+         "max_abs": 5.92,
+         "mean": 2.0533333333333332,
+         "median": 1.12,
+         "min": 0.0,
+         "q10": 0.0,
+         "q90": 5.04
+        },
+        "n_abs_diff_le_10_frames_0p4s": 3,
+        "n_abs_diff_le_2_frames": 3,
+        "n_abs_diff_le_5_frames_0p2s": 3,
+        "n_pairs": 6
+       },
+       "n_same_full_clip_lift_region": 3,
+       "n_side_agrees": 6,
+       "per_clip": [
+        {
+         "A_minus_archived_frames": 103,
+         "A_root_crossing_frame": 121,
+         "B_nominal_frame": 120.19432773109244,
+         "B_real_minus_archived_frames": 102.19432773109244,
+         "C_foot_lift_frame": 122,
+         "C_minus_archived_frames": 104,
+         "C_side": "left",
+         "archived_foot_x_m": 0.7554335036308093,
+         "archived_frame": 18,
+         "archived_latency_frames": 18,
+         "archived_profile_x_inside_C_region": false,
+         "archived_profile_x_m": 0.9437312613487607,
+         "archived_side": "left",
+         "full_clip_lift_height_m": 0.295078125,
+         "full_clip_lift_x_m": 4.34873949579832,
+         "key": "s4500_step_0",
+         "profile_x_minus_full_clip_lift_x_m": -3.405008234449559,
+         "side_agrees": true
+        },
+        {
+         "A_minus_archived_frames": 151,
+         "A_root_crossing_frame": 190,
+         "B_nominal_frame": 189.17542016806723,
+         "B_real_minus_archived_frames": 150.17542016806723,
+         "C_foot_lift_frame": 187,
+         "C_minus_archived_frames": 148,
+         "C_side": "right",
+         "archived_foot_x_m": 1.6011622604091922,
+         "archived_frame": 39,
+         "archived_latency_frames": 39,
+         "archived_profile_x_inside_C_region": false,
+         "archived_profile_x_m": 1.4205692327182131,
+         "archived_side": "right",
+         "full_clip_lift_height_m": 0.3043359375,
+         "full_clip_lift_x_m": 6.844537815126051,
+         "key": "s4501_step_0",
+         "profile_x_minus_full_clip_lift_x_m": -5.423968582407838,
+         "side_agrees": true
+        },
+        {
+         "A_minus_archived_frames": 7,
+         "A_root_crossing_frame": 66,
+         "B_nominal_frame": 65.0094537815126,
+         "B_real_minus_archived_frames": 6.009453781512605,
+         "C_foot_lift_frame": 59,
+         "C_minus_archived_frames": 0,
+         "C_side": "right",
+         "archived_foot_x_m": 2.3873482556029493,
+         "archived_frame": 59,
+         "archived_latency_frames": 59,
+         "archived_profile_x_inside_C_region": true,
+         "archived_profile_x_m": 2.3265613783201724,
+         "archived_side": "right",
+         "full_clip_lift_height_m": 0.221015625,
+         "full_clip_lift_x_m": 2.3521008403361345,
+         "key": "s4503_step_0",
+         "profile_x_minus_full_clip_lift_x_m": -0.025539462015962133,
+         "side_agrees": true
+        },
+        {
+         "A_minus_archived_frames": -4,
+         "A_root_crossing_frame": 46,
+         "B_nominal_frame": 45.08158263305322,
+         "B_real_minus_archived_frames": -4.918417366946777,
+         "C_foot_lift_frame": 50,
+         "C_minus_archived_frames": 0,
+         "C_side": "left",
+         "archived_foot_x_m": 1.7258607263604766,
+         "archived_frame": 50,
+         "archived_latency_frames": 50,
+         "archived_profile_x_inside_C_region": true,
+         "archived_profile_x_m": 1.611304421265994,
+         "archived_side": "left",
+         "full_clip_lift_height_m": 0.0574609375,
+         "full_clip_lift_x_m": 1.6310924369747901,
+         "key": "s4504_step_0",
+         "profile_x_minus_full_clip_lift_x_m": -0.01978801570879618,
+         "side_agrees": true
+        },
+        {
+         "A_minus_archived_frames": 59,
+         "A_root_crossing_frame": 123,
+         "B_nominal_frame": 123.26015406162465,
+         "B_real_minus_archived_frames": 59.26015406162465,
+         "C_foot_lift_frame": 120,
+         "C_minus_archived_frames": 56,
+         "C_side": "right",
+         "archived_foot_x_m": 2.333664693063059,
+         "archived_frame": 64,
+         "archived_latency_frames": 64,
+         "archived_profile_x_inside_C_region": false,
+         "archived_profile_x_m": 2.231193784046282,
+         "archived_side": "right",
+         "full_clip_lift_height_m": 0.38148437500000004,
+         "full_clip_lift_x_m": 4.459663865546219,
+         "key": "s4505_step_0",
+         "profile_x_minus_full_clip_lift_x_m": -2.2284700814999368,
+         "side_agrees": true
+        },
+        {
+         "A_minus_archived_frames": 3,
+         "A_root_crossing_frame": 36,
+         "B_nominal_frame": 35.88410364145658,
+         "B_real_minus_archived_frames": 2.8841036414565835,
+         "C_foot_lift_frame": 33,
+         "C_minus_archived_frames": 0,
+         "C_side": "right",
+         "archived_foot_x_m": 1.1446975126019994,
+         "archived_frame": 33,
+         "archived_latency_frames": 33,
+         "archived_profile_x_inside_C_region": true,
+         "archived_profile_x_m": 1.2775178413073773,
+         "archived_side": "right",
+         "full_clip_lift_height_m": 0.07289062500000001,
+         "full_clip_lift_x_m": 1.2983193277310925,
+         "key": "s4506_step_0",
+         "profile_x_minus_full_clip_lift_x_m": -0.020801486423715154,
+         "side_agrees": true
+        }
+       ]
+      },
+      "planned": 8,
+      "present": 6,
+      "wilson95": [
+       0.40926987910258916,
+       0.9285223111419724
+      ]
+     },
+     "full_clip_definitions": {
+      "A_root_crossing": {
+       "after_frame_60": {
+        "count": 6,
+        "fraction_of_planned": 0.75,
+        "fraction_of_present": 0.75,
+        "planned_denominator": 8,
+        "present_denominator": 8,
+        "threshold_s": 2.4,
+        "wilson95_of_planned": [
+         0.40926987910258916,
+         0.9285223111419724
+        ],
+        "wilson95_of_present": [
+         0.40926987910258916,
+         0.9285223111419724
+        ]
+       },
+       "frames": {
+        "max": 190.0,
+        "mean": 99.375,
+        "median": 106.5,
+        "min": 36.0,
+        "q10": 43.0,
+        "q90": 143.1
+       },
+       "histogram_10_frame_bins": {
+        "bin_width_s": 0.4,
+        "counts": [
+         0,
+         0,
+         0,
+         1,
+         1,
+         0,
+         1,
+         0,
+         0,
+         0,
+         2,
+         0,
+         2,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         1
+        ],
+        "edges_frames": [
+         0,
+         10,
+         20,
+         30,
+         40,
+         50,
+         60,
+         70,
+         80,
+         90,
+         100,
+         110,
+         120,
+         130,
+         140,
+         150,
+         160,
+         170,
+         180,
+         190,
+         200
+        ]
+       },
+       "inside_first_50_frames": {
+        "count": 2,
+        "fraction_of_planned": 0.25,
+        "fraction_of_present": 0.25,
+        "planned_denominator": 8,
+        "present_denominator": 8,
+        "wilson95_of_planned": [
+         0.07147768885802763,
+         0.5907301208974108
+        ],
+        "wilson95_of_present": [
+         0.07147768885802763,
+         0.5907301208974108
+        ],
+        "window_s": 2.0
+       },
+       "n_missing": 0,
+       "n_present": 8,
+       "planned_n": 8,
+       "seconds": {
+        "max": 7.6,
+        "mean": 3.975,
+        "median": 4.26,
+        "min": 1.44,
+        "q10": 1.72,
+        "q90": 5.724
+       },
+       "values_frames": [
+        121.0,
+        190.0,
+        107.0,
+        66.0,
+        46.0,
+        123.0,
+        36.0,
+        106.0
+       ]
+      },
+      "B_nominal_speed_ceil": {
+       "after_frame_60": {
+        "count": 6,
+        "fraction_of_planned": 0.75,
+        "fraction_of_present": 0.75,
+        "planned_denominator": 8,
+        "present_denominator": 8,
+        "threshold_s": 2.4,
+        "wilson95_of_planned": [
+         0.40926987910258916,
+         0.9285223111419724
+        ],
+        "wilson95_of_present": [
+         0.40926987910258916,
+         0.9285223111419724
+        ]
+       },
+       "frames": {
+        "max": 190.0,
+        "mean": 99.375,
+        "median": 106.0,
+        "min": 36.0,
+        "q10": 43.0,
+        "q90": 143.79999999999998
+       },
+       "histogram_10_frame_bins": {
+        "bin_width_s": 0.4,
+        "counts": [
+         0,
+         0,
+         0,
+         1,
+         1,
+         0,
+         1,
+         0,
+         0,
+         0,
+         2,
+         0,
+         2,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         1
+        ],
+        "edges_frames": [
+         0,
+         10,
+         20,
+         30,
+         40,
+         50,
+         60,
+         70,
+         80,
+         90,
+         100,
+         110,
+         120,
+         130,
+         140,
+         150,
+         160,
+         170,
+         180,
+         190,
+         200
+        ]
+       },
+       "inside_first_50_frames": {
+        "count": 2,
+        "fraction_of_planned": 0.25,
+        "fraction_of_present": 0.25,
+        "planned_denominator": 8,
+        "present_denominator": 8,
+        "wilson95_of_planned": [
+         0.07147768885802763,
+         0.5907301208974108
+        ],
+        "wilson95_of_present": [
+         0.07147768885802763,
+         0.5907301208974108
+        ],
+        "window_s": 2.0
+       },
+       "n_missing": 0,
+       "n_present": 8,
+       "planned_n": 8,
+       "seconds": {
+        "max": 7.6,
+        "mean": 3.975,
+        "median": 4.24,
+        "min": 1.44,
+        "q10": 1.72,
+        "q90": 5.751999999999999
+       },
+       "values_frames": [
+        121.0,
+        190.0,
+        107.0,
+        66.0,
+        46.0,
+        124.0,
+        36.0,
+        105.0
+       ]
+      },
+      "B_nominal_speed_floor": {
+       "after_frame_60": {
+        "count": 6,
+        "fraction_of_planned": 0.75,
+        "fraction_of_present": 0.75,
+        "planned_denominator": 8,
+        "present_denominator": 8,
+        "threshold_s": 2.4,
+        "wilson95_of_planned": [
+         0.40926987910258916,
+         0.9285223111419724
+        ],
+        "wilson95_of_present": [
+         0.40926987910258916,
+         0.9285223111419724
+        ]
+       },
+       "frames": {
+        "max": 189.0,
+        "mean": 98.375,
+        "median": 105.0,
+        "min": 35.0,
+        "q10": 42.0,
+        "q90": 142.79999999999998
+       },
+       "histogram_10_frame_bins": {
+        "bin_width_s": 0.4,
+        "counts": [
+         0,
+         0,
+         0,
+         1,
+         1,
+         0,
+         1,
+         0,
+         0,
+         0,
+         2,
+         0,
+         2,
+         0,
+         0,
+         0,
+         0,
+         0,
+         1,
+         0
+        ],
+        "edges_frames": [
+         0,
+         10,
+         20,
+         30,
+         40,
+         50,
+         60,
+         70,
+         80,
+         90,
+         100,
+         110,
+         120,
+         130,
+         140,
+         150,
+         160,
+         170,
+         180,
+         190,
+         200
+        ]
+       },
+       "inside_first_50_frames": {
+        "count": 2,
+        "fraction_of_planned": 0.25,
+        "fraction_of_present": 0.25,
+        "planned_denominator": 8,
+        "present_denominator": 8,
+        "wilson95_of_planned": [
+         0.07147768885802763,
+         0.5907301208974108
+        ],
+        "wilson95_of_present": [
+         0.07147768885802763,
+         0.5907301208974108
+        ],
+        "window_s": 2.0
+       },
+       "n_missing": 0,
+       "n_present": 8,
+       "planned_n": 8,
+       "seconds": {
+        "max": 7.56,
+        "mean": 3.935,
+        "median": 4.2,
+        "min": 1.4,
+        "q10": 1.68,
+        "q90": 5.712
+       },
+       "values_frames": [
+        120.0,
+        189.0,
+        106.0,
+        65.0,
+        45.0,
+        123.0,
+        35.0,
+        104.0
+       ]
+      },
+      "B_nominal_speed_real": {
+       "after_frame_60": {
+        "count": 6,
+        "fraction_of_planned": 0.75,
+        "fraction_of_present": 0.75,
+        "planned_denominator": 8,
+        "present_denominator": 8,
+        "threshold_s": 2.4,
+        "wilson95_of_planned": [
+         0.40926987910258916,
+         0.9285223111419724
+        ],
+        "wilson95_of_present": [
+         0.40926987910258916,
+         0.9285223111419724
+        ]
+       },
+       "frames": {
+        "max": 189.17542016806723,
+        "mean": 98.73354341736695,
+        "median": 105.63165266106442,
+        "min": 35.88410364145658,
+        "q10": 42.32233893557423,
+        "q90": 143.03473389355742
+       },
+       "histogram_10_frame_bins": {
+        "bin_width_s": 0.4,
+        "counts": [
+         0,
+         0,
+         0,
+         1,
+         1,
+         0,
+         1,
+         0,
+         0,
+         0,
+         2,
+         0,
+         2,
+         0,
+         0,
+         0,
+         0,
+         0,
+         1,
+         0
+        ],
+        "edges_frames": [
+         0,
+         10,
+         20,
+         30,
+         40,
+         50,
+         60,
+         70,
+         80,
+         90,
+         100,
+         110,
+         120,
+         130,
+         140,
+         150,
+         160,
+         170,
+         180,
+         190,
+         200
+        ]
+       },
+       "inside_first_50_frames": {
+        "count": 2,
+        "fraction_of_planned": 0.25,
+        "fraction_of_present": 0.25,
+        "planned_denominator": 8,
+        "present_denominator": 8,
+        "wilson95_of_planned": [
+         0.07147768885802763,
+         0.5907301208974108
+        ],
+        "wilson95_of_present": [
+         0.07147768885802763,
+         0.5907301208974108
+        ],
+        "window_s": 2.0
+       },
+       "n_missing": 0,
+       "n_present": 8,
+       "planned_n": 8,
+       "seconds": {
+        "max": 7.567016806722689,
+        "mean": 3.9493417366946777,
+        "median": 4.225266106442577,
+        "min": 1.4353641456582633,
+        "q10": 1.692893557422969,
+        "q90": 5.721389355742296
+       },
+       "values_frames": [
+        120.19432773109244,
+        189.17542016806723,
+        106.39810924369748,
+        65.0094537815126,
+        45.08158263305322,
+        123.26015406162465,
+        35.88410364145658,
+        104.86519607843137
+       ]
+      },
+      "B_nominal_speed_rounded": {
+       "after_frame_60": {
+        "count": 6,
+        "fraction_of_planned": 0.75,
+        "fraction_of_present": 0.75,
+        "planned_denominator": 8,
+        "present_denominator": 8,
+        "threshold_s": 2.4,
+        "wilson95_of_planned": [
+         0.40926987910258916,
+         0.9285223111419724
+        ],
+        "wilson95_of_present": [
+         0.40926987910258916,
+         0.9285223111419724
+        ]
+       },
+       "frames": {
+        "max": 189.0,
+        "mean": 98.625,
+        "median": 105.5,
+        "min": 36.0,
+        "q10": 42.3,
+        "q90": 142.79999999999998
+       },
+       "histogram_10_frame_bins": {
+        "bin_width_s": 0.4,
+        "counts": [
+         0,
+         0,
+         0,
+         1,
+         1,
+         0,
+         1,
+         0,
+         0,
+         0,
+         2,
+         0,
+         2,
+         0,
+         0,
+         0,
+         0,
+         0,
+         1,
+         0
+        ],
+        "edges_frames": [
+         0,
+         10,
+         20,
+         30,
+         40,
+         50,
+         60,
+         70,
+         80,
+         90,
+         100,
+         110,
+         120,
+         130,
+         140,
+         150,
+         160,
+         170,
+         180,
+         190,
+         200
+        ]
+       },
+       "inside_first_50_frames": {
+        "count": 2,
+        "fraction_of_planned": 0.25,
+        "fraction_of_present": 0.25,
+        "planned_denominator": 8,
+        "present_denominator": 8,
+        "wilson95_of_planned": [
+         0.07147768885802763,
+         0.5907301208974108
+        ],
+        "wilson95_of_present": [
+         0.07147768885802763,
+         0.5907301208974108
+        ],
+        "window_s": 2.0
+       },
+       "n_missing": 0,
+       "n_present": 8,
+       "planned_n": 8,
+       "seconds": {
+        "max": 7.56,
+        "mean": 3.945,
+        "median": 4.22,
+        "min": 1.44,
+        "q10": 1.692,
+        "q90": 5.712
+       },
+       "values_frames": [
+        120.0,
+        189.0,
+        106.0,
+        65.0,
+        45.0,
+        123.0,
+        36.0,
+        105.0
+       ]
+      },
+      "C0_window_foot_lift": {
+       "after_frame_60": {
+        "count": 5,
+        "fraction_of_planned": 0.625,
+        "fraction_of_present": 0.625,
+        "planned_denominator": 8,
+        "present_denominator": 8,
+        "threshold_s": 2.4,
+        "wilson95_of_planned": [
+         0.30573785458380187,
+         0.863158240538479
+        ],
+        "wilson95_of_present": [
+         0.30573785458380187,
+         0.863158240538479
+        ]
+       },
+       "frames": {
+        "max": 187.0,
+        "mean": 98.625,
+        "median": 109.5,
+        "min": 34.0,
+        "q10": 45.2,
+        "q90": 140.1
+       },
+       "histogram_10_frame_bins": {
+        "bin_width_s": 0.4,
+        "counts": [
+         0,
+         0,
+         0,
+         1,
+         0,
+         2,
+         0,
+         0,
+         0,
+         0,
+         1,
+         1,
+         2,
+         0,
+         0,
+         0,
+         0,
+         0,
+         1,
+         0
+        ],
+        "edges_frames": [
+         0,
+         10,
+         20,
+         30,
+         40,
+         50,
+         60,
+         70,
+         80,
+         90,
+         100,
+         110,
+         120,
+         130,
+         140,
+         150,
+         160,
+         170,
+         180,
+         190,
+         200
+        ]
+       },
+       "inside_first_50_frames": {
+        "count": 1,
+        "fraction_of_planned": 0.125,
+        "fraction_of_present": 0.125,
+        "planned_denominator": 8,
+        "present_denominator": 8,
+        "wilson95_of_planned": [
+         0.02241690886329617,
+         0.4708948057698615
+        ],
+        "wilson95_of_present": [
+         0.02241690886329617,
+         0.4708948057698615
+        ],
+        "window_s": 2.0
+       },
+       "n_missing": 0,
+       "n_present": 8,
+       "planned_n": 8,
+       "seconds": {
+        "max": 7.48,
+        "mean": 3.945,
+        "median": 4.38,
+        "min": 1.36,
+        "q10": 1.808,
+        "q90": 5.604
+       },
+       "values_frames": [
+        120.0,
+        187.0,
+        113.0,
+        59.0,
+        50.0,
+        120.0,
+        34.0,
+        106.0
+       ]
+      },
+      "C_foot_lift": {
+       "after_frame_60": {
+        "count": 5,
+        "fraction_of_planned": 0.625,
+        "fraction_of_present": 0.625,
+        "planned_denominator": 8,
+        "present_denominator": 8,
+        "threshold_s": 2.4,
+        "wilson95_of_planned": [
+         0.30573785458380187,
+         0.863158240538479
+        ],
+        "wilson95_of_present": [
+         0.30573785458380187,
+         0.863158240538479
+        ]
+       },
+       "frames": {
+        "max": 187.0,
+        "mean": 98.75,
+        "median": 109.5,
+        "min": 33.0,
+        "q10": 44.9,
+        "q90": 141.5
+       },
+       "histogram_10_frame_bins": {
+        "bin_width_s": 0.4,
+        "counts": [
+         0,
+         0,
+         0,
+         1,
+         0,
+         2,
+         0,
+         0,
+         0,
+         0,
+         1,
+         1,
+         2,
+         0,
+         0,
+         0,
+         0,
+         0,
+         1,
+         0
+        ],
+        "edges_frames": [
+         0,
+         10,
+         20,
+         30,
+         40,
+         50,
+         60,
+         70,
+         80,
+         90,
+         100,
+         110,
+         120,
+         130,
+         140,
+         150,
+         160,
+         170,
+         180,
+         190,
+         200
+        ]
+       },
+       "inside_first_50_frames": {
+        "count": 1,
+        "fraction_of_planned": 0.125,
+        "fraction_of_present": 0.125,
+        "planned_denominator": 8,
+        "present_denominator": 8,
+        "wilson95_of_planned": [
+         0.02241690886329617,
+         0.4708948057698615
+        ],
+        "wilson95_of_present": [
+         0.02241690886329617,
+         0.4708948057698615
+        ],
+        "window_s": 2.0
+       },
+       "n_missing": 0,
+       "n_present": 8,
+       "planned_n": 8,
+       "seconds": {
+        "max": 7.48,
+        "mean": 3.95,
+        "median": 4.38,
+        "min": 1.32,
+        "q10": 1.796,
+        "q90": 5.66
+       },
+       "values_frames": [
+        122.0,
+        187.0,
+        113.0,
+        59.0,
+        50.0,
+        120.0,
+        33.0,
+        106.0
+       ]
+      },
+      "C_inside_bilateral_nosupport_run": {
+       "count": 7,
+       "n_run_at_least_gate_length": 6,
+       "of": 8,
+       "wilson95": [
+        0.5291051942301386,
+        0.9775830911367038
+       ]
+      },
+      "C_nosupport_run_onset": {
+       "after_frame_60": {
+        "count": 4,
+        "fraction_of_planned": 0.5,
+        "fraction_of_present": 0.5714285714285714,
+        "planned_denominator": 8,
+        "present_denominator": 7,
+        "threshold_s": 2.4,
+        "wilson95_of_planned": [
+         0.21521252682444186,
+         0.7847874731755582
+        ],
+        "wilson95_of_present": [
+         0.2504542304090258,
+         0.8417830777373732
+        ]
+       },
+       "frames": {
+        "max": 182.0,
+        "mean": 92.42857142857143,
+        "median": 106.0,
+        "min": 30.0,
+        "q10": 39.6,
+        "q90": 140.60000000000002
+       },
+       "histogram_10_frame_bins": {
+        "bin_width_s": 0.4,
+        "counts": [
+         0,
+         0,
+         0,
+         1,
+         1,
+         1,
+         0,
+         0,
+         0,
+         0,
+         1,
+         2,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         1,
+         0
+        ],
+        "edges_frames": [
+         0,
+         10,
+         20,
+         30,
+         40,
+         50,
+         60,
+         70,
+         80,
+         90,
+         100,
+         110,
+         120,
+         130,
+         140,
+         150,
+         160,
+         170,
+         180,
+         190,
+         200
+        ]
+       },
+       "inside_first_50_frames": {
+        "count": 2,
+        "fraction_of_planned": 0.25,
+        "fraction_of_present": 0.2857142857142857,
+        "planned_denominator": 8,
+        "present_denominator": 7,
+        "wilson95_of_planned": [
+         0.07147768885802763,
+         0.5907301208974108
+        ],
+        "wilson95_of_present": [
+         0.0822171657090155,
+         0.6410709098517873
+        ],
+        "window_s": 2.0
+       },
+       "n_missing": 1,
+       "n_present": 7,
+       "planned_n": 8,
+       "seconds": {
+        "max": 7.28,
+        "mean": 3.697142857142857,
+        "median": 4.24,
+        "min": 1.2,
+        "q10": 1.584,
+        "q90": 5.6240000000000006
+       },
+       "values_frames": [
+        113.0,
+        182.0,
+        58.0,
+        46.0,
+        112.0,
+        30.0,
+        106.0
+       ]
+      },
+      "lift_side_counts": {
+       "left": 3,
+       "right": 5,
+       "undetermined": 0
+      },
+      "n_rows": 8,
+      "pairwise_agreement": {
+       "A_minus_B_real": {
+        "diff_frames": {
+         "max": 1.1348039215686327,
+         "max_abs": 1.1348039215686327,
+         "mean": 0.6414565826330527,
+         "median": 0.8151260504201616,
+         "min": -0.2601540616246467,
+         "q10": 0.0030812324929975626,
+         "q90": 1.0338235294117666
+        },
+        "diff_s": {
+         "max": 0.04539215686274531,
+         "max_abs": 0.04539215686274531,
+         "mean": 0.02565826330532211,
+         "median": 0.03260504201680647,
+         "min": -0.01040616246498587,
+         "q10": 0.00012324929971990251,
+         "q90": 0.04135294117647066
+        },
+        "n_abs_diff_le_10_frames_0p4s": 8,
+        "n_abs_diff_le_2_frames": 8,
+        "n_abs_diff_le_5_frames_0p2s": 8,
+        "n_pairs": 8
+       },
+       "A_minus_B_rounded": {
+        "diff_frames": {
+         "max": 1.0,
+         "max_abs": 1.0,
+         "mean": 0.75,
+         "median": 1.0,
+         "min": 0.0,
+         "q10": 0.0,
+         "q90": 1.0
+        },
+        "diff_s": {
+         "max": 0.04,
+         "max_abs": 0.04,
+         "mean": 0.03,
+         "median": 0.04,
+         "min": 0.0,
+         "q10": 0.0,
+         "q90": 0.04
+        },
+        "n_abs_diff_le_10_frames_0p4s": 8,
+        "n_abs_diff_le_2_frames": 8,
+        "n_abs_diff_le_5_frames_0p2s": 8,
+        "n_pairs": 8
+       },
+       "A_minus_C": {
+        "diff_frames": {
+         "max": 7.0,
+         "max_abs": 7.0,
+         "mean": 0.625,
+         "median": 1.5,
+         "min": -6.0,
+         "q10": -4.6,
+         "q90": 4.199999999999999
+        },
+        "diff_s": {
+         "max": 0.28,
+         "max_abs": 0.28,
+         "mean": 0.025,
+         "median": 0.06,
+         "min": -0.24,
+         "q10": -0.184,
+         "q90": 0.16799999999999998
+        },
+        "n_abs_diff_le_10_frames_0p4s": 8,
+        "n_abs_diff_le_2_frames": 2,
+        "n_abs_diff_le_5_frames_0p2s": 6,
+        "n_pairs": 8
+       },
+       "B_real_minus_C": {
+        "diff_frames": {
+         "max": 6.009453781512605,
+         "max_abs": 6.601890756302524,
+         "mean": -0.01645658263305272,
+         "median": 0.5203081232493005,
+         "min": -6.601890756302524,
+         "q10": -5.423459383753501,
+         "q90": 4.084943977591034
+        },
+        "diff_s": {
+         "max": 0.24037815126050419,
+         "max_abs": 0.26407563025210096,
+         "mean": -0.0006582633053221087,
+         "median": 0.020812324929972023,
+         "min": -0.26407563025210096,
+         "q10": -0.21693837535014004,
+         "q90": 0.16339775910364135
+        },
+        "n_abs_diff_le_10_frames_0p4s": 8,
+        "n_abs_diff_le_2_frames": 2,
+        "n_abs_diff_le_5_frames_0p2s": 6,
+        "n_pairs": 8
+       },
+       "C_minus_C0": {
+        "diff_frames": {
+         "max": 2.0,
+         "max_abs": 2.0,
+         "mean": 0.125,
+         "median": 0.0,
+         "min": -1.0,
+         "q10": -0.29999999999999993,
+         "q90": 0.5999999999999996
+        },
+        "diff_s": {
+         "max": 0.08,
+         "max_abs": 0.08,
+         "mean": 0.005,
+         "median": 0.0,
+         "min": -0.04,
+         "q10": -0.011999999999999997,
+         "q90": 0.023999999999999987
+        },
+        "n_abs_diff_le_10_frames_0p4s": 8,
+        "n_abs_diff_le_2_frames": 8,
+        "n_abs_diff_le_5_frames_0p2s": 8,
+        "n_pairs": 8
+       },
+       "C_minus_nosupport_run_onset": {
+        "diff_frames": {
+         "max": 9.0,
+         "max_abs": 9.0,
+         "mean": 4.285714285714286,
+         "median": 4.0,
+         "min": 0.0,
+         "q10": 0.6000000000000001,
+         "q90": 8.4
+        },
+        "diff_s": {
+         "max": 0.36,
+         "max_abs": 0.36,
+         "mean": 0.17142857142857143,
+         "median": 0.16,
+         "min": 0.0,
+         "q10": 0.024000000000000004,
+         "q90": 0.336
+        },
+        "n_abs_diff_le_10_frames_0p4s": 7,
+        "n_abs_diff_le_2_frames": 2,
+        "n_abs_diff_le_5_frames_0p2s": 5,
+        "n_pairs": 7
+       }
+      },
+      "planned_denominator": 8
+     },
+     "full_clip_lift_before_prompt_onset": {
+      "count": 0,
+      "keys": [],
+      "note": "a lift whose C frame precedes the prompt onset happened under WALK",
+      "of_lifting": 8
+     },
+     "lift_ge_3cm_clips_full_clip_profile": 7,
+     "lifting_clips_full_clip_profile": 8,
+     "onset_frame": 0,
+     "planned_clips": 8
+    },
+    "step_104": {
+     "archived_event": {
+      "archived_frame_distribution": {
+       "after_frame_60": {
+        "count": 0,
+        "fraction_of_planned": 0.0,
+        "fraction_of_present": null,
+        "planned_denominator": 8,
+        "present_denominator": 0,
+        "threshold_s": 2.4,
+        "wilson95_of_planned": [
+         0.0,
+         0.3244156195108769
+        ],
+        "wilson95_of_present": null
+       },
+       "frames": null,
+       "histogram_10_frame_bins": {
+        "bin_width_s": 0.4,
+        "counts": [
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0
+        ],
+        "edges_frames": [
+         0,
+         10,
+         20,
+         30,
+         40,
+         50,
+         60,
+         70,
+         80,
+         90,
+         100,
+         110,
+         120,
+         130,
+         140,
+         150,
+         160,
+         170,
+         180,
+         190,
+         200
+        ]
+       },
+       "inside_first_50_frames": {
+        "count": 0,
+        "fraction_of_planned": 0.0,
+        "fraction_of_present": null,
+        "planned_denominator": 8,
+        "present_denominator": 0,
+        "wilson95_of_planned": [
+         0.0,
+         0.3244156195108769
+        ],
+        "wilson95_of_present": null,
+        "window_s": 2.0
+       },
+       "n_missing": 8,
+       "n_present": 0,
+       "planned_n": 8,
+       "seconds": null,
+       "values_frames": []
+      },
+      "archived_latency_frames": [],
+      "comparison_against_full_clip_definitions": {
+       "A_minus_archived": {
+        "n_pairs": 0
+       },
+       "B_real_minus_archived": {
+        "n_pairs": 0
+       },
+       "C_minus_archived": {
+        "n_pairs": 0
+       },
+       "n_same_full_clip_lift_region": 0,
+       "n_side_agrees": 0,
+       "per_clip": []
+      },
+      "planned": 8,
+      "present": 0,
+      "wilson95": [
+       0.0,
+       0.3244156195108769
+      ]
+     },
+     "full_clip_definitions": {
+      "A_root_crossing": {
+       "after_frame_60": {
+        "count": 0,
+        "fraction_of_planned": 0.0,
+        "fraction_of_present": null,
+        "planned_denominator": 8,
+        "present_denominator": 0,
+        "threshold_s": 2.4,
+        "wilson95_of_planned": [
+         0.0,
+         0.3244156195108769
+        ],
+        "wilson95_of_present": null
+       },
+       "frames": null,
+       "histogram_10_frame_bins": {
+        "bin_width_s": 0.4,
+        "counts": [
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0
+        ],
+        "edges_frames": [
+         0,
+         10,
+         20,
+         30,
+         40,
+         50,
+         60,
+         70,
+         80,
+         90,
+         100,
+         110,
+         120,
+         130,
+         140,
+         150,
+         160,
+         170,
+         180,
+         190,
+         200
+        ]
+       },
+       "inside_first_50_frames": {
+        "count": 0,
+        "fraction_of_planned": 0.0,
+        "fraction_of_present": null,
+        "planned_denominator": 8,
+        "present_denominator": 0,
+        "wilson95_of_planned": [
+         0.0,
+         0.3244156195108769
+        ],
+        "wilson95_of_present": null,
+        "window_s": 2.0
+       },
+       "n_missing": 8,
+       "n_present": 0,
+       "planned_n": 8,
+       "seconds": null,
+       "values_frames": []
+      },
+      "B_nominal_speed_ceil": {
+       "after_frame_60": {
+        "count": 0,
+        "fraction_of_planned": 0.0,
+        "fraction_of_present": null,
+        "planned_denominator": 8,
+        "present_denominator": 0,
+        "threshold_s": 2.4,
+        "wilson95_of_planned": [
+         0.0,
+         0.3244156195108769
+        ],
+        "wilson95_of_present": null
+       },
+       "frames": null,
+       "histogram_10_frame_bins": {
+        "bin_width_s": 0.4,
+        "counts": [
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0
+        ],
+        "edges_frames": [
+         0,
+         10,
+         20,
+         30,
+         40,
+         50,
+         60,
+         70,
+         80,
+         90,
+         100,
+         110,
+         120,
+         130,
+         140,
+         150,
+         160,
+         170,
+         180,
+         190,
+         200
+        ]
+       },
+       "inside_first_50_frames": {
+        "count": 0,
+        "fraction_of_planned": 0.0,
+        "fraction_of_present": null,
+        "planned_denominator": 8,
+        "present_denominator": 0,
+        "wilson95_of_planned": [
+         0.0,
+         0.3244156195108769
+        ],
+        "wilson95_of_present": null,
+        "window_s": 2.0
+       },
+       "n_missing": 8,
+       "n_present": 0,
+       "planned_n": 8,
+       "seconds": null,
+       "values_frames": []
+      },
+      "B_nominal_speed_floor": {
+       "after_frame_60": {
+        "count": 0,
+        "fraction_of_planned": 0.0,
+        "fraction_of_present": null,
+        "planned_denominator": 8,
+        "present_denominator": 0,
+        "threshold_s": 2.4,
+        "wilson95_of_planned": [
+         0.0,
+         0.3244156195108769
+        ],
+        "wilson95_of_present": null
+       },
+       "frames": null,
+       "histogram_10_frame_bins": {
+        "bin_width_s": 0.4,
+        "counts": [
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0
+        ],
+        "edges_frames": [
+         0,
+         10,
+         20,
+         30,
+         40,
+         50,
+         60,
+         70,
+         80,
+         90,
+         100,
+         110,
+         120,
+         130,
+         140,
+         150,
+         160,
+         170,
+         180,
+         190,
+         200
+        ]
+       },
+       "inside_first_50_frames": {
+        "count": 0,
+        "fraction_of_planned": 0.0,
+        "fraction_of_present": null,
+        "planned_denominator": 8,
+        "present_denominator": 0,
+        "wilson95_of_planned": [
+         0.0,
+         0.3244156195108769
+        ],
+        "wilson95_of_present": null,
+        "window_s": 2.0
+       },
+       "n_missing": 8,
+       "n_present": 0,
+       "planned_n": 8,
+       "seconds": null,
+       "values_frames": []
+      },
+      "B_nominal_speed_real": {
+       "after_frame_60": {
+        "count": 0,
+        "fraction_of_planned": 0.0,
+        "fraction_of_present": null,
+        "planned_denominator": 8,
+        "present_denominator": 0,
+        "threshold_s": 2.4,
+        "wilson95_of_planned": [
+         0.0,
+         0.3244156195108769
+        ],
+        "wilson95_of_present": null
+       },
+       "frames": null,
+       "histogram_10_frame_bins": {
+        "bin_width_s": 0.4,
+        "counts": [
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0
+        ],
+        "edges_frames": [
+         0,
+         10,
+         20,
+         30,
+         40,
+         50,
+         60,
+         70,
+         80,
+         90,
+         100,
+         110,
+         120,
+         130,
+         140,
+         150,
+         160,
+         170,
+         180,
+         190,
+         200
+        ]
+       },
+       "inside_first_50_frames": {
+        "count": 0,
+        "fraction_of_planned": 0.0,
+        "fraction_of_present": null,
+        "planned_denominator": 8,
+        "present_denominator": 0,
+        "wilson95_of_planned": [
+         0.0,
+         0.3244156195108769
+        ],
+        "wilson95_of_present": null,
+        "window_s": 2.0
+       },
+       "n_missing": 8,
+       "n_present": 0,
+       "planned_n": 8,
+       "seconds": null,
+       "values_frames": []
+      },
+      "B_nominal_speed_rounded": {
+       "after_frame_60": {
+        "count": 0,
+        "fraction_of_planned": 0.0,
+        "fraction_of_present": null,
+        "planned_denominator": 8,
+        "present_denominator": 0,
+        "threshold_s": 2.4,
+        "wilson95_of_planned": [
+         0.0,
+         0.3244156195108769
+        ],
+        "wilson95_of_present": null
+       },
+       "frames": null,
+       "histogram_10_frame_bins": {
+        "bin_width_s": 0.4,
+        "counts": [
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0
+        ],
+        "edges_frames": [
+         0,
+         10,
+         20,
+         30,
+         40,
+         50,
+         60,
+         70,
+         80,
+         90,
+         100,
+         110,
+         120,
+         130,
+         140,
+         150,
+         160,
+         170,
+         180,
+         190,
+         200
+        ]
+       },
+       "inside_first_50_frames": {
+        "count": 0,
+        "fraction_of_planned": 0.0,
+        "fraction_of_present": null,
+        "planned_denominator": 8,
+        "present_denominator": 0,
+        "wilson95_of_planned": [
+         0.0,
+         0.3244156195108769
+        ],
+        "wilson95_of_present": null,
+        "window_s": 2.0
+       },
+       "n_missing": 8,
+       "n_present": 0,
+       "planned_n": 8,
+       "seconds": null,
+       "values_frames": []
+      },
+      "C0_window_foot_lift": {
+       "after_frame_60": {
+        "count": 0,
+        "fraction_of_planned": 0.0,
+        "fraction_of_present": null,
+        "planned_denominator": 8,
+        "present_denominator": 0,
+        "threshold_s": 2.4,
+        "wilson95_of_planned": [
+         0.0,
+         0.3244156195108769
+        ],
+        "wilson95_of_present": null
+       },
+       "frames": null,
+       "histogram_10_frame_bins": {
+        "bin_width_s": 0.4,
+        "counts": [
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0
+        ],
+        "edges_frames": [
+         0,
+         10,
+         20,
+         30,
+         40,
+         50,
+         60,
+         70,
+         80,
+         90,
+         100,
+         110,
+         120,
+         130,
+         140,
+         150,
+         160,
+         170,
+         180,
+         190,
+         200
+        ]
+       },
+       "inside_first_50_frames": {
+        "count": 0,
+        "fraction_of_planned": 0.0,
+        "fraction_of_present": null,
+        "planned_denominator": 8,
+        "present_denominator": 0,
+        "wilson95_of_planned": [
+         0.0,
+         0.3244156195108769
+        ],
+        "wilson95_of_present": null,
+        "window_s": 2.0
+       },
+       "n_missing": 8,
+       "n_present": 0,
+       "planned_n": 8,
+       "seconds": null,
+       "values_frames": []
+      },
+      "C_foot_lift": {
+       "after_frame_60": {
+        "count": 0,
+        "fraction_of_planned": 0.0,
+        "fraction_of_present": null,
+        "planned_denominator": 8,
+        "present_denominator": 0,
+        "threshold_s": 2.4,
+        "wilson95_of_planned": [
+         0.0,
+         0.3244156195108769
+        ],
+        "wilson95_of_present": null
+       },
+       "frames": null,
+       "histogram_10_frame_bins": {
+        "bin_width_s": 0.4,
+        "counts": [
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0
+        ],
+        "edges_frames": [
+         0,
+         10,
+         20,
+         30,
+         40,
+         50,
+         60,
+         70,
+         80,
+         90,
+         100,
+         110,
+         120,
+         130,
+         140,
+         150,
+         160,
+         170,
+         180,
+         190,
+         200
+        ]
+       },
+       "inside_first_50_frames": {
+        "count": 0,
+        "fraction_of_planned": 0.0,
+        "fraction_of_present": null,
+        "planned_denominator": 8,
+        "present_denominator": 0,
+        "wilson95_of_planned": [
+         0.0,
+         0.3244156195108769
+        ],
+        "wilson95_of_present": null,
+        "window_s": 2.0
+       },
+       "n_missing": 8,
+       "n_present": 0,
+       "planned_n": 8,
+       "seconds": null,
+       "values_frames": []
+      },
+      "C_inside_bilateral_nosupport_run": {
+       "count": 0,
+       "n_run_at_least_gate_length": 0,
+       "of": 0,
+       "wilson95": null
+      },
+      "C_nosupport_run_onset": {
+       "after_frame_60": {
+        "count": 0,
+        "fraction_of_planned": 0.0,
+        "fraction_of_present": null,
+        "planned_denominator": 8,
+        "present_denominator": 0,
+        "threshold_s": 2.4,
+        "wilson95_of_planned": [
+         0.0,
+         0.3244156195108769
+        ],
+        "wilson95_of_present": null
+       },
+       "frames": null,
+       "histogram_10_frame_bins": {
+        "bin_width_s": 0.4,
+        "counts": [
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0
+        ],
+        "edges_frames": [
+         0,
+         10,
+         20,
+         30,
+         40,
+         50,
+         60,
+         70,
+         80,
+         90,
+         100,
+         110,
+         120,
+         130,
+         140,
+         150,
+         160,
+         170,
+         180,
+         190,
+         200
+        ]
+       },
+       "inside_first_50_frames": {
+        "count": 0,
+        "fraction_of_planned": 0.0,
+        "fraction_of_present": null,
+        "planned_denominator": 8,
+        "present_denominator": 0,
+        "wilson95_of_planned": [
+         0.0,
+         0.3244156195108769
+        ],
+        "wilson95_of_present": null,
+        "window_s": 2.0
+       },
+       "n_missing": 8,
+       "n_present": 0,
+       "planned_n": 8,
+       "seconds": null,
+       "values_frames": []
+      },
+      "lift_side_counts": {
+       "left": 0,
+       "right": 0,
+       "undetermined": 0
+      },
+      "n_rows": 0,
+      "pairwise_agreement": {
+       "A_minus_B_real": {
+        "n_pairs": 0
+       },
+       "A_minus_B_rounded": {
+        "n_pairs": 0
+       },
+       "A_minus_C": {
+        "n_pairs": 0
+       },
+       "B_real_minus_C": {
+        "n_pairs": 0
+       },
+       "C_minus_C0": {
+        "n_pairs": 0
+       },
+       "C_minus_nosupport_run_onset": {
+        "n_pairs": 0
+       }
+      },
+      "planned_denominator": 8
+     },
+     "full_clip_lift_before_prompt_onset": {
+      "count": 0,
+      "keys": [],
+      "note": "a lift whose C frame precedes the prompt onset happened under WALK",
+      "of_lifting": 0
+     },
+     "lift_ge_3cm_clips_full_clip_profile": 0,
+     "lifting_clips_full_clip_profile": 0,
+     "onset_frame": 104,
+     "planned_clips": 8
+    },
+    "step_52": {
+     "archived_event": {
+      "archived_frame_distribution": {
+       "after_frame_60": {
+        "count": 0,
+        "fraction_of_planned": 0.0,
+        "fraction_of_present": null,
+        "planned_denominator": 8,
+        "present_denominator": 0,
+        "threshold_s": 2.4,
+        "wilson95_of_planned": [
+         0.0,
+         0.3244156195108769
+        ],
+        "wilson95_of_present": null
+       },
+       "frames": null,
+       "histogram_10_frame_bins": {
+        "bin_width_s": 0.4,
+        "counts": [
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0
+        ],
+        "edges_frames": [
+         0,
+         10,
+         20,
+         30,
+         40,
+         50,
+         60,
+         70,
+         80,
+         90,
+         100,
+         110,
+         120,
+         130,
+         140,
+         150,
+         160,
+         170,
+         180,
+         190,
+         200
+        ]
+       },
+       "inside_first_50_frames": {
+        "count": 0,
+        "fraction_of_planned": 0.0,
+        "fraction_of_present": null,
+        "planned_denominator": 8,
+        "present_denominator": 0,
+        "wilson95_of_planned": [
+         0.0,
+         0.3244156195108769
+        ],
+        "wilson95_of_present": null,
+        "window_s": 2.0
+       },
+       "n_missing": 8,
+       "n_present": 0,
+       "planned_n": 8,
+       "seconds": null,
+       "values_frames": []
+      },
+      "archived_latency_frames": [],
+      "comparison_against_full_clip_definitions": {
+       "A_minus_archived": {
+        "n_pairs": 0
+       },
+       "B_real_minus_archived": {
+        "n_pairs": 0
+       },
+       "C_minus_archived": {
+        "n_pairs": 0
+       },
+       "n_same_full_clip_lift_region": 0,
+       "n_side_agrees": 0,
+       "per_clip": []
+      },
+      "planned": 8,
+      "present": 0,
+      "wilson95": [
+       0.0,
+       0.3244156195108769
+      ]
+     },
+     "full_clip_definitions": {
+      "A_root_crossing": {
+       "after_frame_60": {
+        "count": 2,
+        "fraction_of_planned": 0.25,
+        "fraction_of_present": 1.0,
+        "planned_denominator": 8,
+        "present_denominator": 2,
+        "threshold_s": 2.4,
+        "wilson95_of_planned": [
+         0.07147768885802763,
+         0.5907301208974108
+        ],
+        "wilson95_of_present": [
+         0.34237195288961925,
+         1.0
+        ]
+       },
+       "frames": {
+        "max": 112.0,
+        "mean": 92.0,
+        "median": 92.0,
+        "min": 72.0,
+        "q10": 76.0,
+        "q90": 108.0
+       },
+       "histogram_10_frame_bins": {
+        "bin_width_s": 0.4,
+        "counts": [
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         1,
+         0,
+         0,
+         0,
+         1,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0
+        ],
+        "edges_frames": [
+         0,
+         10,
+         20,
+         30,
+         40,
+         50,
+         60,
+         70,
+         80,
+         90,
+         100,
+         110,
+         120,
+         130,
+         140,
+         150,
+         160,
+         170,
+         180,
+         190,
+         200
+        ]
+       },
+       "inside_first_50_frames": {
+        "count": 0,
+        "fraction_of_planned": 0.0,
+        "fraction_of_present": 0.0,
+        "planned_denominator": 8,
+        "present_denominator": 2,
+        "wilson95_of_planned": [
+         0.0,
+         0.3244156195108769
+        ],
+        "wilson95_of_present": [
+         0.0,
+         0.6576280471103807
+        ],
+        "window_s": 2.0
+       },
+       "n_missing": 6,
+       "n_present": 2,
+       "planned_n": 8,
+       "seconds": {
+        "max": 4.48,
+        "mean": 3.68,
+        "median": 3.68,
+        "min": 2.88,
+        "q10": 3.04,
+        "q90": 4.32
+       },
+       "values_frames": [
+        112.0,
+        72.0
+       ]
+      },
+      "B_nominal_speed_ceil": {
+       "after_frame_60": {
+        "count": 2,
+        "fraction_of_planned": 0.25,
+        "fraction_of_present": 1.0,
+        "planned_denominator": 8,
+        "present_denominator": 2,
+        "threshold_s": 2.4,
+        "wilson95_of_planned": [
+         0.07147768885802763,
+         0.5907301208974108
+        ],
+        "wilson95_of_present": [
+         0.34237195288961925,
+         1.0
+        ]
+       },
+       "frames": {
+        "max": 111.0,
+        "mean": 92.0,
+        "median": 92.0,
+        "min": 73.0,
+        "q10": 76.8,
+        "q90": 107.2
+       },
+       "histogram_10_frame_bins": {
+        "bin_width_s": 0.4,
+        "counts": [
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         1,
+         0,
+         0,
+         0,
+         1,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0
+        ],
+        "edges_frames": [
+         0,
+         10,
+         20,
+         30,
+         40,
+         50,
+         60,
+         70,
+         80,
+         90,
+         100,
+         110,
+         120,
+         130,
+         140,
+         150,
+         160,
+         170,
+         180,
+         190,
+         200
+        ]
+       },
+       "inside_first_50_frames": {
+        "count": 0,
+        "fraction_of_planned": 0.0,
+        "fraction_of_present": 0.0,
+        "planned_denominator": 8,
+        "present_denominator": 2,
+        "wilson95_of_planned": [
+         0.0,
+         0.3244156195108769
+        ],
+        "wilson95_of_present": [
+         0.0,
+         0.6576280471103807
+        ],
+        "window_s": 2.0
+       },
+       "n_missing": 6,
+       "n_present": 2,
+       "planned_n": 8,
+       "seconds": {
+        "max": 4.44,
+        "mean": 3.68,
+        "median": 3.68,
+        "min": 2.92,
+        "q10": 3.072,
+        "q90": 4.288
+       },
+       "values_frames": [
+        111.0,
+        73.0
+       ]
+      },
+      "B_nominal_speed_floor": {
+       "after_frame_60": {
+        "count": 2,
+        "fraction_of_planned": 0.25,
+        "fraction_of_present": 1.0,
+        "planned_denominator": 8,
+        "present_denominator": 2,
+        "threshold_s": 2.4,
+        "wilson95_of_planned": [
+         0.07147768885802763,
+         0.5907301208974108
+        ],
+        "wilson95_of_present": [
+         0.34237195288961925,
+         1.0
+        ]
+       },
+       "frames": {
+        "max": 110.0,
+        "mean": 91.0,
+        "median": 91.0,
+        "min": 72.0,
+        "q10": 75.8,
+        "q90": 106.2
+       },
+       "histogram_10_frame_bins": {
+        "bin_width_s": 0.4,
+        "counts": [
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         1,
+         0,
+         0,
+         0,
+         1,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0
+        ],
+        "edges_frames": [
+         0,
+         10,
+         20,
+         30,
+         40,
+         50,
+         60,
+         70,
+         80,
+         90,
+         100,
+         110,
+         120,
+         130,
+         140,
+         150,
+         160,
+         170,
+         180,
+         190,
+         200
+        ]
+       },
+       "inside_first_50_frames": {
+        "count": 0,
+        "fraction_of_planned": 0.0,
+        "fraction_of_present": 0.0,
+        "planned_denominator": 8,
+        "present_denominator": 2,
+        "wilson95_of_planned": [
+         0.0,
+         0.3244156195108769
+        ],
+        "wilson95_of_present": [
+         0.0,
+         0.6576280471103807
+        ],
+        "window_s": 2.0
+       },
+       "n_missing": 6,
+       "n_present": 2,
+       "planned_n": 8,
+       "seconds": {
+        "max": 4.4,
+        "mean": 3.64,
+        "median": 3.64,
+        "min": 2.88,
+        "q10": 3.032,
+        "q90": 4.248
+       },
+       "values_frames": [
+        110.0,
+        72.0
+       ]
+      },
+      "B_nominal_speed_real": {
+       "after_frame_60": {
+        "count": 2,
+        "fraction_of_planned": 0.25,
+        "fraction_of_present": 1.0,
+        "planned_denominator": 8,
+        "present_denominator": 2,
+        "threshold_s": 2.4,
+        "wilson95_of_planned": [
+         0.07147768885802763,
+         0.5907301208974108
+        ],
+        "wilson95_of_present": [
+         0.34237195288961925,
+         1.0
+        ]
+       },
+       "frames": {
+        "max": 110.9968487394958,
+        "mean": 91.83543417366947,
+        "median": 91.83543417366947,
+        "min": 72.67401960784314,
+        "q10": 76.50630252100841,
+        "q90": 107.16456582633053
+       },
+       "histogram_10_frame_bins": {
+        "bin_width_s": 0.4,
+        "counts": [
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         1,
+         0,
+         0,
+         0,
+         1,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0
+        ],
+        "edges_frames": [
+         0,
+         10,
+         20,
+         30,
+         40,
+         50,
+         60,
+         70,
+         80,
+         90,
+         100,
+         110,
+         120,
+         130,
+         140,
+         150,
+         160,
+         170,
+         180,
+         190,
+         200
+        ]
+       },
+       "inside_first_50_frames": {
+        "count": 0,
+        "fraction_of_planned": 0.0,
+        "fraction_of_present": 0.0,
+        "planned_denominator": 8,
+        "present_denominator": 2,
+        "wilson95_of_planned": [
+         0.0,
+         0.3244156195108769
+        ],
+        "wilson95_of_present": [
+         0.0,
+         0.6576280471103807
+        ],
+        "window_s": 2.0
+       },
+       "n_missing": 6,
+       "n_present": 2,
+       "planned_n": 8,
+       "seconds": {
+        "max": 4.439873949579832,
+        "mean": 3.673417366946779,
+        "median": 3.673417366946779,
+        "min": 2.9069607843137253,
+        "q10": 3.0602521008403363,
+        "q90": 4.2865826330532215
+       },
+       "values_frames": [
+        110.9968487394958,
+        72.67401960784314
+       ]
+      },
+      "B_nominal_speed_rounded": {
+       "after_frame_60": {
+        "count": 2,
+        "fraction_of_planned": 0.25,
+        "fraction_of_present": 1.0,
+        "planned_denominator": 8,
+        "present_denominator": 2,
+        "threshold_s": 2.4,
+        "wilson95_of_planned": [
+         0.07147768885802763,
+         0.5907301208974108
+        ],
+        "wilson95_of_present": [
+         0.34237195288961925,
+         1.0
+        ]
+       },
+       "frames": {
+        "max": 111.0,
+        "mean": 92.0,
+        "median": 92.0,
+        "min": 73.0,
+        "q10": 76.8,
+        "q90": 107.2
+       },
+       "histogram_10_frame_bins": {
+        "bin_width_s": 0.4,
+        "counts": [
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         1,
+         0,
+         0,
+         0,
+         1,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0
+        ],
+        "edges_frames": [
+         0,
+         10,
+         20,
+         30,
+         40,
+         50,
+         60,
+         70,
+         80,
+         90,
+         100,
+         110,
+         120,
+         130,
+         140,
+         150,
+         160,
+         170,
+         180,
+         190,
+         200
+        ]
+       },
+       "inside_first_50_frames": {
+        "count": 0,
+        "fraction_of_planned": 0.0,
+        "fraction_of_present": 0.0,
+        "planned_denominator": 8,
+        "present_denominator": 2,
+        "wilson95_of_planned": [
+         0.0,
+         0.3244156195108769
+        ],
+        "wilson95_of_present": [
+         0.0,
+         0.6576280471103807
+        ],
+        "window_s": 2.0
+       },
+       "n_missing": 6,
+       "n_present": 2,
+       "planned_n": 8,
+       "seconds": {
+        "max": 4.44,
+        "mean": 3.68,
+        "median": 3.68,
+        "min": 2.92,
+        "q10": 3.072,
+        "q90": 4.288
+       },
+       "values_frames": [
+        111.0,
+        73.0
+       ]
+      },
+      "C0_window_foot_lift": {
+       "after_frame_60": {
+        "count": 2,
+        "fraction_of_planned": 0.25,
+        "fraction_of_present": 1.0,
+        "planned_denominator": 8,
+        "present_denominator": 2,
+        "threshold_s": 2.4,
+        "wilson95_of_planned": [
+         0.07147768885802763,
+         0.5907301208974108
+        ],
+        "wilson95_of_present": [
+         0.34237195288961925,
+         1.0
+        ]
+       },
+       "frames": {
+        "max": 106.0,
+        "mean": 92.5,
+        "median": 92.5,
+        "min": 79.0,
+        "q10": 81.7,
+        "q90": 103.3
+       },
+       "histogram_10_frame_bins": {
+        "bin_width_s": 0.4,
+        "counts": [
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         1,
+         0,
+         0,
+         1,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0
+        ],
+        "edges_frames": [
+         0,
+         10,
+         20,
+         30,
+         40,
+         50,
+         60,
+         70,
+         80,
+         90,
+         100,
+         110,
+         120,
+         130,
+         140,
+         150,
+         160,
+         170,
+         180,
+         190,
+         200
+        ]
+       },
+       "inside_first_50_frames": {
+        "count": 0,
+        "fraction_of_planned": 0.0,
+        "fraction_of_present": 0.0,
+        "planned_denominator": 8,
+        "present_denominator": 2,
+        "wilson95_of_planned": [
+         0.0,
+         0.3244156195108769
+        ],
+        "wilson95_of_present": [
+         0.0,
+         0.6576280471103807
+        ],
+        "window_s": 2.0
+       },
+       "n_missing": 6,
+       "n_present": 2,
+       "planned_n": 8,
+       "seconds": {
+        "max": 4.24,
+        "mean": 3.7,
+        "median": 3.7,
+        "min": 3.16,
+        "q10": 3.2680000000000002,
+        "q90": 4.132
+       },
+       "values_frames": [
+        106.0,
+        79.0
+       ]
+      },
+      "C_foot_lift": {
+       "after_frame_60": {
+        "count": 2,
+        "fraction_of_planned": 0.25,
+        "fraction_of_present": 1.0,
+        "planned_denominator": 8,
+        "present_denominator": 2,
+        "threshold_s": 2.4,
+        "wilson95_of_planned": [
+         0.07147768885802763,
+         0.5907301208974108
+        ],
+        "wilson95_of_present": [
+         0.34237195288961925,
+         1.0
+        ]
+       },
+       "frames": {
+        "max": 106.0,
+        "mean": 92.5,
+        "median": 92.5,
+        "min": 79.0,
+        "q10": 81.7,
+        "q90": 103.3
+       },
+       "histogram_10_frame_bins": {
+        "bin_width_s": 0.4,
+        "counts": [
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         1,
+         0,
+         0,
+         1,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0
+        ],
+        "edges_frames": [
+         0,
+         10,
+         20,
+         30,
+         40,
+         50,
+         60,
+         70,
+         80,
+         90,
+         100,
+         110,
+         120,
+         130,
+         140,
+         150,
+         160,
+         170,
+         180,
+         190,
+         200
+        ]
+       },
+       "inside_first_50_frames": {
+        "count": 0,
+        "fraction_of_planned": 0.0,
+        "fraction_of_present": 0.0,
+        "planned_denominator": 8,
+        "present_denominator": 2,
+        "wilson95_of_planned": [
+         0.0,
+         0.3244156195108769
+        ],
+        "wilson95_of_present": [
+         0.0,
+         0.6576280471103807
+        ],
+        "window_s": 2.0
+       },
+       "n_missing": 6,
+       "n_present": 2,
+       "planned_n": 8,
+       "seconds": {
+        "max": 4.24,
+        "mean": 3.7,
+        "median": 3.7,
+        "min": 3.16,
+        "q10": 3.2680000000000002,
+        "q90": 4.132
+       },
+       "values_frames": [
+        106.0,
+        79.0
+       ]
+      },
+      "C_inside_bilateral_nosupport_run": {
+       "count": 0,
+       "n_run_at_least_gate_length": 0,
+       "of": 2,
+       "wilson95": [
+        0.0,
+        0.6576280471103807
+       ]
+      },
+      "C_nosupport_run_onset": {
+       "after_frame_60": {
+        "count": 0,
+        "fraction_of_planned": 0.0,
+        "fraction_of_present": null,
+        "planned_denominator": 8,
+        "present_denominator": 0,
+        "threshold_s": 2.4,
+        "wilson95_of_planned": [
+         0.0,
+         0.3244156195108769
+        ],
+        "wilson95_of_present": null
+       },
+       "frames": null,
+       "histogram_10_frame_bins": {
+        "bin_width_s": 0.4,
+        "counts": [
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0
+        ],
+        "edges_frames": [
+         0,
+         10,
+         20,
+         30,
+         40,
+         50,
+         60,
+         70,
+         80,
+         90,
+         100,
+         110,
+         120,
+         130,
+         140,
+         150,
+         160,
+         170,
+         180,
+         190,
+         200
+        ]
+       },
+       "inside_first_50_frames": {
+        "count": 0,
+        "fraction_of_planned": 0.0,
+        "fraction_of_present": null,
+        "planned_denominator": 8,
+        "present_denominator": 0,
+        "wilson95_of_planned": [
+         0.0,
+         0.3244156195108769
+        ],
+        "wilson95_of_present": null,
+        "window_s": 2.0
+       },
+       "n_missing": 8,
+       "n_present": 0,
+       "planned_n": 8,
+       "seconds": null,
+       "values_frames": []
+      },
+      "lift_side_counts": {
+       "left": 1,
+       "right": 1,
+       "undetermined": 0
+      },
+      "n_rows": 2,
+      "pairwise_agreement": {
+       "A_minus_B_real": {
+        "diff_frames": {
+         "max": 1.0031512605041968,
+         "max_abs": 1.0031512605041968,
+         "mean": 0.16456582633053074,
+         "median": 0.16456582633053074,
+         "min": -0.6740196078431353,
+         "q10": -0.5063025210084021,
+         "q90": 0.8354341736694636
+        },
+        "diff_s": {
+         "max": 0.04012605042016787,
+         "max_abs": 0.04012605042016787,
+         "mean": 0.00658263305322123,
+         "median": 0.00658263305322123,
+         "min": -0.026960784313725412,
+         "q10": -0.020252100840336084,
+         "q90": 0.03341736694677854
+        },
+        "n_abs_diff_le_10_frames_0p4s": 2,
+        "n_abs_diff_le_2_frames": 2,
+        "n_abs_diff_le_5_frames_0p2s": 2,
+        "n_pairs": 2
+       },
+       "A_minus_B_rounded": {
+        "diff_frames": {
+         "max": 1.0,
+         "max_abs": 1.0,
+         "mean": 0.0,
+         "median": 0.0,
+         "min": -1.0,
+         "q10": -0.8,
+         "q90": 0.8
+        },
+        "diff_s": {
+         "max": 0.04,
+         "max_abs": 0.04,
+         "mean": 0.0,
+         "median": 0.0,
+         "min": -0.04,
+         "q10": -0.032,
+         "q90": 0.032
+        },
+        "n_abs_diff_le_10_frames_0p4s": 2,
+        "n_abs_diff_le_2_frames": 2,
+        "n_abs_diff_le_5_frames_0p2s": 2,
+        "n_pairs": 2
+       },
+       "A_minus_C": {
+        "diff_frames": {
+         "max": 6.0,
+         "max_abs": 7.0,
+         "mean": -0.5,
+         "median": -0.5,
+         "min": -7.0,
+         "q10": -5.7,
+         "q90": 4.7
+        },
+        "diff_s": {
+         "max": 0.24,
+         "max_abs": 0.28,
+         "mean": -0.02,
+         "median": -0.02,
+         "min": -0.28,
+         "q10": -0.228,
+         "q90": 0.188
+        },
+        "n_abs_diff_le_10_frames_0p4s": 2,
+        "n_abs_diff_le_2_frames": 0,
+        "n_abs_diff_le_5_frames_0p2s": 0,
+        "n_pairs": 2
+       },
+       "B_real_minus_C": {
+        "diff_frames": {
+         "max": 4.996848739495803,
+         "max_abs": 6.325980392156865,
+         "mean": -0.6645658263305307,
+         "median": -0.6645658263305307,
+         "min": -6.325980392156865,
+         "q10": -5.193697478991598,
+         "q90": 3.8645658263305367
+        },
+        "diff_s": {
+         "max": 0.19987394957983212,
+         "max_abs": 0.2530392156862746,
+         "mean": -0.02658263305322123,
+         "median": -0.02658263305322123,
+         "min": -0.2530392156862746,
+         "q10": -0.2077478991596639,
+         "q90": 0.15458263305322148
+        },
+        "n_abs_diff_le_10_frames_0p4s": 2,
+        "n_abs_diff_le_2_frames": 0,
+        "n_abs_diff_le_5_frames_0p2s": 1,
+        "n_pairs": 2
+       },
+       "C_minus_C0": {
+        "diff_frames": {
+         "max": 0.0,
+         "max_abs": 0.0,
+         "mean": 0.0,
+         "median": 0.0,
+         "min": 0.0,
+         "q10": 0.0,
+         "q90": 0.0
+        },
+        "diff_s": {
+         "max": 0.0,
+         "max_abs": 0.0,
+         "mean": 0.0,
+         "median": 0.0,
+         "min": 0.0,
+         "q10": 0.0,
+         "q90": 0.0
+        },
+        "n_abs_diff_le_10_frames_0p4s": 2,
+        "n_abs_diff_le_2_frames": 2,
+        "n_abs_diff_le_5_frames_0p2s": 2,
+        "n_pairs": 2
+       },
+       "C_minus_nosupport_run_onset": {
+        "n_pairs": 0
+       }
+      },
+      "planned_denominator": 8
+     },
+     "full_clip_lift_before_prompt_onset": {
+      "count": 0,
+      "keys": [],
+      "note": "a lift whose C frame precedes the prompt onset happened under WALK",
+      "of_lifting": 2
+     },
+     "lift_ge_3cm_clips_full_clip_profile": 0,
+     "lifting_clips_full_clip_profile": 2,
+     "onset_frame": 52,
+     "planned_clips": 8
+    }
+   },
+   "planned_clips": 32
+  },
+  "profile_wall_clock_s_total": 740.6852089899476
+ },
+ "wall_clock_s": 742.5407543729962
+}

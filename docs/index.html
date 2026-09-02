@@ -5,30 +5,38 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Scene2Motion-G1 — Contract Before Control</title>
 <meta name="description" content="Auditing a frozen humanoid motion prior as a scene-conditioned traversal module for the Unitree G1: a trackability contract, measured-deficit repair, and a refusal-annotated data engine for downstream navigation.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&family=Source+Sans+3:wght@400;600&family=IBM+Plex+Mono:wght@400;600&display=swap">
 <style>
 :root{
   --bg:#fbfaf7;--fg:#1c1c1a;--muted:#5d5c57;--line:#e3e0d8;--card:#ffffff;
   --teal:#0A8C72;--teal-soft:#e2f3ee;--orange:#C05A18;--orange-soft:#fbe9dd;--grey-soft:#f0efeb;
-  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --serif:"Source Serif 4",Georgia,"Times New Roman",serif;
+  --sans:"Source Sans 3",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
 }
-@media (prefers-color-scheme:dark){:root{
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
   --bg:#15161a;--fg:#ececea;--muted:#a5a49e;--line:#2c2e35;--card:#1d1f25;
   --teal:#28A084;--teal-soft:#16302a;--orange:#CE7238;--orange-soft:#3a2418;--grey-soft:#24262d;}}
+:root[data-theme="dark"]{
+  --bg:#15161a;--fg:#ececea;--muted:#a5a49e;--line:#2c2e35;--card:#1d1f25;
+  --teal:#28A084;--teal-soft:#16302a;--orange:#CE7238;--orange-soft:#3a2418;--grey-soft:#24262d;}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Helvetica,Arial,sans-serif}
+body{margin:0;background:var(--bg);color:var(--fg);font:17px/1.55 var(--sans)}
 a{color:var(--teal)}
+a:focus-visible,video:focus-visible{outline:2px solid var(--orange);outline-offset:2px}
 .wrap{max-width:980px;margin:0 auto;padding:0 20px}
 header.hero{padding:56px 0 28px;border-bottom:1px solid var(--line)}
 .kicker{font:600 12px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--teal)}
-h1{font-size:clamp(28px,4.4vw,42px);line-height:1.12;margin:12px 0 10px;letter-spacing:-.01em}
+h1{font-family:var(--serif);font-weight:600;font-size:clamp(30px,4.6vw,46px);line-height:1.1;margin:12px 0 12px;letter-spacing:-.012em;text-wrap:balance;max-width:880px}
 .sub{font-size:19px;color:var(--muted);max-width:820px;margin:0 0 18px}
 .links a{display:inline-block;margin:6px 10px 0 0;padding:8px 14px;border:1px solid var(--line);border-radius:8px;text-decoration:none;color:var(--fg);background:var(--card);font-size:14px}
 .links a.primary{background:var(--teal);border-color:var(--teal);color:#fff}
 nav.toc{display:flex;flex-wrap:wrap;gap:6px 18px;padding:14px 0;border-bottom:1px solid var(--line);font-size:14px}
 nav.toc a{text-decoration:none;color:var(--muted)}
 section{padding:40px 0 8px}
-h2{font-size:26px;margin:0 0 6px;letter-spacing:-.01em}
-h3{font-size:18px;margin:26px 0 6px}
+h2{font-family:var(--serif);font-weight:600;font-size:28px;margin:0 0 6px;letter-spacing:-.01em;text-wrap:balance}
+h3{font-family:var(--serif);font-weight:600;font-size:20px;margin:26px 0 6px}
 .snum{font:600 12px var(--mono);color:var(--orange);letter-spacing:.1em;text-transform:uppercase}
 p.lede{font-size:17.5px;max-width:860px}
 .note{font-size:14px;color:var(--muted);max-width:860px}
@@ -47,9 +55,9 @@ figure{margin:18px 0}
 figure img{width:100%;height:auto;border:1px solid var(--line);border-radius:10px;background:#fff}
 figcaption{font-size:13.5px;color:var(--muted);margin-top:8px;max-width:900px}
 .stat{display:flex;flex-direction:column;gap:2px}
-.stat b{font-size:28px;line-height:1.1;letter-spacing:-.02em}
+.stat b{font-family:var(--serif);font-size:30px;line-height:1.1;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
 .stat span{font-size:13px;color:var(--muted)}
-table{border-collapse:collapse;width:100%;font-size:14px;margin:12px 0}
+table{border-collapse:collapse;width:100%;font-size:14px;margin:12px 0;font-variant-numeric:tabular-nums}
 th,td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
 th{font-weight:600;background:var(--grey-soft)}
 .tbl{overflow-x:auto}

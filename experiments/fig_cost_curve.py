@@ -55,7 +55,6 @@ def main() -> None:
         lo = np.array([r["wilson95"][0] for r in lvl]); hi = np.array([r["wilson95"][1] for r in lvl])
         ax.fill_between(x, lo, hi, color=C_H[h], alpha=0.12, linewidth=0)
         ax.plot(x, p, color=C_H[h], linewidth=1.4, label=f"{int(round(h * 100))} cm box")
-        ax.text(x[-1] + 0.05, p[-1], f"{int(round(h * 100))} cm", fontsize=6.5, color=C_H[h], va="center")
     centres = receipt["at_exp022a_centres"]
     for label, entry in centres.items():
         xc = entry["centre_x_m"]
@@ -64,7 +63,7 @@ def main() -> None:
         ret5 = entry["paired_guarded_retention"]["0.05"]["achieved_guarded_clear"]
         ax.scatter([xc], [ret5 / 64], s=34, marker="x", color=C_TERM, linewidths=1.2, zorder=5)
         ax.annotate(f"{'staged' if label == 'staged' else 'control'} x = {xc:.1f} m\nreference 5 cm: {hits5}/64\n"
-                    f"SONIC-retained: {ret5}/64", xy=(xc, ret5 / 64), xytext=(xc + 0.15, 0.30 if label == "staged" else 0.20),
+                    f"SONIC-retained: {ret5}/64", xy=(xc, ret5 / 64), xytext=(xc + 0.15, 0.33 if label == "staged" else 0.30),
                     fontsize=6.3, color=C_INK, arrowprops=dict(arrowstyle="-", color=C_INK2, linewidth=0.5))
         numbers[label] = entry
     ax.set_xlim(0.5, 6.9); ax.set_ylim(0, 0.42)
@@ -72,7 +71,7 @@ def main() -> None:
     ax.set_ylabel("exact whole-body clearance rate (64 clips)")
     ax.set_title("(a) Where the elicited float clears a fixed box", loc="left")
     ax.legend(loc="upper right", fontsize=6, frameon=False)
-    ax.text(0.99, 0.62, "Wilson 95 % bands; one route, one scene;\ncentres other than 1.2/3.6 m are descriptive",
+    ax.text(0.99, 0.56, "Wilson 95 % bands; one route, one scene;\ncentres other than 1.2/3.6 m are descriptive",
             ha="right", va="top", fontsize=6, color=C_INK2, transform=ax.transAxes)
     style_axis(ax)
     sec = ax.secondary_xaxis("top", functions=(lambda x: x / 0.9045, lambda t: t * 0.9045))
@@ -92,7 +91,7 @@ def main() -> None:
     bx.set_xscale("log", base=2); bx.set_xticks(ns); bx.set_xticklabels([str(n) for n in ns])
     bx.set_ylim(-0.03, 1.03); bx.set_xlabel("N independent draws at x = 1.2 m")
     bx.set_ylabel("P(at least one clears)")
-    bx.set_title("(b) Best-of-N buys reference clearance, not execution", loc="left")
+    bx.set_title("(b) Best-of-N at x = 1.2 m", loc="left")
     bx.legend(loc="center right", fontsize=6, frameon=False)
     style_axis(bx)
     fig.tight_layout(w_pad=1.5)

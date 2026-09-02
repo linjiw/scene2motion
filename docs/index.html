@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Scene2Motion-G1 — Contract Before Control</title>
+<meta name="description" content="Auditing a frozen humanoid motion prior as a scene-conditioned traversal module for the Unitree G1: a trackability contract, measured-deficit repair, and a refusal-annotated data engine for downstream navigation.">
+<style>
+:root{
+  --bg:#fbfaf7;--fg:#1c1c1a;--muted:#5d5c57;--line:#e3e0d8;--card:#ffffff;
+  --teal:#0A8C72;--teal-soft:#e2f3ee;--orange:#C05A18;--orange-soft:#fbe9dd;--grey-soft:#f0efeb;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root{
+  --bg:#15161a;--fg:#ececea;--muted:#a5a49e;--line:#2c2e35;--card:#1d1f25;
+  --teal:#28A084;--teal-soft:#16302a;--orange:#CE7238;--orange-soft:#3a2418;--grey-soft:#24262d;}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Helvetica,Arial,sans-serif}
+a{color:var(--teal)}
+.wrap{max-width:980px;margin:0 auto;padding:0 20px}
+header.hero{padding:56px 0 28px;border-bottom:1px solid var(--line)}
+.kicker{font:600 12px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--teal)}
+h1{font-size:clamp(28px,4.4vw,42px);line-height:1.12;margin:12px 0 10px;letter-spacing:-.01em}
+.sub{font-size:19px;color:var(--muted);max-width:820px;margin:0 0 18px}
+.links a{display:inline-block;margin:6px 10px 0 0;padding:8px 14px;border:1px solid var(--line);border-radius:8px;text-decoration:none;color:var(--fg);background:var(--card);font-size:14px}
+.links a.primary{background:var(--teal);border-color:var(--teal);color:#fff}
+nav.toc{display:flex;flex-wrap:wrap;gap:6px 18px;padding:14px 0;border-bottom:1px solid var(--line);font-size:14px}
+nav.toc a{text-decoration:none;color:var(--muted)}
+section{padding:40px 0 8px}
+h2{font-size:26px;margin:0 0 6px;letter-spacing:-.01em}
+h3{font-size:18px;margin:26px 0 6px}
+.snum{font:600 12px var(--mono);color:var(--orange);letter-spacing:.1em;text-transform:uppercase}
+p.lede{font-size:17.5px;max-width:860px}
+.note{font-size:14px;color:var(--muted);max-width:860px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px;margin:14px 0}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin:14px 0}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.card h4{margin:0 0 6px;font-size:15px}
+.card p{margin:0;font-size:14.5px;color:var(--muted)}
+.badge{display:inline-block;font:600 11px var(--mono);letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border-radius:999px;margin-bottom:8px}
+.badge.good{background:var(--teal-soft);color:var(--teal)}
+.badge.bad{background:var(--orange-soft);color:var(--orange)}
+.badge.neutral{background:var(--grey-soft);color:var(--muted)}
+.badge.plan{background:var(--orange-soft);color:var(--orange)}
+video{width:100%;height:auto;border-radius:8px;background:#000;display:block}
+figure{margin:18px 0}
+figure img{width:100%;height:auto;border:1px solid var(--line);border-radius:10px;background:#fff}
+figcaption{font-size:13.5px;color:var(--muted);margin-top:8px;max-width:900px}
+.stat{display:flex;flex-direction:column;gap:2px}
+.stat b{font-size:28px;line-height:1.1;letter-spacing:-.02em}
+.stat span{font-size:13px;color:var(--muted)}
+table{border-collapse:collapse;width:100%;font-size:14px;margin:12px 0}
+th,td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+th{font-weight:600;background:var(--grey-soft)}
+.tbl{overflow-x:auto}
+.flow{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:14px 0}
+.flow .step{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:13.5px;position:relative}
+.flow .step b{display:block;font-size:14px;margin-bottom:4px}
+.flow .step.good{border-color:var(--teal)}
+.flow .step.bad{border-color:var(--orange)}
+.flow .step em{color:var(--muted);font-style:normal;font-size:12.5px}
+.pipe{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;font:13px/1.5 var(--mono);white-space:pre;overflow-x:auto}
+blockquote{margin:14px 0;padding:10px 16px;border-left:3px solid var(--teal);background:var(--teal-soft);border-radius:0 8px 8px 0;font-size:15px}
+.callout{border:1px solid var(--orange);background:var(--orange-soft);border-radius:10px;padding:12px 16px;font-size:14.5px;margin:16px 0}
+ul{padding-left:20px}li{margin:4px 0}
+footer{padding:36px 0 48px;border-top:1px solid var(--line);font-size:13.5px;color:var(--muted)}
+code{font:13px var(--mono);background:var(--grey-soft);padding:1px 5px;border-radius:4px}
+</style>
+</head>
+<body>
+
+<header class="hero"><div class="wrap">
+  <div class="kicker">Scene2Motion-G1 · research project page · updated 2026-09-02</div>
+  <h1>Contract Before Control: what a frozen humanoid motion prior can and cannot be asked to traverse</h1>
+  <p class="sub">We drive NVIDIA's frozen <strong>ARDY-G1</strong> motion prior as a scene-conditioned traversal module for the Unitree G1, score every clip against an exact obstacle with a whole-body collision model, and execute the survivors with the <strong>SONIC</strong> tracker in Isaac. The result is a measurement paper: a <em>trackability contract</em> that predicts the tracker's cutoff before a rollout is spent, a <em>measured-deficit repair</em> that fixes the deficits it can, and a <em>refusal-annotated data engine</em> aimed at downstream humanoid navigation.</p>
+  <div class="links">
+    <a class="primary" href="https://github.com/linjiw/scene2motion">Code &amp; receipts</a>
+    <a href="https://github.com/linjiw/scene2motion/blob/master/docs/SETUP.md">Install &amp; continue (SETUP.md)</a>
+    <a href="https://github.com/linjiw/scene2motion/blob/master/docs/plan-2026-09-01-icra2027.md">Plan of record</a>
+    <a href="https://github.com/linjiw/scene2motion/blob/master/docs/REPORT.md">Research ledger</a>
+    <a href="site/index.html">Interactive findings page</a>
+  </div>
+</div></header>
+
+<nav class="toc"><div class="wrap">
+  <a href="#demo">Demo</a> · <a href="#ardy">How raw ARDY does</a> · <a href="#contract">The trackability contract</a> · <a href="#repair">Measured-deficit repair</a> · <a href="#engine">Data engine</a> · <a href="#proposal">Proposal: posture-conditional traversability</a> · <a href="#benchmark">Benchmark &amp; SONIC evaluation</a> · <a href="#progress">Progress &amp; schedule</a>
+</div></nav>
+
+<!-- ================= DEMO ================= -->
+<section id="demo"><div class="wrap">
+  <div class="snum">Demo</div>
+  <h2>One motion, two obstacles</h2>
+  <p class="lede">Both panels play the <em>same generated clip</em>, frame for frame, rendered in MuJoCo from the released G1 model with the scored box welded into the world. Only the obstacle moves: from where the prior actually steps, to the mid-route position a scene would specify. That single change is the difference between clearing the box and walking into it.</p>
+  <div class="grid2">
+    <div class="card"><span class="badge good">capability</span>
+      <video src="assets/staged.mp4" controls loop muted playsinline preload="metadata"></video>
+      <h4>Staged: the obstacle is put where the prior steps</h4>
+      <p>Seed 4437 under the prompt alone. The step-over arrives early, as it almost always does, and a box staged at that point is cleared (0.40 m probe cap). A capability illustration: the box was placed after seeing the clip.</p></div>
+    <div class="card"><span class="badge bad">why commanding fails</span>
+      <video src="assets/commanded.mp4" controls loop muted playsinline preload="metadata"></video>
+      <h4>Commanded: identical motion, obstacle placed on demand</h4>
+      <p>The same clip with the box at x = 3.6 m. The lift is metres away and nothing clears. The prior emits the behaviour; it does not place it.</p></div>
+  </div>
+  <div class="grid3">
+    <div class="card"><span class="badge good">the prior can step over</span>
+      <video src="assets/donor.mp4" controls loop muted playsinline preload="metadata"></video>
+      <p>Seed 2603 under the step-over prompt clears 0.30 m against a box placed at its own crossing.</p></div>
+    <div class="card"><span class="badge neutral">baseline walk</span>
+      <video src="assets/walk.mp4" controls loop muted playsinline preload="metadata"></video>
+      <p>The same route under the walk prompt: the tallest box that clears anywhere on the route is 5 mm.</p></div>
+    <div class="card"><span class="badge bad">structured channel</span>
+      <video src="assets/packet.mp4" controls loop muted playsinline preload="metadata"></video>
+      <p>Seed 4353 with a phase-aligned rotation packet: a step-over appears 3.2 m from its anchor at half the prompt's amplitude.</p></div>
+  </div>
+  <p class="note">All clips come straight from archived joint trajectories under the v2 sampler, not re-runs. What the videos cannot show is the decisive result below: every clip that clears the box does so inside a bilateral <em>float</em> that the physics tracker's evaluator cuts off within 0.2 s.</p>
+</div></section>
+
+<!-- ================= ARDY ================= -->
+<section id="ardy"><div class="wrap">
+  <div class="snum">Part 1 · Addressability audit</div>
+  <h2>How raw ARDY does as a traversal module</h2>
+  <p class="lede">ARDY-G1 (autoregressive diffusion, 25 fps, Horizon52, text prompt + sparse kinematic constraints) is used without weight updates. We asked each native conditioning channel the same four questions: does it <b>elicit</b> the step, <b>keep contact</b>, <b>clear</b> a 5 cm box at the fixed scene position, and is that clearance <b>retained</b> under SONIC?</p>
+  <div class="grid3">
+    <div class="card stat"><b>44 / 64</b><span>STEP prompt elicits ≥ 3 cm of lift (fresh seeds, exp021)</span></div>
+    <div class="card stat"><b>12 / 64</b><span>clear a 5 cm box at the fixed centre x = 1.2 m (11/64 at 8 cm)</span></div>
+    <div class="card stat"><b>0 / 64</b><span>retained under SONIC's guarded endpoint; 53/64 rollouts cut off by the evaluator</span></div>
+  </div>
+  <figure>
+    <img src="figures/fig2_channel_funnel.png" alt="Channel funnel: elicits, contact-consistent, clears at the fixed centre, retained, for each native channel">
+    <figcaption><b>What each native channel delivers.</b> Text prompt, position-channel lifts (EXP-1C), rotation packets (exp019), delayed prompt (EXP-023/023b) and the free walk. Bars are k/n with Wilson 95 % intervals; the dark inner bar counts clips that also passed every earlier stage. Kinematic stages, v2 sampler, one scene.</figcaption>
+  </figure>
+  <h3>What the audit established</h3>
+  <ul>
+    <li><b>The prompt is the only channel that elicits reliably, and it elicits once, early.</b> Root-crossing median frame 35 (1.4 s); 40/49 lifting clips lift inside the first 50 frames.</li>
+    <li><b>No native channel places the step.</b> Position-channel lifts produce bilateral flight; rotation packets show negative compliance (−0.26 / −0.44), no matching lag in [−40, +80] frames, and suppress the prompt's amplitude; route warping preserves the intended gait in 1/6; predeclared-obstacle waiting 1/8.</li>
+    <li><b>A later prompt elicits the step less often, later, and unplaced.</b> WALK→STEP at frame 52 through the released minimum-history interface: 3/16 pooled (EXP-023 + 023b) against 6/8 from frame 0; latencies 0.84–3.0 s; none clears a box at the predicted centre.</li>
+    <li><b>Staging is a capability analysis, not a method.</b> Moving the box to a clip's own lift (±0.25 m) reads 0.31; the exact fixed centre reads 0.19. We report both, labelled.</li>
+  </ul>
+  <figure>
+    <img src="figures/fig3_channel_response.png" alt="Channel response: placement gain, rotation compliance, lag sweep">
+    <figcaption><b>Channel addressability and response.</b> (a) best clearable box height under WALK vs STEP: the prompt elicits, the walk does not; (b) the position channel over-responds ×1.7–2.3 to a requested foot lift and does so through bilateral flight (SONIC survivors fall from 6/24 at 0.05 m to 0/24 at 0.28 m); (c) rotation-packet compliance is negative or at the noise floor; (d) packet placement gain is −0.44 (absolute) and +0.02 (residual), with no lag at which any clip beats the nominal.</figcaption>
+  </figure>
+</div></section>
+
+<!-- ================= CONTRACT ================= -->
+<section id="contract"><div class="wrap">
+  <div class="snum">Part 2 · Trackability contract</div>
+  <h2>Why the tracker refuses the elicited step, and how to know before launching</h2>
+  <p class="lede">The STEP prompt makes this prior lift the leading foot inside a <b>bilateral no-support phase that is not ballistic</b>: a <em>float</em>, not a supported step and not a hop. In the 12 clips that exactly clear the 5 cm box, both feet leave the calibrated support envelope for 0.44–1.04 s (nine clips) or 2.4–3.1 s (three) while the pelvis rises only 0.02–0.26 m (ballistic ratio 1.3–15.6×).</p>
+  <div class="grid3">
+    <div class="card stat"><b>AUC 0.997</b><span>longest no-support run vs evaluator cutoff (bootstrap 0.987–1.00); post hoc on exp021</span></div>
+    <div class="card stat"><b>53 / 53 · 8 / 11</b><span>calibrated 0.20 s gate: cutoffs flagged · survivors passed (thresholds frozen before exp021)</span></div>
+    <div class="card stat"><b>0 / 53 fell</b><span>every cut-off robot is upright at the last archived state (pelvis 0.56–0.95 m): an evaluator interception, not a fall</span></div>
+  </div>
+  <figure>
+    <img src="figures/fig5_contract_gate.png" alt="The float and the gate: no-support run by outcome, ROC, robot state at cutoff, cutoff timing">
+    <figcaption><b>The float and the gate.</b> (a) longest bilateral no-support run by evaluator outcome, exp021 and the EXP-1C lift arms; (b) one reference-only feature predicts the cutoff, with the calibrated 0.20 s gate and the separately styled post hoc optimum (≥ 0.32 s: 51/53, 11/11); (c) at the cutoff the robot is upright while the reference's higher foot is a median 0.40 m in the air; (d) the cutoff lands within ±0.2 s of the first ≥ 0.2 s no-support onset in 47/53 (median +0.04 s).</figcaption>
+  </figure>
+  <blockquote><b>Definition.</b> A reference is <em>contact-consistent</em> when no bilateral no-support run exceeds 0.20 s (no-support = neither foot bottom ≤ 4.65 cm with planar speed ≤ 1.18 m/s). The gate is not a lift detector: lift height alone gives AUC 0.92, and the run feature still separates the 20 non-lifting clips (AUC 0.98). Transfer to the position-channel family: 0.92.</blockquote>
+  <h3>Prospective test in flight: EXP-024</h3>
+  <p>Fresh seeds 4600–4631 under four native root contracts (free, pinned heading, pinned root height, both). The kinematic stage landed on 2026-09-02 and the per-clip gate predictions are committed before any SONIC launch (HEAD blob <code>51e1a5a</code>), so the 2×2 against the evaluator is prospective by construction.</p>
+  <div class="tbl"><table>
+    <tr><th>arm</th><th>elicits (≥ 3 cm)</th><th>exact 5 cm at 1.2 m</th><th>flagged by the 0.20 s gate</th><th>contact-consistent</th><th>median longest run</th></tr>
+    <tr><td>free</td><td>23/32</td><td>7/32</td><td>26/32</td><td><b>0/32</b></td><td>0.48 s</td></tr>
+    <tr><td>pin heading</td><td>27/32</td><td>8/32</td><td>29/32</td><td><b>0/32</b></td><td>0.74 s</td></tr>
+    <tr><td>pin root height</td><td>19/32</td><td>1/32</td><td>24/32</td><td><b>0/32</b></td><td>0.36 s</td></tr>
+    <tr><td>pin both</td><td>11/32</td><td>2/32</td><td>16/32</td><td><b>0/32</b></td><td>0.22 s</td></tr>
+  </table></div>
+  <p class="note">The free arm replicates exp021 prospectively (0.72 vs 0.69 elicitation; 0.22 vs 0.19 exact clearance). No native root contract yields a contact-consistent step: pinning the root shortens the float and lowers the peak but does not remove it. The SONIC stage (95 flagged, 33 passed references) and EXP-028's termination-free rollouts, which give the physical outcome class with the cutoff removed, are queued behind the GPU.</p>
+</div></section>
+
+<!-- ================= REPAIR ================= -->
+<section id="repair"><div class="wrap">
+  <div class="snum">Part 3 · Measured-deficit repair</div>
+  <h2>Where measurement can fix the reference: overhead clearance</h2>
+  <p class="lede">Ducking under a beam is a <b>scalar-coupled, monotone</b> response: more realised flexion moves overhead clearance in a measurable direction, so the current error identifies a repair. Stepping is a <b>multi-phase contact transition</b> with no tested scalar inverse. The system therefore repairs the first class and converts the second into quantified refusal before control.</p>
+  <div class="flow">
+    <div class="step"><b>Frozen prior G<sub>θ</sub></b><em>prompt u, seed z, sparse controls h, obstacle o</em></div>
+    <div class="step"><b>Measure</b><em>route-frame traces: overhead / lateral clearance, support mask, root motion</em></div>
+    <div class="step good"><b>Class I: overhead deficit</b><em>forward-secant update Δq = e / |g′₊|, ≤ 2 repairs, remeasure</em></div>
+    <div class="step bad"><b>Class II: support violation</b><em>r<sub>max</sub> &gt; 0.20 s → refuse with quantified deficit</em></div>
+    <div class="step"><b>Tracker T<sub>φ</sub> (SONIC)</b><em>only admitted references; achieved state replayed against the collision model</em></div>
+  </div>
+  <div class="grid3">
+    <div class="card stat"><b>0.729 → 0.993</b><span>TCN proposer collision-free rate after two repairs, 36 out-of-distribution multi-beam scenes × 8 seeds</span></div>
+    <div class="card stat"><b>0.774</b><span>equal-budget best-of-three resampling on the same scenes</span></div>
+    <div class="card stat"><b>63 : 0 · 112 : 1</b><span>paired discordance (repair wins : resampling wins) for the TCN and QP proposers; the already-right heuristic proposer loses on margin (18 : 41)</span></div>
+  </div>
+  <p class="note">Kinematic, multi-scene, v2 sampler (<code>outputs/phase4e_architecture_v2_s8</code>). The executed duck result under the earlier protocol was 0/859 traversals, confounded by a 14 s clip cap, and the depth-dependent execution margin τ(d) could not be fitted; both are stated as limitations, not folded into the claim. The vocabulary is <em>execution-audited</em>, never certified.</p>
+</div></section>
+
+<!-- ================= ENGINE ================= -->
+<section id="engine"><div class="wrap">
+  <div class="snum">Part 4 · Data engine</div>
+  <h2>A tiered, refusal-annotated corpus, counted by tier</h2>
+  <p class="lede">Every throughput number names its tier: generated, kinematically verified, gate-accepted, tracker-executed. One consumer GPU (RTX 5080, 16 GB).</p>
+  <div class="tbl"><table>
+    <tr><th>tier</th><th>duck family (corpus pilot v2, heuristic proposer, ≤ 2 repairs)</th><th>step family (prompt-elicited, v2 sampler)</th></tr>
+    <tr><td>generated</td><td>300 scenes in 301.9 s (≈ 1 scene/s including verification)</td><td>5,393 references; ≈ 0.2 s/clip batched</td></tr>
+    <tr><td>kinematically verified</td><td>268 (192 accepted at the 0.18 m margin + 76 collision-free below it); 6 rejected; 26 refused with a reason</td><td>64 scored at 7.2 s/clip including the box-height profile scan</td></tr>
+    <tr><td>gate-accepted (contract)</td><td>duck contract pending (EXP-026, CPU)</td><td>8/64 pass the 0.20 s gate; 0/44 lifting clips</td></tr>
+    <tr><td>tracker-executed</td><td>859 rollouts over 526 references; 0 traversals under the capped protocol</td><td>352 references tracked; 0 retained at the fixed box</td></tr>
+  </table></div>
+  <p class="note">Extrapolated rate at the kinematically-verified tier: 7.7 × 10⁴ records per GPU-day from the 302 s pilot, reported with its tier and never as a single "10⁵ verified clips" figure. Every record carries provenance (HF revision, denoiser sha, runtime commit, robot model sha, tracker commit + checkpoint, physics seed, resolved termination config) and, when refused, the reason and the measured deficit.</p>
+  <h3>Why the negatives matter</h3>
+  <p>Imitation corpora keep only successes. A downstream policy that has never seen a quantified refusal (<em>scene geometry, binding constraint, measured deficit 0.28 m, maximum usable envelope 0.88 m</em>) has no signal for when to stop or re-route. Our records keep the accepted motions with their margins <em>and</em> the rejected and refused ones with their deficits, so the corpus teaches both where the body can go and where its physical envelope ends. As a launch-budget filter alone, the 0.20 s gate would have skipped every terminating SONIC launch (53/53) at the cost of 3/11 survivors.</p>
+</div></section>
+
+<!-- ================= PROPOSAL ================= -->
+<section id="proposal"><div class="wrap">
+  <div class="snum">Proposal · beyond the ICRA paper</div>
+  <h2>Posture-conditional traversability for humanoid navigation</h2>
+  <span class="badge plan">planned · not yet evidence</span>
+  <p class="lede">Embodied world generators and navigation stacks treat traversability as binary: inflate a capsule, erode the free space, and any cell with something in its vertical column is blocked. A humanoid does not work that way. A corridor with 1.3 m of clearance is fully traversable at a 0.31 m crouch. We define traversability as a function of the posture the body can adopt, and the engineering question becomes: <em>what posture did the stochastic prior actually produce, and can the physical controller track it?</em></p>
+  <div class="pipe">conventional 2-D / 3-D navigation
+  obstacle anywhere in the vertical column  ──►  cell blocked:   F_i = Erode(W, r_i)
+
+posture-conditional navigation (this project)
+  overhead clearance h(s) along the route   ──►  traversable if the body can deform:
+                                                 F(d) = { s | clearance(s) ≥ standing height − d + margin(d) }</div>
+  <h3>The four-stage production pipeline</h3>
+  <div class="pipe">[parametric scene grammar: procedural rooms + clutter]
+            │
+            ▼
+   [stage 1  A* topological routing over (x, y, body mode)]
+            │
+            ▼
+   [stage 2  contract-gated measured-deficit generation]
+      ├── overhead deficit  ──► forward-secant repair (≤ 2 iterations)
+      └── support contract  ──► gate on r_max ≤ 0.20 s
+                     │
+        ┌────────────┴────────────┐
+   [admitted]                [refused]
+        │                         │
+        ▼                         ▼
+   [stage 3  headless SONIC rollout]   [structured refusal record: labelled hard negative]
+        │
+   ┌────┴────┐
+[physically   [evaluator cutoff / divergence]
+ tracked]      (dynamics mismatch, with its timestamp and firing term)</div>
+  <p class="note">Stages 1–2 and the record schema exist today (<code>scene2motion/planner.py</code>, <code>scene2motion/verify/</code>, <code>optim/</code>, <code>docs/dataset-engine-record-schema.md</code>); stage 3 exists as per-campaign SONIC bridges. What is new in the proposal is the scene grammar, the tiered difficulty ladder and a single engine that runs all four stages on procedural rooms.</p>
+  <h3>Scene grammar and difficulty tiers</h3>
+  <div class="grid2">
+    <div class="card"><h4>Tier 1 · open passage</h4><p>Doorways ≥ 2.0 m. Establishes the tracker's dynamic stability on plain walking.</p></div>
+    <div class="card"><h4>Tier 2 · continuous overhead (duck)</h4><p>Low lintels, pipes, hanging clutter, h ∈ [0.95, 1.40] m. Exercises Class I scalar repair and depth-dependent tracking.</p></div>
+    <div class="card"><h4>Tier 3 · discrete ground (step)</h4><p>Thresholds, cables, low boxes, h ∈ [0.03, 0.15] m. Exercises the support-phase gate and the refusal logic.</p></div>
+    <div class="card"><h4>Tier 4 · composites</h4><p>Alternating beams and ground obstacles with branching routes, forcing the body-aware router to trade a deep crouch against an upright detour.</p></div>
+  </div>
+  <h3>Yield funnel the release will report</h3>
+  <div class="pipe">generated ──► kinematically collision-free ──► gate-admitted (r_max ≤ 0.20 s) ──► SONIC rollout ──► retained at the obstacle
+                                                          └──► refused / rejected, with reason and measured deficit</div>
+</div></section>
+
+<!-- ================= BENCHMARK ================= -->
+<section id="benchmark"><div class="wrap">
+  <div class="snum">Proposal · evaluation under SONIC</div>
+  <h2>Measuring tracking quality and the road to hardware</h2>
+  <span class="badge plan">planned · schema v3 export required for torque channels</span>
+  <div class="grid2">
+    <div class="card"><h4>Subtask progress, not only success rate</h4><p>Report the number of obstacles cleared before the first collision or cutoff, and the per-obstacle failure hazard h(k). A flat h(k) means obstacles are independent and repair cost scales linearly; a rising h(k) means momentum couples consecutive obstacles.</p></div>
+    <div class="card"><h4>Execution-aware margin τ(d)</h4><p>Fit required margin = c<sub>base</sub> + κ₀ + κ₁·d from torso and wrist tracking residuals, then test whether references carrying τ(d) pass the physics scene collision-free. Our earlier attempt had zero uncensored observations; this needs an interaction-reaching campaign.</p></div>
+    <div class="card"><h4>Contact-force consistency</h4><p>Temporal overlap between simulated normal contact force and the kinematic support mask S<sub>j</sub>(t). Floats should show the mismatch directly.</p></div>
+    <div class="card"><h4>Base drift and torque saturation margin</h4><p>Accumulated linear/angular deviation of the floating base from the reference pelvis frame, and the fraction of the cycle with |τ<sub>i</sub>| ≤ 0.8 τ<sub>max</sub>. The current archive stores qpos only; exporting qvel and applied torque is the schema v3 change.</p></div>
+  </div>
+  <h3>Downstream consumers</h3>
+  <p>The records are shaped for three consumers: a student whole-body navigation policy trained by privileged-to-proprioceptive distillation, an RL policy that receives the refusals as a shaped penalty with the quantified deficit, and a vision-language-action model that needs a per-scene label of <em>which posture</em> made a route traversable. The standard test is held-out procedural rooms, traversed under SONIC, scored by retained obstacle clearance and subtask progress. A downstream training result is not claimed until it exists.</p>
+  <h3>Work packages that need no GPU</h3>
+  <ul>
+    <li><b>Dataset export engine</b> (<code>scene2motion/dataset_engine.py</code>): the tiered record schema, a manifest summariser that turns the 300-scene pilot into the funnel table, and an export that SONIC's rollout bridge reads directly.</li>
+    <li><b>Subtask hazard analysis</b> (<code>experiments/analyze_subtask_hazard.py</code>) and the tracking-quality channels in the SONIC wrapper, with figure scripts for h(k) and tracking error versus crouch depth.</li>
+    <li><b>Downstream integration memo</b> (<code>docs/downstream-navigation-benchmark.md</code>): how policies consume the records, a joint positive/negative loss, and the held-out room protocol.</li>
+  </ul>
+</div></section>
+
+<!-- ================= PROGRESS ================= -->
+<section id="progress"><div class="wrap">
+  <div class="snum">Progress</div>
+  <h2>Where the project stands</h2>
+  <div class="tbl"><table>
+    <tr><th>date</th><th>milestone</th><th>status</th></tr>
+    <tr><td>2026-08-30/31</td><td>Sampler defect found and fixed (noise stream v2); all v1 clips quarantined as audit evidence</td><td>done</td></tr>
+    <tr><td>2026-09-01</td><td>exp021 elicitation distribution (64 seeds); EXP-022A exact tracking bridge: 0/64 retained; EXP-023 delayed prompt</td><td>done</td></tr>
+    <tr><td>2026-09-01/02</td><td>Trackability-contract analysis (AUC 0.997 post hoc); event-frame and exact-centre cost-curve analysers; Fig. 2–5 from committed outputs</td><td>done</td></tr>
+    <tr><td>2026-09-02</td><td>EXP-023b positive control (3/8 delayed STEP; SQUEEZE refused at its substrate gate); EXP-024 kinematic stage, predictions frozen</td><td>done</td></tr>
+    <tr><td>2026-09-02/03</td><td>EXP-028 termination-free SONIC rollouts + EXP-024 SONIC stage (physical outcome classes, prospective gate 2×2)</td><td>queued behind the GPU</td></tr>
+    <tr><td>Sep 4–5</td><td>EXP-024b jump control, EXP-025 Kimodo cross-prior, EXP-027 prompt battery, EXP-026 duck contract</td><td>planned</td></tr>
+    <tr><td>Sep 6</td><td>GO/NO-GO and number freeze</td><td>—</td></tr>
+    <tr><td>Sep 15</td><td>ICRA 2027 submission (fallbacks IROS 2027, RSS 2027)</td><td>—</td></tr>
+  </table></div>
+  <div class="callout"><b>Process.</b> Fifteen preregistered RAMP campaigns plus three preflights and EXP-022A/023/023b/024/028, every one with a protocol written before the first sample, a receipt with exact sample accounting, and a fail-closed refusal record when a gate was not met. Drivers live in the repo and resume by receipt. A human-review log gates every AI-generated artifact before it can be cited.</div>
+  <h3>Dead lines (measured, not revived)</h3>
+  <p class="note">Coherent rotation packets and RepairNet; local response optimisation; route warping; fixed-frame predeclared-obstacle waiting; position-channel lifts (bilateral flight); lateral squeeze; staging as a prospective method; "certificate" wording; any single throughput number.</p>
+</div></section>
+
+<footer><div class="wrap">
+  Scene2Motion-G1 · ARDY-G1 (NVIDIA, frozen) · SONIC / GR00T-WholeBodyControl (NVIDIA) · Unitree G1 · one RTX 5080. Numbers on this page are read from committed receipts in the repository; post hoc analyses are labelled as such. Manuscript under double-anonymous review preparation; this page carries no author list.
+</div></footer>
+</body>
+</html>

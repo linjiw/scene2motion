@@ -34,3 +34,4 @@ section; figures one row each; the released dataset README one row.
 | 2026-09-02 | `docs/codex-20260902-112948-EDT.md` (full-manuscript draft with bracketed result macros) | Codex | receipts named in its evidence-cutoff header; `[EXP-024-*]`, `[EXP-028-*]`, `[EXP-024B-*]` macros unfilled | | | not yet reconciled against CLAUDE.md wording rules |
 | 2026-09-02 | `docs/SETUP.md` (new-machine install and continuation guide); README front-door banner | Claude | pins in CLAUDE.md §External pins; versions read from the live venvs | | | |
 
+| 2026-09-02 | `docs/index.html` (GitHub Pages project page: demo, audit, contract, repair, engine, proposal) + `docs/assets/*.mp4` | Claude | CLAUDE.md, REPORT §21–22/§37–42, `docs/framing-2026-09-02-*.md` tier table, EXP-024 kinematic note; proposal sections labelled planned | | | no author list; τ(d) and torque channels stated as future |

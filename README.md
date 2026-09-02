@@ -1,6 +1,6 @@
 # Scene2Motion-RAMP
 
-> **Front door (2026-09-02).** Start with [`docs/SETUP.md`](docs/SETUP.md) to install
+> **Front door (2026-09-02).** Project page: <https://linjiw.github.io/scene2motion/>. Start with [`docs/SETUP.md`](docs/SETUP.md) to install
 > ARDY, Isaac Lab/SONIC and this repo on a new machine and to continue the experiments, then
 > `CLAUDE.md` (orientation, house rules, pins), the plan of record
 > [`docs/plan-2026-09-01-icra2027.md`](docs/plan-2026-09-01-icra2027.md), and the ledger

@@ -31,4 +31,6 @@ section; figures one row each; the released dataset README one row.
 | 2026-09-02 | `experiments/fig_channel_response.py` → `docs/figures/fig3_channel_response.*` | Claude (subagent) | exp019 v7 analyses, exp1c, exp020, exp021 | | | root-height dose–response omitted (v1-only artifact) |
 | 2026-09-02 | `docs/note-guided-diffusion-feasibility.md` | Claude (subagent) | ARDY code at 693f74d (file:line cited); receipts named | | | estimates labelled; probe timings uncommitted |
 | 2026-09-02 | `docs/ramp-exp024-kinematic-stage-2026-09-02.md`, REPORT §42 | Claude | `outputs/exp024_reference_contract/receipt.json` | | | |
+| 2026-09-02 | `docs/codex-20260902-112948-EDT.md` (full-manuscript draft with bracketed result macros) | Codex | receipts named in its evidence-cutoff header; `[EXP-024-*]`, `[EXP-028-*]`, `[EXP-024B-*]` macros unfilled | | | not yet reconciled against CLAUDE.md wording rules |
+| 2026-09-02 | `docs/SETUP.md` (new-machine install and continuation guide); README front-door banner | Claude | pins in CLAUDE.md §External pins; versions read from the live venvs | | | |
 

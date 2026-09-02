@@ -1,11 +1,16 @@
 # Scene2Motion-RAMP
 
-> **Stale front door (banner added 2026-09-01).** The method described below (coherent
-> phase-aligned packets, response-conditioned repair) failed closed on 2026-09-01, and the
-> staged-selection and delayed-prompt successors failed after it (EXP-022A, EXP-023). Read
-> `CLAUDE.md` first, then the plan of record `docs/plan-2026-09-01-icra2027.md`; the current
-> ledger is `docs/REPORT.md` §35–39 and `docs/ramp-exp02*.md`. Everything below is retained as
-> history and as the description of the legacy infrastructure.
+> **Front door (2026-09-02).** Start with [`docs/SETUP.md`](docs/SETUP.md) to install
+> ARDY, Isaac Lab/SONIC and this repo on a new machine and to continue the experiments, then
+> `CLAUDE.md` (orientation, house rules, pins), the plan of record
+> [`docs/plan-2026-09-01-icra2027.md`](docs/plan-2026-09-01-icra2027.md), and the ledger
+> [`docs/REPORT.md`](docs/REPORT.md) §40–42. The current finding: the STEP prompt elicits the
+> step (44/64 at ≥ 3 cm) but places it at the fixed obstacle in only 12/64, and every clearing
+> clip does so inside a bilateral no-support *float* that SONIC's evaluator cuts off; a
+> calibrated 0.2 s no-support gate predicts that cutoff (AUC 0.997, post hoc). EXP-024's
+> prospective test of the gate is generated, scored and frozen; its SONIC stage is pending.
+> Latest figures: `docs/figures/`. Everything below this banner is retained as history: the
+> packet/RepairNet method it describes failed closed on 2026-09-01.
 
 **Response-Adaptive Motion Programs for Frozen Humanoid Priors.** Scene2Motion converts a
 frozen motion prior into a scene-conditioned whole-body traversal module by placing coherent,

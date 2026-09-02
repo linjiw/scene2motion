@@ -1,0 +1,110 @@
+{
+  "analysis": "paired scene-cluster bootstrap, two corrections minus best-of-three resampling",
+  "descriptive_only": true,
+  "n_scenes": 36,
+  "n_seeds": 8,
+  "n_boot": 30000,
+  "rng_seed": 0,
+  "source": {
+    "path": "outputs/phase4e_architecture_v2_s8/experiment.json",
+    "sha256": "f85164c8b00ad66a597cb1d48e6a51ac75fdccfa786a5f1e652052c03af79b0a"
+  },
+  "results": [
+    {
+      "proposer": "tcn",
+      "endpoint": "collision_free",
+      "label": "learned (TCN): collision-free reference",
+      "arm_a": "tcn+2",
+      "arm_b": "tcn-resample3",
+      "rate_a": 0.9930555555555556,
+      "rate_b": 0.7743055555555556,
+      "paired_difference_pp": 21.875,
+      "bootstrap_95_pp": [
+        9.375,
+        35.41666666666667
+      ],
+      "discordant_a_only": 63,
+      "discordant_b_only": 0
+    },
+    {
+      "proposer": "tcn",
+      "endpoint": "meets_target",
+      "label": "learned (TCN): 18 cm margin met",
+      "arm_a": "tcn+2",
+      "arm_b": "tcn-resample3",
+      "rate_a": 0.375,
+      "rate_b": 0.013888888888888888,
+      "paired_difference_pp": 36.11111111111111,
+      "bootstrap_95_pp": [
+        25.0,
+        47.56944444444444
+      ],
+      "discordant_a_only": 104,
+      "discordant_b_only": 0
+    },
+    {
+      "proposer": "qp",
+      "endpoint": "collision_free",
+      "label": "QP teacher: collision-free reference",
+      "arm_a": "qp+2",
+      "arm_b": "qp-resample3",
+      "rate_a": 1.0,
+      "rate_b": 0.9722222222222222,
+      "paired_difference_pp": 2.7777777777777777,
+      "bootstrap_95_pp": [
+        0.0,
+        6.944444444444445
+      ],
+      "discordant_a_only": 8,
+      "discordant_b_only": 0
+    },
+    {
+      "proposer": "qp",
+      "endpoint": "meets_target",
+      "label": "QP teacher: 18 cm margin met",
+      "arm_a": "qp+2",
+      "arm_b": "qp-resample3",
+      "rate_a": 0.4166666666666667,
+      "rate_b": 0.03125,
+      "paired_difference_pp": 38.54166666666667,
+      "bootstrap_95_pp": [
+        28.125,
+        48.61111111111111
+      ],
+      "discordant_a_only": 112,
+      "discordant_b_only": 1
+    },
+    {
+      "proposer": "heuristic",
+      "endpoint": "collision_free",
+      "label": "heuristic: collision-free reference",
+      "arm_a": "heuristic+2",
+      "arm_b": "heuristic-resample3",
+      "rate_a": 1.0,
+      "rate_b": 1.0,
+      "paired_difference_pp": 0.0,
+      "bootstrap_95_pp": [
+        0.0,
+        0.0
+      ],
+      "discordant_a_only": 0,
+      "discordant_b_only": 0
+    },
+    {
+      "proposer": "heuristic",
+      "endpoint": "meets_target",
+      "label": "heuristic: 18 cm margin met",
+      "arm_a": "heuristic+2",
+      "arm_b": "heuristic-resample3",
+      "rate_a": 0.6458333333333334,
+      "rate_b": 0.7256944444444444,
+      "paired_difference_pp": -7.986111111111111,
+      "bootstrap_95_pp": [
+        -14.23611111111111,
+        -1.7361111111111112
+      ],
+      "discordant_a_only": 18,
+      "discordant_b_only": 41
+    }
+  ]
+}

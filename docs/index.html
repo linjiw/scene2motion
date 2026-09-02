@@ -129,7 +129,7 @@ code{font:13px var(--mono);background:var(--grey-soft);padding:1px 5px;border-ra
   <h2>Can the motion be placed at the obstacle?</h2>
   <p class="lede">We asked the model for a step in every way its released interface allows: the text prompt, a foot-position request, a rotation request aligned to the gait, and a prompt switched on mid-walk. For each we counted, in order, whether the step was produced, whether the reference passes the support test, whether it clears a 5 cm box at the scene's fixed position, and whether that clearance survives tracking.</p>
   <div class="grid3">
-    <div class="card stat"><b>44 / 64</b><span>step-prompted references lift a foot ≥ 3 cm somewhere on the route</span></div>
+    <div class="card stat"><b>44 / 64</b><span>step-prompted references clear a 3 cm box at some tested position along the route (whole-body geometry check)</span></div>
     <div class="card stat"><b>12 / 64</b><span>clear a 5 cm box at the fixed position (1.2 m; chosen after inspecting the clips, now fixed for replication)</span></div>
     <div class="card stat"><b>3 / 16</b><span>produce the step when the prompt is switched on mid-walk, 0.8–3.0 s late, none at the predicted position</span></div>
   </div>
@@ -138,7 +138,7 @@ code{font:13px var(--mono);background:var(--grey-soft);padding:1px 5px;border-ra
     <figcaption><b>Each way of asking, at each evidence level.</b> Bars are counts with 95 % intervals; the dark inner bar counts clips that also passed every earlier level. "Contact-consistent" on the figure is the support test (no period longer than 0.20 s with neither foot supported). One route, one scene.</figcaption>
   </figure>
   <ul>
-    <li><b>The step comes early and on its own schedule.</b> The leading foot crosses the route's midline at a median 1.4 s; 40 of 49 lifting clips lift inside the first two seconds. Where the box is does not move it.</li>
+    <li><b>The step comes early and on its own schedule.</b> Among the 49 references with positive clearance somewhere on the route, the reference root reaches the location of maximum box clearance after a median 1.4 s, and 40 of 49 within the first two seconds. Where the box is does not move it.</li>
     <li><b>Joint-level requests do not place it either.</b> A requested foot lift over-responds by 1.7–2.3× and lifts both feet; a rotation request produces a step 3.2 m from its anchor at half the amplitude; a route stretched to line the step up with the box preserves the intended gait in 1 of 6.</li>
     <li><b>Letting the box move to fit the clip is a different statement.</b> Within ±0.25 m of the target, 20 of 64 clear; at the fixed position, 12. We report both, labelled.</li>
   </ul>
@@ -152,21 +152,22 @@ code{font:13px var(--mono);background:var(--grey-soft);padding:1px 5px;border-ra
 <section id="tracking"><div class="wrap">
   <div class="snum">Tracking</div>
   <h2>Does clearance survive when the controller follows the reference?</h2>
-  <p class="lede">All 64 references were tracked by SONIC in Isaac Sim. The box was not in the physics scene; the recorded robot states were replayed against its geometry afterwards. None of the 12 clearing references preserved clearance after tracking. The controller's evaluator stopped 53 of the 64 rollouts on its tracking-error rule, and every stopped robot was still upright.</p>
+  <p class="lede">All 64 references were tracked by SONIC in Isaac Sim, those the screen flags and those it passes alike. The box was not in the physics scene; the recorded robot states were replayed against its geometry afterwards. None of the 12 clearing references preserved clearance after tracking. The controller's evaluator stopped 53 of the 64 rollouts on its tracking-error rule, and all 53 were upright at the last archived state.</p>
+  <blockquote><b>Definition.</b> Clearance is preserved when a reference that clears the obstacle yields a tracked trajectory that passes through the obstacle corridor, finishes beyond the obstacle, remains collision-free, and satisfies the stated termination rule. A geometry query alone is not enough: a robot that stops before the box looks collision-free. The count is zero under this endpoint, and still zero with the termination condition dropped.</blockquote>
   <div class="grid3">
     <div class="card stat"><b>0 / 64</b><span>references whose clearance is preserved after tracking</span></div>
-    <div class="card stat"><b>53 / 64</b><span>rollouts stopped by the evaluator's tracking-error cutoff; 0 of 53 fell (pelvis 0.56–0.95 m at the last frame)</span></div>
+    <div class="card stat"><b>53 / 64</b><span>rollouts stopped by the evaluator's tracking-error cutoff; all 53 upright at the last archived state (pelvis 0.56–0.95 m)</span></div>
     <div class="card stat"><b>53 / 53 · 8 / 11</b><span>the reference screen rejects every stopped reference and passes 8 of the 11 completed runs, rejecting three</span></div>
   </div>
-  <h3>Why: the step is not a supported step</h3>
-  <p>A foot meets the support test when its sole is within 4.65 cm of the ground and moving slower than 1.18 m/s. In all 12 clearing references both feet fail that test for 0.44–1.04 s (nine clips) or 2.4–3.1 s (three) while the pelvis rises only 2–26 cm. That is not a jump either: the unsupported period is 1.3–15.6× longer than a ballistic flight for that rise. The evaluator's cutoff lands within ±0.2 s of the start of that period in 47 of 53 rollouts.</p>
+  <h3>What the screen measures</h3>
+  <p>A foot meets the support test when its sole is within 4.65 cm of the ground and moving slower than 1.18 m/s. Long periods in which neither foot meets that test are associated with the tracking-error cutoffs: in all 12 clearing references both feet fail it for 0.44–1.04 s (nine clips) or 2.4–3.1 s (three) while the pelvis rises only 2–26 cm, and the evaluator's cutoff lands within ±0.2 s of the start of that period in 47 of 53 rollouts. A simple flight-time comparison (the period is 1.3–15.6× longer than a ballistic flight for that pelvis rise) motivates further physical validation; it is not a dynamics analysis, and failing the support test does not establish zero contact force.</p>
   <figure>
     <img src="figures/fig5_contract_gate.png" alt="Longest unsupported period by rollout outcome, the screen's ROC, robot state at cutoff, and cutoff timing">
     <figcaption><b>A reference-only screen predicts the cutoff.</b> (a) the longest period with neither foot supported, by rollout outcome; (b) that one feature separates stopped from completed rollouts with AUC 0.997 on these 64 (post hoc); the 0.20 s screen, fixed before these clips existed, and a post hoc sweep optimum at 0.32 s shown separately; (c) at the cutoff the robot is upright while the reference's foot is a median 0.40 m in the air; (d) cutoff time relative to the start of the unsupported period (median +0.04 s).</figcaption>
   </figure>
-  <blockquote><b>What the screen does and does not say.</b> It predicts one evaluator's stopping rule under the release configuration. It does not say the robot would fall, and it does not say the motion is physically impossible. The runs without that stopping rule, and a known-trackable jumping control, are the next experiments.</blockquote>
+  <blockquote><b>What the screen does and does not say.</b> It predicts one evaluator's stopping rule under the release configuration. It does not say the robot would fall, and it does not say the motion is physically impossible. We evaluate the screen and the ducking correction as separate components, and to evaluate the screen we track both flagged and passed references. The runs without the stopping rule, and known-trackable walking and jumping controls, are the next experiments.</blockquote>
   <h3>Prospective test, in progress</h3>
-  <p>128 fresh references (32 seeds under four root-control settings) were generated, scored, and the screen's per-clip predictions committed before any tracking run. The free setting replicates the original (23 of 32 produce the step; 7 of 32 clear at the fixed position). Tracking is queued.</p>
+  <p>128 fresh references (32 seeds under four root-control settings) were generated, scored, and the screen's per-clip predictions committed before any tracking run. The free setting replicates the original (23 of 32 produce the step; 7 of 32 clear at the fixed position). Tracking outcomes and clearance after tracking are pending for all 128 references, flagged and passed alike.</p>
   <div class="tbl"><table>
     <tr><th>root control</th><th>step produced</th><th>clears 5 cm at the fixed position</th><th>passes the screen</th><th>valid step passing the support test</th><th>median unsupported period</th></tr>
     <tr><td>free</td><td>23/32</td><td>7/32</td><td>6/32</td><td>0/32</td><td>0.48 s</td></tr>
@@ -194,7 +195,15 @@ code{font:13px var(--mono);background:var(--grey-soft);padding:1px 5px;border-ra
     <tr><td>two corrections</td><td>100 %</td><td>64.6 %</td></tr>
     <tr><td>best of three resamples</td><td>100 %</td><td><b>72.6 %</b></td></tr>
   </table></div>
-  <p><b>What the table says.</b> 36 multi-beam scenes × 8 seeds. For the learned proposer, two corrections raise the collision-free rate from 72.9 % to 99.3 %, against 77.4 % for resampling with the same three-attempt budget; in 63 scene-seed pairs only correction succeeds, in none only resampling. That 99.3 % is not a margin result: the 18 cm margin is met in 37.5 % of pairs. For the heuristic proposer, whose references are already almost always collision-free, resampling reaches a higher margin rate than correction. Measurement helps when the proposal has a systematic error and adds little when it does not.</p>
+  <p><b>What the table says.</b> 36 multi-beam scenes × 8 seeds. For the learned proposer, two corrections raise the collision-free rate from 72.9 % to 99.3 %, against 77.4 % for resampling with the same maximum of three generations. That 99.3 % is not a margin result: the 18 cm margin is met in 37.5 % of pairs. For the heuristic proposer, whose references are already almost always collision-free, resampling reaches a higher margin rate than correction.</p>
+  <div class="tbl"><table>
+    <tr><th>two corrections minus best-of-three resampling</th><th>difference (pp)</th><th>95 % interval, 36-scene bootstrap</th><th>pairs won by correction : by resampling</th></tr>
+    <tr><td>learned (TCN), collision-free</td><td>+21.9</td><td>+9.4 to +35.4</td><td>63 : 0</td></tr>
+    <tr><td>learned (TCN), 18 cm margin</td><td>+36.1</td><td>+25.0 to +47.6</td><td>104 : 0</td></tr>
+    <tr><td>QP teacher, 18 cm margin</td><td>+38.5</td><td>+28.1 to +48.6</td><td>112 : 1</td></tr>
+    <tr><td>heuristic, 18 cm margin</td><td>−8.0</td><td>−14.2 to −1.7</td><td>18 : 41</td></tr>
+  </table></div>
+  <p><b>The supported conclusion.</b> Measured correction improves reference clearance for the learned proposer, but does not outperform resampling for every proposer. The paired differences are a descriptive reanalysis of the same rows, resampling the 36 scenes, not a new experiment. "Same maximum number of generations" is not equal computation: the learned proposer used a mean of 2.72 generations under correction and 2.99 under resampling. Whether correction helps because it fixes a systematic error is untested; a fixed extra-crouch adjustment under the same budget is the mechanism test.</p>
   <p class="note">These are reference-geometry results. An earlier tracking study of 526 ducking references preserved clearance in none, under a protocol whose 14 s clip cap stopped most rollouts before the beam; it says nothing about the corrections either way. The experiment that would, with the beam present in the physics scene, is listed under what comes next.</p>
 </div></section>
 
@@ -207,7 +216,7 @@ code{font:13px var(--mono);background:var(--grey-soft);padding:1px 5px;border-ra
     <div class="card"><h4>What a record carries</h4><p>Scene and obstacle; the request (prompt, seed, controls); where the motion occurred; clearance at the scene's position; the support-test result and the screen's prediction; correction steps and residual error; the evaluator outcome and cutoff time; clearance after tracking; physics seed; provenance for the model, runtime, robot model and controller.</p></div>
     <div class="card"><h4>Rejection labels</h4><p>Reference intersects the obstacle · screen predicts an evaluator cutoff · tracking stops before reaching the obstacle · achieved motion clears the obstacle. Four separate labels, not one "untraversable".</p></div>
   </div>
-  <p class="note">Ducking pilot, 300 procedural scenes, one proposer, at most two corrections: 268 collision-free references (192 meeting the 18 cm margin, 76 below it), 6 rejected after correction with their residual error, 26 refused before correction with a reason. Stepping: 64 + 128 references, each with every label above. Whether these records improve a navigation policy is a separate experiment that has not been run.</p>
+  <p class="note">Ducking pilot, 300 procedural scenes, one proposer, at most two corrections: 268 collision-free references (192 meeting the 18 cm margin, 76 below it), 6 rejected after correction with their residual error, 26 refused before correction with a reason. Stepping: the 64 references carry every label above; the 128 fresh references carry the reference-side labels and the screen's prediction, with tracking outcome and clearance after tracking pending. Whether these records improve a navigation policy is a separate experiment that has not been run.</p>
 </div></section>
 
 <!-- ================= NEXT ================= -->
@@ -215,9 +224,9 @@ code{font:13px var(--mono);background:var(--grey-soft);padding:1px 5px;border-ra
   <div class="snum">What comes next</div>
   <h2>Three experiments, in order</h2>
   <div class="grid3">
-    <div class="card"><h4>1 · What the screen actually predicts</h4><p>Track the 128 fresh references against the committed predictions. Run the original 64 without the tracking-error cutoff and classify the physical outcome: fell, stalled, continued, cleared. Add a known-trackable jumping example before reading an airborne phase as impossible.</p></div>
-    <div class="card"><h4>2 · One convincing ducking experiment</h4><p>A walking control that reaches the beam. Uncorrected, corrected and resampled references over predetermined beam heights, with rollouts long enough to reach the beam and the beam present in the physics scene. Does correcting the reference's clearance improve the robot's achieved clearance? Collisions, failing to reach the beam and evaluator cutoffs kept separate.</p></div>
-    <div class="card"><h4>3 · Do the records help a policy?</h4><p>Test whether records with rejection labels help a navigation policy decide whether to duck, step over or take another route. That decision is the longer-term goal and stays in the roadmap until the complete behaviour is demonstrated.</p></div>
+    <div class="card"><h4>1 · Complete the prospective screen evaluation</h4><p>The rule is frozen. Obtain outcomes for all 128 fresh references, flagged and passed. Run the original 64 without the tracking-error cutoff and classify the physical outcome: fell, stalled, continued, cleared. Include known-trackable walking and jumping controls, so the screen is tested against legitimate dynamic motion, not only against motion without conventional foot support.</p></div>
+    <div class="card"><h4>2 · One decisive obstacle-present ducking experiment</h4><p>A walking control that reaches the beam. Uncorrected generation, resampling, measured correction and a simple fixed extra-crouch correction under the same generation budget, over predetermined beam heights, with the beam present in the physics scene. Does correcting the reference's clearance improve the robot's achieved clearance? Passage, clearance, tracking error, falls and cost reported separately.</p></div>
+    <div class="card"><h4>3 · Future work: do the records help a policy?</h4><p>Whether records with rejection labels help a navigation policy decide whether to duck, step over or take another route is a separate research question. This paper does not promise it.</p></div>
   </div>
   <p class="note">Experiment identifiers, protocols, seeds, schedules and the full history are in the <a href="https://github.com/linjiw/scene2motion/blob/master/docs/REPORT.md">research log</a> and the <a href="https://github.com/linjiw/scene2motion/blob/master/docs/plan-2026-09-01-icra2027.md">plan of record</a>.</p>
 </div></section>

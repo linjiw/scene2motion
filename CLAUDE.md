@@ -18,7 +18,14 @@ The plan of record is `docs/plan-2026-09-01-icra2027.md` (paper positioning, exp
 preregistrations E2/E3/E4, claims hygiene). Read it before proposing work. **Framing of record (2026-09-02, advisor review): `docs/project-goal-2026-09-02.md`** (title
 *Scene2Motion: Evaluating Generated Humanoid Motions for Obstacle Traversal*, adopted abstract,
 evidence levels, plain-language vocabulary; the advice itself is `docs/pi-advice-2026-09-02.md`,
-the restructured manuscript `docs/paper-draft-v2-2026-09-02.md`). Use its vocabulary: "reference
+the restructured manuscript `docs/paper-draft-v2-2026-09-02.md`; second review
+`docs/pi-advice-2026-09-02-b.md`: shorten explanations, not definitions — "44/64" is a whole-body
+3 cm box clearance somewhere on the route, not a foot height; "1.4 s" is the root reaching the
+maximum-clearance location, not a foot crossing; "clearance preserved after tracking" needs corridor
+passage + finish beyond + collision-free + termination rule; the screen is a predictor of the evaluator's
+rule, never a physical verdict — say "upright at the last archived state", not "did not fall"; the
+128 EXP-024 tracking outcomes are pending; paired repair differences from
+`experiments/analyze_repair_paired_bootstrap.py`). Use its vocabulary: "reference
 screen for predicted tracking cutoffs", not "trackability contract"; "correcting measured
 clearance errors", not "measured-deficit repair"; "valid step passing the support test" for
 EXP-024's contact-consistent column; no throughput number in the abstract. Lead with the obstacle,

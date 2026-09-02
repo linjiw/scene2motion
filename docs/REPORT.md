@@ -1650,3 +1650,25 @@ window.
 (`experiments/exp024_reference_contract.py`), and the A0(a) event-frame analyser
 (`experiments/analyze_event_frames.py`). Their protocols stay DRAFT until the commit that
 precedes each first sample.
+
+## 41. EXP-023b: the SQUEEZE control is refused at its substrate gate, and the delayed STEP prompt replicates at 3/8
+
+Run 2026-09-02 07:35 EDT beside two co-tenant Isaac jobs (ARDY-only host gate, 7.9 GB free),
+32/32 samples, seeds 4640–4647 spent (`outputs/exp023b_prompt_switch_control/`, result note
+`docs/ramp-exp023b-prompt-switch-result-2026-09-02.md`). The preregistered sidestep composite
+fired in **0/8** `squeeze_0` clips (heading deviation ≤ 28°, lateral excursion ≤ 0.07 m, no foot
+crossing), so the substrate gate refused the measurement: under a dense `root_xz` route the
+SQUEEZE prompt is executed as a lifting gait (5/8 step events from frame 0, 2/8 clearing a 5 cm
+box at the predicted centre; 0.34 rad RMS from walking), not as a sidle. The positive control
+is inconclusive and must be re-designed on fresh seeds.
+
+The delayed arm is the finding: `step_52` elicited the step in **3/8** fresh seeds (latencies
+0.84–3.0 s after the switch; 0.04–0.10 m clearances) where EXP-023 saw 0/8. Pooled, a STEP
+prompt delivered at frame 52 elicits the step in 3/16 (Wilson 0.07–0.43) against 6/8 from
+frame 0; none of the delayed events cleared a box at the predicted centre. Under the
+preregistered replication rule the abstract's "a later prompt does not elicit the step" and the
+"tied to the rollout origin" mechanism are **withdrawn**; the surviving statement is "less
+often, later, and unplaced". The handoff-transmission statistic (delayed prompts move the
+post-switch joints by 0.14–0.20 rad RMS; prefix exactly zero) removes attenuation as the
+leading alternative. `all_walk` specificity held (0/8 sidestep, 0/8 step events).
+

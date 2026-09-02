@@ -33,12 +33,17 @@ frame 35 (q10–q90 21–55; 1.4 s), 40/49 lifting clips inside the first 50 fra
 1/8 (exp017), route warping preserved the intended gait in 1/6 (exp018), and coherent
 phase-aligned rotation packets show negative compliance (−0.26/−0.44), no matching lag in
 [−40, +80], and suppress the prompt's amplitude (exp019 v7 + exp020). ARDY is not
-translation-equivariant along the route. **EXP-023 (2026-09-01) tested prompt handoff:** switching
+translation-equivariant along the route. **EXP-023 (2026-09-01) and EXP-023b (2026-09-02) tested prompt handoff:** switching
 WALK→STEP at frame 52 or 104 through the released minimum-history `autoregressive_step`
-interface produced no whole-body-clearable step in 0/8 paired seeds each, against 6/8 from
-frame 0 (`docs/ramp-exp023-prompt-handoff-result-2026-09-01.md`). The native-interface timing
-claim is landed negative *for the Horizon52 checkpoint at the released minimum history*; longer
-history crops, Horizon8 and re-issued prompts remain untested contracts — scope every statement.
+interface produced 0/8 whole-body-clearable steps in EXP-023 but **3/8 at frame 52 in EXP-023b**
+(fresh seeds; latencies 0.84–3.0 s; none clears a box at the predicted centre), against 6/8 from
+frame 0; pooled 3/16. "A later prompt does not elicit the step" and "tied to the rollout origin"
+are **withdrawn**; say "less often, later, unplaced". EXP-023b's SQUEEZE positive control was
+refused at its substrate gate (0/8 sidestep under the pinned root; SQUEEZE lifts in 5/8 instead);
+delayed prompts move the post-switch joints by 0.14–0.20 rad RMS, so the handoff transmits.
+Longer history crops, Horizon8 and re-issued prompts remain untested contracts — scope every
+statement (`docs/ramp-exp023-prompt-handoff-result-2026-09-01.md`,
+`docs/ramp-exp023b-prompt-switch-result-2026-09-02.md`).
 
 **Exploratory lead, not a landed method: stage, then select.** Exp021's historical,
 uncommitted post-hoc `0.312/0.266` analysis at 5/8 cm allows the *box centre* to move anywhere
@@ -215,7 +220,7 @@ $S2M_PY experiments/exp021_elicited_lift_distribution.py --out outputs/<new_dir>
 900–907 (exp011); 1400–1923 (exp1c, threshold calibration); 1500–1507 (exp015); 2200–2211,
 2400–2407 (exp016 defaults); 2600–2603 (donors); 2800–2807 (exp017); 3200–3215/3300–3307,
 3400–3415/3500–3507, 3600–3615/3700–3707 (calibration v1–v3); 3800–3815 (exp018); 3900–3915,
-4000–4031, 4100–4131, 4200–4231, 4300–4363 (exp019 pools); 4400–4463 (exp021); 4500–4507 (exp023); exp020 reused
+4000–4031, 4100–4131, 4200–4231, 4300–4363 (exp019 pools); 4400–4463 (exp021); 4500–4507 (exp023); 4640–4647 (exp023b); exp020 reused
 exp019's eight selected seeds; Phase-4 demo/corpus seeds 100–107 and 5000–5299; Kimodo audit
 100–105 / 200–205; physics seed 0 (exp1b).
 

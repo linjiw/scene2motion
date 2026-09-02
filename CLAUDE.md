@@ -26,8 +26,10 @@ optimum is `> 0.28 s` = **≥ 0.32 s = 8 frames** (51/53, 11/11) — writing it 
 
 **Landed finding (kinematic, v2 sampler).** Under the STEP prompt ("A person steps over an
 obstacle."), exp021's 64 clips contain one dominant liftable region, usually early, with some
-clips reaching the 0.40 m probe cap. The quoted median frame ≈34 and first-50 fraction remain provisional until a
-committed script derives event frames from the archived qpos. Predeclared-obstacle waiting was
+clips reaching the 0.40 m probe cap. Event frames now come from committed code
+(`experiments/analyze_event_frames.py` → `outputs/analysis_event_frames/`): root-crossing median
+frame 35 (q10–q90 21–55; 1.4 s), 40/49 lifting clips inside the first 50 frames (Wilson
+0.69–0.90), 4/49 after frame 60; nominal-speed conversion 42/49 and 4/49. Predeclared-obstacle waiting was
 1/8 (exp017), route warping preserved the intended gait in 1/6 (exp018), and coherent
 phase-aligned rotation packets show negative compliance (−0.26/−0.44), no matching lag in
 [−40, +80], and suppress the prompt's amplitude (exp019 v7 + exp020). ARDY is not
@@ -227,7 +229,7 @@ exp019's eight selected seeds; Phase-4 demo/corpus seeds 100–107 and 5000–52
 | findings page, E1a note | residual displacement "1.62 m" | 1.32–1.59 m in metres; 1.61 *strides* |
 | findings page, E2 draft | "gated step-over tracked at 0.375" | retracted v1 8-seed artefact; EXP-1C killed every amplitude |
 | findings page ledger | "Pmin 0.042 m replicated 3×" | Q95 background replicated 3×; frozen 0.042 in v2 and v3 only |
-| exp021 note, REPORT §37 | "3 of 49 lifts after frame 60", "80 % in first 50" | 4 and 80–86 % depending on frame conversion; frames are not archived and no script converts them |
+| exp021 note, REPORT §37, plan (first revision) | "3 of 49 lifts after frame 60", "80 % in first 50", "43/49" | committed analyser: 4/49 after frame 60; 40/49 (82 %) by root crossing, 42/49 (86 %) by nominal conversion (`outputs/analysis_event_frames/`) |
 | findings page | "1,152 trajectories", "~7.7 s per clip" | 1,150 unique; 7.2 s incl. scoring |
 | findings page | "15 preregistered campaigns fail closed" | exp021 v1 was an interrupted run, not a refusal |
 | REPORT §4.9, design §36 | arm C "asked for a foot 0.35 m higher" | request was 0.20 m |

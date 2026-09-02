@@ -185,6 +185,15 @@ available) — every protocol's host gate (≥ 12 GB free VRAM, ≥ 18 GB RAM, n
 SONIC) fails. Nothing was launched. `scene2motion/host_gate.py` is the shared gate; every new
 driver calls it before touching its output directory.
 
+**2026-09-02 07:30–08:00 EDT update.** All three protocols are preregistered (`976cd91`).
+An ARDY-only host-gate preset (4 GiB free VRAM / 8 GiB RAM, measured: 1,076 MiB CUDA reserved,
+2,297 MiB RSS for one B=8 call) replaced the Isaac-sized blanket figure for ARDY generation.
+The host still carries two co-tenant Isaac jobs (6.3 + 6.8 GB VRAM; 1.6 GB free; 6 GB RAM), so
+EXP-023b's first attempt was refused with `--out` untouched; `experiments/launch_when_host_free.sh`
+polls the host and launches it in the first window that passes. SONIC campaigns (EXP-028,
+EXP-024 sonic stage) stay blocked until no Isaac co-tenant runs. The record schema the engine
+emits is specified in `docs/dataset-engine-record-schema.md`.
+
 **Built today (CPU, committed, tests green):** the host gate; the EXP-023b driver
 (`experiments/exp023b_prompt_switch_control.py`), the EXP-028 driver
 (`experiments/exp028_termination_free_rollouts.py`), the A0 event-frame analyser

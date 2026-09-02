@@ -1,13 +1,13 @@
 {
  "analysis": "trackability_contract",
  "status": "post_hoc_exploratory",
- "generated_at_unix": 1788321650.5873594,
- "wall_clock_s": 9.409443855285645,
+ "generated_at_unix": 1788327896.5180957,
+ "wall_clock_s": 9.438618659973145,
  "code": {
-  "commit": "eca75f1d7b8b150ec8bec9c2c9a7dc0145e7ef47",
-  "dirty": true
+  "commit": "a47d9ecdb3a1bca0fc40b33643e32ad53c6be1e1",
+  "dirty": false
  },
- "script_sha256": "0e13e1709623c8b2622ee356b8d4b81fb8d690c0893161216e73605a7764c8f4",
+ "script_sha256": "3e4f91196c6d195d54c91c9ee6ecad9b9ffa1a81efaa3591ac2d3bb516c6ac25",
  "inputs": {
   "threshold_receipt": {
    "path": "/home/linjiw/scene2motion/outputs/exp016_threshold_calibration/receipt.json",

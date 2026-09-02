@@ -64,6 +64,8 @@ from experiments.analyze_e1a_placement import (  # noqa: E402
 from scene2motion.constraints import ArdyConstraintSet, ConstraintSpec  # noqa: E402
 from scene2motion.host_gate import (  # noqa: E402
     HostResourceGateFailed,
+    ARDY_GENERATION_GATE,
+    SONIC_LAUNCH_GATE,
     host_resource_report,
     require_host_resources,
 )
@@ -1405,7 +1407,7 @@ def run_generate(
         raise CampaignAbort("provide either runner or runner_factory, not both")
     # Host gate before anything is created or any seed is spent; failure leaves --out untouched.
     try:
-        gate_report = dict(host_gate_fn(require_no_isaac=False))
+        gate_report = dict(host_gate_fn(**ARDY_GENERATION_GATE))
     except HostResourceGateFailed as exc:
         raise CampaignAbort(f"generation refused by the host-resource gate: {exc}") from exc
     code = dict(code_state_fn(ROOT))
@@ -2077,7 +2079,7 @@ def run_sonic(
             existing = ledger.receipt["launches"].get(name)
             if not (isinstance(existing, dict) and existing.get("status") == "complete"):
                 try:
-                    gate_report = dict(host_gate_fn(require_no_isaac=True))
+                    gate_report = dict(host_gate_fn(**SONIC_LAUNCH_GATE))
                 except HostResourceGateFailed as exc:
                     raise CampaignAbort(f"{name} refused by the host-resource gate: {exc}") from exc
                 ledger.receipt["host_resource_gate"]["sonic"][name] = gate_report
@@ -2213,8 +2215,8 @@ def dry_run_report() -> dict[str, Any]:
             "expected_model_channel_usage": dict(EXPECTED_CHANNEL_USAGE[arm]),
         } for arm in ARMS},
         "host_resource_gate": {
-            "generate": host_resource_report(require_no_isaac=False),
-            "sonic": host_resource_report(require_no_isaac=True),
+            "generate": host_resource_report(**ARDY_GENERATION_GATE),
+            "sonic": host_resource_report(**SONIC_LAUNCH_GATE),
         },
         "sonic_launch_command_template": sonic_command(
             Path("<launch>/motions.pkl"), Path("<attempt>/eval"), SONIC_CHUNK_SIZE, PHYSICS_SEED),

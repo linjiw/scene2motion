@@ -97,3 +97,19 @@ def test_live_probes_do_not_raise() -> None:
     hg.concurrent_isaac_processes()
     assert isinstance(hg.host_resource_report(require_no_isaac=True)["pass"], bool)
     assert subprocess is not None
+
+
+def test_named_presets_match_the_protocols() -> None:
+    assert hg.SONIC_LAUNCH_GATE == {"min_free_vram_mib": 12 * 1024,
+                                    "min_available_ram_mib": 18 * 1024, "require_no_isaac": True}
+    assert hg.ARDY_GENERATION_GATE == {"min_free_vram_mib": 4 * 1024,
+                                       "min_available_ram_mib": 8 * 1024, "require_no_isaac": False}
+    measured = dict(
+        vram_fn=lambda: {"free_mib": 8339, "total_mib": 16303, "used_mib": 7470, "error": None},
+        ram_fn=lambda: {"available_mib": 12000, "total_mib": 29296, "error": None},
+        isaac_fn=lambda: [{"pid": 1, "args": "env_isaaclab"}],
+    )
+    # The 2026-09-02 host: ARDY-only generation may run, SONIC may not.
+    assert hg.host_resource_report(**hg.ARDY_GENERATION_GATE, **measured)["pass"]
+    assert not hg.host_resource_report(**hg.SONIC_LAUNCH_GATE, **measured)["pass"]
+

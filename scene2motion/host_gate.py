@@ -1,7 +1,8 @@
 """Host-resource gate shared by every GPU campaign driver.
 
-Every protocol from EXP-023b onward launches only when the host has at least 12 GB of free
-VRAM and 18 GB of available RAM, and (for SONIC protocols) no concurrent Isaac process.  The
+SONIC launches (``SONIC_LAUNCH_GATE``) require at least 12 GiB of free VRAM, 18 GiB of
+available RAM and no concurrent Isaac process; ARDY-only generation (``ARDY_GENERATION_GATE``)
+requires 4 GiB and 8 GiB, a ~4x margin on its measured need, with Isaac co-tenants recorded.  The
 gate must be evaluated *before* a runner is constructed and before any seed is spent, and its
 measured values are bound into the campaign receipt.  A failed gate must leave the output
 directory untouched so the same directory can be launched later.
@@ -19,6 +20,22 @@ from typing import Any, Callable, Mapping, Sequence
 
 MIN_FREE_VRAM_MIB = 12 * 1024
 MIN_AVAILABLE_RAM_MIB = 18 * 1024
+
+# Named presets.  SONIC launches (Isaac Sim + the tracker) keep the plan-of-record thresholds
+# and forbid a concurrent Isaac process.  ARDY-only generation was measured on 2026-09-02
+# (one B=8 Horizon52 prompt-schedule call, 4 windows x 208 frames, decode included):
+# peak CUDA reserved 1,076 MiB, peak host RSS 2,297 MiB, 2.2 s model load; the ARDY preset
+# keeps roughly a 4x margin on both and records, but does not gate on, Isaac co-tenants.
+ARDY_GENERATION_GATE: dict[str, Any] = {
+    "min_free_vram_mib": 4 * 1024,
+    "min_available_ram_mib": 8 * 1024,
+    "require_no_isaac": False,
+}
+SONIC_LAUNCH_GATE: dict[str, Any] = {
+    "min_free_vram_mib": MIN_FREE_VRAM_MIB,
+    "min_available_ram_mib": MIN_AVAILABLE_RAM_MIB,
+    "require_no_isaac": True,
+}
 
 # Command-line fragments that identify an Isaac Sim / Isaac Lab process on this host.
 ISAAC_PROCESS_PATTERNS: tuple[str, ...] = (

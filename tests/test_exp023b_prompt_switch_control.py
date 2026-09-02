@@ -749,7 +749,7 @@ def test_evaluate_host_gate_measures_once_and_binds_isaac_observation():
     report = x.evaluate_host_gate(vram_fn=vram, ram_fn=ram, isaac_fn=isaac)
     assert report["pass"] is True
     assert report["thresholds"]["require_no_concurrent_isaac"] is False
-    assert report["thresholds"]["min_free_vram_mib"] == 12 * 1024
+    assert report["thresholds"]["min_free_vram_mib"] == 4 * 1024
     assert report["concurrent_isaac_processes_informational"] == [
         {"pid": 9, "args": "env_isaaclab train"}
     ]
@@ -757,7 +757,7 @@ def test_evaluate_host_gate_measures_once_and_binds_isaac_observation():
 
     with pytest.raises(x.HostGateRefusal, match="vram, ram") as info:
         x.evaluate_host_gate(
-            vram_fn=lambda: {"free_mib": 4277, "total_mib": 16303, "used_mib": 11532,
+            vram_fn=lambda: {"free_mib": 3277, "total_mib": 16303, "used_mib": 12532,
                              "error": None},
             ram_fn=lambda: {"available_mib": 7216, "total_mib": 31000, "error": None},
             isaac_fn=isaac,
@@ -853,8 +853,9 @@ def test_complete_campaign_accounting_gates_and_transmits_verdict(tmp_path):
     assert receipt["host_resource_gate"]["pass"] is True
     assert receipt["host_resource_gate"]["vram"]["free_mib"] == 15000
     assert receipt["campaign_design"]["host_gate"] == {
-        "min_free_vram_mib": 12 * 1024,
-        "min_available_ram_mib": 18 * 1024,
+        "preset": "scene2motion.host_gate.ARDY_GENERATION_GATE",
+        "min_free_vram_mib": 4 * 1024,
+        "min_available_ram_mib": 8 * 1024,
         "require_no_concurrent_isaac": False,
     }
     assert receipt["campaign_design"]["row_plan_sha256"] == LOCKED_ROW_PLAN_SHA256

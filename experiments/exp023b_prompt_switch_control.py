@@ -107,7 +107,8 @@ VERDICT_INDETERMINATE = "indeterminate_at_n8"
 VERDICT_STEP_REPLICATION_FAILED = "step_replication_failed_exp023_zero_not_replicated"
 DECISION_STEP52_REPLICATION_FAIL_MIN = 2  # step_52 >= 2/8 events: EXP-023's 0/8 did not replicate
 
-HOST_GATE_REQUIRE_NO_ISAAC = False  # ARDY-only campaign; Isaac co-tenancy is recorded, not gated.
+HOST_GATE = dict(hg.ARDY_GENERATION_GATE)  # ARDY-only campaign; Isaac co-tenancy is recorded, not gated.
+HOST_GATE_REQUIRE_NO_ISAAC = bool(HOST_GATE["require_no_isaac"])
 
 PROTOCOL_PATH = "docs/ramp-exp023b-prompt-switch-positive-control-protocol.md"
 SOURCE_FILES = (
@@ -271,7 +272,9 @@ def evaluate_host_gate(
     ram_fn: Callable[[], Mapping[str, Any]] = hg.query_available_ram_mib,
     isaac_fn: Callable[[], Sequence[Mapping[str, Any]]] = hg.concurrent_isaac_processes,
 ) -> dict[str, Any]:
-    """Preregistered host gate: >= 12 GiB free VRAM and >= 18 GiB available RAM.
+    """Preregistered ARDY-only host gate (``scene2motion.host_gate.ARDY_GENERATION_GATE``):
+    >= 4 GiB free VRAM and >= 8 GiB available RAM, a ~4x margin on the measured B=8 need
+    (1,076 MiB CUDA reserved, 2,297 MiB host RSS on 2026-09-02).
 
     Measures each probe once, evaluates through the shared
     :func:`scene2motion.host_gate.require_host_resources`, and either returns the report to
@@ -280,11 +283,9 @@ def evaluate_host_gate(
     """
     measured = {"vram_fn": _once(vram_fn), "ram_fn": _once(ram_fn), "isaac_fn": _once(isaac_fn)}
     try:
-        report = dict(hg.require_host_resources(
-            require_no_isaac=HOST_GATE_REQUIRE_NO_ISAAC, **measured))
+        report = dict(hg.require_host_resources(**HOST_GATE, **measured))
     except hg.HostResourceGateFailed as exc:
-        report = hg.host_resource_report(
-            require_no_isaac=HOST_GATE_REQUIRE_NO_ISAAC, **measured)
+        report = hg.host_resource_report(**HOST_GATE, **measured)
         report["concurrent_isaac_processes_informational"] = [
             dict(item) for item in measured["isaac_fn"]()
         ]
@@ -1347,8 +1348,9 @@ def run_campaign(
                 f"event <= {MAX_ALL_WALK_SEEDS_WITH_ANY_STEP_EVENT}/8"
             ),
             "host_gate": {
-                "min_free_vram_mib": hg.MIN_FREE_VRAM_MIB,
-                "min_available_ram_mib": hg.MIN_AVAILABLE_RAM_MIB,
+                "preset": "scene2motion.host_gate.ARDY_GENERATION_GATE",
+                "min_free_vram_mib": HOST_GATE["min_free_vram_mib"],
+                "min_available_ram_mib": HOST_GATE["min_available_ram_mib"],
                 "require_no_concurrent_isaac": HOST_GATE_REQUIRE_NO_ISAAC,
             },
         },

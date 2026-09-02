@@ -1,9 +1,8 @@
-# EXP-024 protocol — reference-contract ablation of the prompt-elicited step (DRAFT, not yet preregistered)
+# EXP-024 protocol — reference-contract ablation of the prompt-elicited step
 
-**Status:** draft written 2026-09-01 (evening) from the plan of record
-(`docs/plan-2026-09-01-icra2027.md` §3). It becomes preregistered when it is committed with a
-`Status: preregistered` line and its sha256 is bound into the campaign receipt before the first
-sample. Seeds **4600–4631** are reserved for this campaign and must not be reused. No
+**Status:** preregistered (2026-09-02 07:30 EDT, before the first sample; draft written
+2026-09-01 evening from the plan of record `docs/plan-2026-09-01-icra2027.md` §3). The committed
+sha256 of this file is bound into the campaign receipt. Seeds **4600–4631** are reserved for this campaign and must not be reused. No
 result-dependent arm, threshold, seed, or endpoint change is permitted after generation starts.
 
 ## Question and scope
@@ -173,10 +172,13 @@ plus the `time_out` term (defined in `terms/motion_time_out.yaml` under the key 
 a launch whose resolved block is not the release evaluator is refused); each launch's return
 code 0 and 32/32 rollouts archived; rows and the per-clip gate
 predictions written and hashed before the SONIC stage; every row carries the seed, arm, spec
-hash, qpos sha256 and its planned-denominator fields. **Host-resource gate:** launch only when
-`nvidia-smi` reports ≥ 12 GB free and `free -g` reports ≥ 18 GB available, with no concurrent
-Isaac job; both values are recorded in the receipt (a co-tenant training job was holding
-6–7 GB of VRAM on 2026-09-01).
+hash, qpos sha256 and its planned-denominator fields. **Host-resource gate:** the generation
+stage uses `scene2motion.host_gate.ARDY_GENERATION_GATE` (≥ 4 GiB free VRAM, ≥ 8 GiB available
+RAM; the ARDY-only preset measured on 2026-09-02: peak CUDA reserved 1,076 MiB and host RSS
+2,297 MiB for one B=8 call, ≈ 4× margin; Isaac co-tenants recorded, not gated); every SONIC
+launch uses `SONIC_LAUNCH_GATE` (≥ 12 GiB free VRAM, ≥ 18 GiB available RAM, **no concurrent
+Isaac process**); every report is recorded in the receipt (a co-tenant training job was holding
+6–7.5 GB of VRAM on 2026-09-01/02).
 
 ## Statistics
 

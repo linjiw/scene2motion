@@ -1,8 +1,8 @@
-# EXP-023b protocol — prompt-switch positive control (DRAFT, not yet preregistered)
+# EXP-023b protocol — prompt-switch positive control
 
-**Status:** draft written 2026-09-01 (evening) after the internal review of the plan of record.
-Becomes preregistered when committed with `Status: preregistered` and its sha256 bound into the
-receipt before the first sample. Seeds **4640–4647** are reserved. Driver:
+**Status:** preregistered (2026-09-02 07:30 EDT, before the first sample; draft written
+2026-09-01 evening after the internal review of the plan of record). The committed sha256 of
+this file is bound into the receipt. Seeds **4640–4647** are reserved. Driver:
 `experiments/exp023b_prompt_switch_control.py`, which imports EXP-023's generation contract,
 causal audits, step detector, fixed-box scorer and pin checks from
 `experiments/exp023_prompt_handoff.py` unchanged (that file's sha256 is bound into the receipt)
@@ -113,9 +113,11 @@ noise, and distinct seeds differ). 32 samples.
 
 As EXP-023 (clean worktree, empty output dir, v2 sampler, identity revalidation, 32/32
 accounting, rows before summary, protocol sha bound). Host-resource gate: the driver calls
-`scene2motion.host_gate.require_host_resources(require_no_isaac=False)` (≥ 12 GiB free VRAM,
-≥ 18 GiB available RAM) before creating anything in `--out` and before constructing the
-runner; a failure exits non-zero, prints the measured report as JSON and leaves `--out` empty;
+`scene2motion.host_gate.require_host_resources(**ARDY_GENERATION_GATE)` — **≥ 4 GiB free
+VRAM and ≥ 8 GiB available RAM**, the ARDY-only preset fixed on 2026-09-02 from a measured
+B=8 prompt-schedule call (peak CUDA reserved 1,076 MiB, peak host RSS 2,297 MiB; ≈ 4× margin)
+because the plan's 12 GiB / 18 GiB figure was sized for Isaac launches — before creating
+anything in `--out` and before constructing the runner; a failure exits non-zero, prints the measured report as JSON and leaves `--out` empty;
 on pass the report is bound into the receipt under `host_resource_gate` (concurrent Isaac
 processes are recorded for the record, not gated, in this ARDY-only campaign: the VRAM and RAM
 thresholds are the binding conditions for ARDY generation; the "no concurrent Isaac job"

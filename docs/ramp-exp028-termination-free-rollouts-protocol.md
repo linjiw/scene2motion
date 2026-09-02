@@ -1,8 +1,8 @@
-# EXP-028 protocol — termination-free SONIC rollouts and physics-seed re-roll (DRAFT, not yet preregistered)
+# EXP-028 protocol — termination-free SONIC rollouts and physics-seed re-roll
 
-**Status:** draft written 2026-09-01 (evening) after the internal review of the plan of record.
-Becomes preregistered when committed with `Status: preregistered` and its sha256 bound into the
-receipt before the first launch. No new ARDY samples; consumes archived clips only.
+**Status:** preregistered (2026-09-02 07:30 EDT, before the first launch; draft written
+2026-09-01 evening after the internal review of the plan of record). The committed sha256 of
+this file is bound into the receipt. No new ARDY samples; consumes archived clips only.
 
 ## Why
 

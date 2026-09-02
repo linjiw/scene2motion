@@ -1690,3 +1690,23 @@ was blocked twice by provenance refusals unrelated to the data (agent worktrees 
 `.claude/`, then the driver's own resume path); the resume path added in `a95e8f6` preserves
 both blocked attempts and re-scored eight rows byte-identically.
 
+
+## 43. Coverage, not selection: the clearing and the tracking-completing sets are disjoint
+
+Motivated by the advisor's third review (`docs/pi-advice-2026-09-02-c.md`, Experiment B) and
+computed from committed EXP-022A rows by `experiments/analyze_pool_coverage.py`
+(`outputs/analysis_pool_coverage/summary.json`). At the staged centre x = 1.2 m over the 64-clip
+exp021 pool, 5 cm box: 12 references clear, 11 rollouts complete without an evaluator cutoff,
+and **0 do both**; 14 achieved trajectories pass the lateral corridor and finish beyond the
+obstacle (11 of them uncut), 50 never reach the obstacle, and 0 satisfy the guarded endpoint.
+The two useful sets being disjoint means selected success is zero for *every* selection rule over
+this pool, including an offline oracle, at every candidate budget up to 64 — the limitation is
+the candidate pool, not the ranking function. Reference-level coverage does respond to sampling:
+N90 is 12 fresh draws at 5 cm and 13 at 8 cm (binomial convention, reproducing §37's figure), or
+11 and 12 when sub-sampling this fixed pool (hypergeometric); the analyser reports both side by
+side so the two conventions are never confused. At the unstaged control centre x = 3.6 m the
+reference count is 2/64 and the joint count is likewise 0. Scope: obstacle absent from Isaac,
+achieved-state replay, one route, one scene, physics seed 0, one rollout per reference. This is
+a descriptive decomposition of existing rows, not a new campaign, and it does not generalise
+beyond this pool; EXP-029 (`docs/ramp-exp029-selection-vs-coverage-protocol.md`) is the
+prospective, beam-present version for the duck family.

@@ -1,0 +1,374 @@
+{
+  "analysis": "pool coverage vs selection for the tracked stepping pool",
+  "question": "is the failure a selection problem or a missing-candidate problem?",
+  "descriptive_only": true,
+  "scope": "one route, one scene, physics seed 0, one rollout per reference; the obstacle is absent from the physics scene and achieved states are replayed against its geometry; the staged position was chosen after inspecting the clips",
+  "sources": {
+    "reference_rows": {
+      "path": "outputs/exp022_exact_tracking_bridge/reference_rows.jsonl",
+      "sha256": "0808b3728881a5ed87e85dcc8ddf6cb0e75e946afaf62b436692f20944d43f78"
+    },
+    "achieved_rows": {
+      "path": "outputs/exp022_exact_tracking_bridge/achieved_rows.jsonl",
+      "sha256": "70cef0916289b37c23795988402d14369838c3ad2418727c7fe82e76319e5c02"
+    }
+  },
+  "results": [
+    {
+      "obstacle_label": "staged",
+      "obstacle_x_m": 1.2,
+      "n_candidates": 64,
+      "n_completes_tracking": 11,
+      "n_terminated": 53,
+      "n_passed_corridor_and_finished_beyond": 14,
+      "n_passed_and_finished_and_completed": 11,
+      "n_never_reached_obstacle": 50,
+      "by_height": {
+        "0.03": {
+          "reference_clears": [
+            4402,
+            4406,
+            4407,
+            4409,
+            4413,
+            4415,
+            4424,
+            4437,
+            4439,
+            4447,
+            4448,
+            4457,
+            4462
+          ],
+          "n_reference_clears": 13,
+          "n_reference_clears_and_completes_tracking": 0,
+          "n_traversal_endpoint": 0,
+          "coverage_curve_reference": {
+            "n90_budget_subsampling_this_pool": 10,
+            "n90_budget_fresh_draws": 11,
+            "n50_budget_subsampling_this_pool": 3,
+            "coverage_at_full_pool": 1.0
+          },
+          "coverage_curve_joint": {
+            "n90_budget_subsampling_this_pool": null,
+            "n90_budget_fresh_draws": null,
+            "coverage_at_full_pool": 0.0
+          },
+          "coverage_curve_traversal": {
+            "n90_budget_subsampling_this_pool": null,
+            "n90_budget_fresh_draws": null,
+            "coverage_at_full_pool": 0.0
+          }
+        },
+        "0.05": {
+          "reference_clears": [
+            4402,
+            4406,
+            4407,
+            4409,
+            4413,
+            4415,
+            4424,
+            4437,
+            4439,
+            4447,
+            4457,
+            4462
+          ],
+          "n_reference_clears": 12,
+          "n_reference_clears_and_completes_tracking": 0,
+          "n_traversal_endpoint": 0,
+          "coverage_curve_reference": {
+            "n90_budget_subsampling_this_pool": 11,
+            "n90_budget_fresh_draws": 12,
+            "n50_budget_subsampling_this_pool": 4,
+            "coverage_at_full_pool": 1.0
+          },
+          "coverage_curve_joint": {
+            "n90_budget_subsampling_this_pool": null,
+            "n90_budget_fresh_draws": null,
+            "coverage_at_full_pool": 0.0
+          },
+          "coverage_curve_traversal": {
+            "n90_budget_subsampling_this_pool": null,
+            "n90_budget_fresh_draws": null,
+            "coverage_at_full_pool": 0.0
+          }
+        },
+        "0.08": {
+          "reference_clears": [
+            4402,
+            4406,
+            4407,
+            4409,
+            4413,
+            4415,
+            4424,
+            4437,
+            4439,
+            4457,
+            4462
+          ],
+          "n_reference_clears": 11,
+          "n_reference_clears_and_completes_tracking": 0,
+          "n_traversal_endpoint": 0,
+          "coverage_curve_reference": {
+            "n90_budget_subsampling_this_pool": 12,
+            "n90_budget_fresh_draws": 13,
+            "n50_budget_subsampling_this_pool": 4,
+            "coverage_at_full_pool": 1.0
+          },
+          "coverage_curve_joint": {
+            "n90_budget_subsampling_this_pool": null,
+            "n90_budget_fresh_draws": null,
+            "coverage_at_full_pool": 0.0
+          },
+          "coverage_curve_traversal": {
+            "n90_budget_subsampling_this_pool": null,
+            "n90_budget_fresh_draws": null,
+            "coverage_at_full_pool": 0.0
+          }
+        },
+        "0.12": {
+          "reference_clears": [
+            4402,
+            4406,
+            4407,
+            4415,
+            4437,
+            4439,
+            4462
+          ],
+          "n_reference_clears": 7,
+          "n_reference_clears_and_completes_tracking": 0,
+          "n_traversal_endpoint": 0,
+          "coverage_curve_reference": {
+            "n90_budget_subsampling_this_pool": 18,
+            "n90_budget_fresh_draws": 20,
+            "n50_budget_subsampling_this_pool": 6,
+            "coverage_at_full_pool": 1.0
+          },
+          "coverage_curve_joint": {
+            "n90_budget_subsampling_this_pool": null,
+            "n90_budget_fresh_draws": null,
+            "coverage_at_full_pool": 0.0
+          },
+          "coverage_curve_traversal": {
+            "n90_budget_subsampling_this_pool": null,
+            "n90_budget_fresh_draws": null,
+            "coverage_at_full_pool": 0.0
+          }
+        },
+        "0.2": {
+          "reference_clears": [
+            4402,
+            4406,
+            4407,
+            4437,
+            4439,
+            4462
+          ],
+          "n_reference_clears": 6,
+          "n_reference_clears_and_completes_tracking": 0,
+          "n_traversal_endpoint": 0,
+          "coverage_curve_reference": {
+            "n90_budget_subsampling_this_pool": 20,
+            "n90_budget_fresh_draws": 24,
+            "n50_budget_subsampling_this_pool": 7,
+            "coverage_at_full_pool": 1.0
+          },
+          "coverage_curve_joint": {
+            "n90_budget_subsampling_this_pool": null,
+            "n90_budget_fresh_draws": null,
+            "coverage_at_full_pool": 0.0
+          },
+          "coverage_curve_traversal": {
+            "n90_budget_subsampling_this_pool": null,
+            "n90_budget_fresh_draws": null,
+            "coverage_at_full_pool": 0.0
+          }
+        },
+        "0.3": {
+          "reference_clears": [
+            4437,
+            4439
+          ],
+          "n_reference_clears": 2,
+          "n_reference_clears_and_completes_tracking": 0,
+          "n_traversal_endpoint": 0,
+          "coverage_curve_reference": {
+            "n90_budget_subsampling_this_pool": 44,
+            "n90_budget_fresh_draws": 73,
+            "n50_budget_subsampling_this_pool": 19,
+            "coverage_at_full_pool": 1.0
+          },
+          "coverage_curve_joint": {
+            "n90_budget_subsampling_this_pool": null,
+            "n90_budget_fresh_draws": null,
+            "coverage_at_full_pool": 0.0
+          },
+          "coverage_curve_traversal": {
+            "n90_budget_subsampling_this_pool": null,
+            "n90_budget_fresh_draws": null,
+            "coverage_at_full_pool": 0.0
+          }
+        }
+      }
+    },
+    {
+      "obstacle_label": "unstaged",
+      "obstacle_x_m": 3.6,
+      "n_candidates": 64,
+      "n_completes_tracking": 11,
+      "n_terminated": 53,
+      "n_passed_corridor_and_finished_beyond": 11,
+      "n_passed_and_finished_and_completed": 11,
+      "n_never_reached_obstacle": 53,
+      "by_height": {
+        "0.03": {
+          "reference_clears": [
+            4402,
+            4406
+          ],
+          "n_reference_clears": 2,
+          "n_reference_clears_and_completes_tracking": 0,
+          "n_traversal_endpoint": 0,
+          "coverage_curve_reference": {
+            "n90_budget_subsampling_this_pool": 44,
+            "n90_budget_fresh_draws": 73,
+            "n50_budget_subsampling_this_pool": 19,
+            "coverage_at_full_pool": 1.0
+          },
+          "coverage_curve_joint": {
+            "n90_budget_subsampling_this_pool": null,
+            "n90_budget_fresh_draws": null,
+            "coverage_at_full_pool": 0.0
+          },
+          "coverage_curve_traversal": {
+            "n90_budget_subsampling_this_pool": null,
+            "n90_budget_fresh_draws": null,
+            "coverage_at_full_pool": 0.0
+          }
+        },
+        "0.05": {
+          "reference_clears": [
+            4402,
+            4406
+          ],
+          "n_reference_clears": 2,
+          "n_reference_clears_and_completes_tracking": 0,
+          "n_traversal_endpoint": 0,
+          "coverage_curve_reference": {
+            "n90_budget_subsampling_this_pool": 44,
+            "n90_budget_fresh_draws": 73,
+            "n50_budget_subsampling_this_pool": 19,
+            "coverage_at_full_pool": 1.0
+          },
+          "coverage_curve_joint": {
+            "n90_budget_subsampling_this_pool": null,
+            "n90_budget_fresh_draws": null,
+            "coverage_at_full_pool": 0.0
+          },
+          "coverage_curve_traversal": {
+            "n90_budget_subsampling_this_pool": null,
+            "n90_budget_fresh_draws": null,
+            "coverage_at_full_pool": 0.0
+          }
+        },
+        "0.08": {
+          "reference_clears": [
+            4402,
+            4406
+          ],
+          "n_reference_clears": 2,
+          "n_reference_clears_and_completes_tracking": 0,
+          "n_traversal_endpoint": 0,
+          "coverage_curve_reference": {
+            "n90_budget_subsampling_this_pool": 44,
+            "n90_budget_fresh_draws": 73,
+            "n50_budget_subsampling_this_pool": 19,
+            "coverage_at_full_pool": 1.0
+          },
+          "coverage_curve_joint": {
+            "n90_budget_subsampling_this_pool": null,
+            "n90_budget_fresh_draws": null,
+            "coverage_at_full_pool": 0.0
+          },
+          "coverage_curve_traversal": {
+            "n90_budget_subsampling_this_pool": null,
+            "n90_budget_fresh_draws": null,
+            "coverage_at_full_pool": 0.0
+          }
+        },
+        "0.12": {
+          "reference_clears": [
+            4406
+          ],
+          "n_reference_clears": 1,
+          "n_reference_clears_and_completes_tracking": 0,
+          "n_traversal_endpoint": 0,
+          "coverage_curve_reference": {
+            "n90_budget_subsampling_this_pool": 58,
+            "n90_budget_fresh_draws": 147,
+            "n50_budget_subsampling_this_pool": 32,
+            "coverage_at_full_pool": 1.0
+          },
+          "coverage_curve_joint": {
+            "n90_budget_subsampling_this_pool": null,
+            "n90_budget_fresh_draws": null,
+            "coverage_at_full_pool": 0.0
+          },
+          "coverage_curve_traversal": {
+            "n90_budget_subsampling_this_pool": null,
+            "n90_budget_fresh_draws": null,
+            "coverage_at_full_pool": 0.0
+          }
+        },
+        "0.2": {
+          "reference_clears": [],
+          "n_reference_clears": 0,
+          "n_reference_clears_and_completes_tracking": 0,
+          "n_traversal_endpoint": 0,
+          "coverage_curve_reference": {
+            "n90_budget_subsampling_this_pool": null,
+            "n90_budget_fresh_draws": null,
+            "n50_budget_subsampling_this_pool": null,
+            "coverage_at_full_pool": 0.0
+          },
+          "coverage_curve_joint": {
+            "n90_budget_subsampling_this_pool": null,
+            "n90_budget_fresh_draws": null,
+            "coverage_at_full_pool": 0.0
+          },
+          "coverage_curve_traversal": {
+            "n90_budget_subsampling_this_pool": null,
+            "n90_budget_fresh_draws": null,
+            "coverage_at_full_pool": 0.0
+          }
+        },
+        "0.3": {
+          "reference_clears": [],
+          "n_reference_clears": 0,
+          "n_reference_clears_and_completes_tracking": 0,
+          "n_traversal_endpoint": 0,
+          "coverage_curve_reference": {
+            "n90_budget_subsampling_this_pool": null,
+            "n90_budget_fresh_draws": null,
+            "n50_budget_subsampling_this_pool": null,
+            "coverage_at_full_pool": 0.0
+          },
+          "coverage_curve_joint": {
+            "n90_budget_subsampling_this_pool": null,
+            "n90_budget_fresh_draws": null,
+            "coverage_at_full_pool": 0.0
+          },
+          "coverage_curve_traversal": {
+            "n90_budget_subsampling_this_pool": null,
+            "n90_budget_fresh_draws": null,
+            "coverage_at_full_pool": 0.0
+          }
+        }
+      }
+    }
+  ]
+}

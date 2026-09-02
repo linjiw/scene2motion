@@ -25,7 +25,15 @@ maximum-clearance location, not a foot crossing; "clearance preserved after trac
 passage + finish beyond + collision-free + termination rule; the screen is a predictor of the evaluator's
 rule, never a physical verdict — say "upright at the last archived state", not "did not fall"; the
 128 EXP-024 tracking outcomes are pending; paired repair differences from
-`experiments/analyze_repair_paired_bootstrap.py`). Use its vocabulary: "reference
+`experiments/analyze_repair_paired_bootstrap.py`; third review `docs/pi-advice-2026-09-02-c.md`
+(TEXEDO): name the conflict between "the controller can execute it" and "it solves the scene
+task"; report **pool coverage separately from selected success** — for the exp021 pool the
+clearing set (12) and the tracking-completing set (11) are **disjoint**, so no selector could
+have succeeded (§43, `analyze_pool_coverage.py`); distinguish **local traversal** (through the
+specified corridor; walking around does not count) from **navigation** (reach a destination;
+walking around may be the best answer) and never share a success label; report rates over **all
+assigned trials** so rejecting everything cannot read as success; organise results as questions,
+not experiment IDs; EXP-029 protocol `docs/ramp-exp029-selection-vs-coverage-protocol.md`). Use its vocabulary: "reference
 screen for predicted tracking cutoffs", not "trackability contract"; "correcting measured
 clearance errors", not "measured-deficit repair"; "valid step passing the support test" for
 EXP-024's contact-consistent column; no throughput number in the abstract. Lead with the obstacle,

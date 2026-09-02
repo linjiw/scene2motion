@@ -1626,6 +1626,24 @@ fig_cost_curve.py`) and Fig. 5 (`experiments/fig_contract_gate.py`, the float an
 regenerated from these committed outputs only, and each writes the numbers it draws beside
 itself (`docs/figures/fig{4,5}_numbers.json`).
 
+**A0(a) event frames landed** (`experiments/analyze_event_frames.py` →
+`outputs/analysis_event_frames/`, 743 s CPU; EXP-021's lift profile recomputed byte-identically,
+64/64 archived rows agree). Over the 49 lifting exp021 clips the root-crossing frame of the
+tallest lift region has median 35 (q10–q90 20.8–55.4; 1.4 s), **40/49** inside the first 50
+frames (Wilson 0.69–0.90) and 4/49 after frame 60; the nominal-speed conversion gives 42/49
+and 4/49 (median 34.4). The plan's "43/49" is corrected. Two nuances the paper must carry:
+(i) **the prompt does not lift exactly once** — 30/49 exp021 clips contain more than one
+positive lift region (1/2/3/5/6/8 regions in 19/17/6/4/2/1 clips); "early" is a statement about
+the *tallest* region in exp021 (40/49) and about the *first clearable* lift in exp023; (ii)
+under the windowed streaming interface (exp023 `step_0`, STEP re-issued every 52-frame window)
+the whole-clip scan finds 1–4 regions per clip with the tallest region *late* (root crossing at
+frames 106–190) in 5/8, while the archived 96-frame-window detector's first ≥ 3 cm event is at
+frames 18–64 in 6/8 (7/8 lift ≥ 3 cm somewhere in the clip; s4507's 0.12 m lift at frame 106
+fell outside the window). The delayed arms are unchanged and stronger: on the whole 200-frame
+scan `step_52` has two sub-3 cm lifts (frames 72 and 112) and **no ≥ 3 cm lift anywhere**,
+`step_104` none at all, `all_walk` none — EXP-023's zero is not an artefact of its 96-frame
+window.
+
 **Built, not yet run (CPU-tested drivers; launch order in the framing note §3):** EXP-023b
 (`experiments/exp023b_prompt_switch_control.py`), EXP-028
 (`experiments/exp028_termination_free_rollouts.py`), EXP-024

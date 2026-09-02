@@ -15,7 +15,12 @@ Target venue: **ICRA 2027** (Seoul; deadline 2026-09-15, 8 pages including refer
 double-anonymous). Fallbacks: IROS 2027 (2027-03-01), RSS 2027 (~late Jan 2027).
 
 The plan of record is `docs/plan-2026-09-01-icra2027.md` (paper positioning, experiment schedule,
-preregistrations E2/E3/E4, claims hygiene). Read it before proposing work.
+preregistrations E2/E3/E4, claims hygiene). Read it before proposing work. The paper's presentation
+follows the three-pillar framing of 2026-09-02 (trackability contract / measured-deficit repair /
+verified data engine) reconciled against receipts in `docs/framing-2026-09-02-contract-repair-engine.md`:
+"execution-**audited**", never "certified"; tiered throughput, never one 10⁵ number; no τ(d) claim.
+Gate thresholds: the calibrated gate flags `max_unsupported_run_s > 0.20 s` (≥ 6 frames); the post hoc
+optimum is `> 0.28 s` = **≥ 0.32 s = 8 frames** (51/53, 11/11) — writing it "> 0.32 s" gives 46/53.
 
 ## State of the research (2026-09-01)
 
@@ -123,7 +128,8 @@ replace accepted frames with the model's re-encoded/reconstructed history.
 | `scene2motion/sonic_export.py`, `sonic_state_export.py` | qpos → SONIC motion pkl; achieved-state archive callback (schema v2) |
 | `scene2motion/scenes.py`, `planner.py`, `program.py` | Phase-1 scene families, A* over (x, y, body mode), 43-D constraint program (frozen audit representation) |
 | `scene2motion/verify/`, `optim/`, `learn/`, `demo/` | Phase 2–4 duck-under-beam stack: generate→verify→repair→select loop, QP scheduler, TCN, demo app; v1-era except `phase4e_architecture_v2_s8` |
-| `experiments/` | one script per campaign; each writes `rows.jsonl` + `receipt.json` (exact sample accounting) |
+| `experiments/` | one script per campaign; each writes `rows.jsonl` + `receipt.json` (exact sample accounting). Post hoc CPU analysers: `analyze_trackability_contract.py` (float + gate), `analyze_exact_centre_cost_curve.py` (A0c), `analyze_event_frames.py` (A0a); figure scripts `fig_contract_gate.py` (Fig. 5), `fig_cost_curve.py` (Fig. 4) read committed outputs only and run under `/home/linjiw/isaaclab-install/env_isaaclab/bin/python` (the only local interpreter with matplotlib; `$S2M_PY` has none) |
+| `scene2motion/host_gate.py` | shared host-resource gate (≥ 12 GiB free VRAM, ≥ 18 GiB available RAM, no Isaac process for SONIC); every EXP-02x driver calls it before touching `--out` and binds the report |
 | `outputs/<campaign>/` | receipts, rows, `qpos.npz` archives (every clip, including gate failures) |
 | `docs/REPORT.md` | research ledger §1–39 (§35–39 current); `docs/design.md` is the pre-RAMP log |
 | `docs/site/` | findings page ("When the Prior Steps"); build chain below |
@@ -226,7 +232,7 @@ exp019's eight selected seeds; Phase-4 demo/corpus seeds 100–107 and 5000–52
 | findings page | "15 preregistered campaigns fail closed" | exp021 v1 was an interrupted run, not a refusal |
 | REPORT §4.9, design §36 | arm C "asked for a foot 0.35 m higher" | request was 0.20 m |
 | REPORT, paper-v0/v1 | "~34,000 generations" | unsourced; ≈37k receipt-reconstructible, 5,361 under v2 |
-| exp021 doc | "best target 1.2 m" | tie across 1.05–1.25 m; chosen post hoc on the same clips |
+| exp021 doc | "best target 1.2 m" | tie across 1.05–1.25 m under the ±0.25 m tolerant endpoint; under the exact endpoint (`outputs/analysis_exact_centre_cost_curve/`, 0.05 m grid) 1.2 m is the unique 5 cm / 8 cm maximum (12/64, 11/64; 3 cm maximum 15/64 at 1.15 m) — still chosen post hoc on the same clips |
 | first evening plan / CLAUDE.md revision | "the elicited step is a hop"; "terminates at take-off in every clearing clip" | non-ballistic float (ballistic ratio 1.3–15.6); termination within 0.2 s of the first no-support onset in 11/12 clearing clips, before it in 10/53 overall; every terminated robot upright |
 | first evening plan | "416 tracked references"; "5,361 v2 generations" | 352 tracked step-family references (64 + 288; exp023's 32 untracked); 5,393 v2 generations incl. EXP-023 |
 

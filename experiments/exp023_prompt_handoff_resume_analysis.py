@@ -251,9 +251,16 @@ def resume_analysis(
     for name in ("receipt.json", "rows.jsonl", "qpos.npz", "features.npz", "noise_audit.json"):
         if not (output / name).is_file():
             raise ResumeRefusal(f"EXP-023 bundle lacks {name}")
-    for name in (INTERRUPTED_RECEIPT, INTERRUPTED_ROWS):
+    # A resume attempt that was itself killed during scoring leaves the interrupted copies
+    # behind but rewrites nothing (rows and receipt are written atomically at the end).  Such
+    # copies are byte-identical to the live files and may be reused; any other pre-existing
+    # copy means the bundle was already completed or refused and must not be resumed again.
+    prior_attempt = False
+    for name, live in ((INTERRUPTED_RECEIPT, "receipt.json"), (INTERRUPTED_ROWS, "rows.jsonl")):
         if (output / name).exists():
-            raise ResumeRefusal(f"{name} already exists; the bundle was resumed before")
+            if cal._sha256(output / name) != cal._sha256(output / live):
+                raise ResumeRefusal(f"{name} already exists and differs; the bundle was resumed before")
+            prior_attempt = True
 
     receipt: dict[str, Any] = _load_json(output / "receipt.json")
     _verify_interrupted_receipt(receipt)
@@ -339,9 +346,10 @@ def resume_analysis(
         for item in plan
     }
     # Every refusal above leaves the bundle untouched.  Preserve the interrupted state now,
-    # before any row or receipt is rewritten.
-    shutil.copyfile(output / "receipt.json", output / INTERRUPTED_RECEIPT)
-    shutil.copyfile(output / "rows.jsonl", output / INTERRUPTED_ROWS)
+    # before any row or receipt is rewritten (idempotent after a killed resume attempt).
+    if not prior_attempt:
+        shutil.copyfile(output / "receipt.json", output / INTERRUPTED_RECEIPT)
+        shutil.copyfile(output / "rows.jsonl", output / INTERRUPTED_ROWS)
 
     body = body or G1Body(None)
 
@@ -444,6 +452,7 @@ def resume_analysis(
             "trajectories_analyzed_before_interruption": len(archived_rows),
         },
         "interrupted_rows": {"path": INTERRUPTED_ROWS, "sha256": interrupted_rows_sha256},
+        "earlier_resume_attempt_killed_before_writing": prior_attempt,
         "regenerated_trajectories": 0,
         "new_ardy_samples": 0,
         "frozen_sources_byte_identical_to_generation": True,

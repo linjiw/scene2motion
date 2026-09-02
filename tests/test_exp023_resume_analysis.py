@@ -200,3 +200,15 @@ def test_resume_refuses_second_resume(tmp_path):
     resume.resume_analysis(**resume_kwargs(bundle))
     with pytest.raises(resume.ResumeRefusal, match="resumed before"):
         resume.resume_analysis(**resume_kwargs(bundle))
+
+
+def test_resume_retries_after_a_killed_resume_attempt(tmp_path):
+    complete, receipt = _complete_campaign(tmp_path)
+    bundle = _interrupt(complete, receipt, tmp_path)
+    # A killed attempt leaves byte-identical interrupted copies and rewrites nothing.
+    shutil.copyfile(bundle / "receipt.json", bundle / resume.INTERRUPTED_RECEIPT)
+    shutil.copyfile(bundle / "rows.jsonl", bundle / resume.INTERRUPTED_ROWS)
+    resumed = resume.resume_analysis(**resume_kwargs(bundle))
+    assert resumed["status"] == "complete"
+    assert resumed["analysis_resume"]["earlier_resume_attempt_killed_before_writing"] is True
+    assert (bundle / "rows.jsonl").read_text() == (complete / "rows.jsonl").read_text()

@@ -1514,3 +1514,32 @@ from shifting an existing clip's route. Scope is kinematic, one prompt, one rout
 depth; the history/horizon configuration is the obvious confound on the frame-34 window
 and is untested; and 5–8 cm is exactly where tracking previously ate the margin, so the
 tracker must enter the endpoint before any of this is called a traversal.
+
+## 38. EXP-022A: the exp021 references do not survive SONIC at the staged obstacle
+
+`outputs/exp022_exact_tracking_bridge/` (schema `exp022a-exact-tracking-bridge-v1`, status
+`complete`, 64/64 SONIC rollouts, zero new ARDY samples, Scene2Motion commit `291f2ec`, two
+launches of 32 environments, physics seed 0). Full note:
+`docs/ramp-exp022-exact-tracking-result-2026-09-01.md`.
+
+**Exact-centre audit first.** §37's `0.312/0.266` rates used a ±0.25 m placement-tolerant
+endpoint chosen post hoc on the same clips. Replaying the exact `BoxHeightProbe(1.2, 0.20)`
+against the archived exp021 qpos gives **12/64** clears at 5 cm and **11/64** at 8 cm (per clip
+0.19/0.17, N for 90 % = 12/13, not 7–8). The "7–8 calls" budget and the findings-page staged
+demo are withdrawn as method results; they remain addressable-window and capability analyses.
+
+**Tracking retention is zero.** Every reference that clears the staged box kinematically is lost
+after SONIC: paired retention 0/13, 0/12, 0/11, 0/7, 0/6, 0/2 at 3/5/8/12/20/30 cm. The achieved
+endpoint requires a non-terminated rollout, passage through the obstacle corridor, finishing
+beyond it, and exact whole-body collision freedom at the graded height; removing the
+non-termination guard recovers nothing. SONIC terminated 53/64 rollouts; the 11 survivors are
+all non-clearing references. An unguarded collision query on achieved states reports 43/64
+"clears" at 5 cm — robots that stopped before the hypothetical box — and must never be quoted.
+
+**Boundary.** The box was absent from Isaac; this is achieved-state replay against the
+collision model, on root-XZ-only references under the pinned SONIC evaluation configuration.
+It does not isolate amplitude, the unconstrained root height/heading and speed distribution of
+this pool, or the tracker. It does close "stage, then select, then SONIC" under the current
+pipeline: more samples cannot repair a zero reference-to-achieved retention rate. The kinematic
+addressability map and its sampling cost stay as diagnostics; EXP-023 (prompt handoff) remains
+the decisive native-interface timing test.

@@ -1,0 +1,136 @@
+{
+  "best_of_n_0.05": {
+    "curve": [
+      0.1875,
+      0.33984375,
+      0.5641937255859375,
+      0.8100728911813349,
+      0.9639276933357829,
+      0.9986987886919226
+    ],
+    "n90": 12,
+    "ns": [
+      1,
+      2,
+      4,
+      8,
+      16,
+      32
+    ]
+  },
+  "best_of_n_0.08": {
+    "curve": [
+      0.171875,
+      0.314208984375,
+      0.529690682888031,
+      0.7788091462376734,
+      0.951074606211893,
+      0.9976063058426786
+    ],
+    "n90": 13,
+    "ns": [
+      1,
+      2,
+      4,
+      8,
+      16,
+      32
+    ]
+  },
+  "heights_m": [
+    0.03,
+    0.05,
+    0.08
+  ],
+  "inputs": {
+    "curve": {
+      "file_sha256": "3da9ff7d15c4b72086c41e47feeec882211ba544e1dc65732293b8518e80d694",
+      "n_rows": 363,
+      "path": "curve.jsonl"
+    },
+    "exact_hits": {
+      "file_sha256": "bcc012fc184ea4df91267123ee4c27f8fee88e3bad1544ab54e304f88b4f0a1d",
+      "path": "exact_hits.npz"
+    }
+  },
+  "staged": {
+    "centre_x_m": 1.2,
+    "paired_guarded_retention": {
+      "0.03": {
+        "achieved_guarded_clear": 0,
+        "n_paired": 64,
+        "reference_clear": 13
+      },
+      "0.05": {
+        "achieved_guarded_clear": 0,
+        "n_paired": 64,
+        "reference_clear": 12
+      },
+      "0.08": {
+        "achieved_guarded_clear": 0,
+        "n_paired": 64,
+        "reference_clear": 11
+      },
+      "0.12": {
+        "achieved_guarded_clear": 0,
+        "n_paired": 64,
+        "reference_clear": 7
+      },
+      "0.2": {
+        "achieved_guarded_clear": 0,
+        "n_paired": 64,
+        "reference_clear": 6
+      },
+      "0.3": {
+        "achieved_guarded_clear": 0,
+        "n_paired": 64,
+        "reference_clear": 2
+      }
+    },
+    "reference_exact_hits": {
+      "0.03": 13,
+      "0.05": 12,
+      "0.08": 11
+    }
+  },
+  "unstaged": {
+    "centre_x_m": 3.6,
+    "paired_guarded_retention": {
+      "0.03": {
+        "achieved_guarded_clear": 0,
+        "n_paired": 64,
+        "reference_clear": 2
+      },
+      "0.05": {
+        "achieved_guarded_clear": 0,
+        "n_paired": 64,
+        "reference_clear": 2
+      },
+      "0.08": {
+        "achieved_guarded_clear": 0,
+        "n_paired": 64,
+        "reference_clear": 2
+      },
+      "0.12": {
+        "achieved_guarded_clear": 0,
+        "n_paired": 64,
+        "reference_clear": 1
+      },
+      "0.2": {
+        "achieved_guarded_clear": 0,
+        "n_paired": 64,
+        "reference_clear": 0
+      },
+      "0.3": {
+        "achieved_guarded_clear": 0,
+        "n_paired": 64,
+        "reference_clear": 0
+      }
+    },
+    "reference_exact_hits": {
+      "0.03": 2,
+      "0.05": 2,
+      "0.08": 2
+    }
+  }
+}

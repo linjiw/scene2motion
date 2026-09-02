@@ -1,0 +1,102 @@
+{
+  "inputs": {
+    "receipt_sha256": "be3e2938dfeef63bb4397d9990e9fd67169b15414ea95681c07443a4f5e1836b",
+    "rows_sha256": "72eb3f3ec9a5d607765c809d4eaed462c54ce07e302c2a9d6049822a074788fb"
+  },
+  "panel_a": {
+    "exp021 STEP prompt|survived": {
+      "flagged_ge_0p32s": 0,
+      "flagged_gt_0p2s": 3,
+      "median_s": 0.16,
+      "n": 11
+    },
+    "exp021 STEP prompt|terminated": {
+      "flagged_ge_0p32s": 51,
+      "flagged_gt_0p2s": 53,
+      "median_s": 0.56,
+      "n": 53
+    },
+    "exp1c position-channel lifts|survived": {
+      "flagged_ge_0p32s": 2,
+      "flagged_gt_0p2s": 4,
+      "median_s": 0.2,
+      "n": 9
+    },
+    "exp1c position-channel lifts|terminated": {
+      "flagged_ge_0p32s": 123,
+      "flagged_gt_0p2s": 127,
+      "median_s": 4.76,
+      "n": 135
+    }
+  },
+  "panel_b": {
+    "auc_exp021": {
+      "auc": 0.9965694682675815,
+      "ci95_bootstrap": [
+        0.9866029812348669,
+        1.0
+      ]
+    },
+    "auc_exp1c_lift": {
+      "auc": 0.9205761316872428,
+      "ci95_bootstrap": [
+        0.8198529411764706,
+        0.9834515791622022
+      ]
+    },
+    "auc_recomputed_exp021": 0.9965694682675814,
+    "operating_points": {
+      "gate > 0.20 s": {
+        "flagged_survivors": 3,
+        "flagged_terminated": 53,
+        "fpr": 0.2727272727272727,
+        "survivors": 11,
+        "terminated": 53,
+        "tpr": 1.0
+      },
+      "post hoc \u2265 0.32 s": {
+        "flagged_survivors": 0,
+        "flagged_terminated": 51,
+        "fpr": 0.0,
+        "survivors": 11,
+        "terminated": 53,
+        "tpr": 0.9622641509433962
+      }
+    }
+  },
+  "panel_c": {
+    "achieved_pelvis_z_min_median_max": [
+      0.5605884194374084,
+      0.7456150650978088,
+      0.9450200200080872
+    ],
+    "n_pelvis_below_0p5": 0,
+    "n_terminated": 53,
+    "reference_higher_foot_min_median_max": [
+      0.05426845198562645,
+      0.4003476685655312,
+      0.783346421994522
+    ]
+  },
+  "panel_d": {
+    "before_onset": 10,
+    "bins_s": [
+      -0.55,
+      -0.45000000000000007,
+      -0.3500000000000001,
+      -0.2500000000000001,
+      -0.15000000000000013,
+      -0.050000000000000155,
+      0.04999999999999982,
+      0.1499999999999998,
+      0.24999999999999978,
+      0.34999999999999976,
+      0.44999999999999973,
+      0.5499999999999996,
+      0.6499999999999997
+    ],
+    "median_s": 0.040000000000000036,
+    "n": 53,
+    "within_0p2s": 47
+  }
+}

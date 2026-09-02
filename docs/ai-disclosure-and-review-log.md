@@ -35,3 +35,7 @@ section; figures one row each; the released dataset README one row.
 | 2026-09-02 | `docs/SETUP.md` (new-machine install and continuation guide); README front-door banner | Claude | pins in CLAUDE.md §External pins; versions read from the live venvs | | | |
 
 | 2026-09-02 | `docs/index.html` (GitHub Pages project page: demo, audit, contract, repair, engine, proposal) + `docs/assets/*.mp4` | Claude | CLAUDE.md, REPORT §21–22/§37–42, `docs/framing-2026-09-02-*.md` tier table, EXP-024 kinematic note; proposal sections labelled planned | | | no author list; τ(d) and torque channels stated as future |
+| 2026-09-02 | `docs/pi-advice-2026-09-02.md` (advisor review, verbatim) | advisor (human) | — | advisor | 2026-09-02 | source document |
+| 2026-09-02 | `docs/project-goal-2026-09-02.md` (title, goals, adopted abstract, evidence levels, vocabulary, next work) | Claude, from the advisor's text | `outputs/phase4e_architecture_v2_s8/experiment.json` (repair rates), EXP-022A/exp021/EXP-024 receipts | | | |
+| 2026-09-02 | `docs/paper-draft-v2-2026-09-02.md` (restructured manuscript: placement / tracking / repair / records) | Claude | same receipts; Table I from `experiment.json` summary; slots for EXP-024/028/024b | | | supersedes the Codex draft's framing; keep its reference list |
+| 2026-09-02 | `docs/index.html` rewrite (advisor's opening; placement, tracking, repair, records, next; EXP-024 column relabelled) | Claude | as above; per-arm screen passes from `outputs/exp024_reference_contract/predictions.jsonl` | | | |

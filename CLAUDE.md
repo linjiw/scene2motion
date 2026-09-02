@@ -15,8 +15,18 @@ Target venue: **ICRA 2027** (Seoul; deadline 2026-09-15, 8 pages including refer
 double-anonymous). Fallbacks: IROS 2027 (2027-03-01), RSS 2027 (~late Jan 2027).
 
 The plan of record is `docs/plan-2026-09-01-icra2027.md` (paper positioning, experiment schedule,
-preregistrations E2/E3/E4, claims hygiene). Read it before proposing work. The paper's presentation
-follows the three-pillar framing of 2026-09-02 (trackability contract / measured-deficit repair /
+preregistrations E2/E3/E4, claims hygiene). Read it before proposing work. **Framing of record (2026-09-02, advisor review): `docs/project-goal-2026-09-02.md`** (title
+*Scene2Motion: Evaluating Generated Humanoid Motions for Obstacle Traversal*, adopted abstract,
+evidence levels, plain-language vocabulary; the advice itself is `docs/pi-advice-2026-09-02.md`,
+the restructured manuscript `docs/paper-draft-v2-2026-09-02.md`). Use its vocabulary: "reference
+screen for predicted tracking cutoffs", not "trackability contract"; "correcting measured
+clearance errors", not "measured-deficit repair"; "valid step passing the support test" for
+EXP-024's contact-consistent column; no throughput number in the abstract. Lead with the obstacle,
+separate evidence levels (produced / placed / collision-free reference / completed tracking run /
+clearance preserved after tracking), keep the losing comparisons (heuristic proposer: resampling
+72.6 % margin > repair 64.6 %; TCN 99.3 % collision-free is not its 37.5 % margin rate). The
+older three-pillar presentation
+followed the framing of 2026-09-02 (trackability contract / measured-deficit repair /
 verified data engine) reconciled against receipts in `docs/framing-2026-09-02-contract-repair-engine.md`:
 "execution-**audited**", never "certified"; tiered throughput, never one 10⁵ number; no τ(d) claim.
 Gate thresholds: the calibrated gate flags `max_unsupported_run_s > 0.20 s` (≥ 6 frames); the post hoc

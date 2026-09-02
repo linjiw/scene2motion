@@ -763,7 +763,7 @@ def test_evaluate_host_gate_measures_once_and_binds_isaac_observation():
             isaac_fn=isaac,
         )
     assert info.value.report["pass"] is False
-    assert info.value.report["vram"]["free_mib"] == 4277
+    assert info.value.report["vram"]["free_mib"] == 3277
     assert info.value.report["checks"] == {"vram": False, "ram": False, "no_isaac": True}
 
 

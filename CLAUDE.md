@@ -25,8 +25,9 @@ optimum is `> 0.28 s` = **≥ 0.32 s = 8 frames** (51/53, 11/11) — writing it 
 ## State of the research (2026-09-01)
 
 **Landed finding (kinematic, v2 sampler).** Under the STEP prompt ("A person steps over an
-obstacle."), exp021's 64 clips contain one dominant liftable region, usually early, with some
-clips reaching the 0.40 m probe cap. Event frames now come from committed code
+obstacle."), 44/64 exp021 clips lift the leading foot over a whole-body-clearable box of ≥ 3 cm
+(49/64 with any positive lift; the paper's "elicits" is the ≥ 3 cm count), usually early, some
+reaching the 0.40 m probe cap. Event frames now come from committed code
 (`experiments/analyze_event_frames.py` → `outputs/analysis_event_frames/`): root-crossing median
 frame 35 (q10–q90 21–55; 1.4 s), 40/49 lifting clips inside the first 50 frames (Wilson
 0.69–0.90), 4/49 after frame 60; nominal-speed conversion 42/49 and 4/49. Predeclared-obstacle waiting was

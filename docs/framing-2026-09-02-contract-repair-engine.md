@@ -129,7 +129,7 @@ execution-audited pipeline that turns a released prior (ARDY-G1) into verified t
 references for a Unitree G1, and use it to measure what a downstream builder must know before
 planning on such a prior. (1) A *trackability contract*: kinematic support-phase features,
 calibrated before the data existed, that predict whether a released whole-body tracker (SONIC)
-follows a reference. The text prompt "steps over an obstacle" elicits a clearable lift in 49/64
+follows a reference. The text prompt "steps over an obstacle" elicits a clearable lift in 44/64
 clips, yet every clip that clears a scene-fixed 5 cm box does so inside a non-ballistic
 bilateral no-support phase 0.4–3.1 s long; the tracker's release evaluator cuts off all of them,
 upright, at the onset of that phase, and the contract's 0.2 s gate flags 53/53 cut-off clips

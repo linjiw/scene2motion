@@ -15,3 +15,6 @@ outputs/.duck_dataset_v3_*.building/
 # outputs/ and docs/ respectively; raw motion pickles, achieved-state arrays, and subprocess
 # logs are regenerable campaign state and should not make the worktree permanently dirty.
 /run/
+
+# Claude Code agent worktrees are created inside the repo; never campaign evidence.
+/.claude/

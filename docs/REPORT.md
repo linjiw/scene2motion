@@ -1583,3 +1583,52 @@ and hashed in the final receipt.
 (the event lands early on its own), the native-interface timing claim is landed negative and
 scoped: for this checkpoint at the released minimum history, neither a spatial constraint nor
 a later prompt changes *when* the STEP behaviour occurs.
+
+## 40. 2026-09-02: the three-pillar framing, the shared host gate, and the first A0 analysers
+
+The PI guidance of 2026-09-02 asks for the same three contributions to be presented as a
+**trackability contract**, a **measured-deficit closed-loop repair operator**, and a **verified
+data engine**, with two guardrails: never overclaim (no "all-terrain planner"; "evaluator
+cutoff" and "dynamic loss of balance" distinguished in every sentence) and never present an
+autopsy without the method. `docs/framing-2026-09-02-contract-repair-engine.md` binds that
+narrative to receipts. Three of its statements needed tightening to stay inside the evidence:
+"execution-*certified*" becomes "execution-*audited*" (zero retained traversals in both
+families); "≈10⁵ verified clips per GPU-day" becomes a tiered extrapolation (corpus pilot v2:
+268 kinematically verified duck records in 301.9 s → 7.7 × 10⁴ per GPU-day at that tier, 0 at
+the executed tier); and "verified execution margins τ(d)" cannot be offered (EXP-1B:
+`insufficient_data`). Pillar 2 is carried by the duck-axis Table 2 (§21) and by the *refusal* of
+the float (0/44 lifting exp021 clips pass the gate, Wilson upper bound 0.08), not by any new
+method run before the deadline.
+
+**Host gate.** `scene2motion/host_gate.py` measures free VRAM, available RAM and concurrent
+Isaac processes and is called by every EXP-02x driver before it touches its output directory;
+the report is bound into the receipt. On 2026-09-02 the host failed it all day (two co-tenant
+Isaac jobs: ≈ 4 GB free VRAM, 6–8 GB available RAM), so nothing was launched; every driver was
+built and tested on CPU instead.
+
+**Threshold convention pinned (claims hygiene).** The contract receipt's sweep flags
+`max_unsupported_run_s > thr`: 0.20 → 53/53 terminated flagged and 3/11 survivors flagged;
+0.28 → 51/53 and 0/11; 0.32 → 46/53 and 0/11. The quoted post hoc optimum "≥ 8 frames (0.32 s):
+51/53 and 11/11" is therefore the rule `run > 0.28 s`, i.e. `run ≥ 0.32 s` on the 0.04 s grid.
+The EXP-024 draft wrote it as `> 0.32 s`, which would have preregistered a different (46/53)
+rule; corrected before preregistration. The calibrated gate remains `run > 0.20 s` (≥ 6 frames);
+the onset-alignment statistics use runs ≥ 5 frames. Plan §6 now states all three.
+
+**A0(c) exact-centre cost curve** (`experiments/analyze_exact_centre_cost_curve.py` →
+`outputs/analysis_exact_centre_cost_curve/`; 64 clips × 121 centres (0.60–6.60 m, 0.05 m) ×
+{3, 5, 8} cm; 23,232 exact `BoxHeightProbe.clears` calls, 286 s CPU). The recomputed hits at
+1.2 m and 3.6 m equal EXP-022A's reference rows clip for clip (asserted). Under the exact
+endpoint, 1.2 m is the *unique* maximum on the grid for 5 cm (12/64) and 8 cm (11/64); the
+3 cm maximum is 15/64 at 1.15 m; at the 3.6 m control every height is 2/64. The curve is an
+addressability analysis of one archive on one route and its maximum is a post hoc selection;
+EXP-022A's paired guarded retention is zero at both measured centres. Fig. 4 (`experiments/
+fig_cost_curve.py`) and Fig. 5 (`experiments/fig_contract_gate.py`, the float and the gate) are
+regenerated from these committed outputs only, and each writes the numbers it draws beside
+itself (`docs/figures/fig{4,5}_numbers.json`).
+
+**Built, not yet run (CPU-tested drivers; launch order in the framing note §3):** EXP-023b
+(`experiments/exp023b_prompt_switch_control.py`), EXP-028
+(`experiments/exp028_termination_free_rollouts.py`), EXP-024
+(`experiments/exp024_reference_contract.py`), and the A0(a) event-frame analyser
+(`experiments/analyze_event_frames.py`). Their protocols stay DRAFT until the commit that
+precedes each first sample.

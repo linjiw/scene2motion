@@ -67,6 +67,14 @@ FEATS = ["max_unsupported_run_s", "bilateral_flight_frac", "mean_support_feet", 
          "max_tilt_deg", "max_yaw_rate_dps", "heading_range_deg", "max_joint_speed_rads", "p99_joint_speed_rads"]
 SWEEP_S = [0.12, 0.2, 0.24, 0.28, 0.32, 0.4, 0.5]
 RNG = np.random.default_rng(20260901)
+# The pipeline's calibrated gate (exp016 receipt, frozen before exp021) is the primary
+# preregistered predictor; the post-hoc optimum from this analysis's sweep is secondary.
+# Both rules flag ``run > threshold`` (the ``gate_table`` convention).  On the 25 fps grid
+# (0.04 s) the primary ``> 0.20 s`` means >= 6 frames (0.24 s) and reproduces 53/53 & 3/11 on
+# the exp021 pool; the secondary ``> 0.28 s`` means >= 8 frames (0.32 s) and reproduces
+# 51/53 & 0/11.  A ``> 0.32 s`` rule would flag only 46/53 and is NOT the post-hoc optimum.
+PRIMARY_GATE_S = 0.2
+SECONDARY_GATE_S = 0.28
 
 
 def sha256_file(p: Path) -> str:
@@ -163,6 +171,41 @@ def features(body: G1Body, q: np.ndarray, sup_h: float, sup_v: float, fps: float
     f["max_joint_speed_rads"] = float(jv.max())
     f["p99_joint_speed_rads"] = float(np.quantile(jv, 0.99))
     return f
+
+
+def load_support_thresholds(path: Path = THRESHOLD_RECEIPT,
+                            expected_sha256: str = THRESHOLD_RECEIPT_SHA256) -> dict:
+    """Calibrated support thresholds from the hash-locked exp016 receipt, exactly as ``main`` derives them.
+
+    Importable so that preregistered campaigns (EXP-024) reuse the same ``sup_h`` / ``sup_v`` /
+    gate length without re-deriving them; the receipt hash is checked the same way ``main`` does.
+    """
+    path = Path(path)
+    observed = sha256_file(path)
+    if observed != expected_sha256:
+        raise ValueError(f"threshold receipt hash mismatch: {observed} != {expected_sha256}")
+    thr = json.load(open(path))["stepover_thresholds"]
+    return {"support_height_m": float(thr["support_height_m"]),
+            "support_speed_mps": float(thr["support_speed_mps"]),
+            "max_unsupported_run_s": float(thr["max_unsupported_run_s"]),
+            "receipt_path": str(path), "receipt_sha256": expected_sha256}
+
+
+def gate_predictions(feats: dict, primary_s: float = PRIMARY_GATE_S,
+                     secondary_s: float = SECONDARY_GATE_S) -> dict:
+    """Per-clip flags under the primary (calibrated) and secondary (post hoc) rules.
+
+    A clip is *flagged* (predicted to terminate) when its longest bilateral no-support run is
+    strictly longer than the rule's threshold, matching ``gate_table``'s ``run > thr``: the
+    primary flags ``run > 0.20 s`` (>= 6 frames = 0.24 s at 25 fps) and the secondary flags
+    ``run > 0.28 s`` (>= 8 frames = 0.32 s at 25 fps).
+    """
+    run = float(feats["max_unsupported_run_s"])
+    if not np.isfinite(run) or run < 0:
+        raise ValueError(f"max_unsupported_run_s must be finite and non-negative, got {run}")
+    return {"max_unsupported_run_s": run,
+            "primary_threshold_s": float(primary_s), "primary_flag": bool(run > primary_s),
+            "secondary_threshold_s": float(secondary_s), "secondary_flag": bool(run > secondary_s)}
 
 
 def snapshot_at_termination(body: G1Body, ref_q: np.ndarray, ro, sup_h: float, sup_v: float) -> dict:

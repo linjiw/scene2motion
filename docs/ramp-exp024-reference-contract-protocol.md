@@ -51,9 +51,15 @@ Route: `calibrate_ramp_route_phase.route_xz_for_speed(REFERENCE_SPEED_MPS)` — 
 Seeds 4600–4631 (32), identical across arms. Generation is locked into **16 calls of B = 8 =
 2 seeds × 4 arms** (seeds (4600, 4601), (4602, 4603), …), so every same-seed comparison sits in
 one call and receives identical per-sample noise (the exp023 pairing contract; the noise audit is
-part of the receipt). 128 frozen-prior samples in total. The ledger (`rows.jsonl` skeleton,
+part of the receipt). `ArdyRunner.generate` (the exp021 interface) returns no latent audit, so the
+driver records one by wrapping `torch.randn` around each call: the runner draws every batch row
+separately through a per-sample generator, giving one hash per (row, window). Same-seed rows must
+be identical in every window and different seeds must differ; a violation stops the campaign
+(`noise_audit.json`). 128 frozen-prior samples in total. The ledger (`rows.jsonl` skeleton,
 batch plan, seeds, prompt/spec hashes) is persisted before the first call (exp021's
-`persist()` pattern).
+`persist()` pattern). The driver runs in five resumable stages in separate processes
+(`--stage generate | score | predict | sonic | analyze`), so ARDY is never resident beside Isaac;
+the SONIC stage refuses to start inside a process holding a CUDA context.
 
 ## Endpoints (all computed on the reference clips before any SONIC launch; rows written first)
 
@@ -71,25 +77,38 @@ dropped):
    the hash-locked exp016 receipt): `max_unsupported_run_s`, `bilateral_flight_frac`,
    `mean_support_feet`, `root_z_max`, `ballistic_ratio`, and the rest. The **primary
    preregistered predictor** is the pipeline's calibrated gate `max_unsupported_run_s > 0.20 s`
-   (independent provenance: frozen in the exp016 receipt before exp021 existed); the post-hoc
-   optimum `> 0.32 s` (8 frames) is the **secondary** predictor. **Per-clip predictions under
-   both rules are written to the ledger for all 128 clips, hashed, and committed before any
-   SONIC launch.** No refitting on EXP-024 data before the prospective test is scored.
+   (i.e. ≥ 6 frames = 0.24 s at 25 fps; independent provenance: frozen in the exp016 receipt
+   before exp021 existed; reproduces 53/53 and 3/11 on exp021); the post-hoc optimum
+   `≥ 0.32 s` (8 frames; `> 0.28 s` on the 0.04 s grid; reproduces 51/53 and 0/11) is the
+   **secondary** predictor. Both rules flag `run > threshold` exactly as the analyser's
+   `gate_table` does (`analyze_trackability_contract.gate_predictions`). **Per-clip predictions
+   under both rules (both thresholds, both flags) are written to `predictions.jsonl` for all 128
+   clips, hashed into the receipt, and committed before any SONIC launch**; the SONIC stage
+   asserts the commit with `--require-committed-predictions` (the HEAD blob must equal the
+   working file byte for byte). No refitting on EXP-024 data before the prospective test is
+   scored.
 4. **Local-step gates** — `stepover_eval.evaluate_local_step` at x = 1.2 m with the calibrated
-   thresholds; `local_step_success` and the 13 gate booleans.
+   thresholds, against the 5 cm staged box (the P4 height; `obstacle_height_m = 0.05`);
+   `local_step_success` and the 13 gate booleans.
 5. **Route fidelity** — progress ratio and route MAE (as exp023), to show pinning does not derail
    the rollout.
 6. **Manipulation check (constructibility of the pinned arms)** — per clip, root-height MAE and
    max deviation from 0.78 m (`pin_y`, `pin_yh`) and heading MAE / range from 0 (`pin_h`,
    `pin_yh`). E1a measured root-height compliance of only +0.20/+0.14 on a 2.3 cm request, so
    pinning may not hold. **An arm is constructible only if its median `root_z_range` ≤ 0.10 m
-   (`pin_y`, `pin_yh`) or its median heading range ≤ 10° (`pin_h`).** A non-constructible arm is
-   reported as such and excluded from P3/P4 (its clips are still tracked and scored for P1).
+   (`pin_y`, `pin_yh`) or its median heading range ≤ 10° (`pin_h`).** `free` requests no
+   manipulation and is constructible by definition; `pin_yh` is judged by the root-height
+   criterion with its heading range recorded alongside; both medians are reported for every
+   arm. A non-constructible arm is reported as such and excluded from P3/P4 (its clips are
+   still tracked and scored for P1).
 
 Then SONIC on **all 128 clips** (never only winners): four launches of 32 environments, physics
 seed 0, the EXP-022A bridge harness (`exp022_exact_tracking_bridge` pattern: motion pkl per
 launch, `SonicStateExportCallback` schema v2, `terrain_type` recorded, tracker commit and core
-source hashes bound and revalidated). Achieved endpoint per clip = EXP-022A's guarded retention
+source hashes bound and revalidated). Launch assignment is seed-block-major: launch k tracks
+seeds 4600+8k … 4607+8k under all four arms (generation chunks 4k … 4k+3), so every
+within-seed arm comparison and every paired McNemar count sits inside one Isaac launch. The
+host-resource gate is evaluated before each launch and its report bound per launch. Achieved endpoint per clip = EXP-022A's guarded retention
 at x = 1.2 m and x = 3.6 m: non-terminated, passage inside the lateral corridor, finishing beyond
 the obstacle, exact whole-body clearance at each graded height. Raw achieved `exact_clears`
 are recorded but never reported as execution clearance.
@@ -98,8 +117,13 @@ are recorded but never reported as execution clearance.
 
 - P1 (contract, primary rule 0.20 s): among all 128 clips, ≥ 90 % of those flagged by the
   calibrated gate (`> 0.20 s`) terminate, and ≤ 30 % of those it passes terminate (exp021 gave
-  53/53 and 3/11). Prospective AUC of the single feature ≥ 0.90 with a bootstrap interval. The
-  secondary 0.32 s rule is scored identically and reported beside it, never instead of it.
+  53/53 and 3/11). Prospective AUC of the single feature ≥ 0.90 with a bootstrap interval
+  (seeded, 2,000 resamples). The flagged-terminated rate (precision) and passed-terminated rate
+  (false-omission rate) each carry Wilson intervals; sensitivity and specificity are reported
+  alongside. **P1-strong** (predeclared second level, purely additive): P1 holds and the primary
+  gate's single-feature AUC ≥ 0.95 (bootstrap point estimate); the confirmation bar stays at
+  AUC ≥ 0.90 with the two rate criteria. The secondary `≥ 0.32 s` rule is scored identically
+  (both levels) and reported beside the primary, never instead of it.
 - P2 (`free` replicates exp021): elicitation in [0.55, 0.95] (exp021: 0.766, Wilson95
   [0.65, 0.85]); exact 5 cm clearance at 1.2 m in [0.06, 0.35] (exp021: 12/64).
 - P3 (`pin_y`, `pin_yh`): median `root_z_max` ≤ 0.85 m and median `max_unsupported_run_s`
@@ -138,7 +162,16 @@ revalidated after generation; exact accounting 128 launched = 128 returned (a pa
 stops the campaign, is recorded, and is not topped up); tracker commit, checkpoint sha
 (`e6bdab3f…`), **core source manifest equal to EXP-022A's (`44e98c45…`, unchanged since exp1b's
 `fb57e86`; asserted, not assumed)** and the **resolved termination config dumped into the
-receipt**; each launch's return code 0 and 32/32 rollouts archived; rows and the per-clip gate
+receipt** (SONIC merges the checkpoint config under the CLI overrides in-process and writes no
+merged result, so the driver binds the release-evaluator override
+`+manager_env/terminations=tracking/eval`, the `tracking/eval` YAML text and hash and the
+checkpoint config hash, composes the resolved termination block offline through EXP-028's
+`compose_resolved_terminations` (the same Hydra composition as `eval_agent_trl`, run in the
+SONIC interpreter without Isaac) and audits it against the release thresholds before every
+launch — anchor_pos 0.25 m, anchor_ori_full 1.0 rad, ee_body_pos 0.25 m, foot_pos_xyz 0.2 m,
+plus the `time_out` term (defined in `terms/motion_time_out.yaml` under the key `time_out`);
+a launch whose resolved block is not the release evaluator is refused); each launch's return
+code 0 and 32/32 rollouts archived; rows and the per-clip gate
 predictions written and hashed before the SONIC stage; every row carries the seed, arm, spec
 hash, qpos sha256 and its planned-denominator fields. **Host-resource gate:** launch only when
 `nvidia-smi` reports ≥ 12 GB free and `free -g` reports ≥ 18 GB available, with no concurrent
@@ -166,9 +199,9 @@ references plus 4 achieved archives.
 
 | file | change | effort |
 |---|---|---|
-| `experiments/exp024_reference_contract.py` (new) | driver: locked batch plan (2 seeds × 4 arms per call), spec builders for the four contracts, `persist()`-before-generate ledger, reference scoring (items 1–5), SONIC bridge reuse from `exp022_exact_tracking_bridge`, guarded achieved endpoint, receipt with predictions P1–P4 evaluated mechanically | ~1 day |
-| `experiments/analyze_trackability_contract.py` | expose `features()` and the 0.30 s / 0.20 s rules as importable functions (no behaviour change) | 1 h |
-| `tests/test_exp024_reference_contract.py` (new) | CPU tests: batch plan pairing, arm spec channel support (`pin_y` writes root_y_pos only; `pin_h` writes heading only), planned-denominator accounting, decision-rule evaluation on synthetic rows | 2–3 h |
+| `experiments/exp024_reference_contract.py` (new) | driver: locked batch plan (2 seeds × 4 arms per call), spec builders for the four contracts, `persist()`-before-generate ledger, reference scoring (items 1–6), SONIC bridge reuse from `exp022_exact_tracking_bridge`, guarded achieved endpoint, receipt with predictions P1–P4 evaluated mechanically; five resumable stages, host gate before generation and before every launch, `--dry-run` | done (CPU-tested; reference scoring ≈ 8 s/clip ≈ 17 min for 128) |
+| `experiments/analyze_trackability_contract.py` | expose `features()`, `load_support_thresholds()` and `gate_predictions()` with `PRIMARY_GATE_S = 0.20` / `SECONDARY_GATE_S = 0.28` (`> 0.28 s` ≡ `≥ 0.32 s` on the grid) as importable helpers (no behaviour change; `features()` and `main()` byte-identical) | done |
+| `tests/test_exp024_reference_contract.py` (new) | CPU tests: batch plan pairing, arm spec channel support (`pin_y` writes root_y_pos only; `pin_h` writes heading only), planned-denominator accounting, gate rules reproducing the committed exp021 counts, predictions hashing and SONIC refusals, decision-rule evaluation on synthetic rows, host-gate and non-empty-output refusals | done |
 | this document | flip to `Status: preregistered`, bind sha in receipt | — |
 
 ## Risks and confounds (stated in advance)

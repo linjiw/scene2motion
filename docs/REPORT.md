@@ -1543,3 +1543,43 @@ this pool, or the tracker. It does close "stage, then select, then SONIC" under 
 pipeline: more samples cannot repair a zero reference-to-achieved retention rate. The kinematic
 addressability map and its sampling cost stay as diagnostics; EXP-023 (prompt handoff) remains
 the decisive native-interface timing test.
+
+## 39. EXP-023: a delayed prompt does not move the step event
+
+`outputs/exp023_prompt_handoff/` (schema `exp023-prompt-handoff-v1`, status `complete`,
+32/32 samples, fresh paired seeds 4500–4507, four B=8 schedule calls, 16/16 Horizon52 window
+calls). Full note: `docs/ramp-exp023-prompt-handoff-result-2026-09-01.md`.
+
+Each seed produced four prompt schedules through ARDY's released `autoregressive_step`
+interface at its GUI-default minimum history (one four-frame token): all-WALK, STEP from
+frame 0, WALK→STEP at frame 52, and WALK→STEP at frame 104, with byte-identical shared
+prefixes and corresponding-window noise (verified exact on features and decoded qpos).
+Both preregistered gates passed (`step_0` events 6/8 ≥ 4; `all_walk` seeds with any event
+0/8 ≤ 1). **The delayed arms produced no whole-body-clearable (≥ 3 cm) step event in the
+96-frame post-onset window in 0/8 seeds each**, against 6/8 for the same seeds prompted from
+frame 0; the delayed arms' largest unfiltered clearable height was 0.030 m once and 0.000 m in
+13 of 16 rows. Every trajectory completed the route (progress 0.994–1.006, route MAE
+≤ 0.035 m), so this is a missing behaviour, not a derailed rollout. No delayed event exists to
+regress on; per protocol the planned-denominator contrast is the result and no binary verdict
+is assigned at n = 8.
+
+The exact fixed box at the frozen-latency prediction (frame onset + 34) cleared 1/8 at 3 cm
+and 0/8 at 5 cm for `step_0` (events fell at frames 18–64), and 0/8 everywhere for the delayed
+arms and the WALK control, with 8/8 traversal in every arm — a prospective, fresh-seed negative
+for fixed-latency staging beside §38's exact-centre audit.
+
+**Scope.** Horizon52 checkpoint, minimum-history handoff, one route and speed, kinematic
+only. Longer history crops, the Horizon8 checkpoint, re-issued prompts and latent-state APIs
+are untested interface contracts. The campaign cannot distinguish "the prompt is read only
+while the rollout context is established" from "a four-frame handoff attenuates the prompt".
+
+**Provenance.** The host process was killed during analysis after 5/32 rows; the committed
+resume script re-scored the durable archives through byte-identical frozen sources (source
+manifest, G1 model, runtime and prompt-cache identities revalidated; the five archived rows
+recomputed identically), regenerating nothing. The interrupted receipt and rows are preserved
+and hashed in the final receipt.
+
+**What this closes.** With exp017/018/019/020 (no spatial channel moves the event) and §37
+(the event lands early on its own), the native-interface timing claim is landed negative and
+scoped: for this checkpoint at the released minimum history, neither a spatial constraint nor
+a later prompt changes *when* the STEP behaviour occurs.

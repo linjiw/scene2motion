@@ -1,0 +1,2391 @@
+{
+  "actual_ardy_samples": 32,
+  "blocked": false,
+  "campaign_design": {
+    "actual_channel_usage": {
+      "root_pos": 400
+    },
+    "archived_frames": 208,
+    "arms": [
+      "all_walk",
+      "step_0",
+      "step_52",
+      "step_104"
+    ],
+    "cfg_weight": [
+      2.0,
+      2.0
+    ],
+    "chunk_batch_rows": 8,
+    "chunk_plan": [
+      {
+        "chunk_index": 0,
+        "name": "chunk00_seeds4500_4501",
+        "row_indices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "seeds": [
+          4500,
+          4501
+        ]
+      },
+      {
+        "chunk_index": 1,
+        "name": "chunk01_seeds4502_4503",
+        "row_indices": [
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "seeds": [
+          4502,
+          4503
+        ]
+      },
+      {
+        "chunk_index": 2,
+        "name": "chunk02_seeds4504_4505",
+        "row_indices": [
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23
+        ],
+        "seeds": [
+          4504,
+          4505
+        ]
+      },
+      {
+        "chunk_index": 3,
+        "name": "chunk03_seeds4506_4507",
+        "row_indices": [
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31
+        ],
+        "seeds": [
+          4506,
+          4507
+        ]
+      }
+    ],
+    "chunk_seed_count": 2,
+    "conditioning": "dense root XZ only for frames 0:200; 200:208 unconditioned",
+    "diffusion_steps": 5,
+    "event_min_clearance_m": 0.03,
+    "event_profile_points": 120,
+    "fps": 25.0,
+    "frozen_latency_frames": 34,
+    "graded_heights_m": [
+      0.03,
+      0.05,
+      0.08,
+      0.12,
+      0.2,
+      0.3
+    ],
+    "history_policy": {
+      "accepted_transcript_frames_after": [
+        52,
+        104,
+        156,
+        208
+      ],
+      "accepted_transcript_frames_before": [
+        0,
+        52,
+        104,
+        156
+      ],
+      "full_accepted_transcript_is_immutable": true,
+      "global_history_start_frames": [
+        0,
+        48,
+        100,
+        152
+      ],
+      "model_visible_num_frames": [
+        208,
+        160,
+        108,
+        56
+      ],
+      "name": "ARDY interactive GUI default minimum history",
+      "visible_history_frames": [
+        0,
+        4,
+        4,
+        4
+      ]
+    },
+    "n_schedule_trajectories": 32,
+    "post_onset_frames": 96,
+    "predicted_box_centres_m": {
+      "0": 1.230150753768844,
+      "104": 4.992964824120603,
+      "52": 3.1115577889447237
+    },
+    "route_sha256": "94d162c946ff652a044873a2fee42978002c274887ed4036770c22d27483daf6",
+    "row_plan": [
+      {
+        "arm": "all_walk",
+        "onset_frame": null,
+        "prompt_schedule": [
+          "A person walks forward.",
+          "A person walks forward.",
+          "A person walks forward.",
+          "A person walks forward."
+        ],
+        "row_index": 0,
+        "seed": 4500
+      },
+      {
+        "arm": "step_0",
+        "onset_frame": 0,
+        "prompt_schedule": [
+          "A person steps over an obstacle.",
+          "A person steps over an obstacle.",
+          "A person steps over an obstacle.",
+          "A person steps over an obstacle."
+        ],
+        "row_index": 1,
+        "seed": 4500
+      },
+      {
+        "arm": "step_52",
+        "onset_frame": 52,
+        "prompt_schedule": [
+          "A person walks forward.",
+          "A person steps over an obstacle.",
+          "A person steps over an obstacle.",
+          "A person steps over an obstacle."
+        ],
+        "row_index": 2,
+        "seed": 4500
+      },
+      {
+        "arm": "step_104",
+        "onset_frame": 104,
+        "prompt_schedule": [
+          "A person walks forward.",
+          "A person walks forward.",
+          "A person steps over an obstacle.",
+          "A person steps over an obstacle."
+        ],
+        "row_index": 3,
+        "seed": 4500
+      },
+      {
+        "arm": "all_walk",
+        "onset_frame": null,
+        "prompt_schedule": [
+          "A person walks forward.",
+          "A person walks forward.",
+          "A person walks forward.",
+          "A person walks forward."
+        ],
+        "row_index": 4,
+        "seed": 4501
+      },
+      {
+        "arm": "step_0",
+        "onset_frame": 0,
+        "prompt_schedule": [
+          "A person steps over an obstacle.",
+          "A person steps over an obstacle.",
+          "A person steps over an obstacle.",
+          "A person steps over an obstacle."
+        ],
+        "row_index": 5,
+        "seed": 4501
+      },
+      {
+        "arm": "step_52",
+        "onset_frame": 52,
+        "prompt_schedule": [
+          "A person walks forward.",
+          "A person steps over an obstacle.",
+          "A person steps over an obstacle.",
+          "A person steps over an obstacle."
+        ],
+        "row_index": 6,
+        "seed": 4501
+      },
+      {
+        "arm": "step_104",
+        "onset_frame": 104,
+        "prompt_schedule": [
+          "A person walks forward.",
+          "A person walks forward.",
+          "A person steps over an obstacle.",
+          "A person steps over an obstacle."
+        ],
+        "row_index": 7,
+        "seed": 4501
+      },
+      {
+        "arm": "all_walk",
+        "onset_frame": null,
+        "prompt_schedule": [
+          "A person walks forward.",
+          "A person walks forward.",
+          "A person walks forward.",
+          "A person walks forward."
+        ],
+        "row_index": 8,
+        "seed": 4502
+      },
+      {
+        "arm": "step_0",
+        "onset_frame": 0,
+        "prompt_schedule": [
+          "A person steps over an obstacle.",
+          "A person steps over an obstacle.",
+          "A person steps over an obstacle.",
+          "A person steps over an obstacle."
+        ],
+        "row_index": 9,
+        "seed": 4502
+      },
+      {
+        "arm": "step_52",
+        "onset_frame": 52,
+        "prompt_schedule": [
+          "A person walks forward.",
+          "A person steps over an obstacle.",
+          "A person steps over an obstacle.",
+          "A person steps over an obstacle."
+        ],
+        "row_index": 10,
+        "seed": 4502
+      },
+      {
+        "arm": "step_104",
+        "onset_frame": 104,
+        "prompt_schedule": [
+          "A person walks forward.",
+          "A person walks forward.",
+          "A person steps over an obstacle.",
+          "A person steps over an obstacle."
+        ],
+        "row_index": 11,
+        "seed": 4502
+      },
+      {
+        "arm": "all_walk",
+        "onset_frame": null,
+        "prompt_schedule": [
+          "A person walks forward.",
+          "A person walks forward.",
+          "A person walks forward.",
+          "A person walks forward."
+        ],
+        "row_index": 12,
+        "seed": 4503
+      },
+      {
+        "arm": "step_0",
+        "onset_frame": 0,
+        "prompt_schedule": [
+          "A person steps over an obstacle.",
+          "A person steps over an obstacle.",
+          "A person steps over an obstacle.",
+          "A person steps over an obstacle."
+        ],
+        "row_index": 13,
+        "seed": 4503
+      },
+      {
+        "arm": "step_52",
+        "onset_frame": 52,
+        "prompt_schedule": [
+          "A person walks forward.",
+          "A person steps over an obstacle.",
+          "A person steps over an obstacle.",
+          "A person steps over an obstacle."
+        ],
+        "row_index": 14,
+        "seed": 4503
+      },
+      {
+        "arm": "step_104",
+        "onset_frame": 104,
+        "prompt_schedule": [
+          "A person walks forward.",
+          "A person walks forward.",
+          "A person steps over an obstacle.",
+          "A person steps over an obstacle."
+        ],
+        "row_index": 15,
+        "seed": 4503
+      },
+      {
+        "arm": "all_walk",
+        "onset_frame": null,
+        "prompt_schedule": [
+          "A person walks forward.",
+          "A person walks forward.",
+          "A person walks forward.",
+          "A person walks forward."
+        ],
+        "row_index": 16,
+        "seed": 4504
+      },
+      {
+        "arm": "step_0",
+        "onset_frame": 0,
+        "prompt_schedule": [
+          "A person steps over an obstacle.",
+          "A person steps over an obstacle.",
+          "A person steps over an obstacle.",
+          "A person steps over an obstacle."
+        ],
+        "row_index": 17,
+        "seed": 4504
+      },
+      {
+        "arm": "step_52",
+        "onset_frame": 52,
+        "prompt_schedule": [
+          "A person walks forward.",
+          "A person steps over an obstacle.",
+          "A person steps over an obstacle.",
+          "A person steps over an obstacle."
+        ],
+        "row_index": 18,
+        "seed": 4504
+      },
+      {
+        "arm": "step_104",
+        "onset_frame": 104,
+        "prompt_schedule": [
+          "A person walks forward.",
+          "A person walks forward.",
+          "A person steps over an obstacle.",
+          "A person steps over an obstacle."
+        ],
+        "row_index": 19,
+        "seed": 4504
+      },
+      {
+        "arm": "all_walk",
+        "onset_frame": null,
+        "prompt_schedule": [
+          "A person walks forward.",
+          "A person walks forward.",
+          "A person walks forward.",
+          "A person walks forward."
+        ],
+        "row_index": 20,
+        "seed": 4505
+      },
+      {
+        "arm": "step_0",
+        "onset_frame": 0,
+        "prompt_schedule": [
+          "A person steps over an obstacle.",
+          "A person steps over an obstacle.",
+          "A person steps over an obstacle.",
+          "A person steps over an obstacle."
+        ],
+        "row_index": 21,
+        "seed": 4505
+      },
+      {
+        "arm": "step_52",
+        "onset_frame": 52,
+        "prompt_schedule": [
+          "A person walks forward.",
+          "A person steps over an obstacle.",
+          "A person steps over an obstacle.",
+          "A person steps over an obstacle."
+        ],
+        "row_index": 22,
+        "seed": 4505
+      },
+      {
+        "arm": "step_104",
+        "onset_frame": 104,
+        "prompt_schedule": [
+          "A person walks forward.",
+          "A person walks forward.",
+          "A person steps over an obstacle.",
+          "A person steps over an obstacle."
+        ],
+        "row_index": 23,
+        "seed": 4505
+      },
+      {
+        "arm": "all_walk",
+        "onset_frame": null,
+        "prompt_schedule": [
+          "A person walks forward.",
+          "A person walks forward.",
+          "A person walks forward.",
+          "A person walks forward."
+        ],
+        "row_index": 24,
+        "seed": 4506
+      },
+      {
+        "arm": "step_0",
+        "onset_frame": 0,
+        "prompt_schedule": [
+          "A person steps over an obstacle.",
+          "A person steps over an obstacle.",
+          "A person steps over an obstacle.",
+          "A person steps over an obstacle."
+        ],
+        "row_index": 25,
+        "seed": 4506
+      },
+      {
+        "arm": "step_52",
+        "onset_frame": 52,
+        "prompt_schedule": [
+          "A person walks forward.",
+          "A person steps over an obstacle.",
+          "A person steps over an obstacle.",
+          "A person steps over an obstacle."
+        ],
+        "row_index": 26,
+        "seed": 4506
+      },
+      {
+        "arm": "step_104",
+        "onset_frame": 104,
+        "prompt_schedule": [
+          "A person walks forward.",
+          "A person walks forward.",
+          "A person steps over an obstacle.",
+          "A person steps over an obstacle."
+        ],
+        "row_index": 27,
+        "seed": 4506
+      },
+      {
+        "arm": "all_walk",
+        "onset_frame": null,
+        "prompt_schedule": [
+          "A person walks forward.",
+          "A person walks forward.",
+          "A person walks forward.",
+          "A person walks forward."
+        ],
+        "row_index": 28,
+        "seed": 4507
+      },
+      {
+        "arm": "step_0",
+        "onset_frame": 0,
+        "prompt_schedule": [
+          "A person steps over an obstacle.",
+          "A person steps over an obstacle.",
+          "A person steps over an obstacle.",
+          "A person steps over an obstacle."
+        ],
+        "row_index": 29,
+        "seed": 4507
+      },
+      {
+        "arm": "step_52",
+        "onset_frame": 52,
+        "prompt_schedule": [
+          "A person walks forward.",
+          "A person steps over an obstacle.",
+          "A person steps over an obstacle.",
+          "A person steps over an obstacle."
+        ],
+        "row_index": 30,
+        "seed": 4507
+      },
+      {
+        "arm": "step_104",
+        "onset_frame": 104,
+        "prompt_schedule": [
+          "A person walks forward.",
+          "A person walks forward.",
+          "A person steps over an obstacle.",
+          "A person steps over an obstacle."
+        ],
+        "row_index": 31,
+        "seed": 4507
+      }
+    ],
+    "row_plan_sha256": "dbb6d2878393989fa37ada13368c6ae15ab49610c66c67ab40e02c614b3e779c",
+    "sample_accounting_definition": "one complete prompt schedule is one frozen-prior sample; four B=8 chunk calls each make four Horizon52 window calls, counted separately",
+    "schedules": {
+      "all_walk": [
+        "A person walks forward.",
+        "A person walks forward.",
+        "A person walks forward.",
+        "A person walks forward."
+      ],
+      "step_0": [
+        "A person steps over an obstacle.",
+        "A person steps over an obstacle.",
+        "A person steps over an obstacle.",
+        "A person steps over an obstacle."
+      ],
+      "step_104": [
+        "A person walks forward.",
+        "A person walks forward.",
+        "A person steps over an obstacle.",
+        "A person steps over an obstacle."
+      ],
+      "step_52": [
+        "A person walks forward.",
+        "A person steps over an obstacle.",
+        "A person steps over an obstacle.",
+        "A person steps over an obstacle."
+      ]
+    },
+    "scored_frames": 200,
+    "seeds": [
+      4500,
+      4501,
+      4502,
+      4503,
+      4504,
+      4505,
+      4506,
+      4507
+    ],
+    "specificity_gate": "all_walk seeds with any event in three matched windows <= 1/8",
+    "substrate_gate": "step_0 present >= 4/8"
+  },
+  "causal_pairing_audit": {
+    "corresponding_window_noise_equal": true,
+    "feature_forks": [
+      {
+        "frame_104_sha256": "e64a8cb9e1133118a6f705527df90e799ecc61ad8ad7aa7bb54a8f70251a8933",
+        "frame_52_sha256": "379ae7fedb2eb4154045c9540296072b2f62a2e7a47c47944f4b2948f963598e",
+        "seed": 4500,
+        "step_104_exact_through_103": true,
+        "step_52_exact_through_51": true
+      },
+      {
+        "frame_104_sha256": "aa0a59a740e5547bd03e167bfb6ddf7fca01d7b3a4ec167626bec96716134ad5",
+        "frame_52_sha256": "a098029eb6a65f0f3844d15ea945fdc2892b11339df62282bbeb2c559fee1eaa",
+        "seed": 4501,
+        "step_104_exact_through_103": true,
+        "step_52_exact_through_51": true
+      },
+      {
+        "frame_104_sha256": "fa74f8ba9a880040108ca3ad5b2f4b343d118efbe30ee5afec100a8f75b32208",
+        "frame_52_sha256": "e27d70b6edf846cb182492d54858ad256e99ff006ce33ee598849a58400a1087",
+        "seed": 4502,
+        "step_104_exact_through_103": true,
+        "step_52_exact_through_51": true
+      },
+      {
+        "frame_104_sha256": "828157be29a512b970aa6b1c7f32a62db65e25a620f53cd43a41f01d9ecb3da8",
+        "frame_52_sha256": "495f2364b5c43d4529bee9689d8514c068e388a2f0669c1d7ae8db3ae69747d6",
+        "seed": 4503,
+        "step_104_exact_through_103": true,
+        "step_52_exact_through_51": true
+      },
+      {
+        "frame_104_sha256": "846a803115c47656bd4eadf62698e6e914e1f85045f6bbb3355601e0fcd9baa9",
+        "frame_52_sha256": "cfee2ff2ba4ea9e8d6c39ca67f80f7352b42d26cac2b824f23ba852f9885639f",
+        "seed": 4504,
+        "step_104_exact_through_103": true,
+        "step_52_exact_through_51": true
+      },
+      {
+        "frame_104_sha256": "48e0a1f99e7e3a0e36d0e352ef757ddd802c7393b2343ec6faa7a826f792d09f",
+        "frame_52_sha256": "9d086ab178014c1fee5bb0c95cad9cc7a6734693ef1f99aaaab2cfad9a978d21",
+        "seed": 4505,
+        "step_104_exact_through_103": true,
+        "step_52_exact_through_51": true
+      },
+      {
+        "frame_104_sha256": "a7ac21e17f677c00b183a60c903491f681075e1b8218e9fc2cdba29b0067e306",
+        "frame_52_sha256": "f219a9fd49719b9d177463b151cc7096bf1dce8c21839477624c319ff4875622",
+        "seed": 4506,
+        "step_104_exact_through_103": true,
+        "step_52_exact_through_51": true
+      },
+      {
+        "frame_104_sha256": "54557b8d5080340bbe7c44d876a227df5961e8f833a0f84ab51beb63af403c42",
+        "frame_52_sha256": "6e69eccdf0066cd4656dad0698dff811a24f647f02e3b948dcab888500f726de",
+        "seed": 4507,
+        "step_104_exact_through_103": true,
+        "step_52_exact_through_51": true
+      }
+    ],
+    "feature_prefixes_exact": true,
+    "history_inputs_match_visible_transcript_suffixes": true,
+    "history_reconstruction": [
+      {
+        "accepted_transcript_frames_before": 0,
+        "global_history_start_frame": 0,
+        "input_hashes_match_visible_transcript_suffix": true,
+        "input_history_frames": 0,
+        "max_returned_prefix_error": 0.0,
+        "model_num_frames": 208,
+        "n_returned_prefixes_exact": 32,
+        "stable_hashes_match_archived_features": true,
+        "transcript_frames": 52,
+        "window": 0
+      },
+      {
+        "accepted_transcript_frames_before": 52,
+        "global_history_start_frame": 48,
+        "input_hashes_match_visible_transcript_suffix": true,
+        "input_history_frames": 4,
+        "max_returned_prefix_error": 3.3147425651550293,
+        "model_num_frames": 160,
+        "n_returned_prefixes_exact": 0,
+        "stable_hashes_match_archived_features": true,
+        "transcript_frames": 104,
+        "window": 1
+      },
+      {
+        "accepted_transcript_frames_before": 104,
+        "global_history_start_frame": 100,
+        "input_hashes_match_visible_transcript_suffix": true,
+        "input_history_frames": 4,
+        "max_returned_prefix_error": 3.1119742393493652,
+        "model_num_frames": 108,
+        "n_returned_prefixes_exact": 0,
+        "stable_hashes_match_archived_features": true,
+        "transcript_frames": 156,
+        "window": 2
+      },
+      {
+        "accepted_transcript_frames_before": 156,
+        "global_history_start_frame": 152,
+        "input_hashes_match_visible_transcript_suffix": true,
+        "input_history_frames": 4,
+        "max_returned_prefix_error": 1.6817231178283691,
+        "model_num_frames": 56,
+        "n_returned_prefixes_exact": 0,
+        "stable_hashes_match_archived_features": true,
+        "transcript_frames": 208,
+        "window": 3
+      }
+    ],
+    "latent_shapes": [
+      [
+        32,
+        13,
+        148
+      ],
+      [
+        32,
+        13,
+        148
+      ],
+      [
+        32,
+        13,
+        148
+      ],
+      [
+        32,
+        13,
+        148
+      ]
+    ],
+    "n_windows": 4,
+    "noise_fresh_across_windows": true,
+    "paired_noise": [
+      {
+        "all_four_arms_equal": true,
+        "seed": 4500,
+        "sha256": "2e432a2eb235b2a1a127d272ebe999af18d62e2f0411de68b9ae6c054c558fc5",
+        "window": 0
+      },
+      {
+        "all_four_arms_equal": true,
+        "seed": 4500,
+        "sha256": "b5d2efb3c32769f308212affbe760c5ed08f63b81406025bd12145d2d42b10bd",
+        "window": 1
+      },
+      {
+        "all_four_arms_equal": true,
+        "seed": 4500,
+        "sha256": "3b2768460f1e1e27e5d8a821fc17f79477d8bec92806f4c773bf740c79e68aa1",
+        "window": 2
+      },
+      {
+        "all_four_arms_equal": true,
+        "seed": 4500,
+        "sha256": "d069c315eb163cbcfab5aee3375197f508b6ce0322e71505e7966c8e6074cfbc",
+        "window": 3
+      },
+      {
+        "all_four_arms_equal": true,
+        "seed": 4501,
+        "sha256": "1acae22460a6355a131721c465823330cb2cb58feb5da983c4187f0eaeb89887",
+        "window": 0
+      },
+      {
+        "all_four_arms_equal": true,
+        "seed": 4501,
+        "sha256": "7ffdefcb889b10c2a106bd84646e149f17b0af95291100f925cab0bc4d726304",
+        "window": 1
+      },
+      {
+        "all_four_arms_equal": true,
+        "seed": 4501,
+        "sha256": "517d952e3d9f81d2154cf21472b50bc1d234abaf8ce26971343572ef64af266d",
+        "window": 2
+      },
+      {
+        "all_four_arms_equal": true,
+        "seed": 4501,
+        "sha256": "6bb2b6ef0c8abf432de3ee8f9b11835f6883379c9d417f35dde7d9d0c82c7b18",
+        "window": 3
+      },
+      {
+        "all_four_arms_equal": true,
+        "seed": 4502,
+        "sha256": "b4c5df9dd01b4d59d173713bb803e2c7ee4b5f5af33d48f2e6311554b6ec8854",
+        "window": 0
+      },
+      {
+        "all_four_arms_equal": true,
+        "seed": 4502,
+        "sha256": "038a3e47ce3c9b740415c325e7c1dcbbdeb0b7d8be3ef74b0e3a122afafcf6b2",
+        "window": 1
+      },
+      {
+        "all_four_arms_equal": true,
+        "seed": 4502,
+        "sha256": "7a27032f60ab6c4f94d961dcc21c91220b458d812e8bc217056e9adfa0990c6b",
+        "window": 2
+      },
+      {
+        "all_four_arms_equal": true,
+        "seed": 4502,
+        "sha256": "d7407a5ca6f6e6d5bdfc2a228eac97bfb863502fc8df39de59d563408746874f",
+        "window": 3
+      },
+      {
+        "all_four_arms_equal": true,
+        "seed": 4503,
+        "sha256": "ea622b6677a99409b431c1339d369ab5889adc9a862d46b0101223533ef76cc6",
+        "window": 0
+      },
+      {
+        "all_four_arms_equal": true,
+        "seed": 4503,
+        "sha256": "8d4c62954d25b898d28df61ecba8d1a6aad4a96aa7174b45a151684e258d72b5",
+        "window": 1
+      },
+      {
+        "all_four_arms_equal": true,
+        "seed": 4503,
+        "sha256": "b5ef4efc1d22fb2c1955c1e191ac9b4f84fa82711909c50b464316a6071cdfa5",
+        "window": 2
+      },
+      {
+        "all_four_arms_equal": true,
+        "seed": 4503,
+        "sha256": "2be296f93a6414baaa1996f1d7d7d5f1796c4d7d22120893d3100ee128a91ffb",
+        "window": 3
+      },
+      {
+        "all_four_arms_equal": true,
+        "seed": 4504,
+        "sha256": "14874eee665b6b512a5ae053132eab28fea4e84bcabac0b8c2e752d5de5d8f45",
+        "window": 0
+      },
+      {
+        "all_four_arms_equal": true,
+        "seed": 4504,
+        "sha256": "ccbe98fdb102a4ad761229fbef40bb234cd7ab720ae5b78589a4f042a5b5d8a6",
+        "window": 1
+      },
+      {
+        "all_four_arms_equal": true,
+        "seed": 4504,
+        "sha256": "5b6dbf944aeb49418bc854eac9dfb9e16127290b5182fe1b9cdf714e6212cef0",
+        "window": 2
+      },
+      {
+        "all_four_arms_equal": true,
+        "seed": 4504,
+        "sha256": "0cd8ae91e97dc7c7f9041cd04e1587f7da4bbccfaf2f996b005f51299c5fd746",
+        "window": 3
+      },
+      {
+        "all_four_arms_equal": true,
+        "seed": 4505,
+        "sha256": "ff3ff3dc5b10e289be91aef643009fe2a5f1f4098d5cc42bde6975b972b2660d",
+        "window": 0
+      },
+      {
+        "all_four_arms_equal": true,
+        "seed": 4505,
+        "sha256": "0ee5f55f96c116367a62277e70307c4c922dc59db8e276e9ab17441ee82dc0d0",
+        "window": 1
+      },
+      {
+        "all_four_arms_equal": true,
+        "seed": 4505,
+        "sha256": "7df1b0b4c41c5cdcba85ee9677264ad7959ad67396b0bde50c197f5fc8ac8998",
+        "window": 2
+      },
+      {
+        "all_four_arms_equal": true,
+        "seed": 4505,
+        "sha256": "4741598285824f6288c725b6c59b8aa1e6edca8d60b532dca9f347f5c59c440f",
+        "window": 3
+      },
+      {
+        "all_four_arms_equal": true,
+        "seed": 4506,
+        "sha256": "a8e317696eacce93c5e5929adc55e22b487782d417cbec72fff4c2fd9915c80e",
+        "window": 0
+      },
+      {
+        "all_four_arms_equal": true,
+        "seed": 4506,
+        "sha256": "997f6b76e41b2286a8703829ddc7b865be7c0c273e672f05e12333370998eff7",
+        "window": 1
+      },
+      {
+        "all_four_arms_equal": true,
+        "seed": 4506,
+        "sha256": "58309dd3880bbff1deac9317f51f3ea1606cd0d60679d50ebbbd88f526d8e0fa",
+        "window": 2
+      },
+      {
+        "all_four_arms_equal": true,
+        "seed": 4506,
+        "sha256": "28ade9b2bb9d4a179a7c7eddb72ec38619431268b866c73729c20b10bc04d73f",
+        "window": 3
+      },
+      {
+        "all_four_arms_equal": true,
+        "seed": 4507,
+        "sha256": "b4626bc91588d7a328b09f6d13e28f82a7bda593be8bcb2b1ebd3b3e31107725",
+        "window": 0
+      },
+      {
+        "all_four_arms_equal": true,
+        "seed": 4507,
+        "sha256": "47021ec8fef8008131d12d39924ddc8d5a01c73911ca047777f674e9ab1d30c2",
+        "window": 1
+      },
+      {
+        "all_four_arms_equal": true,
+        "seed": 4507,
+        "sha256": "ed15c8cb40ee211fa4fc242009348e3a279b40542e431f140c32b9cf8aff216e",
+        "window": 2
+      },
+      {
+        "all_four_arms_equal": true,
+        "seed": 4507,
+        "sha256": "a1e0cd058fc77e91c5a5afd49708ecfd3c4b6ac5376a866568c5523546a5d1ea",
+        "window": 3
+      }
+    ],
+    "qpos_forks": [
+      {
+        "frame_104_sha256": "8a8e9ea0df96b00f2c6faccccbd24ef33162e38ca9f8095027a7d98fd3b29e48",
+        "frame_52_sha256": "490491d197d86e63cab077c3bb83b53a8f132decd5e849f983dba7e9d6a04036",
+        "seed": 4500,
+        "step_104_exact_through_103": true,
+        "step_52_exact_through_51": true
+      },
+      {
+        "frame_104_sha256": "043ee12ba8e7daec5c4d5792f58061e49dffdc6f5d68f95f5ecab6aa90e01918",
+        "frame_52_sha256": "04ab2a2d8ece143e2565ed40482a6ce61d0a925934c575f59e7dcfbc021047ac",
+        "seed": 4501,
+        "step_104_exact_through_103": true,
+        "step_52_exact_through_51": true
+      },
+      {
+        "frame_104_sha256": "5f870735c191916aac01c92e156e2fd9011ba4a24ed8decff9f7c2e7ef1b61b8",
+        "frame_52_sha256": "efc00e1e9966a3b3b8528196849ad8e8298ab71430f22a43f68bdb895d92a35a",
+        "seed": 4502,
+        "step_104_exact_through_103": true,
+        "step_52_exact_through_51": true
+      },
+      {
+        "frame_104_sha256": "cb3e0edc88416fcc9f48aa0ba79e82deb74a49010b07c3bb1b26366dfb6feabb",
+        "frame_52_sha256": "a557d749a9a76db66a0680060ebead37a36a81e343af556e1219dd4ec9429e68",
+        "seed": 4503,
+        "step_104_exact_through_103": true,
+        "step_52_exact_through_51": true
+      },
+      {
+        "frame_104_sha256": "1c062e100e4ba27b0c5b39460e1c21e6f9ff01fddd84ba48903a298894d1ae05",
+        "frame_52_sha256": "944c45a75d83c19c709da8275579631d911a144d7ffd02551d1c78a2d08108fb",
+        "seed": 4504,
+        "step_104_exact_through_103": true,
+        "step_52_exact_through_51": true
+      },
+      {
+        "frame_104_sha256": "190fe31bfd09f3ac9e3d97053dad4e2be565610d9cf1a1c1f6b816d9f0ec88bd",
+        "frame_52_sha256": "d2adeb8824c82d8f06d8d8d7e029806e92d77417119c43d7818a51c2207e1038",
+        "seed": 4505,
+        "step_104_exact_through_103": true,
+        "step_52_exact_through_51": true
+      },
+      {
+        "frame_104_sha256": "7a0d8c5b3944174529a9c9d76ccf0006f03e091e4b0c181d998b05d45e97fd63",
+        "frame_52_sha256": "05dbf3294033bed0790d61ba674c75b03a532855504f7c0a9da213efb4ab6041",
+        "seed": 4506,
+        "step_104_exact_through_103": true,
+        "step_52_exact_through_51": true
+      },
+      {
+        "frame_104_sha256": "0cbd4de22780dfc783e4ade3bd0dcec48c6a988c941c382d174d75a1dff591aa",
+        "frame_52_sha256": "c2d5ec2f4c2a4f1d634258ecbee7bf0be72186219527a138872d9d0c056b2d90",
+        "seed": 4507,
+        "step_104_exact_through_103": true,
+        "step_52_exact_through_51": true
+      }
+    ],
+    "qpos_prefixes_exact": true,
+    "stable_transcript_hashes_match_archived_features": true
+  },
+  "complete": false,
+  "evidence_anchors": {
+    "features": {
+      "content_sha256": "edc74e12162b20600ec5cd10451b37dea6878e175d4628ac7899250b433e885d",
+      "file_sha256": "1932742ec5d2a96657938ce0f3c5928d4969ddb53c0d7d924e138d0ce8b9f583",
+      "n_arrays": 32,
+      "path": "features.npz"
+    },
+    "noise_audit": {
+      "file_sha256": "0db3e14afe3a3da1edf0781f7201cc3c40dd8fc1b0eb7c943beb1ae1a1196c04",
+      "logical_sha256": "c6cb42613a3fe7c76e22da37c0a55f6042e9c8dbf17abab94c45abc78371a375",
+      "n_records": 4,
+      "path": "noise_audit.json"
+    },
+    "qpos": {
+      "content_sha256": "84bbbafb76bbf1e03475aef04feac36efdc9f0f27e7fe8889ad510d92d4e8e37",
+      "file_sha256": "14c476e5fece3238146b8d46810cf835521dfd5ad3b8359dece9c7e150ec8dd0",
+      "n_arrays": 32,
+      "path": "qpos.npz"
+    },
+    "rows": {
+      "file_sha256": "18b1fcf66a53e8eba78ed40efe8d8fbdba31a9a52123e3571fdf124f5a6c6354",
+      "logical_sha256": "34cfeffa49a1e17e45b86e0438d47b71e6c643d63b523c5ca61a3a5bd7585ff2",
+      "n_rows": 5,
+      "path": "rows.jsonl"
+    }
+  },
+  "execution_mode": {
+    "dependency_injections": [],
+    "note": "Dependency injection exists for CPU tests; any injected run is explicitly non-evidentiary. Production constructs the ARDY runner only after the empty evidence bundle is durable.",
+    "pre_model_construction_evidence_guaranteed": true,
+    "scientific_evidence_eligible": true
+  },
+  "experiment": "exp023_prompt_handoff",
+  "generation_chunks": {
+    "chunk00_seeds4500_4501": {
+      "causal_pairing_audit": {
+        "corresponding_window_noise_equal": true,
+        "feature_forks": [
+          {
+            "frame_104_sha256": "e64a8cb9e1133118a6f705527df90e799ecc61ad8ad7aa7bb54a8f70251a8933",
+            "frame_52_sha256": "379ae7fedb2eb4154045c9540296072b2f62a2e7a47c47944f4b2948f963598e",
+            "seed": 4500,
+            "step_104_exact_through_103": true,
+            "step_52_exact_through_51": true
+          },
+          {
+            "frame_104_sha256": "aa0a59a740e5547bd03e167bfb6ddf7fca01d7b3a4ec167626bec96716134ad5",
+            "frame_52_sha256": "a098029eb6a65f0f3844d15ea945fdc2892b11339df62282bbeb2c559fee1eaa",
+            "seed": 4501,
+            "step_104_exact_through_103": true,
+            "step_52_exact_through_51": true
+          }
+        ],
+        "feature_prefixes_exact": true,
+        "history_inputs_match_visible_transcript_suffixes": true,
+        "history_reconstruction": [
+          {
+            "accepted_transcript_frames_before": 0,
+            "global_history_start_frame": 0,
+            "input_hashes_match_visible_transcript_suffix": true,
+            "input_history_frames": 0,
+            "max_returned_prefix_error": 0.0,
+            "model_num_frames": 208,
+            "n_returned_prefixes_exact": 8,
+            "stable_hashes_match_archived_features": true,
+            "transcript_frames": 52,
+            "window": 0
+          },
+          {
+            "accepted_transcript_frames_before": 52,
+            "global_history_start_frame": 48,
+            "input_hashes_match_visible_transcript_suffix": true,
+            "input_history_frames": 4,
+            "max_returned_prefix_error": 1.7237999439239502,
+            "model_num_frames": 160,
+            "n_returned_prefixes_exact": 0,
+            "stable_hashes_match_archived_features": true,
+            "transcript_frames": 104,
+            "window": 1
+          },
+          {
+            "accepted_transcript_frames_before": 104,
+            "global_history_start_frame": 100,
+            "input_hashes_match_visible_transcript_suffix": true,
+            "input_history_frames": 4,
+            "max_returned_prefix_error": 2.973686456680298,
+            "model_num_frames": 108,
+            "n_returned_prefixes_exact": 0,
+            "stable_hashes_match_archived_features": true,
+            "transcript_frames": 156,
+            "window": 2
+          },
+          {
+            "accepted_transcript_frames_before": 156,
+            "global_history_start_frame": 152,
+            "input_hashes_match_visible_transcript_suffix": true,
+            "input_history_frames": 4,
+            "max_returned_prefix_error": 0.9194663763046265,
+            "model_num_frames": 56,
+            "n_returned_prefixes_exact": 0,
+            "stable_hashes_match_archived_features": true,
+            "transcript_frames": 208,
+            "window": 3
+          }
+        ],
+        "latent_shapes": [
+          [
+            8,
+            13,
+            148
+          ],
+          [
+            8,
+            13,
+            148
+          ],
+          [
+            8,
+            13,
+            148
+          ],
+          [
+            8,
+            13,
+            148
+          ]
+        ],
+        "n_windows": 4,
+        "noise_fresh_across_windows": true,
+        "paired_noise": [
+          {
+            "all_four_arms_equal": true,
+            "seed": 4500,
+            "sha256": "2e432a2eb235b2a1a127d272ebe999af18d62e2f0411de68b9ae6c054c558fc5",
+            "window": 0
+          },
+          {
+            "all_four_arms_equal": true,
+            "seed": 4500,
+            "sha256": "b5d2efb3c32769f308212affbe760c5ed08f63b81406025bd12145d2d42b10bd",
+            "window": 1
+          },
+          {
+            "all_four_arms_equal": true,
+            "seed": 4500,
+            "sha256": "3b2768460f1e1e27e5d8a821fc17f79477d8bec92806f4c773bf740c79e68aa1",
+            "window": 2
+          },
+          {
+            "all_four_arms_equal": true,
+            "seed": 4500,
+            "sha256": "d069c315eb163cbcfab5aee3375197f508b6ce0322e71505e7966c8e6074cfbc",
+            "window": 3
+          },
+          {
+            "all_four_arms_equal": true,
+            "seed": 4501,
+            "sha256": "1acae22460a6355a131721c465823330cb2cb58feb5da983c4187f0eaeb89887",
+            "window": 0
+          },
+          {
+            "all_four_arms_equal": true,
+            "seed": 4501,
+            "sha256": "7ffdefcb889b10c2a106bd84646e149f17b0af95291100f925cab0bc4d726304",
+            "window": 1
+          },
+          {
+            "all_four_arms_equal": true,
+            "seed": 4501,
+            "sha256": "517d952e3d9f81d2154cf21472b50bc1d234abaf8ce26971343572ef64af266d",
+            "window": 2
+          },
+          {
+            "all_four_arms_equal": true,
+            "seed": 4501,
+            "sha256": "6bb2b6ef0c8abf432de3ee8f9b11835f6883379c9d417f35dde7d9d0c82c7b18",
+            "window": 3
+          }
+        ],
+        "stable_transcript_hashes_match_archived_features": true
+      },
+      "local_row_plan": [
+        {
+          "arm": "all_walk",
+          "global_row_index": 0,
+          "onset_frame": null,
+          "prompt_schedule": [
+            "A person walks forward.",
+            "A person walks forward.",
+            "A person walks forward.",
+            "A person walks forward."
+          ],
+          "row_index": 0,
+          "seed": 4500
+        },
+        {
+          "arm": "step_0",
+          "global_row_index": 1,
+          "onset_frame": 0,
+          "prompt_schedule": [
+            "A person steps over an obstacle.",
+            "A person steps over an obstacle.",
+            "A person steps over an obstacle.",
+            "A person steps over an obstacle."
+          ],
+          "row_index": 1,
+          "seed": 4500
+        },
+        {
+          "arm": "step_52",
+          "global_row_index": 2,
+          "onset_frame": 52,
+          "prompt_schedule": [
+            "A person walks forward.",
+            "A person steps over an obstacle.",
+            "A person steps over an obstacle.",
+            "A person steps over an obstacle."
+          ],
+          "row_index": 2,
+          "seed": 4500
+        },
+        {
+          "arm": "step_104",
+          "global_row_index": 3,
+          "onset_frame": 104,
+          "prompt_schedule": [
+            "A person walks forward.",
+            "A person walks forward.",
+            "A person steps over an obstacle.",
+            "A person steps over an obstacle."
+          ],
+          "row_index": 3,
+          "seed": 4500
+        },
+        {
+          "arm": "all_walk",
+          "global_row_index": 4,
+          "onset_frame": null,
+          "prompt_schedule": [
+            "A person walks forward.",
+            "A person walks forward.",
+            "A person walks forward.",
+            "A person walks forward."
+          ],
+          "row_index": 4,
+          "seed": 4501
+        },
+        {
+          "arm": "step_0",
+          "global_row_index": 5,
+          "onset_frame": 0,
+          "prompt_schedule": [
+            "A person steps over an obstacle.",
+            "A person steps over an obstacle.",
+            "A person steps over an obstacle.",
+            "A person steps over an obstacle."
+          ],
+          "row_index": 5,
+          "seed": 4501
+        },
+        {
+          "arm": "step_52",
+          "global_row_index": 6,
+          "onset_frame": 52,
+          "prompt_schedule": [
+            "A person walks forward.",
+            "A person steps over an obstacle.",
+            "A person steps over an obstacle.",
+            "A person steps over an obstacle."
+          ],
+          "row_index": 6,
+          "seed": 4501
+        },
+        {
+          "arm": "step_104",
+          "global_row_index": 7,
+          "onset_frame": 104,
+          "prompt_schedule": [
+            "A person walks forward.",
+            "A person walks forward.",
+            "A person steps over an obstacle.",
+            "A person steps over an obstacle."
+          ],
+          "row_index": 7,
+          "seed": 4501
+        }
+      ],
+      "post_chunk_identity_revalidation": {
+        "checkpoint_unchanged": true,
+        "git": {
+          "allowed_output_status": [
+            "?? outputs/exp023_prompt_handoff/"
+          ],
+          "commit_unchanged": true,
+          "tracked_diff_unchanged": true,
+          "unexpected_status": []
+        },
+        "physical_model_unchanged": true,
+        "prompt_cache_unchanged": true,
+        "runner_contract_unchanged": true,
+        "runtime_unchanged": true,
+        "sources_unchanged": true
+      },
+      "row_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "seeds": [
+        4500,
+        4501
+      ],
+      "status": "complete",
+      "trajectories_returned": 8,
+      "window_calls_returned": 4
+    },
+    "chunk01_seeds4502_4503": {
+      "causal_pairing_audit": {
+        "corresponding_window_noise_equal": true,
+        "feature_forks": [
+          {
+            "frame_104_sha256": "fa74f8ba9a880040108ca3ad5b2f4b343d118efbe30ee5afec100a8f75b32208",
+            "frame_52_sha256": "e27d70b6edf846cb182492d54858ad256e99ff006ce33ee598849a58400a1087",
+            "seed": 4502,
+            "step_104_exact_through_103": true,
+            "step_52_exact_through_51": true
+          },
+          {
+            "frame_104_sha256": "828157be29a512b970aa6b1c7f32a62db65e25a620f53cd43a41f01d9ecb3da8",
+            "frame_52_sha256": "495f2364b5c43d4529bee9689d8514c068e388a2f0669c1d7ae8db3ae69747d6",
+            "seed": 4503,
+            "step_104_exact_through_103": true,
+            "step_52_exact_through_51": true
+          }
+        ],
+        "feature_prefixes_exact": true,
+        "history_inputs_match_visible_transcript_suffixes": true,
+        "history_reconstruction": [
+          {
+            "accepted_transcript_frames_before": 0,
+            "global_history_start_frame": 0,
+            "input_hashes_match_visible_transcript_suffix": true,
+            "input_history_frames": 0,
+            "max_returned_prefix_error": 0.0,
+            "model_num_frames": 208,
+            "n_returned_prefixes_exact": 8,
+            "stable_hashes_match_archived_features": true,
+            "transcript_frames": 52,
+            "window": 0
+          },
+          {
+            "accepted_transcript_frames_before": 52,
+            "global_history_start_frame": 48,
+            "input_hashes_match_visible_transcript_suffix": true,
+            "input_history_frames": 4,
+            "max_returned_prefix_error": 3.3147425651550293,
+            "model_num_frames": 160,
+            "n_returned_prefixes_exact": 0,
+            "stable_hashes_match_archived_features": true,
+            "transcript_frames": 104,
+            "window": 1
+          },
+          {
+            "accepted_transcript_frames_before": 104,
+            "global_history_start_frame": 100,
+            "input_hashes_match_visible_transcript_suffix": true,
+            "input_history_frames": 4,
+            "max_returned_prefix_error": 1.4639613628387451,
+            "model_num_frames": 108,
+            "n_returned_prefixes_exact": 0,
+            "stable_hashes_match_archived_features": true,
+            "transcript_frames": 156,
+            "window": 2
+          },
+          {
+            "accepted_transcript_frames_before": 156,
+            "global_history_start_frame": 152,
+            "input_hashes_match_visible_transcript_suffix": true,
+            "input_history_frames": 4,
+            "max_returned_prefix_error": 1.6248319149017334,
+            "model_num_frames": 56,
+            "n_returned_prefixes_exact": 0,
+            "stable_hashes_match_archived_features": true,
+            "transcript_frames": 208,
+            "window": 3
+          }
+        ],
+        "latent_shapes": [
+          [
+            8,
+            13,
+            148
+          ],
+          [
+            8,
+            13,
+            148
+          ],
+          [
+            8,
+            13,
+            148
+          ],
+          [
+            8,
+            13,
+            148
+          ]
+        ],
+        "n_windows": 4,
+        "noise_fresh_across_windows": true,
+        "paired_noise": [
+          {
+            "all_four_arms_equal": true,
+            "seed": 4502,
+            "sha256": "b4c5df9dd01b4d59d173713bb803e2c7ee4b5f5af33d48f2e6311554b6ec8854",
+            "window": 0
+          },
+          {
+            "all_four_arms_equal": true,
+            "seed": 4502,
+            "sha256": "038a3e47ce3c9b740415c325e7c1dcbbdeb0b7d8be3ef74b0e3a122afafcf6b2",
+            "window": 1
+          },
+          {
+            "all_four_arms_equal": true,
+            "seed": 4502,
+            "sha256": "7a27032f60ab6c4f94d961dcc21c91220b458d812e8bc217056e9adfa0990c6b",
+            "window": 2
+          },
+          {
+            "all_four_arms_equal": true,
+            "seed": 4502,
+            "sha256": "d7407a5ca6f6e6d5bdfc2a228eac97bfb863502fc8df39de59d563408746874f",
+            "window": 3
+          },
+          {
+            "all_four_arms_equal": true,
+            "seed": 4503,
+            "sha256": "ea622b6677a99409b431c1339d369ab5889adc9a862d46b0101223533ef76cc6",
+            "window": 0
+          },
+          {
+            "all_four_arms_equal": true,
+            "seed": 4503,
+            "sha256": "8d4c62954d25b898d28df61ecba8d1a6aad4a96aa7174b45a151684e258d72b5",
+            "window": 1
+          },
+          {
+            "all_four_arms_equal": true,
+            "seed": 4503,
+            "sha256": "b5ef4efc1d22fb2c1955c1e191ac9b4f84fa82711909c50b464316a6071cdfa5",
+            "window": 2
+          },
+          {
+            "all_four_arms_equal": true,
+            "seed": 4503,
+            "sha256": "2be296f93a6414baaa1996f1d7d7d5f1796c4d7d22120893d3100ee128a91ffb",
+            "window": 3
+          }
+        ],
+        "stable_transcript_hashes_match_archived_features": true
+      },
+      "local_row_plan": [
+        {
+          "arm": "all_walk",
+          "global_row_index": 8,
+          "onset_frame": null,
+          "prompt_schedule": [
+            "A person walks forward.",
+            "A person walks forward.",
+            "A person walks forward.",
+            "A person walks forward."
+          ],
+          "row_index": 0,
+          "seed": 4502
+        },
+        {
+          "arm": "step_0",
+          "global_row_index": 9,
+          "onset_frame": 0,
+          "prompt_schedule": [
+            "A person steps over an obstacle.",
+            "A person steps over an obstacle.",
+            "A person steps over an obstacle.",
+            "A person steps over an obstacle."
+          ],
+          "row_index": 1,
+          "seed": 4502
+        },
+        {
+          "arm": "step_52",
+          "global_row_index": 10,
+          "onset_frame": 52,
+          "prompt_schedule": [
+            "A person walks forward.",
+            "A person steps over an obstacle.",
+            "A person steps over an obstacle.",
+            "A person steps over an obstacle."
+          ],
+          "row_index": 2,
+          "seed": 4502
+        },
+        {
+          "arm": "step_104",
+          "global_row_index": 11,
+          "onset_frame": 104,
+          "prompt_schedule": [
+            "A person walks forward.",
+            "A person walks forward.",
+            "A person steps over an obstacle.",
+            "A person steps over an obstacle."
+          ],
+          "row_index": 3,
+          "seed": 4502
+        },
+        {
+          "arm": "all_walk",
+          "global_row_index": 12,
+          "onset_frame": null,
+          "prompt_schedule": [
+            "A person walks forward.",
+            "A person walks forward.",
+            "A person walks forward.",
+            "A person walks forward."
+          ],
+          "row_index": 4,
+          "seed": 4503
+        },
+        {
+          "arm": "step_0",
+          "global_row_index": 13,
+          "onset_frame": 0,
+          "prompt_schedule": [
+            "A person steps over an obstacle.",
+            "A person steps over an obstacle.",
+            "A person steps over an obstacle.",
+            "A person steps over an obstacle."
+          ],
+          "row_index": 5,
+          "seed": 4503
+        },
+        {
+          "arm": "step_52",
+          "global_row_index": 14,
+          "onset_frame": 52,
+          "prompt_schedule": [
+            "A person walks forward.",
+            "A person steps over an obstacle.",
+            "A person steps over an obstacle.",
+            "A person steps over an obstacle."
+          ],
+          "row_index": 6,
+          "seed": 4503
+        },
+        {
+          "arm": "step_104",
+          "global_row_index": 15,
+          "onset_frame": 104,
+          "prompt_schedule": [
+            "A person walks forward.",
+            "A person walks forward.",
+            "A person steps over an obstacle.",
+            "A person steps over an obstacle."
+          ],
+          "row_index": 7,
+          "seed": 4503
+        }
+      ],
+      "post_chunk_identity_revalidation": {
+        "checkpoint_unchanged": true,
+        "git": {
+          "allowed_output_status": [
+            "?? outputs/exp023_prompt_handoff/"
+          ],
+          "commit_unchanged": true,
+          "tracked_diff_unchanged": true,
+          "unexpected_status": []
+        },
+        "physical_model_unchanged": true,
+        "prompt_cache_unchanged": true,
+        "runner_contract_unchanged": true,
+        "runtime_unchanged": true,
+        "sources_unchanged": true
+      },
+      "row_indices": [
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "seeds": [
+        4502,
+        4503
+      ],
+      "status": "complete",
+      "trajectories_returned": 8,
+      "window_calls_returned": 4
+    },
+    "chunk02_seeds4504_4505": {
+      "causal_pairing_audit": {
+        "corresponding_window_noise_equal": true,
+        "feature_forks": [
+          {
+            "frame_104_sha256": "846a803115c47656bd4eadf62698e6e914e1f85045f6bbb3355601e0fcd9baa9",
+            "frame_52_sha256": "cfee2ff2ba4ea9e8d6c39ca67f80f7352b42d26cac2b824f23ba852f9885639f",
+            "seed": 4504,
+            "step_104_exact_through_103": true,
+            "step_52_exact_through_51": true
+          },
+          {
+            "frame_104_sha256": "48e0a1f99e7e3a0e36d0e352ef757ddd802c7393b2343ec6faa7a826f792d09f",
+            "frame_52_sha256": "9d086ab178014c1fee5bb0c95cad9cc7a6734693ef1f99aaaab2cfad9a978d21",
+            "seed": 4505,
+            "step_104_exact_through_103": true,
+            "step_52_exact_through_51": true
+          }
+        ],
+        "feature_prefixes_exact": true,
+        "history_inputs_match_visible_transcript_suffixes": true,
+        "history_reconstruction": [
+          {
+            "accepted_transcript_frames_before": 0,
+            "global_history_start_frame": 0,
+            "input_hashes_match_visible_transcript_suffix": true,
+            "input_history_frames": 0,
+            "max_returned_prefix_error": 0.0,
+            "model_num_frames": 208,
+            "n_returned_prefixes_exact": 8,
+            "stable_hashes_match_archived_features": true,
+            "transcript_frames": 52,
+            "window": 0
+          },
+          {
+            "accepted_transcript_frames_before": 52,
+            "global_history_start_frame": 48,
+            "input_hashes_match_visible_transcript_suffix": true,
+            "input_history_frames": 4,
+            "max_returned_prefix_error": 1.2266520261764526,
+            "model_num_frames": 160,
+            "n_returned_prefixes_exact": 0,
+            "stable_hashes_match_archived_features": true,
+            "transcript_frames": 104,
+            "window": 1
+          },
+          {
+            "accepted_transcript_frames_before": 104,
+            "global_history_start_frame": 100,
+            "input_hashes_match_visible_transcript_suffix": true,
+            "input_history_frames": 4,
+            "max_returned_prefix_error": 3.1119742393493652,
+            "model_num_frames": 108,
+            "n_returned_prefixes_exact": 0,
+            "stable_hashes_match_archived_features": true,
+            "transcript_frames": 156,
+            "window": 2
+          },
+          {
+            "accepted_transcript_frames_before": 156,
+            "global_history_start_frame": 152,
+            "input_hashes_match_visible_transcript_suffix": true,
+            "input_history_frames": 4,
+            "max_returned_prefix_error": 1.6817231178283691,
+            "model_num_frames": 56,
+            "n_returned_prefixes_exact": 0,
+            "stable_hashes_match_archived_features": true,
+            "transcript_frames": 208,
+            "window": 3
+          }
+        ],
+        "latent_shapes": [
+          [
+            8,
+            13,
+            148
+          ],
+          [
+            8,
+            13,
+            148
+          ],
+          [
+            8,
+            13,
+            148
+          ],
+          [
+            8,
+            13,
+            148
+          ]
+        ],
+        "n_windows": 4,
+        "noise_fresh_across_windows": true,
+        "paired_noise": [
+          {
+            "all_four_arms_equal": true,
+            "seed": 4504,
+            "sha256": "14874eee665b6b512a5ae053132eab28fea4e84bcabac0b8c2e752d5de5d8f45",
+            "window": 0
+          },
+          {
+            "all_four_arms_equal": true,
+            "seed": 4504,
+            "sha256": "ccbe98fdb102a4ad761229fbef40bb234cd7ab720ae5b78589a4f042a5b5d8a6",
+            "window": 1
+          },
+          {
+            "all_four_arms_equal": true,
+            "seed": 4504,
+            "sha256": "5b6dbf944aeb49418bc854eac9dfb9e16127290b5182fe1b9cdf714e6212cef0",
+            "window": 2
+          },
+          {
+            "all_four_arms_equal": true,
+            "seed": 4504,
+            "sha256": "0cd8ae91e97dc7c7f9041cd04e1587f7da4bbccfaf2f996b005f51299c5fd746",
+            "window": 3
+          },
+          {
+            "all_four_arms_equal": true,
+            "seed": 4505,
+            "sha256": "ff3ff3dc5b10e289be91aef643009fe2a5f1f4098d5cc42bde6975b972b2660d",
+            "window": 0
+          },
+          {
+            "all_four_arms_equal": true,
+            "seed": 4505,
+            "sha256": "0ee5f55f96c116367a62277e70307c4c922dc59db8e276e9ab17441ee82dc0d0",
+            "window": 1
+          },
+          {
+            "all_four_arms_equal": true,
+            "seed": 4505,
+            "sha256": "7df1b0b4c41c5cdcba85ee9677264ad7959ad67396b0bde50c197f5fc8ac8998",
+            "window": 2
+          },
+          {
+            "all_four_arms_equal": true,
+            "seed": 4505,
+            "sha256": "4741598285824f6288c725b6c59b8aa1e6edca8d60b532dca9f347f5c59c440f",
+            "window": 3
+          }
+        ],
+        "stable_transcript_hashes_match_archived_features": true
+      },
+      "local_row_plan": [
+        {
+          "arm": "all_walk",
+          "global_row_index": 16,
+          "onset_frame": null,
+          "prompt_schedule": [
+            "A person walks forward.",
+            "A person walks forward.",
+            "A person walks forward.",
+            "A person walks forward."
+          ],
+          "row_index": 0,
+          "seed": 4504
+        },
+        {
+          "arm": "step_0",
+          "global_row_index": 17,
+          "onset_frame": 0,
+          "prompt_schedule": [
+            "A person steps over an obstacle.",
+            "A person steps over an obstacle.",
+            "A person steps over an obstacle.",
+            "A person steps over an obstacle."
+          ],
+          "row_index": 1,
+          "seed": 4504
+        },
+        {
+          "arm": "step_52",
+          "global_row_index": 18,
+          "onset_frame": 52,
+          "prompt_schedule": [
+            "A person walks forward.",
+            "A person steps over an obstacle.",
+            "A person steps over an obstacle.",
+            "A person steps over an obstacle."
+          ],
+          "row_index": 2,
+          "seed": 4504
+        },
+        {
+          "arm": "step_104",
+          "global_row_index": 19,
+          "onset_frame": 104,
+          "prompt_schedule": [
+            "A person walks forward.",
+            "A person walks forward.",
+            "A person steps over an obstacle.",
+            "A person steps over an obstacle."
+          ],
+          "row_index": 3,
+          "seed": 4504
+        },
+        {
+          "arm": "all_walk",
+          "global_row_index": 20,
+          "onset_frame": null,
+          "prompt_schedule": [
+            "A person walks forward.",
+            "A person walks forward.",
+            "A person walks forward.",
+            "A person walks forward."
+          ],
+          "row_index": 4,
+          "seed": 4505
+        },
+        {
+          "arm": "step_0",
+          "global_row_index": 21,
+          "onset_frame": 0,
+          "prompt_schedule": [
+            "A person steps over an obstacle.",
+            "A person steps over an obstacle.",
+            "A person steps over an obstacle.",
+            "A person steps over an obstacle."
+          ],
+          "row_index": 5,
+          "seed": 4505
+        },
+        {
+          "arm": "step_52",
+          "global_row_index": 22,
+          "onset_frame": 52,
+          "prompt_schedule": [
+            "A person walks forward.",
+            "A person steps over an obstacle.",
+            "A person steps over an obstacle.",
+            "A person steps over an obstacle."
+          ],
+          "row_index": 6,
+          "seed": 4505
+        },
+        {
+          "arm": "step_104",
+          "global_row_index": 23,
+          "onset_frame": 104,
+          "prompt_schedule": [
+            "A person walks forward.",
+            "A person walks forward.",
+            "A person steps over an obstacle.",
+            "A person steps over an obstacle."
+          ],
+          "row_index": 7,
+          "seed": 4505
+        }
+      ],
+      "post_chunk_identity_revalidation": {
+        "checkpoint_unchanged": true,
+        "git": {
+          "allowed_output_status": [
+            "?? outputs/exp023_prompt_handoff/"
+          ],
+          "commit_unchanged": true,
+          "tracked_diff_unchanged": true,
+          "unexpected_status": []
+        },
+        "physical_model_unchanged": true,
+        "prompt_cache_unchanged": true,
+        "runner_contract_unchanged": true,
+        "runtime_unchanged": true,
+        "sources_unchanged": true
+      },
+      "row_indices": [
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23
+      ],
+      "seeds": [
+        4504,
+        4505
+      ],
+      "status": "complete",
+      "trajectories_returned": 8,
+      "window_calls_returned": 4
+    },
+    "chunk03_seeds4506_4507": {
+      "causal_pairing_audit": {
+        "corresponding_window_noise_equal": true,
+        "feature_forks": [
+          {
+            "frame_104_sha256": "a7ac21e17f677c00b183a60c903491f681075e1b8218e9fc2cdba29b0067e306",
+            "frame_52_sha256": "f219a9fd49719b9d177463b151cc7096bf1dce8c21839477624c319ff4875622",
+            "seed": 4506,
+            "step_104_exact_through_103": true,
+            "step_52_exact_through_51": true
+          },
+          {
+            "frame_104_sha256": "54557b8d5080340bbe7c44d876a227df5961e8f833a0f84ab51beb63af403c42",
+            "frame_52_sha256": "6e69eccdf0066cd4656dad0698dff811a24f647f02e3b948dcab888500f726de",
+            "seed": 4507,
+            "step_104_exact_through_103": true,
+            "step_52_exact_through_51": true
+          }
+        ],
+        "feature_prefixes_exact": true,
+        "history_inputs_match_visible_transcript_suffixes": true,
+        "history_reconstruction": [
+          {
+            "accepted_transcript_frames_before": 0,
+            "global_history_start_frame": 0,
+            "input_hashes_match_visible_transcript_suffix": true,
+            "input_history_frames": 0,
+            "max_returned_prefix_error": 0.0,
+            "model_num_frames": 208,
+            "n_returned_prefixes_exact": 8,
+            "stable_hashes_match_archived_features": true,
+            "transcript_frames": 52,
+            "window": 0
+          },
+          {
+            "accepted_transcript_frames_before": 52,
+            "global_history_start_frame": 48,
+            "input_hashes_match_visible_transcript_suffix": true,
+            "input_history_frames": 4,
+            "max_returned_prefix_error": 1.8731598854064941,
+            "model_num_frames": 160,
+            "n_returned_prefixes_exact": 0,
+            "stable_hashes_match_archived_features": true,
+            "transcript_frames": 104,
+            "window": 1
+          },
+          {
+            "accepted_transcript_frames_before": 104,
+            "global_history_start_frame": 100,
+            "input_hashes_match_visible_transcript_suffix": true,
+            "input_history_frames": 4,
+            "max_returned_prefix_error": 0.783655047416687,
+            "model_num_frames": 108,
+            "n_returned_prefixes_exact": 0,
+            "stable_hashes_match_archived_features": true,
+            "transcript_frames": 156,
+            "window": 2
+          },
+          {
+            "accepted_transcript_frames_before": 156,
+            "global_history_start_frame": 152,
+            "input_hashes_match_visible_transcript_suffix": true,
+            "input_history_frames": 4,
+            "max_returned_prefix_error": 0.9339869618415833,
+            "model_num_frames": 56,
+            "n_returned_prefixes_exact": 0,
+            "stable_hashes_match_archived_features": true,
+            "transcript_frames": 208,
+            "window": 3
+          }
+        ],
+        "latent_shapes": [
+          [
+            8,
+            13,
+            148
+          ],
+          [
+            8,
+            13,
+            148
+          ],
+          [
+            8,
+            13,
+            148
+          ],
+          [
+            8,
+            13,
+            148
+          ]
+        ],
+        "n_windows": 4,
+        "noise_fresh_across_windows": true,
+        "paired_noise": [
+          {
+            "all_four_arms_equal": true,
+            "seed": 4506,
+            "sha256": "a8e317696eacce93c5e5929adc55e22b487782d417cbec72fff4c2fd9915c80e",
+            "window": 0
+          },
+          {
+            "all_four_arms_equal": true,
+            "seed": 4506,
+            "sha256": "997f6b76e41b2286a8703829ddc7b865be7c0c273e672f05e12333370998eff7",
+            "window": 1
+          },
+          {
+            "all_four_arms_equal": true,
+            "seed": 4506,
+            "sha256": "58309dd3880bbff1deac9317f51f3ea1606cd0d60679d50ebbbd88f526d8e0fa",
+            "window": 2
+          },
+          {
+            "all_four_arms_equal": true,
+            "seed": 4506,
+            "sha256": "28ade9b2bb9d4a179a7c7eddb72ec38619431268b866c73729c20b10bc04d73f",
+            "window": 3
+          },
+          {
+            "all_four_arms_equal": true,
+            "seed": 4507,
+            "sha256": "b4626bc91588d7a328b09f6d13e28f82a7bda593be8bcb2b1ebd3b3e31107725",
+            "window": 0
+          },
+          {
+            "all_four_arms_equal": true,
+            "seed": 4507,
+            "sha256": "47021ec8fef8008131d12d39924ddc8d5a01c73911ca047777f674e9ab1d30c2",
+            "window": 1
+          },
+          {
+            "all_four_arms_equal": true,
+            "seed": 4507,
+            "sha256": "ed15c8cb40ee211fa4fc242009348e3a279b40542e431f140c32b9cf8aff216e",
+            "window": 2
+          },
+          {
+            "all_four_arms_equal": true,
+            "seed": 4507,
+            "sha256": "a1e0cd058fc77e91c5a5afd49708ecfd3c4b6ac5376a866568c5523546a5d1ea",
+            "window": 3
+          }
+        ],
+        "stable_transcript_hashes_match_archived_features": true
+      },
+      "local_row_plan": [
+        {
+          "arm": "all_walk",
+          "global_row_index": 24,
+          "onset_frame": null,
+          "prompt_schedule": [
+            "A person walks forward.",
+            "A person walks forward.",
+            "A person walks forward.",
+            "A person walks forward."
+          ],
+          "row_index": 0,
+          "seed": 4506
+        },
+        {
+          "arm": "step_0",
+          "global_row_index": 25,
+          "onset_frame": 0,
+          "prompt_schedule": [
+            "A person steps over an obstacle.",
+            "A person steps over an obstacle.",
+            "A person steps over an obstacle.",
+            "A person steps over an obstacle."
+          ],
+          "row_index": 1,
+          "seed": 4506
+        },
+        {
+          "arm": "step_52",
+          "global_row_index": 26,
+          "onset_frame": 52,
+          "prompt_schedule": [
+            "A person walks forward.",
+            "A person steps over an obstacle.",
+            "A person steps over an obstacle.",
+            "A person steps over an obstacle."
+          ],
+          "row_index": 2,
+          "seed": 4506
+        },
+        {
+          "arm": "step_104",
+          "global_row_index": 27,
+          "onset_frame": 104,
+          "prompt_schedule": [
+            "A person walks forward.",
+            "A person walks forward.",
+            "A person steps over an obstacle.",
+            "A person steps over an obstacle."
+          ],
+          "row_index": 3,
+          "seed": 4506
+        },
+        {
+          "arm": "all_walk",
+          "global_row_index": 28,
+          "onset_frame": null,
+          "prompt_schedule": [
+            "A person walks forward.",
+            "A person walks forward.",
+            "A person walks forward.",
+            "A person walks forward."
+          ],
+          "row_index": 4,
+          "seed": 4507
+        },
+        {
+          "arm": "step_0",
+          "global_row_index": 29,
+          "onset_frame": 0,
+          "prompt_schedule": [
+            "A person steps over an obstacle.",
+            "A person steps over an obstacle.",
+            "A person steps over an obstacle.",
+            "A person steps over an obstacle."
+          ],
+          "row_index": 5,
+          "seed": 4507
+        },
+        {
+          "arm": "step_52",
+          "global_row_index": 30,
+          "onset_frame": 52,
+          "prompt_schedule": [
+            "A person walks forward.",
+            "A person steps over an obstacle.",
+            "A person steps over an obstacle.",
+            "A person steps over an obstacle."
+          ],
+          "row_index": 6,
+          "seed": 4507
+        },
+        {
+          "arm": "step_104",
+          "global_row_index": 31,
+          "onset_frame": 104,
+          "prompt_schedule": [
+            "A person walks forward.",
+            "A person walks forward.",
+            "A person steps over an obstacle.",
+            "A person steps over an obstacle."
+          ],
+          "row_index": 7,
+          "seed": 4507
+        }
+      ],
+      "post_chunk_identity_revalidation": {
+        "checkpoint_unchanged": true,
+        "git": {
+          "allowed_output_status": [
+            "?? outputs/exp023_prompt_handoff/"
+          ],
+          "commit_unchanged": true,
+          "tracked_diff_unchanged": true,
+          "unexpected_status": []
+        },
+        "physical_model_unchanged": true,
+        "prompt_cache_unchanged": true,
+        "runner_contract_unchanged": true,
+        "runtime_unchanged": true,
+        "sources_unchanged": true
+      },
+      "row_indices": [
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31
+      ],
+      "seeds": [
+        4506,
+        4507
+      ],
+      "status": "complete",
+      "trajectories_returned": 8,
+      "window_calls_returned": 4
+    }
+  },
+  "provenance": {
+    "code": {
+      "commit": "d8882254d2d3fc2bf2911c11103381dbf3434c11",
+      "dirty": false,
+      "status": [],
+      "tracked_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "generator": {
+      "checkpoint": {
+        "checkpoint_sha256": "0c16ac26c1ab75e511cd24bb25bd9ad92078a2460b4ce78529788b5da22647a2",
+        "denoiser_path": "/home/linjiw/.cache/huggingface/hub/models--nvidia--ARDY-G1-RP-25FPS-Horizon52/snapshots/059b8007df0ba194a006a877b59a563955ac7b70/denoiser.safetensors",
+        "generator_id": "nvidia/ARDY-G1-RP-25FPS-Horizon52@059b8007df0ba194a006a877b59a563955ac7b70",
+        "hf_hub_cache": "/home/linjiw/.cache/huggingface/hub",
+        "hf_revision": "059b8007df0ba194a006a877b59a563955ac7b70",
+        "model_name": "ARDY-G1-RP-25FPS-Horizon52",
+        "required_model_files": [
+          "config.yaml",
+          "denoiser.safetensors",
+          "stats/motion/mean.npy",
+          "stats/motion/std.npy",
+          "stats/post_quantization/mean.npy",
+          "stats/post_quantization/std.npy",
+          "stats/pre_quantization/mean.npy",
+          "stats/pre_quantization/std.npy",
+          "tokenizer.safetensors"
+        ],
+        "snapshot_file_count": 12,
+        "snapshot_file_sha256": {
+          ".gitattributes": "11ad7efa24975ee4b0c3c3a38ed18737f0658a5f75a0a96787b576a78a023361",
+          "LICENSE": "11ccdcb47db87ac30b63765b5e5154403026c4fbb52c19919d99d912ec454e19",
+          "README.md": "e82149308c3f797631250eef6a104ec17b1d531bb671a5db57d1f5640a088e3b",
+          "config.yaml": "d34bcd2a43e5bade030e2779bd11e0c3d8ce7eeea6b636e7504efe9a404ec757",
+          "denoiser.safetensors": "0c16ac26c1ab75e511cd24bb25bd9ad92078a2460b4ce78529788b5da22647a2",
+          "stats/motion/mean.npy": "b6d2c72548475e9c82a80899429c955840796a06a82c88e646e7a0125f997407",
+          "stats/motion/std.npy": "ee6069988035de4339b44fd229f169456d4bd86671fc4dbcfd293c4d41caa1a8",
+          "stats/post_quantization/mean.npy": "78d5bbd3d22ca1866770a370f0fb9da15663cbbc63a0b8851f124dae78a2f8c0",
+          "stats/post_quantization/std.npy": "289d21ca46aa8300cd213993a64efbd03d35440178de19b38cc8ee76d69499a1",
+          "stats/pre_quantization/mean.npy": "14bf165f6cf79276bc45ea24d6101f320b9007854b2ddb86babdd057af287a8c",
+          "stats/pre_quantization/std.npy": "413dbb9b736a41d033a5c0dbd0a632970b0e23737f39dd8eb0e859fe7a7e9556",
+          "tokenizer.safetensors": "6f2f75f738b8d6fb1b196d3253c7accc90494b9c12669b35968425fef54c8896"
+        },
+        "snapshot_manifest_sha256": "6f1ebebb7f3b28ac37bee66167a6eb8501c453640ec789dc1d61596dc96ddaf0",
+        "snapshot_path": "/home/linjiw/.cache/huggingface/hub/models--nvidia--ARDY-G1-RP-25FPS-Horizon52/snapshots/059b8007df0ba194a006a877b59a563955ac7b70",
+        "snapshot_path_derived_from_loaded_motion_stats": true
+      },
+      "generation_horizon_frames": 52,
+      "history_frames": 196,
+      "noise_stream_version": 2,
+      "runner_class": "ArdyRunner",
+      "runner_fps": 25.0,
+      "sampler": "ARDY deterministic DDIM, eta=0 (Scene2Motion runner contract)",
+      "text_cache": {
+        "path": "outputs/text_cache.npz",
+        "runner_memory_byte_matches_file": true,
+        "runner_memory_embedding_content_sha256": "24addf2aae79b99c52f71ebdf1d441b0142a1b98ba9224334c6129d435b13b5f",
+        "sha256": "330c6996bbf5edea426c3d69bc2d67025b1df0d4801a84cb30a672758052afec",
+        "walk_prompt": "A person walks forward.",
+        "walk_prompt_cache_key_sha1": "ee0c0e25966c51825e19aa4c9e48eb01dc8b7c46",
+        "walk_prompt_embedding_content_sha256": "24addf2aae79b99c52f71ebdf1d441b0142a1b98ba9224334c6129d435b13b5f",
+        "walk_prompt_embedding_dtype": "float32",
+        "walk_prompt_embedding_shape": [
+          1,
+          4096
+        ]
+      }
+    },
+    "physical_model": {
+      "fields": {
+        "path": "/home/linjiw/ardy/ardy/assets/skeletons/g1skel34/xml/g1.xml",
+        "role": "physical-foot-geometries-and-forward-kinematics",
+        "sha256": "5d76cf92f00dd49d6eb9fae38d7d38e46886848b602ac691051e886c3bcccfb1"
+      },
+      "schema": "ramp-exact-foot-kinematics-model-v1",
+      "sha256": "cdd42514a8edee69d535ba3e156a3c334e56b26606f882a351f3cced88ad3f51"
+    },
+    "post_generation_identity_revalidation": {
+      "checkpoint_unchanged": true,
+      "git": {
+        "allowed_output_status": [
+          "?? outputs/exp023_prompt_handoff/"
+        ],
+        "commit_unchanged": true,
+        "tracked_diff_unchanged": true,
+        "unexpected_status": []
+      },
+      "physical_model_unchanged": true,
+      "prompt_cache_unchanged": true,
+      "runner_contract_unchanged": true,
+      "runtime_unchanged": true,
+      "sources_unchanged": true
+    },
+    "protocol": {
+      "path": "docs/ramp-exp023-prompt-handoff-protocol.md",
+      "sha256": "c9368bb047f5b768b8a65f4426b5bd51ceadcf1d0f59c1fdfd6f030f672dbcda"
+    },
+    "runtime": {
+      "fields": {
+        "ardy_git_commit": "693f74d13b3d04a0a22ce127ee79c929dd89756b",
+        "ardy_package_root": "/home/linjiw/ardy/ardy",
+        "ardy_python_source_count": 54,
+        "ardy_python_source_manifest_sha256": "f79d8b330d37c3fa94615aedb264f20bb780421fb5d260dec119ab23357ac5b2",
+        "ardy_python_source_sha256": {
+          "__init__.py": "1c84133148843972777013a5d33c83a957936c11219301a34e10bd6273c46bbb",
+          "assets.py": "df261ed2d6021c389ea6578c2f377ac7984806b7fa5f5fcf43be9df1d22bee39",
+          "constraints.py": "57d0b1418cfe689b9c69c41120d9ef2d6a65a59f3bf8ffc21d7fec06380ed7ef",
+          "data_processing/__init__.py": "39b67a3543de12fbe919327958818a53222b223688ef8ece33a12bc1e46d1f14",
+          "data_processing/bvh.py": "7504e4811bd9526edfcff5e23e9ab6835ea8ae1051951e83945878f9ecad54e4",
+          "data_processing/skeleton.py": "e39ba723fa77efb3e1d95197432a53f840c5866d6160d3f5563ea045cfce5447",
+          "exports/__init__.py": "018bcb15b4efed6e6c7a6471c3c70d7fb257ec2071b3875af732598b4e63c747",
+          "exports/mujoco.py": "3d3d16b80c24e6a68f329504edd72b400f2df998ca7bdfddbf548674a9e79fa5",
+          "geometry.py": "4d5a5d8c71e3cd9f3f10fc837698652a78fad621cdd25b1d4b0e8515153f20d9",
+          "model/__init__.py": "984d21defa5001d276aba8c0bffff649a9ec117f5cdd9ca2d199718d2a5b0684",
+          "model/ardy_model.py": "3fc21ad6a53a41ad4f968f18e2d7f27d8212bf123544503cf21151bfd783b338",
+          "model/auto_latent_twostage_denoiser.py": "7a5b49c90f46c9507f2175b9180de5bdd9c114743abbbe2771efc21066f25b00",
+          "model/autoencoder/__init__.py": "83379d29bca875b122df43be9f30d0210a8ade9a32c0f8b830ca2d19737376cc",
+          "model/autoencoder/fsq.py": "f46306ba9610d57cfaf1d134ef96e9b17a48acf5b61d5d2342077aa06b6828f6",
+          "model/autoencoder/transformer.py": "245a9041f67a26c38d307d55568427773a0e3da477cd0b827b0dae0b42e00407",
+          "model/backbone.py": "16b55c5330a9cd46d6aff496222a479ee251a52bff401a7b568f29255bba3346",
+          "model/cfg.py": "d47c213f63d159d38b8df07a39a19c2bf8944474984a0086eda73916be2a8964",
+          "model/diffusion.py": "783122d3d2782043e956f106ac420d601fcfb653ae4d60e0937f9b41b9887d70",
+          "model/latent_utils.py": "bbf6bf81bfbc96d6fcc225e99c2675bf5769a8d32a2840e6d9e4b6e444688bac",
+          "model/llm2vec/__init__.py": "217714cb3a5cf5b3733feaec6e87d83a4191cd65eda6abecc2da827c5ce066ad",
+          "model/llm2vec/llm2vec.py": "e3f78a9e931b2b4fea29b625b9570d1c45f71941c4104706b46ba0edc5b63436",
+          "model/llm2vec/llm2vec_wrapper.py": "2d80c51d6d44048ec83d457bdf138b783bbe4342b52204b606790f41a367460e",
+          "model/llm2vec/models/__init__.py": "c47228e98e752ddaf3ad5b71967820fc276723a5518f2df0c06b45914f0d1961",
+          "model/llm2vec/models/attn_mask_utils.py": "ebac1133236a4d9cd56747d23c9c0355b3b9d0652910f6b60b01d773721aee98",
+          "model/llm2vec/models/bidirectional_llama.py": "5d446109170e3aed437c5039661e6c23b3455ea5b3df866ece5b84bbd6fcfdca",
+          "model/llm2vec/models/utils.py": "2a361b55e067ae450152920dcb5b5f9e4694ac91ac1a0aa325799bcb5ee37153",
+          "model/load_model.py": "3249c864d11f977056c191408a5b6e0670ac2ba4cfbff0acaac76b60e3e68554",
+          "model/loading.py": "1857e14ed49423ca9f310ec6b428d25f10af7dbbd4897696fabc0923f6d177bc",
+          "model/registry.py": "1a6a6552a7b47e881b94a99659092d966152cf8024736b26d316040621e03968",
+          "model/text_encoder_api.py": "2d9e4652ef85bd49a86abcad7c1c29cae871fd6d5730c286e145f49a94ff3f91",
+          "model/trt.py": "44021ff563d758d123ba90bf3965ce26c68d85ca057ce477ea9ce899d97ba15f",
+          "motion_rep/__init__.py": "917ca1876a39df876484e2402c0dabe81ad79dc147e4f1b5be4e9cd865fbf933",
+          "motion_rep/conditioning.py": "cab545e3325065f4fe5a48a6b2dab807e37ebd22f6fc69e08930f98d542f1944",
+          "motion_rep/feet.py": "a89a5b57cb7e505dd2ed35e2dbef9a326bd8831d922be8087f5ce6c2fc92fdb6",
+          "motion_rep/reps/__init__.py": "2ec6e639d6690b5c41ef62f05dfd51f07a840f0a051026383cb0e321bba00bb8",
+          "motion_rep/reps/ardy_motionrep.py": "83231aac1b2e77b34e3dcd3d71f97b92f5b73537d1d2ca8915b53128aa3b5980",
+          "motion_rep/reps/base.py": "4c27eab1964402a2dba6d960a2fe0eab92ab9520d754e8b6c3ec045cdd1b52ab",
+          "motion_rep/smooth_root.py": "5776896446788655365f083b78ce715ab8853912b52e46374c4952e3751db711",
+          "motion_rep/stats.py": "61e64fc70d54cc48e0ebe9cc80bbb932424f9ea8137e133a8495ea14b9b3340e",
+          "motion_rep/tools.py": "58c7724e36853731b0767ef52f5349f3dd641a25fe23f72bbde93beb28351ff6",
+          "postprocess.py": "646a495330548dbaca4911bf02fef33bec8b09e90da939161fc4258a7db843d4",
+          "skeleton/__init__.py": "953be64bba3df61b6aee0e25032e5f0b5c969170dfefa68b7fccb6bc223361fb",
+          "skeleton/base.py": "cff3089f3ac38a8f1f8cbf88d6d087a08bba3b289ac42762ae03a44ecd109e4e",
+          "skeleton/bvh.py": "2aeea04251713ab2757fdf1bcd978189707ba7f60c78ddb833c7000e36984bd8",
+          "skeleton/definitions.py": "790ecd42819c3bc35e61631925671c5b8d757c1932045ab55bffb713db91033a",
+          "skeleton/kinematics.py": "7113ae39074b98e96f8d53310a1706c8c2e66ead8c5b1f3a8b83a0fbccb39aa7",
+          "skeleton/registry.py": "d0a13e96c5b2e12b63933275905e3dfc523af4507bd68d03bf1fd794078ef4bc",
+          "skeleton/transforms.py": "b845b90bc1f6ac350cf7325d0bcd08e54f2ce4d255171c20ef3e5d0c32946969",
+          "tools.py": "2b0f462a2be34a6e8d0adabdc663a9530c741ef052fae834daed4cdb90507983",
+          "viz/__init__.py": "a43983b5b9c8d31ab92420124d5e507bf78bcbda8b752e4d07224ae42fc6df2a",
+          "viz/core_skin.py": "670dc6be751b66a6e32b85f42d317078c61fcf32859ea2e401a44d9400e639c4",
+          "viz/g1_rig.py": "2fbc523d0dfb9d0ed8ad09144b82ca31d8497530b7223c21f0101ceb4a76d7d7",
+          "viz/soma_skin.py": "709b6057d68b15176c92af136f4152fdebff575401e56ebd80843dc9f33e9ff4",
+          "viz/viser_utils.py": "65c4c6930f3ec9480ce581b23fbba4e518715e223f9a99d6a999a1ada55f8098"
+        },
+        "ardy_tracked_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "ardy_tracked_status": [],
+        "mujoco_version": "3.12.0",
+        "numpy_version": "1.26.4",
+        "python": "3.11.16 | packaged by conda-forge | (main, Aug 21 2026, 22:44:51) [GCC 14.4.0]",
+        "torch_cuda_version": "12.8",
+        "torch_cudnn_version": 91900,
+        "torch_version": "2.11.0+cu128"
+      },
+      "schema": "ramp-ardy-runtime-identity-v1",
+      "sha256": "aa653c1010f770ec66e471ea525abcd0a95b4a92cbab14a798dececcb28caaca"
+    },
+    "source_sha256": {
+      "docs/ramp-exp023-prompt-handoff-protocol.md": "c9368bb047f5b768b8a65f4426b5bd51ceadcf1d0f59c1fdfd6f030f672dbcda",
+      "experiments/calibrate_ramp_route_phase.py": "ccbf5a13a78578c31579121650ab9378468c5b73e8c61c758a7c9cc9b503c26a",
+      "experiments/exp017_ramp_residual_stepover.py": "6d907bc573d627e348f117959750c64144965f7ebfe1dde3ed2a6c0a5bc22085",
+      "experiments/exp023_prompt_handoff.py": "b9ec62d1545e26f226db6af980573211cd08bdff2256ed7a27cddd343d6dcb55",
+      "scene2motion/constraints.py": "6dca56cf5ff98869a5bacee024dcaebb0b9e4a451a170834a96c407725d120a2",
+      "scene2motion/robot.py": "c12b59a999969dd910e0aaef25322695d247bd392899394dd5d35cfc1252fc82",
+      "scene2motion/runner.py": "f90db09c01b4190197353924dae1d5cd395560dc2f15a8de149f17ecd15c1905",
+      "scene2motion/stepover_eval.py": "f0e344def2133f3a45935bb1b7ffad8fb2591145557e6b136d50871827cf77b4"
+    },
+    "walk_step_prompt_cache": {
+      "fields": {
+        "file_sha256": "330c6996bbf5edea426c3d69bc2d67025b1df0d4801a84cb30a672758052afec",
+        "path": "outputs/text_cache.npz",
+        "prompts": {
+          "A person steps over an obstacle.": {
+            "cache_key_sha1": "ced85ba84b941ab67c5945dcad9a82860eddd7b2",
+            "content_sha256": "b378a64e9e5c8d7bae0278dbd6b7604d666b7006d263f21930c211a196241e39",
+            "dtype": "float32",
+            "shape": [
+              1,
+              4096
+            ]
+          },
+          "A person walks forward.": {
+            "cache_key_sha1": "ee0c0e25966c51825e19aa4c9e48eb01dc8b7c46",
+            "content_sha256": "24addf2aae79b99c52f71ebdf1d441b0142a1b98ba9224334c6129d435b13b5f",
+            "dtype": "float32",
+            "shape": [
+              1,
+              4096
+            ]
+          }
+        }
+      },
+      "schema": "exp023-walk-step-prompt-cache-v1",
+      "sha256": "73ff46f5370f418b47816b41070a095084b52d88e41e0a5502c515108013cc39"
+    }
+  },
+  "query_accounting": {
+    "autoregressive_window_calls_completed": 16,
+    "autoregressive_window_calls_planned": 16,
+    "schedule_invocations_completed": 4,
+    "schedule_invocations_planned": 4,
+    "schedule_invocations_started": 4,
+    "trajectories_analyzed": 5,
+    "trajectories_converted_to_qpos": 32,
+    "trajectories_launched": 32,
+    "trajectories_planned": 32,
+    "trajectories_returned": 32
+  },
+  "sample_count_exact": true,
+  "schema": "exp023-prompt-handoff-v1",
+  "seeds_spent_and_must_not_be_reused": true,
+  "spent_seeds": [
+    4500,
+    4501,
+    4502,
+    4503,
+    4504,
+    4505,
+    4506,
+    4507
+  ],
+  "stage": "analysis",
+  "status": "running",
+  "unlaunched_locked_seeds": [],
+  "wall_clock_s": 60.43396411699359
+}

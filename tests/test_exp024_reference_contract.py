@@ -931,3 +931,35 @@ def test_score_resume_refuses_a_non_resumable_block(tmp_path):
     with pytest.raises(exp.CampaignAbort, match="blocked"):
         exp.run_score(**score_kwargs(output), resume_blocked=True)
     assert not (output / "receipt.blocked-score-0.json").exists()
+
+
+def test_score_resume_tolerates_a_driver_only_source_change_but_not_others(tmp_path):
+    output = tmp_path / "driver_change"
+    exp.run_generate(**generate_kwargs(output))
+    exp.run_score(**score_kwargs(output))
+    pinned = dict(fake_source_hashes(exp.ROOT))
+    ledger = exp.Ledger.load(output)
+    ledger.fail("score", ValueError("EXP-024 source content changed since generation"),
+                "score_preflight")
+
+    def driver_only(_root):
+        hashes = dict(pinned); hashes[exp.DRIVER_SOURCE] = "f" * 64; return hashes
+
+    def other_file(_root):
+        hashes = dict(pinned); hashes["scene2motion/stepover_eval.py"] = "e" * 64; return hashes
+
+    kwargs = score_kwargs(output)
+    kwargs["source_hashes_fn"] = other_file
+    with pytest.raises(exp.CampaignAbort, match="source content changed"):
+        exp.run_score(**kwargs, resume_blocked=True)
+    # That refusal re-blocked the ledger with the same resumable error; resume once more with
+    # only the driver changed.
+    kwargs["source_hashes_fn"] = driver_only
+    resumed = exp.run_score(**kwargs, resume_blocked=True)
+    check = resumed["stages"]["score"]["provenance_check"]
+    assert check["sources_unchanged"] is False and check["changed_sources"] == [exp.DRIVER_SOURCE]
+    assert check["driver_changed_on_resume"]["current_sha256"] == "f" * 64
+    assert resumed["stages"]["score"]["resume_rescoring_verification"]["identical"] is True
+    assert len(resumed["resume_history"]) == 2
+    # Later stages of a resumed campaign tolerate the same driver-only change.
+    assert exp.run_predict(out=output)["predictions"]["n"] == exp.N_ROWS

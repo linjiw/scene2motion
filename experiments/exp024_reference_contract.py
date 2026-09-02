@@ -184,7 +184,14 @@ STAGES = ("generate", "score", "predict", "sonic", "analyze")
 # A blocked *score* stage may be resumed only when the recorded error is one of these
 # environment/harness refusals, which involve no clip, seed or scoring data (house rule: finish a
 # campaign killed during analysis by re-scoring byte-identical archives, never by regenerating).
-RESUMABLE_SCORE_DEFECTS = ("worktree changed outside the campaign output",)
+RESUMABLE_SCORE_DEFECTS = (
+    "worktree changed outside the campaign output",
+    # The resume path itself changes this driver file, which is hash-bound; on a resume the
+    # provenance check tolerates a change to *this file only* and records both hashes, while
+    # every scoring source must stay byte-identical and eight rows must re-score identically.
+    "EXP-024 source content changed since generation",
+)
+DRIVER_SOURCE = "experiments/exp024_reference_contract.py"
 SOURCE_FILES = (
     PROTOCOL_PATH,
     "env.sh",
@@ -1416,18 +1423,30 @@ def _validate_generation_archive(ledger: Ledger) -> dict[str, np.ndarray]:
 
 
 def _stage_provenance_check(ledger: Ledger, *, code_state_fn, source_hashes_fn,
-                            runtime_identity_fn, physical_identity_fn) -> dict[str, Any]:
+                            runtime_identity_fn, physical_identity_fn,
+                            resuming: bool = False) -> dict[str, Any]:
     provenance = ledger.receipt.get("provenance", {})
     current_code = dict(code_state_fn(ROOT))
     git = _verify_stage_git_state(provenance.get("code", {}), current_code,
                                   repo=ROOT, output=ledger.output)
-    if dict(source_hashes_fn(ROOT)) != provenance.get("source_sha256"):
-        raise ValueError("EXP-024 source content changed since generation")
+    current_sources = dict(source_hashes_fn(ROOT))
+    pinned_sources = dict(provenance.get("source_sha256") or {})
+    changed = sorted(name for name in set(current_sources) | set(pinned_sources)
+                     if current_sources.get(name) != pinned_sources.get(name))
+    driver_change: dict[str, Any] | None = None
+    if changed:
+        if resuming and changed == [DRIVER_SOURCE]:
+            driver_change = {"path": DRIVER_SOURCE, "pinned_sha256": pinned_sources.get(DRIVER_SOURCE),
+                             "current_sha256": current_sources.get(DRIVER_SOURCE),
+                             "note": "driver changed by the resume path; scoring sources identical"}
+        else:
+            raise ValueError("EXP-024 source content changed since generation")
     if dict(runtime_identity_fn()) != provenance.get("runtime"):
         raise ValueError("EXP-024 numerical runtime identity changed since generation")
     if dict(physical_identity_fn()) != provenance.get("physical_model"):
         raise ValueError("EXP-024 physical model identity changed since generation")
-    return {"git": git, "sources_unchanged": True, "runtime_unchanged": True,
+    return {"git": git, "sources_unchanged": not changed, "changed_sources": changed,
+            "driver_changed_on_resume": driver_change, "runtime_unchanged": True,
             "physical_model_unchanged": True, "current_code": current_code}
 
 
@@ -1828,7 +1847,8 @@ def run_score(
         clips = _validate_generation_archive(ledger)
         check = _stage_provenance_check(
             ledger, code_state_fn=code_state_fn, source_hashes_fn=source_hashes_fn,
-            runtime_identity_fn=runtime_identity_fn, physical_identity_fn=physical_identity_fn)
+            runtime_identity_fn=runtime_identity_fn, physical_identity_fn=physical_identity_fn,
+            resuming=resume_entry is not None)
         thresholds, dependency = threshold_dependency_fn()
         pinned = ledger.receipt["provenance"].get("physical_threshold_dependency", {})
         if dict(dependency).get("sha256") != pinned.get("sha256"):
@@ -1896,7 +1916,8 @@ def run_score(
             "post_score_provenance_check": _stage_provenance_check(
                 ledger, code_state_fn=code_state_fn, source_hashes_fn=source_hashes_fn,
                 runtime_identity_fn=runtime_identity_fn,
-                physical_identity_fn=physical_identity_fn),
+                physical_identity_fn=physical_identity_fn,
+                resuming=resume_entry is not None),
         })
         ledger.receipt["stage"] = "scored"
         ledger.persist(stage_label="scored")
@@ -2128,7 +2149,8 @@ def run_sonic(
             "asserted": bool(require_committed_predictions), **committed}
         check = _stage_provenance_check(
             ledger, code_state_fn=code_state_fn, source_hashes_fn=source_hashes_fn,
-            runtime_identity_fn=runtime_identity_fn, physical_identity_fn=physical_identity_fn)
+            runtime_identity_fn=runtime_identity_fn, physical_identity_fn=physical_identity_fn,
+            resuming=bool(ledger.receipt.get("resume_history")))
         tracker = dict(tracker_identity_fn())
         plan = locked_row_plan()
         launches = launch_plan(plan)
@@ -2182,8 +2204,8 @@ def run_sonic(
                 "tracker_identity_unchanged": True,
                 "project": _stage_provenance_check(
                     ledger, code_state_fn=code_state_fn, source_hashes_fn=source_hashes_fn,
-                    runtime_identity_fn=runtime_identity_fn,
-                    physical_identity_fn=physical_identity_fn)["git"],
+                    runtime_identity_fn=runtime_identity_fn, physical_identity_fn=physical_identity_fn,
+                    resuming=bool(ledger.receipt.get("resume_history")))["git"],
             }
             achieved_rows = achieved_rows_for(
                 rollouts, plan, launch_by_key, schema_by_key, dt_by_key, rows_by_key,
@@ -2245,7 +2267,8 @@ def run_analyze(
             raise ValueError("achieved_rows.jsonl does not match its evidence anchor")
         check = _stage_provenance_check(
             ledger, code_state_fn=code_state_fn, source_hashes_fn=source_hashes_fn,
-            runtime_identity_fn=runtime_identity_fn, physical_identity_fn=physical_identity_fn)
+            runtime_identity_fn=runtime_identity_fn, physical_identity_fn=physical_identity_fn,
+            resuming=bool(ledger.receipt.get("resume_history")))
         constructibility = arm_constructibility(ledger.rows)
         if constructibility != ledger.stage("score").get("constructibility"):
             raise ValueError("constructibility recomputed from rows differs from the score stage")

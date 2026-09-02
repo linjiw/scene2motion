@@ -1,5 +1,12 @@
 # Scene2Motion-RAMP
 
+> **Stale front door (banner added 2026-09-01).** The method described below (coherent
+> phase-aligned packets, response-conditioned repair) failed closed on 2026-09-01, and the
+> staged-selection and delayed-prompt successors failed after it (EXP-022A, EXP-023). Read
+> `CLAUDE.md` first, then the plan of record `docs/plan-2026-09-01-icra2027.md`; the current
+> ledger is `docs/REPORT.md` §35–39 and `docs/ramp-exp02*.md`. Everything below is retained as
+> history and as the description of the legacy infrastructure.
+
 **Response-Adaptive Motion Programs for Frozen Humanoid Priors.** Scene2Motion converts a
 frozen motion prior into a scene-conditioned whole-body traversal module by placing coherent,
 phase-aligned adaptation programs on a route and, in the next method stage, repairing those

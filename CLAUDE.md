@@ -47,12 +47,51 @@ retention is 0 at every height, 53/64 rollouts terminated, and even dropping the
 guard recovers no trajectory that both passes and clears. Raw achieved `exact_clears` is vacuous
 for nonarrivals and must never be quoted as execution clearance. See
 `docs/ramp-exp022-exact-tracking-result-2026-09-01.md`. EXP-023 then closed the last native-interface
-hole (above). Both decisive tests are done; the remaining work is paper writing with the scoped
-claims in `docs/plan-2026-09-01-icra2027.md`. Do not run
+hole (above). Both decisive tests are done; the revised plan of record
+(`docs/plan-2026-09-01-icra2027.md`, evening revision) reframes the paper as a measurement paper
+(addressability audit + calibrated reference-quality gate + tiered dataset) and orders the
+remaining campaigns by information per engineer-hour with a Sep 6 GO/NO-GO: EXP-023b (WALK→SQUEEZE
+prompt-switch positive control, must), EXP-028 (termination-free SONIC rollouts + physics-seed
+re-roll, must), EXP-024 (reference-contract ablation and prospective 0.2 s-gate test, must),
+EXP-024b (physical-jump tracking control, should), EXP-025 (Kimodo cross-prior; no encoder needed —
+copy ARDY's cached STEP embedding), EXP-027 (prompt battery; needs the CPU encoder), EXP-026
+(duck-family contract, CPU). Draft protocols are under `docs/ramp-exp02*-protocol.md`; every
+SONIC protocol carries a host-resource gate (≥ 12 GB free VRAM, ≥ 18 GB available RAM) and dumps
+the resolved termination config. Seeds reserved: 4600–4631 (EXP-024), 4640–4647 (EXP-023b),
+4700–4763 (EXP-025), 4800–4927 (EXP-027). Do not run
 `experiments/exp016_semantic_geometric_stepover.py` unchanged: it is an older donor/scaffold
 factorial and lacks the current fail-closed/resume safeguards. If a campaign is killed during
 analysis, finish it with a resume script that re-scores the archives through byte-identical
 sources (pattern: `experiments/exp023_prompt_handoff_resume_analysis.py`), never by regenerating.
+
+**Why the tracker's evaluator rejects the elicited step (post hoc, CPU, 2026-09-01/02;
+`experiments/analyze_trackability_contract.py` → `outputs/analysis_trackability_contract/`).** The
+STEP prompt makes this prior lift the leading foot inside a **bilateral no-support phase that is
+not ballistic** — a *float*, not a supported step and **not a hop** (SONIC tracks real jumps; its
+README lists jumping and the checkout ships a one-leg-jump reference). In the 12 clips that exactly
+clear the staged 5 cm box both feet leave the calibrated support envelope for 0.44–1.04 s (nine)
+or 2.4–3.1 s (three) while the pelvis rises 0.02–0.26 m inside the run (ballistic ratio 1.3–15.6);
+root peak 0.97 m mean vs 0.78 m in free-root WALK on the same route (exp023 `all_walk`). The
+longest no-support run separates evaluator-terminated from surviving rollouts with AUC 0.997
+(bootstrap CI 0.987–1.00; LOO logistic over 18 features 0.976); the **calibrated 0.2 s gate**
+(exp016 receipt, frozen before exp021) flags 53/53 terminated (sensitivity 1.00, CI 0.93–1.00)
+and passes 8/11 survivors (specificity 0.73, CI 0.43–0.90); the post hoc optimum ≥ 8 frames
+(0.32 s) gives 51/53 and 11/11 and is reported as a sweep, never as the gate. It is not "did it
+lift": lift height alone gives 0.92 and the run feature still separates the 20 non-lifting STEP
+clips (10 terminated; AUC 0.98). 0/44 lifting clips pass the gate; the 8 that pass all survived.
+**"Terminated" is an evaluator cutoff, not a fall:** SONIC's `tracking/eval` override ends the
+episode on pelvis height error > 0.25 m, orientation > 1.0 rad, ankle/wrist height error > 0.25 m
+or ankle position error > 0.2 m (firing term not logged); termination lands within 0.2 s of the
+reference's first ≥ 0.2 s no-support onset in 47/53 (median +0.04 s; 11/12 clearing clips), and at
+the last archived sample every terminated robot is upright (pelvis 0.56–0.95 m, 0/53 below 0.5 m)
+while the reference's higher foot is a median 0.40 m in the air. Transfer: exp1c lift arms (144
+clips, 9 survivors) AUC 0.92; cross-family logistic 0.92/0.90. The exp1c **control** arms are the
+gate's calibration corpus (tracker-successful selection; 59/144 advanced < 1 m) and carry no
+predictive claim. Scope: physics seed 0, one rollout per clip, achieved-state replay, one scene;
+label it post hoc — **EXP-024 is its prospective test and EXP-028 (terminations disabled) gives
+the physical outcome class.** The exp023 `step_0` fresh-seed events show the same runs
+(0.16–1.76 s) but were not tracked. Tracked v2 step-family references: 352 (64 + 288), not 416;
+v2 generations: 5,393 (5,361 + EXP-023's 32).
 
 **Dead lines — do not propose again as the next native-interface experiment:** coherent packets /
 RepairNet / local response optimizer / re-anchoring through the unread rotation packet; route
@@ -188,6 +227,8 @@ exp019's eight selected seeds; Phase-4 demo/corpus seeds 100–107 and 5000–52
 | REPORT §4.9, design §36 | arm C "asked for a foot 0.35 m higher" | request was 0.20 m |
 | REPORT, paper-v0/v1 | "~34,000 generations" | unsourced; ≈37k receipt-reconstructible, 5,361 under v2 |
 | exp021 doc | "best target 1.2 m" | tie across 1.05–1.25 m; chosen post hoc on the same clips |
+| first evening plan / CLAUDE.md revision | "the elicited step is a hop"; "terminates at take-off in every clearing clip" | non-ballistic float (ballistic ratio 1.3–15.6); termination within 0.2 s of the first no-support onset in 11/12 clearing clips, before it in 10/53 overall; every terminated robot upright |
+| first evening plan | "416 tracked references"; "5,361 v2 generations" | 352 tracked step-family references (64 + 288; exp023's 32 untracked); 5,393 v2 generations incl. EXP-023 |
 
 ## Stale documents (banner or rewrite before anyone reads them as current)
 

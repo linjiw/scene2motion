@@ -1804,3 +1804,41 @@ is now downloaded** (`sonic_v1_1/last.pt`, 1.14 GB, sha `af24831a…`, with its 
 `model_config.yaml`; same `terrain_type: trimesh`, `episode_length_s: 10.0`) so that a
 controller-generality arm can re-run the same references under a second released controller and
 answer whether the zero is checkpoint-specific. That arm has not been run.
+
+## 46. EXP-026: the reference screen ranks duck-family cutoffs too, weakly, and speed does not
+
+Preregistered (`docs/ramp-exp026-duck-contract-protocol.md`, `f52ba5c`, amended `8291721` before
+any feature existed), run on CPU in 17 s over the 526 committed EXP-1B duck references (first
+rollout per clip, 344 terminated, 36 scenes) with the identical feature code the step family
+used; result note `docs/ramp-exp026-duck-contract-result-2026-09-03.md`,
+ledger `outputs/analysis_duck_contract/`.
+
+Pooled AUC with a cluster bootstrap over scenes: **contact (longest no-support run) 0.674
+(0.625–0.721)**, crouch depth 0.707 (0.632–0.770), **speed 0.441 (0.328–0.552)**. Within scene,
+where route length and beam geometry are constant (13 of 36 scenes evaluable, 1,144 pairs):
+contact **0.694**, speed 0.601, crouch 0.565. The plan's decision rule — transfer only if the
+contact AUC exceeds the speed AUC — is satisfied on both measures: contact − speed is +0.233
+(CI 0.120–0.362) pooled and +0.092 (CI −0.018–0.210) within scene, so the ordering is established
+pooled and only suggested once the confound is removed. Contact is the only primary above 0.5 in
+**all seven** preregistered strata (three dip bins 0.578–0.693, four beam counts 0.663–0.707).
+
+**The confound the plan named in advance is refuted.** Speed does not predict duck cutoffs: its
+interval spans chance, it is at or below 0.5 in five of seven strata, and survivors are *faster*
+than terminated references (median max root planar speed 1.87 vs 1.75 m/s). The 14 s clip cap
+made every reference fast; it did not decide which were cut off. Crouch depth, the best pooled
+predictor, is largely a between-scene effect: 0.707 pooled falls to 0.565 within scene and to
+0.45–0.62 inside two of three dip bins. The three primaries are near-independent (contact vs
+speed **−0.18**), so the contact feature is not a repackaged speed.
+
+**What it does not license.** The transfer is directional and much weaker than the step family's
+0.997, and the screen is not usable as a duck accept/reject rule at its calibrated threshold:
+sensitivity 0.910 (0.875–0.936) but specificity 0.297 (0.235–0.367), and **441 of 526 duck
+references (84 %) have a no-support run longer than 0.20 s** — the crouch pipeline produces
+floats too, and every one of the 526 references has some no-support run. Nothing here says a
+passing duck reference is trackable; EXP-1B's endpoint was 0/859 traversals. Post hoc on a
+completed campaign, one physics seed, one rollout per clip, schema-v1 archives, one tracker.
+
+The screen's cross-family evidence is now two actuation channels within the step family plus one
+different behaviour family, which is what lets the paper call it a property of this controller's
+evaluator applied to references rather than an artefact of stepping.
+

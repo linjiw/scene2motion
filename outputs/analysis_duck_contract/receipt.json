@@ -1,0 +1,1477 @@
+{
+  "design": {
+    "boot_seed": 20260903,
+    "dip_bins": [
+      [
+        0.25,
+        0.35
+      ],
+      [
+        0.35,
+        0.45
+      ],
+      [
+        0.45,
+        0.5001
+      ]
+    ],
+    "direction": "higher value predicts a cutoff; the AUC is never flipped",
+    "groups": {
+      "contact": {
+        "also_reported": [
+          "bilateral_flight_frac",
+          "mean_support_feet"
+        ],
+        "primary": "max_unsupported_run_s"
+      },
+      "crouch": {
+        "also_reported": [
+          "ref_min_overhead_m",
+          "root_z_min"
+        ],
+        "primary": "peak_dip_m"
+      },
+      "speed": {
+        "also_reported": [
+          "mean_root_planar_speed"
+        ],
+        "primary": "max_root_planar_speed"
+      }
+    },
+    "min_per_outcome": 5,
+    "min_stratum_n": 20,
+    "n_boot": 2000,
+    "screen_threshold_s": 0.2,
+    "step_family_posthoc_threshold_s": 0.28,
+    "unit": "one reference clip; the scene is the inference unit for every interval"
+  },
+  "evidence_anchors": {
+    "rows": {
+      "file_sha256": "a03091a32203ea57dc4bac98d0680ce583a243848d36695fa2ae582847c0c2b2",
+      "n_rows": 526,
+      "path": "rows.jsonl"
+    }
+  },
+  "experiment": "exp026_duck_contract",
+  "inputs": {
+    "clip_cache": {
+      "n_clips_used": 526,
+      "path": "scene2motion/demo_outputs/clips"
+    },
+    "rows": {
+      "n_rows": 859,
+      "path": "outputs/exp1b_execution_clearance_v2/rows.jsonl",
+      "sha256": "c8e12aa84aa60e6a8ccd945e2da07c9df67f641d9c07c5c44b2869afe011158b"
+    },
+    "support_thresholds": {
+      "max_unsupported_run_s": 0.2,
+      "receipt_path": "/home/linjiw/scene2motion/outputs/exp016_threshold_calibration/receipt.json",
+      "receipt_sha256": "f6dba8be84a9d5d0b76c8114d4b93b1707bc1bb8a6fec1a26a22aa1780a6e9bf",
+      "support_height_m": 0.04649341314007449,
+      "support_speed_mps": 1.1753078750567545
+    }
+  },
+  "interpretation": "Post hoc analysis of the completed EXP-1B duck campaign: the groups, primaries, direction and decision rule were fixed in the plan of record (0379d47) and this protocol before any feature was computed, but the outcome labels were already public. One physics seed, one rollout per clip, schema-v1 archives, one tracker. EXP-1B's 14 s clip cap is a property of that campaign, not of ducking: a negative result bounds this corpus, not the behaviour.",
+  "post_hoc": true,
+  "protocol": {
+    "path": "docs/ramp-exp026-duck-contract-protocol.md",
+    "sha256": "b387201d3b1aae009e2f98229a36554e34b1ab88125ab53cce96d38411b24ab5"
+  },
+  "provenance": {
+    "code": {
+      "commit": "43019b5287507d81bc3d2093dfd569722f3e55c5",
+      "dirty": false
+    },
+    "numpy": "1.26.4",
+    "python": "3.11.16",
+    "source_sha256": {
+      "docs/ramp-exp026-duck-contract-protocol.md": "b387201d3b1aae009e2f98229a36554e34b1ab88125ab53cce96d38411b24ab5",
+      "experiments/analyze_duck_contract.py": "078895aec414aac98835f6a0fbf17e8666b70b09118a09e540eececfd1f3fec4",
+      "experiments/analyze_trackability_contract.py": "3e4f91196c6d195d54c91c9ee6ecad9b9ffa1a81efaa3591ac2d3bb516c6ac25",
+      "scene2motion/robot.py": "c12b59a999969dd910e0aaef25322695d247bd392899394dd5d35cfc1252fc82",
+      "scene2motion/stepover_eval.py": "f0e344def2133f3a45935bb1b7ffad8fb2591145557e6b136d50871827cf77b4"
+    }
+  },
+  "schema": "exp026-duck-contract-v1",
+  "status": "complete",
+  "summary": {
+    "contact_minus_speed_pooled": {
+      "ci95": [
+        0.11959959016266952,
+        0.3617532477228069
+      ],
+      "n_resamples_used": 2000
+    },
+    "contact_minus_speed_within_scene": {
+      "ci95": [
+        -0.017860354573484116,
+        0.20951720836128326
+      ],
+      "n_resamples_used": 2000
+    },
+    "decision": {
+      "pooled": {
+        "contact_auc": 0.6740432532583696,
+        "contact_minus_speed": 0.23295744952721698,
+        "speed_auc": 0.4410858037311526,
+        "transfer": true
+      },
+      "pooled_and_within_scene_agree": true,
+      "rule": "plan of record, EXP-026 row: counts as contract transfer only if the contact-feature AUC > the speed-feature AUC; else speed-limited and confounded by the 14 s cap",
+      "verdict": "contract_transfers_to_the_duck_family",
+      "within_scene": {
+        "contact_auc": 0.6936188811188811,
+        "contact_minus_speed": 0.0922202797202798,
+        "speed_auc": 0.6013986013986014,
+        "transfer": true
+      }
+    },
+    "distribution_by_outcome": {
+      "max_root_planar_speed": {
+        "survived": {
+          "max": 2.6883892727620395,
+          "median": 1.8680278075953665,
+          "min": 1.119814543416225,
+          "n": 182,
+          "q10": 1.3448194942304772,
+          "q90": 2.3069063109364136
+        },
+        "terminated": {
+          "max": 5.909416047423028,
+          "median": 1.7493370065265896,
+          "min": 1.1484707250195294,
+          "n": 344,
+          "q10": 1.292952805571223,
+          "q90": 2.308833797947816
+        }
+      },
+      "max_unsupported_run_s": {
+        "survived": {
+          "max": 8.48,
+          "median": 0.44,
+          "min": 0.04,
+          "n": 182,
+          "q10": 0.08,
+          "q90": 1.6
+        },
+        "terminated": {
+          "max": 6.96,
+          "median": 0.8200000000000001,
+          "min": 0.04,
+          "n": 344,
+          "q10": 0.24,
+          "q90": 2.5079999999999996
+        }
+      },
+      "peak_dip_m": {
+        "survived": {
+          "max": 0.5,
+          "median": 0.35,
+          "min": 0.25,
+          "n": 182,
+          "q10": 0.25,
+          "q90": 0.5
+        },
+        "terminated": {
+          "max": 0.5,
+          "median": 0.4937,
+          "min": 0.25,
+          "n": 344,
+          "q10": 0.25,
+          "q90": 0.5
+        }
+      }
+    },
+    "float_fraction": {
+      "n": 526,
+      "n_with_any_no_support_run": 526,
+      "n_with_run_over_0p20s": 441
+    },
+    "n_clips": 526,
+    "n_scenes": 36,
+    "n_terminated": 344,
+    "pooled_auc_by_group": {
+      "contact": {
+        "also_reported": {
+          "bilateral_flight_frac": 0.6734043572706363,
+          "mean_support_feet": 0.3846633018144646
+        },
+        "auc": 0.6740432532583696,
+        "cluster_bootstrap": {
+          "ci95": [
+            0.624539191153661,
+            0.7211037242177744
+          ],
+          "n_resamples_used": 2000,
+          "n_scenes": 36
+        },
+        "primary": "max_unsupported_run_s"
+      },
+      "crouch": {
+        "also_reported": {
+          "ref_min_overhead_m": 0.48568074367492975,
+          "root_z_min": 0.29369249936110403
+        },
+        "auc": 0.7072259136212624,
+        "cluster_bootstrap": {
+          "ci95": [
+            0.6317808491369814,
+            0.7702413065221491
+          ],
+          "n_resamples_used": 2000,
+          "n_scenes": 36
+        },
+        "primary": "peak_dip_m"
+      },
+      "speed": {
+        "also_reported": {
+          "mean_root_planar_speed": 0.4285634423715819
+        },
+        "auc": 0.4410858037311526,
+        "cluster_bootstrap": {
+          "ci95": [
+            0.32752457131240836,
+            0.5520362006242044
+          ],
+          "n_resamples_used": 2000,
+          "n_scenes": 36
+        },
+        "primary": "max_root_planar_speed"
+      }
+    },
+    "pooled_auc_is_the_leave_one_scene_out_auc": "an unfitted scalar scores a held-out clip identically whichever scene is held out, so the pooled leave-one-scene-out AUC of endpoint (1) is the whole-sample AUC; the within-scene co-primary is the confound-controlled measure",
+    "primary_correlation": {
+      "order": [
+        "max_root_planar_speed",
+        "peak_dip_m",
+        "max_unsupported_run_s"
+      ],
+      "pearson": [
+        [
+          1.0,
+          0.18552899756071872,
+          -0.18109396650060017
+        ],
+        [
+          0.18552899756071872,
+          0.9999999999999999,
+          0.19678414610264697
+        ],
+        [
+          -0.18109396650060017,
+          0.196784146102647,
+          1.0
+        ]
+      ]
+    },
+    "screen": {
+      "calibrated_0p20s": {
+        "flagged_survivors": 128,
+        "flagged_terminated": 313,
+        "sensitivity": 0.9098837209302325,
+        "sensitivity_wilson95": [
+          0.8749264624340419,
+          0.9357877086338612
+        ],
+        "specificity": 0.2967032967032967,
+        "specificity_wilson95": [
+          0.23509517625700674,
+          0.3667159564931586
+        ],
+        "survivors": 182,
+        "terminated": 344,
+        "threshold_s": 0.2
+      },
+      "step_family_posthoc_0p28s": {
+        "flagged_survivors": 119,
+        "flagged_terminated": 296,
+        "sensitivity": 0.8604651162790697,
+        "sensitivity_wilson95": [
+          0.8198535368083564,
+          0.8931149540598706
+        ],
+        "specificity": 0.34615384615384615,
+        "specificity_wilson95": [
+          0.2808611488050109,
+          0.41780673543835734
+        ],
+        "survivors": 182,
+        "terminated": 344,
+        "threshold_s": 0.28
+      }
+    },
+    "strata": {
+      "dip_bins": {
+        "strata": [
+          {
+            "auc": {
+              "contact": 0.6512508809020436,
+              "crouch": 0.48405567300916136,
+              "speed": 0.44820295983086683
+            },
+            "evaluable": true,
+            "n": 152,
+            "stratum": "[0.25, 0.35)",
+            "survived": 86,
+            "terminated": 66
+          },
+          {
+            "auc": {
+              "contact": 0.5777116402116402,
+              "crouch": 0.4540343915343915,
+              "speed": 0.34953703703703703
+            },
+            "evaluable": true,
+            "n": 138,
+            "stratum": "[0.35, 0.45)",
+            "survived": 54,
+            "terminated": 84
+          },
+          {
+            "auc": {
+              "contact": 0.6933603338242513,
+              "crouch": 0.6243249877270496,
+              "speed": 0.40844378988708885
+            },
+            "evaluable": true,
+            "n": 236,
+            "stratum": "[0.45, 0.50)",
+            "survived": 42,
+            "terminated": 194
+          }
+        ],
+        "stratified_by": "peak_dip_m"
+      },
+      "route_classes": {
+        "strata": [
+          {
+            "auc": {
+              "contact": 0.6643382352941176,
+              "crouch": 0.7922794117647058,
+              "speed": 0.5830882352941177
+            },
+            "evaluable": true,
+            "n": 88,
+            "stratum": 3,
+            "survived": 20,
+            "terminated": 68
+          },
+          {
+            "auc": {
+              "contact": 0.6632440476190476,
+              "crouch": 0.6290178571428572,
+              "speed": 0.5005952380952381
+            },
+            "evaluable": true,
+            "n": 124,
+            "stratum": 4,
+            "survived": 40,
+            "terminated": 84
+          },
+          {
+            "auc": {
+              "contact": 0.6701030927835051,
+              "crouch": 0.6852957135105806,
+              "speed": 0.4373304395008139
+            },
+            "evaluable": true,
+            "n": 154,
+            "stratum": 5,
+            "survived": 57,
+            "terminated": 97
+          },
+          {
+            "auc": {
+              "contact": 0.7070445344129554,
+              "crouch": 0.7847773279352227,
+              "speed": 0.5475303643724696
+            },
+            "evaluable": true,
+            "n": 160,
+            "stratum": 6,
+            "survived": 65,
+            "terminated": 95
+          }
+        ],
+        "stratified_by": "beam_count"
+      }
+    },
+    "within_scene_auc_by_group": {
+      "contact": {
+        "min_per_outcome": 5,
+        "n_evaluable_scenes": 13,
+        "n_scenes": 36,
+        "per_scene": [
+          {
+            "auc": null,
+            "evaluable": false,
+            "n": 10,
+            "pairs": 0,
+            "reason": "fewer than 5 of an outcome",
+            "scene_id": "demo_partial_beam_h0.950_w2.250_n3_g1.50",
+            "survived": 0,
+            "terminated": 10
+          },
+          {
+            "auc": null,
+            "evaluable": false,
+            "n": 8,
+            "pairs": 0,
+            "reason": "fewer than 5 of an outcome",
+            "scene_id": "demo_partial_beam_h0.950_w2.250_n3_g2.50",
+            "survived": 0,
+            "terminated": 8
+          },
+          {
+            "auc": null,
+            "evaluable": false,
+            "n": 10,
+            "pairs": 0,
+            "reason": "fewer than 5 of an outcome",
+            "scene_id": "demo_partial_beam_h0.950_w2.250_n3_g3.50",
+            "survived": 0,
+            "terminated": 10
+          },
+          {
+            "auc": null,
+            "evaluable": false,
+            "n": 8,
+            "pairs": 0,
+            "reason": "fewer than 5 of an outcome",
+            "scene_id": "demo_partial_beam_h0.950_w2.250_n4_g1.50",
+            "survived": 0,
+            "terminated": 8
+          },
+          {
+            "auc": null,
+            "evaluable": false,
+            "n": 10,
+            "pairs": 0,
+            "reason": "fewer than 5 of an outcome",
+            "scene_id": "demo_partial_beam_h0.950_w2.250_n4_g2.50",
+            "survived": 2,
+            "terminated": 8
+          },
+          {
+            "auc": 0.4765625,
+            "evaluable": true,
+            "n": 24,
+            "pairs": 128,
+            "scene_id": "demo_partial_beam_h0.950_w2.250_n4_g3.50",
+            "survived": 8,
+            "terminated": 16
+          },
+          {
+            "auc": null,
+            "evaluable": false,
+            "n": 10,
+            "pairs": 0,
+            "reason": "fewer than 5 of an outcome",
+            "scene_id": "demo_partial_beam_h0.950_w2.250_n5_g1.50",
+            "survived": 1,
+            "terminated": 9
+          },
+          {
+            "auc": null,
+            "evaluable": false,
+            "n": 24,
+            "pairs": 0,
+            "reason": "fewer than 5 of an outcome",
+            "scene_id": "demo_partial_beam_h0.950_w2.250_n5_g2.50",
+            "survived": 1,
+            "terminated": 23
+          },
+          {
+            "auc": 0.6105263157894737,
+            "evaluable": true,
+            "n": 24,
+            "pairs": 95,
+            "scene_id": "demo_partial_beam_h0.950_w2.250_n5_g3.50",
+            "survived": 5,
+            "terminated": 19
+          },
+          {
+            "auc": null,
+            "evaluable": false,
+            "n": 10,
+            "pairs": 0,
+            "reason": "fewer than 5 of an outcome",
+            "scene_id": "demo_partial_beam_h0.950_w2.250_n6_g1.50",
+            "survived": 1,
+            "terminated": 9
+          },
+          {
+            "auc": 0.7842105263157895,
+            "evaluable": true,
+            "n": 24,
+            "pairs": 95,
+            "scene_id": "demo_partial_beam_h0.950_w2.250_n6_g2.50",
+            "survived": 5,
+            "terminated": 19
+          },
+          {
+            "auc": null,
+            "evaluable": false,
+            "n": 19,
+            "pairs": 0,
+            "reason": "fewer than 5 of an outcome",
+            "scene_id": "demo_partial_beam_h0.950_w2.250_n6_g3.50",
+            "survived": 0,
+            "terminated": 19
+          },
+          {
+            "auc": null,
+            "evaluable": false,
+            "n": 9,
+            "pairs": 0,
+            "reason": "fewer than 5 of an outcome",
+            "scene_id": "demo_partial_beam_h1.050_w2.250_n3_g1.50",
+            "survived": 2,
+            "terminated": 7
+          },
+          {
+            "auc": null,
+            "evaluable": false,
+            "n": 10,
+            "pairs": 0,
+            "reason": "fewer than 5 of an outcome",
+            "scene_id": "demo_partial_beam_h1.050_w2.250_n3_g2.50",
+            "survived": 4,
+            "terminated": 6
+          },
+          {
+            "auc": null,
+            "evaluable": false,
+            "n": 13,
+            "pairs": 0,
+            "reason": "fewer than 5 of an outcome",
+            "scene_id": "demo_partial_beam_h1.050_w2.250_n3_g3.50",
+            "survived": 1,
+            "terminated": 12
+          },
+          {
+            "auc": null,
+            "evaluable": false,
+            "n": 9,
+            "pairs": 0,
+            "reason": "fewer than 5 of an outcome",
+            "scene_id": "demo_partial_beam_h1.050_w2.250_n4_g1.50",
+            "survived": 3,
+            "terminated": 6
+          },
+          {
+            "auc": null,
+            "evaluable": false,
+            "n": 14,
+            "pairs": 0,
+            "reason": "fewer than 5 of an outcome",
+            "scene_id": "demo_partial_beam_h1.050_w2.250_n4_g2.50",
+            "survived": 4,
+            "terminated": 10
+          },
+          {
+            "auc": 0.7135416666666666,
+            "evaluable": true,
+            "n": 22,
+            "pairs": 96,
+            "scene_id": "demo_partial_beam_h1.050_w2.250_n4_g3.50",
+            "survived": 6,
+            "terminated": 16
+          },
+          {
+            "auc": null,
+            "evaluable": false,
+            "n": 11,
+            "pairs": 0,
+            "reason": "fewer than 5 of an outcome",
+            "scene_id": "demo_partial_beam_h1.050_w2.250_n5_g1.50",
+            "survived": 2,
+            "terminated": 9
+          },
+          {
+            "auc": 0.6150793650793651,
+            "evaluable": true,
+            "n": 23,
+            "pairs": 126,
+            "scene_id": "demo_partial_beam_h1.050_w2.250_n5_g2.50",
+            "survived": 14,
+            "terminated": 9
+          },
+          {
+            "auc": 0.5702479338842975,
+            "evaluable": true,
+            "n": 22,
+            "pairs": 121,
+            "scene_id": "demo_partial_beam_h1.050_w2.250_n5_g3.50",
+            "survived": 11,
+            "terminated": 11
+          },
+          {
+            "auc": null,
+            "evaluable": false,
+            "n": 14,
+            "pairs": 0,
+            "reason": "fewer than 5 of an outcome",
+            "scene_id": "demo_partial_beam_h1.050_w2.250_n6_g1.50",
+            "survived": 3,
+            "terminated": 11
+          },
+          {
+            "auc": 0.7111111111111111,
+            "evaluable": true,
+            "n": 21,
+            "pairs": 90,
+            "scene_id": "demo_partial_beam_h1.050_w2.250_n6_g2.50",
+            "survived": 15,
+            "terminated": 6
+          },
+          {
+            "auc": 0.7689075630252101,
+            "evaluable": true,
+            "n": 24,
+            "pairs": 119,
+            "scene_id": "demo_partial_beam_h1.050_w2.250_n6_g3.50",
+            "survived": 7,
+            "terminated": 17
+          },
+          {
+            "auc": null,
+            "evaluable": false,
+            "n": 10,
+            "pairs": 0,
+            "reason": "fewer than 5 of an outcome",
+            "scene_id": "demo_partial_beam_h1.200_w2.250_n3_g1.50",
+            "survived": 6,
+            "terminated": 4
+          },
+          {
+            "auc": null,
+            "evaluable": false,
+            "n": 8,
+            "pairs": 0,
+            "reason": "fewer than 5 of an outcome",
+            "scene_id": "demo_partial_beam_h1.200_w2.250_n3_g2.50",
+            "survived": 2,
+            "terminated": 6
+          },
+          {
+            "auc": 0.82,
+            "evaluable": true,
+            "n": 10,
+            "pairs": 25,
+            "scene_id": "demo_partial_beam_h1.200_w2.250_n3_g3.50",
+            "survived": 5,
+            "terminated": 5
+          },
+          {
+            "auc": null,
+            "evaluable": false,
+            "n": 8,
+            "pairs": 0,
+            "reason": "fewer than 5 of an outcome",
+            "scene_id": "demo_partial_beam_h1.200_w2.250_n4_g1.50",
+            "survived": 4,
+            "terminated": 4
+          },
+          {
+            "auc": null,
+            "evaluable": false,
+            "n": 10,
+            "pairs": 0,
+            "reason": "fewer than 5 of an outcome",
+            "scene_id": "demo_partial_beam_h1.200_w2.250_n4_g2.50",
+            "survived": 3,
+            "terminated": 7
+          },
+          {
+            "auc": 0.8444444444444444,
+            "evaluable": true,
+            "n": 19,
+            "pairs": 90,
+            "scene_id": "demo_partial_beam_h1.200_w2.250_n4_g3.50",
+            "survived": 10,
+            "terminated": 9
+          },
+          {
+            "auc": null,
+            "evaluable": false,
+            "n": 10,
+            "pairs": 0,
+            "reason": "fewer than 5 of an outcome",
+            "scene_id": "demo_partial_beam_h1.200_w2.250_n5_g1.50",
+            "survived": 4,
+            "terminated": 6
+          },
+          {
+            "auc": 0.9375,
+            "evaluable": true,
+            "n": 15,
+            "pairs": 56,
+            "scene_id": "demo_partial_beam_h1.200_w2.250_n5_g2.50",
+            "survived": 8,
+            "terminated": 7
+          },
+          {
+            "auc": null,
+            "evaluable": false,
+            "n": 15,
+            "pairs": 0,
+            "reason": "fewer than 5 of an outcome",
+            "scene_id": "demo_partial_beam_h1.200_w2.250_n5_g3.50",
+            "survived": 11,
+            "terminated": 4
+          },
+          {
+            "auc": 0.76,
+            "evaluable": true,
+            "n": 10,
+            "pairs": 25,
+            "scene_id": "demo_partial_beam_h1.200_w2.250_n6_g1.50",
+            "survived": 5,
+            "terminated": 5
+          },
+          {
+            "auc": 0.7884615384615384,
+            "evaluable": true,
+            "n": 19,
+            "pairs": 78,
+            "scene_id": "demo_partial_beam_h1.200_w2.250_n6_g2.50",
+            "survived": 13,
+            "terminated": 6
+          },
+          {
+            "auc": null,
+            "evaluable": false,
+            "n": 19,
+            "pairs": 0,
+            "reason": "fewer than 5 of an outcome",
+            "scene_id": "demo_partial_beam_h1.200_w2.250_n6_g3.50",
+            "survived": 16,
+            "terminated": 3
+          }
+        ],
+        "primary": "max_unsupported_run_s",
+        "total_pairs": 1144,
+        "unweighted_mean_auc": 0.7231225357521459,
+        "weighted_mean_auc": 0.6936188811188811
+      },
+      "crouch": {
+        "min_per_outcome": 5,
+        "n_evaluable_scenes": 13,
+        "n_scenes": 36,
+        "per_scene": [
+          {
+            "auc": null,
+            "evaluable": false,
+            "n": 10,
+            "pairs": 0,
+            "reason": "fewer than 5 of an outcome",
+            "scene_id": "demo_partial_beam_h0.950_w2.250_n3_g1.50",
+            "survived": 0,
+            "terminated": 10
+          },
+          {
+            "auc": null,
+            "evaluable": false,
+            "n": 8,
+            "pairs": 0,
+            "reason": "fewer than 5 of an outcome",
+            "scene_id": "demo_partial_beam_h0.950_w2.250_n3_g2.50",
+            "survived": 0,
+            "terminated": 8
+          },
+          {
+            "auc": null,
+            "evaluable": false,
+            "n": 10,
+            "pairs": 0,
+            "reason": "fewer than 5 of an outcome",
+            "scene_id": "demo_partial_beam_h0.950_w2.250_n3_g3.50",
+            "survived": 0,
+            "terminated": 10
+          },
+          {
+            "auc": null,
+            "evaluable": false,
+            "n": 8,
+            "pairs": 0,
+            "reason": "fewer than 5 of an outcome",
+            "scene_id": "demo_partial_beam_h0.950_w2.250_n4_g1.50",
+            "survived": 0,
+            "terminated": 8
+          },
+          {
+            "auc": null,
+            "evaluable": false,
+            "n": 10,
+            "pairs": 0,
+            "reason": "fewer than 5 of an outcome",
+            "scene_id": "demo_partial_beam_h0.950_w2.250_n4_g2.50",
+            "survived": 2,
+            "terminated": 8
+          },
+          {
+            "auc": 0.5,
+            "evaluable": true,
+            "n": 24,
+            "pairs": 128,
+            "scene_id": "demo_partial_beam_h0.950_w2.250_n4_g3.50",
+            "survived": 8,
+            "terminated": 16
+          },
+          {
+            "auc": null,
+            "evaluable": false,
+            "n": 10,
+            "pairs": 0,
+            "reason": "fewer than 5 of an outcome",
+            "scene_id": "demo_partial_beam_h0.950_w2.250_n5_g1.50",
+            "survived": 1,
+            "terminated": 9
+          },
+          {
+            "auc": null,
+            "evaluable": false,
+            "n": 24,
+            "pairs": 0,
+            "reason": "fewer than 5 of an outcome",
+            "scene_id": "demo_partial_beam_h0.950_w2.250_n5_g2.50",
+            "survived": 1,
+            "terminated": 23
+          },
+          {
+            "auc": 0.5,
+            "evaluable": true,
+            "n": 24,
+            "pairs": 95,
+            "scene_id": "demo_partial_beam_h0.950_w2.250_n5_g3.50",
+            "survived": 5,
+            "terminated": 19
+          },
+          {
+            "auc": null,
+            "evaluable": false,
+            "n": 10,
+            "pairs": 0,
+            "reason": "fewer than 5 of an outcome",
+            "scene_id": "demo_partial_beam_h0.950_w2.250_n6_g1.50",
+            "survived": 1,
+            "terminated": 9
+          },
+          {
+            "auc": 0.5,
+            "evaluable": true,
+            "n": 24,
+            "pairs": 95,
+            "scene_id": "demo_partial_beam_h0.950_w2.250_n6_g2.50",
+            "survived": 5,
+            "terminated": 19
+          },
+          {
+            "auc": null,
+            "evaluable": false,
+            "n": 19,
+            "pairs": 0,
+            "reason": "fewer than 5 of an outcome",
+            "scene_id": "demo_partial_beam_h0.950_w2.250_n6_g3.50",
+            "survived": 0,
+            "terminated": 19
+          },
+          {
+            "auc": null,
+            "evaluable": false,
+            "n": 9,
+            "pairs": 0,
+            "reason": "fewer than 5 of an outcome",
+            "scene_id": "demo_partial_beam_h1.050_w2.250_n3_g1.50",
+            "survived": 2,
+            "terminated": 7
+          },
+          {
+            "auc": null,
+            "evaluable": false,
+            "n": 10,
+            "pairs": 0,
+            "reason": "fewer than 5 of an outcome",
+            "scene_id": "demo_partial_beam_h1.050_w2.250_n3_g2.50",
+            "survived": 4,
+            "terminated": 6
+          },
+          {
+            "auc": null,
+            "evaluable": false,
+            "n": 13,
+            "pairs": 0,
+            "reason": "fewer than 5 of an outcome",
+            "scene_id": "demo_partial_beam_h1.050_w2.250_n3_g3.50",
+            "survived": 1,
+            "terminated": 12
+          },
+          {
+            "auc": null,
+            "evaluable": false,
+            "n": 9,
+            "pairs": 0,
+            "reason": "fewer than 5 of an outcome",
+            "scene_id": "demo_partial_beam_h1.050_w2.250_n4_g1.50",
+            "survived": 3,
+            "terminated": 6
+          },
+          {
+            "auc": null,
+            "evaluable": false,
+            "n": 14,
+            "pairs": 0,
+            "reason": "fewer than 5 of an outcome",
+            "scene_id": "demo_partial_beam_h1.050_w2.250_n4_g2.50",
+            "survived": 4,
+            "terminated": 10
+          },
+          {
+            "auc": 0.7864583333333334,
+            "evaluable": true,
+            "n": 22,
+            "pairs": 96,
+            "scene_id": "demo_partial_beam_h1.050_w2.250_n4_g3.50",
+            "survived": 6,
+            "terminated": 16
+          },
+          {
+            "auc": null,
+            "evaluable": false,
+            "n": 11,
+            "pairs": 0,
+            "reason": "fewer than 5 of an outcome",
+            "scene_id": "demo_partial_beam_h1.050_w2.250_n5_g1.50",
+            "survived": 2,
+            "terminated": 9
+          },
+          {
+            "auc": 0.24206349206349206,
+            "evaluable": true,
+            "n": 23,
+            "pairs": 126,
+            "scene_id": "demo_partial_beam_h1.050_w2.250_n5_g2.50",
+            "survived": 14,
+            "terminated": 9
+          },
+          {
+            "auc": 0.6198347107438017,
+            "evaluable": true,
+            "n": 22,
+            "pairs": 121,
+            "scene_id": "demo_partial_beam_h1.050_w2.250_n5_g3.50",
+            "survived": 11,
+            "terminated": 11
+          },
+          {
+            "auc": null,
+            "evaluable": false,
+            "n": 14,
+            "pairs": 0,
+            "reason": "fewer than 5 of an outcome",
+            "scene_id": "demo_partial_beam_h1.050_w2.250_n6_g1.50",
+            "survived": 3,
+            "terminated": 11
+          },
+          {
+            "auc": 0.5611111111111111,
+            "evaluable": true,
+            "n": 21,
+            "pairs": 90,
+            "scene_id": "demo_partial_beam_h1.050_w2.250_n6_g2.50",
+            "survived": 15,
+            "terminated": 6
+          },
+          {
+            "auc": 0.819327731092437,
+            "evaluable": true,
+            "n": 24,
+            "pairs": 119,
+            "scene_id": "demo_partial_beam_h1.050_w2.250_n6_g3.50",
+            "survived": 7,
+            "terminated": 17
+          },
+          {
+            "auc": null,
+            "evaluable": false,
+            "n": 10,
+            "pairs": 0,
+            "reason": "fewer than 5 of an outcome",
+            "scene_id": "demo_partial_beam_h1.200_w2.250_n3_g1.50",
+            "survived": 6,
+            "terminated": 4
+          },
+          {
+            "auc": null,
+            "evaluable": false,
+            "n": 8,
+            "pairs": 0,
+            "reason": "fewer than 5 of an outcome",
+            "scene_id": "demo_partial_beam_h1.200_w2.250_n3_g2.50",
+            "survived": 2,
+            "terminated": 6
+          },
+          {
+            "auc": 0.7,
+            "evaluable": true,
+            "n": 10,
+            "pairs": 25,
+            "scene_id": "demo_partial_beam_h1.200_w2.250_n3_g3.50",
+            "survived": 5,
+            "terminated": 5
+          },
+          {
+            "auc": null,
+            "evaluable": false,
+            "n": 8,
+            "pairs": 0,
+            "reason": "fewer than 5 of an outcome",
+            "scene_id": "demo_partial_beam_h1.200_w2.250_n4_g1.50",
+            "survived": 4,
+            "terminated": 4
+          },
+          {
+            "auc": null,
+            "evaluable": false,
+            "n": 10,
+            "pairs": 0,
+            "reason": "fewer than 5 of an outcome",
+            "scene_id": "demo_partial_beam_h1.200_w2.250_n4_g2.50",
+            "survived": 3,
+            "terminated": 7
+          },
+          {
+            "auc": 0.6277777777777778,
+            "evaluable": true,
+            "n": 19,
+            "pairs": 90,
+            "scene_id": "demo_partial_beam_h1.200_w2.250_n4_g3.50",
+            "survived": 10,
+            "terminated": 9
+          },
+          {
+            "auc": null,
+            "evaluable": false,
+            "n": 10,
+            "pairs": 0,
+            "reason": "fewer than 5 of an outcome",
+            "scene_id": "demo_partial_beam_h1.200_w2.250_n5_g1.50",
+            "survived": 4,
+            "terminated": 6
+          },
+          {
+            "auc": 0.35714285714285715,
+            "evaluable": true,
+            "n": 15,
+            "pairs": 56,
+            "scene_id": "demo_partial_beam_h1.200_w2.250_n5_g2.50",
+            "survived": 8,
+            "terminated": 7
+          },
+          {
+            "auc": null,
+            "evaluable": false,
+            "n": 15,
+            "pairs": 0,
+            "reason": "fewer than 5 of an outcome",
+            "scene_id": "demo_partial_beam_h1.200_w2.250_n5_g3.50",
+            "survived": 11,
+            "terminated": 4
+          },
+          {
+            "auc": 0.7,
+            "evaluable": true,
+            "n": 10,
+            "pairs": 25,
+            "scene_id": "demo_partial_beam_h1.200_w2.250_n6_g1.50",
+            "survived": 5,
+            "terminated": 5
+          },
+          {
+            "auc": 0.5961538461538461,
+            "evaluable": true,
+            "n": 19,
+            "pairs": 78,
+            "scene_id": "demo_partial_beam_h1.200_w2.250_n6_g2.50",
+            "survived": 13,
+            "terminated": 6
+          },
+          {
+            "auc": null,
+            "evaluable": false,
+            "n": 19,
+            "pairs": 0,
+            "reason": "fewer than 5 of an outcome",
+            "scene_id": "demo_partial_beam_h1.200_w2.250_n6_g3.50",
+            "survived": 16,
+            "terminated": 3
+          }
+        ],
+        "primary": "peak_dip_m",
+        "total_pairs": 1144,
+        "unweighted_mean_auc": 0.5776822968783581,
+        "weighted_mean_auc": 0.5646853146853147
+      },
+      "speed": {
+        "min_per_outcome": 5,
+        "n_evaluable_scenes": 13,
+        "n_scenes": 36,
+        "per_scene": [
+          {
+            "auc": null,
+            "evaluable": false,
+            "n": 10,
+            "pairs": 0,
+            "reason": "fewer than 5 of an outcome",
+            "scene_id": "demo_partial_beam_h0.950_w2.250_n3_g1.50",
+            "survived": 0,
+            "terminated": 10
+          },
+          {
+            "auc": null,
+            "evaluable": false,
+            "n": 8,
+            "pairs": 0,
+            "reason": "fewer than 5 of an outcome",
+            "scene_id": "demo_partial_beam_h0.950_w2.250_n3_g2.50",
+            "survived": 0,
+            "terminated": 8
+          },
+          {
+            "auc": null,
+            "evaluable": false,
+            "n": 10,
+            "pairs": 0,
+            "reason": "fewer than 5 of an outcome",
+            "scene_id": "demo_partial_beam_h0.950_w2.250_n3_g3.50",
+            "survived": 0,
+            "terminated": 10
+          },
+          {
+            "auc": null,
+            "evaluable": false,
+            "n": 8,
+            "pairs": 0,
+            "reason": "fewer than 5 of an outcome",
+            "scene_id": "demo_partial_beam_h0.950_w2.250_n4_g1.50",
+            "survived": 0,
+            "terminated": 8
+          },
+          {
+            "auc": null,
+            "evaluable": false,
+            "n": 10,
+            "pairs": 0,
+            "reason": "fewer than 5 of an outcome",
+            "scene_id": "demo_partial_beam_h0.950_w2.250_n4_g2.50",
+            "survived": 2,
+            "terminated": 8
+          },
+          {
+            "auc": 0.4453125,
+            "evaluable": true,
+            "n": 24,
+            "pairs": 128,
+            "scene_id": "demo_partial_beam_h0.950_w2.250_n4_g3.50",
+            "survived": 8,
+            "terminated": 16
+          },
+          {
+            "auc": null,
+            "evaluable": false,
+            "n": 10,
+            "pairs": 0,
+            "reason": "fewer than 5 of an outcome",
+            "scene_id": "demo_partial_beam_h0.950_w2.250_n5_g1.50",
+            "survived": 1,
+            "terminated": 9
+          },
+          {
+            "auc": null,
+            "evaluable": false,
+            "n": 24,
+            "pairs": 0,
+            "reason": "fewer than 5 of an outcome",
+            "scene_id": "demo_partial_beam_h0.950_w2.250_n5_g2.50",
+            "survived": 1,
+            "terminated": 23
+          },
+          {
+            "auc": 0.8315789473684211,
+            "evaluable": true,
+            "n": 24,
+            "pairs": 95,
+            "scene_id": "demo_partial_beam_h0.950_w2.250_n5_g3.50",
+            "survived": 5,
+            "terminated": 19
+          },
+          {
+            "auc": null,
+            "evaluable": false,
+            "n": 10,
+            "pairs": 0,
+            "reason": "fewer than 5 of an outcome",
+            "scene_id": "demo_partial_beam_h0.950_w2.250_n6_g1.50",
+            "survived": 1,
+            "terminated": 9
+          },
+          {
+            "auc": 0.3368421052631579,
+            "evaluable": true,
+            "n": 24,
+            "pairs": 95,
+            "scene_id": "demo_partial_beam_h0.950_w2.250_n6_g2.50",
+            "survived": 5,
+            "terminated": 19
+          },
+          {
+            "auc": null,
+            "evaluable": false,
+            "n": 19,
+            "pairs": 0,
+            "reason": "fewer than 5 of an outcome",
+            "scene_id": "demo_partial_beam_h0.950_w2.250_n6_g3.50",
+            "survived": 0,
+            "terminated": 19
+          },
+          {
+            "auc": null,
+            "evaluable": false,
+            "n": 9,
+            "pairs": 0,
+            "reason": "fewer than 5 of an outcome",
+            "scene_id": "demo_partial_beam_h1.050_w2.250_n3_g1.50",
+            "survived": 2,
+            "terminated": 7
+          },
+          {
+            "auc": null,
+            "evaluable": false,
+            "n": 10,
+            "pairs": 0,
+            "reason": "fewer than 5 of an outcome",
+            "scene_id": "demo_partial_beam_h1.050_w2.250_n3_g2.50",
+            "survived": 4,
+            "terminated": 6
+          },
+          {
+            "auc": null,
+            "evaluable": false,
+            "n": 13,
+            "pairs": 0,
+            "reason": "fewer than 5 of an outcome",
+            "scene_id": "demo_partial_beam_h1.050_w2.250_n3_g3.50",
+            "survived": 1,
+            "terminated": 12
+          },
+          {
+            "auc": null,
+            "evaluable": false,
+            "n": 9,
+            "pairs": 0,
+            "reason": "fewer than 5 of an outcome",
+            "scene_id": "demo_partial_beam_h1.050_w2.250_n4_g1.50",
+            "survived": 3,
+            "terminated": 6
+          },
+          {
+            "auc": null,
+            "evaluable": false,
+            "n": 14,
+            "pairs": 0,
+            "reason": "fewer than 5 of an outcome",
+            "scene_id": "demo_partial_beam_h1.050_w2.250_n4_g2.50",
+            "survived": 4,
+            "terminated": 10
+          },
+          {
+            "auc": 0.6666666666666666,
+            "evaluable": true,
+            "n": 22,
+            "pairs": 96,
+            "scene_id": "demo_partial_beam_h1.050_w2.250_n4_g3.50",
+            "survived": 6,
+            "terminated": 16
+          },
+          {
+            "auc": null,
+            "evaluable": false,
+            "n": 11,
+            "pairs": 0,
+            "reason": "fewer than 5 of an outcome",
+            "scene_id": "demo_partial_beam_h1.050_w2.250_n5_g1.50",
+            "survived": 2,
+            "terminated": 9
+          },
+          {
+            "auc": 0.49206349206349204,
+            "evaluable": true,
+            "n": 23,
+            "pairs": 126,
+            "scene_id": "demo_partial_beam_h1.050_w2.250_n5_g2.50",
+            "survived": 14,
+            "terminated": 9
+          },
+          {
+            "auc": 0.14049586776859505,
+            "evaluable": true,
+            "n": 22,
+            "pairs": 121,
+            "scene_id": "demo_partial_beam_h1.050_w2.250_n5_g3.50",
+            "survived": 11,
+            "terminated": 11
+          },
+          {
+            "auc": null,
+            "evaluable": false,
+            "n": 14,
+            "pairs": 0,
+            "reason": "fewer than 5 of an outcome",
+            "scene_id": "demo_partial_beam_h1.050_w2.250_n6_g1.50",
+            "survived": 3,
+            "terminated": 11
+          },
+          {
+            "auc": 0.5666666666666667,
+            "evaluable": true,
+            "n": 21,
+            "pairs": 90,
+            "scene_id": "demo_partial_beam_h1.050_w2.250_n6_g2.50",
+            "survived": 15,
+            "terminated": 6
+          },
+          {
+            "auc": 0.7478991596638656,
+            "evaluable": true,
+            "n": 24,
+            "pairs": 119,
+            "scene_id": "demo_partial_beam_h1.050_w2.250_n6_g3.50",
+            "survived": 7,
+            "terminated": 17
+          },
+          {
+            "auc": null,
+            "evaluable": false,
+            "n": 10,
+            "pairs": 0,
+            "reason": "fewer than 5 of an outcome",
+            "scene_id": "demo_partial_beam_h1.200_w2.250_n3_g1.50",
+            "survived": 6,
+            "terminated": 4
+          },
+          {
+            "auc": null,
+            "evaluable": false,
+            "n": 8,
+            "pairs": 0,
+            "reason": "fewer than 5 of an outcome",
+            "scene_id": "demo_partial_beam_h1.200_w2.250_n3_g2.50",
+            "survived": 2,
+            "terminated": 6
+          },
+          {
+            "auc": 0.92,
+            "evaluable": true,
+            "n": 10,
+            "pairs": 25,
+            "scene_id": "demo_partial_beam_h1.200_w2.250_n3_g3.50",
+            "survived": 5,
+            "terminated": 5
+          },
+          {
+            "auc": null,
+            "evaluable": false,
+            "n": 8,
+            "pairs": 0,
+            "reason": "fewer than 5 of an outcome",
+            "scene_id": "demo_partial_beam_h1.200_w2.250_n4_g1.50",
+            "survived": 4,
+            "terminated": 4
+          },
+          {
+            "auc": null,
+            "evaluable": false,
+            "n": 10,
+            "pairs": 0,
+            "reason": "fewer than 5 of an outcome",
+            "scene_id": "demo_partial_beam_h1.200_w2.250_n4_g2.50",
+            "survived": 3,
+            "terminated": 7
+          },
+          {
+            "auc": 0.9222222222222223,
+            "evaluable": true,
+            "n": 19,
+            "pairs": 90,
+            "scene_id": "demo_partial_beam_h1.200_w2.250_n4_g3.50",
+            "survived": 10,
+            "terminated": 9
+          },
+          {
+            "auc": null,
+            "evaluable": false,
+            "n": 10,
+            "pairs": 0,
+            "reason": "fewer than 5 of an outcome",
+            "scene_id": "demo_partial_beam_h1.200_w2.250_n5_g1.50",
+            "survived": 4,
+            "terminated": 6
+          },
+          {
+            "auc": 1.0,
+            "evaluable": true,
+            "n": 15,
+            "pairs": 56,
+            "scene_id": "demo_partial_beam_h1.200_w2.250_n5_g2.50",
+            "survived": 8,
+            "terminated": 7
+          },
+          {
+            "auc": null,
+            "evaluable": false,
+            "n": 15,
+            "pairs": 0,
+            "reason": "fewer than 5 of an outcome",
+            "scene_id": "demo_partial_beam_h1.200_w2.250_n5_g3.50",
+            "survived": 11,
+            "terminated": 4
+          },
+          {
+            "auc": 0.84,
+            "evaluable": true,
+            "n": 10,
+            "pairs": 25,
+            "scene_id": "demo_partial_beam_h1.200_w2.250_n6_g1.50",
+            "survived": 5,
+            "terminated": 5
+          },
+          {
+            "auc": 0.6923076923076923,
+            "evaluable": true,
+            "n": 19,
+            "pairs": 78,
+            "scene_id": "demo_partial_beam_h1.200_w2.250_n6_g2.50",
+            "survived": 13,
+            "terminated": 6
+          },
+          {
+            "auc": null,
+            "evaluable": false,
+            "n": 19,
+            "pairs": 0,
+            "reason": "fewer than 5 of an outcome",
+            "scene_id": "demo_partial_beam_h1.200_w2.250_n6_g3.50",
+            "survived": 16,
+            "terminated": 3
+          }
+        ],
+        "primary": "max_root_planar_speed",
+        "total_pairs": 1144,
+        "unweighted_mean_auc": 0.6616965630762137,
+        "weighted_mean_auc": 0.6013986013986014
+      }
+    }
+  },
+  "wall_clock_s": 17.377750906016445
+}

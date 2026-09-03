@@ -7,7 +7,7 @@ explicitly exploratory; no population or traversal claim is made from it.
 
 ## 1. The question
 
-Can an obstacle-relative, support-preserving edit turn a reference that the frozen SONIC tracker
+Can an obstacle-relative, support-screened edit turn a reference that the frozen SONIC tracker
 has previously completed into a reference that also clears and traverses a 5 cm corridor-spanning
 box at the fixed scene position?
 
@@ -26,12 +26,14 @@ support thresholds remain fixed.  The new component is
 2. At the fixed obstacle, keep a supporting foot on its current side of the margin-inflated box.
 3. Lift an overlapping swing foot above the inflated box top plus an 8 mm target buffer.
 4. Dilate and smooth those targets over time.
-5. Solve bounded six-joint IK independently for each leg and each active frame.  Root pose,
+5. Solve bounded six-joint IK independently for each leg and each active frame, then smooth the
+   resulting joint deformation with a Gaussian whose sigma is fixed at 1 frame.  Root pose,
    upper body, duration and frame rate are byte-identical to the input.
 6. Re-measure whole-body collision and the frozen support rule.  Admit the result only when it is
    collision-free, remains at or below `0.20 s` longest unsupported duration, stays within a
-   `0.50 rad` maximum leg-joint edit, raises maximum joint speed by at most `2 rad/s`, and keeps
-   the maximum foot-target residual below 5 mm.
+   `0.50 rad` maximum leg-joint edit, and raises no matched joint-time velocity magnitude by more
+   than `2 rad/s`.  The raw IK target residual must remain below 5 mm and the post-smoothing
+   residual below 25 mm; the latter is reported beside the final geometric clearance.
 
 This is reference-space surgery after generation, not a claim that ARDY's native channels learned
 obstacle placement.  Passing the projection is not a dynamic guarantee; obstacle-present rollout
@@ -45,11 +47,16 @@ Before any tracker launch, the code-level regression test pins one concrete obse
 `s4434` changes from colliding to whole-body collision-free at 5 cm, retains a longest unsupported
 run of `0.20 s`, changes no root or upper-body value, and remains inside the edit/residual budgets.
 
-An exploratory all-eight check found four candidates meeting every pre-execution admission rule:
-`s4408`, `s4411`, `s4434`, and `s4459`.  This list is recorded before execution and cannot be
-changed after observing SONIC.  The other four support-passing references and all 56 screen-failed
-references remain rows in the record set with their rejection/refusal reasons; they are not
+An exploratory all-eight check found two candidates meeting every pre-execution admission rule:
+`s4408` and `s4434`.  This list is recorded before execution and cannot be changed after observing
+SONIC.  The other six support-passing references and all 56 screen-failed references remain rows
+in the record set with their rejection/refusal reasons; they are not
 silently removed from any pool-level denominator.
+
+The controller-consumed float32 arrays are also frozen by content before execution:
+`s4408 = 0a12895f270031247a4f89205978b88079a005f8a27b529adb154da7543ccf89` and
+`s4434 = b6dc740973ad4404c1b3b736683339e3fecf5490de7a7cd6c9ca8c7b50c0fa3e`, using the
+preparation harness's dtype/shape/byte hash.  A changed array is a new method version, not a resume.
 
 Because the historical tracking outcomes of this pool are already public, this pilot can establish
 only engineering viability: whether the reference-level bridge can produce any obstacle-present
@@ -74,7 +81,7 @@ not compare an arm run on the patched checkout with one run on the legacy checko
 
 ### 4.2 Paired arms
 
-Every arm contains the same four predeclared reference keys, in the same order:
+Every arm contains the same two predeclared reference keys, in the same order:
 
 | arm | reference | obstacle in Isaac | question |
 |---|---|---:|---|
@@ -101,7 +108,7 @@ Collision, evaluator cutoff, fall, stall, corridor exit and completion are never
 ## 5. Frozen pilot decisions
 
 **P1 — first closure.** `repaired_present_05` produces at least one local traversal completion
-among the four assigned references.  A completion must pass the corridor, finish within `0.5 m`
+among the two assigned references.  A completion must pass the corridor, finish within `0.5 m`
 of the goal after passing, remain upright, and have no violation of the 4 cm margin-inflated
 whole-body collision model.  This is the project's first constructive milestone, not a rate claim.
 
@@ -111,12 +118,12 @@ the method and is retained.
 
 **P3 — obstacle effect.** Report paired outcome and forward-progress changes from
 `repaired_absent` to `repaired_present_05`.  No median is interpreted as an independent-sample
-estimate at `n = 4`.
+estimate at `n = 2`.
 
 If P1 fails, the result is a failed engineering pilot.  The preserved rows determine the next
 mechanism: IK tracking loss calls for a windowed smoothness/velocity projection; remaining achieved
 collision calls for achieved-state feedback; early cutoff without either calls for a stronger
-controller-conditioned constraint.  The same four rollouts are never repeated under relaxed
+controller-conditioned constraint.  The same two primary rollouts are never repeated under relaxed
 criteria.  A changed method uses a new version, a fresh output directory and a new protocol.
 
 ## 6. Required mechanism ablation before a paper-level method claim
@@ -152,7 +159,8 @@ The record binds:
 - scene geometry and 4 cm body margin;
 - support thresholds and longest unsupported run before/after;
 - per-foot active window, longitudinal and vertical target magnitudes;
-- IK calls, function evaluations, target residual and joint-change/speed budgets;
+- IK calls, function evaluations, pre/post-smoothing target residuals, matched joint-time speed
+  increase, diagnostic acceleration increase, and joint-change budgets;
 - whole-body signed clearance and penetration before/after;
 - pre-execution terminal state and reason;
 - for launched candidates, controller/evaluator identity, physics seed, achieved-state archive,

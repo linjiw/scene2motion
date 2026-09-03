@@ -8,10 +8,11 @@ two explicit foot targets:
 * a swinging foot whose envelope overlaps the obstacle is lifted above its inflated top.
 
 The targets are dilated and smoothed in time, then projected with bounded per-frame inverse
-kinematics.  Root translation and orientation, the upper body, clip length, and frame rate are
-preserved exactly.  A result is admitted only when the whole-body collision check clears, the
-predeclared support rule still passes, the IK residual is small, and the edit stays inside the
-declared joint-change and joint-speed budgets.
+kinematics.  The resulting joint deformation is smoothed once more before it is scored.  Root
+translation and orientation, the upper body, clip length, and frame rate are preserved exactly.
+A result is admitted only when the whole-body collision check clears, the predeclared support
+screen still passes, both target residuals are bounded, and the edit stays inside the declared
+joint-change and *pointwise* joint-speed budgets.
 
 This is deliberately a *reference* repair.  Passing it is not evidence of controller tracking
 or obstacle traversal; those are separate obstacle-present rollout endpoints.
@@ -82,6 +83,8 @@ class FootstepRepairConfig:
     active_offset_tolerance_m: float = 1e-4
     max_ik_evaluations: int = 100
     max_ik_target_residual_m: float = 0.005
+    joint_delta_smoothing_sigma_frames: float = 1.0
+    max_post_smoothing_target_residual_m: float = 0.025
     max_joint_delta_rad: float = 0.50
     max_joint_speed_increase_rads: float = 2.0
     numeric_tolerance: float = 1e-8
@@ -91,6 +94,8 @@ class FootstepRepairConfig:
             self.clearance_buffer_m, self.temporal_smoothing_sigma_frames,
             self.descriptor_weight, self.joint_fidelity_weight,
             self.active_offset_tolerance_m, self.max_ik_target_residual_m,
+            self.joint_delta_smoothing_sigma_frames,
+            self.max_post_smoothing_target_residual_m,
             self.max_joint_delta_rad, self.max_joint_speed_increase_rads,
             self.numeric_tolerance,
         )
@@ -355,6 +360,72 @@ def _max_joint_speed(qpos: np.ndarray, fps: float) -> float:
     return float(np.abs(np.diff(qpos[:, 7:], axis=0)).max() * fps)
 
 
+def _smooth_leg_deformation(body: G1Body, original: np.ndarray, projected: np.ndarray,
+                            config: FootstepRepairConfig) -> tuple[np.ndarray, list[dict[str, Any]]]:
+    """Smooth the local IK deformation while returning to zero outside the edited window."""
+
+    repaired = projected.copy()
+    records: list[dict[str, Any]] = []
+    sigma = float(config.joint_delta_smoothing_sigma_frames)
+    for side in SIDES:
+        addresses, lower, upper = _leg_addresses_and_bounds(body, side)
+        raw_delta = projected[:, addresses] - original[:, addresses]
+        smooth_delta = gaussian_filter1d(
+            raw_delta, sigma=sigma, axis=0, mode="constant", cval=0.0,
+        )
+        values = np.clip(original[:, addresses] + smooth_delta, lower, upper)
+        repaired[:, addresses] = values
+        records.append({
+            "side": side,
+            "sigma_frames": sigma,
+            "max_raw_joint_delta_rad": float(np.abs(raw_delta).max()),
+            "max_smoothed_joint_delta_rad": float(
+                np.abs(values - original[:, addresses]).max()
+            ),
+        })
+    return repaired, records
+
+
+def _target_residual(body: G1Body, qpos: np.ndarray, plan: FootTargetPlan,
+                     config: FootstepRepairConfig) -> float:
+    geom_ids = _foot_geom_ids(body, plan.side)
+    active = np.flatnonzero(
+        np.abs(plan.forward_offset_m) + plan.vertical_offset_m
+        > config.active_offset_tolerance_m
+    )
+    return float(max((
+        np.linalg.norm(
+            _foot_descriptor(body, qpos[int(frame)], geom_ids)
+            - plan.target_descriptor_m[int(frame)]
+        )
+        for frame in active
+    ), default=0.0))
+
+
+def _pointwise_dynamics_change(original: np.ndarray, repaired: np.ndarray, *, fps: float,
+                               addresses: np.ndarray) -> dict[str, float]:
+    """Largest local velocity/acceleration increase on a matched joint-time element."""
+
+    before_velocity = np.diff(original[:, addresses], axis=0) * fps
+    after_velocity = np.diff(repaired[:, addresses], axis=0) * fps
+    velocity_increase = np.maximum(
+        np.abs(after_velocity) - np.abs(before_velocity), 0.0,
+    )
+    before_acceleration = np.diff(before_velocity, axis=0) * fps
+    after_acceleration = np.diff(after_velocity, axis=0) * fps
+    acceleration_increase = np.maximum(
+        np.abs(after_acceleration) - np.abs(before_acceleration), 0.0,
+    )
+    return {
+        "max_pointwise_joint_speed_increase_rads": float(
+            velocity_increase.max(initial=0.0)
+        ),
+        "max_pointwise_joint_acceleration_increase_rads2": float(
+            acceleration_increase.max(initial=0.0)
+        ),
+    }
+
+
 def _collision_summary(report: dict[str, Any]) -> dict[str, Any]:
     return {
         "collision_free": bool(report["collision_free"]),
@@ -399,8 +470,11 @@ def repair_step_reference(qpos: np.ndarray, *, fps: float, obstacle_x_m: float,
     before_speed = _max_joint_speed(original, fps)
 
     base_record: dict[str, Any] = {
-        "schema_version": "step-foot-envelope-ik-v1",
-        "method": "obstacle-relative foot-envelope IK; root and upper body unchanged",
+        "schema_version": "step-foot-envelope-ik-v2",
+        "method": (
+            "obstacle-relative, support-screened foot-envelope IK with smoothed leg-joint "
+            "deformation; root and upper body unchanged"
+        ),
         "scene": {
             "obstacle_x_m": float(obstacle_x_m),
             "obstacle_height_m": float(obstacle_height_m),
@@ -433,10 +507,17 @@ def repair_step_reference(qpos: np.ndarray, *, fps: float, obstacle_x_m: float,
         obstacle_height_m=obstacle_height_m, obstacle_depth_m=obstacle_depth_m,
         support_rule=support_rule, config=config,
     )
-    repaired = original.copy()
+    projected = original.copy()
     foot_records = [
-        _project_leg(body, repaired, plans[side], config) for side in SIDES
+        _project_leg(body, projected, plans[side], config) for side in SIDES
     ]
+    repaired, smoothing_records = _smooth_leg_deformation(
+        body, original, projected, config,
+    )
+    for side, record in zip(SIDES, foot_records):
+        record["post_smoothing_max_target_residual_m"] = _target_residual(
+            body, repaired, plans[side], config,
+        )
 
     after_collision_full = obstacle_body.trajectory_report(repaired)
     after_support = support_report(body, repaired, fps, support_rule)
@@ -446,18 +527,28 @@ def repair_step_reference(qpos: np.ndarray, *, fps: float, obstacle_x_m: float,
         _leg_addresses_and_bounds(body, side)[0] for side in SIDES
     ])
     max_delta = float(np.max(np.abs(repaired[:, leg_addresses] - original[:, leg_addresses])))
-    max_residual = float(max(record["max_target_residual_m"] for record in foot_records))
+    max_raw_residual = float(max(record["max_target_residual_m"] for record in foot_records))
+    max_final_residual = float(max(
+        record["post_smoothing_max_target_residual_m"] for record in foot_records
+    ))
+    dynamics_change = _pointwise_dynamics_change(
+        original, repaired, fps=fps, addresses=leg_addresses,
+    )
 
     reasons: list[str] = []
     if not after_collision_full["collision_free"]:
         reasons.append("whole_body_collision_remains")
     if not after_support["passes"]:
         reasons.append("support_screen_failed_after_projection")
-    if max_residual > config.max_ik_target_residual_m + config.numeric_tolerance:
+    if max_raw_residual > config.max_ik_target_residual_m + config.numeric_tolerance:
         reasons.append("ik_target_residual_exceeded")
+    if (max_final_residual
+            > config.max_post_smoothing_target_residual_m + config.numeric_tolerance):
+        reasons.append("post_smoothing_target_residual_exceeded")
     if max_delta > config.max_joint_delta_rad + config.numeric_tolerance:
         reasons.append("joint_delta_budget_exceeded")
-    if after_speed > before_speed + config.max_joint_speed_increase_rads + config.numeric_tolerance:
+    if (dynamics_change["max_pointwise_joint_speed_increase_rads"]
+            > config.max_joint_speed_increase_rads + config.numeric_tolerance):
         reasons.append("joint_speed_increase_budget_exceeded")
     if not np.array_equal(repaired[:, :7], original[:, :7]):
         reasons.append("root_changed_internal_error")
@@ -470,6 +561,7 @@ def repair_step_reference(qpos: np.ndarray, *, fps: float, obstacle_x_m: float,
         "accepted": bool(accepted),
         "reasons": reasons,
         "feet": foot_records,
+        "joint_delta_smoothing": smoothing_records,
         "after": {
             "collision": _collision_summary(after_collision_full),
             "support": after_support,
@@ -478,8 +570,10 @@ def repair_step_reference(qpos: np.ndarray, *, fps: float, obstacle_x_m: float,
         },
         "deformation": {
             "max_leg_joint_delta_rad": max_delta,
-            "max_ik_target_residual_m": max_residual,
-            "max_joint_speed_increase_rads": float(after_speed - before_speed),
+            "max_ik_target_residual_m": max_raw_residual,
+            "max_post_smoothing_target_residual_m": max_final_residual,
+            "max_global_joint_speed_change_rads": float(after_speed - before_speed),
+            **dynamics_change,
             "root_exactly_unchanged": bool(np.array_equal(repaired[:, :7], original[:, :7])),
             "upper_body_exactly_unchanged": bool(
                 np.array_equal(repaired[:, 19:], original[:, 19:])

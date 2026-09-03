@@ -33,6 +33,7 @@ from scene2motion.step_repair import (  # noqa: E402
     FootstepRepairConfig,
     SupportRule,
     repair_step_reference,
+    support_report,
 )
 from scene2motion.stepover_eval import step_scene  # noqa: E402
 
@@ -54,7 +55,11 @@ POOL_SEEDS = tuple(range(4400, 4464))
 EXPECTED_SUPPORT_PASSING_KEYS = (
     "s4408", "s4411", "s4418", "s4419", "s4434", "s4440", "s4452", "s4459",
 )
-EXPECTED_ACCEPTED_KEYS = ("s4408", "s4411", "s4434", "s4459")
+EXPECTED_ACCEPTED_KEYS = ("s4408", "s4434")
+EXPECTED_CANDIDATE_ARRAY_SHA256 = {
+    "s4408": "0a12895f270031247a4f89205978b88079a005f8a27b529adb154da7543ccf89",
+    "s4434": "b6dc740973ad4404c1b3b736683339e3fecf5490de7a7cd6c9ca8c7b50c0fa3e",
+}
 SOURCE_FILES = (
     "experiments/exp031_prepare_step_repair.py",
     "scene2motion/robot.py",
@@ -203,17 +208,11 @@ def build_records(source: str | Path = SOURCE, *,
                 "candidate_array_sha256": qpos_sha256(repaired) if record["accepted"] else None,
             })
             if record["accepted"]:
-                # The controller consumes float32.  Refuse a candidate whose admission was a
-                # float64-only numerical accident.
-                check = repair_step_reference(
-                    repaired, fps=FPS, obstacle_x_m=OBSTACLE_X_M,
-                    obstacle_height_m=OBSTACLE_HEIGHT_M, obstacle_depth_m=OBSTACLE_DEPTH_M,
-                    support_rule=rule, config=config, body=body, obstacle_body=obstacle_body,
-                )
-                # Re-running the repair is not the desired check because it would edit twice;
-                # use its immutable "before" measurements, which score the supplied float32.
-                if (not check.record["before"]["collision"]["collision_free"]
-                        or not check.record["before"]["support"]["passes"]):
+                # The controller consumes float32.  Score that exact stored array directly and
+                # refuse a candidate whose admission was a float64-only numerical accident.
+                collision = obstacle_body.trajectory_report(repaired)
+                support = support_report(body, repaired, FPS, rule)
+                if not collision["collision_free"] or not support["passes"]:
                     raise PreparationRefused(
                         f"{key} loses collision/support admission after float32 conversion"
                     )
@@ -231,6 +230,12 @@ def build_records(source: str | Path = SOURCE, *,
     if accepted != EXPECTED_ACCEPTED_KEYS:
         raise PreparationRefused(
             f"accepted keys changed: {accepted} != {EXPECTED_ACCEPTED_KEYS}"
+        )
+    candidate_hashes = {key: qpos_sha256(value) for key, value in candidates.items()}
+    if candidate_hashes != EXPECTED_CANDIDATE_ARRAY_SHA256:
+        raise PreparationRefused(
+            "candidate content hashes changed: "
+            f"{candidate_hashes} != {EXPECTED_CANDIDATE_ARRAY_SHA256}"
         )
 
     counts = {

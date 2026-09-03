@@ -63,6 +63,8 @@ def test_s4434_repairs_the_reference_gap_without_moving_the_root():
     assert np.array_equal(result.qpos[:, 19:], original[:, 19:])
     assert result.record["deformation"]["max_leg_joint_delta_rad"] < 0.50
     assert result.record["deformation"]["max_ik_target_residual_m"] < 0.005
+    assert result.record["deformation"]["max_post_smoothing_target_residual_m"] < 0.025
+    assert result.record["deformation"]["max_pointwise_joint_speed_increase_rads"] < 2.0
 
 
 def test_a_support_failing_input_is_refused_without_modification():
@@ -77,11 +79,11 @@ def test_a_support_failing_input_is_refused_without_modification():
     assert np.array_equal(result.qpos, original)
 
 
-def test_archived_support_passing_pool_yields_four_preexecution_candidates():
+def test_archived_support_passing_pool_yields_two_preexecution_candidates():
     """Pin the exploratory pool accounting that determines EXP-031's launch list.
 
     The denominator remains all 64 source references: 56 are refused by the frozen support
-    screen, four fail a post-projection admission condition, and four are admitted for the
+    screen, six fail a post-projection admission condition, and two are admitted for the
     obstacle-present engineering pilot.
     """
 
@@ -108,7 +110,7 @@ def test_archived_support_passing_pool_yields_four_preexecution_candidates():
         "s4408", "s4411", "s4418", "s4419",
         "s4434", "s4440", "s4452", "s4459",
     ]
-    assert accepted == ["s4408", "s4411", "s4434", "s4459"]
+    assert accepted == ["s4408", "s4434"]
 
 
 def test_invalid_rules_and_budgets_fail_closed():

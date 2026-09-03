@@ -24,8 +24,9 @@ def test_dry_run_is_read_only_and_reports_the_locked_candidate_set(tmp_path):
     assert report["project_dirty_observed"] is True
     assert report["summary"]["n_assigned_trials"] == 64
     assert report["summary"]["n_input_support_pass"] == 8
-    assert report["summary"]["n_accepted_for_execution"] == 4
+    assert report["summary"]["n_accepted_for_execution"] == 2
     assert report["summary"]["accepted_keys"] == list(exp.EXPECTED_ACCEPTED_KEYS)
+    assert report["candidate_array_hashes"] == exp.EXPECTED_CANDIDATE_ARRAY_SHA256
     assert not any(tmp_path.iterdir())
 
 
@@ -49,7 +50,7 @@ def test_prepare_refuses_a_dirty_tree_before_creating_output(tmp_path):
     assert not out.exists()
 
 
-def test_prepare_writes_all_dispositions_and_only_four_candidate_arrays(tmp_path):
+def test_prepare_writes_all_dispositions_and_only_two_candidate_arrays(tmp_path):
     out = tmp_path / "campaign"
     receipt = exp.prepare(
         out=out, git_state_fn=clean, protocol_identity_fn=preregistered,
@@ -58,10 +59,12 @@ def test_prepare_writes_all_dispositions_and_only_four_candidate_arrays(tmp_path
     with np.load(out / "qpos.npz") as archive:
         assert tuple(archive.files) == exp.EXPECTED_ACCEPTED_KEYS
         assert all(archive[key].dtype == np.float32 for key in archive.files)
+        assert {key: exp.qpos_sha256(archive[key]) for key in archive.files} \
+            == exp.EXPECTED_CANDIDATE_ARRAY_SHA256
     assert len(rows) == 64
     assert sum(row["status"] == "refused" for row in rows) == 56
-    assert sum(row["status"] == "rejected" for row in rows) == 4
-    assert sum(row["status"] == "accepted" for row in rows) == 4
+    assert sum(row["status"] == "rejected" for row in rows) == 6
+    assert sum(row["status"] == "accepted" for row in rows) == 2
     assert receipt["status"] == "prepared"
     assert receipt["sonic_rollouts_requested"] == 0
     assert receipt["summary"]["accepted_keys"] == list(exp.EXPECTED_ACCEPTED_KEYS)

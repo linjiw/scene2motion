@@ -51,3 +51,8 @@ section; figures one row each; the released dataset README one row.
 | 2026-09-02 | `scene2motion/traversal_eval.py` + `tests/test_traversal_eval.py` (27) | Claude | EXP-028 fall constants (pinned by test); `exp022.score_trajectory` left untouched | | | scene endpoint: start/goal/obstacles -> outcome; corridor makes walking around a failure |
 | 2026-09-02 | `experiments/analyze_traversal_outcomes.py` + tests (8) -> `outputs/analysis_traversal_outcomes/summary.json`; REPORT §45 | Claude | EXP-022A achieved archives (sha in summary); passage agrees with the frozen bridge on sampled clips | | | 21/64 hit the 5 cm box, 43 cutoff, 0 completed; obstacle absent from Isaac (scope stated) |
 | 2026-09-02 | SONIC checkpoint provenance in CLAUDE.md and REPORT §45; v1.1 downloaded | Claude | NVIDIA model card (README "Model Card"); `sonic_v1_1/last.pt` sha af24831a | | | default release is the vendor's motion-tracking checkpoint; v1.1 arm unrun |
+| 2026-09-03 | `docs/ramp-exp026-duck-contract-protocol.md` (+ amendment) | Claude | plan of record EXP-026 row (`0379d47`) | | | preregistered before any feature was computed |
+| 2026-09-03 | `experiments/analyze_duck_contract.py` + `outputs/analysis_duck_contract/` | Claude | EXP-1B rows, the 526-clip duck cache, exp016 threshold receipt (all hashed in the receipt) | | | post hoc on a completed campaign; 23 tests |
+| 2026-09-03 | `docs/ramp-exp026-duck-contract-result-2026-09-03.md`, REPORT §46 | Claude | `outputs/analysis_duck_contract/receipt.json` | | | speed confound refuted; transfer weak |
+| 2026-09-03 | `experiments/fig_screen_across_families.py` → `docs/figures/fig6_screen_across_families.*` | Claude | the two contract receipts (hashes in `fig6_numbers.json`) | | | reads committed outputs only |
+

@@ -1,0 +1,143 @@
+{
+  "corpora": [
+    {
+      "auc": 0.9965694682675815,
+      "ci95": [
+        0.9866029812348669,
+        1.0
+      ],
+      "flagged_survivors": 3,
+      "flagged_terminated": 53,
+      "interval_kind": "clip bootstrap (single scene)",
+      "key": "exp021_step",
+      "label": "stepping \u00b7 text prompt\n64 refs",
+      "n": 64,
+      "sensitivity": 1.0,
+      "specificity": 0.7272727272727273,
+      "survivors": 11,
+      "terminated": 53,
+      "within_scene_auc": null
+    },
+    {
+      "auc": 0.9205761316872428,
+      "ci95": [
+        0.8198529411764706,
+        0.9834515791622022
+      ],
+      "flagged_survivors": 4,
+      "flagged_terminated": 127,
+      "interval_kind": "clip bootstrap (single scene)",
+      "key": "exp1c_lift",
+      "label": "stepping \u00b7 position channel\n144 refs",
+      "n": 144,
+      "sensitivity": 0.9407407407407408,
+      "specificity": 0.5555555555555556,
+      "survivors": 9,
+      "terminated": 135,
+      "within_scene_auc": null
+    },
+    {
+      "auc": 0.6740432532583696,
+      "ci95": [
+        0.624539191153661,
+        0.7211037242177744
+      ],
+      "flagged_survivors": 128,
+      "flagged_terminated": 313,
+      "interval_kind": "cluster bootstrap over 36 scenes",
+      "key": "duck",
+      "label": "ducking \u00b7 planner + repair\n526 refs",
+      "n": 526,
+      "sensitivity": 0.9098837209302325,
+      "specificity": 0.2967032967032967,
+      "survivors": 182,
+      "terminated": 344,
+      "within_scene_auc": 0.6936188811188811
+    }
+  ],
+  "duck_contact_minus_speed": {
+    "pooled": {
+      "ci95": [
+        0.11959959016266952,
+        0.3617532477228069
+      ],
+      "n_resamples_used": 2000
+    },
+    "within_scene": {
+      "ci95": [
+        -0.017860354573484116,
+        0.20951720836128326
+      ],
+      "n_resamples_used": 2000
+    }
+  },
+  "duck_strata": [
+    {
+      "contact": 0.6512508809020436,
+      "crouch": 0.48405567300916136,
+      "label": "dip [0.25, 0.35)",
+      "n": 152,
+      "speed": 0.44820295983086683,
+      "terminated": 66
+    },
+    {
+      "contact": 0.5777116402116402,
+      "crouch": 0.4540343915343915,
+      "label": "dip [0.35, 0.45)",
+      "n": 138,
+      "speed": 0.34953703703703703,
+      "terminated": 84
+    },
+    {
+      "contact": 0.6933603338242513,
+      "crouch": 0.6243249877270496,
+      "label": "dip [0.45, 0.50)",
+      "n": 236,
+      "speed": 0.40844378988708885,
+      "terminated": 194
+    },
+    {
+      "contact": 0.6643382352941176,
+      "crouch": 0.7922794117647058,
+      "label": "3 beams",
+      "n": 88,
+      "speed": 0.5830882352941177,
+      "terminated": 68
+    },
+    {
+      "contact": 0.6632440476190476,
+      "crouch": 0.6290178571428572,
+      "label": "4 beams",
+      "n": 124,
+      "speed": 0.5005952380952381,
+      "terminated": 84
+    },
+    {
+      "contact": 0.6701030927835051,
+      "crouch": 0.6852957135105806,
+      "label": "5 beams",
+      "n": 154,
+      "speed": 0.4373304395008139,
+      "terminated": 97
+    },
+    {
+      "contact": 0.7070445344129554,
+      "crouch": 0.7847773279352227,
+      "label": "6 beams",
+      "n": 160,
+      "speed": 0.5475303643724696,
+      "terminated": 95
+    }
+  ],
+  "inputs": {
+    "analysis_duck_contract": {
+      "path": "outputs/analysis_duck_contract/receipt.json",
+      "sha256": "9d05fa427d6f03a3d981a08ff15c78028f37ed97ff677d6c284b3847dab62fb4"
+    },
+    "analysis_trackability_contract": {
+      "path": "outputs/analysis_trackability_contract/receipt.json",
+      "sha256": "6c0c73ce0d29578064714e8d42451ee2c7f7c32cfd2ea8a7fa4519186443612b"
+    }
+  },
+  "screen_threshold_s": 0.2
+}

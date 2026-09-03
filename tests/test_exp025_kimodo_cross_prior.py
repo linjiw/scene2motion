@@ -1790,3 +1790,32 @@ def test_real_scorer_produces_a_validated_record(tmp_path, monkeypatch):
     assert score["route_fidelity"]["measured_against"] == "smooth_root_pos"
     assert score["route_fidelity"]["smooth_root_path_mae_m"] == pytest.approx(0.0, abs=1e-6)
     assert score["timing"]["fps"] == 30.0
+
+
+def test_generator_identity_checks_the_pinned_model_not_the_resolved_key(tmp_path, monkeypatch):
+    """`load_model` returns a short registry key, so the snapshot check must use the pinned name."""
+    cache = tmp_path / "hub"
+    snapshot = cache / f"models--nvidia--{exp.MODEL_NAME}" / "snapshots" / "3020ad8c"
+    stats = snapshot / "stats" / "motion" / "body"
+    stats.mkdir(parents=True)
+    for name in ("config.yaml", "model.safetensors"):
+        (snapshot / name).write_text("x")
+    for block in ("body", "global_root", "local_root"):
+        d = snapshot / "stats" / "motion" / block
+        d.mkdir(parents=True, exist_ok=True)
+        (d / "mean.npy").write_bytes(b"m")
+        (d / "std.npy").write_bytes(b"s")
+
+    class FakeRunner:
+        model_name = "g1"          # the resolved SHORT KEY, not the repository name
+        fps = exp.FPS
+        noise_stream_version = 2
+        model = type("M", (), {"motion_rep": type("R", (), {
+            "body_stats": type("B", (), {"folder": str(stats)})()})()})()
+
+    monkeypatch.setattr("huggingface_hub.constants.HF_HUB_CACHE", str(cache), raising=False)
+    identity = exp.kimodo_generator_identity(FakeRunner())
+    checkpoint = identity["checkpoint"]
+    assert checkpoint["model_name"] == exp.MODEL_NAME          # the pinned repository name
+    assert checkpoint["resolved_model_key"] == "g1"          # what load_model resolved to
+    assert checkpoint["hf_revision"] == "3020ad8c"

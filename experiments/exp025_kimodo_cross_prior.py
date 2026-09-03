@@ -958,7 +958,12 @@ def kimodo_generator_identity(runner: Any) -> dict[str, Any]:
     """Snapshot identity derived from the *loaded* model's own statistics folder."""
     from huggingface_hub.constants import HF_HUB_CACHE
 
-    model_name = str(runner.model_name)
+    # ``KimodoRunner.model_name`` is whatever ``kimodo.model.load_model`` resolved the request
+    # to -- a short registry key such as "g1", not the Hugging Face repository name.  The
+    # directory check below must therefore use the model this campaign PINS (``MODEL_NAME``), and
+    # the resolved key is recorded beside it so both are visible in the receipt.
+    resolved_key = str(runner.model_name)
+    model_name = MODEL_NAME
     try:
         stats_folder = Path(runner.model.motion_rep.body_stats.folder)
     except (AttributeError, TypeError) as exc:
@@ -992,6 +997,7 @@ def kimodo_generator_identity(runner: Any) -> dict[str, Any]:
         "checkpoint": {
             "generator_id": f"nvidia/{model_name}@{snapshot.name}",
             "model_name": model_name,
+            "resolved_model_key": resolved_key,
             "hf_revision": snapshot.name,
             "snapshot_path": str(snapshot),
             "hf_hub_cache": str(Path(HF_HUB_CACHE)),

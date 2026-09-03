@@ -1,0 +1,75 @@
+{
+  "abort_free_mib": 700,
+  "aborted_reason": null,
+  "after": {
+    "free_mib": 7654,
+    "t": 1788409358.075962,
+    "total_mib": 16303,
+    "used_mib": 8155
+  },
+  "before": {
+    "concurrent_isaac_processes": 4,
+    "ram": {
+      "available_mib": 10390,
+      "error": null,
+      "total_mib": 30670
+    },
+    "vram": {
+      "free_mib": 7655,
+      "total_mib": 16303,
+      "used_mib": 8154
+    }
+  },
+  "campaign_evidence": false,
+  "command": [
+    "/home/linjiw/isaaclab-install/env_isaaclab/bin/python",
+    "-u",
+    "-m",
+    "gear_sonic.eval_agent_trl",
+    "+checkpoint=/home/linjiw/lucid/GR00T-WholeBodyControl/sonic_release/last.pt",
+    "+headless=True",
+    "++eval_callbacks=im_eval",
+    "++run_eval_loop=False",
+    "++num_envs=2",
+    "++eval_output_dir=/home/linjiw/scene2motion/run/probe_sonic_vram/envs2/eval",
+    "++seed=0",
+    "++manager_env.commands.motion.motion_lib_cfg.multi_thread=False",
+    "+manager_env/terminations=tracking/eval",
+    "+manager_env.commands.motion.motion_lib_cfg.motion_file=/home/linjiw/scene2motion/run/probe_sonic_vram/envs2/probe_motions.pkl",
+    "+log_keys=probe_motions",
+    "++callbacks.im_eval._target_=scene2motion.sonic_state_export.SonicStateExportCallback",
+    "++callbacks.im_eval.state_filename=achieved_qpos.npz"
+  ],
+  "elapsed_s": 48.6,
+  "log_path": "/home/linjiw/scene2motion/run/probe_sonic_vram/envs2/sonic.log",
+  "log_tail": [
+    "",
+    "  0%|          | 0/2 [00:00<?, ?it/s]\u001b[A",
+    "100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 2/2 [00:00<00:00, 1451.57it/s]",
+    "Gathering eval tensors torch.Size([2, 29]) 0",
+    "Success Rate: 0.5000000000",
+    "Progress Rate: 0.5577889457",
+    "All:  mpjpe_g: 234.412 \tmpjpe_l: 37.816 \tmpjpe_pa: 31.573 \taccel_dist: 8.361 \tvel_dist: 12.405 \tmpjpe_g_legs: 230.944 \tmpjpe_l_legs: 37.842 \tmpjpe_pa_legs: 27.269 \taccel_dist_legs: 8.064 \tvel_dist_legs: 11.420 \tmpjpe_g_vr_3points: 242.997 \tmpjpe_l_vr_3points: 37.926 \tmpjpe_pa_vr_3points: 16.078 \taccel_dist_vr_3points: 10.804 \tvel_dist_vr_3points: 15.568 \tmpjpe_g_other_upper_bodies: 233.422 \tmpjpe_l_other_upper_bodies: 35.674 \tmpjpe_pa_other_upper_bodies: 16.287 \taccel_dist_other_upper_bodies: 7.253 \tvel_dist_other_upper_bodies: 11.688 \tmpjpe_g_foot: 237.069 \tmpjpe_l_foot: 46.056 \tmpjpe_pa_foot: 0.000 \taccel_dist_foot: 10.583 \tvel_dist_foot: 13.498",
+    "Succ:  mpjpe_g: 394.350 \tmpjpe_l: 33.115 \tmpjpe_pa: 24.094 \taccel_dist: 4.571 \tvel_dist: 11.025 \tmpjpe_g_legs: 391.344 \tmpjpe_l_legs: 35.791 \tmpjpe_pa_legs: 24.280 \taccel_dist_legs: 5.059 \tvel_dist_legs: 11.054 \tmpjpe_g_vr_3points: 398.093 \tmpjpe_l_vr_3points: 24.499 \tmpjpe_pa_vr_3points: 10.002 \taccel_dist_vr_3points: 4.922 \tvel_dist_vr_3points: 12.005 \tmpjpe_g_other_upper_bodies: 395.711 \tmpjpe_l_other_upper_bodies: 34.256 \tmpjpe_pa_other_upper_bodies: 9.191 \taccel_dist_other_upper_bodies: 3.774 \tvel_dist_other_upper_bodies: 10.402 \tmpjpe_g_foot: 390.954 \tmpjpe_l_foot: 41.823 \tmpjpe_pa_foot: 0.000 \taccel_dist_foot: 6.863 \tvel_dist_foot: 12.232",
+    "",
+    "Terminated: 1 | max frames: 398 | steps 397 | env_loop: 0 | eval_time: 0.5m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 1/1 [00:29<00:00, 29.31s/it]",
+    "Terminated: 1 | max frames: 398 | steps 397 | env_loop: 0 | eval_time: 0.5m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 1/1 [00:29<00:00, 29.31s/it]Saved achieved qpos to /home/linjiw/scene2motion/run/probe_sonic_vram/envs2/eval/achieved_qpos.npz",
+    "Saving metrics_eval to /home/linjiw/scene2motion/run/probe_sonic_vram/envs2/eval/metrics_eval.json"
+  ],
+  "min_free_mib": 3970,
+  "motion_keys": [
+    "s4400",
+    "s4401"
+  ],
+  "n_samples": 47,
+  "num_envs": 2,
+  "num_motions": 2,
+  "peak_launch_mib": 3631,
+  "peak_other_process_mib": 6935,
+  "peak_total_used_mib": 11839,
+  "probe": "sonic_vram",
+  "returncode": 0,
+  "safety_floor_mib": 4500,
+  "status": "complete",
+  "timeout_s": 900
+}

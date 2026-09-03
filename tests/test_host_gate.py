@@ -99,17 +99,32 @@ def test_live_probes_do_not_raise() -> None:
     assert subprocess is not None
 
 
-def test_named_presets_match_the_protocols() -> None:
-    assert hg.SONIC_LAUNCH_GATE == {"min_free_vram_mib": 12 * 1024,
-                                    "min_available_ram_mib": 18 * 1024, "require_no_isaac": True}
+def test_named_presets_are_the_measured_ones() -> None:
+    assert hg.SONIC_LAUNCH_GATE == {"min_free_vram_mib": 5500,
+                                    "min_available_ram_mib": 9500, "require_no_isaac": False}
     assert hg.ARDY_GENERATION_GATE == {"min_free_vram_mib": 4 * 1024,
                                        "min_available_ram_mib": 8 * 1024, "require_no_isaac": False}
+    # Every preset must clear what a launch was measured to need, with margin.
+    need = hg.SONIC_MEASURED_NEED
+    assert hg.SONIC_LAUNCH_GATE["min_free_vram_mib"] > need["peak_launch_vram_mib"]
+    assert hg.SONIC_LAUNCH_GATE["min_available_ram_mib"] > need["host_ram_consumed_mib"]
+
+
+def test_presets_decide_the_2026_09_03_host_correctly() -> None:
     measured = dict(
-        vram_fn=lambda: {"free_mib": 8339, "total_mib": 16303, "used_mib": 7470, "error": None},
-        ram_fn=lambda: {"available_mib": 12000, "total_mib": 29296, "error": None},
+        vram_fn=lambda: {"free_mib": 7862, "total_mib": 16303, "used_mib": 8441, "error": None},
+        ram_fn=lambda: {"available_mib": 9800, "total_mib": 29296, "error": None},
         isaac_fn=lambda: [{"pid": 1, "args": "env_isaaclab"}],
     )
-    # The 2026-09-02 host: ARDY-only generation may run, SONIC may not.
+    # The host that ran the probe: both ARDY generation and a 32-env SONIC launch may proceed
+    # beside the Isaac co-tenant, which is what the probe demonstrated.
     assert hg.host_resource_report(**hg.ARDY_GENERATION_GATE, **measured)["pass"]
-    assert not hg.host_resource_report(**hg.SONIC_LAUNCH_GATE, **measured)["pass"]
+    assert hg.host_resource_report(**hg.SONIC_LAUNCH_GATE, **measured)["pass"]
+    # A host with too little RAM for a launch's measured consumption is still refused.
+    tight = dict(measured, ram_fn=lambda: {"available_mib": 6000, "total_mib": 29296,
+                                           "error": None})
+    assert not hg.host_resource_report(**hg.SONIC_LAUNCH_GATE, **tight)["pass"]
+    starved = dict(measured, vram_fn=lambda: {"free_mib": 4000, "total_mib": 16303,
+                                              "used_mib": 12303, "error": None})
+    assert not hg.host_resource_report(**hg.SONIC_LAUNCH_GATE, **starved)["pass"]
 

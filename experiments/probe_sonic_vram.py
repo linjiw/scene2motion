@@ -74,6 +74,8 @@ def gpu_sample() -> dict[str, Any]:
             if len(parts) == 2 and parts[0].isdigit() and parts[1].isdigit():
                 procs[int(parts[0])] = int(parts[1])
     out["processes"] = procs
+    ram = host_gate.query_available_ram_mib()
+    out["available_ram_mib"] = ram.get("available_mib")
     return out
 
 
@@ -216,6 +218,8 @@ def probe(*, num_envs: int, safety_floor_mib: int, abort_free_mib: int, timeout_
         "peak_total_used_mib": monitor.peak("used_mib"),
         "min_free_mib": monitor.minimum("free_mib"),
         "peak_other_process_mib": monitor.peak("other_mib"),
+        "min_available_ram_mib": monitor.minimum("available_ram_mib"),
+        "peak_available_ram_mib": monitor.peak("available_ram_mib"),
         "after": {k: v for k, v in gpu_sample().items() if k != "processes"},
         "log_tail": (log or "").strip().splitlines()[-12:],
         "log_path": str(run_dir / "sonic.log"),

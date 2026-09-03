@@ -1,8 +1,7 @@
 """Host-resource gate shared by every GPU campaign driver.
 
-SONIC launches (``SONIC_LAUNCH_GATE``) require at least 12 GiB of free VRAM, 18 GiB of
-available RAM and no concurrent Isaac process; ARDY-only generation (``ARDY_GENERATION_GATE``)
-requires 4 GiB and 8 GiB, a ~4x margin on its measured need, with Isaac co-tenants recorded.  The
+Both presets are **measured**, not inherited: see ``ARDY_GENERATION_GATE`` and
+``SONIC_LAUNCH_GATE`` below for what was measured and when.  The
 gate must be evaluated *before* a runner is constructed and before any seed is spent, and its
 measured values are bound into the campaign receipt.  A failed gate must leave the output
 directory untouched so the same directory can be launched later.
@@ -31,10 +30,27 @@ ARDY_GENERATION_GATE: dict[str, Any] = {
     "min_available_ram_mib": 8 * 1024,
     "require_no_isaac": False,
 }
+# SONIC eval launches were measured on 2026-09-03 by ``experiments/probe_sonic_vram.py``
+# (reports in ``outputs/probe_sonic_vram/``): at 2, 16 and **32** environments — 32 being the
+# campaign configuration — one launch peaked at 3,631 / 3,727 / **3,769 MiB** of VRAM and
+# consumed about **6,810 MiB** of host RAM (available RAM fell 8,820 -> 2,010 MiB), completing
+# in 49-62 s.  VRAM is dominated by the Isaac Sim baseline and barely grows with the environment
+# count; host RAM is the binding resource.  All three launches completed with return code 0
+# **beside four concurrent Isaac processes**, so the previous "no concurrent Isaac process"
+# condition is not a launch requirement and co-tenants are recorded instead of gated.  The
+# thresholds below keep roughly 1.5x the measured VRAM peak and leave >= 2.7 GiB of RAM after a
+# launch's measured consumption.  The former 12 GiB / 18 GiB / no-Isaac figures were inherited
+# from the plan of record and never measured; they blocked every SONIC campaign for a day.
 SONIC_LAUNCH_GATE: dict[str, Any] = {
-    "min_free_vram_mib": MIN_FREE_VRAM_MIB,
-    "min_available_ram_mib": MIN_AVAILABLE_RAM_MIB,
-    "require_no_isaac": True,
+    "min_free_vram_mib": 5500,
+    "min_available_ram_mib": 9500,
+    "require_no_isaac": False,
+}
+#: What one 32-environment launch actually used (2026-09-03; provenance for the preset above).
+SONIC_MEASURED_NEED = {
+    "num_envs": 32, "peak_launch_vram_mib": 3769, "host_ram_consumed_mib": 6810,
+    "elapsed_s": 61.6, "concurrent_isaac_processes": 4,
+    "report": "outputs/probe_sonic_vram/report_envs32.json",
 }
 
 # Command-line fragments that identify an Isaac Sim / Isaac Lab process on this host.

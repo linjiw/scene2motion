@@ -1,0 +1,89 @@
+{
+  "abort_free_mib": 1200,
+  "aborted_reason": null,
+  "after": {
+    "free_mib": 7655,
+    "t": 1788409433.6315355,
+    "total_mib": 16303,
+    "used_mib": 8154
+  },
+  "before": {
+    "concurrent_isaac_processes": 4,
+    "ram": {
+      "available_mib": 10475,
+      "error": null,
+      "total_mib": 30670
+    },
+    "vram": {
+      "free_mib": 7655,
+      "total_mib": 16303,
+      "used_mib": 8154
+    }
+  },
+  "campaign_evidence": false,
+  "command": [
+    "/home/linjiw/isaaclab-install/env_isaaclab/bin/python",
+    "-u",
+    "-m",
+    "gear_sonic.eval_agent_trl",
+    "+checkpoint=/home/linjiw/lucid/GR00T-WholeBodyControl/sonic_release/last.pt",
+    "+headless=True",
+    "++eval_callbacks=im_eval",
+    "++run_eval_loop=False",
+    "++num_envs=16",
+    "++eval_output_dir=/home/linjiw/scene2motion/run/probe_sonic_vram/envs16/eval",
+    "++seed=0",
+    "++manager_env.commands.motion.motion_lib_cfg.multi_thread=False",
+    "+manager_env/terminations=tracking/eval",
+    "+manager_env.commands.motion.motion_lib_cfg.motion_file=/home/linjiw/scene2motion/run/probe_sonic_vram/envs16/probe_motions.pkl",
+    "+log_keys=probe_motions",
+    "++callbacks.im_eval._target_=scene2motion.sonic_state_export.SonicStateExportCallback",
+    "++callbacks.im_eval.state_filename=achieved_qpos.npz"
+  ],
+  "elapsed_s": 52.6,
+  "log_path": "/home/linjiw/scene2motion/run/probe_sonic_vram/envs16/sonic.log",
+  "log_tail": [
+    "",
+    "  0%|          | 0/16 [00:00<?, ?it/s]\u001b[A",
+    "100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 16/16 [00:00<00:00, 1506.41it/s]",
+    "Gathering eval tensors torch.Size([16, 29]) 0",
+    "Success Rate: 0.1875000000",
+    "Progress Rate: 0.2682160808",
+    "All:  mpjpe_g: 202.027 \tmpjpe_l: 37.476 \tmpjpe_pa: 31.995 \taccel_dist: 14.473 \tvel_dist: 15.825 \tmpjpe_g_legs: 199.020 \tmpjpe_l_legs: 36.115 \tmpjpe_pa_legs: 27.088 \taccel_dist_legs: 14.732 \tvel_dist_legs: 15.840 \tmpjpe_g_vr_3points: 210.072 \tmpjpe_l_vr_3points: 42.046 \tmpjpe_pa_vr_3points: 15.664 \taccel_dist_vr_3points: 16.098 \tvel_dist_vr_3points: 17.953 \tmpjpe_g_other_upper_bodies: 200.808 \tmpjpe_l_other_upper_bodies: 32.717 \tmpjpe_pa_other_upper_bodies: 15.943 \taccel_dist_other_upper_bodies: 13.187 \tvel_dist_other_upper_bodies: 14.532 \tmpjpe_g_foot: 207.366 \tmpjpe_l_foot: 44.315 \tmpjpe_pa_foot: 0.000 \taccel_dist_foot: 18.164 \tvel_dist_foot: 18.596",
+    "Succ:  mpjpe_g: 704.527 \tmpjpe_l: 33.824 \tmpjpe_pa: 26.176 \taccel_dist: 4.725 \tvel_dist: 9.941 \tmpjpe_g_legs: 695.501 \tmpjpe_l_legs: 34.216 \tmpjpe_pa_legs: 24.664 \taccel_dist_legs: 5.283 \tvel_dist_legs: 10.386 \tmpjpe_g_vr_3points: 702.421 \tmpjpe_l_vr_3points: 24.190 \tmpjpe_pa_vr_3points: 10.687 \taccel_dist_vr_3points: 4.862 \tvel_dist_vr_3points: 10.397 \tmpjpe_g_other_upper_bodies: 716.622 \tmpjpe_l_other_upper_bodies: 37.053 \tmpjpe_pa_other_upper_bodies: 11.556 \taccel_dist_other_upper_bodies: 3.974 \tvel_dist_other_upper_bodies: 9.134 \tmpjpe_g_foot: 691.360 \tmpjpe_l_foot: 42.210 \tmpjpe_pa_foot: 0.000 \taccel_dist_foot: 6.994 \tvel_dist_foot: 11.652",
+    "",
+    "Terminated: 13 | max frames: 398 | steps 397 | env_loop: 0 | eval_time: 0.6m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 1/1 [00:34<00:00, 34.42s/it]",
+    "Terminated: 13 | max frames: 398 | steps 397 | env_loop: 0 | eval_time: 0.6m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 1/1 [00:34<00:00, 34.42s/it]Saved achieved qpos to /home/linjiw/scene2motion/run/probe_sonic_vram/envs16/eval/achieved_qpos.npz",
+    "Saving metrics_eval to /home/linjiw/scene2motion/run/probe_sonic_vram/envs16/eval/metrics_eval.json"
+  ],
+  "min_free_mib": 3875,
+  "motion_keys": [
+    "s4400",
+    "s4401",
+    "s4402",
+    "s4403",
+    "s4404",
+    "s4405",
+    "s4406",
+    "s4407",
+    "s4408",
+    "s4409",
+    "s4410",
+    "s4411",
+    "s4412",
+    "s4413",
+    "s4414",
+    "s4415"
+  ],
+  "n_samples": 50,
+  "num_envs": 16,
+  "num_motions": 16,
+  "peak_launch_mib": 3727,
+  "peak_other_process_mib": 6935,
+  "peak_total_used_mib": 11934,
+  "probe": "sonic_vram",
+  "returncode": 0,
+  "safety_floor_mib": 4500,
+  "status": "complete",
+  "timeout_s": 1200
+}

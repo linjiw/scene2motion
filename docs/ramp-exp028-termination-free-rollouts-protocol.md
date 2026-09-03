@@ -72,3 +72,26 @@ launch; every launch's return code 0 with 32/32 archives; host-resource gate (�
 ≥ 18 GB available RAM, no concurrent Isaac job) recorded. Budget: 10 launches × 52–94 s ≈
 10–16 GPU-minutes plus Isaac start-up. Rates with Wilson 95 % intervals; one scene; physics
 seeds stated.
+
+## Amendment, 2026-09-03 — the host-resource gate is now the measured SONIC preset
+
+The launch condition in this protocol was inherited from the plan of record (≥ 12 GiB free VRAM,
+≥ 18 GiB available RAM, no concurrent Isaac process) and had never been measured. It blocked
+every SONIC campaign for a full day while a co-tenant training job held the GPU.
+`experiments/probe_sonic_vram.py` measured what one launch actually needs
+(`outputs/probe_sonic_vram/`, an operational probe: no seeds spent, no campaign directory
+touched, nothing citable as a result): at 2, 16 and **32** environments — 32 being this
+campaign's own configuration — a launch peaked at **3,631 / 3,727 / 3,769 MiB** of VRAM and
+consumed about **6,810 MiB** of host RAM, completing in 49–62 s with return code 0 **beside four
+concurrent Isaac processes**. VRAM is dominated by the Isaac Sim baseline and barely grows with
+the environment count; host RAM is the binding resource.
+
+The gate therefore becomes `scene2motion.host_gate.SONIC_LAUNCH_GATE` = **≥ 5,500 MiB free VRAM,
+≥ 9,500 MiB available RAM, Isaac co-tenants recorded but not gated** (~1.5× the measured VRAM
+peak; ≥ 2.7 GiB of RAM left after a launch's measured consumption).
+
+This changes **when** a launch may start, not what is measured: no seed, arm, endpoint, threshold
+or analysis in this protocol is affected, and the resolved termination configuration, checkpoint,
+tracker commit and chunking are unchanged. Because launches now run beside co-tenant Isaac
+processes, every receipt records the co-tenants observed at launch, and that co-tenancy is stated
+as scope wherever the campaign's timings are reported.

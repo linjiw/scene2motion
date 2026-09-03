@@ -62,12 +62,30 @@ x, y, z extents** and `table_position` is its **centre**, so a box of height *h*
 floor is `size=[depth_x, width_y, h]` at `z = h/2`; a beam leaving clearance *c* is
 `size=[depth_x, width_y, t]` at `z = c + t/2`.
 
-**Verified on 2026-09-03** (`experiments/probe_obstacle_present.py`,
-`outputs/probe_obstacle_present_fix/`, 2 environments, no seeds spent, not campaign evidence):
-with the fix and per-motion metadata, both arms return 0, and the same two motions run with and
-without a 0.30 m box produce **different achieved trajectories** — max |Δqpos| of 0.109 and
-0.332 rad over the common frames — so `obstacle_has_physical_effect` is true. The robot is
-genuinely being perturbed by the box rather than passing through it.
+**Verified on 2026-09-03** (`experiments/probe_obstacle_present.py`; operational probes, no
+seeds spent, not campaign evidence). Paired launches over two archived EXP-021 references,
+identical but for a 0.30 m box, physics seed 0:
+
+| reference | max root x, no box | max root x, box | cut off, no box | cut off, box |
+|---|---|---|---|---|
+| s4434 | 6.06 m | **0.29 m** | no (397 frames) | yes (283 frames) |
+| s4459 | 0.98 m | **0.38 m** | yes (52) | yes (45) |
+
+s4434 is decisive: without the box it walks 6.06 m of the route and is never cut off; with a box
+at x = 0.5 m it stops at 0.29 m, short of the box's front face at 0.40 m. The obstacle spawns
+where it was asked for, the robot collides with it, and the collision changes the outcome. This
+is the first physical-obstacle evidence in the project.
+
+**Commit pins.** The fork fix is `7c63c53`, preserved on branch **`exp029-obstacle-present`** and
+**reverted on `research/practice-utility` by `350cae1`**, because the patched file sits in the
+core-source manifest every receipt binds equal to EXP-022A's `44e98c45…`: EXP-028 and EXP-024's
+tracked stage must run against the unpatched tracker to stay comparable, and EXP-029 against the
+patched one with its own declared baseline. Never compare across that boundary.
+
+**Host RAM, not VRAM, is the binding resource.** A launch that started with 13.6 GiB available
+drove the host to 376 MiB and the kernel OOM-killer took an unrelated process. Both probes now
+refuse to start below a RAM floor and kill their own launch if available RAM collapses; EXP-029
+inherits that guard.
 
 **Not yet verified, and 2.4–2.6 still gate the campaign:** both probe motions were cut off early
 and their roots never passed 0.96 m against a box at 1.2 m, so this establishes *physical

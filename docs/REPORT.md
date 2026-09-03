@@ -1843,49 +1843,6 @@ different behaviour family, which is what lets the paper call it a property of t
 evaluator applied to references rather than an artefact of stepping.
 
 
-## 47. The obstacle is in the physics scene, and the robot feels it (2026-09-03)
-
-The project's standing limitation — every executed result replays achieved states against our
-collision model with the obstacle absent from Isaac — is lifted. Three corrections were needed,
-two of which invalidate the recipe §44 recorded from reading the code alone. Reading the source
-was not enough; the measurement was.
-
-1. **The spawn pose does not survive a reset.** `commands.py` rewrites the table pose per
-   environment on every reset, from the motion's own `table_pos` / `table_quat` plus that
-   environment's origin when the motion carries them, and otherwise from an object-derived
-   fallback at `z = 0.76` with no environment offset. §44's command-line
-   `++manager_env.config.table_position` therefore places the obstacle somewhere else entirely.
-   The working route is **per-motion table metadata inside the motion pickle**.
-2. **`add_table` without `add_object` crashed before the simulator started.**
-   `table_to_robot_contact_sensor` filters on `right_hand_wrist_links`, defined only inside the
-   `add_object` branch, while the sensor sat one indent level out inside the `add_table` branch;
-   a table used as a plain scene obstacle raised `UnboundLocalError` during env-cfg construction.
-   Fixed in our fork at **`7c63c53`** by moving the sensor inside the branch that defines its
-   filter and gives it meaning. Every EXP-029 receipt must pin that commit.
-3. **`add_object=true` is not a workaround**: it spawns `data/wheelchair.usd`, which the checkout
-   does not ship, and would add an irrelevant object to the scene.
-
-Geometry convention, confirmed: `table_size` is the cuboid's full x/y/z extents and
-`table_position` its centre, so a box of height *h* on the floor is `size=[depth, width, h]` at
-`z = h/2`.
-
-**Result** (`experiments/probe_obstacle_present.py` → `outputs/probe_obstacle_present_fix/`;
-2 environments, `env_spacing = 12.0 m`, `episode_length_s = 20.0`, no seeds spent, **not campaign
-evidence**): both arms return 0, and the same two motions run with and without a 0.30 m box at
-x = 1.2 m produce different achieved trajectories — max |Δqpos| 0.109 rad (s4401) and 0.332 rad
-(s4409) over the common frames. `obstacle_has_physical_effect` is true: the robot is perturbed by
-the box rather than passing through it.
-
-**What this does not yet show.** Both probe motions were cut off early and their roots never
-passed 0.96 m against a box at 1.2 m, so this is *physical effect*, not a demonstrated traversal,
-and it is two motions rather than a campaign. The positive controls of the EXP-029 protocol
-(§2.4–2.6: a walk that reaches the goal with the beam out of the way, a known-trackable duck under
-a reachable beam, a deliberately intersecting trajectory that logs a beam contact, and an intended
-crouch that is not labelled a fall) all remain to be run. Contact attribution is also unbuilt: the
-table's contact sensor is enabled but unread, and the campaign must report physical obstacle
-contact, conservative replay-clearance violations (a 4 cm-inflated model, so a different event)
-and prohibited floor contact as three separate quantities.
-
 ## 47. The obstacle can be put in the tracker's scene, and the robot is stopped by it
 
 The project has never executed a rollout with the obstacle *present* in physics: every executed
@@ -1939,3 +1896,16 @@ drove the host to 376 MiB and the kernel OOM-killer took a browser process. Both
 refuse to start below a RAM floor and kill their own launch if available RAM collapses; the
 campaign gate's RAM threshold already carried the measured 6.8 GiB consumption.
 
+**Commit pins for this path.** The tracker-fork fix is `7c63c53`, preserved on the branch
+**`exp029-obstacle-present`**; it is **reverted on `research/practice-utility` by `350cae1`** so
+that the pinned core-source manifest again equals EXP-022A's `44e98c45…` and EXP-028 / EXP-024's
+tracked stage can launch. EXP-029 must run against `7c63c53` (cherry-pick or check out the
+branch) and declare its own baseline; the two families are never compared across that boundary.
+Verified after the revert: `exp028.tracker_identity()` reports the expected manifest.
+
+**Three contact quantities, never merged.** The table's contact sensor is enabled but nothing
+reads it yet. EXP-029 must record and report separately: **physical contact with the obstacle**
+(from the sensor, which is what the box being in physics now makes available), **violations of
+the conservative replay clearance model** (which inflates obstacles by 4 cm, so it is a different
+event and a stricter one), and **prohibited floor contact**. Collapsing them would reintroduce
+exactly the ambiguity §45 removed.

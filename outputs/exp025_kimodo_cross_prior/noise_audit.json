@@ -1,0 +1,2146 @@
+[
+  {
+    "batch_prompts": [
+      "A person steps over an obstacle.",
+      "A person walks forward at a steady pace.",
+      "A person steps over an obstacle.",
+      "A person walks forward at a steady pace.",
+      "A person steps over an obstacle.",
+      "A person walks forward at a steady pace.",
+      "A person steps over an obstacle.",
+      "A person walks forward at a steady pace."
+    ],
+    "batch_seed_order": [
+      4700,
+      4700,
+      4701,
+      4701,
+      4702,
+      4702,
+      4703,
+      4703
+    ],
+    "chunk": "chunk00",
+    "different_seed_rows_differ": true,
+    "draws_per_row": 1,
+    "extra_generator_draw_rows": [],
+    "n_rows": 8,
+    "pairing_verified": true,
+    "rows": [
+      {
+        "arm": "step",
+        "batch_position": 0,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "a6842eb23452883de290d7cddb4a1d02ff69261f6ac5e856637c4d43f3e6c0f1"
+        ],
+        "seed": 4700
+      },
+      {
+        "arm": "walk",
+        "batch_position": 1,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "a6842eb23452883de290d7cddb4a1d02ff69261f6ac5e856637c4d43f3e6c0f1"
+        ],
+        "seed": 4700
+      },
+      {
+        "arm": "step",
+        "batch_position": 2,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "e64b565e1a785d27688cd7edb184e9dbce39cf813ae1abb2b8be31d193eda4b0"
+        ],
+        "seed": 4701
+      },
+      {
+        "arm": "walk",
+        "batch_position": 3,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "e64b565e1a785d27688cd7edb184e9dbce39cf813ae1abb2b8be31d193eda4b0"
+        ],
+        "seed": 4701
+      },
+      {
+        "arm": "step",
+        "batch_position": 4,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "b40112f70edec17b8ba5fe2df5050ab49c2e1c064fceebd333ba48c3bfa0ec99"
+        ],
+        "seed": 4702
+      },
+      {
+        "arm": "walk",
+        "batch_position": 5,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "b40112f70edec17b8ba5fe2df5050ab49c2e1c064fceebd333ba48c3bfa0ec99"
+        ],
+        "seed": 4702
+      },
+      {
+        "arm": "step",
+        "batch_position": 6,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "0d547d525371c26a5ea1eb6b088d08ba9bb0be2f0fe5e19fc9791f1210121d08"
+        ],
+        "seed": 4703
+      },
+      {
+        "arm": "walk",
+        "batch_position": 7,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "0d547d525371c26a5ea1eb6b088d08ba9bb0be2f0fe5e19fc9791f1210121d08"
+        ],
+        "seed": 4703
+      }
+    ],
+    "same_seed_rows_identical": true,
+    "seeds": [
+      4700,
+      4701,
+      4702,
+      4703
+    ],
+    "status": "verified"
+  },
+  {
+    "batch_prompts": [
+      "A person steps over an obstacle.",
+      "A person walks forward at a steady pace.",
+      "A person steps over an obstacle.",
+      "A person walks forward at a steady pace.",
+      "A person steps over an obstacle.",
+      "A person walks forward at a steady pace.",
+      "A person steps over an obstacle.",
+      "A person walks forward at a steady pace."
+    ],
+    "batch_seed_order": [
+      4704,
+      4704,
+      4705,
+      4705,
+      4706,
+      4706,
+      4707,
+      4707
+    ],
+    "chunk": "chunk01",
+    "different_seed_rows_differ": true,
+    "draws_per_row": 1,
+    "extra_generator_draw_rows": [],
+    "n_rows": 8,
+    "pairing_verified": true,
+    "rows": [
+      {
+        "arm": "step",
+        "batch_position": 0,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "fcb1ee2660900ad703542df69ac795cd5603da2e07dacdab70d2b33538bcc2a6"
+        ],
+        "seed": 4704
+      },
+      {
+        "arm": "walk",
+        "batch_position": 1,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "fcb1ee2660900ad703542df69ac795cd5603da2e07dacdab70d2b33538bcc2a6"
+        ],
+        "seed": 4704
+      },
+      {
+        "arm": "step",
+        "batch_position": 2,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "4b53ddfe9b0b825f256bdbb802244af455b776c15fa122910f45d5aea00efb54"
+        ],
+        "seed": 4705
+      },
+      {
+        "arm": "walk",
+        "batch_position": 3,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "4b53ddfe9b0b825f256bdbb802244af455b776c15fa122910f45d5aea00efb54"
+        ],
+        "seed": 4705
+      },
+      {
+        "arm": "step",
+        "batch_position": 4,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "4b2178ebe1b79508643aa14ea511829f57d3af2d09e72d35f71c62c2c3ecb482"
+        ],
+        "seed": 4706
+      },
+      {
+        "arm": "walk",
+        "batch_position": 5,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "4b2178ebe1b79508643aa14ea511829f57d3af2d09e72d35f71c62c2c3ecb482"
+        ],
+        "seed": 4706
+      },
+      {
+        "arm": "step",
+        "batch_position": 6,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "b7fa7989936c514b7636318db0467f3ffcb576438997e40c9094a09ad0cfab57"
+        ],
+        "seed": 4707
+      },
+      {
+        "arm": "walk",
+        "batch_position": 7,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "b7fa7989936c514b7636318db0467f3ffcb576438997e40c9094a09ad0cfab57"
+        ],
+        "seed": 4707
+      }
+    ],
+    "same_seed_rows_identical": true,
+    "seeds": [
+      4704,
+      4705,
+      4706,
+      4707
+    ],
+    "status": "verified"
+  },
+  {
+    "batch_prompts": [
+      "A person steps over an obstacle.",
+      "A person walks forward at a steady pace.",
+      "A person steps over an obstacle.",
+      "A person walks forward at a steady pace.",
+      "A person steps over an obstacle.",
+      "A person walks forward at a steady pace.",
+      "A person steps over an obstacle.",
+      "A person walks forward at a steady pace."
+    ],
+    "batch_seed_order": [
+      4708,
+      4708,
+      4709,
+      4709,
+      4710,
+      4710,
+      4711,
+      4711
+    ],
+    "chunk": "chunk02",
+    "different_seed_rows_differ": true,
+    "draws_per_row": 1,
+    "extra_generator_draw_rows": [],
+    "n_rows": 8,
+    "pairing_verified": true,
+    "rows": [
+      {
+        "arm": "step",
+        "batch_position": 0,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "57363e26be64c2b03bc044f2f57bfb58ae0257725517258ac845c18de6ee9ce3"
+        ],
+        "seed": 4708
+      },
+      {
+        "arm": "walk",
+        "batch_position": 1,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "57363e26be64c2b03bc044f2f57bfb58ae0257725517258ac845c18de6ee9ce3"
+        ],
+        "seed": 4708
+      },
+      {
+        "arm": "step",
+        "batch_position": 2,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "d7b88313daed44ae33d87086787c199ff6d0e0c8e737913d5cbb85059c7d557a"
+        ],
+        "seed": 4709
+      },
+      {
+        "arm": "walk",
+        "batch_position": 3,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "d7b88313daed44ae33d87086787c199ff6d0e0c8e737913d5cbb85059c7d557a"
+        ],
+        "seed": 4709
+      },
+      {
+        "arm": "step",
+        "batch_position": 4,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "464ac2ba4767d2c3885bfe03d4c3ffa2f6e2370430d0f36cdd5211fbb220e8d4"
+        ],
+        "seed": 4710
+      },
+      {
+        "arm": "walk",
+        "batch_position": 5,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "464ac2ba4767d2c3885bfe03d4c3ffa2f6e2370430d0f36cdd5211fbb220e8d4"
+        ],
+        "seed": 4710
+      },
+      {
+        "arm": "step",
+        "batch_position": 6,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "e34d2c17471cce4cb6272ed8e98e8e566eb24f779385f0e9f7f2c06d36902fb6"
+        ],
+        "seed": 4711
+      },
+      {
+        "arm": "walk",
+        "batch_position": 7,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "e34d2c17471cce4cb6272ed8e98e8e566eb24f779385f0e9f7f2c06d36902fb6"
+        ],
+        "seed": 4711
+      }
+    ],
+    "same_seed_rows_identical": true,
+    "seeds": [
+      4708,
+      4709,
+      4710,
+      4711
+    ],
+    "status": "verified"
+  },
+  {
+    "batch_prompts": [
+      "A person steps over an obstacle.",
+      "A person walks forward at a steady pace.",
+      "A person steps over an obstacle.",
+      "A person walks forward at a steady pace.",
+      "A person steps over an obstacle.",
+      "A person walks forward at a steady pace.",
+      "A person steps over an obstacle.",
+      "A person walks forward at a steady pace."
+    ],
+    "batch_seed_order": [
+      4712,
+      4712,
+      4713,
+      4713,
+      4714,
+      4714,
+      4715,
+      4715
+    ],
+    "chunk": "chunk03",
+    "different_seed_rows_differ": true,
+    "draws_per_row": 1,
+    "extra_generator_draw_rows": [],
+    "n_rows": 8,
+    "pairing_verified": true,
+    "rows": [
+      {
+        "arm": "step",
+        "batch_position": 0,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "0ea0c9720fc069965850610465dd626f74f67178f1b030fa0720fca98169f56e"
+        ],
+        "seed": 4712
+      },
+      {
+        "arm": "walk",
+        "batch_position": 1,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "0ea0c9720fc069965850610465dd626f74f67178f1b030fa0720fca98169f56e"
+        ],
+        "seed": 4712
+      },
+      {
+        "arm": "step",
+        "batch_position": 2,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "ac437b417ea7781c0814e83aee9939457c96cbd88b9e794081a6290da583ca5d"
+        ],
+        "seed": 4713
+      },
+      {
+        "arm": "walk",
+        "batch_position": 3,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "ac437b417ea7781c0814e83aee9939457c96cbd88b9e794081a6290da583ca5d"
+        ],
+        "seed": 4713
+      },
+      {
+        "arm": "step",
+        "batch_position": 4,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "7f4a17acae9972687726e06c5ca32666145a58a1f08f98e1f4e4a237bf0e2703"
+        ],
+        "seed": 4714
+      },
+      {
+        "arm": "walk",
+        "batch_position": 5,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "7f4a17acae9972687726e06c5ca32666145a58a1f08f98e1f4e4a237bf0e2703"
+        ],
+        "seed": 4714
+      },
+      {
+        "arm": "step",
+        "batch_position": 6,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "3846ebd7412b549cf1863bd5abec0030e2e2fcdb0cf7105644170bc7075e949b"
+        ],
+        "seed": 4715
+      },
+      {
+        "arm": "walk",
+        "batch_position": 7,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "3846ebd7412b549cf1863bd5abec0030e2e2fcdb0cf7105644170bc7075e949b"
+        ],
+        "seed": 4715
+      }
+    ],
+    "same_seed_rows_identical": true,
+    "seeds": [
+      4712,
+      4713,
+      4714,
+      4715
+    ],
+    "status": "verified"
+  },
+  {
+    "batch_prompts": [
+      "A person steps over an obstacle.",
+      "A person walks forward at a steady pace.",
+      "A person steps over an obstacle.",
+      "A person walks forward at a steady pace.",
+      "A person steps over an obstacle.",
+      "A person walks forward at a steady pace.",
+      "A person steps over an obstacle.",
+      "A person walks forward at a steady pace."
+    ],
+    "batch_seed_order": [
+      4716,
+      4716,
+      4717,
+      4717,
+      4718,
+      4718,
+      4719,
+      4719
+    ],
+    "chunk": "chunk04",
+    "different_seed_rows_differ": true,
+    "draws_per_row": 1,
+    "extra_generator_draw_rows": [],
+    "n_rows": 8,
+    "pairing_verified": true,
+    "rows": [
+      {
+        "arm": "step",
+        "batch_position": 0,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "2943f72330cf4dd8ed2ff078811842a1fced2b995ea6bb3b6499fe18a7dc34a3"
+        ],
+        "seed": 4716
+      },
+      {
+        "arm": "walk",
+        "batch_position": 1,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "2943f72330cf4dd8ed2ff078811842a1fced2b995ea6bb3b6499fe18a7dc34a3"
+        ],
+        "seed": 4716
+      },
+      {
+        "arm": "step",
+        "batch_position": 2,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "17103ae80b5b2da4fe6439a063d12b71c75a8b7ca9dd9d17862424a4343e7b12"
+        ],
+        "seed": 4717
+      },
+      {
+        "arm": "walk",
+        "batch_position": 3,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "17103ae80b5b2da4fe6439a063d12b71c75a8b7ca9dd9d17862424a4343e7b12"
+        ],
+        "seed": 4717
+      },
+      {
+        "arm": "step",
+        "batch_position": 4,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "49ce38b49f2045a1ac7487f58e377015094843aacad8429775cfbed7237525e8"
+        ],
+        "seed": 4718
+      },
+      {
+        "arm": "walk",
+        "batch_position": 5,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "49ce38b49f2045a1ac7487f58e377015094843aacad8429775cfbed7237525e8"
+        ],
+        "seed": 4718
+      },
+      {
+        "arm": "step",
+        "batch_position": 6,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "99968dc21d7c3ae09060f1182f070cf88659ee888d9b2b296fb5a6600f0f1e08"
+        ],
+        "seed": 4719
+      },
+      {
+        "arm": "walk",
+        "batch_position": 7,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "99968dc21d7c3ae09060f1182f070cf88659ee888d9b2b296fb5a6600f0f1e08"
+        ],
+        "seed": 4719
+      }
+    ],
+    "same_seed_rows_identical": true,
+    "seeds": [
+      4716,
+      4717,
+      4718,
+      4719
+    ],
+    "status": "verified"
+  },
+  {
+    "batch_prompts": [
+      "A person steps over an obstacle.",
+      "A person walks forward at a steady pace.",
+      "A person steps over an obstacle.",
+      "A person walks forward at a steady pace.",
+      "A person steps over an obstacle.",
+      "A person walks forward at a steady pace.",
+      "A person steps over an obstacle.",
+      "A person walks forward at a steady pace."
+    ],
+    "batch_seed_order": [
+      4720,
+      4720,
+      4721,
+      4721,
+      4722,
+      4722,
+      4723,
+      4723
+    ],
+    "chunk": "chunk05",
+    "different_seed_rows_differ": true,
+    "draws_per_row": 1,
+    "extra_generator_draw_rows": [],
+    "n_rows": 8,
+    "pairing_verified": true,
+    "rows": [
+      {
+        "arm": "step",
+        "batch_position": 0,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "9320f73bcd688b141fec832fe04004acc4aa4a758fbd0014e9b90cdaaf0a0588"
+        ],
+        "seed": 4720
+      },
+      {
+        "arm": "walk",
+        "batch_position": 1,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "9320f73bcd688b141fec832fe04004acc4aa4a758fbd0014e9b90cdaaf0a0588"
+        ],
+        "seed": 4720
+      },
+      {
+        "arm": "step",
+        "batch_position": 2,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "4a1f8691896d22210904edd2c24d39ab626d8665e8bb51cd503e8d9c298bacbe"
+        ],
+        "seed": 4721
+      },
+      {
+        "arm": "walk",
+        "batch_position": 3,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "4a1f8691896d22210904edd2c24d39ab626d8665e8bb51cd503e8d9c298bacbe"
+        ],
+        "seed": 4721
+      },
+      {
+        "arm": "step",
+        "batch_position": 4,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "d8f8c6fa82c6aec1fdcf6a5ce678582cd26046007faf8e07f2b97eb13985b033"
+        ],
+        "seed": 4722
+      },
+      {
+        "arm": "walk",
+        "batch_position": 5,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "d8f8c6fa82c6aec1fdcf6a5ce678582cd26046007faf8e07f2b97eb13985b033"
+        ],
+        "seed": 4722
+      },
+      {
+        "arm": "step",
+        "batch_position": 6,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "fd0286c1e5b6df68ba9fa06522e6602d508e8113c1bdfa4dfbb1ddd5df8c54f6"
+        ],
+        "seed": 4723
+      },
+      {
+        "arm": "walk",
+        "batch_position": 7,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "fd0286c1e5b6df68ba9fa06522e6602d508e8113c1bdfa4dfbb1ddd5df8c54f6"
+        ],
+        "seed": 4723
+      }
+    ],
+    "same_seed_rows_identical": true,
+    "seeds": [
+      4720,
+      4721,
+      4722,
+      4723
+    ],
+    "status": "verified"
+  },
+  {
+    "batch_prompts": [
+      "A person steps over an obstacle.",
+      "A person walks forward at a steady pace.",
+      "A person steps over an obstacle.",
+      "A person walks forward at a steady pace.",
+      "A person steps over an obstacle.",
+      "A person walks forward at a steady pace.",
+      "A person steps over an obstacle.",
+      "A person walks forward at a steady pace."
+    ],
+    "batch_seed_order": [
+      4724,
+      4724,
+      4725,
+      4725,
+      4726,
+      4726,
+      4727,
+      4727
+    ],
+    "chunk": "chunk06",
+    "different_seed_rows_differ": true,
+    "draws_per_row": 1,
+    "extra_generator_draw_rows": [],
+    "n_rows": 8,
+    "pairing_verified": true,
+    "rows": [
+      {
+        "arm": "step",
+        "batch_position": 0,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "19202e06fdd1015dae5b50f8eeed250b3996b545a722ca61c70a5033b4ff9f5b"
+        ],
+        "seed": 4724
+      },
+      {
+        "arm": "walk",
+        "batch_position": 1,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "19202e06fdd1015dae5b50f8eeed250b3996b545a722ca61c70a5033b4ff9f5b"
+        ],
+        "seed": 4724
+      },
+      {
+        "arm": "step",
+        "batch_position": 2,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "ce836559e44c3b7c6f33ecb3cac2a8c9f9d15fa9b85d44f6d2d94d112bb6a5a7"
+        ],
+        "seed": 4725
+      },
+      {
+        "arm": "walk",
+        "batch_position": 3,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "ce836559e44c3b7c6f33ecb3cac2a8c9f9d15fa9b85d44f6d2d94d112bb6a5a7"
+        ],
+        "seed": 4725
+      },
+      {
+        "arm": "step",
+        "batch_position": 4,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "790f935db7b6ce4fe9b44d20fc707a77a0784207cfbe64bcb0aa8f1ae0ca3b89"
+        ],
+        "seed": 4726
+      },
+      {
+        "arm": "walk",
+        "batch_position": 5,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "790f935db7b6ce4fe9b44d20fc707a77a0784207cfbe64bcb0aa8f1ae0ca3b89"
+        ],
+        "seed": 4726
+      },
+      {
+        "arm": "step",
+        "batch_position": 6,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "ec10a389c9f2748d965e990b445b4963c3a6638737c5866f344eb9e4d51410fb"
+        ],
+        "seed": 4727
+      },
+      {
+        "arm": "walk",
+        "batch_position": 7,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "ec10a389c9f2748d965e990b445b4963c3a6638737c5866f344eb9e4d51410fb"
+        ],
+        "seed": 4727
+      }
+    ],
+    "same_seed_rows_identical": true,
+    "seeds": [
+      4724,
+      4725,
+      4726,
+      4727
+    ],
+    "status": "verified"
+  },
+  {
+    "batch_prompts": [
+      "A person steps over an obstacle.",
+      "A person walks forward at a steady pace.",
+      "A person steps over an obstacle.",
+      "A person walks forward at a steady pace.",
+      "A person steps over an obstacle.",
+      "A person walks forward at a steady pace.",
+      "A person steps over an obstacle.",
+      "A person walks forward at a steady pace."
+    ],
+    "batch_seed_order": [
+      4728,
+      4728,
+      4729,
+      4729,
+      4730,
+      4730,
+      4731,
+      4731
+    ],
+    "chunk": "chunk07",
+    "different_seed_rows_differ": true,
+    "draws_per_row": 1,
+    "extra_generator_draw_rows": [],
+    "n_rows": 8,
+    "pairing_verified": true,
+    "rows": [
+      {
+        "arm": "step",
+        "batch_position": 0,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "b4c0df73e6d86128309814f218a20b68c19ba1abfddbc5c476be398fc1e2634f"
+        ],
+        "seed": 4728
+      },
+      {
+        "arm": "walk",
+        "batch_position": 1,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "b4c0df73e6d86128309814f218a20b68c19ba1abfddbc5c476be398fc1e2634f"
+        ],
+        "seed": 4728
+      },
+      {
+        "arm": "step",
+        "batch_position": 2,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "94d612da655694aeb2d789022e12e057546e5a173a44baf933aa75ff996c0fbc"
+        ],
+        "seed": 4729
+      },
+      {
+        "arm": "walk",
+        "batch_position": 3,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "94d612da655694aeb2d789022e12e057546e5a173a44baf933aa75ff996c0fbc"
+        ],
+        "seed": 4729
+      },
+      {
+        "arm": "step",
+        "batch_position": 4,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "4f6941640791e100cf2eed89ec498b8a8e05275bce2f4bf39517878af8ee8115"
+        ],
+        "seed": 4730
+      },
+      {
+        "arm": "walk",
+        "batch_position": 5,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "4f6941640791e100cf2eed89ec498b8a8e05275bce2f4bf39517878af8ee8115"
+        ],
+        "seed": 4730
+      },
+      {
+        "arm": "step",
+        "batch_position": 6,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "75634dc4ec9b40ad3ce14c00ea85c29d9cf3a78936933d7defdb99c9a5fe2634"
+        ],
+        "seed": 4731
+      },
+      {
+        "arm": "walk",
+        "batch_position": 7,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "75634dc4ec9b40ad3ce14c00ea85c29d9cf3a78936933d7defdb99c9a5fe2634"
+        ],
+        "seed": 4731
+      }
+    ],
+    "same_seed_rows_identical": true,
+    "seeds": [
+      4728,
+      4729,
+      4730,
+      4731
+    ],
+    "status": "verified"
+  },
+  {
+    "batch_prompts": [
+      "A person steps over an obstacle.",
+      "A person walks forward at a steady pace.",
+      "A person steps over an obstacle.",
+      "A person walks forward at a steady pace.",
+      "A person steps over an obstacle.",
+      "A person walks forward at a steady pace.",
+      "A person steps over an obstacle.",
+      "A person walks forward at a steady pace."
+    ],
+    "batch_seed_order": [
+      4732,
+      4732,
+      4733,
+      4733,
+      4734,
+      4734,
+      4735,
+      4735
+    ],
+    "chunk": "chunk08",
+    "different_seed_rows_differ": true,
+    "draws_per_row": 1,
+    "extra_generator_draw_rows": [],
+    "n_rows": 8,
+    "pairing_verified": true,
+    "rows": [
+      {
+        "arm": "step",
+        "batch_position": 0,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "3221d79059df965fa879e6eea189dc5264a7a3df3a0c730962fddfbf23f36121"
+        ],
+        "seed": 4732
+      },
+      {
+        "arm": "walk",
+        "batch_position": 1,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "3221d79059df965fa879e6eea189dc5264a7a3df3a0c730962fddfbf23f36121"
+        ],
+        "seed": 4732
+      },
+      {
+        "arm": "step",
+        "batch_position": 2,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "cf8738e38bf775ffbe50f70dbee675d57fc8e7290b591b52d47df035684ea61a"
+        ],
+        "seed": 4733
+      },
+      {
+        "arm": "walk",
+        "batch_position": 3,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "cf8738e38bf775ffbe50f70dbee675d57fc8e7290b591b52d47df035684ea61a"
+        ],
+        "seed": 4733
+      },
+      {
+        "arm": "step",
+        "batch_position": 4,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "14a8e39feb2d97b5c63fc4a92c7c80f9013e006c0146bb7c01aff8dc60518d98"
+        ],
+        "seed": 4734
+      },
+      {
+        "arm": "walk",
+        "batch_position": 5,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "14a8e39feb2d97b5c63fc4a92c7c80f9013e006c0146bb7c01aff8dc60518d98"
+        ],
+        "seed": 4734
+      },
+      {
+        "arm": "step",
+        "batch_position": 6,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "ae52453a9c67977b73a29cff01b252b08a9743e7d26fa838b13ce0fa551ce7e6"
+        ],
+        "seed": 4735
+      },
+      {
+        "arm": "walk",
+        "batch_position": 7,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "ae52453a9c67977b73a29cff01b252b08a9743e7d26fa838b13ce0fa551ce7e6"
+        ],
+        "seed": 4735
+      }
+    ],
+    "same_seed_rows_identical": true,
+    "seeds": [
+      4732,
+      4733,
+      4734,
+      4735
+    ],
+    "status": "verified"
+  },
+  {
+    "batch_prompts": [
+      "A person steps over an obstacle.",
+      "A person walks forward at a steady pace.",
+      "A person steps over an obstacle.",
+      "A person walks forward at a steady pace.",
+      "A person steps over an obstacle.",
+      "A person walks forward at a steady pace.",
+      "A person steps over an obstacle.",
+      "A person walks forward at a steady pace."
+    ],
+    "batch_seed_order": [
+      4736,
+      4736,
+      4737,
+      4737,
+      4738,
+      4738,
+      4739,
+      4739
+    ],
+    "chunk": "chunk09",
+    "different_seed_rows_differ": true,
+    "draws_per_row": 1,
+    "extra_generator_draw_rows": [],
+    "n_rows": 8,
+    "pairing_verified": true,
+    "rows": [
+      {
+        "arm": "step",
+        "batch_position": 0,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "867225d820408a0fac9e16a7f1c07d340ae35087ddef7253a857697a2306215f"
+        ],
+        "seed": 4736
+      },
+      {
+        "arm": "walk",
+        "batch_position": 1,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "867225d820408a0fac9e16a7f1c07d340ae35087ddef7253a857697a2306215f"
+        ],
+        "seed": 4736
+      },
+      {
+        "arm": "step",
+        "batch_position": 2,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "2d3ea39ccda5d44a4c5cbc4e167c1dc1b0612cc68aa8ff14e9008f437d1ad583"
+        ],
+        "seed": 4737
+      },
+      {
+        "arm": "walk",
+        "batch_position": 3,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "2d3ea39ccda5d44a4c5cbc4e167c1dc1b0612cc68aa8ff14e9008f437d1ad583"
+        ],
+        "seed": 4737
+      },
+      {
+        "arm": "step",
+        "batch_position": 4,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "54924f79b51818073164539d233d62986688b7c0fe146cd57e564cc8656c91d1"
+        ],
+        "seed": 4738
+      },
+      {
+        "arm": "walk",
+        "batch_position": 5,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "54924f79b51818073164539d233d62986688b7c0fe146cd57e564cc8656c91d1"
+        ],
+        "seed": 4738
+      },
+      {
+        "arm": "step",
+        "batch_position": 6,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "63b7931674607635ac01ef1b92e1d246860f19a0034f212eb571979bafe48aaa"
+        ],
+        "seed": 4739
+      },
+      {
+        "arm": "walk",
+        "batch_position": 7,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "63b7931674607635ac01ef1b92e1d246860f19a0034f212eb571979bafe48aaa"
+        ],
+        "seed": 4739
+      }
+    ],
+    "same_seed_rows_identical": true,
+    "seeds": [
+      4736,
+      4737,
+      4738,
+      4739
+    ],
+    "status": "verified"
+  },
+  {
+    "batch_prompts": [
+      "A person steps over an obstacle.",
+      "A person walks forward at a steady pace.",
+      "A person steps over an obstacle.",
+      "A person walks forward at a steady pace.",
+      "A person steps over an obstacle.",
+      "A person walks forward at a steady pace.",
+      "A person steps over an obstacle.",
+      "A person walks forward at a steady pace."
+    ],
+    "batch_seed_order": [
+      4740,
+      4740,
+      4741,
+      4741,
+      4742,
+      4742,
+      4743,
+      4743
+    ],
+    "chunk": "chunk10",
+    "different_seed_rows_differ": true,
+    "draws_per_row": 1,
+    "extra_generator_draw_rows": [],
+    "n_rows": 8,
+    "pairing_verified": true,
+    "rows": [
+      {
+        "arm": "step",
+        "batch_position": 0,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "a71bab31fa55021ca2998410225af222e7abfbb12991ec70c523e02cfc920efc"
+        ],
+        "seed": 4740
+      },
+      {
+        "arm": "walk",
+        "batch_position": 1,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "a71bab31fa55021ca2998410225af222e7abfbb12991ec70c523e02cfc920efc"
+        ],
+        "seed": 4740
+      },
+      {
+        "arm": "step",
+        "batch_position": 2,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "bc9f6087aa45a3b7d78139478dabac32c03498195b99958eb55dade6b73222ee"
+        ],
+        "seed": 4741
+      },
+      {
+        "arm": "walk",
+        "batch_position": 3,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "bc9f6087aa45a3b7d78139478dabac32c03498195b99958eb55dade6b73222ee"
+        ],
+        "seed": 4741
+      },
+      {
+        "arm": "step",
+        "batch_position": 4,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "b429cafee253b2fb430429b378e2de7cd36f66be475950e55fd21d58e677c203"
+        ],
+        "seed": 4742
+      },
+      {
+        "arm": "walk",
+        "batch_position": 5,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "b429cafee253b2fb430429b378e2de7cd36f66be475950e55fd21d58e677c203"
+        ],
+        "seed": 4742
+      },
+      {
+        "arm": "step",
+        "batch_position": 6,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "8c6597c03765ef5fb029dce9b3a80d71b481b15a9551a9c3ebd0686a46af5c7a"
+        ],
+        "seed": 4743
+      },
+      {
+        "arm": "walk",
+        "batch_position": 7,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "8c6597c03765ef5fb029dce9b3a80d71b481b15a9551a9c3ebd0686a46af5c7a"
+        ],
+        "seed": 4743
+      }
+    ],
+    "same_seed_rows_identical": true,
+    "seeds": [
+      4740,
+      4741,
+      4742,
+      4743
+    ],
+    "status": "verified"
+  },
+  {
+    "batch_prompts": [
+      "A person steps over an obstacle.",
+      "A person walks forward at a steady pace.",
+      "A person steps over an obstacle.",
+      "A person walks forward at a steady pace.",
+      "A person steps over an obstacle.",
+      "A person walks forward at a steady pace.",
+      "A person steps over an obstacle.",
+      "A person walks forward at a steady pace."
+    ],
+    "batch_seed_order": [
+      4744,
+      4744,
+      4745,
+      4745,
+      4746,
+      4746,
+      4747,
+      4747
+    ],
+    "chunk": "chunk11",
+    "different_seed_rows_differ": true,
+    "draws_per_row": 1,
+    "extra_generator_draw_rows": [],
+    "n_rows": 8,
+    "pairing_verified": true,
+    "rows": [
+      {
+        "arm": "step",
+        "batch_position": 0,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "06dda09fde088a05dcc68552cb88dee2db62ba557115b00cc1bcf32b869e3868"
+        ],
+        "seed": 4744
+      },
+      {
+        "arm": "walk",
+        "batch_position": 1,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "06dda09fde088a05dcc68552cb88dee2db62ba557115b00cc1bcf32b869e3868"
+        ],
+        "seed": 4744
+      },
+      {
+        "arm": "step",
+        "batch_position": 2,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "f57f64e8d3bb6fd957216788e0bb428c37e316b923cde4820ca28c659b9f4670"
+        ],
+        "seed": 4745
+      },
+      {
+        "arm": "walk",
+        "batch_position": 3,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "f57f64e8d3bb6fd957216788e0bb428c37e316b923cde4820ca28c659b9f4670"
+        ],
+        "seed": 4745
+      },
+      {
+        "arm": "step",
+        "batch_position": 4,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "903140ec59d18f1ebce6e19ce5107e29a53e5012667199f1a33662fef057f576"
+        ],
+        "seed": 4746
+      },
+      {
+        "arm": "walk",
+        "batch_position": 5,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "903140ec59d18f1ebce6e19ce5107e29a53e5012667199f1a33662fef057f576"
+        ],
+        "seed": 4746
+      },
+      {
+        "arm": "step",
+        "batch_position": 6,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "c1ab18596580813c197781f9668dee71342d4d74e92a93a4ef2b03ed4b299c15"
+        ],
+        "seed": 4747
+      },
+      {
+        "arm": "walk",
+        "batch_position": 7,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "c1ab18596580813c197781f9668dee71342d4d74e92a93a4ef2b03ed4b299c15"
+        ],
+        "seed": 4747
+      }
+    ],
+    "same_seed_rows_identical": true,
+    "seeds": [
+      4744,
+      4745,
+      4746,
+      4747
+    ],
+    "status": "verified"
+  },
+  {
+    "batch_prompts": [
+      "A person steps over an obstacle.",
+      "A person walks forward at a steady pace.",
+      "A person steps over an obstacle.",
+      "A person walks forward at a steady pace.",
+      "A person steps over an obstacle.",
+      "A person walks forward at a steady pace.",
+      "A person steps over an obstacle.",
+      "A person walks forward at a steady pace."
+    ],
+    "batch_seed_order": [
+      4748,
+      4748,
+      4749,
+      4749,
+      4750,
+      4750,
+      4751,
+      4751
+    ],
+    "chunk": "chunk12",
+    "different_seed_rows_differ": true,
+    "draws_per_row": 1,
+    "extra_generator_draw_rows": [],
+    "n_rows": 8,
+    "pairing_verified": true,
+    "rows": [
+      {
+        "arm": "step",
+        "batch_position": 0,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "2258889d62c42a04d42d0332b8651bf299472c475fc2a1856553816e108a5112"
+        ],
+        "seed": 4748
+      },
+      {
+        "arm": "walk",
+        "batch_position": 1,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "2258889d62c42a04d42d0332b8651bf299472c475fc2a1856553816e108a5112"
+        ],
+        "seed": 4748
+      },
+      {
+        "arm": "step",
+        "batch_position": 2,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "520a4ea688f05bb3d36e434629919ea4612d6d4334c094b649a47c51444600a3"
+        ],
+        "seed": 4749
+      },
+      {
+        "arm": "walk",
+        "batch_position": 3,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "520a4ea688f05bb3d36e434629919ea4612d6d4334c094b649a47c51444600a3"
+        ],
+        "seed": 4749
+      },
+      {
+        "arm": "step",
+        "batch_position": 4,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "065436648aa7c7558586de844c922f2da65ba53c86ae53c83e95aaab8b310c80"
+        ],
+        "seed": 4750
+      },
+      {
+        "arm": "walk",
+        "batch_position": 5,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "065436648aa7c7558586de844c922f2da65ba53c86ae53c83e95aaab8b310c80"
+        ],
+        "seed": 4750
+      },
+      {
+        "arm": "step",
+        "batch_position": 6,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "e062150a290fa280162cdcf5dafd21f44c746c13dd725be1d80f9979ba285156"
+        ],
+        "seed": 4751
+      },
+      {
+        "arm": "walk",
+        "batch_position": 7,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "e062150a290fa280162cdcf5dafd21f44c746c13dd725be1d80f9979ba285156"
+        ],
+        "seed": 4751
+      }
+    ],
+    "same_seed_rows_identical": true,
+    "seeds": [
+      4748,
+      4749,
+      4750,
+      4751
+    ],
+    "status": "verified"
+  },
+  {
+    "batch_prompts": [
+      "A person steps over an obstacle.",
+      "A person walks forward at a steady pace.",
+      "A person steps over an obstacle.",
+      "A person walks forward at a steady pace.",
+      "A person steps over an obstacle.",
+      "A person walks forward at a steady pace.",
+      "A person steps over an obstacle.",
+      "A person walks forward at a steady pace."
+    ],
+    "batch_seed_order": [
+      4752,
+      4752,
+      4753,
+      4753,
+      4754,
+      4754,
+      4755,
+      4755
+    ],
+    "chunk": "chunk13",
+    "different_seed_rows_differ": true,
+    "draws_per_row": 1,
+    "extra_generator_draw_rows": [],
+    "n_rows": 8,
+    "pairing_verified": true,
+    "rows": [
+      {
+        "arm": "step",
+        "batch_position": 0,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "bf9b0e34cc4bdea01f64644b4ce8299c47e27ce2ddbcf594d1b335cb39c1381e"
+        ],
+        "seed": 4752
+      },
+      {
+        "arm": "walk",
+        "batch_position": 1,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "bf9b0e34cc4bdea01f64644b4ce8299c47e27ce2ddbcf594d1b335cb39c1381e"
+        ],
+        "seed": 4752
+      },
+      {
+        "arm": "step",
+        "batch_position": 2,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "714ae22263dfacb071c1a11d5e4d225d931267152141e9fd5e879d26782a5c55"
+        ],
+        "seed": 4753
+      },
+      {
+        "arm": "walk",
+        "batch_position": 3,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "714ae22263dfacb071c1a11d5e4d225d931267152141e9fd5e879d26782a5c55"
+        ],
+        "seed": 4753
+      },
+      {
+        "arm": "step",
+        "batch_position": 4,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "364bf2822e2d88f7a259438857fe7dc59e13125ae59ecd49f5a990a700d90465"
+        ],
+        "seed": 4754
+      },
+      {
+        "arm": "walk",
+        "batch_position": 5,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "364bf2822e2d88f7a259438857fe7dc59e13125ae59ecd49f5a990a700d90465"
+        ],
+        "seed": 4754
+      },
+      {
+        "arm": "step",
+        "batch_position": 6,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "6c6deaf44f30eab3f96e378340e38a1b57d81656fcef7724b7e7990fc96eb66b"
+        ],
+        "seed": 4755
+      },
+      {
+        "arm": "walk",
+        "batch_position": 7,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "6c6deaf44f30eab3f96e378340e38a1b57d81656fcef7724b7e7990fc96eb66b"
+        ],
+        "seed": 4755
+      }
+    ],
+    "same_seed_rows_identical": true,
+    "seeds": [
+      4752,
+      4753,
+      4754,
+      4755
+    ],
+    "status": "verified"
+  },
+  {
+    "batch_prompts": [
+      "A person steps over an obstacle.",
+      "A person walks forward at a steady pace.",
+      "A person steps over an obstacle.",
+      "A person walks forward at a steady pace.",
+      "A person steps over an obstacle.",
+      "A person walks forward at a steady pace.",
+      "A person steps over an obstacle.",
+      "A person walks forward at a steady pace."
+    ],
+    "batch_seed_order": [
+      4756,
+      4756,
+      4757,
+      4757,
+      4758,
+      4758,
+      4759,
+      4759
+    ],
+    "chunk": "chunk14",
+    "different_seed_rows_differ": true,
+    "draws_per_row": 1,
+    "extra_generator_draw_rows": [],
+    "n_rows": 8,
+    "pairing_verified": true,
+    "rows": [
+      {
+        "arm": "step",
+        "batch_position": 0,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "2d907494d0d97afc588a6d413641ae2000306b520dd0c94ed3356b4887ade44c"
+        ],
+        "seed": 4756
+      },
+      {
+        "arm": "walk",
+        "batch_position": 1,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "2d907494d0d97afc588a6d413641ae2000306b520dd0c94ed3356b4887ade44c"
+        ],
+        "seed": 4756
+      },
+      {
+        "arm": "step",
+        "batch_position": 2,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "4215dd1ab9dddd6c3e1f9e85b1cab32659ed9f1573819b1bbe89636ba8c9f3e2"
+        ],
+        "seed": 4757
+      },
+      {
+        "arm": "walk",
+        "batch_position": 3,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "4215dd1ab9dddd6c3e1f9e85b1cab32659ed9f1573819b1bbe89636ba8c9f3e2"
+        ],
+        "seed": 4757
+      },
+      {
+        "arm": "step",
+        "batch_position": 4,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "fa2ff1c42809e3f8ce7ea72bd26a03b6121533dac9a2e1834c4a0108c7b93c21"
+        ],
+        "seed": 4758
+      },
+      {
+        "arm": "walk",
+        "batch_position": 5,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "fa2ff1c42809e3f8ce7ea72bd26a03b6121533dac9a2e1834c4a0108c7b93c21"
+        ],
+        "seed": 4758
+      },
+      {
+        "arm": "step",
+        "batch_position": 6,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "f0d471f47b36205fd9bcd173b93724527710a2b2a4378d53aff745a3d97912e0"
+        ],
+        "seed": 4759
+      },
+      {
+        "arm": "walk",
+        "batch_position": 7,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "f0d471f47b36205fd9bcd173b93724527710a2b2a4378d53aff745a3d97912e0"
+        ],
+        "seed": 4759
+      }
+    ],
+    "same_seed_rows_identical": true,
+    "seeds": [
+      4756,
+      4757,
+      4758,
+      4759
+    ],
+    "status": "verified"
+  },
+  {
+    "batch_prompts": [
+      "A person steps over an obstacle.",
+      "A person walks forward at a steady pace.",
+      "A person steps over an obstacle.",
+      "A person walks forward at a steady pace.",
+      "A person steps over an obstacle.",
+      "A person walks forward at a steady pace.",
+      "A person steps over an obstacle.",
+      "A person walks forward at a steady pace."
+    ],
+    "batch_seed_order": [
+      4760,
+      4760,
+      4761,
+      4761,
+      4762,
+      4762,
+      4763,
+      4763
+    ],
+    "chunk": "chunk15",
+    "different_seed_rows_differ": true,
+    "draws_per_row": 1,
+    "extra_generator_draw_rows": [],
+    "n_rows": 8,
+    "pairing_verified": true,
+    "rows": [
+      {
+        "arm": "step",
+        "batch_position": 0,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "6372784cb580249aca7d90f115d802f757a35382ce1e321a48fdb1be2a1c6982"
+        ],
+        "seed": 4760
+      },
+      {
+        "arm": "walk",
+        "batch_position": 1,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "6372784cb580249aca7d90f115d802f757a35382ce1e321a48fdb1be2a1c6982"
+        ],
+        "seed": 4760
+      },
+      {
+        "arm": "step",
+        "batch_position": 2,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "d939bac690ceeaec413872a9e632351d8ed9c3b0f100ea4fa2fdb17660982efb"
+        ],
+        "seed": 4761
+      },
+      {
+        "arm": "walk",
+        "batch_position": 3,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "d939bac690ceeaec413872a9e632351d8ed9c3b0f100ea4fa2fdb17660982efb"
+        ],
+        "seed": 4761
+      },
+      {
+        "arm": "step",
+        "batch_position": 4,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "ac75c96aa0371c0b3abaa346184521e09b4556b621d287f764eee132913b0941"
+        ],
+        "seed": 4762
+      },
+      {
+        "arm": "walk",
+        "batch_position": 5,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "ac75c96aa0371c0b3abaa346184521e09b4556b621d287f764eee132913b0941"
+        ],
+        "seed": 4762
+      },
+      {
+        "arm": "step",
+        "batch_position": 6,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "65215945e9665c830671ecdbd318a2c0cebc5335a9c081deaa887885937e568d"
+        ],
+        "seed": 4763
+      },
+      {
+        "arm": "walk",
+        "batch_position": 7,
+        "latent_shape": [
+          240,
+          417
+        ],
+        "row_sha256_by_draw": [
+          "65215945e9665c830671ecdbd318a2c0cebc5335a9c081deaa887885937e568d"
+        ],
+        "seed": 4763
+      }
+    ],
+    "same_seed_rows_identical": true,
+    "seeds": [
+      4760,
+      4761,
+      4762,
+      4763
+    ],
+    "status": "verified"
+  }
+]

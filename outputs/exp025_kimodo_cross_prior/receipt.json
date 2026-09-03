@@ -1,0 +1,4879 @@
+{
+  "actual_kimodo_samples": 128,
+  "blocked": false,
+  "campaign_design": {
+    "actual_channel_usage": {
+      "smooth_root_pos": 480
+    },
+    "arm_prompts": {
+      "step": "A person steps over an obstacle.",
+      "walk": "A person walks forward at a steady pace."
+    },
+    "arms": [
+      "step",
+      "walk"
+    ],
+    "batch_composition_rationale": "each B=8 call holds 4 seeds x (step, walk), so every same-seed pair shares one call and one per-sample latent; the protocol fixes the batch size, not its composition",
+    "batch_size": 8,
+    "cfg_type": null,
+    "cfg_weight": [
+      2.0,
+      2.0
+    ],
+    "chunk_plan": [
+      {
+        "archive_keys": [
+          "s4700_step",
+          "s4700_walk",
+          "s4701_step",
+          "s4701_walk",
+          "s4702_step",
+          "s4702_walk",
+          "s4703_step",
+          "s4703_walk"
+        ],
+        "batch_size": 8,
+        "chunk": 0,
+        "name": "chunk00",
+        "prompts": [
+          "A person steps over an obstacle.",
+          "A person walks forward at a steady pace.",
+          "A person steps over an obstacle.",
+          "A person walks forward at a steady pace.",
+          "A person steps over an obstacle.",
+          "A person walks forward at a steady pace.",
+          "A person steps over an obstacle.",
+          "A person walks forward at a steady pace."
+        ],
+        "row_indices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "seeds": [
+          4700,
+          4701,
+          4702,
+          4703
+        ]
+      },
+      {
+        "archive_keys": [
+          "s4704_step",
+          "s4704_walk",
+          "s4705_step",
+          "s4705_walk",
+          "s4706_step",
+          "s4706_walk",
+          "s4707_step",
+          "s4707_walk"
+        ],
+        "batch_size": 8,
+        "chunk": 1,
+        "name": "chunk01",
+        "prompts": [
+          "A person steps over an obstacle.",
+          "A person walks forward at a steady pace.",
+          "A person steps over an obstacle.",
+          "A person walks forward at a steady pace.",
+          "A person steps over an obstacle.",
+          "A person walks forward at a steady pace.",
+          "A person steps over an obstacle.",
+          "A person walks forward at a steady pace."
+        ],
+        "row_indices": [
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "seeds": [
+          4704,
+          4705,
+          4706,
+          4707
+        ]
+      },
+      {
+        "archive_keys": [
+          "s4708_step",
+          "s4708_walk",
+          "s4709_step",
+          "s4709_walk",
+          "s4710_step",
+          "s4710_walk",
+          "s4711_step",
+          "s4711_walk"
+        ],
+        "batch_size": 8,
+        "chunk": 2,
+        "name": "chunk02",
+        "prompts": [
+          "A person steps over an obstacle.",
+          "A person walks forward at a steady pace.",
+          "A person steps over an obstacle.",
+          "A person walks forward at a steady pace.",
+          "A person steps over an obstacle.",
+          "A person walks forward at a steady pace.",
+          "A person steps over an obstacle.",
+          "A person walks forward at a steady pace."
+        ],
+        "row_indices": [
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23
+        ],
+        "seeds": [
+          4708,
+          4709,
+          4710,
+          4711
+        ]
+      },
+      {
+        "archive_keys": [
+          "s4712_step",
+          "s4712_walk",
+          "s4713_step",
+          "s4713_walk",
+          "s4714_step",
+          "s4714_walk",
+          "s4715_step",
+          "s4715_walk"
+        ],
+        "batch_size": 8,
+        "chunk": 3,
+        "name": "chunk03",
+        "prompts": [
+          "A person steps over an obstacle.",
+          "A person walks forward at a steady pace.",
+          "A person steps over an obstacle.",
+          "A person walks forward at a steady pace.",
+          "A person steps over an obstacle.",
+          "A person walks forward at a steady pace.",
+          "A person steps over an obstacle.",
+          "A person walks forward at a steady pace."
+        ],
+        "row_indices": [
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31
+        ],
+        "seeds": [
+          4712,
+          4713,
+          4714,
+          4715
+        ]
+      },
+      {
+        "archive_keys": [
+          "s4716_step",
+          "s4716_walk",
+          "s4717_step",
+          "s4717_walk",
+          "s4718_step",
+          "s4718_walk",
+          "s4719_step",
+          "s4719_walk"
+        ],
+        "batch_size": 8,
+        "chunk": 4,
+        "name": "chunk04",
+        "prompts": [
+          "A person steps over an obstacle.",
+          "A person walks forward at a steady pace.",
+          "A person steps over an obstacle.",
+          "A person walks forward at a steady pace.",
+          "A person steps over an obstacle.",
+          "A person walks forward at a steady pace.",
+          "A person steps over an obstacle.",
+          "A person walks forward at a steady pace."
+        ],
+        "row_indices": [
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39
+        ],
+        "seeds": [
+          4716,
+          4717,
+          4718,
+          4719
+        ]
+      },
+      {
+        "archive_keys": [
+          "s4720_step",
+          "s4720_walk",
+          "s4721_step",
+          "s4721_walk",
+          "s4722_step",
+          "s4722_walk",
+          "s4723_step",
+          "s4723_walk"
+        ],
+        "batch_size": 8,
+        "chunk": 5,
+        "name": "chunk05",
+        "prompts": [
+          "A person steps over an obstacle.",
+          "A person walks forward at a steady pace.",
+          "A person steps over an obstacle.",
+          "A person walks forward at a steady pace.",
+          "A person steps over an obstacle.",
+          "A person walks forward at a steady pace.",
+          "A person steps over an obstacle.",
+          "A person walks forward at a steady pace."
+        ],
+        "row_indices": [
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46,
+          47
+        ],
+        "seeds": [
+          4720,
+          4721,
+          4722,
+          4723
+        ]
+      },
+      {
+        "archive_keys": [
+          "s4724_step",
+          "s4724_walk",
+          "s4725_step",
+          "s4725_walk",
+          "s4726_step",
+          "s4726_walk",
+          "s4727_step",
+          "s4727_walk"
+        ],
+        "batch_size": 8,
+        "chunk": 6,
+        "name": "chunk06",
+        "prompts": [
+          "A person steps over an obstacle.",
+          "A person walks forward at a steady pace.",
+          "A person steps over an obstacle.",
+          "A person walks forward at a steady pace.",
+          "A person steps over an obstacle.",
+          "A person walks forward at a steady pace.",
+          "A person steps over an obstacle.",
+          "A person walks forward at a steady pace."
+        ],
+        "row_indices": [
+          48,
+          49,
+          50,
+          51,
+          52,
+          53,
+          54,
+          55
+        ],
+        "seeds": [
+          4724,
+          4725,
+          4726,
+          4727
+        ]
+      },
+      {
+        "archive_keys": [
+          "s4728_step",
+          "s4728_walk",
+          "s4729_step",
+          "s4729_walk",
+          "s4730_step",
+          "s4730_walk",
+          "s4731_step",
+          "s4731_walk"
+        ],
+        "batch_size": 8,
+        "chunk": 7,
+        "name": "chunk07",
+        "prompts": [
+          "A person steps over an obstacle.",
+          "A person walks forward at a steady pace.",
+          "A person steps over an obstacle.",
+          "A person walks forward at a steady pace.",
+          "A person steps over an obstacle.",
+          "A person walks forward at a steady pace.",
+          "A person steps over an obstacle.",
+          "A person walks forward at a steady pace."
+        ],
+        "row_indices": [
+          56,
+          57,
+          58,
+          59,
+          60,
+          61,
+          62,
+          63
+        ],
+        "seeds": [
+          4728,
+          4729,
+          4730,
+          4731
+        ]
+      },
+      {
+        "archive_keys": [
+          "s4732_step",
+          "s4732_walk",
+          "s4733_step",
+          "s4733_walk",
+          "s4734_step",
+          "s4734_walk",
+          "s4735_step",
+          "s4735_walk"
+        ],
+        "batch_size": 8,
+        "chunk": 8,
+        "name": "chunk08",
+        "prompts": [
+          "A person steps over an obstacle.",
+          "A person walks forward at a steady pace.",
+          "A person steps over an obstacle.",
+          "A person walks forward at a steady pace.",
+          "A person steps over an obstacle.",
+          "A person walks forward at a steady pace.",
+          "A person steps over an obstacle.",
+          "A person walks forward at a steady pace."
+        ],
+        "row_indices": [
+          64,
+          65,
+          66,
+          67,
+          68,
+          69,
+          70,
+          71
+        ],
+        "seeds": [
+          4732,
+          4733,
+          4734,
+          4735
+        ]
+      },
+      {
+        "archive_keys": [
+          "s4736_step",
+          "s4736_walk",
+          "s4737_step",
+          "s4737_walk",
+          "s4738_step",
+          "s4738_walk",
+          "s4739_step",
+          "s4739_walk"
+        ],
+        "batch_size": 8,
+        "chunk": 9,
+        "name": "chunk09",
+        "prompts": [
+          "A person steps over an obstacle.",
+          "A person walks forward at a steady pace.",
+          "A person steps over an obstacle.",
+          "A person walks forward at a steady pace.",
+          "A person steps over an obstacle.",
+          "A person walks forward at a steady pace.",
+          "A person steps over an obstacle.",
+          "A person walks forward at a steady pace."
+        ],
+        "row_indices": [
+          72,
+          73,
+          74,
+          75,
+          76,
+          77,
+          78,
+          79
+        ],
+        "seeds": [
+          4736,
+          4737,
+          4738,
+          4739
+        ]
+      },
+      {
+        "archive_keys": [
+          "s4740_step",
+          "s4740_walk",
+          "s4741_step",
+          "s4741_walk",
+          "s4742_step",
+          "s4742_walk",
+          "s4743_step",
+          "s4743_walk"
+        ],
+        "batch_size": 8,
+        "chunk": 10,
+        "name": "chunk10",
+        "prompts": [
+          "A person steps over an obstacle.",
+          "A person walks forward at a steady pace.",
+          "A person steps over an obstacle.",
+          "A person walks forward at a steady pace.",
+          "A person steps over an obstacle.",
+          "A person walks forward at a steady pace.",
+          "A person steps over an obstacle.",
+          "A person walks forward at a steady pace."
+        ],
+        "row_indices": [
+          80,
+          81,
+          82,
+          83,
+          84,
+          85,
+          86,
+          87
+        ],
+        "seeds": [
+          4740,
+          4741,
+          4742,
+          4743
+        ]
+      },
+      {
+        "archive_keys": [
+          "s4744_step",
+          "s4744_walk",
+          "s4745_step",
+          "s4745_walk",
+          "s4746_step",
+          "s4746_walk",
+          "s4747_step",
+          "s4747_walk"
+        ],
+        "batch_size": 8,
+        "chunk": 11,
+        "name": "chunk11",
+        "prompts": [
+          "A person steps over an obstacle.",
+          "A person walks forward at a steady pace.",
+          "A person steps over an obstacle.",
+          "A person walks forward at a steady pace.",
+          "A person steps over an obstacle.",
+          "A person walks forward at a steady pace.",
+          "A person steps over an obstacle.",
+          "A person walks forward at a steady pace."
+        ],
+        "row_indices": [
+          88,
+          89,
+          90,
+          91,
+          92,
+          93,
+          94,
+          95
+        ],
+        "seeds": [
+          4744,
+          4745,
+          4746,
+          4747
+        ]
+      },
+      {
+        "archive_keys": [
+          "s4748_step",
+          "s4748_walk",
+          "s4749_step",
+          "s4749_walk",
+          "s4750_step",
+          "s4750_walk",
+          "s4751_step",
+          "s4751_walk"
+        ],
+        "batch_size": 8,
+        "chunk": 12,
+        "name": "chunk12",
+        "prompts": [
+          "A person steps over an obstacle.",
+          "A person walks forward at a steady pace.",
+          "A person steps over an obstacle.",
+          "A person walks forward at a steady pace.",
+          "A person steps over an obstacle.",
+          "A person walks forward at a steady pace.",
+          "A person steps over an obstacle.",
+          "A person walks forward at a steady pace."
+        ],
+        "row_indices": [
+          96,
+          97,
+          98,
+          99,
+          100,
+          101,
+          102,
+          103
+        ],
+        "seeds": [
+          4748,
+          4749,
+          4750,
+          4751
+        ]
+      },
+      {
+        "archive_keys": [
+          "s4752_step",
+          "s4752_walk",
+          "s4753_step",
+          "s4753_walk",
+          "s4754_step",
+          "s4754_walk",
+          "s4755_step",
+          "s4755_walk"
+        ],
+        "batch_size": 8,
+        "chunk": 13,
+        "name": "chunk13",
+        "prompts": [
+          "A person steps over an obstacle.",
+          "A person walks forward at a steady pace.",
+          "A person steps over an obstacle.",
+          "A person walks forward at a steady pace.",
+          "A person steps over an obstacle.",
+          "A person walks forward at a steady pace.",
+          "A person steps over an obstacle.",
+          "A person walks forward at a steady pace."
+        ],
+        "row_indices": [
+          104,
+          105,
+          106,
+          107,
+          108,
+          109,
+          110,
+          111
+        ],
+        "seeds": [
+          4752,
+          4753,
+          4754,
+          4755
+        ]
+      },
+      {
+        "archive_keys": [
+          "s4756_step",
+          "s4756_walk",
+          "s4757_step",
+          "s4757_walk",
+          "s4758_step",
+          "s4758_walk",
+          "s4759_step",
+          "s4759_walk"
+        ],
+        "batch_size": 8,
+        "chunk": 14,
+        "name": "chunk14",
+        "prompts": [
+          "A person steps over an obstacle.",
+          "A person walks forward at a steady pace.",
+          "A person steps over an obstacle.",
+          "A person walks forward at a steady pace.",
+          "A person steps over an obstacle.",
+          "A person walks forward at a steady pace.",
+          "A person steps over an obstacle.",
+          "A person walks forward at a steady pace."
+        ],
+        "row_indices": [
+          112,
+          113,
+          114,
+          115,
+          116,
+          117,
+          118,
+          119
+        ],
+        "seeds": [
+          4756,
+          4757,
+          4758,
+          4759
+        ]
+      },
+      {
+        "archive_keys": [
+          "s4760_step",
+          "s4760_walk",
+          "s4761_step",
+          "s4761_walk",
+          "s4762_step",
+          "s4762_walk",
+          "s4763_step",
+          "s4763_walk"
+        ],
+        "batch_size": 8,
+        "chunk": 15,
+        "name": "chunk15",
+        "prompts": [
+          "A person steps over an obstacle.",
+          "A person walks forward at a steady pace.",
+          "A person steps over an obstacle.",
+          "A person walks forward at a steady pace.",
+          "A person steps over an obstacle.",
+          "A person walks forward at a steady pace.",
+          "A person steps over an obstacle.",
+          "A person walks forward at a steady pace."
+        ],
+        "row_indices": [
+          120,
+          121,
+          122,
+          123,
+          124,
+          125,
+          126,
+          127
+        ],
+        "seeds": [
+          4760,
+          4761,
+          4762,
+          4763
+        ]
+      }
+    ],
+    "chunk_seed_count": 4,
+    "constraint": {
+      "adapter_channels_written": {
+        "smooth_root_2d": 240
+      },
+      "channel": "smooth_root_2d",
+      "contract": "free",
+      "dense": true,
+      "expected_model_channel_usage": {
+        "smooth_root_pos": 480
+      },
+      "heading": "free",
+      "note": "smooth_root_2d constrains the ADMM-smoothed root (0.06 m smoother margin), not the raw pelvis; route error is measured against smooth_root_pos",
+      "root_height": "free",
+      "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+    },
+    "control_arm": {
+      "arm": "walk",
+      "role": "free nominal arm / elicitation floor (house rule 9)"
+    },
+    "coverage_guard": {
+      "envelope": "every robot collision primitive, expanded by G1Body.body_margin",
+      "forward_axis": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "rule": "a box centred at x with depth d counts as swept only if [x - d/2, x + d/2] lies inside the forward interval the whole-body collision envelope (body margin included) covers over all frames; clearance at an unswept centre is recorded as 'not reached' (null), never as a success, and unswept scan points are excluded from the elicitation argmax"
+    },
+    "decision_rules": {
+      "no_arm_expansion_after_outcomes": true,
+      "screen": ">= 80 % of elicited Kimodo clips above the 0.20 s screen -> the statement generalises to released G1 priors; otherwise ARDY-scoped",
+      "timing": "first-2 s fraction >= 0.7 -> generalises; <= 0.4 -> the ARDY window is attributed to autoregressive rollout context; otherwise report both distributions with no mechanism claim"
+    },
+    "denominators": {
+      "missing_event_time": "a clip with a lift position but no defined event time counts as NOT within the first 2.0 s; it is never excluded from the denominator, because a root that never reaches the lift position certainly did not reach it inside the window",
+      "screen_rule": "elicited clips (lift >= 0.03 m), the denominator the protocol names for this rule",
+      "timing_rule": "the lift-time distribution is reported over the clips that HAVE a lift position -- any positive whole-body-clearable lift -- because that is the ARDY comparator this campaign is calibrated against (40/49 root crossing, 42/49 nominal: the '80-86 % inside 2.0 s' the protocol quotes, over the 49 exp021 clips with any positive lift).  The >= 0.03 m elicited fraction and the rate over all assigned trials are reported beside it.  The screen rule keeps the elicited denominator, which the protocol names explicitly ('>= 80 % of Kimodo's elicited clips')"
+    },
+    "diffusion_steps": 100,
+    "elicitation": {
+      "definition": "exp021 box_height_profile / lift_location",
+      "min_clearance_m": 0.03,
+      "scan_points": 120,
+      "scored_only_where_the_body_swept": true
+    },
+    "first_heading": 0.0,
+    "graded_heights_m": [
+      0.03,
+      0.05,
+      0.08,
+      0.12,
+      0.2,
+      0.3
+    ],
+    "noise_stream_version": 2,
+    "obstacle_depth_m": 0.2,
+    "obstacles": [
+      {
+        "label": "staged",
+        "x_m": 1.2
+      },
+      {
+        "label": "unstaged",
+        "x_m": 3.6
+      }
+    ],
+    "part_b_reduced_audit": "out of scope for ICRA 2027 (protocol section 'Part B')",
+    "post_processing": "bypassed: the runner calls Kimodo._generate + motion_rep.inverse and never reaches Kimodo.__call__",
+    "prior": {
+      "device": "cuda:0",
+      "family": "offline diffusion; one denoising pass, no history window",
+      "fps": 30.0,
+      "model": "Kimodo-G1-RP-v1"
+    },
+    "question": "does the ARDY STEP-prompt timing and reference-screen signature reproduce on a released offline (non-autoregressive) G1 prior",
+    "route": {
+      "fps": 30.0,
+      "frame_span_duration_s": 7.966666666666667,
+      "length_m": 7.2,
+      "n_frames": 240,
+      "nominal_speed_mps": 0.9037656903765691,
+      "protocol_duration_s": 8.0,
+      "protocol_speed_mps": 0.9,
+      "sha256": "8c34de3e8732d3f8073773da5ba492641636fecf8e419eb5e0eb0d424f03980e"
+    },
+    "row_plan": [
+      {
+        "archive_key": "s4700_step",
+        "arm": "step",
+        "batch_position": 0,
+        "chunk": 0,
+        "chunk_name": "chunk00",
+        "prompt": "A person steps over an obstacle.",
+        "row_index": 0,
+        "seed": 4700,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4700_walk",
+        "arm": "walk",
+        "batch_position": 1,
+        "chunk": 0,
+        "chunk_name": "chunk00",
+        "prompt": "A person walks forward at a steady pace.",
+        "row_index": 1,
+        "seed": 4700,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4701_step",
+        "arm": "step",
+        "batch_position": 2,
+        "chunk": 0,
+        "chunk_name": "chunk00",
+        "prompt": "A person steps over an obstacle.",
+        "row_index": 2,
+        "seed": 4701,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4701_walk",
+        "arm": "walk",
+        "batch_position": 3,
+        "chunk": 0,
+        "chunk_name": "chunk00",
+        "prompt": "A person walks forward at a steady pace.",
+        "row_index": 3,
+        "seed": 4701,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4702_step",
+        "arm": "step",
+        "batch_position": 4,
+        "chunk": 0,
+        "chunk_name": "chunk00",
+        "prompt": "A person steps over an obstacle.",
+        "row_index": 4,
+        "seed": 4702,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4702_walk",
+        "arm": "walk",
+        "batch_position": 5,
+        "chunk": 0,
+        "chunk_name": "chunk00",
+        "prompt": "A person walks forward at a steady pace.",
+        "row_index": 5,
+        "seed": 4702,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4703_step",
+        "arm": "step",
+        "batch_position": 6,
+        "chunk": 0,
+        "chunk_name": "chunk00",
+        "prompt": "A person steps over an obstacle.",
+        "row_index": 6,
+        "seed": 4703,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4703_walk",
+        "arm": "walk",
+        "batch_position": 7,
+        "chunk": 0,
+        "chunk_name": "chunk00",
+        "prompt": "A person walks forward at a steady pace.",
+        "row_index": 7,
+        "seed": 4703,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4704_step",
+        "arm": "step",
+        "batch_position": 0,
+        "chunk": 1,
+        "chunk_name": "chunk01",
+        "prompt": "A person steps over an obstacle.",
+        "row_index": 8,
+        "seed": 4704,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4704_walk",
+        "arm": "walk",
+        "batch_position": 1,
+        "chunk": 1,
+        "chunk_name": "chunk01",
+        "prompt": "A person walks forward at a steady pace.",
+        "row_index": 9,
+        "seed": 4704,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4705_step",
+        "arm": "step",
+        "batch_position": 2,
+        "chunk": 1,
+        "chunk_name": "chunk01",
+        "prompt": "A person steps over an obstacle.",
+        "row_index": 10,
+        "seed": 4705,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4705_walk",
+        "arm": "walk",
+        "batch_position": 3,
+        "chunk": 1,
+        "chunk_name": "chunk01",
+        "prompt": "A person walks forward at a steady pace.",
+        "row_index": 11,
+        "seed": 4705,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4706_step",
+        "arm": "step",
+        "batch_position": 4,
+        "chunk": 1,
+        "chunk_name": "chunk01",
+        "prompt": "A person steps over an obstacle.",
+        "row_index": 12,
+        "seed": 4706,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4706_walk",
+        "arm": "walk",
+        "batch_position": 5,
+        "chunk": 1,
+        "chunk_name": "chunk01",
+        "prompt": "A person walks forward at a steady pace.",
+        "row_index": 13,
+        "seed": 4706,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4707_step",
+        "arm": "step",
+        "batch_position": 6,
+        "chunk": 1,
+        "chunk_name": "chunk01",
+        "prompt": "A person steps over an obstacle.",
+        "row_index": 14,
+        "seed": 4707,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4707_walk",
+        "arm": "walk",
+        "batch_position": 7,
+        "chunk": 1,
+        "chunk_name": "chunk01",
+        "prompt": "A person walks forward at a steady pace.",
+        "row_index": 15,
+        "seed": 4707,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4708_step",
+        "arm": "step",
+        "batch_position": 0,
+        "chunk": 2,
+        "chunk_name": "chunk02",
+        "prompt": "A person steps over an obstacle.",
+        "row_index": 16,
+        "seed": 4708,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4708_walk",
+        "arm": "walk",
+        "batch_position": 1,
+        "chunk": 2,
+        "chunk_name": "chunk02",
+        "prompt": "A person walks forward at a steady pace.",
+        "row_index": 17,
+        "seed": 4708,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4709_step",
+        "arm": "step",
+        "batch_position": 2,
+        "chunk": 2,
+        "chunk_name": "chunk02",
+        "prompt": "A person steps over an obstacle.",
+        "row_index": 18,
+        "seed": 4709,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4709_walk",
+        "arm": "walk",
+        "batch_position": 3,
+        "chunk": 2,
+        "chunk_name": "chunk02",
+        "prompt": "A person walks forward at a steady pace.",
+        "row_index": 19,
+        "seed": 4709,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4710_step",
+        "arm": "step",
+        "batch_position": 4,
+        "chunk": 2,
+        "chunk_name": "chunk02",
+        "prompt": "A person steps over an obstacle.",
+        "row_index": 20,
+        "seed": 4710,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4710_walk",
+        "arm": "walk",
+        "batch_position": 5,
+        "chunk": 2,
+        "chunk_name": "chunk02",
+        "prompt": "A person walks forward at a steady pace.",
+        "row_index": 21,
+        "seed": 4710,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4711_step",
+        "arm": "step",
+        "batch_position": 6,
+        "chunk": 2,
+        "chunk_name": "chunk02",
+        "prompt": "A person steps over an obstacle.",
+        "row_index": 22,
+        "seed": 4711,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4711_walk",
+        "arm": "walk",
+        "batch_position": 7,
+        "chunk": 2,
+        "chunk_name": "chunk02",
+        "prompt": "A person walks forward at a steady pace.",
+        "row_index": 23,
+        "seed": 4711,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4712_step",
+        "arm": "step",
+        "batch_position": 0,
+        "chunk": 3,
+        "chunk_name": "chunk03",
+        "prompt": "A person steps over an obstacle.",
+        "row_index": 24,
+        "seed": 4712,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4712_walk",
+        "arm": "walk",
+        "batch_position": 1,
+        "chunk": 3,
+        "chunk_name": "chunk03",
+        "prompt": "A person walks forward at a steady pace.",
+        "row_index": 25,
+        "seed": 4712,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4713_step",
+        "arm": "step",
+        "batch_position": 2,
+        "chunk": 3,
+        "chunk_name": "chunk03",
+        "prompt": "A person steps over an obstacle.",
+        "row_index": 26,
+        "seed": 4713,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4713_walk",
+        "arm": "walk",
+        "batch_position": 3,
+        "chunk": 3,
+        "chunk_name": "chunk03",
+        "prompt": "A person walks forward at a steady pace.",
+        "row_index": 27,
+        "seed": 4713,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4714_step",
+        "arm": "step",
+        "batch_position": 4,
+        "chunk": 3,
+        "chunk_name": "chunk03",
+        "prompt": "A person steps over an obstacle.",
+        "row_index": 28,
+        "seed": 4714,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4714_walk",
+        "arm": "walk",
+        "batch_position": 5,
+        "chunk": 3,
+        "chunk_name": "chunk03",
+        "prompt": "A person walks forward at a steady pace.",
+        "row_index": 29,
+        "seed": 4714,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4715_step",
+        "arm": "step",
+        "batch_position": 6,
+        "chunk": 3,
+        "chunk_name": "chunk03",
+        "prompt": "A person steps over an obstacle.",
+        "row_index": 30,
+        "seed": 4715,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4715_walk",
+        "arm": "walk",
+        "batch_position": 7,
+        "chunk": 3,
+        "chunk_name": "chunk03",
+        "prompt": "A person walks forward at a steady pace.",
+        "row_index": 31,
+        "seed": 4715,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4716_step",
+        "arm": "step",
+        "batch_position": 0,
+        "chunk": 4,
+        "chunk_name": "chunk04",
+        "prompt": "A person steps over an obstacle.",
+        "row_index": 32,
+        "seed": 4716,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4716_walk",
+        "arm": "walk",
+        "batch_position": 1,
+        "chunk": 4,
+        "chunk_name": "chunk04",
+        "prompt": "A person walks forward at a steady pace.",
+        "row_index": 33,
+        "seed": 4716,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4717_step",
+        "arm": "step",
+        "batch_position": 2,
+        "chunk": 4,
+        "chunk_name": "chunk04",
+        "prompt": "A person steps over an obstacle.",
+        "row_index": 34,
+        "seed": 4717,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4717_walk",
+        "arm": "walk",
+        "batch_position": 3,
+        "chunk": 4,
+        "chunk_name": "chunk04",
+        "prompt": "A person walks forward at a steady pace.",
+        "row_index": 35,
+        "seed": 4717,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4718_step",
+        "arm": "step",
+        "batch_position": 4,
+        "chunk": 4,
+        "chunk_name": "chunk04",
+        "prompt": "A person steps over an obstacle.",
+        "row_index": 36,
+        "seed": 4718,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4718_walk",
+        "arm": "walk",
+        "batch_position": 5,
+        "chunk": 4,
+        "chunk_name": "chunk04",
+        "prompt": "A person walks forward at a steady pace.",
+        "row_index": 37,
+        "seed": 4718,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4719_step",
+        "arm": "step",
+        "batch_position": 6,
+        "chunk": 4,
+        "chunk_name": "chunk04",
+        "prompt": "A person steps over an obstacle.",
+        "row_index": 38,
+        "seed": 4719,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4719_walk",
+        "arm": "walk",
+        "batch_position": 7,
+        "chunk": 4,
+        "chunk_name": "chunk04",
+        "prompt": "A person walks forward at a steady pace.",
+        "row_index": 39,
+        "seed": 4719,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4720_step",
+        "arm": "step",
+        "batch_position": 0,
+        "chunk": 5,
+        "chunk_name": "chunk05",
+        "prompt": "A person steps over an obstacle.",
+        "row_index": 40,
+        "seed": 4720,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4720_walk",
+        "arm": "walk",
+        "batch_position": 1,
+        "chunk": 5,
+        "chunk_name": "chunk05",
+        "prompt": "A person walks forward at a steady pace.",
+        "row_index": 41,
+        "seed": 4720,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4721_step",
+        "arm": "step",
+        "batch_position": 2,
+        "chunk": 5,
+        "chunk_name": "chunk05",
+        "prompt": "A person steps over an obstacle.",
+        "row_index": 42,
+        "seed": 4721,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4721_walk",
+        "arm": "walk",
+        "batch_position": 3,
+        "chunk": 5,
+        "chunk_name": "chunk05",
+        "prompt": "A person walks forward at a steady pace.",
+        "row_index": 43,
+        "seed": 4721,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4722_step",
+        "arm": "step",
+        "batch_position": 4,
+        "chunk": 5,
+        "chunk_name": "chunk05",
+        "prompt": "A person steps over an obstacle.",
+        "row_index": 44,
+        "seed": 4722,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4722_walk",
+        "arm": "walk",
+        "batch_position": 5,
+        "chunk": 5,
+        "chunk_name": "chunk05",
+        "prompt": "A person walks forward at a steady pace.",
+        "row_index": 45,
+        "seed": 4722,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4723_step",
+        "arm": "step",
+        "batch_position": 6,
+        "chunk": 5,
+        "chunk_name": "chunk05",
+        "prompt": "A person steps over an obstacle.",
+        "row_index": 46,
+        "seed": 4723,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4723_walk",
+        "arm": "walk",
+        "batch_position": 7,
+        "chunk": 5,
+        "chunk_name": "chunk05",
+        "prompt": "A person walks forward at a steady pace.",
+        "row_index": 47,
+        "seed": 4723,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4724_step",
+        "arm": "step",
+        "batch_position": 0,
+        "chunk": 6,
+        "chunk_name": "chunk06",
+        "prompt": "A person steps over an obstacle.",
+        "row_index": 48,
+        "seed": 4724,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4724_walk",
+        "arm": "walk",
+        "batch_position": 1,
+        "chunk": 6,
+        "chunk_name": "chunk06",
+        "prompt": "A person walks forward at a steady pace.",
+        "row_index": 49,
+        "seed": 4724,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4725_step",
+        "arm": "step",
+        "batch_position": 2,
+        "chunk": 6,
+        "chunk_name": "chunk06",
+        "prompt": "A person steps over an obstacle.",
+        "row_index": 50,
+        "seed": 4725,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4725_walk",
+        "arm": "walk",
+        "batch_position": 3,
+        "chunk": 6,
+        "chunk_name": "chunk06",
+        "prompt": "A person walks forward at a steady pace.",
+        "row_index": 51,
+        "seed": 4725,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4726_step",
+        "arm": "step",
+        "batch_position": 4,
+        "chunk": 6,
+        "chunk_name": "chunk06",
+        "prompt": "A person steps over an obstacle.",
+        "row_index": 52,
+        "seed": 4726,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4726_walk",
+        "arm": "walk",
+        "batch_position": 5,
+        "chunk": 6,
+        "chunk_name": "chunk06",
+        "prompt": "A person walks forward at a steady pace.",
+        "row_index": 53,
+        "seed": 4726,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4727_step",
+        "arm": "step",
+        "batch_position": 6,
+        "chunk": 6,
+        "chunk_name": "chunk06",
+        "prompt": "A person steps over an obstacle.",
+        "row_index": 54,
+        "seed": 4727,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4727_walk",
+        "arm": "walk",
+        "batch_position": 7,
+        "chunk": 6,
+        "chunk_name": "chunk06",
+        "prompt": "A person walks forward at a steady pace.",
+        "row_index": 55,
+        "seed": 4727,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4728_step",
+        "arm": "step",
+        "batch_position": 0,
+        "chunk": 7,
+        "chunk_name": "chunk07",
+        "prompt": "A person steps over an obstacle.",
+        "row_index": 56,
+        "seed": 4728,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4728_walk",
+        "arm": "walk",
+        "batch_position": 1,
+        "chunk": 7,
+        "chunk_name": "chunk07",
+        "prompt": "A person walks forward at a steady pace.",
+        "row_index": 57,
+        "seed": 4728,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4729_step",
+        "arm": "step",
+        "batch_position": 2,
+        "chunk": 7,
+        "chunk_name": "chunk07",
+        "prompt": "A person steps over an obstacle.",
+        "row_index": 58,
+        "seed": 4729,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4729_walk",
+        "arm": "walk",
+        "batch_position": 3,
+        "chunk": 7,
+        "chunk_name": "chunk07",
+        "prompt": "A person walks forward at a steady pace.",
+        "row_index": 59,
+        "seed": 4729,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4730_step",
+        "arm": "step",
+        "batch_position": 4,
+        "chunk": 7,
+        "chunk_name": "chunk07",
+        "prompt": "A person steps over an obstacle.",
+        "row_index": 60,
+        "seed": 4730,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4730_walk",
+        "arm": "walk",
+        "batch_position": 5,
+        "chunk": 7,
+        "chunk_name": "chunk07",
+        "prompt": "A person walks forward at a steady pace.",
+        "row_index": 61,
+        "seed": 4730,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4731_step",
+        "arm": "step",
+        "batch_position": 6,
+        "chunk": 7,
+        "chunk_name": "chunk07",
+        "prompt": "A person steps over an obstacle.",
+        "row_index": 62,
+        "seed": 4731,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4731_walk",
+        "arm": "walk",
+        "batch_position": 7,
+        "chunk": 7,
+        "chunk_name": "chunk07",
+        "prompt": "A person walks forward at a steady pace.",
+        "row_index": 63,
+        "seed": 4731,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4732_step",
+        "arm": "step",
+        "batch_position": 0,
+        "chunk": 8,
+        "chunk_name": "chunk08",
+        "prompt": "A person steps over an obstacle.",
+        "row_index": 64,
+        "seed": 4732,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4732_walk",
+        "arm": "walk",
+        "batch_position": 1,
+        "chunk": 8,
+        "chunk_name": "chunk08",
+        "prompt": "A person walks forward at a steady pace.",
+        "row_index": 65,
+        "seed": 4732,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4733_step",
+        "arm": "step",
+        "batch_position": 2,
+        "chunk": 8,
+        "chunk_name": "chunk08",
+        "prompt": "A person steps over an obstacle.",
+        "row_index": 66,
+        "seed": 4733,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4733_walk",
+        "arm": "walk",
+        "batch_position": 3,
+        "chunk": 8,
+        "chunk_name": "chunk08",
+        "prompt": "A person walks forward at a steady pace.",
+        "row_index": 67,
+        "seed": 4733,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4734_step",
+        "arm": "step",
+        "batch_position": 4,
+        "chunk": 8,
+        "chunk_name": "chunk08",
+        "prompt": "A person steps over an obstacle.",
+        "row_index": 68,
+        "seed": 4734,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4734_walk",
+        "arm": "walk",
+        "batch_position": 5,
+        "chunk": 8,
+        "chunk_name": "chunk08",
+        "prompt": "A person walks forward at a steady pace.",
+        "row_index": 69,
+        "seed": 4734,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4735_step",
+        "arm": "step",
+        "batch_position": 6,
+        "chunk": 8,
+        "chunk_name": "chunk08",
+        "prompt": "A person steps over an obstacle.",
+        "row_index": 70,
+        "seed": 4735,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4735_walk",
+        "arm": "walk",
+        "batch_position": 7,
+        "chunk": 8,
+        "chunk_name": "chunk08",
+        "prompt": "A person walks forward at a steady pace.",
+        "row_index": 71,
+        "seed": 4735,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4736_step",
+        "arm": "step",
+        "batch_position": 0,
+        "chunk": 9,
+        "chunk_name": "chunk09",
+        "prompt": "A person steps over an obstacle.",
+        "row_index": 72,
+        "seed": 4736,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4736_walk",
+        "arm": "walk",
+        "batch_position": 1,
+        "chunk": 9,
+        "chunk_name": "chunk09",
+        "prompt": "A person walks forward at a steady pace.",
+        "row_index": 73,
+        "seed": 4736,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4737_step",
+        "arm": "step",
+        "batch_position": 2,
+        "chunk": 9,
+        "chunk_name": "chunk09",
+        "prompt": "A person steps over an obstacle.",
+        "row_index": 74,
+        "seed": 4737,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4737_walk",
+        "arm": "walk",
+        "batch_position": 3,
+        "chunk": 9,
+        "chunk_name": "chunk09",
+        "prompt": "A person walks forward at a steady pace.",
+        "row_index": 75,
+        "seed": 4737,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4738_step",
+        "arm": "step",
+        "batch_position": 4,
+        "chunk": 9,
+        "chunk_name": "chunk09",
+        "prompt": "A person steps over an obstacle.",
+        "row_index": 76,
+        "seed": 4738,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4738_walk",
+        "arm": "walk",
+        "batch_position": 5,
+        "chunk": 9,
+        "chunk_name": "chunk09",
+        "prompt": "A person walks forward at a steady pace.",
+        "row_index": 77,
+        "seed": 4738,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4739_step",
+        "arm": "step",
+        "batch_position": 6,
+        "chunk": 9,
+        "chunk_name": "chunk09",
+        "prompt": "A person steps over an obstacle.",
+        "row_index": 78,
+        "seed": 4739,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4739_walk",
+        "arm": "walk",
+        "batch_position": 7,
+        "chunk": 9,
+        "chunk_name": "chunk09",
+        "prompt": "A person walks forward at a steady pace.",
+        "row_index": 79,
+        "seed": 4739,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4740_step",
+        "arm": "step",
+        "batch_position": 0,
+        "chunk": 10,
+        "chunk_name": "chunk10",
+        "prompt": "A person steps over an obstacle.",
+        "row_index": 80,
+        "seed": 4740,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4740_walk",
+        "arm": "walk",
+        "batch_position": 1,
+        "chunk": 10,
+        "chunk_name": "chunk10",
+        "prompt": "A person walks forward at a steady pace.",
+        "row_index": 81,
+        "seed": 4740,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4741_step",
+        "arm": "step",
+        "batch_position": 2,
+        "chunk": 10,
+        "chunk_name": "chunk10",
+        "prompt": "A person steps over an obstacle.",
+        "row_index": 82,
+        "seed": 4741,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4741_walk",
+        "arm": "walk",
+        "batch_position": 3,
+        "chunk": 10,
+        "chunk_name": "chunk10",
+        "prompt": "A person walks forward at a steady pace.",
+        "row_index": 83,
+        "seed": 4741,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4742_step",
+        "arm": "step",
+        "batch_position": 4,
+        "chunk": 10,
+        "chunk_name": "chunk10",
+        "prompt": "A person steps over an obstacle.",
+        "row_index": 84,
+        "seed": 4742,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4742_walk",
+        "arm": "walk",
+        "batch_position": 5,
+        "chunk": 10,
+        "chunk_name": "chunk10",
+        "prompt": "A person walks forward at a steady pace.",
+        "row_index": 85,
+        "seed": 4742,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4743_step",
+        "arm": "step",
+        "batch_position": 6,
+        "chunk": 10,
+        "chunk_name": "chunk10",
+        "prompt": "A person steps over an obstacle.",
+        "row_index": 86,
+        "seed": 4743,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4743_walk",
+        "arm": "walk",
+        "batch_position": 7,
+        "chunk": 10,
+        "chunk_name": "chunk10",
+        "prompt": "A person walks forward at a steady pace.",
+        "row_index": 87,
+        "seed": 4743,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4744_step",
+        "arm": "step",
+        "batch_position": 0,
+        "chunk": 11,
+        "chunk_name": "chunk11",
+        "prompt": "A person steps over an obstacle.",
+        "row_index": 88,
+        "seed": 4744,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4744_walk",
+        "arm": "walk",
+        "batch_position": 1,
+        "chunk": 11,
+        "chunk_name": "chunk11",
+        "prompt": "A person walks forward at a steady pace.",
+        "row_index": 89,
+        "seed": 4744,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4745_step",
+        "arm": "step",
+        "batch_position": 2,
+        "chunk": 11,
+        "chunk_name": "chunk11",
+        "prompt": "A person steps over an obstacle.",
+        "row_index": 90,
+        "seed": 4745,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4745_walk",
+        "arm": "walk",
+        "batch_position": 3,
+        "chunk": 11,
+        "chunk_name": "chunk11",
+        "prompt": "A person walks forward at a steady pace.",
+        "row_index": 91,
+        "seed": 4745,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4746_step",
+        "arm": "step",
+        "batch_position": 4,
+        "chunk": 11,
+        "chunk_name": "chunk11",
+        "prompt": "A person steps over an obstacle.",
+        "row_index": 92,
+        "seed": 4746,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4746_walk",
+        "arm": "walk",
+        "batch_position": 5,
+        "chunk": 11,
+        "chunk_name": "chunk11",
+        "prompt": "A person walks forward at a steady pace.",
+        "row_index": 93,
+        "seed": 4746,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4747_step",
+        "arm": "step",
+        "batch_position": 6,
+        "chunk": 11,
+        "chunk_name": "chunk11",
+        "prompt": "A person steps over an obstacle.",
+        "row_index": 94,
+        "seed": 4747,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4747_walk",
+        "arm": "walk",
+        "batch_position": 7,
+        "chunk": 11,
+        "chunk_name": "chunk11",
+        "prompt": "A person walks forward at a steady pace.",
+        "row_index": 95,
+        "seed": 4747,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4748_step",
+        "arm": "step",
+        "batch_position": 0,
+        "chunk": 12,
+        "chunk_name": "chunk12",
+        "prompt": "A person steps over an obstacle.",
+        "row_index": 96,
+        "seed": 4748,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4748_walk",
+        "arm": "walk",
+        "batch_position": 1,
+        "chunk": 12,
+        "chunk_name": "chunk12",
+        "prompt": "A person walks forward at a steady pace.",
+        "row_index": 97,
+        "seed": 4748,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4749_step",
+        "arm": "step",
+        "batch_position": 2,
+        "chunk": 12,
+        "chunk_name": "chunk12",
+        "prompt": "A person steps over an obstacle.",
+        "row_index": 98,
+        "seed": 4749,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4749_walk",
+        "arm": "walk",
+        "batch_position": 3,
+        "chunk": 12,
+        "chunk_name": "chunk12",
+        "prompt": "A person walks forward at a steady pace.",
+        "row_index": 99,
+        "seed": 4749,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4750_step",
+        "arm": "step",
+        "batch_position": 4,
+        "chunk": 12,
+        "chunk_name": "chunk12",
+        "prompt": "A person steps over an obstacle.",
+        "row_index": 100,
+        "seed": 4750,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4750_walk",
+        "arm": "walk",
+        "batch_position": 5,
+        "chunk": 12,
+        "chunk_name": "chunk12",
+        "prompt": "A person walks forward at a steady pace.",
+        "row_index": 101,
+        "seed": 4750,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4751_step",
+        "arm": "step",
+        "batch_position": 6,
+        "chunk": 12,
+        "chunk_name": "chunk12",
+        "prompt": "A person steps over an obstacle.",
+        "row_index": 102,
+        "seed": 4751,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4751_walk",
+        "arm": "walk",
+        "batch_position": 7,
+        "chunk": 12,
+        "chunk_name": "chunk12",
+        "prompt": "A person walks forward at a steady pace.",
+        "row_index": 103,
+        "seed": 4751,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4752_step",
+        "arm": "step",
+        "batch_position": 0,
+        "chunk": 13,
+        "chunk_name": "chunk13",
+        "prompt": "A person steps over an obstacle.",
+        "row_index": 104,
+        "seed": 4752,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4752_walk",
+        "arm": "walk",
+        "batch_position": 1,
+        "chunk": 13,
+        "chunk_name": "chunk13",
+        "prompt": "A person walks forward at a steady pace.",
+        "row_index": 105,
+        "seed": 4752,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4753_step",
+        "arm": "step",
+        "batch_position": 2,
+        "chunk": 13,
+        "chunk_name": "chunk13",
+        "prompt": "A person steps over an obstacle.",
+        "row_index": 106,
+        "seed": 4753,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4753_walk",
+        "arm": "walk",
+        "batch_position": 3,
+        "chunk": 13,
+        "chunk_name": "chunk13",
+        "prompt": "A person walks forward at a steady pace.",
+        "row_index": 107,
+        "seed": 4753,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4754_step",
+        "arm": "step",
+        "batch_position": 4,
+        "chunk": 13,
+        "chunk_name": "chunk13",
+        "prompt": "A person steps over an obstacle.",
+        "row_index": 108,
+        "seed": 4754,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4754_walk",
+        "arm": "walk",
+        "batch_position": 5,
+        "chunk": 13,
+        "chunk_name": "chunk13",
+        "prompt": "A person walks forward at a steady pace.",
+        "row_index": 109,
+        "seed": 4754,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4755_step",
+        "arm": "step",
+        "batch_position": 6,
+        "chunk": 13,
+        "chunk_name": "chunk13",
+        "prompt": "A person steps over an obstacle.",
+        "row_index": 110,
+        "seed": 4755,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4755_walk",
+        "arm": "walk",
+        "batch_position": 7,
+        "chunk": 13,
+        "chunk_name": "chunk13",
+        "prompt": "A person walks forward at a steady pace.",
+        "row_index": 111,
+        "seed": 4755,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4756_step",
+        "arm": "step",
+        "batch_position": 0,
+        "chunk": 14,
+        "chunk_name": "chunk14",
+        "prompt": "A person steps over an obstacle.",
+        "row_index": 112,
+        "seed": 4756,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4756_walk",
+        "arm": "walk",
+        "batch_position": 1,
+        "chunk": 14,
+        "chunk_name": "chunk14",
+        "prompt": "A person walks forward at a steady pace.",
+        "row_index": 113,
+        "seed": 4756,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4757_step",
+        "arm": "step",
+        "batch_position": 2,
+        "chunk": 14,
+        "chunk_name": "chunk14",
+        "prompt": "A person steps over an obstacle.",
+        "row_index": 114,
+        "seed": 4757,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4757_walk",
+        "arm": "walk",
+        "batch_position": 3,
+        "chunk": 14,
+        "chunk_name": "chunk14",
+        "prompt": "A person walks forward at a steady pace.",
+        "row_index": 115,
+        "seed": 4757,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4758_step",
+        "arm": "step",
+        "batch_position": 4,
+        "chunk": 14,
+        "chunk_name": "chunk14",
+        "prompt": "A person steps over an obstacle.",
+        "row_index": 116,
+        "seed": 4758,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4758_walk",
+        "arm": "walk",
+        "batch_position": 5,
+        "chunk": 14,
+        "chunk_name": "chunk14",
+        "prompt": "A person walks forward at a steady pace.",
+        "row_index": 117,
+        "seed": 4758,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4759_step",
+        "arm": "step",
+        "batch_position": 6,
+        "chunk": 14,
+        "chunk_name": "chunk14",
+        "prompt": "A person steps over an obstacle.",
+        "row_index": 118,
+        "seed": 4759,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4759_walk",
+        "arm": "walk",
+        "batch_position": 7,
+        "chunk": 14,
+        "chunk_name": "chunk14",
+        "prompt": "A person walks forward at a steady pace.",
+        "row_index": 119,
+        "seed": 4759,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4760_step",
+        "arm": "step",
+        "batch_position": 0,
+        "chunk": 15,
+        "chunk_name": "chunk15",
+        "prompt": "A person steps over an obstacle.",
+        "row_index": 120,
+        "seed": 4760,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4760_walk",
+        "arm": "walk",
+        "batch_position": 1,
+        "chunk": 15,
+        "chunk_name": "chunk15",
+        "prompt": "A person walks forward at a steady pace.",
+        "row_index": 121,
+        "seed": 4760,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4761_step",
+        "arm": "step",
+        "batch_position": 2,
+        "chunk": 15,
+        "chunk_name": "chunk15",
+        "prompt": "A person steps over an obstacle.",
+        "row_index": 122,
+        "seed": 4761,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4761_walk",
+        "arm": "walk",
+        "batch_position": 3,
+        "chunk": 15,
+        "chunk_name": "chunk15",
+        "prompt": "A person walks forward at a steady pace.",
+        "row_index": 123,
+        "seed": 4761,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4762_step",
+        "arm": "step",
+        "batch_position": 4,
+        "chunk": 15,
+        "chunk_name": "chunk15",
+        "prompt": "A person steps over an obstacle.",
+        "row_index": 124,
+        "seed": 4762,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4762_walk",
+        "arm": "walk",
+        "batch_position": 5,
+        "chunk": 15,
+        "chunk_name": "chunk15",
+        "prompt": "A person walks forward at a steady pace.",
+        "row_index": 125,
+        "seed": 4762,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4763_step",
+        "arm": "step",
+        "batch_position": 6,
+        "chunk": 15,
+        "chunk_name": "chunk15",
+        "prompt": "A person steps over an obstacle.",
+        "row_index": 126,
+        "seed": 4763,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      },
+      {
+        "archive_key": "s4763_walk",
+        "arm": "walk",
+        "batch_position": 7,
+        "chunk": 15,
+        "chunk_name": "chunk15",
+        "prompt": "A person walks forward at a steady pace.",
+        "row_index": 127,
+        "seed": 4763,
+        "spec_sha256": "24de46977bc6a8174b3c50ac917a618b96f4aa5ddf51c9881b415d4256f3e5a8"
+      }
+    ],
+    "row_plan_sha256": "d9fd522b0c0a3a663c15b86294757146de3f2f1f45184ab4584e2f8f316eb87c",
+    "row_plan_with_spec_sha256": "fa0ff8da9becf262fbaa776a9f3901d5a92e97f2567b1c3935b386dbcbf409c2",
+    "screen": {
+      "flag_rule": "max_unsupported_run_s > threshold",
+      "note": "thresholds are in seconds and therefore fps-free; the 0.20 s rule is the calibrated reference screen for predicted tracking cutoffs, not a physical verdict",
+      "primary_s": 0.2,
+      "secondary_s": 0.28
+    },
+    "seeds": [
+      4700,
+      4701,
+      4702,
+      4703,
+      4704,
+      4705,
+      4706,
+      4707,
+      4708,
+      4709,
+      4710,
+      4711,
+      4712,
+      4713,
+      4714,
+      4715,
+      4716,
+      4717,
+      4718,
+      4719,
+      4720,
+      4721,
+      4722,
+      4723,
+      4724,
+      4725,
+      4726,
+      4727,
+      4728,
+      4729,
+      4730,
+      4731,
+      4732,
+      4733,
+      4734,
+      4735,
+      4736,
+      4737,
+      4738,
+      4739,
+      4740,
+      4741,
+      4742,
+      4743,
+      4744,
+      4745,
+      4746,
+      4747,
+      4748,
+      4749,
+      4750,
+      4751,
+      4752,
+      4753,
+      4754,
+      4755,
+      4756,
+      4757,
+      4758,
+      4759,
+      4760,
+      4761,
+      4762,
+      4763
+    ],
+    "stage_scope": "kinematic only; no SONIC in this campaign"
+  },
+  "complete": true,
+  "decisions": {
+    "arm_used": "step",
+    "denominator_rule": "the lift-time distribution is reported over the clips that HAVE a lift position -- any positive whole-body-clearable lift -- because that is the ARDY comparator this campaign is calibrated against (40/49 root crossing, 42/49 nominal: the '80-86 % inside 2.0 s' the protocol quotes, over the 49 exp021 clips with any positive lift).  The >= 0.03 m elicited fraction and the rate over all assigned trials are reported beside it.  The screen rule keeps the elicited denominator, which the protocol names explicitly ('>= 80 % of Kimodo's elicited clips')",
+    "denominators": {
+      "reported_beside_both": "rates over all 64 assigned STEP trials",
+      "screen_rule": "elicited STEP clips (whole-body-clearable lift >= 0.03 m), the denominator the protocol names for this rule",
+      "timing_rule": "STEP clips with a lift position (any positive whole-body-clearable lift), the ARDY comparator's denominator",
+      "why_they_differ": "the lift-time distribution is reported over the clips that HAVE a lift position -- any positive whole-body-clearable lift -- because that is the ARDY comparator this campaign is calibrated against (40/49 root crossing, 42/49 nominal: the '80-86 % inside 2.0 s' the protocol quotes, over the 49 exp021 clips with any positive lift).  The >= 0.03 m elicited fraction and the rate over all assigned trials are reported beside it.  The screen rule keeps the elicited denominator, which the protocol names explicitly ('>= 80 % of Kimodo's elicited clips')"
+    },
+    "no_arm_expansion_after_outcomes": {
+      "arms": [
+        "step",
+        "walk"
+      ],
+      "held": true,
+      "note": "the protocol forbids adding an arm after seeing outcomes",
+      "seeds": [
+        4700,
+        4763
+      ]
+    },
+    "scope": "kinematic only; no SONIC rollout was executed, so nothing here is a tracking outcome and the 0.20 s rule is a reference screen, not a physical verdict",
+    "screen_rule": {
+      "ardy_reference": {
+        "lifting_clips_above_0p20s": [
+          44,
+          44
+        ],
+        "source": "outputs/analysis_trackability_contract"
+      },
+      "denominator": "elicited STEP clips (lift >= 0.03 m), as the protocol names",
+      "elicited_float_over_all_assigned_step_trials": {
+        "k": 19,
+        "n": 64,
+        "rate": 0.296875,
+        "wilson95": [
+          0.19905151260405385,
+          0.41770201202912227
+        ]
+      },
+      "float_primary_0p20s": {
+        "k": 19,
+        "n": 23,
+        "rate": 0.8260869565217391,
+        "wilson95": [
+          0.6286235218500337,
+          0.9302134648553532
+        ]
+      },
+      "float_secondary_0p28s": {
+        "k": 19,
+        "n": 23,
+        "rate": 0.8260869565217391,
+        "wilson95": [
+          0.6286235218500337,
+          0.9302134648553532
+        ]
+      },
+      "fraction": 0.8260869565217391,
+      "n_elicited": 23,
+      "outcome": "screen_generalises_to_released_g1_priors",
+      "over_all_assigned_step_trials": {
+        "k": 31,
+        "n": 64,
+        "rate": 0.484375,
+        "wilson95": [
+          0.3663355157825022,
+          0.6041839861123575
+        ]
+      },
+      "over_all_assigned_step_trials_note": "numerator = every assigned STEP clip above the screen, elicited or not; 'elicited_float_over_all_assigned_step_trials' is the headline's own numerator over the same 64 assigned trials",
+      "primary_s": 0.2,
+      "secondary_s": 0.28,
+      "threshold_fraction": 0.8
+    },
+    "timing_rule": {
+      "ardy_reference": {
+        "denominator": "the 49 exp021 clips with any positive whole-body-clearable lift",
+        "nominal_speed": [
+          42,
+          49
+        ],
+        "root_crossing": [
+          40,
+          49
+        ],
+        "source": "outputs/analysis_event_frames (experiments/analyze_event_frames.py)"
+      },
+      "companion_denominator": "elicited STEP clips (lift >= 0.03 m)",
+      "definitions": {
+        "nominal_speed": {
+          "elicited_over_all_assigned_step_trials": {
+            "k": 0,
+            "n": 64,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.05662406063551054
+            ]
+          },
+          "first_2s": {
+            "k": 1,
+            "n": 41,
+            "rate": 0.024390243902439025,
+            "wilson95": [
+              0.00431853152113585,
+              0.12595062178093377
+            ]
+          },
+          "first_2s_elicited": {
+            "k": 0,
+            "n": 23,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.14311662038507353
+            ]
+          },
+          "first_2s_timed_only": {
+            "k": 1,
+            "n": 41,
+            "rate": 0.024390243902439025,
+            "wilson95": [
+              0.00431853152113585,
+              0.12595062178093377
+            ]
+          },
+          "fraction": 0.024390243902439025,
+          "fraction_elicited": 0.0,
+          "fraction_timed_only": 0.024390243902439025,
+          "median_lift_time_s": 3.7685457516339866,
+          "n_elicited": 23,
+          "n_elicited_without_event_time": 0,
+          "n_timed": 41,
+          "n_with_lift_position": 41,
+          "n_with_lift_position_without_event_time": 0,
+          "outcome": "ardy_window_attributed_to_autoregressive_rollout_context",
+          "outcome_on_elicited_denominator": "ardy_window_attributed_to_autoregressive_rollout_context",
+          "over_all_assigned_step_trials": {
+            "k": 1,
+            "n": 64,
+            "rate": 0.015625,
+            "wilson95": [
+              0.0027635418927853816,
+              0.08334101684786545
+            ]
+          },
+          "q10_q90_lift_time_s": [
+            2.3570845004668532,
+            5.670950046685342
+          ]
+        },
+        "root_crossing": {
+          "elicited_over_all_assigned_step_trials": {
+            "k": 0,
+            "n": 64,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.05662406063551054
+            ]
+          },
+          "first_2s": {
+            "k": 1,
+            "n": 41,
+            "rate": 0.024390243902439025,
+            "wilson95": [
+              0.00431853152113585,
+              0.12595062178093377
+            ]
+          },
+          "first_2s_elicited": {
+            "k": 0,
+            "n": 23,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.14311662038507353
+            ]
+          },
+          "first_2s_timed_only": {
+            "k": 1,
+            "n": 41,
+            "rate": 0.024390243902439025,
+            "wilson95": [
+              0.00431853152113585,
+              0.12595062178093377
+            ]
+          },
+          "fraction": 0.024390243902439025,
+          "fraction_elicited": 0.0,
+          "fraction_timed_only": 0.024390243902439025,
+          "median_lift_time_s": 3.8666666666666667,
+          "n_elicited": 23,
+          "n_elicited_without_event_time": 0,
+          "n_timed": 41,
+          "n_with_lift_position": 41,
+          "n_with_lift_position_without_event_time": 0,
+          "outcome": "ardy_window_attributed_to_autoregressive_rollout_context",
+          "outcome_on_elicited_denominator": "ardy_window_attributed_to_autoregressive_rollout_context",
+          "over_all_assigned_step_trials": {
+            "k": 1,
+            "n": 64,
+            "rate": 0.015625,
+            "wilson95": [
+              0.0027635418927853816,
+              0.08334101684786545
+            ]
+          },
+          "q10_q90_lift_time_s": [
+            2.466666666666667,
+            5.766666666666667
+          ]
+        }
+      },
+      "definitions_agree": true,
+      "denominator": "STEP clips with a lift position (any positive lift)",
+      "missing_event_time_rule": "a clip with a lift position but no defined event time counts as NOT within the first 2.0 s; it is never excluded from the denominator, because a root that never reaches the lift position certainly did not reach it inside the window",
+      "n_elicited": 23,
+      "n_with_lift_position": 41,
+      "outcome": "ardy_window_attributed_to_autoregressive_rollout_context",
+      "outcome_on_elicited_denominator": "ardy_window_attributed_to_autoregressive_rollout_context",
+      "primary_definition": "root_crossing",
+      "refusal": null,
+      "thresholds": {
+        "generalises_if_fraction_at_least": 0.7,
+        "rollout_context_if_fraction_at_most": 0.4
+      },
+      "window_s": 2.0
+    }
+  },
+  "evidence_anchors": {
+    "clip_records": {
+      "file_sha256": "e4063ce0f3989a5cf8c822cefce73dffc5049c0f665450a493766e2072bb35bf",
+      "logical_sha256": "ff16e82f63d22211de588da8183c5d13aa256e3fa4aff1e3e27983f7d9fd3496",
+      "n_rows": 128,
+      "path": "clip_records.jsonl"
+    },
+    "noise_audit": {
+      "file_sha256": "5196a2ee25e923fd0ed5062be3722feea1f55de024ace91deadb44a221e7b376",
+      "logical_sha256": "8e6f1f6d16fe44e61e3944fb4af67e36dd3931e623f61db53abb3309d892d05e",
+      "n_records": 16,
+      "path": "noise_audit.json"
+    },
+    "prompt_cache": {
+      "file_sha256": "dd787507c8b501a7f064659361daf52214d366963f86e6c40c76e38ec714ca30",
+      "identity_sha256": "d2be56ffbc57f62006ad1a765b9864b2936b7363f1c130d7bee40ae503d481fa",
+      "path": "kimodo_text_cache.npz"
+    },
+    "qpos": {
+      "content_sha256": "e563ee6488ddfca6375bb06718e1ba7d746c9ac9b60eec83c8e67d189883e3b4",
+      "file_sha256": "db26d0ee5d4d0d2bcb3d837c00d270a309b6d30a8c6becb17d73eeae343ab0cb",
+      "n_arrays": 128,
+      "path": "qpos.npz"
+    },
+    "rows": {
+      "file_sha256": "1d44cc69888fec3a01e6f54252902f49b6cc11ec9d22372cfc2cf5fda0ab5532",
+      "logical_sha256": "f15139bf6082c4640684105d38fff12f79f5dc7b7177f6014ea634fde4d3a1d8",
+      "n_rows": 128,
+      "path": "rows.jsonl"
+    },
+    "smooth_root": {
+      "content_sha256": "a0013aad1a2322953cc2ae4763af3c6f3f70dd0391b8c5f8622581322ca5aad9",
+      "file_sha256": "461a62e2063281474f2bf8c489f8b857da7f1b55954aa4ee1a7552379e634b3d",
+      "n_arrays": 128,
+      "path": "smooth_root.npz"
+    },
+    "summary": {
+      "file_sha256": "33baa7d31441797a97d0425cf01727310d25511d37cf2bfbd5b6954770af2d35",
+      "logical_sha256": "8695ff58fa7c1be2b469ad09cabb4f11377978e84bfc1d89b92c1eac1b6de383",
+      "path": "summary.json"
+    }
+  },
+  "execution_mode": {
+    "dependency_injections": [],
+    "note": "Dependency injection exists for CPU tests; any injected run is non-evidentiary. Production constructs the Kimodo runner only after the empty evidence bundle and the campaign prompt cache are durable.",
+    "pre_model_construction_evidence_guaranteed": true,
+    "scientific_evidence_eligible": true
+  },
+  "experiment": "exp025_kimodo_cross_prior",
+  "generation_chunks": {
+    "chunk00": {
+      "latent_audit_status": "verified",
+      "row_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "samples_returned": 8,
+      "seeds": [
+        4700,
+        4701,
+        4702,
+        4703
+      ],
+      "status": "complete"
+    },
+    "chunk01": {
+      "latent_audit_status": "verified",
+      "row_indices": [
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "samples_returned": 8,
+      "seeds": [
+        4704,
+        4705,
+        4706,
+        4707
+      ],
+      "status": "complete"
+    },
+    "chunk02": {
+      "latent_audit_status": "verified",
+      "row_indices": [
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23
+      ],
+      "samples_returned": 8,
+      "seeds": [
+        4708,
+        4709,
+        4710,
+        4711
+      ],
+      "status": "complete"
+    },
+    "chunk03": {
+      "latent_audit_status": "verified",
+      "row_indices": [
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31
+      ],
+      "samples_returned": 8,
+      "seeds": [
+        4712,
+        4713,
+        4714,
+        4715
+      ],
+      "status": "complete"
+    },
+    "chunk04": {
+      "latent_audit_status": "verified",
+      "row_indices": [
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39
+      ],
+      "samples_returned": 8,
+      "seeds": [
+        4716,
+        4717,
+        4718,
+        4719
+      ],
+      "status": "complete"
+    },
+    "chunk05": {
+      "latent_audit_status": "verified",
+      "row_indices": [
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47
+      ],
+      "samples_returned": 8,
+      "seeds": [
+        4720,
+        4721,
+        4722,
+        4723
+      ],
+      "status": "complete"
+    },
+    "chunk06": {
+      "latent_audit_status": "verified",
+      "row_indices": [
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55
+      ],
+      "samples_returned": 8,
+      "seeds": [
+        4724,
+        4725,
+        4726,
+        4727
+      ],
+      "status": "complete"
+    },
+    "chunk07": {
+      "latent_audit_status": "verified",
+      "row_indices": [
+        56,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62,
+        63
+      ],
+      "samples_returned": 8,
+      "seeds": [
+        4728,
+        4729,
+        4730,
+        4731
+      ],
+      "status": "complete"
+    },
+    "chunk08": {
+      "latent_audit_status": "verified",
+      "row_indices": [
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71
+      ],
+      "samples_returned": 8,
+      "seeds": [
+        4732,
+        4733,
+        4734,
+        4735
+      ],
+      "status": "complete"
+    },
+    "chunk09": {
+      "latent_audit_status": "verified",
+      "row_indices": [
+        72,
+        73,
+        74,
+        75,
+        76,
+        77,
+        78,
+        79
+      ],
+      "samples_returned": 8,
+      "seeds": [
+        4736,
+        4737,
+        4738,
+        4739
+      ],
+      "status": "complete"
+    },
+    "chunk10": {
+      "latent_audit_status": "verified",
+      "row_indices": [
+        80,
+        81,
+        82,
+        83,
+        84,
+        85,
+        86,
+        87
+      ],
+      "samples_returned": 8,
+      "seeds": [
+        4740,
+        4741,
+        4742,
+        4743
+      ],
+      "status": "complete"
+    },
+    "chunk11": {
+      "latent_audit_status": "verified",
+      "row_indices": [
+        88,
+        89,
+        90,
+        91,
+        92,
+        93,
+        94,
+        95
+      ],
+      "samples_returned": 8,
+      "seeds": [
+        4744,
+        4745,
+        4746,
+        4747
+      ],
+      "status": "complete"
+    },
+    "chunk12": {
+      "latent_audit_status": "verified",
+      "row_indices": [
+        96,
+        97,
+        98,
+        99,
+        100,
+        101,
+        102,
+        103
+      ],
+      "samples_returned": 8,
+      "seeds": [
+        4748,
+        4749,
+        4750,
+        4751
+      ],
+      "status": "complete"
+    },
+    "chunk13": {
+      "latent_audit_status": "verified",
+      "row_indices": [
+        104,
+        105,
+        106,
+        107,
+        108,
+        109,
+        110,
+        111
+      ],
+      "samples_returned": 8,
+      "seeds": [
+        4752,
+        4753,
+        4754,
+        4755
+      ],
+      "status": "complete"
+    },
+    "chunk14": {
+      "latent_audit_status": "verified",
+      "row_indices": [
+        112,
+        113,
+        114,
+        115,
+        116,
+        117,
+        118,
+        119
+      ],
+      "samples_returned": 8,
+      "seeds": [
+        4756,
+        4757,
+        4758,
+        4759
+      ],
+      "status": "complete"
+    },
+    "chunk15": {
+      "latent_audit_status": "verified",
+      "row_indices": [
+        120,
+        121,
+        122,
+        123,
+        124,
+        125,
+        126,
+        127
+      ],
+      "samples_returned": 8,
+      "seeds": [
+        4760,
+        4761,
+        4762,
+        4763
+      ],
+      "status": "complete"
+    }
+  },
+  "host_resource_gate": {
+    "generate": {
+      "checks": {
+        "no_isaac": true,
+        "ram": true,
+        "vram": true
+      },
+      "concurrent_isaac_processes": [],
+      "measured_at_unix_s": 1788420476.6617227,
+      "pass": true,
+      "ram": {
+        "available_mib": 11237,
+        "error": null,
+        "total_mib": 30670
+      },
+      "thresholds": {
+        "min_available_ram_mib": 8192,
+        "min_free_vram_mib": 4096,
+        "require_no_concurrent_isaac": false
+      },
+      "vram": {
+        "error": null,
+        "free_mib": 8077,
+        "total_mib": 16303,
+        "used_mib": 7732
+      }
+    }
+  },
+  "interpreters": {
+    "generate": "/home/linjiw/kimodo/.venv/bin/python",
+    "note": "generation needs the kimodo package, scoring needs mujoco, and no local interpreter has both",
+    "running": "/home/linjiw/kimodo/.venv/bin/python",
+    "score": "/home/linjiw/ardy/.venv/bin/python"
+  },
+  "provenance": {
+    "code": {
+      "commit": "93323a0905eedf6ca806277062083881623de0c4",
+      "dirty": false,
+      "status": [],
+      "tracked_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "external_source_sha256": {
+      "/home/linjiw/ardy/ardy/assets/skeletons/g1skel34/xml/g1.xml": "5d76cf92f00dd49d6eb9fae38d7d38e46886848b602ac691051e886c3bcccfb1",
+      "/home/linjiw/ardy/ardy/model/llm2vec/llm2vec_wrapper.py": "2d80c51d6d44048ec83d457bdf138b783bbe4342b52204b606790f41a367460e",
+      "/home/linjiw/ardy/ardy/model/load_model.py": "3249c864d11f977056c191408a5b6e0670ac2ba4cfbff0acaac76b60e3e68554",
+      "/home/linjiw/kimodo/kimodo/assets/skeletons/g1skel34/xml/g1.xml": "5d76cf92f00dd49d6eb9fae38d7d38e46886848b602ac691051e886c3bcccfb1",
+      "/home/linjiw/kimodo/kimodo/exports/mujoco.py": "6f02790948a325317e8ade85460a95ce318a32359262a428d490b187babfb6d5",
+      "/home/linjiw/kimodo/kimodo/model/diffusion.py": "52acbdc3f5f2b95511aa01bda5c8b579490b203f743735c3db3394def635b273",
+      "/home/linjiw/kimodo/kimodo/model/kimodo_model.py": "28e57e2ac0d9fa176b81ba2cb400ddaf414178a21833cba19e80b02c35b4f4aa",
+      "/home/linjiw/kimodo/kimodo/model/llm2vec/llm2vec_wrapper.py": "e4dc146dd6a5a6f75a269b99b53d7ae43a873f6020992426ddb39bf3f924a1c4",
+      "/home/linjiw/kimodo/kimodo/model/load_model.py": "008092cd0b7adef1faea9fa9075718a61bea8ca9feaf9acf1b1d6caacaa0380a",
+      "/home/linjiw/kimodo/kimodo/motion_rep/reps/kimodo_motionrep.py": "b0b210e09534613ea7e5a684aa1a2f313c9f375d78fcca701e9e85d6820c8a47",
+      "/home/linjiw/kimodo/kimodo/motion_rep/smooth_root.py": "36a927e6204cf720b86a4b65b612a9c40595ae9acb0151bebb7a381ffc5310f8",
+      "/home/linjiw/kimodo/kimodo/sanitize.py": "655c6ffa861b7aaa7143b09d9641823158f0fe90636d844dae1549283af50c09"
+    },
+    "generator": {
+      "checkpoint": {
+        "checkpoint_sha256": "e18c1de73e2ce17a107b06d85155fbbc5debe68eb35455aa5b033e6ddbe056a5",
+        "generator_id": "nvidia/Kimodo-G1-RP-v1@3020ad8c419c244e0429d360163730c63c4ed011",
+        "hf_hub_cache": "/home/linjiw/.cache/huggingface/hub",
+        "hf_revision": "3020ad8c419c244e0429d360163730c63c4ed011",
+        "model_name": "Kimodo-G1-RP-v1",
+        "required_model_files": [
+          "config.yaml",
+          "model.safetensors",
+          "stats/motion/body/mean.npy",
+          "stats/motion/body/std.npy",
+          "stats/motion/global_root/mean.npy",
+          "stats/motion/global_root/std.npy",
+          "stats/motion/local_root/mean.npy",
+          "stats/motion/local_root/std.npy"
+        ],
+        "resolved_model_key": "kimodo-g1-rp",
+        "snapshot_file_count": 11,
+        "snapshot_file_sha256": {
+          ".gitattributes": "11ad7efa24975ee4b0c3c3a38ed18737f0658a5f75a0a96787b576a78a023361",
+          "LICENSE": "11ccdcb47db87ac30b63765b5e5154403026c4fbb52c19919d99d912ec454e19",
+          "README.md": "049f089c927c110d6c28dbe0e04914ba0836416a3ec91e8a19164ed9e1c1ec86",
+          "config.yaml": "73b550ba606d69847725ee257d5d99fa5cd56bd8bac320dbe5c2a49f0873846c",
+          "model.safetensors": "e18c1de73e2ce17a107b06d85155fbbc5debe68eb35455aa5b033e6ddbe056a5",
+          "stats/motion/body/mean.npy": "185564a7246ee03d7a7aa2a16b3c7e49cffd5a858f637ab2b8fa04574f18d29b",
+          "stats/motion/body/std.npy": "5df7b200de9bdb0d92cf23cd1426d2ded6c7688d1dcb6e403c3886f1d130f59e",
+          "stats/motion/global_root/mean.npy": "c292f97ed86266332abdbb7e98d464eb91115a4ec1def3c87aa9362ae483b062",
+          "stats/motion/global_root/std.npy": "691f1ada7ac34f4854d8d5920cafb26fd22f1d5fb9dbc331030292eb6675c6eb",
+          "stats/motion/local_root/mean.npy": "b0aab16477bd39f03934bb930786526563b6e5955d1ee0b2face7d1e2c04bba8",
+          "stats/motion/local_root/std.npy": "9b8f34564fda07cffb5689b2f509b6864b4031a764ca53bfa149ce8487495c62"
+        },
+        "snapshot_manifest_sha256": "ba10ee7f81308e20ffd63b4071fb3036e768605bfe4555e13cd70285247037b8",
+        "snapshot_path": "/home/linjiw/.cache/huggingface/hub/models--nvidia--Kimodo-G1-RP-v1/snapshots/3020ad8c419c244e0429d360163730c63c4ed011"
+      },
+      "diffusion_steps": 100,
+      "noise_stream_version": 2,
+      "runner_class": "KimodoRunner",
+      "runner_fps": 30.0,
+      "sampler": "Kimodo offline DDIM, eta=0, non-autoregressive single pass (kimodo/model/diffusion.py); post-processing bypassed"
+    },
+    "kimodo_runtime": {
+      "checkout": {
+        "fields": {
+          "kimodo_git_commit": "1aece8c124d73d255ceff5086d983b844c9f4e94",
+          "kimodo_package_root": "/home/linjiw/kimodo/kimodo",
+          "kimodo_python_source_count": 83,
+          "kimodo_python_source_manifest_sha256": "398615f5a8cb177665923d35b7f04f4e8f2c2e8cbc86d20956e9f2d7365c9eb0",
+          "kimodo_python_source_sha256": {
+            "__init__.py": "0f2918216f4c2039502ad431e87790a4c9c689fc5131070d7a33a66e30dca0f2",
+            "assets.py": "df261ed2d6021c389ea6578c2f377ac7984806b7fa5f5fcf43be9df1d22bee39",
+            "constraints.py": "f438dd7114b04e000472eb319dc3ebb1c5b32a21515c43f7da6fc6325345100d",
+            "demo/__init__.py": "c31bb95e356f9f156ed6a2025028cbca1cf51f6d3246624e85c00541796711e3",
+            "demo/__main__.py": "de5a330fdc666a961127c63254a01d02723c7ae2e769b78defb9669eec103173",
+            "demo/app.py": "3fd83511905b901fbb8530b6a41759474da56637bd0a9a8a2e802ab4ead0aba7",
+            "demo/config.py": "70255150ae45553cf0476d97792d327111defefcce19ce49550aede9611a5961",
+            "demo/embedding_cache.py": "8ebf98e625dc2a3be262b81c32273eda8ac56d56d04fbb49d149812bcf41eb4e",
+            "demo/generation.py": "301500e3d3e181cae17e5d8c031aacee6ab8e3c241275fef56d56537d810044c",
+            "demo/queue_manager.py": "5caf66c6ced818c579ced50fb01ad2ba9137b8a5d376e3bafdcfcb1d4bf783f1",
+            "demo/state.py": "3ed9c5e1ce92aa099efd2c72f46efdc99b5ca7dd5c7620459a1a23ce15c71313",
+            "demo/ui.py": "a7d50224f2fcf11c1a5d2e665ddc02a83cf5cbf059ba1168d0264faa313cbe83",
+            "exports/__init__.py": "43dd890b5c4826c1429be47a61b4b48bb013fd2ce71bd9bbfc1f8a24b24935d3",
+            "exports/bvh.py": "d46ef26dfcb5780744411b99e2444c09499fec602b80294adc155376905d8949",
+            "exports/motion_convert_lib.py": "2607906d7284b8a1036e25de9cb9e17fc46eaa9cb53bbb60050d294cf53c42c7",
+            "exports/motion_formats.py": "79ff12086a9713998f919eed4da30648f070bf3cd57ee0164a7bf26d9bfc8477",
+            "exports/motion_io.py": "93abc68cecbfe3ac4193550cf5dbf2abfdb2d108e8b7677352b9e892cfa32403",
+            "exports/mujoco.py": "6f02790948a325317e8ade85460a95ce318a32359262a428d490b187babfb6d5",
+            "exports/smplx.py": "58d7dadb453033b2bb75713fca1c2a149af36ccc00be193abb4b87cb67b4fd22",
+            "geometry.py": "9218c72ad39a478f23bdf6b010e4e3b1165f16dbd480168d0e358dee539f3169",
+            "meta.py": "33df532d8482fbb1c1e145d3191ac6d1b4112eda80e9989b9e80c9d20ad91606",
+            "metrics/__init__.py": "e39e4ff1ba979758b781477be289c568371b4949afae982766d787da466c2349",
+            "metrics/base.py": "9792f04647b3521441dee6ea5f09de3b856b7a4ad2f67b3d7eb488d5ebda9953",
+            "metrics/constraints.py": "e87c02c88bceaa18b1f1d5febcaa7c8dfc8cfa0d039870f0fbbf76eee726d13c",
+            "metrics/foot_skate.py": "47fc0a55990644fdb51af51b190d013a5a520ad82d48a05167be3d628d186ae1",
+            "metrics/tmr.py": "0f8faf60c4a33116facb678743a0016a03d9b3c5be4636285ab72bfae9a6ce12",
+            "model/__init__.py": "dc846a1050bad70d72b6f5efdc3d3aade871c4d8ede0f6203e644b1f4c9fae83",
+            "model/backbone.py": "8c3cb09b52706bab140873c5453ed5a0a182688c1659a3ba0596db07ea2867a5",
+            "model/cfg.py": "e8713de29f4c1534ce1e7be4ecc3c60b2d44ae739dbd80448d19a72584236ae7",
+            "model/common.py": "fa132d2e69e693318181ad9627b53c6874c7f42cb4741e80c1935b288155e0e8",
+            "model/diffusion.py": "52acbdc3f5f2b95511aa01bda5c8b579490b203f743735c3db3394def635b273",
+            "model/kimodo_model.py": "28e57e2ac0d9fa176b81ba2cb400ddaf414178a21833cba19e80b02c35b4f4aa",
+            "model/llm2vec/__init__.py": "a7558eb6849e9fd400d128ef24d5026d9ea99ae03df75b5f1b8b4c71a1b81600",
+            "model/llm2vec/llm2vec.py": "dc6e8b7d38086b4f456e013ab22cd4cc2cd72eb7fd2c13069f037f42aec80857",
+            "model/llm2vec/llm2vec_wrapper.py": "e4dc146dd6a5a6f75a269b99b53d7ae43a873f6020992426ddb39bf3f924a1c4",
+            "model/llm2vec/models/__init__.py": "62a5a40ee6cb9538d99a71690cf7e9d67314d31ceb70b2400347b49cbc0b2ad8",
+            "model/llm2vec/models/attn_mask_utils.py": "f7246ce0a2105bfbc75b51e8693ece0468ffffaedb31fed08f251907796f05d9",
+            "model/llm2vec/models/bidirectional_llama.py": "570e7726ec92db9ca173517bda5ca1404a913234d4f4568ad93fe90a61c8d30f",
+            "model/llm2vec/models/utils.py": "a426cf605dc015ee766dd06b3ebbbf402a6b2eda732324f533f154e5c29de864",
+            "model/load_model.py": "008092cd0b7adef1faea9fa9075718a61bea8ca9feaf9acf1b1d6caacaa0380a",
+            "model/loading.py": "6430b660bcc7c5bc0f41e4b14c4225065f4f3e68e82b9a147b87f4386c88befb",
+            "model/registry.py": "eba21390e9cab7ed338ee6c9d3f9e27832c3923ac73f2d18e0e8681a88d3c2e4",
+            "model/text_encoder_api.py": "bf8230ee3a5c7d6b69123b0c71b0d7ff1a5624858d137ff66dd61bfb2d42e96b",
+            "model/tmr.py": "f1a014c1d985c705c8e9cbf3efb8ad04985c7f358564f0f057354445ab0ae0a3",
+            "model/twostage_denoiser.py": "50b5131755accc478b0f1cebe77743de0cb1a634116ff602bcd5f5bd13fcd302",
+            "motion_rep/__init__.py": "c603b9731f572f33b47b5af1fcae7accc8e588ca38600d8f2ca940fa27f1206e",
+            "motion_rep/conditioning.py": "cab545e3325065f4fe5a48a6b2dab807e37ebd22f6fc69e08930f98d542f1944",
+            "motion_rep/feature_utils.py": "b4e2ae1b00827aeade3eb9787b7c30c8c96e415edc3862b379a4b71cc85cac40",
+            "motion_rep/feet.py": "f086395b51ad2c67d0023e8834b6aabf2f97126e0604ffd536a047b1e6544f1d",
+            "motion_rep/reps/__init__.py": "d882b376cc749477acf12f45bb67ea08342774c039a788108d530a19a3535f0c",
+            "motion_rep/reps/base.py": "ba5523385fc60c465f9f363e39241870b1b723681d6d680205c1a7beac39633f",
+            "motion_rep/reps/kimodo_motionrep.py": "b0b210e09534613ea7e5a684aa1a2f313c9f375d78fcca701e9e85d6820c8a47",
+            "motion_rep/reps/tmr_motionrep.py": "56424143ed51f531225c91b95142bac5232b499af7b2deafad149513d9c88402",
+            "motion_rep/smooth_root.py": "36a927e6204cf720b86a4b65b612a9c40595ae9acb0151bebb7a381ffc5310f8",
+            "motion_rep/stats.py": "914f45ead9e1fc9336df3e4e9a4eb12c84ab7cc9db1f37c14d3c8ea0cecab1f2",
+            "postprocess.py": "a6f6b81df44a76d0064efd79ea195b4360dd6aad3995790bdc68c8ceddd6a07a",
+            "sanitize.py": "655c6ffa861b7aaa7143b09d9641823158f0fe90636d844dae1549283af50c09",
+            "scripts/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "scripts/generate.py": "b9e3395a495dff1af91d7ffd516c0a842b2145bf16a2f281c33a20960cd1be5e",
+            "scripts/gradio_theme.py": "a442c2e168c08a8e4ad4acdf677e13f8920e95927ac5d1820bd6841604897fd4",
+            "scripts/lock_requirements.py": "74fe4f50d3c31c8048725746850b3a5202fa87a064aa86c1b7b0ddc5ee5a4273",
+            "scripts/motion_convert.py": "a6c1efe94869ac0cd11b3423d35bbbfc8de7e5b520fa82b93becebc5991e02f7",
+            "scripts/mujoco_load.py": "ad385231b6510262c5be05df0190b0eb25e1941a6136b0b05f29fb8649da1e62",
+            "scripts/run_text_encoder_server.py": "50b12972cc6dccbff25078ec44e29209ce34dc71bc54e0b9607b6602be64941f",
+            "skeleton/__init__.py": "9494c2b86434054015bf65c906207db192cdbb5836a795adc2265ff38d387662",
+            "skeleton/base.py": "22a4772dc8c38601d9b7e1ccfadcc0a9bb4680d1169c7d75049e80973b51309e",
+            "skeleton/bvh.py": "cef588c374dc61ad6f469b7108b0426ac5847983b6b5e1bede98e71ffdced81d",
+            "skeleton/definitions.py": "fafe12b5f82ca24096241932d9773b1d3d8c080da1197e74c77cfce8ce3a19fc",
+            "skeleton/kinematics.py": "b565842b3c178e16018d0800024ea4de4d99b455786eb37620a9d7c9d18f3d20",
+            "skeleton/registry.py": "e9c95a69cec9c5dd19257b5c110e517e0f54f510942229d3ae52ac91102bab11",
+            "skeleton/transforms.py": "af0662a962d4674ed4723bdcb56592210c698076af6f8069a54a39d1e3ea2bff",
+            "tools.py": "e67a2d469507d7347e0cd115bb5e699b826ac6b52b09cec817d6b0ff9433c1b6",
+            "viz/__init__.py": "1afc53aa67cfee4ca0b16d01238fbdd6024df08b4106fe0e63af9c9c08814add",
+            "viz/constraint_ui.py": "6ed683685cf102eb26e5f08930be795d13c93b3701d75782a24d166c5217a4f9",
+            "viz/coords.py": "9863e21fd89fe1ff173e68b5da437bbd867635709c9c60491a8f0c6315d1db68",
+            "viz/g1_rig.py": "353451c8cfa69b3c46abcdfcd9532a1962fdb3a74c8825d77028ff149558e115",
+            "viz/gui.py": "73ed4a449f0950c6d2bfd6938de98a86d7df2766181b1062692f3815f591a5d6",
+            "viz/playback.py": "a5519e420cb7be83fac0af23ac858dc983d4d59c5b3b11d95a11f7db20ac0d69",
+            "viz/scene.py": "02da15ec1ae07072d441f320ba56874cdb8f1ac6d1beca53cb17e6a3d7f8cac5",
+            "viz/smplx_skin.py": "b4f7a1cd089046c8b95caaa5abf882a17684a745838bd8a6ea5ee51d4f0891f8",
+            "viz/soma_layer_skin.py": "1720f478cb4957a225b0bd66914dcf94d68dfba03d9ec55a9aeaa9b84b6a4fa0",
+            "viz/soma_skin.py": "2fd336c528c5dd536b9389952cb74ff21a082b6572cb491615d789b6c86df0fc",
+            "viz/viser_utils.py": "213aba61d05e64562352b12ac4e661dfcdc941c5e171b1740d01531072591509"
+          },
+          "kimodo_tracked_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "kimodo_tracked_status": []
+        },
+        "schema": "exp025-kimodo-checkout-identity-v1",
+        "sha256": "1b43876127331ac3df79e710d42a5065557c03a9ff959e4eb340e8518ceda457"
+      },
+      "interpreter": {
+        "fields": {
+          "executable": "/home/linjiw/kimodo/.venv/bin/python",
+          "numpy_version": "2.4.6",
+          "python": "3.11.16 (main, Aug 25 2026, 14:00:53) [Clang 22.1.3 ]",
+          "torch_cuda_version": "12.8",
+          "torch_version": "2.11.0+cu128"
+        },
+        "schema": "exp025-interpreter-runtime-identity-v1",
+        "sha256": "97cb0ff9c6f1ebed6538f1dd5eb9ea36373c3f28c5254c6ca4788ce8f835fbb2"
+      },
+      "note": "only 'checkout' is revalidated across stages; 'interpreter' differs between the generation (kimodo venv) and scoring ($S2M_PY) interpreters by design",
+      "schema": "exp025-kimodo-runtime-identity-v2"
+    },
+    "physical_model": {
+      "fields": {
+        "kimodo_copy_path": "/home/linjiw/kimodo/kimodo/assets/skeletons/g1skel34/xml/g1.xml",
+        "kimodo_copy_sha256": "5d76cf92f00dd49d6eb9fae38d7d38e46886848b602ac691051e886c3bcccfb1",
+        "path": "/home/linjiw/ardy/ardy/assets/skeletons/g1skel34/xml/g1.xml",
+        "role": "physical-foot-geometries-and-forward-kinematics",
+        "sha256": "5d76cf92f00dd49d6eb9fae38d7d38e46886848b602ac691051e886c3bcccfb1"
+      },
+      "schema": "exp025-physical-model-identity-v1",
+      "sha256": "356bd7e23d3c112cbfbde0d6dbebeed496e03d8d4ac4d0a529a7e4e8e798906d"
+    },
+    "post_generation_identity_revalidation": {
+      "checkpoint_unchanged": true,
+      "external_sources_unchanged": true,
+      "generation_interpreter_runtime": {
+        "fields": {
+          "executable": "/home/linjiw/kimodo/.venv/bin/python",
+          "numpy_version": "2.4.6",
+          "python": "3.11.16 (main, Aug 25 2026, 14:00:53) [Clang 22.1.3 ]",
+          "torch_cuda_version": "12.8",
+          "torch_version": "2.11.0+cu128"
+        },
+        "schema": "exp025-interpreter-runtime-identity-v1",
+        "sha256": "97cb0ff9c6f1ebed6538f1dd5eb9ea36373c3f28c5254c6ca4788ce8f835fbb2"
+      },
+      "git": {
+        "allowed_output_status": [
+          "?? outputs/exp025_kimodo_cross_prior/"
+        ],
+        "commit_changed": false,
+        "current_commit": "93323a0905eedf6ca806277062083881623de0c4",
+        "pinned_commit": "93323a0905eedf6ca806277062083881623de0c4",
+        "tracked_diff_unchanged": true,
+        "unexpected_status": []
+      },
+      "kimodo_checkout_unchanged": true,
+      "physical_model_unchanged": true,
+      "prompt_cache_unchanged": true,
+      "runner_contract_unchanged": true,
+      "sources_unchanged": true
+    },
+    "prompt_cache": {
+      "fields": {
+        "content_sha256": "fcffb857b24e09caef76b0e3c6c23310528ecb7e15dd0d52404d48d67388f9d5",
+        "encoder_equivalence": {
+          "equivalent": true,
+          "expected_difference": {
+            "note": "only the import path of the wrapper class differs, as expected",
+            "target": {
+              "ardy": "ardy.model.LLM2VecEncoder",
+              "kimodo": "kimodo.model.LLM2VecEncoder"
+            }
+          },
+          "load_model_sources": {
+            "ardy": {
+              "path": "/home/linjiw/ardy/ardy/model/load_model.py",
+              "sha256": "3249c864d11f977056c191408a5b6e0670ac2ba4cfbff0acaac76b60e3e68554"
+            },
+            "kimodo": {
+              "path": "/home/linjiw/kimodo/kimodo/model/load_model.py",
+              "sha256": "008092cd0b7adef1faea9fa9075718a61bea8ca9feaf9acf1b1d6caacaa0380a"
+            }
+          },
+          "normalisation": "module docstring and LLM2VecEncoder.to removed; compared as an AST dump with docstrings stripped",
+          "normalized_ast_sha256": {
+            "ardy": "3da6f640fbc225992204ed54444f1d279fecbd11e08273b4e9363a570ab281ac",
+            "kimodo": "3da6f640fbc225992204ed54444f1d279fecbd11e08273b4e9363a570ab281ac"
+          },
+          "preset_kwargs": {
+            "ardy": {
+              "base_model_name_or_path": "McGill-NLP/LLM2Vec-Meta-Llama-3-8B-Instruct-mntp",
+              "device": "auto",
+              "dtype": "bfloat16",
+              "llm_dim": 4096,
+              "peft_model_name_or_path": "McGill-NLP/LLM2Vec-Meta-Llama-3-8B-Instruct-mntp-supervised"
+            },
+            "expected": {
+              "base_model_name_or_path": "McGill-NLP/LLM2Vec-Meta-Llama-3-8B-Instruct-mntp",
+              "device": "auto",
+              "dtype": "bfloat16",
+              "llm_dim": 4096,
+              "peft_model_name_or_path": "McGill-NLP/LLM2Vec-Meta-Llama-3-8B-Instruct-mntp-supervised"
+            },
+            "kimodo": {
+              "base_model_name_or_path": "McGill-NLP/LLM2Vec-Meta-Llama-3-8B-Instruct-mntp",
+              "device": "auto",
+              "dtype": "bfloat16",
+              "llm_dim": 4096,
+              "peft_model_name_or_path": "McGill-NLP/LLM2Vec-Meta-Llama-3-8B-Instruct-mntp-supervised"
+            }
+          },
+          "preset_kwargs_equal": true,
+          "schema": "exp025-llm2vec-encoder-equivalence-v1",
+          "wrapper_sources": {
+            "ardy": {
+              "path": "/home/linjiw/ardy/ardy/model/llm2vec/llm2vec_wrapper.py",
+              "sha256": "2d80c51d6d44048ec83d457bdf138b783bbe4342b52204b606790f41a367460e"
+            },
+            "kimodo": {
+              "path": "/home/linjiw/kimodo/kimodo/model/llm2vec/llm2vec_wrapper.py",
+              "sha256": "e4dc146dd6a5a6f75a269b99b53d7ae43a873f6020992426ddb39bf3f924a1c4"
+            }
+          },
+          "wrappers_equal_after_normalisation": true
+        },
+        "encoder_loaded": false,
+        "file_sha256": "dd787507c8b501a7f064659361daf52214d366963f86e6c40c76e38ec714ca30",
+        "key_scheme": "sha1(sanitize_text(prompt)); sha1(raw) accepted as a fallback",
+        "n_entries": 2,
+        "note": "no text encoder runs in this campaign; the cache is authoritative and KimodoRunner is constructed with text_encoder=False",
+        "path": "outputs/exp025_kimodo_cross_prior/kimodo_text_cache.npz",
+        "prompts": {
+          "step": {
+            "canonical_key_sha1": "ced85ba84b941ab67c5945dcad9a82860eddd7b2",
+            "content_sha256": "b378a64e9e5c8d7bae0278dbd6b7604d666b7006d263f21930c211a196241e39",
+            "copied_from_ardy_cache": true,
+            "dtype": "float32",
+            "keys_coincide": true,
+            "prompt": "A person steps over an obstacle.",
+            "raw_key_sha1": "ced85ba84b941ab67c5945dcad9a82860eddd7b2",
+            "sanitize_is_identity": true,
+            "sanitized": "A person steps over an obstacle.",
+            "shape": [
+              1,
+              4096
+            ],
+            "source_file_sha256": "330c6996bbf5edea426c3d69bc2d67025b1df0d4801a84cb30a672758052afec",
+            "source_path": "/home/linjiw/scene2motion-exp030/outputs/text_cache.npz"
+          },
+          "walk": {
+            "canonical_key_sha1": "b33d915e8e0140b5c06babebf71881251954ccc7",
+            "content_sha256": "899c74a6fa60beb54492fe946182123e435f12968b0e53407fc2db3cba3cd0ca",
+            "copied_from_ardy_cache": false,
+            "dtype": "float32",
+            "keys_coincide": true,
+            "prompt": "A person walks forward at a steady pace.",
+            "raw_key_sha1": "b33d915e8e0140b5c06babebf71881251954ccc7",
+            "sanitize_is_identity": true,
+            "sanitized": "A person walks forward at a steady pace.",
+            "shape": [
+              1,
+              4096
+            ],
+            "source_file_sha256": "4e14d579a9791d6f8759d615e41b66926d4996455663c5bc43f7899b595013b3",
+            "source_path": "/home/linjiw/kimodo/data/indoor_nav_1k/text_cache.npz"
+          }
+        },
+        "sanitize_source": {
+          "path": "/home/linjiw/kimodo/kimodo/sanitize.py",
+          "sha256": "655c6ffa861b7aaa7143b09d9641823158f0fe90636d844dae1549283af50c09"
+        }
+      },
+      "schema": "exp025-kimodo-prompt-cache-v1",
+      "sha256": "d2be56ffbc57f62006ad1a765b9864b2936b7363f1c130d7bee40ae503d481fa"
+    },
+    "protocol": {
+      "path": "docs/ramp-exp025-kimodo-cross-prior-protocol.md",
+      "sha256": "3d8a47bcf23cf5be5175d31c38bd555e429f448be0af4f4d01a9231d3c8e42c3",
+      "status": "preregistered 2026-09-03, before the first sample"
+    },
+    "runner_prompt_cache_check": {
+      "prompts": {
+        "step": {
+          "cache_key_sha1": "ced85ba84b941ab67c5945dcad9a82860eddd7b2",
+          "content_sha256": "b378a64e9e5c8d7bae0278dbd6b7604d666b7006d263f21930c211a196241e39",
+          "shape": [
+            1,
+            4096
+          ]
+        },
+        "walk": {
+          "cache_key_sha1": "b33d915e8e0140b5c06babebf71881251954ccc7",
+          "content_sha256": "899c74a6fa60beb54492fe946182123e435f12968b0e53407fc2db3cba3cd0ca",
+          "shape": [
+            1,
+            4096
+          ]
+        }
+      },
+      "runner_memory_byte_matches_cache": true
+    },
+    "source_sha256": {
+      "docs/ramp-exp025-kimodo-cross-prior-protocol.md": "3d8a47bcf23cf5be5175d31c38bd555e429f448be0af4f4d01a9231d3c8e42c3",
+      "env.sh": "59889bac7a9a688472c6bac730d6229c0a299bd58d735e8d4ff04b5411cf95d6",
+      "experiments/analyze_e1a_placement.py": "acef09868fec794ecdbd85f8b297ea40a458c2bd85b66eec31db1d6b9c4d5eaa",
+      "experiments/analyze_event_frames.py": "28fcfebb836c6c2224819c11d8cd10010f240c062fa19b7c6898ddb0304e45eb",
+      "experiments/analyze_trackability_contract.py": "3e4f91196c6d195d54c91c9ee6ecad9b9ffa1a81efaa3591ac2d3bb516c6ac25",
+      "experiments/calibrate_ramp_route_phase.py": "ccbf5a13a78578c31579121650ab9378468c5b73e8c61c758a7c9cc9b503c26a",
+      "experiments/exp025_kimodo_cross_prior.py": "6a20590a1ba35593272d9c7f79c37ad1712c633ab6b8832152936ab57763cffe",
+      "experiments/kimodo_recovered/kimodo_runner.py": "7e3d4b259497833be816692a878febab255c1bd3e14053d0f9b8632947ef03b9",
+      "scene2motion/constraints.py": "6dca56cf5ff98869a5bacee024dcaebb0b9e4a451a170834a96c407725d120a2",
+      "scene2motion/host_gate.py": "7e09b0e143fb5f0aa75ad641d51322a117b4733edfa591b7bb238344ab3f4acd",
+      "scene2motion/robot.py": "c12b59a999969dd910e0aaef25322695d247bd392899394dd5d35cfc1252fc82",
+      "scene2motion/stepover_eval.py": "f0e344def2133f3a45935bb1b7ffad8fb2591145557e6b136d50871827cf77b4"
+    }
+  },
+  "query_accounting": {
+    "generate_invocations_completed": 16,
+    "generate_invocations_planned": 16,
+    "generate_invocations_started": 16,
+    "samples_converted_to_qpos": 128,
+    "samples_launched": 128,
+    "samples_planned": 128,
+    "samples_returned": 128
+  },
+  "sample_count_exact": true,
+  "schema": "exp025-kimodo-cross-prior-v1",
+  "seeds_spent_and_must_not_be_reused": true,
+  "spent_seeds": [
+    4700,
+    4701,
+    4702,
+    4703,
+    4704,
+    4705,
+    4706,
+    4707,
+    4708,
+    4709,
+    4710,
+    4711,
+    4712,
+    4713,
+    4714,
+    4715,
+    4716,
+    4717,
+    4718,
+    4719,
+    4720,
+    4721,
+    4722,
+    4723,
+    4724,
+    4725,
+    4726,
+    4727,
+    4728,
+    4729,
+    4730,
+    4731,
+    4732,
+    4733,
+    4734,
+    4735,
+    4736,
+    4737,
+    4738,
+    4739,
+    4740,
+    4741,
+    4742,
+    4743,
+    4744,
+    4745,
+    4746,
+    4747,
+    4748,
+    4749,
+    4750,
+    4751,
+    4752,
+    4753,
+    4754,
+    4755,
+    4756,
+    4757,
+    4758,
+    4759,
+    4760,
+    4761,
+    4762,
+    4763
+  ],
+  "stage": "complete",
+  "stages": {
+    "analyze": {
+      "provenance_check": {
+        "current_code": {
+          "commit": "93323a0905eedf6ca806277062083881623de0c4",
+          "dirty": true,
+          "status": [
+            "?? outputs/exp025_kimodo_cross_prior/"
+          ],
+          "tracked_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "external_sources_unchanged": true,
+        "generation_interpreter_runtime": {
+          "fields": {
+            "executable": "/home/linjiw/kimodo/.venv/bin/python",
+            "numpy_version": "2.4.6",
+            "python": "3.11.16 (main, Aug 25 2026, 14:00:53) [Clang 22.1.3 ]",
+            "torch_cuda_version": "12.8",
+            "torch_version": "2.11.0+cu128"
+          },
+          "schema": "exp025-interpreter-runtime-identity-v1",
+          "sha256": "97cb0ff9c6f1ebed6538f1dd5eb9ea36373c3f28c5254c6ca4788ce8f835fbb2"
+        },
+        "git": {
+          "allowed_output_status": [
+            "?? outputs/exp025_kimodo_cross_prior/"
+          ],
+          "commit_changed": false,
+          "current_commit": "93323a0905eedf6ca806277062083881623de0c4",
+          "pinned_commit": "93323a0905eedf6ca806277062083881623de0c4",
+          "tracked_diff_unchanged": true,
+          "unexpected_status": []
+        },
+        "interpreter_note": "generation runs under the kimodo venv and scoring under $S2M_PY; the two interpreters are recorded, not equated",
+        "interpreter_runtime_compared_across_stages": false,
+        "kimodo_checkout_unchanged": true,
+        "physical_model_unchanged": true,
+        "sources_unchanged": true,
+        "stage_interpreter_runtime": {
+          "fields": {
+            "executable": "/home/linjiw/ardy/.venv/bin/python",
+            "numpy_version": "1.26.4",
+            "python": "3.11.16 | packaged by conda-forge | (main, Aug 21 2026, 22:44:51) [GCC 14.4.0]",
+            "torch_cuda_version": "12.8",
+            "torch_version": "2.11.0+cu128"
+          },
+          "schema": "exp025-interpreter-runtime-identity-v1",
+          "sha256": "0ca15b45f779fd27b4c91cbc79bacefefbd1af6fa67946ea3a4a0b98ab0c93ef"
+        }
+      },
+      "status": "complete"
+    },
+    "generate": {
+      "latent_audit": {
+        "pairing_verified_every_chunk": true,
+        "unavailable_chunks": 0,
+        "verified_chunks": 16
+      },
+      "samples": 128,
+      "status": "complete"
+    },
+    "score": {
+      "forward_axis_dominant_clips": 128,
+      "interpreter": "/home/linjiw/ardy/.venv/bin/python",
+      "planned": 128,
+      "post_score_provenance_check": {
+        "current_code": {
+          "commit": "93323a0905eedf6ca806277062083881623de0c4",
+          "dirty": true,
+          "status": [
+            "?? outputs/exp025_kimodo_cross_prior/"
+          ],
+          "tracked_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "external_sources_unchanged": true,
+        "generation_interpreter_runtime": {
+          "fields": {
+            "executable": "/home/linjiw/kimodo/.venv/bin/python",
+            "numpy_version": "2.4.6",
+            "python": "3.11.16 (main, Aug 25 2026, 14:00:53) [Clang 22.1.3 ]",
+            "torch_cuda_version": "12.8",
+            "torch_version": "2.11.0+cu128"
+          },
+          "schema": "exp025-interpreter-runtime-identity-v1",
+          "sha256": "97cb0ff9c6f1ebed6538f1dd5eb9ea36373c3f28c5254c6ca4788ce8f835fbb2"
+        },
+        "git": {
+          "allowed_output_status": [
+            "?? outputs/exp025_kimodo_cross_prior/"
+          ],
+          "commit_changed": false,
+          "current_commit": "93323a0905eedf6ca806277062083881623de0c4",
+          "pinned_commit": "93323a0905eedf6ca806277062083881623de0c4",
+          "tracked_diff_unchanged": true,
+          "unexpected_status": []
+        },
+        "interpreter_note": "generation runs under the kimodo venv and scoring under $S2M_PY; the two interpreters are recorded, not equated",
+        "interpreter_runtime_compared_across_stages": false,
+        "kimodo_checkout_unchanged": true,
+        "physical_model_unchanged": true,
+        "sources_unchanged": true,
+        "stage_interpreter_runtime": {
+          "fields": {
+            "executable": "/home/linjiw/ardy/.venv/bin/python",
+            "numpy_version": "1.26.4",
+            "python": "3.11.16 | packaged by conda-forge | (main, Aug 21 2026, 22:44:51) [GCC 14.4.0]",
+            "torch_cuda_version": "12.8",
+            "torch_version": "2.11.0+cu128"
+          },
+          "schema": "exp025-interpreter-runtime-identity-v1",
+          "sha256": "0ca15b45f779fd27b4c91cbc79bacefefbd1af6fa67946ea3a4a0b98ab0c93ef"
+        }
+      },
+      "provenance_check": {
+        "current_code": {
+          "commit": "93323a0905eedf6ca806277062083881623de0c4",
+          "dirty": true,
+          "status": [
+            "?? outputs/exp025_kimodo_cross_prior/"
+          ],
+          "tracked_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "external_sources_unchanged": true,
+        "generation_interpreter_runtime": {
+          "fields": {
+            "executable": "/home/linjiw/kimodo/.venv/bin/python",
+            "numpy_version": "2.4.6",
+            "python": "3.11.16 (main, Aug 25 2026, 14:00:53) [Clang 22.1.3 ]",
+            "torch_cuda_version": "12.8",
+            "torch_version": "2.11.0+cu128"
+          },
+          "schema": "exp025-interpreter-runtime-identity-v1",
+          "sha256": "97cb0ff9c6f1ebed6538f1dd5eb9ea36373c3f28c5254c6ca4788ce8f835fbb2"
+        },
+        "git": {
+          "allowed_output_status": [
+            "?? outputs/exp025_kimodo_cross_prior/"
+          ],
+          "commit_changed": false,
+          "current_commit": "93323a0905eedf6ca806277062083881623de0c4",
+          "pinned_commit": "93323a0905eedf6ca806277062083881623de0c4",
+          "tracked_diff_unchanged": true,
+          "unexpected_status": []
+        },
+        "interpreter_note": "generation runs under the kimodo venv and scoring under $S2M_PY; the two interpreters are recorded, not equated",
+        "interpreter_runtime_compared_across_stages": false,
+        "kimodo_checkout_unchanged": true,
+        "physical_model_unchanged": true,
+        "sources_unchanged": true,
+        "stage_interpreter_runtime": {
+          "fields": {
+            "executable": "/home/linjiw/ardy/.venv/bin/python",
+            "numpy_version": "1.26.4",
+            "python": "3.11.16 | packaged by conda-forge | (main, Aug 21 2026, 22:44:51) [GCC 14.4.0]",
+            "torch_cuda_version": "12.8",
+            "torch_version": "2.11.0+cu128"
+          },
+          "schema": "exp025-interpreter-runtime-identity-v1",
+          "sha256": "0ca15b45f779fd27b4c91cbc79bacefefbd1af6fa67946ea3a4a0b98ab0c93ef"
+        }
+      },
+      "reference_summary_per_arm": {
+        "step": {
+          "any_lift": {
+            "k": 41,
+            "n": 64,
+            "rate": 0.640625,
+            "wilson95": [
+              0.5182085051234868,
+              0.7471159778227758
+            ]
+          },
+          "elicitation": {
+            "k": 23,
+            "n": 64,
+            "rate": 0.359375,
+            "wilson95": [
+              0.25288402217722405,
+              0.4817914948765132
+            ]
+          },
+          "float_primary_0p20s": {
+            "k": 31,
+            "n": 64,
+            "rate": 0.484375,
+            "wilson95": [
+              0.3663355157825022,
+              0.6041839861123575
+            ]
+          },
+          "median_pelvis_path_mae_m": 0.05828517053096727,
+          "median_smooth_root_path_mae_m": 0.031594002678226846,
+          "n": 64
+        },
+        "walk": {
+          "any_lift": {
+            "k": 0,
+            "n": 64,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.05662406063551054
+            ]
+          },
+          "elicitation": {
+            "k": 0,
+            "n": 64,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.05662406063551054
+            ]
+          },
+          "float_primary_0p20s": {
+            "k": 0,
+            "n": 64,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.05662406063551054
+            ]
+          },
+          "median_pelvis_path_mae_m": 0.0370926818746093,
+          "median_smooth_root_path_mae_m": 0.01834732812802395,
+          "n": 64
+        }
+      },
+      "scored": 128,
+      "scored_this_invocation": 64,
+      "status": "complete",
+      "support_thresholds": {
+        "max_unsupported_run_s": 0.2,
+        "receipt_path": "/home/linjiw/scene2motion-exp030/outputs/exp016_threshold_calibration/receipt.json",
+        "receipt_sha256": "f6dba8be84a9d5d0b76c8114d4b93b1707bc1bb8a6fec1a26a22aa1780a6e9bf",
+        "support_height_m": 0.04649341314007449,
+        "support_speed_mps": 1.1753078750567545
+      }
+    }
+  },
+  "status": "complete",
+  "summary": {
+    "arms": {
+      "step": {
+        "any_lift": {
+          "k": 41,
+          "n": 64,
+          "rate": 0.640625,
+          "wilson95": [
+            0.5182085051234868,
+            0.7471159778227758
+          ]
+        },
+        "coverage": {
+          "covers_all_obstacles": {
+            "k": 64,
+            "n": 64,
+            "rate": 1.0,
+            "wilson95": [
+              0.9433759393644894,
+              1.0
+            ]
+          },
+          "denominator": "all assigned trials",
+          "forward_extent_max_m": {
+            "max": 7.6951502513978784,
+            "mean": 7.334579804056531,
+            "min": 7.037639567336825,
+            "n": 64,
+            "q0.1": 7.219273965061202,
+            "q0.25": 7.265576817328288,
+            "q0.5": 7.323458267798254,
+            "q0.75": 7.400164542766101,
+            "q0.9": 7.491470613492134,
+            "sd": 0.12278749256625025
+          },
+          "note": "exact clearance is counted over ALL assigned trials; a clip that never swept a box has a null outcome there and is counted as not clearing it, never as a pass",
+          "obstacles": {
+            "staged": {
+              "body_swept": {
+                "k": 64,
+                "n": 64,
+                "rate": 1.0,
+                "wilson95": [
+                  0.9433759393644894,
+                  1.0
+                ]
+              },
+              "not_reached": 0
+            },
+            "unstaged": {
+              "body_swept": {
+                "k": 64,
+                "n": 64,
+                "rate": 1.0,
+                "wilson95": [
+                  0.9433759393644894,
+                  1.0
+                ]
+              },
+              "not_reached": 0
+            }
+          },
+          "rule": "a box centred at x with depth d counts as swept only if [x - d/2, x + d/2] lies inside the forward interval the whole-body collision envelope (body margin included) covers over all frames; clearance at an unswept centre is recorded as 'not reached' (null), never as a success, and unswept scan points are excluded from the elicitation argmax",
+          "scan_points_swept": {
+            "max": 120.0,
+            "mean": 120.0,
+            "min": 120.0,
+            "n": 64,
+            "q0.1": 120.0,
+            "q0.25": 120.0,
+            "q0.5": 120.0,
+            "q0.75": 120.0,
+            "q0.9": 120.0,
+            "sd": 0.0
+          }
+        },
+        "elicitation": {
+          "k": 23,
+          "n": 64,
+          "rate": 0.359375,
+          "wilson95": [
+            0.25288402217722405,
+            0.4817914948765132
+          ]
+        },
+        "exact_clearance": {
+          "staged": {
+            "0.03": {
+              "k": 0,
+              "n": 64,
+              "rate": 0.0,
+              "wilson95": [
+                0.0,
+                0.05662406063551054
+              ]
+            },
+            "0.05": {
+              "k": 0,
+              "n": 64,
+              "rate": 0.0,
+              "wilson95": [
+                0.0,
+                0.05662406063551054
+              ]
+            },
+            "0.08": {
+              "k": 0,
+              "n": 64,
+              "rate": 0.0,
+              "wilson95": [
+                0.0,
+                0.05662406063551054
+              ]
+            },
+            "0.12": {
+              "k": 0,
+              "n": 64,
+              "rate": 0.0,
+              "wilson95": [
+                0.0,
+                0.05662406063551054
+              ]
+            },
+            "0.2": {
+              "k": 0,
+              "n": 64,
+              "rate": 0.0,
+              "wilson95": [
+                0.0,
+                0.05662406063551054
+              ]
+            },
+            "0.3": {
+              "k": 0,
+              "n": 64,
+              "rate": 0.0,
+              "wilson95": [
+                0.0,
+                0.05662406063551054
+              ]
+            }
+          },
+          "unstaged": {
+            "0.03": {
+              "k": 4,
+              "n": 64,
+              "rate": 0.0625,
+              "wilson95": [
+                0.02457120122589082,
+                0.1499748518301809
+              ]
+            },
+            "0.05": {
+              "k": 3,
+              "n": 64,
+              "rate": 0.046875,
+              "wilson95": [
+                0.016069016661225302,
+                0.1289965382897061
+              ]
+            },
+            "0.08": {
+              "k": 3,
+              "n": 64,
+              "rate": 0.046875,
+              "wilson95": [
+                0.016069016661225302,
+                0.1289965382897061
+              ]
+            },
+            "0.12": {
+              "k": 0,
+              "n": 64,
+              "rate": 0.0,
+              "wilson95": [
+                0.0,
+                0.05662406063551054
+              ]
+            },
+            "0.2": {
+              "k": 0,
+              "n": 64,
+              "rate": 0.0,
+              "wilson95": [
+                0.0,
+                0.05662406063551054
+              ]
+            },
+            "0.3": {
+              "k": 0,
+              "n": 64,
+              "rate": 0.0,
+              "wilson95": [
+                0.0,
+                0.05662406063551054
+              ]
+            }
+          }
+        },
+        "lift_height_m": {
+          "max": 0.4,
+          "mean": 0.05667663574218751,
+          "min": 0.0,
+          "n": 64,
+          "q0.1": 0.0,
+          "q0.25": 0.0,
+          "q0.5": 0.014257812500000001,
+          "q0.75": 0.055146484375000006,
+          "q0.9": 0.2046601562500002,
+          "sd": 0.099005517540014
+        },
+        "lift_position_any_lift_m": {
+          "max": 5.790756302521008,
+          "mean": 3.533039557286329,
+          "min": 1.5756302521008405,
+          "n": 41,
+          "q0.1": 2.130252100840336,
+          "q0.25": 2.6294117647058823,
+          "q0.5": 3.4058823529411764,
+          "q0.75": 4.404201680672269,
+          "q0.9": 5.125210084033614,
+          "sd": 1.122834905347709
+        },
+        "lift_position_m": {
+          "max": 5.790756302521008,
+          "mean": 3.509572524662039,
+          "min": 1.908403361344538,
+          "n": 23,
+          "q0.1": 2.274453781512605,
+          "q0.25": 3.0176470588235293,
+          "q0.5": 3.294957983193277,
+          "q0.75": 3.877310924369748,
+          "q0.9": 5.025378151260505,
+          "sd": 1.0371043467203538
+        },
+        "lift_time_s": {
+          "companion_denominator": "elicited clips (whole-body-clearable lift >= 0.03 m)",
+          "denominator_note": "the lift-time distribution is reported over the clips that HAVE a lift position -- any positive whole-body-clearable lift -- because that is the ARDY comparator this campaign is calibrated against (40/49 root crossing, 42/49 nominal: the '80-86 % inside 2.0 s' the protocol quotes, over the 49 exp021 clips with any positive lift).  The >= 0.03 m elicited fraction and the rate over all assigned trials are reported beside it.  The screen rule keeps the elicited denominator, which the protocol names explicitly ('>= 80 % of Kimodo's elicited clips')",
+          "n_elicited": 23,
+          "n_with_lift_position": 41,
+          "nominal_speed": {
+            "max": 6.407364612511671,
+            "mean": 3.9092428434788546,
+            "min": 1.7434056956115782,
+            "missing_event_time_rule": "a clip with a lift position but no defined event time counts as NOT within the first 2.0 s; it is never excluded from the denominator, because a root that never reaches the lift position certainly did not reach it inside the window",
+            "n": 41,
+            "n_elicited": 23,
+            "n_elicited_without_event_time": 0,
+            "n_timed": 41,
+            "n_with_lift_position": 41,
+            "n_with_lift_position_without_event_time": 0,
+            "q0.1": 2.3570845004668532,
+            "q0.25": 2.9093954248366014,
+            "q0.5": 3.7685457516339866,
+            "q0.75": 4.873167600373483,
+            "q0.9": 5.670950046685342,
+            "sd": 1.2423960295282521,
+            "within_first_2s": {
+              "k": 1,
+              "n": 41,
+              "rate": 0.024390243902439025,
+              "wilson95": [
+                0.00431853152113585,
+                0.12595062178093377
+              ]
+            },
+            "within_first_2s_elicited": {
+              "k": 0,
+              "n": 23,
+              "rate": 0.0,
+              "wilson95": [
+                0.0,
+                0.14311662038507353
+              ]
+            },
+            "within_first_2s_elicited_over_all_assigned": {
+              "k": 0,
+              "n": 64,
+              "rate": 0.0,
+              "wilson95": [
+                0.0,
+                0.05662406063551054
+              ]
+            },
+            "within_first_2s_over_all_assigned": {
+              "k": 1,
+              "n": 64,
+              "rate": 0.015625,
+              "wilson95": [
+                0.0027635418927853816,
+                0.08334101684786545
+              ]
+            },
+            "within_first_2s_timed_only": {
+              "k": 1,
+              "n": 41,
+              "rate": 0.024390243902439025,
+              "wilson95": [
+                0.00431853152113585,
+                0.12595062178093377
+              ]
+            }
+          },
+          "primary_denominator": "clips with a lift position (any positive whole-body-clearable lift), matching the ARDY comparator",
+          "root_crossing": {
+            "max": 6.4,
+            "mean": 3.9739837398373985,
+            "min": 1.7333333333333334,
+            "missing_event_time_rule": "a clip with a lift position but no defined event time counts as NOT within the first 2.0 s; it is never excluded from the denominator, because a root that never reaches the lift position certainly did not reach it inside the window",
+            "n": 41,
+            "n_elicited": 23,
+            "n_elicited_without_event_time": 0,
+            "n_timed": 41,
+            "n_with_lift_position": 41,
+            "n_with_lift_position_without_event_time": 0,
+            "q0.1": 2.466666666666667,
+            "q0.25": 3.033333333333333,
+            "q0.5": 3.8666666666666667,
+            "q0.75": 5.0,
+            "q0.9": 5.766666666666667,
+            "sd": 1.269634947427408,
+            "within_first_2s": {
+              "k": 1,
+              "n": 41,
+              "rate": 0.024390243902439025,
+              "wilson95": [
+                0.00431853152113585,
+                0.12595062178093377
+              ]
+            },
+            "within_first_2s_elicited": {
+              "k": 0,
+              "n": 23,
+              "rate": 0.0,
+              "wilson95": [
+                0.0,
+                0.14311662038507353
+              ]
+            },
+            "within_first_2s_elicited_over_all_assigned": {
+              "k": 0,
+              "n": 64,
+              "rate": 0.0,
+              "wilson95": [
+                0.0,
+                0.05662406063551054
+              ]
+            },
+            "within_first_2s_over_all_assigned": {
+              "k": 1,
+              "n": 64,
+              "rate": 0.015625,
+              "wilson95": [
+                0.0027635418927853816,
+                0.08334101684786545
+              ]
+            },
+            "within_first_2s_timed_only": {
+              "k": 1,
+              "n": 41,
+              "rate": 0.024390243902439025,
+              "wilson95": [
+                0.00431853152113585,
+                0.12595062178093377
+              ]
+            }
+          }
+        },
+        "max_box_height_lower_bound_m": {
+          "staged": {
+            "max": 0.0,
+            "mean": 0.0,
+            "min": 0.0,
+            "n": 64,
+            "q0.1": 0.0,
+            "q0.25": 0.0,
+            "q0.5": 0.0,
+            "q0.75": 0.0,
+            "q0.9": 0.0,
+            "sd": 0.0
+          },
+          "unstaged": {
+            "max": 0.09140625000000001,
+            "mean": 0.0060552978515625005,
+            "min": 0.0,
+            "n": 64,
+            "q0.1": 0.0,
+            "q0.25": 0.0,
+            "q0.5": 0.0,
+            "q0.75": 0.0,
+            "q0.9": 0.01950390625000001,
+            "sd": 0.01910981902562283
+          }
+        },
+        "n_assigned": 64,
+        "root_z_max_m": {
+          "max": 1.656876564025879,
+          "mean": 0.8935597063973546,
+          "min": 0.7785212993621826,
+          "n": 64,
+          "q0.1": 0.791769289970398,
+          "q0.25": 0.8179160952568054,
+          "q0.5": 0.8493584394454956,
+          "q0.75": 0.8992419540882111,
+          "q0.9": 1.0532202124595642,
+          "sd": 0.1390191117400623
+        },
+        "route_fidelity": {
+          "pelvis_path_mae_m": {
+            "max": 0.14856147180438756,
+            "mean": 0.05938745775164818,
+            "min": 0.03831064705516482,
+            "n": 64,
+            "q0.1": 0.046670773899383546,
+            "q0.25": 0.052739642089294825,
+            "q0.5": 0.05828517053096727,
+            "q0.75": 0.06389081468170861,
+            "q0.9": 0.0701112189680482,
+            "sd": 0.01429660918932854
+          },
+          "smooth_root_path_mae_m": {
+            "max": 0.12228318857929844,
+            "mean": 0.033407910301405816,
+            "min": 0.014518762997020747,
+            "n": 64,
+            "q0.1": 0.023361290293550423,
+            "q0.25": 0.02668645714392159,
+            "q0.5": 0.031594002678226846,
+            "q0.75": 0.03841700531067809,
+            "q0.9": 0.043013895132332905,
+            "sd": 0.013643987896631444
+          },
+          "smooth_root_progress_ratio": {
+            "max": 1.006367189111188,
+            "mean": 0.9821186883209521,
+            "min": 0.9516410961643689,
+            "n": 64,
+            "q0.1": 0.9656430003071566,
+            "q0.25": 0.9745037416157881,
+            "q0.5": 0.9823973519734055,
+            "q0.75": 0.9900093562504885,
+            "q0.9": 0.9990100416794626,
+            "sd": 0.012777839150733737
+          }
+        },
+        "screen": {
+          "denominator": "elicited clips",
+          "float_primary_0p20s": {
+            "k": 19,
+            "n": 23,
+            "rate": 0.8260869565217391,
+            "wilson95": [
+              0.6286235218500337,
+              0.9302134648553532
+            ]
+          },
+          "float_primary_elicited_over_all_assigned": {
+            "k": 19,
+            "n": 64,
+            "rate": 0.296875,
+            "wilson95": [
+              0.19905151260405385,
+              0.41770201202912227
+            ]
+          },
+          "float_primary_over_all_assigned": {
+            "k": 31,
+            "n": 64,
+            "rate": 0.484375,
+            "wilson95": [
+              0.3663355157825022,
+              0.6041839861123575
+            ]
+          },
+          "float_secondary_0p28s": {
+            "k": 19,
+            "n": 23,
+            "rate": 0.8260869565217391,
+            "wilson95": [
+              0.6286235218500337,
+              0.9302134648553532
+            ]
+          },
+          "max_unsupported_run_s": {
+            "max": 2.966666666666667,
+            "mean": 0.41041666666666665,
+            "min": 0.0,
+            "n": 64,
+            "q0.1": 0.0,
+            "q0.25": 0.0,
+            "q0.5": 0.18333333333333335,
+            "q0.75": 0.5666666666666667,
+            "q0.9": 0.9566666666666668,
+            "sd": 0.5848430953752578
+          },
+          "max_unsupported_run_s_elicited": {
+            "max": 2.966666666666667,
+            "mean": 0.8391304347826086,
+            "min": 0.0,
+            "n": 23,
+            "q0.1": 0.07333333333333333,
+            "q0.25": 0.4166666666666667,
+            "q0.5": 0.6666666666666666,
+            "q0.75": 0.95,
+            "q0.9": 1.5933333333333335,
+            "sd": 0.7648629753768499
+          },
+          "n_elicited": 23,
+          "note": "the 0.20 s rule is the calibrated reference screen for predicted tracking cutoffs; no rollout was executed in this campaign"
+        }
+      },
+      "walk": {
+        "any_lift": {
+          "k": 0,
+          "n": 64,
+          "rate": 0.0,
+          "wilson95": [
+            0.0,
+            0.05662406063551054
+          ]
+        },
+        "coverage": {
+          "covers_all_obstacles": {
+            "k": 64,
+            "n": 64,
+            "rate": 1.0,
+            "wilson95": [
+              0.9433759393644894,
+              1.0
+            ]
+          },
+          "denominator": "all assigned trials",
+          "forward_extent_max_m": {
+            "max": 7.639349552286439,
+            "mean": 7.459197813764134,
+            "min": 7.142132769877828,
+            "n": 64,
+            "q0.1": 7.361265942397975,
+            "q0.25": 7.396371313865339,
+            "q0.5": 7.463575518769714,
+            "q0.75": 7.520124697014903,
+            "q0.9": 7.580225508007333,
+            "sd": 0.09530345880765506
+          },
+          "note": "exact clearance is counted over ALL assigned trials; a clip that never swept a box has a null outcome there and is counted as not clearing it, never as a pass",
+          "obstacles": {
+            "staged": {
+              "body_swept": {
+                "k": 64,
+                "n": 64,
+                "rate": 1.0,
+                "wilson95": [
+                  0.9433759393644894,
+                  1.0
+                ]
+              },
+              "not_reached": 0
+            },
+            "unstaged": {
+              "body_swept": {
+                "k": 64,
+                "n": 64,
+                "rate": 1.0,
+                "wilson95": [
+                  0.9433759393644894,
+                  1.0
+                ]
+              },
+              "not_reached": 0
+            }
+          },
+          "rule": "a box centred at x with depth d counts as swept only if [x - d/2, x + d/2] lies inside the forward interval the whole-body collision envelope (body margin included) covers over all frames; clearance at an unswept centre is recorded as 'not reached' (null), never as a success, and unswept scan points are excluded from the elicitation argmax",
+          "scan_points_swept": {
+            "max": 120.0,
+            "mean": 120.0,
+            "min": 120.0,
+            "n": 64,
+            "q0.1": 120.0,
+            "q0.25": 120.0,
+            "q0.5": 120.0,
+            "q0.75": 120.0,
+            "q0.9": 120.0,
+            "sd": 0.0
+          }
+        },
+        "elicitation": {
+          "k": 0,
+          "n": 64,
+          "rate": 0.0,
+          "wilson95": [
+            0.0,
+            0.05662406063551054
+          ]
+        },
+        "exact_clearance": {
+          "staged": {
+            "0.03": {
+              "k": 0,
+              "n": 64,
+              "rate": 0.0,
+              "wilson95": [
+                0.0,
+                0.05662406063551054
+              ]
+            },
+            "0.05": {
+              "k": 0,
+              "n": 64,
+              "rate": 0.0,
+              "wilson95": [
+                0.0,
+                0.05662406063551054
+              ]
+            },
+            "0.08": {
+              "k": 0,
+              "n": 64,
+              "rate": 0.0,
+              "wilson95": [
+                0.0,
+                0.05662406063551054
+              ]
+            },
+            "0.12": {
+              "k": 0,
+              "n": 64,
+              "rate": 0.0,
+              "wilson95": [
+                0.0,
+                0.05662406063551054
+              ]
+            },
+            "0.2": {
+              "k": 0,
+              "n": 64,
+              "rate": 0.0,
+              "wilson95": [
+                0.0,
+                0.05662406063551054
+              ]
+            },
+            "0.3": {
+              "k": 0,
+              "n": 64,
+              "rate": 0.0,
+              "wilson95": [
+                0.0,
+                0.05662406063551054
+              ]
+            }
+          },
+          "unstaged": {
+            "0.03": {
+              "k": 0,
+              "n": 64,
+              "rate": 0.0,
+              "wilson95": [
+                0.0,
+                0.05662406063551054
+              ]
+            },
+            "0.05": {
+              "k": 0,
+              "n": 64,
+              "rate": 0.0,
+              "wilson95": [
+                0.0,
+                0.05662406063551054
+              ]
+            },
+            "0.08": {
+              "k": 0,
+              "n": 64,
+              "rate": 0.0,
+              "wilson95": [
+                0.0,
+                0.05662406063551054
+              ]
+            },
+            "0.12": {
+              "k": 0,
+              "n": 64,
+              "rate": 0.0,
+              "wilson95": [
+                0.0,
+                0.05662406063551054
+              ]
+            },
+            "0.2": {
+              "k": 0,
+              "n": 64,
+              "rate": 0.0,
+              "wilson95": [
+                0.0,
+                0.05662406063551054
+              ]
+            },
+            "0.3": {
+              "k": 0,
+              "n": 64,
+              "rate": 0.0,
+              "wilson95": [
+                0.0,
+                0.05662406063551054
+              ]
+            }
+          }
+        },
+        "lift_height_m": {
+          "max": 0.0,
+          "mean": 0.0,
+          "min": 0.0,
+          "n": 64,
+          "q0.1": 0.0,
+          "q0.25": 0.0,
+          "q0.5": 0.0,
+          "q0.75": 0.0,
+          "q0.9": 0.0,
+          "sd": 0.0
+        },
+        "lift_position_any_lift_m": {
+          "max": null,
+          "mean": null,
+          "min": null,
+          "n": 0,
+          "q0.1": null,
+          "q0.25": null,
+          "q0.5": null,
+          "q0.75": null,
+          "q0.9": null,
+          "sd": null
+        },
+        "lift_position_m": {
+          "max": null,
+          "mean": null,
+          "min": null,
+          "n": 0,
+          "q0.1": null,
+          "q0.25": null,
+          "q0.5": null,
+          "q0.75": null,
+          "q0.9": null,
+          "sd": null
+        },
+        "lift_time_s": {
+          "companion_denominator": "elicited clips (whole-body-clearable lift >= 0.03 m)",
+          "denominator_note": "the lift-time distribution is reported over the clips that HAVE a lift position -- any positive whole-body-clearable lift -- because that is the ARDY comparator this campaign is calibrated against (40/49 root crossing, 42/49 nominal: the '80-86 % inside 2.0 s' the protocol quotes, over the 49 exp021 clips with any positive lift).  The >= 0.03 m elicited fraction and the rate over all assigned trials are reported beside it.  The screen rule keeps the elicited denominator, which the protocol names explicitly ('>= 80 % of Kimodo's elicited clips')",
+          "n_elicited": 0,
+          "n_with_lift_position": 0,
+          "nominal_speed": {
+            "max": null,
+            "mean": null,
+            "min": null,
+            "missing_event_time_rule": "a clip with a lift position but no defined event time counts as NOT within the first 2.0 s; it is never excluded from the denominator, because a root that never reaches the lift position certainly did not reach it inside the window",
+            "n": 0,
+            "n_elicited": 0,
+            "n_elicited_without_event_time": 0,
+            "n_timed": 0,
+            "n_with_lift_position": 0,
+            "n_with_lift_position_without_event_time": 0,
+            "q0.1": null,
+            "q0.25": null,
+            "q0.5": null,
+            "q0.75": null,
+            "q0.9": null,
+            "sd": null,
+            "within_first_2s": {
+              "k": 0,
+              "n": 0,
+              "rate": null,
+              "wilson95": [
+                null,
+                null
+              ]
+            },
+            "within_first_2s_elicited": {
+              "k": 0,
+              "n": 0,
+              "rate": null,
+              "wilson95": [
+                null,
+                null
+              ]
+            },
+            "within_first_2s_elicited_over_all_assigned": {
+              "k": 0,
+              "n": 64,
+              "rate": 0.0,
+              "wilson95": [
+                0.0,
+                0.05662406063551054
+              ]
+            },
+            "within_first_2s_over_all_assigned": {
+              "k": 0,
+              "n": 64,
+              "rate": 0.0,
+              "wilson95": [
+                0.0,
+                0.05662406063551054
+              ]
+            },
+            "within_first_2s_timed_only": {
+              "k": 0,
+              "n": 0,
+              "rate": null,
+              "wilson95": [
+                null,
+                null
+              ]
+            }
+          },
+          "primary_denominator": "clips with a lift position (any positive whole-body-clearable lift), matching the ARDY comparator",
+          "root_crossing": {
+            "max": null,
+            "mean": null,
+            "min": null,
+            "missing_event_time_rule": "a clip with a lift position but no defined event time counts as NOT within the first 2.0 s; it is never excluded from the denominator, because a root that never reaches the lift position certainly did not reach it inside the window",
+            "n": 0,
+            "n_elicited": 0,
+            "n_elicited_without_event_time": 0,
+            "n_timed": 0,
+            "n_with_lift_position": 0,
+            "n_with_lift_position_without_event_time": 0,
+            "q0.1": null,
+            "q0.25": null,
+            "q0.5": null,
+            "q0.75": null,
+            "q0.9": null,
+            "sd": null,
+            "within_first_2s": {
+              "k": 0,
+              "n": 0,
+              "rate": null,
+              "wilson95": [
+                null,
+                null
+              ]
+            },
+            "within_first_2s_elicited": {
+              "k": 0,
+              "n": 0,
+              "rate": null,
+              "wilson95": [
+                null,
+                null
+              ]
+            },
+            "within_first_2s_elicited_over_all_assigned": {
+              "k": 0,
+              "n": 64,
+              "rate": 0.0,
+              "wilson95": [
+                0.0,
+                0.05662406063551054
+              ]
+            },
+            "within_first_2s_over_all_assigned": {
+              "k": 0,
+              "n": 64,
+              "rate": 0.0,
+              "wilson95": [
+                0.0,
+                0.05662406063551054
+              ]
+            },
+            "within_first_2s_timed_only": {
+              "k": 0,
+              "n": 0,
+              "rate": null,
+              "wilson95": [
+                null,
+                null
+              ]
+            }
+          }
+        },
+        "max_box_height_lower_bound_m": {
+          "staged": {
+            "max": 0.0,
+            "mean": 0.0,
+            "min": 0.0,
+            "n": 64,
+            "q0.1": 0.0,
+            "q0.25": 0.0,
+            "q0.5": 0.0,
+            "q0.75": 0.0,
+            "q0.9": 0.0,
+            "sd": 0.0
+          },
+          "unstaged": {
+            "max": 0.0,
+            "mean": 0.0,
+            "min": 0.0,
+            "n": 64,
+            "q0.1": 0.0,
+            "q0.25": 0.0,
+            "q0.5": 0.0,
+            "q0.75": 0.0,
+            "q0.9": 0.0,
+            "sd": 0.0
+          }
+        },
+        "n_assigned": 64,
+        "root_z_max_m": {
+          "max": 0.7941283583641052,
+          "mean": 0.7793585127219558,
+          "min": 0.7713732123374939,
+          "n": 64,
+          "q0.1": 0.7744325220584869,
+          "q0.25": 0.7768557220697403,
+          "q0.5": 0.7796109616756439,
+          "q0.75": 0.7816316336393356,
+          "q0.9": 0.7830108106136322,
+          "sd": 0.004085317140423083
+        },
+        "route_fidelity": {
+          "pelvis_path_mae_m": {
+            "max": 0.049616855486343606,
+            "mean": 0.03780767957750141,
+            "min": 0.028246332921715998,
+            "n": 64,
+            "q0.1": 0.032315856121470435,
+            "q0.25": 0.034626016358447004,
+            "q0.5": 0.0370926818746093,
+            "q0.75": 0.04138988595024869,
+            "q0.9": 0.04291733204376057,
+            "sd": 0.004704376702599898
+          },
+          "smooth_root_path_mae_m": {
+            "max": 0.03576954920182606,
+            "mean": 0.018850803898671373,
+            "min": 0.010852504807899151,
+            "n": 64,
+            "q0.1": 0.01383385382411873,
+            "q0.25": 0.015663640201495597,
+            "q0.5": 0.01834732812802395,
+            "q0.75": 0.02136504375602594,
+            "q0.9": 0.023215527944303472,
+            "sd": 0.004623243065137215
+          },
+          "smooth_root_progress_ratio": {
+            "max": 1.0056971757957298,
+            "mean": 0.990476163244946,
+            "min": 0.966809080952468,
+            "n": 64,
+            "q0.1": 0.9826771427405118,
+            "q0.25": 0.987256978842197,
+            "q0.5": 0.9911746670614876,
+            "q0.75": 0.994748271817419,
+            "q0.9": 0.999293416887263,
+            "sd": 0.007160204237296049
+          }
+        },
+        "screen": {
+          "denominator": "elicited clips",
+          "float_primary_0p20s": {
+            "k": 0,
+            "n": 0,
+            "rate": null,
+            "wilson95": [
+              null,
+              null
+            ]
+          },
+          "float_primary_elicited_over_all_assigned": {
+            "k": 0,
+            "n": 64,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.05662406063551054
+            ]
+          },
+          "float_primary_over_all_assigned": {
+            "k": 0,
+            "n": 64,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.05662406063551054
+            ]
+          },
+          "float_secondary_0p28s": {
+            "k": 0,
+            "n": 0,
+            "rate": null,
+            "wilson95": [
+              null,
+              null
+            ]
+          },
+          "max_unsupported_run_s": {
+            "max": 0.0,
+            "mean": 0.0,
+            "min": 0.0,
+            "n": 64,
+            "q0.1": 0.0,
+            "q0.25": 0.0,
+            "q0.5": 0.0,
+            "q0.75": 0.0,
+            "q0.9": 0.0,
+            "sd": 0.0
+          },
+          "max_unsupported_run_s_elicited": {
+            "max": null,
+            "mean": null,
+            "min": null,
+            "n": 0,
+            "q0.1": null,
+            "q0.25": null,
+            "q0.5": null,
+            "q0.75": null,
+            "q0.9": null,
+            "sd": null
+          },
+          "n_elicited": 0,
+          "note": "the 0.20 s rule is the calibrated reference screen for predicted tracking cutoffs; no rollout was executed in this campaign"
+        }
+      }
+    },
+    "decisions": {
+      "arm_used": "step",
+      "denominator_rule": "the lift-time distribution is reported over the clips that HAVE a lift position -- any positive whole-body-clearable lift -- because that is the ARDY comparator this campaign is calibrated against (40/49 root crossing, 42/49 nominal: the '80-86 % inside 2.0 s' the protocol quotes, over the 49 exp021 clips with any positive lift).  The >= 0.03 m elicited fraction and the rate over all assigned trials are reported beside it.  The screen rule keeps the elicited denominator, which the protocol names explicitly ('>= 80 % of Kimodo's elicited clips')",
+      "denominators": {
+        "reported_beside_both": "rates over all 64 assigned STEP trials",
+        "screen_rule": "elicited STEP clips (whole-body-clearable lift >= 0.03 m), the denominator the protocol names for this rule",
+        "timing_rule": "STEP clips with a lift position (any positive whole-body-clearable lift), the ARDY comparator's denominator",
+        "why_they_differ": "the lift-time distribution is reported over the clips that HAVE a lift position -- any positive whole-body-clearable lift -- because that is the ARDY comparator this campaign is calibrated against (40/49 root crossing, 42/49 nominal: the '80-86 % inside 2.0 s' the protocol quotes, over the 49 exp021 clips with any positive lift).  The >= 0.03 m elicited fraction and the rate over all assigned trials are reported beside it.  The screen rule keeps the elicited denominator, which the protocol names explicitly ('>= 80 % of Kimodo's elicited clips')"
+      },
+      "no_arm_expansion_after_outcomes": {
+        "arms": [
+          "step",
+          "walk"
+        ],
+        "held": true,
+        "note": "the protocol forbids adding an arm after seeing outcomes",
+        "seeds": [
+          4700,
+          4763
+        ]
+      },
+      "scope": "kinematic only; no SONIC rollout was executed, so nothing here is a tracking outcome and the 0.20 s rule is a reference screen, not a physical verdict",
+      "screen_rule": {
+        "ardy_reference": {
+          "lifting_clips_above_0p20s": [
+            44,
+            44
+          ],
+          "source": "outputs/analysis_trackability_contract"
+        },
+        "denominator": "elicited STEP clips (lift >= 0.03 m), as the protocol names",
+        "elicited_float_over_all_assigned_step_trials": {
+          "k": 19,
+          "n": 64,
+          "rate": 0.296875,
+          "wilson95": [
+            0.19905151260405385,
+            0.41770201202912227
+          ]
+        },
+        "float_primary_0p20s": {
+          "k": 19,
+          "n": 23,
+          "rate": 0.8260869565217391,
+          "wilson95": [
+            0.6286235218500337,
+            0.9302134648553532
+          ]
+        },
+        "float_secondary_0p28s": {
+          "k": 19,
+          "n": 23,
+          "rate": 0.8260869565217391,
+          "wilson95": [
+            0.6286235218500337,
+            0.9302134648553532
+          ]
+        },
+        "fraction": 0.8260869565217391,
+        "n_elicited": 23,
+        "outcome": "screen_generalises_to_released_g1_priors",
+        "over_all_assigned_step_trials": {
+          "k": 31,
+          "n": 64,
+          "rate": 0.484375,
+          "wilson95": [
+            0.3663355157825022,
+            0.6041839861123575
+          ]
+        },
+        "over_all_assigned_step_trials_note": "numerator = every assigned STEP clip above the screen, elicited or not; 'elicited_float_over_all_assigned_step_trials' is the headline's own numerator over the same 64 assigned trials",
+        "primary_s": 0.2,
+        "secondary_s": 0.28,
+        "threshold_fraction": 0.8
+      },
+      "timing_rule": {
+        "ardy_reference": {
+          "denominator": "the 49 exp021 clips with any positive whole-body-clearable lift",
+          "nominal_speed": [
+            42,
+            49
+          ],
+          "root_crossing": [
+            40,
+            49
+          ],
+          "source": "outputs/analysis_event_frames (experiments/analyze_event_frames.py)"
+        },
+        "companion_denominator": "elicited STEP clips (lift >= 0.03 m)",
+        "definitions": {
+          "nominal_speed": {
+            "elicited_over_all_assigned_step_trials": {
+              "k": 0,
+              "n": 64,
+              "rate": 0.0,
+              "wilson95": [
+                0.0,
+                0.05662406063551054
+              ]
+            },
+            "first_2s": {
+              "k": 1,
+              "n": 41,
+              "rate": 0.024390243902439025,
+              "wilson95": [
+                0.00431853152113585,
+                0.12595062178093377
+              ]
+            },
+            "first_2s_elicited": {
+              "k": 0,
+              "n": 23,
+              "rate": 0.0,
+              "wilson95": [
+                0.0,
+                0.14311662038507353
+              ]
+            },
+            "first_2s_timed_only": {
+              "k": 1,
+              "n": 41,
+              "rate": 0.024390243902439025,
+              "wilson95": [
+                0.00431853152113585,
+                0.12595062178093377
+              ]
+            },
+            "fraction": 0.024390243902439025,
+            "fraction_elicited": 0.0,
+            "fraction_timed_only": 0.024390243902439025,
+            "median_lift_time_s": 3.7685457516339866,
+            "n_elicited": 23,
+            "n_elicited_without_event_time": 0,
+            "n_timed": 41,
+            "n_with_lift_position": 41,
+            "n_with_lift_position_without_event_time": 0,
+            "outcome": "ardy_window_attributed_to_autoregressive_rollout_context",
+            "outcome_on_elicited_denominator": "ardy_window_attributed_to_autoregressive_rollout_context",
+            "over_all_assigned_step_trials": {
+              "k": 1,
+              "n": 64,
+              "rate": 0.015625,
+              "wilson95": [
+                0.0027635418927853816,
+                0.08334101684786545
+              ]
+            },
+            "q10_q90_lift_time_s": [
+              2.3570845004668532,
+              5.670950046685342
+            ]
+          },
+          "root_crossing": {
+            "elicited_over_all_assigned_step_trials": {
+              "k": 0,
+              "n": 64,
+              "rate": 0.0,
+              "wilson95": [
+                0.0,
+                0.05662406063551054
+              ]
+            },
+            "first_2s": {
+              "k": 1,
+              "n": 41,
+              "rate": 0.024390243902439025,
+              "wilson95": [
+                0.00431853152113585,
+                0.12595062178093377
+              ]
+            },
+            "first_2s_elicited": {
+              "k": 0,
+              "n": 23,
+              "rate": 0.0,
+              "wilson95": [
+                0.0,
+                0.14311662038507353
+              ]
+            },
+            "first_2s_timed_only": {
+              "k": 1,
+              "n": 41,
+              "rate": 0.024390243902439025,
+              "wilson95": [
+                0.00431853152113585,
+                0.12595062178093377
+              ]
+            },
+            "fraction": 0.024390243902439025,
+            "fraction_elicited": 0.0,
+            "fraction_timed_only": 0.024390243902439025,
+            "median_lift_time_s": 3.8666666666666667,
+            "n_elicited": 23,
+            "n_elicited_without_event_time": 0,
+            "n_timed": 41,
+            "n_with_lift_position": 41,
+            "n_with_lift_position_without_event_time": 0,
+            "outcome": "ardy_window_attributed_to_autoregressive_rollout_context",
+            "outcome_on_elicited_denominator": "ardy_window_attributed_to_autoregressive_rollout_context",
+            "over_all_assigned_step_trials": {
+              "k": 1,
+              "n": 64,
+              "rate": 0.015625,
+              "wilson95": [
+                0.0027635418927853816,
+                0.08334101684786545
+              ]
+            },
+            "q10_q90_lift_time_s": [
+              2.466666666666667,
+              5.766666666666667
+            ]
+          }
+        },
+        "definitions_agree": true,
+        "denominator": "STEP clips with a lift position (any positive lift)",
+        "missing_event_time_rule": "a clip with a lift position but no defined event time counts as NOT within the first 2.0 s; it is never excluded from the denominator, because a root that never reaches the lift position certainly did not reach it inside the window",
+        "n_elicited": 23,
+        "n_with_lift_position": 41,
+        "outcome": "ardy_window_attributed_to_autoregressive_rollout_context",
+        "outcome_on_elicited_denominator": "ardy_window_attributed_to_autoregressive_rollout_context",
+        "primary_definition": "root_crossing",
+        "refusal": null,
+        "thresholds": {
+          "generalises_if_fraction_at_least": 0.7,
+          "rollout_context_if_fraction_at_most": 0.4
+        },
+        "window_s": 2.0
+      }
+    },
+    "n_clips": 128,
+    "paired_step_minus_walk": {
+      "elicitation_difference": 0.359375,
+      "elicitation_discordant_pairs": {
+        "concordant": 41,
+        "step_only": 23,
+        "walk_only": 0
+      },
+      "inference_unit": "one scene; seeds are the resampling budget within it",
+      "interval_claimed_on_difference": false,
+      "median_lift_height_difference_m": 0.014257812500000001,
+      "median_max_unsupported_run_difference_s": 0.18333333333333335,
+      "median_smooth_root_path_mae_difference_m": 0.012971010777819328,
+      "n_pairs": 64
+    },
+    "planned_n_per_arm": 64,
+    "prior": {
+      "family": "offline (non-autoregressive)",
+      "fps": 30.0,
+      "model": "Kimodo-G1-RP-v1"
+    },
+    "schema": "exp025-kimodo-cross-prior-v1",
+    "status": "complete",
+    "tiers": {
+      "generated": 128,
+      "kinematically_scored": 128,
+      "note": "house rule 10: every count names its tier.  Nothing in this campaign was executed by a tracker, so no number here is an executed-clearance rate",
+      "sonic_executed": 0
+    }
+  },
+  "unlaunched_locked_seeds": [],
+  "wall_clock_s": 1481.858255381987
+}

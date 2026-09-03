@@ -1,0 +1,1282 @@
+{
+  "arms": {
+    "step": {
+      "any_lift": {
+        "k": 41,
+        "n": 64,
+        "rate": 0.640625,
+        "wilson95": [
+          0.5182085051234868,
+          0.7471159778227758
+        ]
+      },
+      "coverage": {
+        "covers_all_obstacles": {
+          "k": 64,
+          "n": 64,
+          "rate": 1.0,
+          "wilson95": [
+            0.9433759393644894,
+            1.0
+          ]
+        },
+        "denominator": "all assigned trials",
+        "forward_extent_max_m": {
+          "max": 7.6951502513978784,
+          "mean": 7.334579804056531,
+          "min": 7.037639567336825,
+          "n": 64,
+          "q0.1": 7.219273965061202,
+          "q0.25": 7.265576817328288,
+          "q0.5": 7.323458267798254,
+          "q0.75": 7.400164542766101,
+          "q0.9": 7.491470613492134,
+          "sd": 0.12278749256625025
+        },
+        "note": "exact clearance is counted over ALL assigned trials; a clip that never swept a box has a null outcome there and is counted as not clearing it, never as a pass",
+        "obstacles": {
+          "staged": {
+            "body_swept": {
+              "k": 64,
+              "n": 64,
+              "rate": 1.0,
+              "wilson95": [
+                0.9433759393644894,
+                1.0
+              ]
+            },
+            "not_reached": 0
+          },
+          "unstaged": {
+            "body_swept": {
+              "k": 64,
+              "n": 64,
+              "rate": 1.0,
+              "wilson95": [
+                0.9433759393644894,
+                1.0
+              ]
+            },
+            "not_reached": 0
+          }
+        },
+        "rule": "a box centred at x with depth d counts as swept only if [x - d/2, x + d/2] lies inside the forward interval the whole-body collision envelope (body margin included) covers over all frames; clearance at an unswept centre is recorded as 'not reached' (null), never as a success, and unswept scan points are excluded from the elicitation argmax",
+        "scan_points_swept": {
+          "max": 120.0,
+          "mean": 120.0,
+          "min": 120.0,
+          "n": 64,
+          "q0.1": 120.0,
+          "q0.25": 120.0,
+          "q0.5": 120.0,
+          "q0.75": 120.0,
+          "q0.9": 120.0,
+          "sd": 0.0
+        }
+      },
+      "elicitation": {
+        "k": 23,
+        "n": 64,
+        "rate": 0.359375,
+        "wilson95": [
+          0.25288402217722405,
+          0.4817914948765132
+        ]
+      },
+      "exact_clearance": {
+        "staged": {
+          "0.03": {
+            "k": 0,
+            "n": 64,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.05662406063551054
+            ]
+          },
+          "0.05": {
+            "k": 0,
+            "n": 64,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.05662406063551054
+            ]
+          },
+          "0.08": {
+            "k": 0,
+            "n": 64,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.05662406063551054
+            ]
+          },
+          "0.12": {
+            "k": 0,
+            "n": 64,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.05662406063551054
+            ]
+          },
+          "0.2": {
+            "k": 0,
+            "n": 64,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.05662406063551054
+            ]
+          },
+          "0.3": {
+            "k": 0,
+            "n": 64,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.05662406063551054
+            ]
+          }
+        },
+        "unstaged": {
+          "0.03": {
+            "k": 4,
+            "n": 64,
+            "rate": 0.0625,
+            "wilson95": [
+              0.02457120122589082,
+              0.1499748518301809
+            ]
+          },
+          "0.05": {
+            "k": 3,
+            "n": 64,
+            "rate": 0.046875,
+            "wilson95": [
+              0.016069016661225302,
+              0.1289965382897061
+            ]
+          },
+          "0.08": {
+            "k": 3,
+            "n": 64,
+            "rate": 0.046875,
+            "wilson95": [
+              0.016069016661225302,
+              0.1289965382897061
+            ]
+          },
+          "0.12": {
+            "k": 0,
+            "n": 64,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.05662406063551054
+            ]
+          },
+          "0.2": {
+            "k": 0,
+            "n": 64,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.05662406063551054
+            ]
+          },
+          "0.3": {
+            "k": 0,
+            "n": 64,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.05662406063551054
+            ]
+          }
+        }
+      },
+      "lift_height_m": {
+        "max": 0.4,
+        "mean": 0.05667663574218751,
+        "min": 0.0,
+        "n": 64,
+        "q0.1": 0.0,
+        "q0.25": 0.0,
+        "q0.5": 0.014257812500000001,
+        "q0.75": 0.055146484375000006,
+        "q0.9": 0.2046601562500002,
+        "sd": 0.099005517540014
+      },
+      "lift_position_any_lift_m": {
+        "max": 5.790756302521008,
+        "mean": 3.533039557286329,
+        "min": 1.5756302521008405,
+        "n": 41,
+        "q0.1": 2.130252100840336,
+        "q0.25": 2.6294117647058823,
+        "q0.5": 3.4058823529411764,
+        "q0.75": 4.404201680672269,
+        "q0.9": 5.125210084033614,
+        "sd": 1.122834905347709
+      },
+      "lift_position_m": {
+        "max": 5.790756302521008,
+        "mean": 3.509572524662039,
+        "min": 1.908403361344538,
+        "n": 23,
+        "q0.1": 2.274453781512605,
+        "q0.25": 3.0176470588235293,
+        "q0.5": 3.294957983193277,
+        "q0.75": 3.877310924369748,
+        "q0.9": 5.025378151260505,
+        "sd": 1.0371043467203538
+      },
+      "lift_time_s": {
+        "companion_denominator": "elicited clips (whole-body-clearable lift >= 0.03 m)",
+        "denominator_note": "the lift-time distribution is reported over the clips that HAVE a lift position -- any positive whole-body-clearable lift -- because that is the ARDY comparator this campaign is calibrated against (40/49 root crossing, 42/49 nominal: the '80-86 % inside 2.0 s' the protocol quotes, over the 49 exp021 clips with any positive lift).  The >= 0.03 m elicited fraction and the rate over all assigned trials are reported beside it.  The screen rule keeps the elicited denominator, which the protocol names explicitly ('>= 80 % of Kimodo's elicited clips')",
+        "n_elicited": 23,
+        "n_with_lift_position": 41,
+        "nominal_speed": {
+          "max": 6.407364612511671,
+          "mean": 3.9092428434788546,
+          "min": 1.7434056956115782,
+          "missing_event_time_rule": "a clip with a lift position but no defined event time counts as NOT within the first 2.0 s; it is never excluded from the denominator, because a root that never reaches the lift position certainly did not reach it inside the window",
+          "n": 41,
+          "n_elicited": 23,
+          "n_elicited_without_event_time": 0,
+          "n_timed": 41,
+          "n_with_lift_position": 41,
+          "n_with_lift_position_without_event_time": 0,
+          "q0.1": 2.3570845004668532,
+          "q0.25": 2.9093954248366014,
+          "q0.5": 3.7685457516339866,
+          "q0.75": 4.873167600373483,
+          "q0.9": 5.670950046685342,
+          "sd": 1.2423960295282521,
+          "within_first_2s": {
+            "k": 1,
+            "n": 41,
+            "rate": 0.024390243902439025,
+            "wilson95": [
+              0.00431853152113585,
+              0.12595062178093377
+            ]
+          },
+          "within_first_2s_elicited": {
+            "k": 0,
+            "n": 23,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.14311662038507353
+            ]
+          },
+          "within_first_2s_elicited_over_all_assigned": {
+            "k": 0,
+            "n": 64,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.05662406063551054
+            ]
+          },
+          "within_first_2s_over_all_assigned": {
+            "k": 1,
+            "n": 64,
+            "rate": 0.015625,
+            "wilson95": [
+              0.0027635418927853816,
+              0.08334101684786545
+            ]
+          },
+          "within_first_2s_timed_only": {
+            "k": 1,
+            "n": 41,
+            "rate": 0.024390243902439025,
+            "wilson95": [
+              0.00431853152113585,
+              0.12595062178093377
+            ]
+          }
+        },
+        "primary_denominator": "clips with a lift position (any positive whole-body-clearable lift), matching the ARDY comparator",
+        "root_crossing": {
+          "max": 6.4,
+          "mean": 3.9739837398373985,
+          "min": 1.7333333333333334,
+          "missing_event_time_rule": "a clip with a lift position but no defined event time counts as NOT within the first 2.0 s; it is never excluded from the denominator, because a root that never reaches the lift position certainly did not reach it inside the window",
+          "n": 41,
+          "n_elicited": 23,
+          "n_elicited_without_event_time": 0,
+          "n_timed": 41,
+          "n_with_lift_position": 41,
+          "n_with_lift_position_without_event_time": 0,
+          "q0.1": 2.466666666666667,
+          "q0.25": 3.033333333333333,
+          "q0.5": 3.8666666666666667,
+          "q0.75": 5.0,
+          "q0.9": 5.766666666666667,
+          "sd": 1.269634947427408,
+          "within_first_2s": {
+            "k": 1,
+            "n": 41,
+            "rate": 0.024390243902439025,
+            "wilson95": [
+              0.00431853152113585,
+              0.12595062178093377
+            ]
+          },
+          "within_first_2s_elicited": {
+            "k": 0,
+            "n": 23,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.14311662038507353
+            ]
+          },
+          "within_first_2s_elicited_over_all_assigned": {
+            "k": 0,
+            "n": 64,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.05662406063551054
+            ]
+          },
+          "within_first_2s_over_all_assigned": {
+            "k": 1,
+            "n": 64,
+            "rate": 0.015625,
+            "wilson95": [
+              0.0027635418927853816,
+              0.08334101684786545
+            ]
+          },
+          "within_first_2s_timed_only": {
+            "k": 1,
+            "n": 41,
+            "rate": 0.024390243902439025,
+            "wilson95": [
+              0.00431853152113585,
+              0.12595062178093377
+            ]
+          }
+        }
+      },
+      "max_box_height_lower_bound_m": {
+        "staged": {
+          "max": 0.0,
+          "mean": 0.0,
+          "min": 0.0,
+          "n": 64,
+          "q0.1": 0.0,
+          "q0.25": 0.0,
+          "q0.5": 0.0,
+          "q0.75": 0.0,
+          "q0.9": 0.0,
+          "sd": 0.0
+        },
+        "unstaged": {
+          "max": 0.09140625000000001,
+          "mean": 0.0060552978515625005,
+          "min": 0.0,
+          "n": 64,
+          "q0.1": 0.0,
+          "q0.25": 0.0,
+          "q0.5": 0.0,
+          "q0.75": 0.0,
+          "q0.9": 0.01950390625000001,
+          "sd": 0.01910981902562283
+        }
+      },
+      "n_assigned": 64,
+      "root_z_max_m": {
+        "max": 1.656876564025879,
+        "mean": 0.8935597063973546,
+        "min": 0.7785212993621826,
+        "n": 64,
+        "q0.1": 0.791769289970398,
+        "q0.25": 0.8179160952568054,
+        "q0.5": 0.8493584394454956,
+        "q0.75": 0.8992419540882111,
+        "q0.9": 1.0532202124595642,
+        "sd": 0.1390191117400623
+      },
+      "route_fidelity": {
+        "pelvis_path_mae_m": {
+          "max": 0.14856147180438756,
+          "mean": 0.05938745775164818,
+          "min": 0.03831064705516482,
+          "n": 64,
+          "q0.1": 0.046670773899383546,
+          "q0.25": 0.052739642089294825,
+          "q0.5": 0.05828517053096727,
+          "q0.75": 0.06389081468170861,
+          "q0.9": 0.0701112189680482,
+          "sd": 0.01429660918932854
+        },
+        "smooth_root_path_mae_m": {
+          "max": 0.12228318857929844,
+          "mean": 0.033407910301405816,
+          "min": 0.014518762997020747,
+          "n": 64,
+          "q0.1": 0.023361290293550423,
+          "q0.25": 0.02668645714392159,
+          "q0.5": 0.031594002678226846,
+          "q0.75": 0.03841700531067809,
+          "q0.9": 0.043013895132332905,
+          "sd": 0.013643987896631444
+        },
+        "smooth_root_progress_ratio": {
+          "max": 1.006367189111188,
+          "mean": 0.9821186883209521,
+          "min": 0.9516410961643689,
+          "n": 64,
+          "q0.1": 0.9656430003071566,
+          "q0.25": 0.9745037416157881,
+          "q0.5": 0.9823973519734055,
+          "q0.75": 0.9900093562504885,
+          "q0.9": 0.9990100416794626,
+          "sd": 0.012777839150733737
+        }
+      },
+      "screen": {
+        "denominator": "elicited clips",
+        "float_primary_0p20s": {
+          "k": 19,
+          "n": 23,
+          "rate": 0.8260869565217391,
+          "wilson95": [
+            0.6286235218500337,
+            0.9302134648553532
+          ]
+        },
+        "float_primary_elicited_over_all_assigned": {
+          "k": 19,
+          "n": 64,
+          "rate": 0.296875,
+          "wilson95": [
+            0.19905151260405385,
+            0.41770201202912227
+          ]
+        },
+        "float_primary_over_all_assigned": {
+          "k": 31,
+          "n": 64,
+          "rate": 0.484375,
+          "wilson95": [
+            0.3663355157825022,
+            0.6041839861123575
+          ]
+        },
+        "float_secondary_0p28s": {
+          "k": 19,
+          "n": 23,
+          "rate": 0.8260869565217391,
+          "wilson95": [
+            0.6286235218500337,
+            0.9302134648553532
+          ]
+        },
+        "max_unsupported_run_s": {
+          "max": 2.966666666666667,
+          "mean": 0.41041666666666665,
+          "min": 0.0,
+          "n": 64,
+          "q0.1": 0.0,
+          "q0.25": 0.0,
+          "q0.5": 0.18333333333333335,
+          "q0.75": 0.5666666666666667,
+          "q0.9": 0.9566666666666668,
+          "sd": 0.5848430953752578
+        },
+        "max_unsupported_run_s_elicited": {
+          "max": 2.966666666666667,
+          "mean": 0.8391304347826086,
+          "min": 0.0,
+          "n": 23,
+          "q0.1": 0.07333333333333333,
+          "q0.25": 0.4166666666666667,
+          "q0.5": 0.6666666666666666,
+          "q0.75": 0.95,
+          "q0.9": 1.5933333333333335,
+          "sd": 0.7648629753768499
+        },
+        "n_elicited": 23,
+        "note": "the 0.20 s rule is the calibrated reference screen for predicted tracking cutoffs; no rollout was executed in this campaign"
+      }
+    },
+    "walk": {
+      "any_lift": {
+        "k": 0,
+        "n": 64,
+        "rate": 0.0,
+        "wilson95": [
+          0.0,
+          0.05662406063551054
+        ]
+      },
+      "coverage": {
+        "covers_all_obstacles": {
+          "k": 64,
+          "n": 64,
+          "rate": 1.0,
+          "wilson95": [
+            0.9433759393644894,
+            1.0
+          ]
+        },
+        "denominator": "all assigned trials",
+        "forward_extent_max_m": {
+          "max": 7.639349552286439,
+          "mean": 7.459197813764134,
+          "min": 7.142132769877828,
+          "n": 64,
+          "q0.1": 7.361265942397975,
+          "q0.25": 7.396371313865339,
+          "q0.5": 7.463575518769714,
+          "q0.75": 7.520124697014903,
+          "q0.9": 7.580225508007333,
+          "sd": 0.09530345880765506
+        },
+        "note": "exact clearance is counted over ALL assigned trials; a clip that never swept a box has a null outcome there and is counted as not clearing it, never as a pass",
+        "obstacles": {
+          "staged": {
+            "body_swept": {
+              "k": 64,
+              "n": 64,
+              "rate": 1.0,
+              "wilson95": [
+                0.9433759393644894,
+                1.0
+              ]
+            },
+            "not_reached": 0
+          },
+          "unstaged": {
+            "body_swept": {
+              "k": 64,
+              "n": 64,
+              "rate": 1.0,
+              "wilson95": [
+                0.9433759393644894,
+                1.0
+              ]
+            },
+            "not_reached": 0
+          }
+        },
+        "rule": "a box centred at x with depth d counts as swept only if [x - d/2, x + d/2] lies inside the forward interval the whole-body collision envelope (body margin included) covers over all frames; clearance at an unswept centre is recorded as 'not reached' (null), never as a success, and unswept scan points are excluded from the elicitation argmax",
+        "scan_points_swept": {
+          "max": 120.0,
+          "mean": 120.0,
+          "min": 120.0,
+          "n": 64,
+          "q0.1": 120.0,
+          "q0.25": 120.0,
+          "q0.5": 120.0,
+          "q0.75": 120.0,
+          "q0.9": 120.0,
+          "sd": 0.0
+        }
+      },
+      "elicitation": {
+        "k": 0,
+        "n": 64,
+        "rate": 0.0,
+        "wilson95": [
+          0.0,
+          0.05662406063551054
+        ]
+      },
+      "exact_clearance": {
+        "staged": {
+          "0.03": {
+            "k": 0,
+            "n": 64,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.05662406063551054
+            ]
+          },
+          "0.05": {
+            "k": 0,
+            "n": 64,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.05662406063551054
+            ]
+          },
+          "0.08": {
+            "k": 0,
+            "n": 64,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.05662406063551054
+            ]
+          },
+          "0.12": {
+            "k": 0,
+            "n": 64,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.05662406063551054
+            ]
+          },
+          "0.2": {
+            "k": 0,
+            "n": 64,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.05662406063551054
+            ]
+          },
+          "0.3": {
+            "k": 0,
+            "n": 64,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.05662406063551054
+            ]
+          }
+        },
+        "unstaged": {
+          "0.03": {
+            "k": 0,
+            "n": 64,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.05662406063551054
+            ]
+          },
+          "0.05": {
+            "k": 0,
+            "n": 64,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.05662406063551054
+            ]
+          },
+          "0.08": {
+            "k": 0,
+            "n": 64,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.05662406063551054
+            ]
+          },
+          "0.12": {
+            "k": 0,
+            "n": 64,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.05662406063551054
+            ]
+          },
+          "0.2": {
+            "k": 0,
+            "n": 64,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.05662406063551054
+            ]
+          },
+          "0.3": {
+            "k": 0,
+            "n": 64,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.05662406063551054
+            ]
+          }
+        }
+      },
+      "lift_height_m": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "n": 64,
+        "q0.1": 0.0,
+        "q0.25": 0.0,
+        "q0.5": 0.0,
+        "q0.75": 0.0,
+        "q0.9": 0.0,
+        "sd": 0.0
+      },
+      "lift_position_any_lift_m": {
+        "max": null,
+        "mean": null,
+        "min": null,
+        "n": 0,
+        "q0.1": null,
+        "q0.25": null,
+        "q0.5": null,
+        "q0.75": null,
+        "q0.9": null,
+        "sd": null
+      },
+      "lift_position_m": {
+        "max": null,
+        "mean": null,
+        "min": null,
+        "n": 0,
+        "q0.1": null,
+        "q0.25": null,
+        "q0.5": null,
+        "q0.75": null,
+        "q0.9": null,
+        "sd": null
+      },
+      "lift_time_s": {
+        "companion_denominator": "elicited clips (whole-body-clearable lift >= 0.03 m)",
+        "denominator_note": "the lift-time distribution is reported over the clips that HAVE a lift position -- any positive whole-body-clearable lift -- because that is the ARDY comparator this campaign is calibrated against (40/49 root crossing, 42/49 nominal: the '80-86 % inside 2.0 s' the protocol quotes, over the 49 exp021 clips with any positive lift).  The >= 0.03 m elicited fraction and the rate over all assigned trials are reported beside it.  The screen rule keeps the elicited denominator, which the protocol names explicitly ('>= 80 % of Kimodo's elicited clips')",
+        "n_elicited": 0,
+        "n_with_lift_position": 0,
+        "nominal_speed": {
+          "max": null,
+          "mean": null,
+          "min": null,
+          "missing_event_time_rule": "a clip with a lift position but no defined event time counts as NOT within the first 2.0 s; it is never excluded from the denominator, because a root that never reaches the lift position certainly did not reach it inside the window",
+          "n": 0,
+          "n_elicited": 0,
+          "n_elicited_without_event_time": 0,
+          "n_timed": 0,
+          "n_with_lift_position": 0,
+          "n_with_lift_position_without_event_time": 0,
+          "q0.1": null,
+          "q0.25": null,
+          "q0.5": null,
+          "q0.75": null,
+          "q0.9": null,
+          "sd": null,
+          "within_first_2s": {
+            "k": 0,
+            "n": 0,
+            "rate": null,
+            "wilson95": [
+              null,
+              null
+            ]
+          },
+          "within_first_2s_elicited": {
+            "k": 0,
+            "n": 0,
+            "rate": null,
+            "wilson95": [
+              null,
+              null
+            ]
+          },
+          "within_first_2s_elicited_over_all_assigned": {
+            "k": 0,
+            "n": 64,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.05662406063551054
+            ]
+          },
+          "within_first_2s_over_all_assigned": {
+            "k": 0,
+            "n": 64,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.05662406063551054
+            ]
+          },
+          "within_first_2s_timed_only": {
+            "k": 0,
+            "n": 0,
+            "rate": null,
+            "wilson95": [
+              null,
+              null
+            ]
+          }
+        },
+        "primary_denominator": "clips with a lift position (any positive whole-body-clearable lift), matching the ARDY comparator",
+        "root_crossing": {
+          "max": null,
+          "mean": null,
+          "min": null,
+          "missing_event_time_rule": "a clip with a lift position but no defined event time counts as NOT within the first 2.0 s; it is never excluded from the denominator, because a root that never reaches the lift position certainly did not reach it inside the window",
+          "n": 0,
+          "n_elicited": 0,
+          "n_elicited_without_event_time": 0,
+          "n_timed": 0,
+          "n_with_lift_position": 0,
+          "n_with_lift_position_without_event_time": 0,
+          "q0.1": null,
+          "q0.25": null,
+          "q0.5": null,
+          "q0.75": null,
+          "q0.9": null,
+          "sd": null,
+          "within_first_2s": {
+            "k": 0,
+            "n": 0,
+            "rate": null,
+            "wilson95": [
+              null,
+              null
+            ]
+          },
+          "within_first_2s_elicited": {
+            "k": 0,
+            "n": 0,
+            "rate": null,
+            "wilson95": [
+              null,
+              null
+            ]
+          },
+          "within_first_2s_elicited_over_all_assigned": {
+            "k": 0,
+            "n": 64,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.05662406063551054
+            ]
+          },
+          "within_first_2s_over_all_assigned": {
+            "k": 0,
+            "n": 64,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.05662406063551054
+            ]
+          },
+          "within_first_2s_timed_only": {
+            "k": 0,
+            "n": 0,
+            "rate": null,
+            "wilson95": [
+              null,
+              null
+            ]
+          }
+        }
+      },
+      "max_box_height_lower_bound_m": {
+        "staged": {
+          "max": 0.0,
+          "mean": 0.0,
+          "min": 0.0,
+          "n": 64,
+          "q0.1": 0.0,
+          "q0.25": 0.0,
+          "q0.5": 0.0,
+          "q0.75": 0.0,
+          "q0.9": 0.0,
+          "sd": 0.0
+        },
+        "unstaged": {
+          "max": 0.0,
+          "mean": 0.0,
+          "min": 0.0,
+          "n": 64,
+          "q0.1": 0.0,
+          "q0.25": 0.0,
+          "q0.5": 0.0,
+          "q0.75": 0.0,
+          "q0.9": 0.0,
+          "sd": 0.0
+        }
+      },
+      "n_assigned": 64,
+      "root_z_max_m": {
+        "max": 0.7941283583641052,
+        "mean": 0.7793585127219558,
+        "min": 0.7713732123374939,
+        "n": 64,
+        "q0.1": 0.7744325220584869,
+        "q0.25": 0.7768557220697403,
+        "q0.5": 0.7796109616756439,
+        "q0.75": 0.7816316336393356,
+        "q0.9": 0.7830108106136322,
+        "sd": 0.004085317140423083
+      },
+      "route_fidelity": {
+        "pelvis_path_mae_m": {
+          "max": 0.049616855486343606,
+          "mean": 0.03780767957750141,
+          "min": 0.028246332921715998,
+          "n": 64,
+          "q0.1": 0.032315856121470435,
+          "q0.25": 0.034626016358447004,
+          "q0.5": 0.0370926818746093,
+          "q0.75": 0.04138988595024869,
+          "q0.9": 0.04291733204376057,
+          "sd": 0.004704376702599898
+        },
+        "smooth_root_path_mae_m": {
+          "max": 0.03576954920182606,
+          "mean": 0.018850803898671373,
+          "min": 0.010852504807899151,
+          "n": 64,
+          "q0.1": 0.01383385382411873,
+          "q0.25": 0.015663640201495597,
+          "q0.5": 0.01834732812802395,
+          "q0.75": 0.02136504375602594,
+          "q0.9": 0.023215527944303472,
+          "sd": 0.004623243065137215
+        },
+        "smooth_root_progress_ratio": {
+          "max": 1.0056971757957298,
+          "mean": 0.990476163244946,
+          "min": 0.966809080952468,
+          "n": 64,
+          "q0.1": 0.9826771427405118,
+          "q0.25": 0.987256978842197,
+          "q0.5": 0.9911746670614876,
+          "q0.75": 0.994748271817419,
+          "q0.9": 0.999293416887263,
+          "sd": 0.007160204237296049
+        }
+      },
+      "screen": {
+        "denominator": "elicited clips",
+        "float_primary_0p20s": {
+          "k": 0,
+          "n": 0,
+          "rate": null,
+          "wilson95": [
+            null,
+            null
+          ]
+        },
+        "float_primary_elicited_over_all_assigned": {
+          "k": 0,
+          "n": 64,
+          "rate": 0.0,
+          "wilson95": [
+            0.0,
+            0.05662406063551054
+          ]
+        },
+        "float_primary_over_all_assigned": {
+          "k": 0,
+          "n": 64,
+          "rate": 0.0,
+          "wilson95": [
+            0.0,
+            0.05662406063551054
+          ]
+        },
+        "float_secondary_0p28s": {
+          "k": 0,
+          "n": 0,
+          "rate": null,
+          "wilson95": [
+            null,
+            null
+          ]
+        },
+        "max_unsupported_run_s": {
+          "max": 0.0,
+          "mean": 0.0,
+          "min": 0.0,
+          "n": 64,
+          "q0.1": 0.0,
+          "q0.25": 0.0,
+          "q0.5": 0.0,
+          "q0.75": 0.0,
+          "q0.9": 0.0,
+          "sd": 0.0
+        },
+        "max_unsupported_run_s_elicited": {
+          "max": null,
+          "mean": null,
+          "min": null,
+          "n": 0,
+          "q0.1": null,
+          "q0.25": null,
+          "q0.5": null,
+          "q0.75": null,
+          "q0.9": null,
+          "sd": null
+        },
+        "n_elicited": 0,
+        "note": "the 0.20 s rule is the calibrated reference screen for predicted tracking cutoffs; no rollout was executed in this campaign"
+      }
+    }
+  },
+  "decisions": {
+    "arm_used": "step",
+    "denominator_rule": "the lift-time distribution is reported over the clips that HAVE a lift position -- any positive whole-body-clearable lift -- because that is the ARDY comparator this campaign is calibrated against (40/49 root crossing, 42/49 nominal: the '80-86 % inside 2.0 s' the protocol quotes, over the 49 exp021 clips with any positive lift).  The >= 0.03 m elicited fraction and the rate over all assigned trials are reported beside it.  The screen rule keeps the elicited denominator, which the protocol names explicitly ('>= 80 % of Kimodo's elicited clips')",
+    "denominators": {
+      "reported_beside_both": "rates over all 64 assigned STEP trials",
+      "screen_rule": "elicited STEP clips (whole-body-clearable lift >= 0.03 m), the denominator the protocol names for this rule",
+      "timing_rule": "STEP clips with a lift position (any positive whole-body-clearable lift), the ARDY comparator's denominator",
+      "why_they_differ": "the lift-time distribution is reported over the clips that HAVE a lift position -- any positive whole-body-clearable lift -- because that is the ARDY comparator this campaign is calibrated against (40/49 root crossing, 42/49 nominal: the '80-86 % inside 2.0 s' the protocol quotes, over the 49 exp021 clips with any positive lift).  The >= 0.03 m elicited fraction and the rate over all assigned trials are reported beside it.  The screen rule keeps the elicited denominator, which the protocol names explicitly ('>= 80 % of Kimodo's elicited clips')"
+    },
+    "no_arm_expansion_after_outcomes": {
+      "arms": [
+        "step",
+        "walk"
+      ],
+      "held": true,
+      "note": "the protocol forbids adding an arm after seeing outcomes",
+      "seeds": [
+        4700,
+        4763
+      ]
+    },
+    "scope": "kinematic only; no SONIC rollout was executed, so nothing here is a tracking outcome and the 0.20 s rule is a reference screen, not a physical verdict",
+    "screen_rule": {
+      "ardy_reference": {
+        "lifting_clips_above_0p20s": [
+          44,
+          44
+        ],
+        "source": "outputs/analysis_trackability_contract"
+      },
+      "denominator": "elicited STEP clips (lift >= 0.03 m), as the protocol names",
+      "elicited_float_over_all_assigned_step_trials": {
+        "k": 19,
+        "n": 64,
+        "rate": 0.296875,
+        "wilson95": [
+          0.19905151260405385,
+          0.41770201202912227
+        ]
+      },
+      "float_primary_0p20s": {
+        "k": 19,
+        "n": 23,
+        "rate": 0.8260869565217391,
+        "wilson95": [
+          0.6286235218500337,
+          0.9302134648553532
+        ]
+      },
+      "float_secondary_0p28s": {
+        "k": 19,
+        "n": 23,
+        "rate": 0.8260869565217391,
+        "wilson95": [
+          0.6286235218500337,
+          0.9302134648553532
+        ]
+      },
+      "fraction": 0.8260869565217391,
+      "n_elicited": 23,
+      "outcome": "screen_generalises_to_released_g1_priors",
+      "over_all_assigned_step_trials": {
+        "k": 31,
+        "n": 64,
+        "rate": 0.484375,
+        "wilson95": [
+          0.3663355157825022,
+          0.6041839861123575
+        ]
+      },
+      "over_all_assigned_step_trials_note": "numerator = every assigned STEP clip above the screen, elicited or not; 'elicited_float_over_all_assigned_step_trials' is the headline's own numerator over the same 64 assigned trials",
+      "primary_s": 0.2,
+      "secondary_s": 0.28,
+      "threshold_fraction": 0.8
+    },
+    "timing_rule": {
+      "ardy_reference": {
+        "denominator": "the 49 exp021 clips with any positive whole-body-clearable lift",
+        "nominal_speed": [
+          42,
+          49
+        ],
+        "root_crossing": [
+          40,
+          49
+        ],
+        "source": "outputs/analysis_event_frames (experiments/analyze_event_frames.py)"
+      },
+      "companion_denominator": "elicited STEP clips (lift >= 0.03 m)",
+      "definitions": {
+        "nominal_speed": {
+          "elicited_over_all_assigned_step_trials": {
+            "k": 0,
+            "n": 64,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.05662406063551054
+            ]
+          },
+          "first_2s": {
+            "k": 1,
+            "n": 41,
+            "rate": 0.024390243902439025,
+            "wilson95": [
+              0.00431853152113585,
+              0.12595062178093377
+            ]
+          },
+          "first_2s_elicited": {
+            "k": 0,
+            "n": 23,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.14311662038507353
+            ]
+          },
+          "first_2s_timed_only": {
+            "k": 1,
+            "n": 41,
+            "rate": 0.024390243902439025,
+            "wilson95": [
+              0.00431853152113585,
+              0.12595062178093377
+            ]
+          },
+          "fraction": 0.024390243902439025,
+          "fraction_elicited": 0.0,
+          "fraction_timed_only": 0.024390243902439025,
+          "median_lift_time_s": 3.7685457516339866,
+          "n_elicited": 23,
+          "n_elicited_without_event_time": 0,
+          "n_timed": 41,
+          "n_with_lift_position": 41,
+          "n_with_lift_position_without_event_time": 0,
+          "outcome": "ardy_window_attributed_to_autoregressive_rollout_context",
+          "outcome_on_elicited_denominator": "ardy_window_attributed_to_autoregressive_rollout_context",
+          "over_all_assigned_step_trials": {
+            "k": 1,
+            "n": 64,
+            "rate": 0.015625,
+            "wilson95": [
+              0.0027635418927853816,
+              0.08334101684786545
+            ]
+          },
+          "q10_q90_lift_time_s": [
+            2.3570845004668532,
+            5.670950046685342
+          ]
+        },
+        "root_crossing": {
+          "elicited_over_all_assigned_step_trials": {
+            "k": 0,
+            "n": 64,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.05662406063551054
+            ]
+          },
+          "first_2s": {
+            "k": 1,
+            "n": 41,
+            "rate": 0.024390243902439025,
+            "wilson95": [
+              0.00431853152113585,
+              0.12595062178093377
+            ]
+          },
+          "first_2s_elicited": {
+            "k": 0,
+            "n": 23,
+            "rate": 0.0,
+            "wilson95": [
+              0.0,
+              0.14311662038507353
+            ]
+          },
+          "first_2s_timed_only": {
+            "k": 1,
+            "n": 41,
+            "rate": 0.024390243902439025,
+            "wilson95": [
+              0.00431853152113585,
+              0.12595062178093377
+            ]
+          },
+          "fraction": 0.024390243902439025,
+          "fraction_elicited": 0.0,
+          "fraction_timed_only": 0.024390243902439025,
+          "median_lift_time_s": 3.8666666666666667,
+          "n_elicited": 23,
+          "n_elicited_without_event_time": 0,
+          "n_timed": 41,
+          "n_with_lift_position": 41,
+          "n_with_lift_position_without_event_time": 0,
+          "outcome": "ardy_window_attributed_to_autoregressive_rollout_context",
+          "outcome_on_elicited_denominator": "ardy_window_attributed_to_autoregressive_rollout_context",
+          "over_all_assigned_step_trials": {
+            "k": 1,
+            "n": 64,
+            "rate": 0.015625,
+            "wilson95": [
+              0.0027635418927853816,
+              0.08334101684786545
+            ]
+          },
+          "q10_q90_lift_time_s": [
+            2.466666666666667,
+            5.766666666666667
+          ]
+        }
+      },
+      "definitions_agree": true,
+      "denominator": "STEP clips with a lift position (any positive lift)",
+      "missing_event_time_rule": "a clip with a lift position but no defined event time counts as NOT within the first 2.0 s; it is never excluded from the denominator, because a root that never reaches the lift position certainly did not reach it inside the window",
+      "n_elicited": 23,
+      "n_with_lift_position": 41,
+      "outcome": "ardy_window_attributed_to_autoregressive_rollout_context",
+      "outcome_on_elicited_denominator": "ardy_window_attributed_to_autoregressive_rollout_context",
+      "primary_definition": "root_crossing",
+      "refusal": null,
+      "thresholds": {
+        "generalises_if_fraction_at_least": 0.7,
+        "rollout_context_if_fraction_at_most": 0.4
+      },
+      "window_s": 2.0
+    }
+  },
+  "n_clips": 128,
+  "paired_step_minus_walk": {
+    "elicitation_difference": 0.359375,
+    "elicitation_discordant_pairs": {
+      "concordant": 41,
+      "step_only": 23,
+      "walk_only": 0
+    },
+    "inference_unit": "one scene; seeds are the resampling budget within it",
+    "interval_claimed_on_difference": false,
+    "median_lift_height_difference_m": 0.014257812500000001,
+    "median_max_unsupported_run_difference_s": 0.18333333333333335,
+    "median_smooth_root_path_mae_difference_m": 0.012971010777819328,
+    "n_pairs": 64
+  },
+  "planned_n_per_arm": 64,
+  "prior": {
+    "family": "offline (non-autoregressive)",
+    "fps": 30.0,
+    "model": "Kimodo-G1-RP-v1"
+  },
+  "schema": "exp025-kimodo-cross-prior-v1",
+  "status": "complete",
+  "tiers": {
+    "generated": 128,
+    "kinematically_scored": 128,
+    "note": "house rule 10: every count names its tier.  Nothing in this campaign was executed by a tracker, so no number here is an executed-clearance rate",
+    "sonic_executed": 0
+  }
+}

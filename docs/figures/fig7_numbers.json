@@ -1,0 +1,217 @@
+{
+  "budget_parity": {
+    "all_compared_arms_capped_at_three_generations": true,
+    "compared_arms": {
+      "heuristic+2": 3,
+      "heuristic-resample3": 3,
+      "qp+2": 3,
+      "qp-resample3": 3,
+      "tcn+2": 3,
+      "tcn-resample3": 3
+    },
+    "max_adapted_generations_all_arms": {
+      "heuristic": 1,
+      "heuristic+1": 2,
+      "heuristic+2": 3,
+      "heuristic-resample2": 2,
+      "heuristic-resample3": 3,
+      "qp": 1,
+      "qp+1": 2,
+      "qp+2": 3,
+      "qp-resample2": 2,
+      "qp-resample3": 3,
+      "tcn": 1,
+      "tcn+1": 2,
+      "tcn+2": 3,
+      "tcn-resample2": 2,
+      "tcn-resample3": 3
+    },
+    "mean_generation_calls_used": {
+      "heuristic+2": 1.84,
+      "heuristic-resample3": 1.81,
+      "qp+2": 2.67,
+      "qp-resample3": 2.98,
+      "tcn+2": 2.72,
+      "tcn-resample3": 2.99
+    },
+    "note": "Only the two-correction (+2) and best-of-three (-resample3) arms share a cap of three generations; the uncorrected arms are capped at one and the one-correction / best-of-two arms at two, so those are not budget-matched and are not compared here. Equal caps are not equal computation: the mean calls actually used differ."
+  },
+  "figure": "fig7_repair_vs_resampling",
+  "inputs": {
+    "paired_bootstrap_summary": {
+      "path": "outputs/analysis_repair_paired_bootstrap/summary.json",
+      "sha256": "89604d551e353de5f1b08e1af7d5b48f2b2726957ec3f425bb6b51d4c7ff99c4"
+    },
+    "phase4e_benchmark": {
+      "path": "outputs/phase4e_architecture_v2_s8/experiment.json",
+      "sha256": "f85164c8b00ad66a597cb1d48e6a51ac75fdccfa786a5f1e652052c03af79b0a"
+    }
+  },
+  "panel_a": {
+    "QP teacher: 18 cm margin met": {
+      "arm_a": "qp+2",
+      "arm_b": "qp-resample3",
+      "cap_a": 3,
+      "cap_b": 3,
+      "mean_generation_calls_a": 2.67,
+      "mean_generation_calls_b": 2.98,
+      "n_scene_seed_trials": 288,
+      "rate_a": 0.4166666666666667,
+      "rate_b": 0.03125
+    },
+    "QP teacher: collision-free reference": {
+      "arm_a": "qp+2",
+      "arm_b": "qp-resample3",
+      "cap_a": 3,
+      "cap_b": 3,
+      "mean_generation_calls_a": 2.67,
+      "mean_generation_calls_b": 2.98,
+      "n_scene_seed_trials": 288,
+      "rate_a": 1.0,
+      "rate_b": 0.9722222222222222
+    },
+    "heuristic: 18 cm margin met": {
+      "arm_a": "heuristic+2",
+      "arm_b": "heuristic-resample3",
+      "cap_a": 3,
+      "cap_b": 3,
+      "mean_generation_calls_a": 1.84,
+      "mean_generation_calls_b": 1.81,
+      "n_scene_seed_trials": 288,
+      "rate_a": 0.6458333333333334,
+      "rate_b": 0.7256944444444444
+    },
+    "heuristic: collision-free reference": {
+      "arm_a": "heuristic+2",
+      "arm_b": "heuristic-resample3",
+      "cap_a": 3,
+      "cap_b": 3,
+      "mean_generation_calls_a": 1.84,
+      "mean_generation_calls_b": 1.81,
+      "n_scene_seed_trials": 288,
+      "rate_a": 1.0,
+      "rate_b": 1.0
+    },
+    "learned (TCN): 18 cm margin met": {
+      "arm_a": "tcn+2",
+      "arm_b": "tcn-resample3",
+      "cap_a": 3,
+      "cap_b": 3,
+      "mean_generation_calls_a": 2.72,
+      "mean_generation_calls_b": 2.99,
+      "n_scene_seed_trials": 288,
+      "rate_a": 0.375,
+      "rate_b": 0.013888888888888888
+    },
+    "learned (TCN): collision-free reference": {
+      "arm_a": "tcn+2",
+      "arm_b": "tcn-resample3",
+      "cap_a": 3,
+      "cap_b": 3,
+      "mean_generation_calls_a": 2.72,
+      "mean_generation_calls_b": 2.99,
+      "n_scene_seed_trials": 288,
+      "rate_a": 0.9930555555555556,
+      "rate_b": 0.7743055555555556
+    }
+  },
+  "panel_b": {
+    "QP teacher: 18 cm margin met": {
+      "bootstrap_95_pp": [
+        28.125,
+        48.61111111111111
+      ],
+      "paired_difference_pp": 38.54166666666667,
+      "sign": "correction"
+    },
+    "QP teacher: collision-free reference": {
+      "bootstrap_95_pp": [
+        0.0,
+        6.944444444444445
+      ],
+      "paired_difference_pp": 2.7777777777777777,
+      "sign": "correction"
+    },
+    "heuristic: 18 cm margin met": {
+      "bootstrap_95_pp": [
+        -14.23611111111111,
+        -1.7361111111111112
+      ],
+      "paired_difference_pp": -7.986111111111111,
+      "sign": "resampling"
+    },
+    "heuristic: collision-free reference": {
+      "bootstrap_95_pp": [
+        0.0,
+        0.0
+      ],
+      "paired_difference_pp": 0.0,
+      "sign": "tie"
+    },
+    "learned (TCN): 18 cm margin met": {
+      "bootstrap_95_pp": [
+        25.0,
+        47.56944444444444
+      ],
+      "paired_difference_pp": 36.11111111111111,
+      "sign": "correction"
+    },
+    "learned (TCN): collision-free reference": {
+      "bootstrap_95_pp": [
+        9.375,
+        35.41666666666667
+      ],
+      "paired_difference_pp": 21.875,
+      "sign": "correction"
+    }
+  },
+  "panel_c": {
+    "QP teacher: 18 cm margin met": {
+      "discordant_correction_only": 112,
+      "discordant_resampling_only": 1,
+      "n_scene_seed_trials": 288,
+      "tile": "112:1"
+    },
+    "QP teacher: collision-free reference": {
+      "discordant_correction_only": 8,
+      "discordant_resampling_only": 0,
+      "n_scene_seed_trials": 288,
+      "tile": "8:0"
+    },
+    "heuristic: 18 cm margin met": {
+      "discordant_correction_only": 18,
+      "discordant_resampling_only": 41,
+      "n_scene_seed_trials": 288,
+      "tile": "18:41"
+    },
+    "heuristic: collision-free reference": {
+      "discordant_correction_only": 0,
+      "discordant_resampling_only": 0,
+      "n_scene_seed_trials": 288,
+      "tile": "0:0"
+    },
+    "learned (TCN): 18 cm margin met": {
+      "discordant_correction_only": 104,
+      "discordant_resampling_only": 0,
+      "n_scene_seed_trials": 288,
+      "tile": "104:0"
+    },
+    "learned (TCN): collision-free reference": {
+      "discordant_correction_only": 63,
+      "discordant_resampling_only": 0,
+      "n_scene_seed_trials": 288,
+      "tile": "63:0"
+    }
+  },
+  "provenance": {
+    "analysis": "paired scene-cluster bootstrap, two corrections minus best-of-three resampling",
+    "benchmark_sha256_matches_file": true,
+    "benchmark_sha256_recorded_by_paired_analysis": "f85164c8b00ad66a597cb1d48e6a51ac75fdccfa786a5f1e652052c03af79b0a",
+    "descriptive_only": true,
+    "n_boot": 30000,
+    "n_scene_seed_trials": 288,
+    "n_scenes": 36,
+    "n_seeds": 8,
+    "rng_seed": 0
+  }
+}

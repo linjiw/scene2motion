@@ -916,3 +916,28 @@ def test_evaluator_version_is_recorded_not_assumed(monkeypatch):
     assert x.evaluator_version() == 1
     monkeypatch.setattr(te, "EVALUATOR_VERSION", 2, raising=False)
     assert x.evaluator_version() == 2
+
+
+def test_existing_empty_output_directory_is_launchable(tmp_path):
+    """A refused gate or an early crash leaves an empty directory; that must not strand the run."""
+    output = tmp_path / "exp030"
+    output.mkdir()                      # exactly what a gate refusal leaves behind
+    clean = lambda _root: {"commit": "a" * 40, "dirty": False, "status": [],
+                           "tracked_diff_sha256": "b" * 64}
+    calls = {"n": 0}
+
+    def gate(**_kwargs):
+        calls["n"] += 1
+        raise hg.HostResourceGateFailed("synthetic gate refusal")
+
+    # The empty directory gets past the non-empty refusal and reaches the host gate.
+    with pytest.raises(x.CampaignAbort, match="host-resource gate failed"):
+        x.run_campaign(stage="launch", out=output, host_gate_fn=gate, code_state_fn=clean)
+    assert calls["n"] == 1
+    assert list(output.iterdir()) == []   # still empty, still launchable
+
+    # A non-empty directory without a receipt is still refused: that is what protects evidence.
+    (output / "stray.txt").write_text("x")
+    with pytest.raises(x.CampaignAbort, match="refusing non-empty output"):
+        x.run_campaign(stage="launch", out=output, host_gate_fn=gate, code_state_fn=clean)
+    assert calls["n"] == 1                # refused before the gate was consulted again

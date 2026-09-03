@@ -1644,7 +1644,10 @@ def run_campaign(
         except host_gate.HostResourceGateFailed as exc:
             raise CampaignAbort(f"host-resource gate failed before the campaign was created: "
                                 f"{exc}") from exc
-        output.mkdir(parents=True, exist_ok=False)
+        # An EMPTY directory may already exist: a refused gate or a crash before the ledger was
+        # written leaves one behind, and refusing it would strand the campaign on a directory
+        # containing nothing.  The non-empty refusal above is what protects real evidence.
+        output.mkdir(parents=True, exist_ok=True)
         receipt: dict[str, Any] = {
             "schema": SCHEMA_VERSION,
             "experiment": "exp030_obstacle_present",

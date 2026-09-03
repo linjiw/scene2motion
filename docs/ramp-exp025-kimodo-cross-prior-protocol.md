@@ -1,6 +1,9 @@
 # EXP-025 protocol — cross-prior timing and contract on Kimodo-G1 (DRAFT, not yet preregistered)
 
-**Status:** draft written 2026-09-01 (evening) from the plan of record
+**Status: preregistered** (2026-09-03, before the first sample; its sha256 is bound into the
+receipt). Three claims in the 2026-09-01 draft were **corrected on 2026-09-03** against the
+recovered runner, before any sample — see the amendment at the end of §"Locked generation
+design". Originally drafted 2026-09-01 (evening) from the plan of record
 (`docs/plan-2026-09-01-icra2027.md` §3). Becomes preregistered when committed with
 `Status: preregistered` and its sha256 bound into the receipt before the first sample. Seeds
 **4700–4763** (Kimodo per-sample stream) are reserved; the reduced-audit rerun keeps its original
@@ -44,15 +47,41 @@ the 84-clip reduced capability audit whose 4.5× overcount row is currently tran
 ## Locked generation design (part A: timing and contract)
 
 Kimodo-G1-RP-v1 (HF snapshot `3020ad8c…`), 30 fps, 100 DDIM steps, cfg (2.0, 2.0) separated,
-first heading 0, `post_processing=False`, per-sample noise (the recovered runner's
+first heading 0, **post-processing bypassed**, per-sample noise (the recovered runner's
 `_per_sample_noise` port; NOISE_STREAM_VERSION 2). Prompt STEP. Route: straight, 0.9 m/s, 8.0 s
-→ 240 frames, 7.2 m; `root2d` dense path constraint only (Kimodo's analogue of ARDY's `root_xz`),
+→ 240 frames, 7.2 m; **`smooth_root_2d`** dense path constraint only (Kimodo's analogue of
+ARDY's `root_xz`),
 root height and heading free, matching the exp021 `free` contract. Seeds 4700–4763 (64) in
-batches of 8 (Kimodo throughput ≈ 2 s/clip at B = 6–8). Export to MuJoCo qpos (Z-up, g1.xml
+batches of 8 (Kimodo throughput **≈ 3.1 s/clip** at 100 steps, the only measurement we hold). Export to MuJoCo qpos (Z-up, g1.xml
 joint order, the indoor_nav CSV convention) and archive every clip.
 
 Control arm: WALK prompt (`A person walks forward at a steady pace.`, already cached) on the
 same 64 seeds — the free nominal arm (elicitation floor).
+
+### Amendment, 2026-09-03 — three claims corrected against the recovered runner
+
+The runner this protocol depends on was lost and has now been recovered byte-exactly
+(`experiments/kimodo/`, provenance in its README; `--selftest` prints the required
+`3.0/3.0/3.0/2.0` on CPU). Reading the recovered code corrected three statements the
+2026-09-01 draft made, all **before any sample**:
+
+1. **The constraint channel is `smooth_root_2d`, not `root2d`.** It constrains the ADMM-*smoothed*
+   root, not the raw pelvis (`experiments/kimodo/kimodo_runner.py:184-185`; smoother margin
+   0.06 m). **Route error must be measured against `smooth_root_pos`**, or it reads about 6 cm
+   high by construction and the cross-prior comparison would be biased against Kimodo.
+2. **"`post_processing=False`" names a flag that is never passed.** The runner bypasses
+   `Kimodo.__call__` and calls `_generate` plus `motion_rep.inverse` directly
+   (`kimodo_runner.py:425-434`), so post-processing never runs. The effect the draft wanted is
+   what happens; the wording was wrong.
+3. **Throughput is ≈ 3.1 s/clip at 100 steps**, not ≈ 2 s/clip: the only measurement we hold is
+   `experiments/kimodo/NOTES.md:108` (indoor_nav generation log, B = 1). Part A is therefore
+   ≈ 7 GPU-min, still inside the budget.
+
+Also recorded: Kimodo's cache key is `sha1(sanitize_text(prompt))`, which coincides with ARDY's
+raw-text key for all three cached prompts (verified), so copying ARDY's STEP embedding is valid;
+and the exported qpos uses the byte-identical `g1.xml` (`5d76cf92…`) that `G1Body` loads, so the
+scoring path is shared with the ARDY family. No CSV is written despite the draft's mention of
+"the indoor_nav CSV convention".
 
 ## Endpoints (kinematic only; no SONIC in this campaign)
 
@@ -97,7 +126,7 @@ recorded in the receipt.
 
 ## Budget
 
-Part A: 128 clips ≈ 5 GPU-min at ~2 s/clip plus model load; scoring ≈ 128 × 4 s ≈ 9 min CPU.
+Part A: 128 clips ≈ 7 GPU-min at ~3.1 s/clip plus model load; scoring ≈ 128 × 4 s ≈ 9 min CPU.
 No encoder. Total < 10 GPU-minutes. Becomes a **must** if the runner recovery lands by Sep 4
 noon, because it is the only experiment that answers the "characterisation of one released
 model" objection.
@@ -106,6 +135,6 @@ model" objection.
 
 - Recovery effort is the real cost (~half a day including tests); if it slips past Sep 4, drop
   EXP-025 and state cross-prior generality as a limitation.
-- Kimodo's `root2d` constraint following (mean 0.09 m on the indoor_nav corpus) is looser than
+- Kimodo's `smooth_root_2d` constraint following (mean 0.09 m on the indoor_nav corpus) is looser than
   ARDY's 1.4 cm; report route MAE and do not over-interpret a shifted lift position.
 - RAM: the CPU encoder cannot run beside the ARDY GPU job's host memory; schedule it alone.

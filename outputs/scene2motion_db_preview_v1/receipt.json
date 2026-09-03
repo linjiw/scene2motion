@@ -1,0 +1,51 @@
+{
+  "controller_execution_counts": {
+    "not_measured": 300
+  },
+  "evidence_tier_counts": {
+    "reference_geometry": 274,
+    "scene_feasibility": 26
+  },
+  "motion_payloads_included": false,
+  "n_motion_payloads": 268,
+  "n_records": 300,
+  "outcome_counts": {
+    "accepted": 192,
+    "accepted_margin": 76,
+    "refused": 26,
+    "rejected": 6
+  },
+  "output_sha256": {
+    "README.md": "29fca61c32db03f58d9156da760029f80f8d15d4271362b44915fd6d61c09d14",
+    "records.jsonl": "f301a0e328d678aef41c72c683ba413346f656095a0dd07e5c2114b46c4446d9",
+    "schema.json": "13011b89951468328be40f1d1cffdbe464212aa1c6c5d0cd86b67c5cf7b6ff15",
+    "splits.json": "2c0767b632a885754e11c0d7918dcc3deed8efc5588ec3c4ef3e07fd7229a332"
+  },
+  "release_status": "internal_preview_redistribution_review_required",
+  "schema_version": "scene2motion-db-preview-v1",
+  "source": {
+    "experiment": "corpus_pilot_v2",
+    "manifest_sha256": "55ccdb2621362173476d0d86052d6d07769a3213e5a2318e0f67988f2605f4bc",
+    "receipt_sha256": "daf2ddfa80da4785a0c4105472507f5ea960438f7f10b91b65ad11879bb1671b"
+  },
+  "split_outcome_counts": {
+    "test": {
+      "accepted": 29,
+      "accepted_margin": 11,
+      "refused": 4,
+      "rejected": 1
+    },
+    "train": {
+      "accepted": 134,
+      "accepted_margin": 54,
+      "refused": 18,
+      "rejected": 4
+    },
+    "validation": {
+      "accepted": 29,
+      "accepted_margin": 11,
+      "refused": 4,
+      "rejected": 1
+    }
+  }
+}

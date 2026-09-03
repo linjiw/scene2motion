@@ -1,0 +1,74 @@
+{
+  "$id": "https://scene2motion.local/schema/scene2motion-db-preview-v1.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "properties": {
+    "artifact": {
+      "type": [
+        "object",
+        "null"
+      ]
+    },
+    "identity": {
+      "type": "object"
+    },
+    "label": {
+      "required": [
+        "evidence_tier",
+        "outcome",
+        "failure_mode",
+        "collision_free_reference",
+        "signed_overhead_target_residual_m",
+        "signed_whole_body_clearance_m",
+        "whole_body_penetration_depth_m",
+        "controller_execution"
+      ],
+      "type": "object"
+    },
+    "record_id": {
+      "type": "string"
+    },
+    "refusal": {
+      "type": [
+        "object",
+        "null"
+      ]
+    },
+    "repair": {
+      "type": "object"
+    },
+    "request": {
+      "type": "object"
+    },
+    "scene": {
+      "type": "object"
+    },
+    "schema_version": {
+      "const": "scene2motion-db-preview-v1"
+    },
+    "source": {
+      "type": "object"
+    },
+    "split": {
+      "enum": [
+        "train",
+        "validation",
+        "test"
+      ]
+    }
+  },
+  "required": [
+    "schema_version",
+    "record_id",
+    "split",
+    "source",
+    "identity",
+    "scene",
+    "request",
+    "label",
+    "repair",
+    "refusal",
+    "artifact"
+  ],
+  "title": "Scene2Motion-DB corpus-pilot release-preview record",
+  "type": "object"
+}

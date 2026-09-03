@@ -33,8 +33,13 @@ Neither question needs a new generator sample: the pool is archived.
   evaluation terminations (`+manager_env/terminations=tracking/eval`), physics seed 0, one
   rollout per reference, 32-environment launches in EXP-022A's chunk order.
 - **Tracker source:** this campaign **requires** the fork commit that lets `add_table` work
-  without `add_object` (`7c63c53`, reverted in `350cae1` so the obstacle-absent campaigns can keep
-  EXP-022A's pinned manifest). EXP-030 therefore declares **its own** tracker baseline: the
+  without `add_object` (`7c63c53`, reverted in `350cae1` on the legacy checkout so the
+  obstacle-absent campaigns can keep EXP-022A's pinned manifest). **Amendment, 2026-09-03, before
+  the first launch:** per the owner's two-checkout ruling recorded in `CLAUDE.md`, this campaign
+  runs against the dedicated patched worktree **`/home/linjiw/lucid/GR00T-WBC-exp029`** (branch
+  `exp029-obstacle-present`, pinned at `7c63c53`), never against the legacy checkout, and all
+  three arms — including `absent` — run there so the comparison stays internally consistent.
+  EXP-030 declares **its own** tracker baseline: the
   receipt records the checkout commit and the full core-source manifest, and the campaign
   **refuses to launch** unless the `table_to_robot_contact_sensor` fix is present. It does not
   assert equality with EXP-022A's `44e98c45…`; the two manifests differ by that fix alone, and

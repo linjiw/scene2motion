@@ -262,6 +262,43 @@ $S2M_PY experiments/exp021_elicited_lift_distribution.py --out outputs/<new_dir>
 10. **Every throughput or dataset number names its tier**: generated / kinematically scored /
     accepted / SONIC-executed, with wall-clock and GPU.
 
+## Working alongside another session (2026-09-03 ruling)
+
+More than one agent session works this repo at once. Two sessions independently diagnosed and
+wrote up the same obstacle-present milestone on 2026-09-03, producing a duplicated REPORT §47.
+The owner's ruling:
+
+1. **Split ownership, and hand off explicitly.** Whoever is mid-flight on a file finishes and
+   commits it; the other session does not touch overlapping files until that commit lands and the
+   handoff is stated. Check `git status` before editing anything you did not write.
+2. **One canonical ledger section per finding.** If you find a duplicate, keep the
+   better-evidenced account and fold in what the other uniquely carried; do not renumber history.
+3. **A v2 re-analysis is a new, versioned analysis.** Never overwrite a receipt to reflect a
+   changed rule; the original stays, and the new one says which rule produced it.
+4. **Exactly one campaign poller, owned by the reporting session.** Confirm no existing owner or
+   active monitor before arming (`pgrep -f 'launch_when_host_free.sh|launch_legacy_chain.sh'`).
+   Use `experiments/launch_legacy_chain.sh`, which re-checks every precondition before each
+   launch: clean worktree, no other owner or running campaign, tracker manifest equal to the
+   frozen baseline, and the prescribed gates (**≥ 12 GiB free VRAM, ≥ 18 GiB available RAM, no
+   concurrent Isaac process**). Gates are waited for, never relaxed; LUCID is never interrupted;
+   a provenance or campaign failure stops the chain for inspection.
+
+## Two tracker checkouts, and which campaign uses which
+
+The `add_table` fix (`7c63c53`) changes a file inside the SONIC **core-source manifest** that
+every receipt binds equal to EXP-022A's `44e98c45…`. Leaving it applied makes EXP-028 and
+EXP-024's tracked stage refuse to launch — correctly, since they must stay comparable to
+EXP-022A.
+
+| campaign | checkout | tracker state |
+|---|---|---|
+| EXP-022A, EXP-024 tracked stage, EXP-028 | `/home/linjiw/lucid/GR00T-WholeBodyControl` | **unpatched**; fix reverted by `350cae1`; manifest must equal `44e98c45…` |
+| EXP-029 / EXP-030 (obstacle present) | `/home/linjiw/lucid/GR00T-WBC-exp029` (worktree, branch `exp029-obstacle-present`) | **patched at `7c63c53`**; declares its own baseline |
+
+Both the obstacle-absent and obstacle-present arms of an obstacle-present study use the *patched*
+worktree, so the comparison is internally consistent. **Never switch a checkout underneath a
+running poller**, and never compare results across the patch boundary.
+
 ## Seeds already spent (choose disjoint blocks; first free block 4600+)
 
 900–907 (exp011); 1400–1923 (exp1c, threshold calibration); 1500–1507 (exp015); 2200–2211,

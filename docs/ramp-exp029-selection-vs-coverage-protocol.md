@@ -28,21 +28,87 @@ state? Concretely, three sub-questions on one shared candidate pool:
 
 ## 2. Gating engineering (must be done and validated before any arm is generated)
 
-1. **The beam must exist in the physics scene.** Every existing SONIC path in this repository
-   tracks with the obstacle absent and replays achieved states against the geometry afterwards.
-   A static box can plausibly be spawned through SONIC's `add_table` `CuboidCfg` path; that path
-   is **unvalidated here**. Validation: spawn a beam of known height and position, confirm from
-   the simulation state that a rollout which should collide does collide and one which should
-   pass does pass, and dump the resolved scene configuration into the receipt.
-2. **The rollout must be long enough to reach the beam.** The earlier duck tracking study
-   (859 rollouts, 0 traversals) was confounded by a 14 s clip cap that stopped most rollouts
-   before the obstacle. Validation: the walking control below reaches and passes the beam
-   position within the horizon in at least 7 of 8 rollouts.
-3. **The traversal evaluator must be validated on a known-trackable positive control.** A plain
-   walking reference under a beam high enough not to interfere must be scored as a completed
-   traversal. If the evaluator cannot score a success, no negative result from it is meaningful.
+### 2.1 The beam must exist in the physics scene — the code path, read 2026-09-02
 
-A failure at any of these three stops the campaign and is recorded as a refusal; it does not get
+Every existing SONIC path in this repository tracks with the obstacle **absent** and replays
+achieved states against the geometry afterwards. A static obstacle can be spawned through the
+`add_table` branch of `gear_sonic/envs/manager_env/modular_tracking_env_cfg.py` (SONIC checkout
+`ca86b5e`, lines 595–670). What that branch does, verified by reading it:
+
+- builds a `RigidObjectCfg` at prim path `{ENV_REGEX_NS}/Table`, i.e. **one obstacle per
+  environment**, positioned relative to that environment's origin;
+- spawns `sim_utils.CuboidCfg` with `size=(table_width, table_depth, table_thickness)` taken from
+  `config["table_size"]`, and `init_state.pos` from `config["table_position"]` with an identity
+  quaternion on the cuboid path;
+- sets `rigid_props.kinematic_enabled=True`, so the box is static and cannot be shoved aside;
+- sets `collision_props.collision_enabled=True`, so the robot actually collides with it;
+- sets `activate_contact_sensors=True`, which is what makes **collision an observed outcome
+  class** rather than a geometry replay.
+
+The configuration node is `manager_env.config`, so the overrides are Hydra `++` flags on the
+existing launch command, alongside the ones the current bridges already pass:
+
+```
+++manager_env.config.add_table=true
+++manager_env.config.table_position=[<x>,0.0,<z_centre>]
+++manager_env.config.table_size=[<size_x>,<size_y>,<size_z>]
+```
+
+`table_size` maps to the cuboid's (x, y, z) extent, so for a **floor box** of height h spanning
+the corridor, `table_size=[0.20, <corridor_width>, h]` with `table_position=[x_o, 0.0, h/2]`; for
+a **beam** leaving clearance c, `table_size=[0.20, <corridor_width>, t]` with
+`table_position=[x_o, 0.0, c + t/2]`. The axis mapping is inferred from `CuboidCfg`'s (x, y, z)
+size convention and the code's width/depth/thickness naming, and must be confirmed in 2.4 by
+measuring the spawned prim rather than assumed.
+
+The release checkpoint's saved configuration contains no `add_table` key, so the branch is
+opt-in and currently off; `terrain_type` there is `trimesh` (the mm-rough evaluation terrain).
+
+### 2.2 Risk found while reading: environment spacing versus route length
+
+`manager_env.config.env_spacing` defaults to **2.0 m**, and our route is **7.2 m** long. Because
+the obstacle is spawned once per environment at that environment's origin, a robot walking the
+full route would cross several neighbouring environment origins and meet **their** boxes. Either
+raise the spacing past the route length plus a margin
+(`++manager_env.config.env_spacing=12.0` or more), or shorten the route, or run fewer
+environments per launch. This must be settled before the pool is generated, and the resolved
+spacing recorded in the receipt. Whether neighbouring props actually intrude is inferred from
+per-environment prim paths and shared-scene physics; 2.4 measures it instead of assuming.
+
+### 2.3 Risk found while reading: episode length versus time to reach the obstacle
+
+`manager_env.config.episode_length_s` defaults to **10.0 s**. Our references are 200–208 frames
+at 25 fps, about 8.3 s, and the robot must still reach the obstacle inside the episode. The
+earlier duck tracking study (859 rollouts, 0 traversals) was confounded by a 14 s clip cap that
+stopped most rollouts before the obstacle, so this is the same failure mode in a different
+constant. Set `episode_length_s` explicitly, record it, and validate with 2.5.
+
+### 2.4 Validation: the box is where we asked, and it collides
+
+Spawn a box of known size at a known position, then, from the simulation state rather than from
+the configuration, confirm its pose and extent, confirm that a rollout aimed through it registers
+contact on the table sensor, and confirm that a rollout aimed beside it does not. Confirm also
+that no neighbouring environment's box lies on the route. Dump the resolved scene configuration
+into the receipt.
+
+### 2.5 Validation: the horizon reaches the obstacle
+
+A plain walking reference on the route must reach and pass the obstacle position within the
+episode in at least 7 of 8 rollouts, with the obstacle raised out of the way. If it cannot, no
+negative traversal result from this protocol means anything.
+
+### 2.6 Validation: the evaluator can score a success
+
+A plain walking reference under a beam high enough not to interfere must be classified as a
+completed local traversal by the outcome classifier. If the evaluator cannot produce a success on
+a case that plainly is one, its zeros are uninterpretable. The outcome classes and the fall
+detector already exist and are preregistered in
+`experiments/exp028_termination_free_rollouts.py` (`fall_detection`, `classify_outcome`,
+ordering `fell > stalled > walked_through > cleared`, pelvis below 0.50 m or up-axis below 0.70
+counting as a fall); EXP-029 extends that classifier with an **observed collision** class from
+the table contact sensor rather than replacing it.
+
+A failure at any of 2.4, 2.5 or 2.6 stops the campaign and is recorded as a refusal; it is not
 worked around by loosening the endpoint.
 
 ## 3. Endpoints (defined before the pool is generated)
@@ -178,9 +244,12 @@ released system is a stretch goal and must resolve all four first:
 
 ## 9. To settle before this becomes preregistered
 
-Pool size N and beam positions M with their exact coordinates; the beam heights; the corridor
-width and the prohibited-contact body set; the time limit; the fall bound; the seed block
+Pool size N and beam positions M with their exact coordinates; the beam heights and thickness;
+the corridor width and the prohibited-contact body set; **`env_spacing` and `episode_length_s`,
+both of which currently default to values incompatible with a 7.2 m route (§2.2, §2.3)**; the
+time limit; the fall bound (the exp028 constants unless changed deliberately); the seed block
 (**reserve 5300–5555**, disjoint from every block in CLAUDE.md); the SONIC launch budget and the
-host-resource gate; the kill conditions; and which of the three gating validations in §2 must
-pass before the pool is generated. Every arm's driver lives in `experiments/` and is resumable
-by receipt.
+host-resource gate; and the kill conditions. All three validations in §2.4–2.6 must pass before
+the pool is generated. Every arm's driver lives in `experiments/` and is resumable by receipt,
+and reuses `exp022.score_trajectory` and exp028's `fall_detection` / `classify_outcome` rather
+than reimplementing the endpoint.

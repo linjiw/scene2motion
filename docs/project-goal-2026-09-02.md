@@ -277,7 +277,11 @@ rather than obstacle-relative traversal. That is a scope distinction, not a defe
 
 1. **Complete the prospective screen evaluation.** Rule frozen (done); obtain outcomes for all
    128 references, flagged and passed; run the cutoff-free rollouts; include known-trackable
-   walking and jumping controls; distinguish evaluator cutoffs from falls.
+   walking and jumping controls; distinguish evaluator cutoffs from falls. The jump control asset
+   ships with the tracker checkout as
+   `gear_sonic_deploy/reference/example/tired_one_leg_jumping_R_001__A359` (500 steps, 29 joints)
+   but is in the deployment CSV format, so it needs a duration- and ordering-preserving
+   conversion to the motion pkl our eval bridge consumes (REPORT §44).
 2. **Run the shared-pool obstacle-position ducking study with the beam present**
    (`docs/ramp-exp029-selection-vs-coverage-protocol.md`), after validating the traversal
    evaluator, the rollout horizon and the beam spawn. Report coverage separately from selected

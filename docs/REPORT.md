@@ -1710,3 +1710,48 @@ achieved-state replay, one route, one scene, physics seed 0, one rollout per ref
 a descriptive decomposition of existing rows, not a new campaign, and it does not generalise
 beyond this pool; EXP-029 (`docs/ramp-exp029-selection-vs-coverage-protocol.md`) is the
 prospective, beam-present version for the duck family.
+
+## 44. Engineering findings that unblock EXP-029 and EXP-024b (2026-09-02, CPU only)
+
+Read from the SONIC checkout at `ca86b5e` while the GPU was held by a co-tenant; nothing here
+has been executed, and each item names what must still be measured.
+
+**The obstacle can be put in the physics scene.** `gear_sonic/envs/manager_env/
+modular_tracking_env_cfg.py` lines 595–670 spawn a `RigidObjectCfg` at `{ENV_REGEX_NS}/Table`
+from `sim_utils.CuboidCfg` with `kinematic_enabled=True`, `collision_enabled=True` and
+`activate_contact_sensors=True`, sized by `config["table_size"]` and placed by
+`config["table_position"]` (identity quaternion on the cuboid path). The node is
+`manager_env.config`, so the launch overrides are `++manager_env.config.add_table=true`,
+`++manager_env.config.table_position=[x,0,z]`, `++manager_env.config.table_size=[sx,sy,sz]`. The
+release checkpoint's saved config has no `add_table` key, so the branch is off by default. The
+contact sensor is what would make **collision an observed outcome class** rather than a geometry
+replay. The (x, y, z) mapping of `table_size` is inferred from `CuboidCfg` and the code's
+width/depth/thickness naming and must be confirmed by measuring the spawned prim.
+
+**Two defaults are incompatible with our route, and both are the same failure mode as the old
+14 s clip cap.** `manager_env.config.env_spacing` defaults to **2.0 m** while our route is
+**7.2 m**; since the obstacle is spawned once per environment at that environment's origin, a
+robot walking the route would cross neighbouring environment origins and meet *their* boxes.
+`manager_env.config.episode_length_s` defaults to **10.0 s** against references of about 8.3 s,
+leaving little margin for the robot to actually reach the obstacle. Both must be set explicitly
+and recorded; EXP-029's §2.2–2.5 validate them rather than assuming.
+
+**The known-trackable jump control exists but needs a format conversion.** The checkout ships
+`gear_sonic_deploy/reference/example/tired_one_leg_jumping_R_001__A359` (500 timesteps, 29
+joints, CSV: `joint_pos/vel`, `body_pos/quat/lin_vel/ang_vel_w` over 14 tracked bodies). It is in
+the **deployment** reference format, not the `motions.pkl` our eval bridge consumes via
+`scene2motion/sonic_export.py`, so EXP-024b needs a conversion that preserves physical duration
+and the joint ordering. That the asset exists settles the availability question the advisor
+raised; it does not settle trackability under our eval configuration.
+
+**Reuse note.** EXP-029 must not reimplement the endpoint: `exp022.score_trajectory` already
+computes passage, lateral corridor, finish-beyond, stall and graded clearance, and
+`exp028.fall_detection` / `classify_outcome` already implement the preregistered
+`fell > stalled > walked_through > cleared` ordering with the 0.50 m pelvis and 0.70 up-axis
+bounds. EXP-029 adds an observed-collision class from the table contact sensor on top of them.
+
+**Analysers now carry tests.** `tests/test_analyze_pool_coverage.py` (13) pins the coverage
+arithmetic, both N90 conventions and the disjointness decomposition;
+`tests/test_analyze_repair_paired_bootstrap.py` (17) pins the truth coercion that a first
+attempt got wrong, the pairing, the sign of the losing comparison and bootstrap determinism.
+Suite: 595 passing.

@@ -73,7 +73,7 @@ Recovered file hashes as committed here:
 
 ```bash
 # the protocol's acceptance criterion: 3.0 / 3.0 / 3.0 / 2.0
-SCENE2MOTION_ROOT=$S2M_ROOT $S2M_PY experiments/kimodo/kimodo_reduced_audit.py --selftest
+SCENE2MOTION_ROOT=$S2M_ROOT $S2M_PY experiments/kimodo_recovered/kimodo_reduced_audit.py --selftest
 # -> selftest OK: {"1 seed, any change > 1 mm": 3.0,
 #                  "1 seed, round 1 cm threshold": 3.0,
 #                  "1 seed, 1 cm, drop clips that never validate": 3.0,
@@ -81,11 +81,11 @@ SCENE2MOTION_ROOT=$S2M_ROOT $S2M_PY experiments/kimodo/kimodo_reduced_audit.py -
 
 # same result under the Kimodo venv, which is what the audit is meant to run in
 SCENE2MOTION_ROOT=$S2M_ROOT /home/linjiw/kimodo/.venv/bin/python \
-    experiments/kimodo/kimodo_reduced_audit.py --selftest
+    experiments/kimodo_recovered/kimodo_reduced_audit.py --selftest
 
 # compile + import with no checkpoint, no `kimodo` package, no GPU
 /home/linjiw/kimodo/.venv/bin/python -m py_compile \
-    experiments/kimodo/{kimodo_runner,smoke_kimodo,kimodo_reduced_audit}.py
+    experiments/kimodo_recovered/{kimodo_runner,smoke_kimodo,kimodo_reduced_audit}.py
 
 $S2M_PY -m pytest tests/test_kimodo_recovery.py -q       # 52 tests
 ```
@@ -99,7 +99,7 @@ that touches either.
 1. **Docstrings still point at the deleted scratchpad.** `smoke_kimodo.py:6`,
    `kimodo_reduced_audit.py:10` and `NOTES.md`'s "Commands to run" block tell you to
    `cd /tmp/claude-1000/-home-linjiw-ardy/…/scratchpad/kimodo`. Run them from
-   `experiments/kimodo/` instead.
+   `experiments/kimodo_recovered/` instead.
 2. **`SCENE2MOTION_ROOT` defaults to the absolute path `/home/linjiw/scene2motion`**
    (`kimodo_runner.py:48`, `kimodo_reduced_audit.py:88-89`) and is inserted at `sys.path[0]`.
    In a git worktree or a second checkout that silently imports *another tree's*

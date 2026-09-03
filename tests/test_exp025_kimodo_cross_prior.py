@@ -27,7 +27,7 @@ import torch
 
 from experiments import calibrate_ramp_route_phase as cal
 from experiments import exp025_kimodo_cross_prior as exp
-from experiments.kimodo import kimodo_runner as kr
+from experiments.kimodo_recovered import kimodo_runner as kr
 from scene2motion.constraints import ArdyConstraintSet
 from scene2motion.host_gate import HostResourceGateFailed
 

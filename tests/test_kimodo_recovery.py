@@ -1,6 +1,6 @@
 """CPU tests for the recovered Kimodo-G1 runner and reduced audit (EXP-025 prerequisite 1).
 
-`experiments/kimodo/*` was reconstructed from a session transcript, not from a surviving
+`experiments/kimodo_recovered/*` was reconstructed from a session transcript, not from a surviving
 file, so nothing about it has ever been exercised by a committed test. These tests pin the
 pieces that can be checked without the Kimodo checkpoint or a GPU:
 
@@ -43,8 +43,8 @@ from scene2motion.runner import _key as ardy_key  # noqa: E402
 from scene2motion.runner import _per_sample_noise as ardy_noise  # noqa: E402
 
 from experiments import audit_delta  # noqa: E402
-from experiments.kimodo import kimodo_reduced_audit as audit  # noqa: E402
-from experiments.kimodo import kimodo_runner as kr  # noqa: E402
+from experiments.kimodo_recovered import kimodo_reduced_audit as audit  # noqa: E402
+from experiments.kimodo_recovered import kimodo_runner as kr  # noqa: E402
 
 
 # --------------------------------------------------------------- per-sample noise (v2)

@@ -98,7 +98,7 @@ if str(ROOT) not in sys.path:
 # Both of these import only numpy/torch/stdlib, so this module imports cleanly under the Kimodo
 # venv (no mujoco) *and* under $S2M_PY (no kimodo).  Everything mujoco-flavoured is imported
 # lazily inside the score stage, and ``kimodo`` itself only inside the production runner factory.
-from experiments.kimodo import kimodo_runner as kr  # noqa: E402
+from experiments.kimodo_recovered import kimodo_runner as kr  # noqa: E402
 from scene2motion.constraints import ConstraintSpec  # noqa: E402
 from scene2motion.host_gate import (  # noqa: E402
     ARDY_GENERATION_GATE,
@@ -258,7 +258,7 @@ SOURCE_FILES = (
     PROTOCOL_PATH,
     "env.sh",
     "experiments/exp025_kimodo_cross_prior.py",
-    "experiments/kimodo/kimodo_runner.py",
+    "experiments/kimodo_recovered/kimodo_runner.py",
     "experiments/analyze_trackability_contract.py",
     "experiments/analyze_e1a_placement.py",
     "experiments/analyze_event_frames.py",
@@ -2080,7 +2080,7 @@ def summarize_latent_audit(audit: Mapping[str, Any],
 
 def default_runner_factory(cache_path: Path) -> Callable[[], Any]:
     def factory() -> Any:
-        from experiments.kimodo.kimodo_runner import KimodoRunner
+        from experiments.kimodo_recovered.kimodo_runner import KimodoRunner
 
         return KimodoRunner(model_name=MODEL_NAME, device=DEVICE,
                             cache_path=str(cache_path), text_encoder=False)

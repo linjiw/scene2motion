@@ -33,7 +33,7 @@ the 84-clip reduced capability audit whose 4.5× overcount row is currently tran
    the session transcript `~/.claude/projects/-home-linjiw-ardy/f4440d67-ed27-4331-be07-dc169754a80c.jsonl`
    (subagent `agent-ac06b53618f8a2379`: Writes L93/L95/L102/L181, Edits L98/L100/L110/L112/L122/
    L190/L192/L194, sed edits L118/L200/L203, applied in transcript order); commit them under
-   `experiments/kimodo/`; `--selftest` must print `3.0/3.0/3.0/2.0`. (~2 h)
+   `experiments/kimodo_recovered/`; `--selftest` must print `3.0/3.0/3.0/2.0`. (~2 h)
 2. **No CPU encoder is needed.** ARDY and Kimodo use the identical LLM2Vec preset
    (McGill-NLP/LLM2Vec-Meta-Llama-3-8B-Instruct-mntp + -mntp-supervised, llm_dim 4096) through
    wrappers that differ only in docstring and device helper, and both caches key entries by
@@ -61,12 +61,12 @@ same 64 seeds — the free nominal arm (elicitation floor).
 ### Amendment, 2026-09-03 — three claims corrected against the recovered runner
 
 The runner this protocol depends on was lost and has now been recovered byte-exactly
-(`experiments/kimodo/`, provenance in its README; `--selftest` prints the required
+(`experiments/kimodo_recovered/`, provenance in its README; `--selftest` prints the required
 `3.0/3.0/3.0/2.0` on CPU). Reading the recovered code corrected three statements the
 2026-09-01 draft made, all **before any sample**:
 
 1. **The constraint channel is `smooth_root_2d`, not `root2d`.** It constrains the ADMM-*smoothed*
-   root, not the raw pelvis (`experiments/kimodo/kimodo_runner.py:184-185`; smoother margin
+   root, not the raw pelvis (`experiments/kimodo_recovered/kimodo_runner.py:184-185`; smoother margin
    0.06 m). **Route error must be measured against `smooth_root_pos`**, or it reads about 6 cm
    high by construction and the cross-prior comparison would be biased against Kimodo.
 2. **"`post_processing=False`" names a flag that is never passed.** The runner bypasses
@@ -74,7 +74,7 @@ The runner this protocol depends on was lost and has now been recovered byte-exa
    (`kimodo_runner.py:425-434`), so post-processing never runs. The effect the draft wanted is
    what happens; the wording was wrong.
 3. **Throughput is ≈ 3.1 s/clip at 100 steps**, not ≈ 2 s/clip: the only measurement we hold is
-   `experiments/kimodo/NOTES.md:108` (indoor_nav generation log, B = 1). Part A is therefore
+   `experiments/kimodo_recovered/NOTES.md:108` (indoor_nav generation log, B = 1). Part A is therefore
    ≈ 7 GPU-min, still inside the budget.
 
 Also recorded: Kimodo's cache key is `sha1(sanitize_text(prompt))`, which coincides with ARDY's

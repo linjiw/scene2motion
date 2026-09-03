@@ -338,7 +338,7 @@ exp019's eight selected seeds; Phase-4 demo/corpus seeds 100–107 and 5000–52
 
 | where it appears | says | archive says |
 |---|---|---|
-| findings page, E2 draft, REPORT §37 | fixed staged rate 0.312/0.266; N≈7–8 | those are ±0.25 m tolerant rates; exact x=1.2 is 12/64 and 11/64; N90=12/13 |
+| findings page, E2 draft, REPORT §37 | fixed staged rate 0.312/0.266; N≈7–8 | historical **lower-bound + tolerance** figures (the conservative `BoxHeightProbe` lower bound inside a ±0.25 m window), **not** exact-probe unions: the exact ±0.25 m unions are 24/64 (5 cm) and 23/64 (8 cm) and the exact ±0.10 m unions 17/64 and 15/64 (`outputs/analysis_exact_centre_cost_curve/receipt.json` → `tolerant_union.windows`); exact x=1.2 m is 12/64 and 11/64; N90=12/13. Do not read 0.375 ≠ 0.312 as a fresh non-reproduction — the two were computed differently. Always name **height and radius** together: 20/64 and 17/64 appear in both ledgers one height-step apart |
 | findings-page staged demo | demonstrates prospective staging | obstacle is moved post hoc to the selected clip's lift; capability illustration only |
 | findings page, E1a note, memory | nominal WALK lift "1/8" | 3/8 seeds with a 5 mm lift, 0/8 above |
 | findings page, E1a note | residual displacement "1.62 m" | 1.32–1.59 m in metres; 1.61 *strides* |

@@ -1425,13 +1425,19 @@
   "post_hoc": true,
   "provenance": {
     "code": {
-      "commit": "e738f166799beaaa001d4ac1d8e510be33af36ea",
-      "dirty": false
+      "commit": "18e3ddaedab6b2a73598bf057f5577c696ddd715",
+      "dirty": true,
+      "dirty_paths": [
+        "experiments/analyze_exact_centre_cost_curve.py"
+      ],
+      "is_linked_worktree": true,
+      "tree_path": "/tmp/cc_clean"
     },
     "e21_analyzer_sha256": "8709e8b144a412e303616fdc9fbc29af64b59c46309ee3054181c4db6acda0ef",
-    "this_script_sha256": "2d838f7ec4d824957cb8958b8d7e5e1c8a3d7b29af7ad74709106e0e8ad3c43d"
+    "run_tree_note": "provenance.code describes the tree this process actually ran in, which is not always the main worktree: the locked-scoring-identity guard refuses to run against a modified scene2motion/robot.py or scene2motion/stepover_eval.py, so when the main tree carries unrelated uncommitted edits the analysis is re-run in a clean linked worktree checked out at the recorded commit, with this script copied in. dirty_paths then names exactly what differed from that commit, and is_linked_worktree says which tree it was. The numbers are bound by scoring_identity.source_sha256, inputs.exp021_locked_file_sha256 and inputs.exp021_qpos_content_sha256 -- not by the tree being clean.",
+    "this_script_sha256": "4bcbd241c057d0851207e6d9583fd205ffe45677fd81211e896f35eefef73eaf"
   },
-  "schema": "exact-centre-cost-curve-v1",
+  "schema": "exact-centre-cost-curve-v2",
   "scoring_identity": {
     "body_margin_m": 0.04,
     "g1_xml_path": "/home/linjiw/ardy/ardy/assets/skeletons/g1skel34/xml/g1.xml",
@@ -1446,5 +1452,169 @@
     }
   },
   "status": "complete",
-  "wall_clock_s": 281.95601212399197
+  "tolerant_union": {
+    "centre_m": 1.2,
+    "centre_provenance": "1.2 m is the post hoc maximum of this same curve at 5 and 8 cm and the centre preregistered for EXP-024; the window is a tolerance laid on top of it, not a second, independent measurement",
+    "definition": "union_successes = the number of archived references for which BoxHeightProbe(x, 0.20).clears(qpos, h) is true at at least one scanned grid centre x with |x - centre_m| <= radius_m; each reference counts once however many centres inside the window it clears at.",
+    "historical_rates_disambiguation": {
+      "exact_counts_at_centre": {
+        "h=0.03": 13,
+        "h=0.05": 12,
+        "h=0.08": 11
+      },
+      "historical": {
+        "counts_of_64": {
+          "h=0.03": 22,
+          "h=0.05": 20,
+          "h=0.08": 17
+        },
+        "method": "a lower-bound + placement-tolerance calculation, NOT a union of exact BoxHeightProbe replays over scanned centres",
+        "rates_of_64": {
+          "h=0.03": 0.344,
+          "h=0.05": 0.312,
+          "h=0.08": 0.266
+        },
+        "source": "docs/ramp-exp021-addressable-region-2026-09-01.md:82,88-92",
+        "status": "voided for citation by CLAUDE.md's non-reproducing table"
+      },
+      "the_collision": "The historical 5 cm and 8 cm counts (20 and 17 of 64) reappear in this receipt as the +-0.10 m unions one height-step down, at 3 cm and 5 cm -- different quantities, at different heights, computed by a different method. Compare union_counts_by_window against the historical counts_of_64 before citing either. No row of this receipt reproduces 0.312 or 0.266, so no row of it may be described as 'the +-0.25 m tolerant rate' that those historical numbers came from.",
+      "this_receipt": "see union_counts_by_window below, computed from this run's hit matrix",
+      "union_counts_by_window": {
+        "r=0.10": {
+          "h=0.03": 20,
+          "h=0.05": 17,
+          "h=0.08": 15
+        },
+        "r=0.25": {
+          "h=0.03": 28,
+          "h=0.05": 24,
+          "h=0.08": 23
+        }
+      },
+      "why_this_is_here": "Two integers in this block coincide numerically with the voided historical EXP-021 rates one height-step away, so any citation must name BOTH the height and the window radius."
+    },
+    "label": "Addressability/capability analysis, never a fixed-obstacle success probability. A reference is counted here if it clears the box at ANY scanned centre inside the window, which means the obstacle is allowed to move to that clip's own lift after the clip has been seen; the scene does not grant that tolerance. The fixed-obstacle number is exact_at_centre_successes in the same row, and only that number may be quoted as a rate of clearing an obstacle where it actually is. wilson95_descriptive_only carries no inferential claim: the success event it summarises was defined by scanning centres after seeing the clips, so the interval describes this archive's spread and is not a confidence interval for any prospective rate. The inferential interval lives on the exact-centre rows of curve.jsonl.",
+    "total": 64,
+    "windows": {
+      "r=0.10": {
+        "by_height": {
+          "h=0.03": {
+            "exact_at_centre_rate": 0.203125,
+            "exact_at_centre_successes": 13,
+            "extra_references_bought_by_the_window": 7,
+            "height_m": 0.03,
+            "total": 64,
+            "union_rate": 0.3125,
+            "union_successes": 20,
+            "wilson95_descriptive_only": [
+              0.21230909502265743,
+              0.43392566359152623
+            ]
+          },
+          "h=0.05": {
+            "exact_at_centre_rate": 0.1875,
+            "exact_at_centre_successes": 12,
+            "extra_references_bought_by_the_window": 5,
+            "height_m": 0.05,
+            "total": 64,
+            "union_rate": 0.265625,
+            "union_successes": 17,
+            "wilson95_descriptive_only": [
+              0.17296238569537764,
+              0.38483106257235195
+            ]
+          },
+          "h=0.08": {
+            "exact_at_centre_rate": 0.171875,
+            "exact_at_centre_successes": 11,
+            "extra_references_bought_by_the_window": 4,
+            "height_m": 0.08,
+            "total": 64,
+            "union_rate": 0.234375,
+            "union_successes": 15,
+            "wilson95_descriptive_only": [
+              0.1474976721963502,
+              0.35133490250707655
+            ]
+          }
+        },
+        "n_scanned_centres": 5,
+        "radius_m": 0.1,
+        "scanned_centres_m": [
+          1.1,
+          1.15,
+          1.2,
+          1.25,
+          1.3
+        ],
+        "window_m": [
+          1.1,
+          1.3
+        ]
+      },
+      "r=0.25": {
+        "by_height": {
+          "h=0.03": {
+            "exact_at_centre_rate": 0.203125,
+            "exact_at_centre_successes": 13,
+            "extra_references_bought_by_the_window": 15,
+            "height_m": 0.03,
+            "total": 64,
+            "union_rate": 0.4375,
+            "union_successes": 28,
+            "wilson95_descriptive_only": [
+              0.32293817065427327,
+              0.5591400822171212
+            ]
+          },
+          "h=0.05": {
+            "exact_at_centre_rate": 0.1875,
+            "exact_at_centre_successes": 12,
+            "extra_references_bought_by_the_window": 12,
+            "height_m": 0.05,
+            "total": 64,
+            "union_rate": 0.375,
+            "union_successes": 24,
+            "wilson95_descriptive_only": [
+              0.2666580388810532,
+              0.4974984668617358
+            ]
+          },
+          "h=0.08": {
+            "exact_at_centre_rate": 0.171875,
+            "exact_at_centre_successes": 11,
+            "extra_references_bought_by_the_window": 12,
+            "height_m": 0.08,
+            "total": 64,
+            "union_rate": 0.359375,
+            "union_successes": 23,
+            "wilson95_descriptive_only": [
+              0.2528823053221461,
+              0.48179376363849163
+            ]
+          }
+        },
+        "n_scanned_centres": 11,
+        "radius_m": 0.25,
+        "scanned_centres_m": [
+          0.95,
+          1.0,
+          1.05,
+          1.1,
+          1.15,
+          1.2,
+          1.25,
+          1.3,
+          1.35,
+          1.4,
+          1.45
+        ],
+        "window_m": [
+          0.95,
+          1.45
+        ]
+      }
+    }
+  },
+  "wall_clock_s": 281.86914285901
 }

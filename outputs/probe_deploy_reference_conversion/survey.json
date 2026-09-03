@@ -1,0 +1,686 @@
+{
+  "schema": "deploy-reference-survey-v1",
+  "analysis": "deploy_reference_survey",
+  "campaign_evidence": false,
+  "status": "complete",
+  "interpretation": "Every deployment reference the tracker checkout ships, converted in memory and measured with this project's calibrated support screen. The screen is kinematic: a row that passes the gate is a PREDICTION that the evaluator would not cut the episode, never a tracking outcome, and none of these assets has been run under our evaluation configuration. Not campaign evidence: EXP-024b has not run.",
+  "root": "/home/linjiw/lucid/GR00T-WholeBodyControl/gear_sonic_deploy/reference/example",
+  "n_directories": 13,
+  "n_converted": 13,
+  "declared_source_fps": 50,
+  "fps_caveat": "the deployment format records no frame rate; every duration and every run length here is at the declared source rate",
+  "summary": {
+    "max_unsupported_run_s_sorted": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.1,
+      0.1,
+      0.2,
+      0.2,
+      0.24,
+      0.24
+    ],
+    "longest_over_all_assets_s": 0.24,
+    "gate_rule": "flagged when max_unsupported_run_s > 0.2 s",
+    "n_flagged_by_calibrated_gate": 2,
+    "flagged_assets": [
+      "macarena_001__A545",
+      "macarena_001__A545_M"
+    ],
+    "reading": "Compare longest_over_all_assets_s against outputs/analysis_trackability_contract/receipt.json -> summary.exact_clear_5cm_at_x1.2.max_unsupported_run_s_sorted (0.44-3.12 s, n_within_calibrated_gate 0). A shipped asset is only the 'long no-support run, yet trackable' control EXP-024b was first motivated by if its run reaches that band; sitting a frame or two past the gate is not the same claim. Read n_flagged_by_calibrated_gate and the sorted runs together, and remember these are kinematic predictions -- no asset here has been executed under our evaluation configuration."
+  },
+  "provenance": {
+    "converter": "experiments/convert_deploy_reference.py",
+    "converter_sha256": "5460b4014a16739b97ab216c476a0205d116815cab3842e0ef47bb2d0628de69",
+    "sonic_root": "/home/linjiw/lucid/GR00T-WholeBodyControl",
+    "sonic": {
+      "commit": "cfd26b4a500af300727178778b2405ea0712b981",
+      "dirty": true,
+      "dirty_paths": [
+        "sonic_v1_1/"
+      ]
+    },
+    "sonic_sources": {
+      "gear_sonic/data_process/convert_soma_csv_to_motion_lib.py": {
+        "sha256": "ab8361a08894c19b7160278d25cf3d47aad924f5be78c72fc0f1a38eba68e9dd",
+        "symbols": "MJ_TO_IL"
+      },
+      "gear_sonic_deploy/visualize_motion.py": {
+        "sha256": "e5012c99671b0e72bb9e5d139b86093846463238af89bc44b8155f6b7d86da25",
+        "symbols": "isaaclab_to_mujoco"
+      },
+      "gear_sonic/envs/manager_env/robots/g1.py": {
+        "sha256": "42f9b4394eb21512735da4b1ca78c2d0546c4221c7bdaf8b3a186d8dc5588ba9",
+        "symbols": "G1_ISAACLAB_TO_MUJOCO_DOF,G1_ISAACLAB_JOINTS"
+      },
+      "gear_sonic/envs/env_utils/joint_utils.py": {
+        "sha256": "b69a07f6bd1850370f8b7d6161e9e099222eebc6eec967b3dc5a936bc8b87f4a",
+        "symbols": "G1_ISAACLab_ORDER"
+      }
+    },
+    "mjcf": "/home/linjiw/ardy/ardy/assets/skeletons/g1skel34/xml/g1.xml",
+    "mjcf_sha256": "5d76cf92f00dd49d6eb9fae38d7d38e46886848b602ac691051e886c3bcccfb1",
+    "scene2motion": {
+      "commit": "18e3ddaedab6b2a73598bf057f5577c696ddd715",
+      "dirty": true,
+      "dirty_paths": [
+        "docs/index.html",
+        "docs/ramp-exp029-selection-vs-coverage-protocol.md",
+        "docs/site/README.md",
+        "docs/site/_body.html",
+        "docs/site/_head.html",
+        "docs/site/_payload.js",
+        "docs/site/_script.html",
+        "docs/site/artifact.html",
+        "docs/site/build.py",
+        "docs/site/index.html",
+        "docs/site/make_payload.py",
+        "experiments/analyze_exact_centre_cost_curve.py",
+        "experiments/convert_deploy_reference.py",
+        "experiments/export_demo_motions.py",
+        "outputs/analysis_exact_centre_cost_curve/receipt.json",
+        "outputs/demo_motions.json",
+        "outputs/figure_data.json",
+        "outputs/probe_deploy_reference_conversion/",
+        "scene2motion/robot.py",
+        "scene2motion/traversal_eval.py",
+        "tests/test_analyze_exact_centre_cost_curve.py",
+        "tests/test_convert_deploy_reference.py",
+        "tests/test_traversal_eval.py",
+        "tests/test_traversal_eval_measurement.py"
+      ]
+    }
+  },
+  "assets": [
+    {
+      "name": "dance_in_da_party_001__A464",
+      "path": "/home/linjiw/lucid/GR00T-WholeBodyControl/gear_sonic_deploy/reference/example/dance_in_da_party_001__A464",
+      "converted": true,
+      "n_frames": 497,
+      "declared_source_fps": 50,
+      "duration_frames_over_fps_s": 9.94,
+      "duration_span_s": 9.92,
+      "sha256_of_source_bytes": "31467618307b5a48d132bc84761eebacfc20cdee2402953a4da098417ae37f3c",
+      "joint_order_by_geometry": {
+        "worst_shared_frame_error_m": 2.1645625197176526e-06,
+        "worst_tracked_body_error_m": 0.011398960325226045,
+        "discrimination_ratio_vs_best_alternative": 63.10932273932803
+      },
+      "root_quaternion_order_check_m": {
+        "wxyz_m": 2.1645625197176526e-06,
+        "xyzw_m": 1.4465474071669313
+      },
+      "implied_fps_from_velocity_channels": {
+        "body_lin_vel_implied_fps": 44.91360777655165,
+        "joint_vel_implied_fps": 52.38010600629262
+      },
+      "reference_screen": {
+        "measured_at_fps": 50.0,
+        "thresholds": {
+          "support_height_m": 0.04649341314007449,
+          "support_speed_mps": 1.1753078750567545,
+          "max_unsupported_run_s": 0.2,
+          "receipt_path": "/home/linjiw/scene2motion/outputs/exp016_threshold_calibration/receipt.json",
+          "receipt_sha256": "f6dba8be84a9d5d0b76c8114d4b93b1707bc1bb8a6fec1a26a22aa1780a6e9bf"
+        },
+        "max_unsupported_run_s": 0.1,
+        "first_nosupport_run_s": null,
+        "first_nosupport_onset_s": null,
+        "bilateral_flight_frac": 0.03219315895372234,
+        "ballistic_ratio": 1.6525913469746778,
+        "longest_run_pelvis_rise_m": 0.004490017890930176,
+        "root_z_range_m": 0.20169997215270996,
+        "min_foot_bottom_m": -0.013135682766933603,
+        "max_foot_clearance_m": 0.2817908333286546,
+        "flagged_by_calibrated_gate": false,
+        "gate_rule": "flagged when max_unsupported_run_s > 0.2 s",
+        "interpretation": "kinematic screen of the reference only. Passing is a prediction that the evaluator will not cut the episode, never an executed outcome"
+      }
+    },
+    {
+      "name": "dance_in_da_party_001__A464_M",
+      "path": "/home/linjiw/lucid/GR00T-WholeBodyControl/gear_sonic_deploy/reference/example/dance_in_da_party_001__A464_M",
+      "converted": true,
+      "n_frames": 497,
+      "declared_source_fps": 50,
+      "duration_frames_over_fps_s": 9.94,
+      "duration_span_s": 9.92,
+      "sha256_of_source_bytes": "9293548639c7130764aee108d2a51f867122807e5082c452055b99f79fc5fa18",
+      "joint_order_by_geometry": {
+        "worst_shared_frame_error_m": 1.5782240292824226e-06,
+        "worst_tracked_body_error_m": 0.01139987910669364,
+        "discrimination_ratio_vs_best_alternative": 59.25309444895306
+      },
+      "root_quaternion_order_check_m": {
+        "wxyz_m": 1.5782240292824226e-06,
+        "xyzw_m": 1.4196446956923028
+      },
+      "implied_fps_from_velocity_channels": {
+        "body_lin_vel_implied_fps": 44.913600864520205,
+        "joint_vel_implied_fps": 52.38012215846263
+      },
+      "reference_screen": {
+        "measured_at_fps": 50.0,
+        "thresholds": {
+          "support_height_m": 0.04649341314007449,
+          "support_speed_mps": 1.1753078750567545,
+          "max_unsupported_run_s": 0.2,
+          "receipt_path": "/home/linjiw/scene2motion/outputs/exp016_threshold_calibration/receipt.json",
+          "receipt_sha256": "f6dba8be84a9d5d0b76c8114d4b93b1707bc1bb8a6fec1a26a22aa1780a6e9bf"
+        },
+        "max_unsupported_run_s": 0.1,
+        "first_nosupport_run_s": null,
+        "first_nosupport_onset_s": null,
+        "bilateral_flight_frac": 0.03420523138832998,
+        "ballistic_ratio": 1.6525913469746778,
+        "longest_run_pelvis_rise_m": 0.004490017890930176,
+        "root_z_range_m": 0.20169997215270996,
+        "min_foot_bottom_m": -0.013134528383245494,
+        "max_foot_clearance_m": 0.2817908672177672,
+        "flagged_by_calibrated_gate": false,
+        "gate_rule": "flagged when max_unsupported_run_s > 0.2 s",
+        "interpretation": "kinematic screen of the reference only. Passing is a prediction that the evaluator will not cut the episode, never an executed outcome"
+      }
+    },
+    {
+      "name": "forward_lunge_R_001__A359_M",
+      "path": "/home/linjiw/lucid/GR00T-WholeBodyControl/gear_sonic_deploy/reference/example/forward_lunge_R_001__A359_M",
+      "converted": true,
+      "n_frames": 399,
+      "declared_source_fps": 50,
+      "duration_frames_over_fps_s": 7.98,
+      "duration_span_s": 7.96,
+      "sha256_of_source_bytes": "120dc2a180885fbb915988f5fe64d77d6689d31840c42dbe1defd70ed3b13b9c",
+      "joint_order_by_geometry": {
+        "worst_shared_frame_error_m": 1.898401348171266e-06,
+        "worst_tracked_body_error_m": 0.01029142471025733,
+        "discrimination_ratio_vs_best_alternative": 50.48411892508111
+      },
+      "root_quaternion_order_check_m": {
+        "wxyz_m": 1.898401348171266e-06,
+        "xyzw_m": 1.1836271480916216
+      },
+      "implied_fps_from_velocity_channels": {
+        "body_lin_vel_implied_fps": 48.902286534452834,
+        "joint_vel_implied_fps": 50.87506419692181
+      },
+      "reference_screen": {
+        "measured_at_fps": 50.0,
+        "thresholds": {
+          "support_height_m": 0.04649341314007449,
+          "support_speed_mps": 1.1753078750567545,
+          "max_unsupported_run_s": 0.2,
+          "receipt_path": "/home/linjiw/scene2motion/outputs/exp016_threshold_calibration/receipt.json",
+          "receipt_sha256": "f6dba8be84a9d5d0b76c8114d4b93b1707bc1bb8a6fec1a26a22aa1780a6e9bf"
+        },
+        "max_unsupported_run_s": 0.0,
+        "first_nosupport_run_s": null,
+        "first_nosupport_onset_s": null,
+        "bilateral_flight_frac": 0.0,
+        "ballistic_ratio": null,
+        "longest_run_pelvis_rise_m": 0.0,
+        "root_z_range_m": 0.3117150366306305,
+        "min_foot_bottom_m": -0.06816195937658817,
+        "max_foot_clearance_m": 0.04854428864808102,
+        "flagged_by_calibrated_gate": false,
+        "gate_rule": "flagged when max_unsupported_run_s > 0.2 s",
+        "interpretation": "kinematic screen of the reference only. Passing is a prediction that the evaluator will not cut the episode, never an executed outcome"
+      }
+    },
+    {
+      "name": "macarena_001__A545",
+      "path": "/home/linjiw/lucid/GR00T-WholeBodyControl/gear_sonic_deploy/reference/example/macarena_001__A545",
+      "converted": true,
+      "n_frames": 1375,
+      "declared_source_fps": 50,
+      "duration_frames_over_fps_s": 27.5,
+      "duration_span_s": 27.48,
+      "sha256_of_source_bytes": "801705092c8f71c41a20426df4fb7dabcb66fcd27daee5af1a7547086853df32",
+      "joint_order_by_geometry": {
+        "worst_shared_frame_error_m": 1.6780686969129442e-06,
+        "worst_tracked_body_error_m": 0.011322545860398102,
+        "discrimination_ratio_vs_best_alternative": 53.499515792048356
+      },
+      "root_quaternion_order_check_m": {
+        "wxyz_m": 1.6780686969129442e-06,
+        "xyzw_m": 1.2921427979758755
+      },
+      "implied_fps_from_velocity_channels": {
+        "body_lin_vel_implied_fps": 47.192222250456076,
+        "joint_vel_implied_fps": 51.48038902860247
+      },
+      "reference_screen": {
+        "measured_at_fps": 50.0,
+        "thresholds": {
+          "support_height_m": 0.04649341314007449,
+          "support_speed_mps": 1.1753078750567545,
+          "max_unsupported_run_s": 0.2,
+          "receipt_path": "/home/linjiw/scene2motion/outputs/exp016_threshold_calibration/receipt.json",
+          "receipt_sha256": "f6dba8be84a9d5d0b76c8114d4b93b1707bc1bb8a6fec1a26a22aa1780a6e9bf"
+        },
+        "max_unsupported_run_s": 0.24,
+        "first_nosupport_run_s": 0.22,
+        "first_nosupport_onset_s": 13.0,
+        "bilateral_flight_frac": 0.016727272727272726,
+        "ballistic_ratio": 1.4219456278764457,
+        "longest_run_pelvis_rise_m": 0.03493297100067139,
+        "root_z_range_m": 0.29663294553756714,
+        "min_foot_bottom_m": -0.006844804631826386,
+        "max_foot_clearance_m": 0.09901496409857856,
+        "flagged_by_calibrated_gate": true,
+        "gate_rule": "flagged when max_unsupported_run_s > 0.2 s",
+        "interpretation": "kinematic screen of the reference only. Passing is a prediction that the evaluator will not cut the episode, never an executed outcome"
+      }
+    },
+    {
+      "name": "macarena_001__A545_M",
+      "path": "/home/linjiw/lucid/GR00T-WholeBodyControl/gear_sonic_deploy/reference/example/macarena_001__A545_M",
+      "converted": true,
+      "n_frames": 1375,
+      "declared_source_fps": 50,
+      "duration_frames_over_fps_s": 27.5,
+      "duration_span_s": 27.48,
+      "sha256_of_source_bytes": "28c849488f953acdb6b62bd2f7ba8ac0ae461e2040b30e36d0bdbf72c7b9078a",
+      "joint_order_by_geometry": {
+        "worst_shared_frame_error_m": 1.8717010505309497e-06,
+        "worst_tracked_body_error_m": 0.011322545860398103,
+        "discrimination_ratio_vs_best_alternative": 54.30796697893117
+      },
+      "root_quaternion_order_check_m": {
+        "wxyz_m": 1.8717010505309497e-06,
+        "xyzw_m": 1.524686350885193
+      },
+      "implied_fps_from_velocity_channels": {
+        "body_lin_vel_implied_fps": 47.19218386326636,
+        "joint_vel_implied_fps": 51.48037306711515
+      },
+      "reference_screen": {
+        "measured_at_fps": 50.0,
+        "thresholds": {
+          "support_height_m": 0.04649341314007449,
+          "support_speed_mps": 1.1753078750567545,
+          "max_unsupported_run_s": 0.2,
+          "receipt_path": "/home/linjiw/scene2motion/outputs/exp016_threshold_calibration/receipt.json",
+          "receipt_sha256": "f6dba8be84a9d5d0b76c8114d4b93b1707bc1bb8a6fec1a26a22aa1780a6e9bf"
+        },
+        "max_unsupported_run_s": 0.24,
+        "first_nosupport_run_s": 0.22,
+        "first_nosupport_onset_s": 13.0,
+        "bilateral_flight_frac": 0.016727272727272726,
+        "ballistic_ratio": 1.4219662510712818,
+        "longest_run_pelvis_rise_m": 0.034931957721710205,
+        "root_z_range_m": 0.29663199186325073,
+        "min_foot_bottom_m": -0.0068447110176387965,
+        "max_foot_clearance_m": 0.09901500781144806,
+        "flagged_by_calibrated_gate": true,
+        "gate_rule": "flagged when max_unsupported_run_s > 0.2 s",
+        "interpretation": "kinematic screen of the reference only. Passing is a prediction that the evaluator will not cut the episode, never an executed outcome"
+      }
+    },
+    {
+      "name": "neutral_kick_R_001__A543",
+      "path": "/home/linjiw/lucid/GR00T-WholeBodyControl/gear_sonic_deploy/reference/example/neutral_kick_R_001__A543",
+      "converted": true,
+      "n_frames": 165,
+      "declared_source_fps": 50,
+      "duration_frames_over_fps_s": 3.3,
+      "duration_span_s": 3.28,
+      "sha256_of_source_bytes": "f5d8f3213347fcc39221274c48bf0a6a6a1b130703207fb5618d74635d8cbbd3",
+      "joint_order_by_geometry": {
+        "worst_shared_frame_error_m": 1.6717847811756126e-06,
+        "worst_tracked_body_error_m": 0.010344196165218929,
+        "discrimination_ratio_vs_best_alternative": 65.22469280581971
+      },
+      "root_quaternion_order_check_m": {
+        "wxyz_m": 1.6717847811756126e-06,
+        "xyzw_m": 1.3420220336543351
+      },
+      "implied_fps_from_velocity_channels": {
+        "body_lin_vel_implied_fps": 46.49732078210611,
+        "joint_vel_implied_fps": 51.65301401155987
+      },
+      "reference_screen": {
+        "measured_at_fps": 50.0,
+        "thresholds": {
+          "support_height_m": 0.04649341314007449,
+          "support_speed_mps": 1.1753078750567545,
+          "max_unsupported_run_s": 0.2,
+          "receipt_path": "/home/linjiw/scene2motion/outputs/exp016_threshold_calibration/receipt.json",
+          "receipt_sha256": "f6dba8be84a9d5d0b76c8114d4b93b1707bc1bb8a6fec1a26a22aa1780a6e9bf"
+        },
+        "max_unsupported_run_s": 0.0,
+        "first_nosupport_run_s": null,
+        "first_nosupport_onset_s": null,
+        "bilateral_flight_frac": 0.0,
+        "ballistic_ratio": null,
+        "longest_run_pelvis_rise_m": 0.0,
+        "root_z_range_m": 0.09386599063873291,
+        "min_foot_bottom_m": -0.007145215543797906,
+        "max_foot_clearance_m": 0.8738138587087456,
+        "flagged_by_calibrated_gate": false,
+        "gate_rule": "flagged when max_unsupported_run_s > 0.2 s",
+        "interpretation": "kinematic screen of the reference only. Passing is a prediction that the evaluator will not cut the episode, never an executed outcome"
+      }
+    },
+    {
+      "name": "neutral_kick_R_001__A543_M",
+      "path": "/home/linjiw/lucid/GR00T-WholeBodyControl/gear_sonic_deploy/reference/example/neutral_kick_R_001__A543_M",
+      "converted": true,
+      "n_frames": 165,
+      "declared_source_fps": 50,
+      "duration_frames_over_fps_s": 3.3,
+      "duration_span_s": 3.28,
+      "sha256_of_source_bytes": "10f0a48a362b638511a39082cdeb1e2473f51937b03dce9cfd1485c41b51ca8b",
+      "joint_order_by_geometry": {
+        "worst_shared_frame_error_m": 1.775199157178079e-06,
+        "worst_tracked_body_error_m": 0.010343650078293574,
+        "discrimination_ratio_vs_best_alternative": 62.07708525338385
+      },
+      "root_quaternion_order_check_m": {
+        "wxyz_m": 1.775199157178079e-06,
+        "xyzw_m": 1.3032922296618306
+      },
+      "implied_fps_from_velocity_channels": {
+        "body_lin_vel_implied_fps": 46.49732922680127,
+        "joint_vel_implied_fps": 51.6530778485601
+      },
+      "reference_screen": {
+        "measured_at_fps": 50.0,
+        "thresholds": {
+          "support_height_m": 0.04649341314007449,
+          "support_speed_mps": 1.1753078750567545,
+          "max_unsupported_run_s": 0.2,
+          "receipt_path": "/home/linjiw/scene2motion/outputs/exp016_threshold_calibration/receipt.json",
+          "receipt_sha256": "f6dba8be84a9d5d0b76c8114d4b93b1707bc1bb8a6fec1a26a22aa1780a6e9bf"
+        },
+        "max_unsupported_run_s": 0.0,
+        "first_nosupport_run_s": null,
+        "first_nosupport_onset_s": null,
+        "bilateral_flight_frac": 0.0,
+        "ballistic_ratio": null,
+        "longest_run_pelvis_rise_m": 0.0,
+        "root_z_range_m": 0.09386599063873291,
+        "min_foot_bottom_m": -0.007056678955034788,
+        "max_foot_clearance_m": 0.873815825498926,
+        "flagged_by_calibrated_gate": false,
+        "gate_rule": "flagged when max_unsupported_run_s > 0.2 s",
+        "interpretation": "kinematic screen of the reference only. Passing is a prediction that the evaluator will not cut the episode, never an executed outcome"
+      }
+    },
+    {
+      "name": "squat_001__A359",
+      "path": "/home/linjiw/lucid/GR00T-WholeBodyControl/gear_sonic_deploy/reference/example/squat_001__A359",
+      "converted": true,
+      "n_frames": 424,
+      "declared_source_fps": 50,
+      "duration_frames_over_fps_s": 8.48,
+      "duration_span_s": 8.46,
+      "sha256_of_source_bytes": "ddf1e63f16b4920a570c5f6f512d9529f7dae8ca056d08f2dbd2e3ff00e0837a",
+      "joint_order_by_geometry": {
+        "worst_shared_frame_error_m": 1.766942178190273e-06,
+        "worst_tracked_body_error_m": 0.010048456242531367,
+        "discrimination_ratio_vs_best_alternative": 66.54527180547983
+      },
+      "root_quaternion_order_check_m": {
+        "wxyz_m": 1.766942178190273e-06,
+        "xyzw_m": 1.1667990191372728
+      },
+      "implied_fps_from_velocity_channels": {
+        "body_lin_vel_implied_fps": 48.9051157355313,
+        "joint_vel_implied_fps": 50.22155328292762
+      },
+      "reference_screen": {
+        "measured_at_fps": 50.0,
+        "thresholds": {
+          "support_height_m": 0.04649341314007449,
+          "support_speed_mps": 1.1753078750567545,
+          "max_unsupported_run_s": 0.2,
+          "receipt_path": "/home/linjiw/scene2motion/outputs/exp016_threshold_calibration/receipt.json",
+          "receipt_sha256": "f6dba8be84a9d5d0b76c8114d4b93b1707bc1bb8a6fec1a26a22aa1780a6e9bf"
+        },
+        "max_unsupported_run_s": 0.0,
+        "first_nosupport_run_s": null,
+        "first_nosupport_onset_s": null,
+        "bilateral_flight_frac": 0.0,
+        "ballistic_ratio": null,
+        "longest_run_pelvis_rise_m": 0.0,
+        "root_z_range_m": 0.5169970095157623,
+        "min_foot_bottom_m": -0.016031011429082996,
+        "max_foot_clearance_m": 0.008295346179135113,
+        "flagged_by_calibrated_gate": false,
+        "gate_rule": "flagged when max_unsupported_run_s > 0.2 s",
+        "interpretation": "kinematic screen of the reference only. Passing is a prediction that the evaluator will not cut the episode, never an executed outcome"
+      }
+    },
+    {
+      "name": "tired_forward_lunge_R_001__A359_M",
+      "path": "/home/linjiw/lucid/GR00T-WholeBodyControl/gear_sonic_deploy/reference/example/tired_forward_lunge_R_001__A359_M",
+      "converted": true,
+      "n_frames": 810,
+      "declared_source_fps": 50,
+      "duration_frames_over_fps_s": 16.2,
+      "duration_span_s": 16.18,
+      "sha256_of_source_bytes": "c1faff4c532dc15a7a0a2f403ffc6ddb9c2a6cf04259db3f14969fef10bdf5f4",
+      "joint_order_by_geometry": {
+        "worst_shared_frame_error_m": 1.809591884445234e-06,
+        "worst_tracked_body_error_m": 0.01170856234668995,
+        "discrimination_ratio_vs_best_alternative": 45.338970442598516
+      },
+      "root_quaternion_order_check_m": {
+        "wxyz_m": 1.809591884445234e-06,
+        "xyzw_m": 1.197624261650633
+      },
+      "implied_fps_from_velocity_channels": {
+        "body_lin_vel_implied_fps": 48.46040277735266,
+        "joint_vel_implied_fps": 52.52782496164959
+      },
+      "reference_screen": {
+        "measured_at_fps": 50.0,
+        "thresholds": {
+          "support_height_m": 0.04649341314007449,
+          "support_speed_mps": 1.1753078750567545,
+          "max_unsupported_run_s": 0.2,
+          "receipt_path": "/home/linjiw/scene2motion/outputs/exp016_threshold_calibration/receipt.json",
+          "receipt_sha256": "f6dba8be84a9d5d0b76c8114d4b93b1707bc1bb8a6fec1a26a22aa1780a6e9bf"
+        },
+        "max_unsupported_run_s": 0.0,
+        "first_nosupport_run_s": null,
+        "first_nosupport_onset_s": null,
+        "bilateral_flight_frac": 0.0,
+        "ballistic_ratio": null,
+        "longest_run_pelvis_rise_m": 0.0,
+        "root_z_range_m": 0.3140479624271393,
+        "min_foot_bottom_m": -0.07180203129020996,
+        "max_foot_clearance_m": 0.0544978589815565,
+        "flagged_by_calibrated_gate": false,
+        "gate_rule": "flagged when max_unsupported_run_s > 0.2 s",
+        "interpretation": "kinematic screen of the reference only. Passing is a prediction that the evaluator will not cut the episode, never an executed outcome"
+      }
+    },
+    {
+      "name": "tired_one_leg_jumping_R_001__A359",
+      "path": "/home/linjiw/lucid/GR00T-WholeBodyControl/gear_sonic_deploy/reference/example/tired_one_leg_jumping_R_001__A359",
+      "converted": true,
+      "n_frames": 500,
+      "declared_source_fps": 50,
+      "duration_frames_over_fps_s": 10.0,
+      "duration_span_s": 9.98,
+      "sha256_of_source_bytes": "46fdbcdfabe43302ee7162f046d701445dda731fcc6154f170ff8b58d7b5788b",
+      "joint_order_by_geometry": {
+        "worst_shared_frame_error_m": 1.6204980459653048e-06,
+        "worst_tracked_body_error_m": 0.011181828035813728,
+        "discrimination_ratio_vs_best_alternative": 63.62499834048716
+      },
+      "root_quaternion_order_check_m": {
+        "wxyz_m": 1.6204980459653048e-06,
+        "xyzw_m": 1.2958480959540917
+      },
+      "implied_fps_from_velocity_channels": {
+        "body_lin_vel_implied_fps": 46.91758825547066,
+        "joint_vel_implied_fps": 52.49845256687184
+      },
+      "reference_screen": {
+        "measured_at_fps": 50.0,
+        "thresholds": {
+          "support_height_m": 0.04649341314007449,
+          "support_speed_mps": 1.1753078750567545,
+          "max_unsupported_run_s": 0.2,
+          "receipt_path": "/home/linjiw/scene2motion/outputs/exp016_threshold_calibration/receipt.json",
+          "receipt_sha256": "f6dba8be84a9d5d0b76c8114d4b93b1707bc1bb8a6fec1a26a22aa1780a6e9bf"
+        },
+        "max_unsupported_run_s": 0.2,
+        "first_nosupport_run_s": 0.2,
+        "first_nosupport_onset_s": 5.68,
+        "bilateral_flight_frac": 0.046,
+        "ballistic_ratio": 1.790673614753979,
+        "longest_run_pelvis_rise_m": 0.015296995639801025,
+        "root_z_range_m": 0.30866700410842896,
+        "min_foot_bottom_m": -0.0009642733836288699,
+        "max_foot_clearance_m": 0.577486002543663,
+        "flagged_by_calibrated_gate": false,
+        "gate_rule": "flagged when max_unsupported_run_s > 0.2 s",
+        "interpretation": "kinematic screen of the reference only. Passing is a prediction that the evaluator will not cut the episode, never an executed outcome"
+      }
+    },
+    {
+      "name": "tired_one_leg_jumping_R_001__A359_M",
+      "path": "/home/linjiw/lucid/GR00T-WholeBodyControl/gear_sonic_deploy/reference/example/tired_one_leg_jumping_R_001__A359_M",
+      "converted": true,
+      "n_frames": 500,
+      "declared_source_fps": 50,
+      "duration_frames_over_fps_s": 10.0,
+      "duration_span_s": 9.98,
+      "sha256_of_source_bytes": "6e1d8dd2f848dc2f0ec3b8f684dd4f844f2431607414fd7e91cdb00b92e44d1b",
+      "joint_order_by_geometry": {
+        "worst_shared_frame_error_m": 2.069462240141427e-06,
+        "worst_tracked_body_error_m": 0.011180989530856339,
+        "discrimination_ratio_vs_best_alternative": 77.42709750467418
+      },
+      "root_quaternion_order_check_m": {
+        "wxyz_m": 2.069462240141427e-06,
+        "xyzw_m": 1.2306092675661384
+      },
+      "implied_fps_from_velocity_channels": {
+        "body_lin_vel_implied_fps": 46.917572111455826,
+        "joint_vel_implied_fps": 52.49847264176567
+      },
+      "reference_screen": {
+        "measured_at_fps": 50.0,
+        "thresholds": {
+          "support_height_m": 0.04649341314007449,
+          "support_speed_mps": 1.1753078750567545,
+          "max_unsupported_run_s": 0.2,
+          "receipt_path": "/home/linjiw/scene2motion/outputs/exp016_threshold_calibration/receipt.json",
+          "receipt_sha256": "f6dba8be84a9d5d0b76c8114d4b93b1707bc1bb8a6fec1a26a22aa1780a6e9bf"
+        },
+        "max_unsupported_run_s": 0.2,
+        "first_nosupport_run_s": 0.2,
+        "first_nosupport_onset_s": 5.68,
+        "bilateral_flight_frac": 0.046,
+        "ballistic_ratio": 1.790614310240682,
+        "longest_run_pelvis_rise_m": 0.015298008918762207,
+        "root_z_range_m": 0.30866700410842896,
+        "min_foot_bottom_m": -0.0009645929661844937,
+        "max_foot_clearance_m": 0.5774856570736887,
+        "flagged_by_calibrated_gate": false,
+        "gate_rule": "flagged when max_unsupported_run_s > 0.2 s",
+        "interpretation": "kinematic screen of the reference only. Passing is a prediction that the evaluator will not cut the episode, never an executed outcome"
+      }
+    },
+    {
+      "name": "walking_quip_360_R_002__A428",
+      "path": "/home/linjiw/lucid/GR00T-WholeBodyControl/gear_sonic_deploy/reference/example/walking_quip_360_R_002__A428",
+      "converted": true,
+      "n_frames": 455,
+      "declared_source_fps": 50,
+      "duration_frames_over_fps_s": 9.1,
+      "duration_span_s": 9.08,
+      "sha256_of_source_bytes": "9ee65058b66009e9f92305b98fb9fca689880c309f193dae4b4c14127022380b",
+      "joint_order_by_geometry": {
+        "worst_shared_frame_error_m": 1.8103134418323498e-06,
+        "worst_tracked_body_error_m": 0.010185991140996657,
+        "discrimination_ratio_vs_best_alternative": 54.563623381938626
+      },
+      "root_quaternion_order_check_m": {
+        "wxyz_m": 1.8103134418323498e-06,
+        "xyzw_m": 1.2442077075728648
+      },
+      "implied_fps_from_velocity_channels": {
+        "body_lin_vel_implied_fps": 49.051592847843125,
+        "joint_vel_implied_fps": 51.959936967254606
+      },
+      "reference_screen": {
+        "measured_at_fps": 50.0,
+        "thresholds": {
+          "support_height_m": 0.04649341314007449,
+          "support_speed_mps": 1.1753078750567545,
+          "max_unsupported_run_s": 0.2,
+          "receipt_path": "/home/linjiw/scene2motion/outputs/exp016_threshold_calibration/receipt.json",
+          "receipt_sha256": "f6dba8be84a9d5d0b76c8114d4b93b1707bc1bb8a6fec1a26a22aa1780a6e9bf"
+        },
+        "max_unsupported_run_s": 0.0,
+        "first_nosupport_run_s": null,
+        "first_nosupport_onset_s": null,
+        "bilateral_flight_frac": 0.0,
+        "ballistic_ratio": null,
+        "longest_run_pelvis_rise_m": 0.0,
+        "root_z_range_m": 0.0586320161819458,
+        "min_foot_bottom_m": -0.017232941145325458,
+        "max_foot_clearance_m": 0.06035061476240676,
+        "flagged_by_calibrated_gate": false,
+        "gate_rule": "flagged when max_unsupported_run_s > 0.2 s",
+        "interpretation": "kinematic screen of the reference only. Passing is a prediction that the evaluator will not cut the episode, never an executed outcome"
+      }
+    },
+    {
+      "name": "walking_quip_360_R_002__A428_M",
+      "path": "/home/linjiw/lucid/GR00T-WholeBodyControl/gear_sonic_deploy/reference/example/walking_quip_360_R_002__A428_M",
+      "converted": true,
+      "n_frames": 455,
+      "declared_source_fps": 50,
+      "duration_frames_over_fps_s": 9.1,
+      "duration_span_s": 9.08,
+      "sha256_of_source_bytes": "cf366ac6ee77f86ddef73b608470987a01a9cef318e4833411316700ccc0a4e9",
+      "joint_order_by_geometry": {
+        "worst_shared_frame_error_m": 1.7127777358463601e-06,
+        "worst_tracked_body_error_m": 0.010185056736990295,
+        "discrimination_ratio_vs_best_alternative": 52.09348536483277
+      },
+      "root_quaternion_order_check_m": {
+        "wxyz_m": 1.7127777358463601e-06,
+        "xyzw_m": 1.464987862891135
+      },
+      "implied_fps_from_velocity_channels": {
+        "body_lin_vel_implied_fps": 49.05157961526683,
+        "joint_vel_implied_fps": 51.959771379429434
+      },
+      "reference_screen": {
+        "measured_at_fps": 50.0,
+        "thresholds": {
+          "support_height_m": 0.04649341314007449,
+          "support_speed_mps": 1.1753078750567545,
+          "max_unsupported_run_s": 0.2,
+          "receipt_path": "/home/linjiw/scene2motion/outputs/exp016_threshold_calibration/receipt.json",
+          "receipt_sha256": "f6dba8be84a9d5d0b76c8114d4b93b1707bc1bb8a6fec1a26a22aa1780a6e9bf"
+        },
+        "max_unsupported_run_s": 0.0,
+        "first_nosupport_run_s": null,
+        "first_nosupport_onset_s": null,
+        "bilateral_flight_frac": 0.0,
+        "ballistic_ratio": null,
+        "longest_run_pelvis_rise_m": 0.0,
+        "root_z_range_m": 0.05863296985626221,
+        "min_foot_bottom_m": -0.01723307054709968,
+        "max_foot_clearance_m": 0.06035083438741047,
+        "flagged_by_calibrated_gate": false,
+        "gate_rule": "flagged when max_unsupported_run_s > 0.2 s",
+        "interpretation": "kinematic screen of the reference only. Passing is a prediction that the evaluator will not cut the episode, never an executed outcome"
+      }
+    }
+  ]
+}

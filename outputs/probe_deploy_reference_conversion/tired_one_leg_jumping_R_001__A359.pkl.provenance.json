@@ -1,0 +1,444 @@
+{
+  "converter": "experiments/convert_deploy_reference.py",
+  "converter_sha256": "5460b4014a16739b97ab216c476a0205d116815cab3842e0ef47bb2d0628de69",
+  "campaign_evidence": false,
+  "purpose": "candidate control reference for EXP-024b, converted from the tracker's deployment reference format into the motion pickle the evaluation bridge consumes. 'Known-trackable' is INHERITED from the asset shipping as a deployment example and has not been measured under the release eval configuration; and its longest bilateral no-support run is short (see reference_screen below), so it is not a control that sits on the far side of the calibrated gate",
+  "source": {
+    "path": "/home/linjiw/lucid/GR00T-WholeBodyControl/gear_sonic_deploy/reference/example/tired_one_leg_jumping_R_001__A359",
+    "name": "tired_one_leg_jumping_R_001__A359",
+    "sha256_of_files": {
+      "body_ang_vel.csv": "d3b975f22d6141dda92bf47a850c1abe7a5a78f7e9f3eb7c911425139289f35a",
+      "body_lin_vel.csv": "ba88a49beeb09eb2197fccacf461c790c820164328e4737bf4056358eee8c590",
+      "body_pos.csv": "3050a1956804ab1d77bbd35d8c62c531dc085a603ad71808cf19ebc1af668902",
+      "body_quat.csv": "461928b2fc6fa9f5a87253614421a2fe80bfb0811f30090b67247ffe81ec8a49",
+      "info.txt": "f8210d217f3f04c0b8fe47eb97cd3dbb610a6a5cdb607f3f9a98cbf5f96e7d70",
+      "joint_pos.csv": "3d4aa3b8fd5af3d42d9003706f24707453ce564191da355b9835a57527153b00",
+      "joint_vel.csv": "636f2a952c138f7af42a332530a334fdb0aed05a0ec9c481fc1803aa31b44cd5",
+      "metadata.txt": "001a6cd0d1c3e8f0aa28348a0ff2fc4f1b0e66ab0b3f4c57e19e8df5c2b4bcb5"
+    },
+    "files_read_by_this_converter": [
+      "joint_pos.csv",
+      "joint_vel.csv",
+      "body_pos.csv",
+      "body_quat.csv",
+      "body_lin_vel.csv",
+      "metadata.txt"
+    ],
+    "files_present_but_unread": [
+      "body_ang_vel.csv",
+      "info.txt"
+    ],
+    "sha256_of_source_bytes": "46fdbcdfabe43302ee7162f046d701445dda731fcc6154f170ff8b58d7b5788b",
+    "n_frames": 500,
+    "n_joint_columns": 29,
+    "joint_column_order": "isaaclab",
+    "n_tracked_bodies": 14,
+    "tracked_body_indexes_isaaclab": [
+      0,
+      4,
+      10,
+      18,
+      5,
+      11,
+      19,
+      9,
+      16,
+      22,
+      28,
+      17,
+      23,
+      29
+    ],
+    "tracked_body_names": [
+      "pelvis",
+      "left_hip_roll_link",
+      "left_knee_link",
+      "left_ankle_roll_link",
+      "right_hip_roll_link",
+      "right_knee_link",
+      "right_ankle_roll_link",
+      "torso_link",
+      "left_shoulder_roll_link",
+      "left_elbow_link",
+      "left_wrist_yaw_link",
+      "right_shoulder_roll_link",
+      "right_elbow_link",
+      "right_wrist_yaw_link"
+    ],
+    "root_quaternion_component_order": {
+      "used": "wxyz",
+      "declared_by": "the body_quat.csv header itself: body_0_w,body_0_x,body_0_y,body_0_z",
+      "vendor_conflict": "gear_sonic_deploy/visualize_motion.py:88 reads the same four columns as [0, 1, 2, 3] under the comment '# [x, y, z, w]', which contradicts the header this converter follows",
+      "settled_by": "the geometry check on the asset's own tracked-body world positions: reading the columns as wxyz reproduces the leg chain to worst_shared_frame_error_m below, reading them as xyzw gives 1.296 m",
+      "shared_frame_error_m_reading_wxyz": 1.6204980459653048e-06,
+      "shared_frame_error_m_reading_xyzw": 1.2958480959540917
+    },
+    "fps": 50,
+    "fps_is_declared_by_the_format": false,
+    "fps_evidence": [
+      "gear_sonic_deploy/visualize_motion.py plays this directory layout at fps = 50",
+      "sonic_release/config.yaml motion_lib_cfg.target_fps: 50"
+    ],
+    "fps_consistency_check_from_velocity_channels": {
+      "body_lin_vel_implied_fps": 46.91758825547066,
+      "joint_vel_implied_fps": 52.49845256687184
+    }
+  },
+  "output": {
+    "path": "/home/linjiw/scene2motion/outputs/probe_deploy_reference_conversion/tired_one_leg_jumping_R_001__A359.pkl",
+    "sha256": "bf0c1a8c46405fb80c3dfa1312fb806627f426fbee9ab2c0222ec84b13c5d06b",
+    "motion_key": "tired_one_leg_jumping_R_001__A359",
+    "fps": 50,
+    "n_frames": 500,
+    "entry_keys": [
+      "dof",
+      "fps",
+      "pose_aa",
+      "root_rot",
+      "root_trans_offset",
+      "smpl_joints"
+    ],
+    "entry_shapes": {
+      "root_trans_offset": [
+        500,
+        3
+      ],
+      "pose_aa": [
+        500,
+        30,
+        3
+      ],
+      "dof": [
+        500,
+        29
+      ],
+      "root_rot": [
+        500,
+        4
+      ],
+      "smpl_joints": [
+        500,
+        24,
+        3
+      ]
+    },
+    "written_by": "scene2motion.sonic_export.write_motion_pkl"
+  },
+  "duration": {
+    "source_frames_over_fps_s": 10.0,
+    "output_frames_over_fps_s": 10.0,
+    "source_span_frames_minus_one_over_fps_s": 9.98,
+    "output_span_frames_minus_one_over_fps_s": 9.98,
+    "span_tolerance_s": 0.020000001,
+    "preserved": true,
+    "motion_library_convention": "(num_frames - 1) / fps, motion_lib_base.py"
+  },
+  "reference_screen": {
+    "measured_at_fps": 50.0,
+    "thresholds": {
+      "support_height_m": 0.04649341314007449,
+      "support_speed_mps": 1.1753078750567545,
+      "max_unsupported_run_s": 0.2,
+      "receipt_path": "/home/linjiw/scene2motion/outputs/exp016_threshold_calibration/receipt.json",
+      "receipt_sha256": "f6dba8be84a9d5d0b76c8114d4b93b1707bc1bb8a6fec1a26a22aa1780a6e9bf"
+    },
+    "max_unsupported_run_s": 0.2,
+    "first_nosupport_run_s": 0.2,
+    "first_nosupport_onset_s": 5.68,
+    "bilateral_flight_frac": 0.046,
+    "ballistic_ratio": 1.790673614753979,
+    "longest_run_pelvis_rise_m": 0.015296995639801025,
+    "root_z_range_m": 0.30866700410842896,
+    "min_foot_bottom_m": -0.0009642733836288699,
+    "max_foot_clearance_m": 0.577486002543663,
+    "flagged_by_calibrated_gate": false,
+    "gate_rule": "flagged when max_unsupported_run_s > 0.2 s",
+    "interpretation": "kinematic screen of the reference only. Passing is a prediction that the evaluator will not cut the episode, never an executed outcome"
+  },
+  "joint_order_check": {
+    "by_name": {
+      "passed": true,
+      "n_joints": 29,
+      "mujoco_order_from_isaaclab_names": [
+        "left_hip_pitch_joint",
+        "left_hip_roll_joint",
+        "left_hip_yaw_joint",
+        "left_knee_joint",
+        "left_ankle_pitch_joint",
+        "left_ankle_roll_joint",
+        "right_hip_pitch_joint",
+        "right_hip_roll_joint",
+        "right_hip_yaw_joint",
+        "right_knee_joint",
+        "right_ankle_pitch_joint",
+        "right_ankle_roll_joint",
+        "waist_yaw_joint",
+        "waist_roll_joint",
+        "waist_pitch_joint",
+        "left_shoulder_pitch_joint",
+        "left_shoulder_roll_joint",
+        "left_shoulder_yaw_joint",
+        "left_elbow_joint",
+        "left_wrist_roll_joint",
+        "left_wrist_pitch_joint",
+        "left_wrist_yaw_joint",
+        "right_shoulder_pitch_joint",
+        "right_shoulder_roll_joint",
+        "right_shoulder_yaw_joint",
+        "right_elbow_joint",
+        "right_wrist_roll_joint",
+        "right_wrist_pitch_joint",
+        "right_wrist_yaw_joint"
+      ]
+    },
+    "by_geometry": {
+      "passed": true,
+      "method": "MuJoCo forward kinematics from the reordered joint angles and the root pose, compared against the asset's own tracked-body world positions",
+      "mjcf": "/home/linjiw/ardy/ardy/assets/skeletons/g1skel34/xml/g1.xml",
+      "mjcf_sha256": "5d76cf92f00dd49d6eb9fae38d7d38e46886848b602ac691051e886c3bcccfb1",
+      "n_frames_checked": 50,
+      "tracked_bodies": [
+        "pelvis",
+        "left_hip_roll_link",
+        "left_knee_link",
+        "left_ankle_roll_link",
+        "right_hip_roll_link",
+        "right_knee_link",
+        "right_ankle_roll_link",
+        "torso_link",
+        "left_shoulder_roll_link",
+        "left_elbow_link",
+        "left_wrist_yaw_link",
+        "right_shoulder_roll_link",
+        "right_elbow_link",
+        "right_wrist_yaw_link"
+      ],
+      "shared_frame_bodies": [
+        "pelvis",
+        "left_hip_roll_link",
+        "left_knee_link",
+        "left_ankle_roll_link",
+        "right_hip_roll_link",
+        "right_knee_link",
+        "right_ankle_roll_link"
+      ],
+      "worst_shared_frame_error_m": 1.6204980459653048e-06,
+      "worst_tracked_body_error_m": 0.011181828035813728,
+      "discrimination_ratio_vs_best_alternative": 63.62499834048716,
+      "tolerances": {
+        "shared_frame_m": 0.0001,
+        "all_bodies_m": 0.02,
+        "min_discrimination_ratio": 5.0
+      },
+      "candidate_scores": {
+        "vendor_isaaclab_to_mujoco": {
+          "max_error_m": 0.011181828035813728,
+          "mean_error_m": 0.0022549597308976744,
+          "per_body_max_error_m": {
+            "pelvis": 0.0,
+            "left_hip_roll_link": 1.2181076401961286e-06,
+            "left_knee_link": 1.3852251824166656e-06,
+            "left_ankle_roll_link": 1.6204980459653048e-06,
+            "right_hip_roll_link": 1.1924720739887372e-06,
+            "right_knee_link": 1.4463388771899953e-06,
+            "right_ankle_roll_link": 1.5465781628468713e-06,
+            "torso_link": 0.011181828035813728,
+            "left_shoulder_roll_link": 0.005300584708326361,
+            "left_elbow_link": 0.005300763233371069,
+            "left_wrist_yaw_link": 0.005300743523030351,
+            "right_shoulder_roll_link": 0.0053002358946431785,
+            "right_elbow_link": 0.00530125150469447,
+            "right_wrist_yaw_link": 0.005300366757876481
+          },
+          "per_body_std_error_m": {
+            "pelvis": 0.0,
+            "left_hip_roll_link": 2.482855629256288e-07,
+            "left_knee_link": 2.9695917285362333e-07,
+            "left_ankle_roll_link": 3.187422919397333e-07,
+            "right_hip_roll_link": 2.424291392613186e-07,
+            "right_knee_link": 2.735544057012779e-07,
+            "right_ankle_roll_link": 2.779433223989563e-07,
+            "torso_link": 0.00023388537680663565,
+            "left_shoulder_roll_link": 0.001175317603155655,
+            "left_elbow_link": 0.0011752066858793772,
+            "left_wrist_yaw_link": 0.001175214106979793,
+            "right_shoulder_roll_link": 0.0011752446203559133,
+            "right_elbow_link": 0.0011752290965054337,
+            "right_wrist_yaw_link": 0.0011752453553083597
+          }
+        },
+        "identity_no_reorder": {
+          "max_error_m": 0.7114437902222612,
+          "mean_error_m": 0.17735075795612695,
+          "per_body_max_error_m": {
+            "pelvis": 0.0,
+            "left_hip_roll_link": 1.2181076401961286e-06,
+            "left_knee_link": 0.2704890988001394,
+            "left_ankle_roll_link": 0.6242988379170088,
+            "right_hip_roll_link": 0.0321188023071043,
+            "right_knee_link": 0.3506994877148808,
+            "right_ankle_roll_link": 0.7114437902222612,
+            "torso_link": 0.012198828399268023,
+            "left_shoulder_roll_link": 0.39756562120972394,
+            "left_elbow_link": 0.5197355297074999,
+            "left_wrist_yaw_link": 0.6376356312241241,
+            "right_shoulder_roll_link": 0.3636615293419867,
+            "right_elbow_link": 0.4842643286202667,
+            "right_wrist_yaw_link": 0.6128892617519147
+          },
+          "per_body_std_error_m": {
+            "pelvis": 0.0,
+            "left_hip_roll_link": 2.482855629256288e-07,
+            "left_knee_link": 0.07099784907409432,
+            "left_ankle_roll_link": 0.23150448897111478,
+            "right_hip_roll_link": 0.008941409523598674,
+            "right_knee_link": 0.07848295535494922,
+            "right_ankle_roll_link": 0.19294494982644736,
+            "torso_link": 0.0005927381633987479,
+            "left_shoulder_roll_link": 0.08471054059558861,
+            "left_elbow_link": 0.10851606426049183,
+            "left_wrist_yaw_link": 0.12024751551508873,
+            "right_shoulder_roll_link": 0.08161811090568916,
+            "right_elbow_link": 0.09541064190324712,
+            "right_wrist_yaw_link": 0.11579845227410483
+          }
+        },
+        "inverse_mujoco_to_isaaclab": {
+          "max_error_m": 0.7707258607427891,
+          "mean_error_m": 0.16013323742859145,
+          "per_body_max_error_m": {
+            "pelvis": 0.0,
+            "left_hip_roll_link": 1.2181076401961286e-06,
+            "left_knee_link": 0.280779338349796,
+            "left_ankle_roll_link": 0.7020744023542593,
+            "right_hip_roll_link": 0.02825254892223177,
+            "right_knee_link": 0.3694609048593353,
+            "right_ankle_roll_link": 0.4144193047041097,
+            "torso_link": 0.014569109967046249,
+            "left_shoulder_roll_link": 0.2746894747001924,
+            "left_elbow_link": 0.4877037137634587,
+            "left_wrist_yaw_link": 0.7707258607427891,
+            "right_shoulder_roll_link": 0.3544194031691749,
+            "right_elbow_link": 0.34110623162621323,
+            "right_wrist_yaw_link": 0.541751724037185
+          },
+          "per_body_std_error_m": {
+            "pelvis": 0.0,
+            "left_hip_roll_link": 2.482855629256288e-07,
+            "left_knee_link": 0.06432432648166882,
+            "left_ankle_roll_link": 0.2782578489673409,
+            "right_hip_roll_link": 0.008183438406469958,
+            "right_knee_link": 0.09150030997190547,
+            "right_ankle_roll_link": 0.0813946168628009,
+            "torso_link": 0.0007515357151375121,
+            "left_shoulder_roll_link": 0.04713982344433103,
+            "left_elbow_link": 0.0982433316292035,
+            "left_wrist_yaw_link": 0.14862481934594177,
+            "right_shoulder_roll_link": 0.07659742727860804,
+            "right_elbow_link": 0.06024585913877635,
+            "right_wrist_yaw_link": 0.11826973831209257
+          }
+        }
+      }
+    },
+    "permutation_isaaclab_to_mujoco": [
+      0,
+      3,
+      6,
+      9,
+      13,
+      17,
+      1,
+      4,
+      7,
+      10,
+      14,
+      18,
+      2,
+      5,
+      8,
+      11,
+      15,
+      19,
+      21,
+      23,
+      25,
+      27,
+      12,
+      16,
+      20,
+      22,
+      24,
+      26,
+      28
+    ],
+    "vendor_sources_agree": [
+      "gear_sonic/data_process/convert_soma_csv_to_motion_lib.py:MJ_TO_IL",
+      "gear_sonic_deploy/visualize_motion.py:isaaclab_to_mujoco",
+      "gear_sonic/envs/manager_env/robots/g1.py:G1_ISAACLAB_TO_MUJOCO_DOF"
+    ]
+  },
+  "provenance": {
+    "sonic_root": "/home/linjiw/lucid/GR00T-WholeBodyControl",
+    "sonic": {
+      "commit": "cfd26b4a500af300727178778b2405ea0712b981",
+      "dirty": true,
+      "dirty_paths": [
+        "sonic_v1_1/"
+      ]
+    },
+    "sonic_commit": "cfd26b4a500af300727178778b2405ea0712b981",
+    "sonic_sources": {
+      "gear_sonic/data_process/convert_soma_csv_to_motion_lib.py": {
+        "sha256": "ab8361a08894c19b7160278d25cf3d47aad924f5be78c72fc0f1a38eba68e9dd",
+        "symbols": "MJ_TO_IL"
+      },
+      "gear_sonic_deploy/visualize_motion.py": {
+        "sha256": "e5012c99671b0e72bb9e5d139b86093846463238af89bc44b8155f6b7d86da25",
+        "symbols": "isaaclab_to_mujoco"
+      },
+      "gear_sonic/envs/manager_env/robots/g1.py": {
+        "sha256": "42f9b4394eb21512735da4b1ca78c2d0546c4221c7bdaf8b3a186d8dc5588ba9",
+        "symbols": "G1_ISAACLAB_TO_MUJOCO_DOF,G1_ISAACLAB_JOINTS"
+      },
+      "gear_sonic/envs/env_utils/joint_utils.py": {
+        "sha256": "b69a07f6bd1850370f8b7d6161e9e099222eebc6eec967b3dc5a936bc8b87f4a",
+        "symbols": "G1_ISAACLab_ORDER"
+      }
+    },
+    "mjcf": "/home/linjiw/ardy/ardy/assets/skeletons/g1skel34/xml/g1.xml",
+    "mjcf_sha256": "5d76cf92f00dd49d6eb9fae38d7d38e46886848b602ac691051e886c3bcccfb1",
+    "scene2motion": {
+      "commit": "18e3ddaedab6b2a73598bf057f5577c696ddd715",
+      "dirty": true,
+      "dirty_paths": [
+        "docs/index.html",
+        "docs/ramp-exp029-selection-vs-coverage-protocol.md",
+        "docs/site/README.md",
+        "docs/site/_body.html",
+        "docs/site/_head.html",
+        "docs/site/_payload.js",
+        "docs/site/_script.html",
+        "docs/site/artifact.html",
+        "docs/site/build.py",
+        "docs/site/index.html",
+        "docs/site/make_payload.py",
+        "experiments/analyze_exact_centre_cost_curve.py",
+        "experiments/convert_deploy_reference.py",
+        "experiments/export_demo_motions.py",
+        "outputs/analysis_exact_centre_cost_curve/receipt.json",
+        "outputs/demo_motions.json",
+        "outputs/figure_data.json",
+        "scene2motion/robot.py",
+        "scene2motion/traversal_eval.py",
+        "tests/test_analyze_exact_centre_cost_curve.py",
+        "tests/test_convert_deploy_reference.py",
+        "tests/test_traversal_eval.py",
+        "tests/test_traversal_eval_measurement.py"
+      ]
+    },
+    "scene2motion_commit": "18e3ddaedab6b2a73598bf057f5577c696ddd715",
+    "sonic_export_sha256": "c79b3edad46175829b411455d64f5ca1a798f4fde5833d8845fd341e2931262c"
+  },
+  "scope": "format conversion and kinematic screening only; nothing here establishes that this reference tracks under our evaluation configuration -- that is what EXP-024b would measure. Not campaign evidence: EXP-024b has not run"
+}

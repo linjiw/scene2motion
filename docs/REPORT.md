@@ -1522,7 +1522,10 @@ tracker must enter the endpoint before any of this is called a traversal.
 launches of 32 environments, physics seed 0). Full note:
 `docs/ramp-exp022-exact-tracking-result-2026-09-01.md`.
 
-**Exact-centre audit first.** §37's `0.312/0.266` rates used a ±0.25 m placement-tolerant
+**Exact-centre audit first.** §37's `0.312/0.266` rates came from a lower-bound + tolerance
+calculation rather than an exact-probe union — the exact ±0.25 m unions measured later are 24/64
+and 23/64 (`outputs/analysis_exact_centre_cost_curve/receipt.json` → `tolerant_union`), so the two
+families of number are not comparable and 0.375 ≠ 0.312 is not a fresh non-reproduction. They used a ±0.25 m placement-tolerant
 endpoint chosen post hoc on the same clips. Replaying the exact `BoxHeightProbe(1.2, 0.20)`
 against the archived exp021 qpos gives **12/64** clears at 5 cm and **11/64** at 8 cm (per clip
 0.19/0.17, N for 90 % = 12/13, not 7–8). The "7–8 calls" budget and the findings-page staged

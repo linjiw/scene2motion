@@ -47,14 +47,39 @@ check_clean_tree() {
     evaluator handoff has not landed yet"
 }
 
+# `pgrep -f` matches a command LINE, so every shell in this script's own ancestry matches the
+# patterns below: a wrapper such as `bash -c '... launch_legacy_chain.sh ...'` is a different pid
+# from $$ and was counted as "another instance", making the guard refuse its own invocation and
+# block the chain forever.  Excluding the whole lineage keeps the guard strict against a real
+# second owner while letting the script run when it is the only one.
+own_lineage() {
+  local pid=$$ out=""
+  while [ -n "$pid" ] && [ "$pid" -gt 1 ] 2>/dev/null; do
+    out="$out $pid"
+    pid=$(ps -o ppid= -p "$pid" 2>/dev/null | tr -d ' ')
+  done
+  printf '%s' "$out"
+}
+
+# Pids matching $1 that are not this process or one of its ancestors.
+others_running() {
+  local lineage pid keep=""
+  lineage=" $(own_lineage) "
+  for pid in $(pgrep -f "$1" 2>/dev/null); do
+    case "$lineage" in *" $pid "*) continue ;; esac
+    keep="$keep $pid"
+  done
+  printf '%s' "${keep# }"
+}
+
 check_no_other_owner() {
-  local mine=$$ others
-  others=$(pgrep -f 'launch_legacy_chain.sh' | grep -vx "$mine" | wc -l)
-  [ "$others" -eq 0 ] || refuse "another launch_legacy_chain.sh is already running (pids: $(pgrep -f 'launch_legacy_chain.sh' | grep -vx "$mine" | tr '\n' ' '))"
-  pgrep -f 'launch_when_host_free.sh outputs/exp028' >/dev/null &&
-    refuse "a legacy poller (launch_when_host_free.sh) already owns the EXP-028 chain"
-  pgrep -f 'exp028_termination_free_rollouts.py|exp024_reference_contract.py --stage sonic' >/dev/null &&
-    refuse "a campaign process is already running"
+  local others
+  others=$(others_running 'launch_legacy_chain\.sh')
+  [ -z "$others" ] || refuse "another launch_legacy_chain.sh is already running (pids: $others)"
+  others=$(others_running 'launch_when_host_free\.sh outputs/exp028')
+  [ -z "$others" ] || refuse "a legacy poller (launch_when_host_free.sh) already owns the EXP-028 chain (pids: $others)"
+  others=$(others_running 'exp028_termination_free_rollouts\.py|exp024_reference_contract\.py --stage sonic')
+  [ -z "$others" ] || refuse "a campaign process is already running (pids: $others)"
   return 0
 }
 

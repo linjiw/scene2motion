@@ -41,11 +41,15 @@ from scene2motion.stepover_eval import step_scene  # noqa: E402
 PROTOCOL = ROOT / "docs/ramp-exp031-constructive-step-repair-protocol.md"
 SOURCE = ROOT / "outputs/exp021_elicited_lift_distribution_v2"
 THRESHOLD_RECEIPT = ROOT / "outputs/exp016_threshold_calibration/receipt.json"
+HISTORICAL_EXECUTION_ROWS = ROOT / "outputs/exp030_obstacle_present/rows.jsonl"
 DEFAULT_OUT = ROOT / "outputs/exp031_constructive_step_repair"
 
 SOURCE_QPOS_SHA256 = "2a4b34479aa24894b854301d91bafe1ad870dc530b70eed5b6703eb02c284687"
 SOURCE_ROWS_SHA256 = "1d8cc57df2494bd7179940bfe57325ac922f3f41e2581fcc7cb789b5e0c28f71"
 THRESHOLD_RECEIPT_SHA256 = "f6dba8be84a9d5d0b76c8114d4b93b1707bc1bb8a6fec1a26a22aa1780a6e9bf"
+HISTORICAL_EXECUTION_ROWS_SHA256 = (
+    "e126186f0276ab74a8ca6c8abaf25bddd4e86e5bf82fb14d4be57c128feb35f2"
+)
 
 FPS = 25.0
 OBSTACLE_X_M = 1.2
@@ -145,6 +149,51 @@ def source_identity(source: str | Path = SOURCE) -> dict[str, Any]:
         "directory": str(source.resolve()),
         "qpos": {"path": str(qpos_path.resolve()), "sha256": observed_qpos},
         "rows": {"path": str(rows_path.resolve()), "sha256": observed_rows},
+    }
+
+
+def historical_outcome_disclosure(
+    path: str | Path = HISTORICAL_EXECUTION_ROWS,
+) -> dict[str, Any]:
+    """Bind known candidate outcomes without using them for reference admission."""
+
+    path = Path(path)
+    observed = sha256_file(path)
+    if observed != HISTORICAL_EXECUTION_ROWS_SHA256:
+        raise PreparationRefused(
+            f"historical execution rows hash mismatch: {observed} != "
+            f"{HISTORICAL_EXECUTION_ROWS_SHA256}"
+        )
+    rows = [json.loads(line) for line in path.read_text().splitlines() if line.strip()]
+    by_identity = {(str(row.get("motion_key")), str(row.get("arm"))): row for row in rows}
+    if len(by_identity) != len(rows):
+        raise PreparationRefused("historical execution rows contain duplicate motion/arm keys")
+
+    candidates: dict[str, Any] = {}
+    for key in EXPECTED_ACCEPTED_KEYS:
+        arms: dict[str, Any] = {}
+        for arm in ("absent", "present_05"):
+            try:
+                row = by_identity[(key, arm)]
+            except KeyError as exc:
+                raise PreparationRefused(
+                    f"historical execution rows lack {key}/{arm}"
+                ) from exc
+            arms[arm] = {
+                "outcome": str(row["outcome"]),
+                "tracker_terminated": bool(row["tracker_terminated"]),
+                "max_root_x_m": float(row["max_root_x_m"]),
+                "obstacle_in_physics": bool(row["obstacle_in_physics"]),
+            }
+        candidates[key] = arms
+
+    return {
+        "role": (
+            "disclosure_only; these public outcomes were not inputs to the pre-execution "
+            "support/collision/edit-budget admission rule"
+        ),
+        "source": {"path": str(path.resolve()), "sha256": observed},
+        "candidates": candidates,
     }
 
 
@@ -269,6 +318,7 @@ def dry_run_report(*, source: str | Path = SOURCE,
         "protocol": protocol,
         "project_dirty_observed": bool(state.get("dirty")),
         "source": source_info,
+        "historical_outcome_disclosure": historical_outcome_disclosure(),
         "support_rule": asdict(support_rule()),
         "config": asdict(FootstepRepairConfig()),
         "summary": counts,
@@ -315,6 +365,7 @@ def prepare(*, out: str | Path = DEFAULT_OUT, source: str | Path = SOURCE,
         raise PreparationRefused(f"refusing non-empty output directory: {out}")
 
     source_info = source_identity(source)
+    historical = historical_outcome_disclosure()
     project = project_identity(state)
     out.mkdir(parents=True, exist_ok=True)
     started = time.monotonic()
@@ -327,6 +378,7 @@ def prepare(*, out: str | Path = DEFAULT_OUT, source: str | Path = SOURCE,
         "n_reused_archived_references": len(POOL_SEEDS),
         "protocol": protocol,
         "source": source_info,
+        "historical_outcome_disclosure": historical,
         "project": project,
         "support_rule": asdict(support_rule()),
         "config": asdict(FootstepRepairConfig()),

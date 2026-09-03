@@ -148,6 +148,9 @@ def prepared_identity(directory: str | Path = PREPARED) -> dict[str, Any]:
         raise PilotAbort("prepared receipt lost the all-source-pool denominator")
     if receipt.get("summary", {}).get("accepted_keys") != list(CANDIDATE_KEYS):
         raise PilotAbort("prepared receipt accepted-key summary changed")
+    expected_historical = prep.historical_outcome_disclosure()
+    if receipt.get("historical_outcome_disclosure") != expected_historical:
+        raise PilotAbort("prepared receipt lost or changed the historical-outcome disclosure")
 
     return {
         "directory": str(directory.resolve()),
@@ -159,6 +162,7 @@ def prepared_identity(directory: str | Path = PREPARED) -> dict[str, Any]:
         "protocol": dict(receipt.get("protocol", {})),
         "project": dict(receipt.get("project", {})),
         "source": dict(receipt.get("source", {})),
+        "historical_outcome_disclosure": expected_historical,
         "support_rule": dict(receipt.get("support_rule", {})),
         "config": dict(receipt.get("config", {})),
         "summary": dict(receipt.get("summary", {})),

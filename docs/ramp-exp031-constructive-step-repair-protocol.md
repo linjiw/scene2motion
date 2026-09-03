@@ -191,8 +191,8 @@ Before changing this document to `preregistered`:
 2. The additive `robot.py` change must re-lock both exact-clearance analysers in that same commit,
    as required by `CLAUDE.md`.
 3. The EXP-031 driver and tests must land on a clean worktree and bind this protocol's hash, the
-   source qpos archive, threshold receipt, G1 XML, operator source, tracker core manifest and
-   checkpoint.
+   source qpos archive, the disclosure-only EXP-030 outcome rows, threshold receipt, G1 XML,
+   operator source, tracker core manifest and checkpoint.
 4. Repaired qpos and admission rows must be written and hashed before any SONIC launch.
 5. The SONIC host gate must pass without relaxation.
 

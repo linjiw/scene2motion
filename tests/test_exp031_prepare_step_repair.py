@@ -27,6 +27,14 @@ def test_dry_run_is_read_only_and_reports_the_locked_candidate_set(tmp_path):
     assert report["summary"]["n_accepted_for_execution"] == 2
     assert report["summary"]["accepted_keys"] == list(exp.EXPECTED_ACCEPTED_KEYS)
     assert report["candidate_array_hashes"] == exp.EXPECTED_CANDIDATE_ARRAY_SHA256
+    history = report["historical_outcome_disclosure"]
+    assert history["source"]["sha256"] == exp.HISTORICAL_EXECUTION_ROWS_SHA256
+    assert history["candidates"]["s4408"]["absent"]["outcome"] == "stalled"
+    assert history["candidates"]["s4434"]["absent"]["outcome"] == "completed"
+    assert all(
+        history["candidates"][key]["present_05"]["outcome"] == "collided_obstacle"
+        for key in exp.EXPECTED_ACCEPTED_KEYS
+    )
     assert not any(tmp_path.iterdir())
 
 
@@ -68,6 +76,7 @@ def test_prepare_writes_all_dispositions_and_only_two_candidate_arrays(tmp_path)
     assert receipt["status"] == "prepared"
     assert receipt["sonic_rollouts_requested"] == 0
     assert receipt["summary"]["accepted_keys"] == list(exp.EXPECTED_ACCEPTED_KEYS)
+    assert receipt["historical_outcome_disclosure"] == exp.historical_outcome_disclosure()
     assert receipt["artifacts"]["rows"]["sha256"] == exp.sha256_file(out / "rows.jsonl")
     assert receipt["artifacts"]["qpos"]["sha256"] == exp.sha256_file(out / "qpos.npz")
 

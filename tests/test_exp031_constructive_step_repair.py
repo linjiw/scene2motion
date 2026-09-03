@@ -45,6 +45,11 @@ def _prepared(_directory=None):
         "protocol": dict(PROTOCOL),
         "project": {"git": {"commit": "test-commit", "dirty": False}},
         "source": dict(SOURCE),
+        "historical_outcome_disclosure": {
+            "role": "disclosure_only",
+            "source": {"path": "/fake/history", "sha256": "9" * 64},
+            "candidates": {},
+        },
         "support_rule": {}, "config": {},
         "summary": {
             "n_assigned_trials": 64, "n_input_support_pass": 8,

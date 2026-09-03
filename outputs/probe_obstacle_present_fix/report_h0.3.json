@@ -1,0 +1,185 @@
+{
+  "arms": {
+    "box": {
+      "aborted_reason": null,
+      "command": [
+        "/home/linjiw/isaaclab-install/env_isaaclab/bin/python",
+        "-u",
+        "-m",
+        "gear_sonic.eval_agent_trl",
+        "+checkpoint=/home/linjiw/lucid/GR00T-WholeBodyControl/sonic_release/last.pt",
+        "+headless=True",
+        "++eval_callbacks=im_eval",
+        "++run_eval_loop=False",
+        "++num_envs=2",
+        "++eval_output_dir=/home/linjiw/scene2motion/run/probe_obstacle_fix/box/eval",
+        "++seed=0",
+        "++manager_env.commands.motion.motion_lib_cfg.multi_thread=False",
+        "+manager_env/terminations=tracking/eval",
+        "+manager_env.commands.motion.motion_lib_cfg.motion_file=/home/linjiw/scene2motion/run/probe_obstacle_fix/box/motions.pkl",
+        "+log_keys=motions",
+        "++callbacks.im_eval._target_=scene2motion.sonic_state_export.SonicStateExportCallback",
+        "++callbacks.im_eval.state_filename=achieved_qpos.npz",
+        "++manager_env.config.env_spacing=12.0",
+        "++manager_env.config.episode_length_s=20.0",
+        "++manager_env.config.add_table=true",
+        "++manager_env.config.table_size=[0.2, 2.0, 0.3]",
+        "++manager_env.config.table_position=[1.2, 0.0, 0.15]"
+      ],
+      "elapsed_s": 20.4,
+      "log_tail": [
+        "All:  mpjpe_g: 123.612 \tmpjpe_l: 43.259 \tmpjpe_pa: 35.470 \taccel_dist: 13.017 \tvel_dist: 18.314 \tmpjpe_g_legs: 122.809 \tmpjpe_l_legs: 35.024 \tmpjpe_pa_legs: 26.017 \taccel_dist_legs: 13.002 \tvel_dist_legs: 17.181 \tmpjpe_g_vr_3points: 130.254 \tmpjpe_l_vr_3points: 49.286 \tmpjpe_pa_vr_3points: 18.132 \taccel_dist_vr_3points: 15.048 \tvel_dist_vr_3points: 22.252 \tmpjpe_g_other_upper_bodies: 120.592 \tmpjpe_l_other_upper_bodies: 44.941 \tmpjpe_pa_other_upper_bodies: 19.353 \taccel_dist_other_upper_bodies: 11.815 \tvel_dist_other_upper_bodies: 17.310 \tmpjpe_g_foot: 126.121 \tmpjpe_l_foot: 37.358 \tmpjpe_pa_foot: 0.000 \taccel_dist_foot: 15.610 \tvel_dist_foot: 18.828",
+        "Succ:  mpjpe_g: nan \tmpjpe_l: nan \tmpjpe_pa: nan \taccel_dist: nan \tvel_dist: nan \tmpjpe_g_legs: nan \tmpjpe_l_legs: nan \tmpjpe_pa_legs: nan \taccel_dist_legs: nan \tvel_dist_legs: nan \tmpjpe_g_vr_3points: nan \tmpjpe_l_vr_3points: nan \tmpjpe_pa_vr_3points: nan \taccel_dist_vr_3points: nan \tvel_dist_vr_3points: nan \tmpjpe_g_other_upper_bodies: nan \tmpjpe_l_other_upper_bodies: nan \tmpjpe_pa_other_upper_bodies: nan \taccel_dist_other_upper_bodies: nan \tvel_dist_other_upper_bodies: nan \tmpjpe_g_foot: nan \tmpjpe_l_foot: nan \tmpjpe_pa_foot: nan \taccel_dist_foot: nan \tvel_dist_foot: nan",
+        "",
+        "Terminated: 1 | max frames: 398 | steps 58 | env_loop: 0 | eval_time: 0.0m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 1/1 [00:03<00:00,  3.97s/it]",
+        "Terminated: 1 | max frames: 398 | steps 58 | env_loop: 0 | eval_time: 0.0m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 1/1 [00:03<00:00,  3.97s/it]Saved achieved qpos to /home/linjiw/scene2motion/run/probe_obstacle_fix/box/eval/achieved_qpos.npz",
+        "Saving metrics_eval to /home/linjiw/scene2motion/run/probe_obstacle_fix/box/eval/metrics_eval.json"
+      ],
+      "min_available_ram_mib": 4496,
+      "min_free_mib": 6762,
+      "peak_launch_mib": 3631,
+      "returncode": 0
+    },
+    "no_box": {
+      "aborted_reason": null,
+      "command": [
+        "/home/linjiw/isaaclab-install/env_isaaclab/bin/python",
+        "-u",
+        "-m",
+        "gear_sonic.eval_agent_trl",
+        "+checkpoint=/home/linjiw/lucid/GR00T-WholeBodyControl/sonic_release/last.pt",
+        "+headless=True",
+        "++eval_callbacks=im_eval",
+        "++run_eval_loop=False",
+        "++num_envs=2",
+        "++eval_output_dir=/home/linjiw/scene2motion/run/probe_obstacle_fix/no_box/eval",
+        "++seed=0",
+        "++manager_env.commands.motion.motion_lib_cfg.multi_thread=False",
+        "+manager_env/terminations=tracking/eval",
+        "+manager_env.commands.motion.motion_lib_cfg.motion_file=/home/linjiw/scene2motion/run/probe_obstacle_fix/no_box/motions.pkl",
+        "+log_keys=motions",
+        "++callbacks.im_eval._target_=scene2motion.sonic_state_export.SonicStateExportCallback",
+        "++callbacks.im_eval.state_filename=achieved_qpos.npz",
+        "++manager_env.config.env_spacing=12.0",
+        "++manager_env.config.episode_length_s=20.0"
+      ],
+      "elapsed_s": 255.0,
+      "log_tail": [
+        "All:  mpjpe_g: 123.515 \tmpjpe_l: 42.994 \tmpjpe_pa: 35.119 \taccel_dist: 13.059 \tvel_dist: 18.176 \tmpjpe_g_legs: 122.586 \tmpjpe_l_legs: 34.404 \tmpjpe_pa_legs: 25.212 \taccel_dist_legs: 13.009 \tvel_dist_legs: 16.865 \tmpjpe_g_vr_3points: 130.298 \tmpjpe_l_vr_3points: 49.353 \tmpjpe_pa_vr_3points: 18.289 \taccel_dist_vr_3points: 15.218 \tvel_dist_vr_3points: 22.342 \tmpjpe_g_other_upper_bodies: 120.560 \tmpjpe_l_other_upper_bodies: 45.283 \tmpjpe_pa_other_upper_bodies: 19.393 \taccel_dist_other_upper_bodies: 11.823 \tvel_dist_other_upper_bodies: 17.251 \tmpjpe_g_foot: 125.991 \tmpjpe_l_foot: 35.760 \tmpjpe_pa_foot: 0.000 \taccel_dist_foot: 15.386 \tvel_dist_foot: 18.079",
+        "Succ:  mpjpe_g: nan \tmpjpe_l: nan \tmpjpe_pa: nan \taccel_dist: nan \tvel_dist: nan \tmpjpe_g_legs: nan \tmpjpe_l_legs: nan \tmpjpe_pa_legs: nan \taccel_dist_legs: nan \tvel_dist_legs: nan \tmpjpe_g_vr_3points: nan \tmpjpe_l_vr_3points: nan \tmpjpe_pa_vr_3points: nan \taccel_dist_vr_3points: nan \tvel_dist_vr_3points: nan \tmpjpe_g_other_upper_bodies: nan \tmpjpe_l_other_upper_bodies: nan \tmpjpe_pa_other_upper_bodies: nan \taccel_dist_other_upper_bodies: nan \tvel_dist_other_upper_bodies: nan \tmpjpe_g_foot: nan \tmpjpe_l_foot: nan \tmpjpe_pa_foot: nan \taccel_dist_foot: nan \tvel_dist_foot: nan",
+        "",
+        "Terminated: 1 | max frames: 398 | steps 58 | env_loop: 0 | eval_time: 0.0m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 1/1 [00:03<00:00,  3.52s/it]",
+        "Terminated: 1 | max frames: 398 | steps 58 | env_loop: 0 | eval_time: 0.0m | Start: 0 | Succ rate: 0.000 | Mpjpe: nan: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 1/1 [00:03<00:00,  3.52s/it]Saved achieved qpos to /home/linjiw/scene2motion/run/probe_obstacle_fix/no_box/eval/achieved_qpos.npz",
+        "Saving metrics_eval to /home/linjiw/scene2motion/run/probe_obstacle_fix/no_box/eval/metrics_eval.json"
+      ],
+      "min_available_ram_mib": 357,
+      "min_free_mib": 3601,
+      "peak_launch_mib": 3631,
+      "returncode": 0
+    }
+  },
+  "before": {
+    "concurrent_isaac_processes": 3,
+    "ram": {
+      "available_mib": 3232,
+      "error": null,
+      "total_mib": 30670
+    },
+    "vram": {
+      "free_mib": 6719,
+      "total_mib": 16303,
+      "used_mib": 9090
+    }
+  },
+  "box_overrides": [
+    "++manager_env.config.env_spacing=12.0",
+    "++manager_env.config.episode_length_s=20.0",
+    "++manager_env.config.add_table=true",
+    "++manager_env.config.table_size=[0.2, 2.0, 0.3]",
+    "++manager_env.config.table_position=[1.2, 0.0, 0.15]"
+  ],
+  "campaign_evidence": false,
+  "comparison": {
+    "n_differing": 2,
+    "n_motions": 2,
+    "obstacle_has_physical_effect": true,
+    "per_motion": [
+      {
+        "differs": true,
+        "max_abs_qpos_difference_over_common_frames": 0.10850238800048828,
+        "max_root_x_m": {
+          "box": 0.8497314453125,
+          "no_box": 0.8595561981201172
+        },
+        "min_root_z_m": {
+          "box": 0.6955928802490234,
+          "no_box": 0.6861175298690796
+        },
+        "motion_key": "s4401",
+        "terminated": {
+          "box": true,
+          "no_box": true
+        },
+        "valid_length": {
+          "box": 58,
+          "no_box": 58
+        }
+      },
+      {
+        "differs": true,
+        "max_abs_qpos_difference_over_common_frames": 0.3317584991455078,
+        "max_root_x_m": {
+          "box": 0.9584541320800781,
+          "no_box": 0.9727554321289062
+        },
+        "min_root_z_m": {
+          "box": 0.7165267467498779,
+          "no_box": 0.7165267467498779
+        },
+        "motion_key": "s4409",
+        "terminated": {
+          "box": true,
+          "no_box": true
+        },
+        "valid_length": {
+          "box": 48,
+          "no_box": 48
+        }
+      }
+    ],
+    "reading": "the obstacle changed the achieved motion, so it is present in physics and the robot interacted with it",
+    "tolerance_m": 0.0001
+  },
+  "motion_keys": [
+    "s4401",
+    "s4409"
+  ],
+  "num_envs": 2,
+  "obstacle": {
+    "convention": "CuboidCfg size is the full x/y/z extents and the position is the box centre; a box of height h resting on the floor is size=[depth_x, width_y, h] at pos=[x, y, h/2]",
+    "pos": [
+      1.2,
+      0.0,
+      0.15
+    ],
+    "quat": [
+      1.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "size_xyz": [
+      0.2,
+      2.0,
+      0.3
+    ]
+  },
+  "probe": "obstacle_present",
+  "shared_overrides": [
+    "++manager_env.config.env_spacing=12.0",
+    "++manager_env.config.episode_length_s=20.0"
+  ],
+  "status": "complete",
+  "table_metadata_in_pickle": true,
+  "why_metadata": "commands.py rewrites the table pose per environment on every reset; without per-motion table_pos/table_quat it falls back to an object-derived pose at z=0.76 and ignores the spawn position"
+}

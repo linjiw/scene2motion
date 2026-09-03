@@ -7,9 +7,10 @@ explicitly exploratory; no population or traversal claim is made from it.
 
 ## 1. The question
 
-Can an obstacle-relative, support-screened edit turn a reference that the frozen SONIC tracker
-has previously completed into a reference that also clears and traverses a 5 cm corridor-spanning
-box at the fixed scene position?
+Can an obstacle-relative, support-screened edit turn a reference from the subset that previously
+finished a SONIC tracking run without the evaluator cutoff into a reference that also clears and
+traverses a 5 cm corridor-spanning box at the fixed scene position?  A completed tracking run and
+a completed route are separate rungs; the pilot records both.
 
 The operational break is already measured.  In the frozen 64-reference EXP-021 pool, 12
 references clear the 5 cm box at `x = 1.2 m`, 11 complete the obstacle-absent tracking run, and
@@ -61,6 +62,17 @@ preparation harness's dtype/shape/byte hash.  A changed array is a new method ve
 Because the historical tracking outcomes of this pool are already public, this pilot can establish
 only engineering viability: whether the reference-level bridge can produce any obstacle-present
 completion.  A success does not estimate a fresh-pool success probability.
+
+The latest same-harness historical outcomes are disclosed rather than used as new evidence:
+
+| key | EXP-030 obstacle absent | EXP-030 5 cm obstacle present | evaluator cutoff in either arm |
+|---|---|---|---:|
+| `s4408` | stalled short of the goal | contacted obstacle | no |
+| `s4434` | completed route | contacted obstacle | no |
+
+Thus only `s4434` is historically route-completing in the paired obstacle-present harness.  Both
+are retained because the pre-execution admission rule, not a route outcome, froze the candidate
+list.  EXP-031's fresh paired arms determine the pilot outcome.
 
 ## 4. Pilot design
 

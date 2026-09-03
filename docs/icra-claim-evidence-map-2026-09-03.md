@@ -65,6 +65,11 @@ controller, scene, evaluator, and source reference are retained contracts.
 - **Denominators:** print both `k/2` admitted candidates and `k/64` source-pool references.
 - **Meaning:** `k >= 1` establishes bounded engineering existence, not a fresh-pool success rate.
   A paper-level method comparison still requires fresh references and component ablations.
+- **Historical-outcome disclosure:** the two candidates were admitted by pre-execution reference
+  gates after development on the eight support-passing references.  In EXP-030, `s4434` completed
+  the obstacle-absent route while `s4408` stalled; both avoided the evaluator cutoff and both
+  contacted the present 5 cm obstacle.  The pilot must not describe both as historically
+  route-completing.
 
 ### E4 — beam-present correction (EXP-029 successor)
 

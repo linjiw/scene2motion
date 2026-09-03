@@ -73,6 +73,23 @@ that fixed direction and **not** flipped to whichever side scores higher.
    applied to all three groups so they are comparable). Pool the held-out scores and report one
    AUC per group with a **cluster bootstrap over scenes** (2,000 resamples, scenes drawn with
    replacement, seed fixed in the analyser).
+
+   *Amendment, 2026-09-03, written before any feature was computed:* pooling the held-out scores
+   of an **unfitted** scalar returns exactly the whole-sample AUC — the held-out score of a clip
+   does not depend on which scene was held out — so endpoint (1) as written is the pooled AUC and
+   is reported as such, with the identity stated in the receipt rather than hidden. Because the
+   confound lives **between** scenes (a longer route forces a faster reference and may also
+   terminate more often), the following is added as a **co-primary**, on the same footing as (1)
+   and (2):
+
+   1b. **Within-scene AUC.** For each scene with at least 5 clips of each outcome, the AUC of the
+   group's primary computed on that scene alone; report the pair-count-weighted mean over
+   evaluable scenes, the unweighted mean, the number of evaluable scenes, and a cluster bootstrap
+   over scenes. Route length, beam geometry and gap are constant inside a scene, so this asks
+   whether the feature ranks cutoffs **after** the between-scene confound is removed. The decision
+   rule in (2) is evaluated on the pooled AUC as the plan wrote it, and reported again on the
+   within-scene AUC; if the two disagree, both are reported and the claim is limited to what they
+   share.
 2. **Primary comparison and the decision rule.** Report `AUC(G3) − AUC(G1)` with its cluster
    bootstrap interval. Per the plan: **contract transfer is claimed only if the contact AUC
    exceeds the speed AUC.** If it does not, the result is reported as *speed-limited and

@@ -175,6 +175,20 @@ code{font:13px var(--mono);background:var(--grey-soft);padding:1px 5px;border-ra
     <div class="card stat"><b>53 / 64</b><span>rollouts stopped by the evaluator's tracking-error cutoff; all 53 upright at the last archived state (pelvis 0.56–0.95 m)</span></div>
     <div class="card stat"><b>53 / 53 · 8 / 11</b><span>the reference screen rejects every stopped reference and passes 8 of the 11 completed runs, rejecting three</span></div>
   </div>
+  <h3>The outcome, scored against the whole traversal problem</h3>
+  <p>A boolean "clearance preserved" merges two very different failures: a robot that drove its body through the box, and one that never left the first metre. So we score every rollout against the scene as a task — start at the origin, goal 7.2 m away, box at 1.2 m — and give it one outcome.</p>
+  <div class="tbl"><table>
+    <tr><th>box height</th><th>fell</th><th>hit the box</th><th>hit a wall</th><th>evaluator cutoff</th><th>timeout</th><th>stalled</th><th>completed the traversal</th></tr>
+    <tr><td>3 cm</td><td>0</td><td>21</td><td>0</td><td>43</td><td>0</td><td>0</td><td><b>0</b></td></tr>
+    <tr><td>5 cm</td><td>0</td><td>21</td><td>0</td><td>43</td><td>0</td><td>0</td><td><b>0</b></td></tr>
+    <tr><td>8 cm</td><td>0</td><td>22</td><td>0</td><td>42</td><td>0</td><td>0</td><td><b>0</b></td></tr>
+    <tr><td>12 cm</td><td>0</td><td>25</td><td>0</td><td>39</td><td>0</td><td>0</td><td><b>0</b></td></tr>
+    <tr><td>20 cm</td><td>0</td><td>30</td><td>0</td><td>34</td><td>0</td><td>0</td><td><b>0</b></td></tr>
+    <tr><td>30 cm</td><td>0</td><td>31</td><td>0</td><td>33</td><td>0</td><td>0</td><td><b>0</b></td></tr>
+  </table></div>
+  <p><b>The pool fails by colliding, not only by being stopped.</b> At the 5 cm box, 21 of the 64 rollouts drive the body through the obstacle's volume and 43 are stopped by the evaluator before anything else happens. Nothing falls, nothing stalls, nothing runs out of time, and nothing completes the traversal at any height. Completion requires passing the obstacle <em>inside the corridor</em>: walking around it is not a completed local traversal.</p>
+  <p class="note">These rollouts were tracked with the box absent from the physics scene, so "hit the box" means the recorded motion intersects its volume in replay — the robot never felt contact and its controller was never perturbed by one. Putting the obstacle in the simulation is the next experiment. Rates are over all assigned trials.</p>
+
   <h3>What the screen measures</h3>
   <p>A foot meets the support test when its sole is within 4.65 cm of the ground and moving slower than 1.18 m/s. Long periods in which neither foot meets that test are associated with the tracking-error cutoffs: in all 12 clearing references both feet fail it for 0.44–1.04 s (nine clips) or 2.4–3.1 s (three) while the pelvis rises only 2–26 cm, and the evaluator's cutoff lands within ±0.2 s of the start of that period in 47 of 53 rollouts. A simple flight-time comparison (the period is 1.3–15.6× longer than a ballistic flight for that pelvis rise) motivates further physical validation; it is not a dynamics analysis, and failing the support test does not establish zero contact force.</p>
   <figure>

@@ -1,0 +1,3998 @@
+{
+  "analysis": "scene-level traversal outcomes for the tracked stepping pool",
+  "descriptive_only": true,
+  "scope": "obstacle ABSENT from the physics scene: 'collided_obstacle' means the achieved trajectory intersects the obstacle geometry in replay, not that the robot felt contact; one route, one scene, physics seed 0",
+  "scene": {
+    "obstacle_x_m": 1.2,
+    "obstacle_depth_m": 0.2,
+    "corridor_half_width_m": 1.4,
+    "start_m": [
+      0.0,
+      0.0
+    ],
+    "goal_m": [
+      7.2,
+      0.0
+    ],
+    "goal_tolerance_m": 0.5
+  },
+  "n_clips": 64,
+  "sources": {
+    "achieved_rows": {
+      "path": "outputs/exp022_exact_tracking_bridge/achieved_rows.jsonl",
+      "sha256": "70cef0916289b37c23795988402d14369838c3ad2418727c7fe82e76319e5c02"
+    },
+    "archives": [
+      "launches/chunk00_seed0/attempt-000/eval/achieved_qpos.npz",
+      "launches/chunk01_seed0/attempt-000/eval/achieved_qpos.npz"
+    ]
+  },
+  "by_height": {
+    "0.03": {
+      "n_assigned_trials": 64,
+      "n_executed": 64,
+      "n_rejected_before_execution": 0,
+      "outcomes": {
+        "rejected": 0,
+        "fell": 0,
+        "collided_obstacle": 21,
+        "collided_wall": 0,
+        "cutoff": 43,
+        "timeout": 0,
+        "stalled": 0,
+        "completed": 0
+      },
+      "completion_rate": 0.0,
+      "completion_rate_of_executed": 0.0,
+      "collision_rate": 0.328125,
+      "obstacle_height_m": 0.03,
+      "per_clip": [
+        {
+          "motion_key": "s4400",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.05862091194849862,
+          "progress_fraction": 0.13583845562405056,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4401",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": true,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.06494537646355149,
+          "progress_fraction": 0.7863553365071616,
+          "tracker_terminated": false
+        },
+        {
+          "motion_key": "s4402",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.4850428798821704,
+          "progress_fraction": 0.06376849280463324,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4403",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.33682109535629956,
+          "progress_fraction": 0.07469124264187282,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4404",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.15117648611885276,
+          "progress_fraction": 0.09529100524054634,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4405",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.4919072922161803,
+          "progress_fraction": 0.05904144710964627,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4406",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.6,
+          "progress_fraction": 0.024402936299641926,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4407",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.39027045833636154,
+          "progress_fraction": 0.0691880120171441,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4408",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": true,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.06398015029879646,
+          "progress_fraction": 0.8095418082343208,
+          "tracker_terminated": false
+        },
+        {
+          "motion_key": "s4409",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.21906618830242214,
+          "progress_fraction": 0.10537147521972656,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4410",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.03173993176538336,
+          "progress_fraction": 0.15643331739637586,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4411",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": true,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.06273135775085456,
+          "progress_fraction": 0.7457666926913791,
+          "tracker_terminated": false
+        },
+        {
+          "motion_key": "s4412",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.38509048691556325,
+          "progress_fraction": 0.08575863308376735,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4413",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.056964755739648994,
+          "progress_fraction": 0.11602507697211371,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4414",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.17452481836754405,
+          "progress_fraction": 0.09252442253960504,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4415",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.06469968426292917,
+          "progress_fraction": 0.1497242185804579,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4416",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.53571187848516,
+          "progress_fraction": 0.05171140034993489,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4417",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.2677846643188141,
+          "progress_fraction": 0.08738014433119033,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4418",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": true,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.063939791761094,
+          "progress_fraction": 0.8779101901584201,
+          "tracker_terminated": false
+        },
+        {
+          "motion_key": "s4419",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": true,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.06465891137785407,
+          "progress_fraction": 0.5526918835110134,
+          "tracker_terminated": false
+        },
+        {
+          "motion_key": "s4420",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.6,
+          "progress_fraction": 0.02096123165554471,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4421",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.37494933571211536,
+          "progress_fraction": 0.07491111755371094,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4422",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.06284281793669619,
+          "progress_fraction": 0.1501745647854275,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4423",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.14413594263714713,
+          "progress_fraction": 0.06960762871636285,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4424",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.4061368370143099,
+          "progress_fraction": 0.07450024286905925,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4425",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.35234927453929665,
+          "progress_fraction": 0.07028685675726996,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4426",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.3872367566526772,
+          "progress_fraction": 0.06582445568508571,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4427",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.16421246323161454,
+          "progress_fraction": 0.09797943962944879,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4428",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": true,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.04755672120762144,
+          "progress_fraction": 0.1917380756802029,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4429",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.5519476351539385,
+          "progress_fraction": 0.040389166937934026,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4430",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.30148045434609305,
+          "progress_fraction": 0.06999121771918403,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4431",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.3325329000178937,
+          "progress_fraction": 0.07989883422851562,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4432",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": true,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.06491721587533462,
+          "progress_fraction": 0.7089532746209039,
+          "tracker_terminated": false
+        },
+        {
+          "motion_key": "s4433",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.516506512548,
+          "progress_fraction": 0.047447416517469615,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4434",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": true,
+          "reached_goal": true,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.0647346077850223,
+          "progress_fraction": 1.0530879762437608,
+          "tracker_terminated": false
+        },
+        {
+          "motion_key": "s4435",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.1301496202750329,
+          "progress_fraction": 0.12382295396592882,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4436",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.06396365262662658,
+          "progress_fraction": 0.1544470919503106,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4437",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.055800776102435855,
+          "progress_fraction": 0.1553315586513943,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4438",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.05775918704107109,
+          "progress_fraction": 0.15887022018432617,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4439",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.21277423669809892,
+          "progress_fraction": 0.09497642517089845,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4440",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": true,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.06483529465769883,
+          "progress_fraction": 0.8323485321468777,
+          "tracker_terminated": false
+        },
+        {
+          "motion_key": "s4441",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.28195992301895484,
+          "progress_fraction": 0.10077688429090711,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4442",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.3386534188465806,
+          "progress_fraction": 0.05878554450141059,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4443",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.07984548007439853,
+          "progress_fraction": 0.1288127899169922,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4444",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.07577171977337985,
+          "progress_fraction": 0.13993051317003039,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4445",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.4317442292956911,
+          "progress_fraction": 0.05947669347127278,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4446",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.06486274819841836,
+          "progress_fraction": 0.13842158847384983,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4447",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.13034305187674805,
+          "progress_fraction": 0.11932055155436197,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4448",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.052796227294127036,
+          "progress_fraction": 0.14498180813259548,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4449",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.16487971656466083,
+          "progress_fraction": 0.10937068197462294,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4450",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.05885214325140072,
+          "progress_fraction": 0.16045623355441624,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4451",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.021759497298672423,
+          "progress_fraction": 0.14916843838161892,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4452",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": true,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.06497006342848453,
+          "progress_fraction": 0.7302782270643446,
+          "tracker_terminated": false
+        },
+        {
+          "motion_key": "s4453",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": true,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.06353972511678961,
+          "progress_fraction": 0.33028602600097656,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4454",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.3393875297214843,
+          "progress_fraction": 0.07929616504245333,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4455",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.5187282851167163,
+          "progress_fraction": 0.045874913533528655,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4456",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.3251180078984541,
+          "progress_fraction": 0.09727610482109918,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4457",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.17525121120742745,
+          "progress_fraction": 0.10729153951009114,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4458",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.5702712645967097,
+          "progress_fraction": 0.0411873393588596,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4459",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": true,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.06497406953454553,
+          "progress_fraction": 0.8863247765435113,
+          "tracker_terminated": false
+        },
+        {
+          "motion_key": "s4460",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": true,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.06422562563813125,
+          "progress_fraction": 0.23057513766818577,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4461",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.5216977325512462,
+          "progress_fraction": 0.0614325205485026,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4462",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.024327875756089738,
+          "progress_fraction": 0.1554923587375217,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4463",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": true,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.06399965407100561,
+          "progress_fraction": 0.7279872894287109,
+          "tracker_terminated": false
+        }
+      ]
+    },
+    "0.05": {
+      "n_assigned_trials": 64,
+      "n_executed": 64,
+      "n_rejected_before_execution": 0,
+      "outcomes": {
+        "rejected": 0,
+        "fell": 0,
+        "collided_obstacle": 21,
+        "collided_wall": 0,
+        "cutoff": 43,
+        "timeout": 0,
+        "stalled": 0,
+        "completed": 0
+      },
+      "completion_rate": 0.0,
+      "completion_rate_of_executed": 0.0,
+      "collision_rate": 0.328125,
+      "obstacle_height_m": 0.05,
+      "per_clip": [
+        {
+          "motion_key": "s4400",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.05862091194849862,
+          "progress_fraction": 0.13583845562405056,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4401",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": true,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.07439272488068117,
+          "progress_fraction": 0.7863553365071616,
+          "tracker_terminated": false
+        },
+        {
+          "motion_key": "s4402",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.4749594996208661,
+          "progress_fraction": 0.06376849280463324,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4403",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.32472625709017283,
+          "progress_fraction": 0.07469124264187282,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4404",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.13117648611885274,
+          "progress_fraction": 0.09529100524054634,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4405",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.48152174340189285,
+          "progress_fraction": 0.05904144710964627,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4406",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.6,
+          "progress_fraction": 0.024402936299641926,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4407",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.38132528551976413,
+          "progress_fraction": 0.0691880120171441,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4408",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": true,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.07418336184869062,
+          "progress_fraction": 0.8095418082343208,
+          "tracker_terminated": false
+        },
+        {
+          "motion_key": "s4409",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.19915960920904793,
+          "progress_fraction": 0.10537147521972656,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4410",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.03173993176538336,
+          "progress_fraction": 0.15643331739637586,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4411",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": true,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.07229870838215958,
+          "progress_fraction": 0.7457666926913791,
+          "tracker_terminated": false
+        },
+        {
+          "motion_key": "s4412",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.3689642643349923,
+          "progress_fraction": 0.08575863308376735,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4413",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.056964755739648994,
+          "progress_fraction": 0.11602507697211371,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4414",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.16426513349596242,
+          "progress_fraction": 0.09252442253960504,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4415",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.07234012091396573,
+          "progress_fraction": 0.1497242185804579,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4416",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.527356578063343,
+          "progress_fraction": 0.05171140034993489,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4417",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.2492333501669824,
+          "progress_fraction": 0.08738014433119033,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4418",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": true,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.07472758571268846,
+          "progress_fraction": 0.8779101901584201,
+          "tracker_terminated": false
+        },
+        {
+          "motion_key": "s4419",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": true,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.07479906878729392,
+          "progress_fraction": 0.5526918835110134,
+          "tracker_terminated": false
+        },
+        {
+          "motion_key": "s4420",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.6,
+          "progress_fraction": 0.02096123165554471,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4421",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.360740365435624,
+          "progress_fraction": 0.07491111755371094,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4422",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.07270743971894518,
+          "progress_fraction": 0.1501745647854275,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4423",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.13562322901924087,
+          "progress_fraction": 0.06960762871636285,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4424",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.39144635245784265,
+          "progress_fraction": 0.07450024286905925,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4425",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.34493526227596394,
+          "progress_fraction": 0.07028685675726996,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4426",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.3771369642647016,
+          "progress_fraction": 0.06582445568508571,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4427",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.16421246323161454,
+          "progress_fraction": 0.09797943962944879,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4428",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": true,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.06618659174508634,
+          "progress_fraction": 0.1917380756802029,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4429",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.543009256621265,
+          "progress_fraction": 0.040389166937934026,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4430",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.28748134938366265,
+          "progress_fraction": 0.06999121771918403,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4431",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.31664430790081477,
+          "progress_fraction": 0.07989883422851562,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4432",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": true,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.07420953932673038,
+          "progress_fraction": 0.7089532746209039,
+          "tracker_terminated": false
+        },
+        {
+          "motion_key": "s4433",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.5049795483545255,
+          "progress_fraction": 0.047447416517469615,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4434",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": true,
+          "reached_goal": true,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.07245024304662653,
+          "progress_fraction": 1.0530879762437608,
+          "tracker_terminated": false
+        },
+        {
+          "motion_key": "s4435",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.11600391961498269,
+          "progress_fraction": 0.12382295396592882,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4436",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.07433908999745704,
+          "progress_fraction": 0.1544470919503106,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4437",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.038090600945323023,
+          "progress_fraction": 0.1553315586513943,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4438",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.039402505071909906,
+          "progress_fraction": 0.15887022018432617,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4439",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.21277423669809892,
+          "progress_fraction": 0.09497642517089845,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4440",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": true,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.07379203066989364,
+          "progress_fraction": 0.8323485321468777,
+          "tracker_terminated": false
+        },
+        {
+          "motion_key": "s4441",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.2670795792793553,
+          "progress_fraction": 0.10077688429090711,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4442",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.32631658701735533,
+          "progress_fraction": 0.05878554450141059,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4443",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.0684083652595486,
+          "progress_fraction": 0.1288127899169922,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4444",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.05577174160206642,
+          "progress_fraction": 0.13993051317003039,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4445",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.42725194610510425,
+          "progress_fraction": 0.05947669347127278,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4446",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.07328315878021506,
+          "progress_fraction": 0.13842158847384983,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4447",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.11570124830932804,
+          "progress_fraction": 0.11932055155436197,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4448",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.052796227294127036,
+          "progress_fraction": 0.14498180813259548,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4449",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.14758234675146728,
+          "progress_fraction": 0.10937068197462294,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4450",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.05885214325140072,
+          "progress_fraction": 0.16045623355441624,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4451",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.013478518365510733,
+          "progress_fraction": 0.14916843838161892,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4452",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": true,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.0749760972963234,
+          "progress_fraction": 0.7302782270643446,
+          "tracker_terminated": false
+        },
+        {
+          "motion_key": "s4453",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": true,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.07487691858592536,
+          "progress_fraction": 0.33028602600097656,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4454",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.32384407484599637,
+          "progress_fraction": 0.07929616504245333,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4455",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.5087852502351151,
+          "progress_fraction": 0.045874913533528655,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4456",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.3122672682954363,
+          "progress_fraction": 0.09727610482109918,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4457",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.16243101159047754,
+          "progress_fraction": 0.10729153951009114,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4458",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.5635117238507341,
+          "progress_fraction": 0.0411873393588596,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4459",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": true,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.07480003377099494,
+          "progress_fraction": 0.8863247765435113,
+          "tracker_terminated": false
+        },
+        {
+          "motion_key": "s4460",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": true,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.07486977176053519,
+          "progress_fraction": 0.23057513766818577,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4461",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.5064406436501945,
+          "progress_fraction": 0.0614325205485026,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4462",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.024327875756089738,
+          "progress_fraction": 0.1554923587375217,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4463",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": true,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.07442623690884441,
+          "progress_fraction": 0.7279872894287109,
+          "tracker_terminated": false
+        }
+      ]
+    },
+    "0.08": {
+      "n_assigned_trials": 64,
+      "n_executed": 64,
+      "n_rejected_before_execution": 0,
+      "outcomes": {
+        "rejected": 0,
+        "fell": 0,
+        "collided_obstacle": 22,
+        "collided_wall": 0,
+        "cutoff": 42,
+        "timeout": 0,
+        "stalled": 0,
+        "completed": 0
+      },
+      "completion_rate": 0.0,
+      "completion_rate_of_executed": 0.0,
+      "collision_rate": 0.34375,
+      "obstacle_height_m": 0.08,
+      "per_clip": [
+        {
+          "motion_key": "s4400",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.05862091194849862,
+          "progress_fraction": 0.13583845562405056,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4401",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": true,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.08249523947028484,
+          "progress_fraction": 0.7863553365071616,
+          "tracker_terminated": false
+        },
+        {
+          "motion_key": "s4402",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.46095227023338986,
+          "progress_fraction": 0.06376849280463324,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4403",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.3079538757784356,
+          "progress_fraction": 0.07469124264187282,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4404",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.10117648611885274,
+          "progress_fraction": 0.09529100524054634,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4405",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.46702492131378587,
+          "progress_fraction": 0.05904144710964627,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4406",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.6,
+          "progress_fraction": 0.024402936299641926,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4407",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.3693757315355941,
+          "progress_fraction": 0.0691880120171441,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4408",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": true,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.08581072538559852,
+          "progress_fraction": 0.8095418082343208,
+          "tracker_terminated": false
+        },
+        {
+          "motion_key": "s4409",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.16933872246702078,
+          "progress_fraction": 0.10537147521972656,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4410",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.03173993176538336,
+          "progress_fraction": 0.15643331739637586,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4411",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": true,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.08787528429096064,
+          "progress_fraction": 0.7457666926913791,
+          "tracker_terminated": false
+        },
+        {
+          "motion_key": "s4412",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.3454562759360491,
+          "progress_fraction": 0.08575863308376735,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4413",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.056964755739648994,
+          "progress_fraction": 0.11602507697211371,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4414",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.15231675511342418,
+          "progress_fraction": 0.09252442253960504,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4415",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.07653992226038092,
+          "progress_fraction": 0.1497242185804579,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4416",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.5159383654111293,
+          "progress_fraction": 0.05171140034993489,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4417",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.22185845898073012,
+          "progress_fraction": 0.08738014433119033,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4418",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": true,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.08946089884957055,
+          "progress_fraction": 0.8779101901584201,
+          "tracker_terminated": false
+        },
+        {
+          "motion_key": "s4419",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": true,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.08716776881023845,
+          "progress_fraction": 0.5526918835110134,
+          "tracker_terminated": false
+        },
+        {
+          "motion_key": "s4420",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.6,
+          "progress_fraction": 0.02096123165554471,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4421",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.34048831622545106,
+          "progress_fraction": 0.07491111755371094,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4422",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.08683248154517006,
+          "progress_fraction": 0.1501745647854275,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4423",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.12580957458591988,
+          "progress_fraction": 0.06960762871636285,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4424",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.3702533017676312,
+          "progress_fraction": 0.07450024286905925,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4425",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.3356907662616062,
+          "progress_fraction": 0.07028685675726996,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4426",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.36337482325658216,
+          "progress_fraction": 0.06582445568508571,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4427",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.16421246323161454,
+          "progress_fraction": 0.09797943962944879,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4428",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": true,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.08989513315232259,
+          "progress_fraction": 0.1917380756802029,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4429",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.5306544305608163,
+          "progress_fraction": 0.040389166937934026,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4430",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.26687511962046384,
+          "progress_fraction": 0.06999121771918403,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4431",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.29364166931232527,
+          "progress_fraction": 0.07989883422851562,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4432",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": true,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.08934967194719075,
+          "progress_fraction": 0.7089532746209039,
+          "tracker_terminated": false
+        },
+        {
+          "motion_key": "s4433",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.4886944720220908,
+          "progress_fraction": 0.047447416517469615,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4434",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": true,
+          "reached_goal": true,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.08967556551788353,
+          "progress_fraction": 1.0530879762437608,
+          "tracker_terminated": false
+        },
+        {
+          "motion_key": "s4435",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.09478536862490741,
+          "progress_fraction": 0.12382295396592882,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4436",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.0808526531466348,
+          "progress_fraction": 0.1544470919503106,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4437",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.01152533820965368,
+          "progress_fraction": 0.1553315586513943,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4438",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.009402505071909895,
+          "progress_fraction": 0.15887022018432617,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4439",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.21277423669809892,
+          "progress_fraction": 0.09497642517089845,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4440",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": true,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.08738177524901336,
+          "progress_fraction": 0.8323485321468777,
+          "tracker_terminated": false
+        },
+        {
+          "motion_key": "s4441",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.2431663561955452,
+          "progress_fraction": 0.10077688429090711,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4442",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.30926995951293657,
+          "progress_fraction": 0.05878554450141059,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4443",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.046886055004627725,
+          "progress_fraction": 0.1288127899169922,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4444",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.02577177434509622,
+          "progress_fraction": 0.13993051317003039,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4445",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.414306830987923,
+          "progress_fraction": 0.05947669347127278,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4446",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.0891746036018062,
+          "progress_fraction": 0.13842158847384983,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4447",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.093738542958198,
+          "progress_fraction": 0.11932055155436197,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4448",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.052796227294127036,
+          "progress_fraction": 0.14498180813259548,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4449",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.12123349600496186,
+          "progress_fraction": 0.10937068197462294,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4450",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.08065590524848139,
+          "progress_fraction": 0.16045623355441624,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4451",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.000502241746129178,
+          "progress_fraction": 0.14916843838161892,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4452",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": true,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.08891042349725135,
+          "progress_fraction": 0.7302782270643446,
+          "tracker_terminated": false
+        },
+        {
+          "motion_key": "s4453",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": true,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.08820048826202441,
+          "progress_fraction": 0.33028602600097656,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4454",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.30148386296424173,
+          "progress_fraction": 0.07929616504245333,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4455",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.49499003993156354,
+          "progress_fraction": 0.045874913533528655,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4456",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.29431097984244975,
+          "progress_fraction": 0.09727610482109918,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4457",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.14320071216505267,
+          "progress_fraction": 0.10729153951009114,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4458",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.5544909397749567,
+          "progress_fraction": 0.0411873393588596,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4459",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": true,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.08984250812993975,
+          "progress_fraction": 0.8863247765435113,
+          "tracker_terminated": false
+        },
+        {
+          "motion_key": "s4460",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": true,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.08920016175230129,
+          "progress_fraction": 0.23057513766818577,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4461",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.484189870226377,
+          "progress_fraction": 0.0614325205485026,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4462",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.024327875756089738,
+          "progress_fraction": 0.1554923587375217,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4463",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": true,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.0841495440348954,
+          "progress_fraction": 0.7279872894287109,
+          "tracker_terminated": false
+        }
+      ]
+    },
+    "0.12": {
+      "n_assigned_trials": 64,
+      "n_executed": 64,
+      "n_rejected_before_execution": 0,
+      "outcomes": {
+        "rejected": 0,
+        "fell": 0,
+        "collided_obstacle": 25,
+        "collided_wall": 0,
+        "cutoff": 39,
+        "timeout": 0,
+        "stalled": 0,
+        "completed": 0
+      },
+      "completion_rate": 0.0,
+      "completion_rate_of_executed": 0.0,
+      "collision_rate": 0.390625,
+      "obstacle_height_m": 0.12,
+      "per_clip": [
+        {
+          "motion_key": "s4400",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.041034420028222406,
+          "progress_fraction": 0.13583845562405056,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4401",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": true,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.10975058079863122,
+          "progress_fraction": 0.7863553365071616,
+          "tracker_terminated": false
+        },
+        {
+          "motion_key": "s4402",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.44454070842562504,
+          "progress_fraction": 0.06376849280463324,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4403",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.2885332693658374,
+          "progress_fraction": 0.07469124264187282,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4404",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.06117648611885277,
+          "progress_fraction": 0.09529100524054634,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4405",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.4498912057688442,
+          "progress_fraction": 0.05904144710964627,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4406",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.6,
+          "progress_fraction": 0.024402936299641926,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4407",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.35642546256889074,
+          "progress_fraction": 0.0691880120171441,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4408",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": true,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.12349260585173699,
+          "progress_fraction": 0.8095418082343208,
+          "tracker_terminated": false
+        },
+        {
+          "motion_key": "s4409",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.1296969018205664,
+          "progress_fraction": 0.10537147521972656,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4410",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.051311423598357046,
+          "progress_fraction": 0.15643331739637586,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4411",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": true,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.10817373148225724,
+          "progress_fraction": 0.7457666926913791,
+          "tracker_terminated": false
+        },
+        {
+          "motion_key": "s4412",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.3156349751253232,
+          "progress_fraction": 0.08575863308376735,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4413",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.05230498339522754,
+          "progress_fraction": 0.11602507697211371,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4414",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.14422251881010198,
+          "progress_fraction": 0.09252442253960504,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4415",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.09818638592457604,
+          "progress_fraction": 0.1497242185804579,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4416",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.502923664451705,
+          "progress_fraction": 0.05171140034993489,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4417",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.18604091188420332,
+          "progress_fraction": 0.08738014433119033,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4418",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": true,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.09608235651267791,
+          "progress_fraction": 0.8779101901584201,
+          "tracker_terminated": false
+        },
+        {
+          "motion_key": "s4419",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": true,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.10851244795770847,
+          "progress_fraction": 0.5526918835110134,
+          "tracker_terminated": false
+        },
+        {
+          "motion_key": "s4420",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.6,
+          "progress_fraction": 0.02096123165554471,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4421",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.3158326484667153,
+          "progress_fraction": 0.07491111755371094,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4422",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.0953740805137465,
+          "progress_fraction": 0.1501745647854275,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4423",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.1202684515468292,
+          "progress_fraction": 0.06960762871636285,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4424",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.34382747039175193,
+          "progress_fraction": 0.07450024286905925,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4425",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.3271441726829072,
+          "progress_fraction": 0.07028685675726996,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4426",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.34788561391088335,
+          "progress_fraction": 0.06582445568508571,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4427",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.15593415801699878,
+          "progress_fraction": 0.09797943962944879,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4428",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": true,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.09947222733346774,
+          "progress_fraction": 0.1917380756802029,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4429",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.5162751659045807,
+          "progress_fraction": 0.040389166937934026,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4430",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.2421355321256436,
+          "progress_fraction": 0.06999121771918403,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4431",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.2648697509201813,
+          "progress_fraction": 0.07989883422851562,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4432",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": true,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.105880706190074,
+          "progress_fraction": 0.7089532746209039,
+          "tracker_terminated": false
+        },
+        {
+          "motion_key": "s4433",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.46904679454239084,
+          "progress_fraction": 0.047447416517469615,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4434",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": true,
+          "reached_goal": true,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.10748855185895267,
+          "progress_fraction": 1.0530879762437608,
+          "tracker_terminated": false
+        },
+        {
+          "motion_key": "s4435",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.06649396730480694,
+          "progress_fraction": 0.12382295396592882,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4436",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.0808526531466348,
+          "progress_fraction": 0.1544470919503106,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4437",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.02389501210457208,
+          "progress_fraction": 0.1553315586513943,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4438",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.023095813513049783,
+          "progress_fraction": 0.15887022018432617,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4439",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.21277423669809892,
+          "progress_fraction": 0.09497642517089845,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4440",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": true,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.10309303978207632,
+          "progress_fraction": 0.8323485321468777,
+          "tracker_terminated": false
+        },
+        {
+          "motion_key": "s4441",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.21191532751244277,
+          "progress_fraction": 0.10077688429090711,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4442",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.28972084930244424,
+          "progress_fraction": 0.05878554450141059,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4443",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.035953325876907034,
+          "progress_fraction": 0.1288127899169922,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4444",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.014211996915213706,
+          "progress_fraction": 0.13993051317003039,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4445",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.3996458242039818,
+          "progress_fraction": 0.05947669347127278,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4446",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.09242886530838422,
+          "progress_fraction": 0.13842158847384983,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4447",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.06368237350998976,
+          "progress_fraction": 0.11932055155436197,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4448",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.032896518160461206,
+          "progress_fraction": 0.14498180813259548,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4449",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.08861458495147892,
+          "progress_fraction": 0.10937068197462294,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4450",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.09331786065514068,
+          "progress_fraction": 0.16045623355441624,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4451",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.040502241746129174,
+          "progress_fraction": 0.14916843838161892,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4452",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": true,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.12147455550648856,
+          "progress_fraction": 0.7302782270643446,
+          "tracker_terminated": false
+        },
+        {
+          "motion_key": "s4453",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": true,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.10890013651370933,
+          "progress_fraction": 0.33028602600097656,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4454",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.2738708115620957,
+          "progress_fraction": 0.07929616504245333,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4455",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.4788599116190413,
+          "progress_fraction": 0.045874913533528655,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4456",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.27325064801913096,
+          "progress_fraction": 0.09727610482109918,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4457",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.11756031293115271,
+          "progress_fraction": 0.10729153951009114,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4458",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.5446454022227031,
+          "progress_fraction": 0.0411873393588596,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4459",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": true,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.1193787861511775,
+          "progress_fraction": 0.8863247765435113,
+          "tracker_terminated": false
+        },
+        {
+          "motion_key": "s4460",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": true,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.11918508885057369,
+          "progress_fraction": 0.23057513766818577,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4461",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.45587610698741005,
+          "progress_fraction": 0.0614325205485026,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4462",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.043320947038920275,
+          "progress_fraction": 0.1554923587375217,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4463",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": true,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.12159512919471213,
+          "progress_fraction": 0.7279872894287109,
+          "tracker_terminated": false
+        }
+      ]
+    },
+    "0.2": {
+      "n_assigned_trials": 64,
+      "n_executed": 64,
+      "n_rejected_before_execution": 0,
+      "outcomes": {
+        "rejected": 0,
+        "fell": 0,
+        "collided_obstacle": 30,
+        "collided_wall": 0,
+        "cutoff": 34,
+        "timeout": 0,
+        "stalled": 0,
+        "completed": 0
+      },
+      "completion_rate": 0.0,
+      "completion_rate_of_executed": 0.0,
+      "collision_rate": 0.46875,
+      "obstacle_height_m": 0.2,
+      "per_clip": [
+        {
+          "motion_key": "s4400",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.004734199644859799,
+          "progress_fraction": 0.13583845562405056,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4401",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": true,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.1433090207828055,
+          "progress_fraction": 0.7863553365071616,
+          "tracker_terminated": false
+        },
+        {
+          "motion_key": "s4402",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.42047012960760566,
+          "progress_fraction": 0.06376849280463324,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4403",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.2620902644941535,
+          "progress_fraction": 0.07469124264187282,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4404",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.018823513881147273,
+          "progress_fraction": 0.09529100524054634,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4405",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.4241461394889057,
+          "progress_fraction": 0.05904144710964627,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4406",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.6,
+          "progress_fraction": 0.024402936299641926,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4407",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.34194562830103353,
+          "progress_fraction": 0.0691880120171441,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4408",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": true,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.1389175598555775,
+          "progress_fraction": 0.8095418082343208,
+          "tracker_terminated": false
+        },
+        {
+          "motion_key": "s4409",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.05127588234866278,
+          "progress_fraction": 0.10537147521972656,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4410",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.11739468078096703,
+          "progress_fraction": 0.15643331739637586,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4411",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": true,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.14358547564608093,
+          "progress_fraction": 0.7457666926913791,
+          "tracker_terminated": false
+        },
+        {
+          "motion_key": "s4412",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.25355305457901806,
+          "progress_fraction": 0.08575863308376735,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4413",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.002530841252544505,
+          "progress_fraction": 0.11602507697211371,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4414",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.14029127975332123,
+          "progress_fraction": 0.09252442253960504,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4415",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.09818638592457604,
+          "progress_fraction": 0.1497242185804579,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4416",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.48513177774060307,
+          "progress_fraction": 0.05171140034993489,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4417",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.11143048627713718,
+          "progress_fraction": 0.08738014433119033,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4418",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": true,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.1470130773982411,
+          "progress_fraction": 0.8779101901584201,
+          "tracker_terminated": false
+        },
+        {
+          "motion_key": "s4419",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": true,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.14339093733749553,
+          "progress_fraction": 0.5526918835110134,
+          "tracker_terminated": false
+        },
+        {
+          "motion_key": "s4420",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.6,
+          "progress_fraction": 0.02096123165554471,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4421",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.27708295804418404,
+          "progress_fraction": 0.07491111755371094,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4422",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.13605348054060856,
+          "progress_fraction": 0.1501745647854275,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4423",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.1202684515468292,
+          "progress_fraction": 0.06960762871636285,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4424",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.29905019961579055,
+          "progress_fraction": 0.07450024286905925,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4425",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.3151589554335398,
+          "progress_fraction": 0.07028685675726996,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4426",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.32816199201236246,
+          "progress_fraction": 0.06582445568508571,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4427",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.11499292435237626,
+          "progress_fraction": 0.09797943962944879,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4428",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": true,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.15231437301522338,
+          "progress_fraction": 0.1917380756802029,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4429",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.4953813802973796,
+          "progress_fraction": 0.040389166937934026,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4430",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.2010941609615068,
+          "progress_fraction": 0.06999121771918403,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4431",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.2165212819151077,
+          "progress_fraction": 0.07989883422851562,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4432",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": true,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.14483960774379068,
+          "progress_fraction": 0.7089532746209039,
+          "tracker_terminated": false
+        },
+        {
+          "motion_key": "s4433",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.4379566287412601,
+          "progress_fraction": 0.047447416517469615,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4434",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": true,
+          "reached_goal": true,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.13396805000439083,
+          "progress_fraction": 1.0530879762437608,
+          "tracker_terminated": false
+        },
+        {
+          "motion_key": "s4435",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.017685855958554986,
+          "progress_fraction": 0.12382295396592882,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4436",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.0808526531466348,
+          "progress_fraction": 0.1544470919503106,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4437",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.07299120915485144,
+          "progress_fraction": 0.1553315586513943,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4438",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.09377505447074284,
+          "progress_fraction": 0.15887022018432617,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4439",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.18907784791343601,
+          "progress_fraction": 0.09497642517089845,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4440",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": true,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.1415255581564857,
+          "progress_fraction": 0.8323485321468777,
+          "tracker_terminated": false
+        },
+        {
+          "motion_key": "s4441",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.15613764441667033,
+          "progress_fraction": 0.10077688429090711,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4442",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.2542418718314835,
+          "progress_fraction": 0.05878554450141059,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4443",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.027226894740949657,
+          "progress_fraction": 0.1288127899169922,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4444",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.04947632491426842,
+          "progress_fraction": 0.13993051317003039,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4445",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.3803283940628055,
+          "progress_fraction": 0.05947669347127278,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4446",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.09242886530838422,
+          "progress_fraction": 0.13842158847384983,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4447",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.002423211423087171,
+          "progress_fraction": 0.11932055155436197,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4448",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.014902204639243105,
+          "progress_fraction": 0.14498180813259548,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4449",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.045045011133866435,
+          "progress_fraction": 0.10937068197462294,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4450",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.16048588051430598,
+          "progress_fraction": 0.16045623355441624,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4451",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.0837149534150957,
+          "progress_fraction": 0.14916843838161892,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4452",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": true,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.16665052942369005,
+          "progress_fraction": 0.7302782270643446,
+          "tracker_terminated": false
+        },
+        {
+          "motion_key": "s4453",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": true,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.14556572570818468,
+          "progress_fraction": 0.33028602600097656,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4454",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.22938153478603052,
+          "progress_fraction": 0.07929616504245333,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4455",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.45417593934482475,
+          "progress_fraction": 0.045874913533528655,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4456",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.2436375203790547,
+          "progress_fraction": 0.09727610482109918,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4457",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.07657968781195063,
+          "progress_fraction": 0.10729153951009114,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4458",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.53288025282027,
+          "progress_fraction": 0.0411873393588596,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4459",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": true,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.1636721251159608,
+          "progress_fraction": 0.8863247765435113,
+          "tracker_terminated": false
+        },
+        {
+          "motion_key": "s4460",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": true,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.1643673877950412,
+          "progress_fraction": 0.23057513766818577,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4461",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.4050594963574589,
+          "progress_fraction": 0.0614325205485026,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4462",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.06496088099384327,
+          "progress_fraction": 0.1554923587375217,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4463",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": true,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.16910517334907657,
+          "progress_fraction": 0.7279872894287109,
+          "tracker_terminated": false
+        }
+      ]
+    },
+    "0.3": {
+      "n_assigned_trials": 64,
+      "n_executed": 64,
+      "n_rejected_before_execution": 0,
+      "outcomes": {
+        "rejected": 0,
+        "fell": 0,
+        "collided_obstacle": 31,
+        "collided_wall": 0,
+        "cutoff": 33,
+        "timeout": 0,
+        "stalled": 0,
+        "completed": 0
+      },
+      "completion_rate": 0.0,
+      "completion_rate_of_executed": 0.0,
+      "collision_rate": 0.484375,
+      "obstacle_height_m": 0.3,
+      "per_clip": [
+        {
+          "motion_key": "s4400",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.06702639871633265,
+          "progress_fraction": 0.13583845562405056,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4401",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": true,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.1756506686605713,
+          "progress_fraction": 0.7863553365071616,
+          "tracker_terminated": false
+        },
+        {
+          "motion_key": "s4402",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.40899782063490403,
+          "progress_fraction": 0.06376849280463324,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4403",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.2551847108266038,
+          "progress_fraction": 0.07469124264187282,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4404",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.04649973299798937,
+          "progress_fraction": 0.09529100524054634,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4405",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.4102548672068499,
+          "progress_fraction": 0.05904144710964627,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4406",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.6,
+          "progress_fraction": 0.024402936299641926,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4407",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.3407305624229991,
+          "progress_fraction": 0.0691880120171441,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4408",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": true,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.1458990964382868,
+          "progress_fraction": 0.8095418082343208,
+          "tracker_terminated": false
+        },
+        {
+          "motion_key": "s4409",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.006054498106753967,
+          "progress_fraction": 0.10537147521972656,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4410",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.14743661565354726,
+          "progress_fraction": 0.15643331739637586,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4411",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": true,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.1745945758357493,
+          "progress_fraction": 0.7457666926913791,
+          "tracker_terminated": false
+        },
+        {
+          "motion_key": "s4412",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.17185846180406822,
+          "progress_fraction": 0.08575863308376735,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4413",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.029407783027858368,
+          "progress_fraction": 0.11602507697211371,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4414",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.12947106207851092,
+          "progress_fraction": 0.09252442253960504,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4415",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.12587608811842954,
+          "progress_fraction": 0.1497242185804579,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4416",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.4791908534415488,
+          "progress_fraction": 0.05171140034993489,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4417",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.04476778336467698,
+          "progress_fraction": 0.08738014433119033,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4418",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": true,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.1760440559167392,
+          "progress_fraction": 0.8779101901584201,
+          "tracker_terminated": false
+        },
+        {
+          "motion_key": "s4419",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": true,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.17644698001636003,
+          "progress_fraction": 0.5526918835110134,
+          "tracker_terminated": false
+        },
+        {
+          "motion_key": "s4420",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.6,
+          "progress_fraction": 0.02096123165554471,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4421",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.25414296715592166,
+          "progress_fraction": 0.07491111755371094,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4422",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.15307636845957026,
+          "progress_fraction": 0.1501745647854275,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4423",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.1202684515468292,
+          "progress_fraction": 0.06960762871636285,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4424",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.2641289634344741,
+          "progress_fraction": 0.07450024286905925,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4425",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.25822758320129735,
+          "progress_fraction": 0.07028685675726996,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4426",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.32429797457579973,
+          "progress_fraction": 0.06582445568508571,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4427",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.08962848958960615,
+          "progress_fraction": 0.09797943962944879,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4428",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": true,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.17862453627294536,
+          "progress_fraction": 0.1917380756802029,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4429",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.4854732867404637,
+          "progress_fraction": 0.040389166937934026,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4430",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.1748938325509708,
+          "progress_fraction": 0.06999121771918403,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4431",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.1833274991731115,
+          "progress_fraction": 0.07989883422851562,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4432",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": true,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.17742067591299868,
+          "progress_fraction": 0.7089532746209039,
+          "tracker_terminated": false
+        },
+        {
+          "motion_key": "s4433",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.41736316941578444,
+          "progress_fraction": 0.047447416517469615,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4434",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": true,
+          "reached_goal": true,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.14896233654810687,
+          "progress_fraction": 1.0530879762437608,
+          "tracker_terminated": false
+        },
+        {
+          "motion_key": "s4435",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.006588221554641706,
+          "progress_fraction": 0.12382295396592882,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4436",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.10387914884673505,
+          "progress_fraction": 0.1544470919503106,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4437",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.14200783218381935,
+          "progress_fraction": 0.1553315586513943,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4438",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.14554079345582827,
+          "progress_fraction": 0.15887022018432617,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4439",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.17503868436898065,
+          "progress_fraction": 0.09497642517089845,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4440",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": true,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.17860541396830207,
+          "progress_fraction": 0.8323485321468777,
+          "tracker_terminated": false
+        },
+        {
+          "motion_key": "s4441",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.0900834478155971,
+          "progress_fraction": 0.10077688429090711,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4442",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.21789117640833586,
+          "progress_fraction": 0.05878554450141059,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4443",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.043461610157578066,
+          "progress_fraction": 0.1288127899169922,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4444",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.10139163614063944,
+          "progress_fraction": 0.13993051317003039,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4445",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.37545389129155876,
+          "progress_fraction": 0.05947669347127278,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4446",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.09897749062610614,
+          "progress_fraction": 0.13842158847384983,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4447",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.0111210473359303,
+          "progress_fraction": 0.11932055155436197,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4448",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.04937450805432791,
+          "progress_fraction": 0.14498180813259548,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4449",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.043078775805931814,
+          "progress_fraction": 0.10937068197462294,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4450",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.16048588051430598,
+          "progress_fraction": 0.16045623355441624,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4451",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.10809132568987367,
+          "progress_fraction": 0.14916843838161892,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4452",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": true,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.17249840555531012,
+          "progress_fraction": 0.7302782270643446,
+          "tracker_terminated": false
+        },
+        {
+          "motion_key": "s4453",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": true,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.17214929199175252,
+          "progress_fraction": 0.33028602600097656,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4454",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.20495260203357946,
+          "progress_fraction": 0.07929616504245333,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4455",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.40907458920462136,
+          "progress_fraction": 0.045874913533528655,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4456",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.2318643139696856,
+          "progress_fraction": 0.09727610482109918,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4457",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.06882976230950802,
+          "progress_fraction": 0.10729153951009114,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4458",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.5311010293552212,
+          "progress_fraction": 0.0411873393588596,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4459",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": true,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.17513474872473975,
+          "progress_fraction": 0.8863247765435113,
+          "tracker_terminated": false
+        },
+        {
+          "motion_key": "s4460",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": true,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.17435155819721623,
+          "progress_fraction": 0.23057513766818577,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4461",
+          "outcome": "cutoff",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": false,
+          "obstacle_min_clearance_m": 0.35440969717037835,
+          "progress_fraction": 0.0614325205485026,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4462",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": false,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.13282201432628782,
+          "progress_fraction": 0.1554923587375217,
+          "tracker_terminated": true
+        },
+        {
+          "motion_key": "s4463",
+          "outcome": "collided_obstacle",
+          "passed_obstacle": true,
+          "reached_goal": false,
+          "collided_obstacle": true,
+          "obstacle_min_clearance_m": -0.1781344038085831,
+          "progress_fraction": 0.7279872894287109,
+          "tracker_terminated": false
+        }
+      ]
+    }
+  }
+}

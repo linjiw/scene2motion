@@ -1755,3 +1755,52 @@ arithmetic, both N90 conventions and the disjointness decomposition;
 `tests/test_analyze_repair_paired_bootstrap.py` (17) pins the truth coercion that a first
 attempt got wrong, the pairing, the sign of the losing comparison and bootstrap determinism.
 Suite: 595 passing.
+
+## 45. Scene-level traversal outcomes: the pool fails by colliding, not only by being cut off
+
+`scene2motion/traversal_eval.py` (new) scores a tracked trajectory against a whole traversal
+problem — the scene's **start, goal and obstacles** — and returns one outcome class from
+`completed / collided_obstacle / collided_wall / fell / cutoff / timeout / stalled`, plus
+`rejected` for an assigned trial that was screened out and never executed. Collision is split
+into obstacle and corridor wall so that "hit the beam" and "walked around and hit a wall" are
+never one number; completion requires passing the obstacle **inside the corridor**, so walking
+around is a failure (local traversal, not navigation). Fall thresholds are EXP-028's
+preregistered constants, pinned by a test; `exp022.score_trajectory` is untouched and the landed
+receipts are unaffected.
+
+`experiments/analyze_traversal_outcomes.py` applies it to all 64 archived EXP-022A rollouts with
+start (0, 0), goal (7.2, 0) and the box at x = 1.2 m
+(`outputs/analysis_traversal_outcomes/summary.json`):
+
+| box height | fell | collided with the box | collided with a wall | evaluator cutoff | timeout | stalled | **completed** |
+|---|---|---|---|---|---|---|---|
+| 3 cm | 0 | 21 | 0 | 43 | 0 | 0 | **0** |
+| 5 cm | 0 | 21 | 0 | 43 | 0 | 0 | **0** |
+| 8 cm | 0 | 22 | 0 | 42 | 0 | 0 | **0** |
+| 12 cm | 0 | 25 | 0 | 39 | 0 | 0 | **0** |
+| 20 cm | 0 | 30 | 0 | 34 | 0 | 0 | **0** |
+| 30 cm | 0 | 31 | 0 | 33 | 0 | 0 | **0** |
+
+This is strictly more informative than §38's zero. The frozen bridge could only say "0/64
+retained", which merges a robot that drove its body through the box with one that never left the
+first metre. Under the scene endpoint, **21 of 64 achieved trajectories intersect a 5 cm box at
+the specified position**, rising to 31 at 30 cm, and 43 are stopped by the evaluator before
+anything else happens. Nothing falls, nothing stalls, nothing times out, and nothing completes at
+any height. Collision outranks the cutoff in the precedence, so the 21 include 10 rollouts the
+bridge also counted as terminated (53 = 43 + 10) and the 11 that were never cut off.
+
+**Scope, and it is a real limit.** These rollouts were tracked with the obstacle *absent* from
+Isaac, so `collided_obstacle` means the recorded motion intersects the box's volume in replay:
+the robot never felt contact and its controller was never perturbed by one. It is a statement
+about the achieved motion, not about contact dynamics. EXP-029 is the obstacle-present version.
+
+**Tracker checkpoint, settled.** NVIDIA's model card lists three released G1 checkpoints and
+assigns the **default release** (`sonic_release/last.pt`, sha `e6bdab3f…`, 10 future frames at
+20 ms) to *motion tracking*; the low-latency and v1.1 variants are aimed at teleoperation and
+VLA execution, v1.1 being heading-normalised and wrist-pose augmented rather than a better
+tracker. Every tracking number in this project therefore already uses the official
+motion-tracking checkpoint, by the vendor's own assignment rather than by default. **SONIC v1.1
+is now downloaded** (`sonic_v1_1/last.pt`, 1.14 GB, sha `af24831a…`, with its `config.yaml` and
+`model_config.yaml`; same `terrain_type: trimesh`, `episode_length_s: 10.0`) so that a
+controller-generality arm can re-run the same references under a second released controller and
+answer whether the zero is checkpoint-specific. That arm has not been run.

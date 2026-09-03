@@ -159,6 +159,7 @@ replace accepted frames with the model's re-encoded/reconstructed history.
 | `scene2motion/stepover_eval.py` | `BoxHeightProbe`, `motion_metrics`, 13-gate `evaluate_local_step`, calibrated thresholds |
 | `scene2motion/ramp/` | gait-phase detector, phase observability (Pmin 0.042 m), route-progress timing, coherent packets (packets are dead as a channel; the detectors are reusable) |
 | `scene2motion/sonic_export.py`, `sonic_state_export.py` | qpos → SONIC motion pkl; achieved-state archive callback (schema v2) |
+| `scene2motion/traversal_eval.py` | scene-level endpoint: start/goal/obstacles -> outcome (`completed`/`collided_obstacle`/`collided_wall`/`fell`/`cutoff`/`timeout`/`stalled`/`rejected`); corridor rule makes walking around a failure; rates over ALL assigned trials; EXP-028's fall constants, `exp022.score_trajectory` untouched |
 | `scene2motion/scenes.py`, `planner.py`, `program.py` | Phase-1 scene families, A* over (x, y, body mode), 43-D constraint program (frozen audit representation) |
 | `scene2motion/verify/`, `optim/`, `learn/`, `demo/` | Phase 2–4 duck-under-beam stack: generate→verify→repair→select loop, QP scheduler, TCN, demo app; v1-era except `phase4e_architecture_v2_s8` |
 | `experiments/` | one script per campaign; each writes `rows.jsonl` + `receipt.json` (exact sample accounting). Post hoc CPU analysers: `analyze_trackability_contract.py` (float + gate), `analyze_exact_centre_cost_curve.py` (A0c), `analyze_event_frames.py` (A0a); figure scripts `fig_contract_gate.py` (Fig. 5), `fig_cost_curve.py` (Fig. 4) read committed outputs only and run under `/home/linjiw/isaaclab-install/env_isaaclab/bin/python` (the only local interpreter with matplotlib; `$S2M_PY` has none) |
@@ -289,7 +290,10 @@ exp019's eight selected seeds; Phase-4 demo/corpus seeds 100–107 and 5000–52
 ## External pins
 
 ARDY repo `/home/linjiw/ardy` at `693f74d`; checkpoint `nvidia/ARDY-G1-RP-25FPS-Horizon52`
-snapshot `059b8007…` (denoiser sha `0c16ac26…`); `g1.xml` sha `5d76cf92…`; SONIC exp1b historical
+snapshot `059b8007…` (denoiser sha `0c16ac26…`); `g1.xml` sha `5d76cf92…`; SONIC **default release** `sonic_release/last.pt` sha `e6bdab3f…` is the vendor's
+**motion-tracking** checkpoint per the model card (low-latency and v1.1 are teleoperation/VLA
+variants, not better trackers) — keep using it and say so; **v1.1 downloaded 2026-09-02**
+at `sonic_v1_1/last.pt` sha `af24831a…` for an unrun controller-generality arm. SONIC exp1b historical
 commit `fb57e86`, current checkout observed at `dd0fd61` (bind and revalidate the exact commit and
 core source hashes in every new receipt), ckpt `sonic_release/last.pt` sha `e6bdab3f…`; Kimodo checkout `1aece8c`, HF snapshot
 `3020ad8c…`; GPU RTX 5080 16 GB, driver 595.84. Generation ≈0.2 s/clip batched, scoring 2–7 s/clip

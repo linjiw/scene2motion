@@ -311,6 +311,27 @@ Under the full endpoint none of the 12 clearing references preserved clearance a
 rollouts were upright at the last archived state (pelvis 0.56–0.95 m; none below 0.5 m), so the
 cutoff is a tracking-error rule firing, not an observed fall.
 
+Scored against the whole traversal problem — start at the route origin, goal 7.2 m away, the
+box at the specified position — every rollout receives one outcome class rather than a boolean.
+Table I gives the breakdown; a boolean endpoint would merge the first two columns.
+
+| box height | fell | hit the box | hit a wall | evaluator cutoff | timeout | stalled | **completed** |
+|---|---|---|---|---|---|---|---|
+| 3 cm | 0 | 21 | 0 | 43 | 0 | 0 | **0** |
+| 5 cm | 0 | 21 | 0 | 43 | 0 | 0 | **0** |
+| 8 cm | 0 | 22 | 0 | 42 | 0 | 0 | **0** |
+| 12 cm | 0 | 25 | 0 | 39 | 0 | 0 | **0** |
+| 20 cm | 0 | 30 | 0 | 34 | 0 | 0 | **0** |
+| 30 cm | 0 | 31 | 0 | 33 | 0 | 0 | **0** |
+
+At the 5 cm box, 21 of 64 achieved trajectories intersect the obstacle's volume and 43 are
+stopped by the evaluator before anything else happens; the collision count rises to 31 at 30 cm.
+Nothing falls, stalls or times out, and nothing completes the traversal at any height. Completion
+requires passing the obstacle inside the corridor, so walking around it does not count. Because
+these rollouts were tracked with the obstacle absent from the physics scene, a collision here
+means the recorded motion intersects the box in replay: the robot never felt contact, and its
+controller was never perturbed by one. Rates are over all assigned trials.
+
 Long periods outside the foot-support test are associated with those cutoffs. The 12 clearing
 references all lift during a period in which neither foot meets the test, lasting 0.44–1.04 s in
 nine of them and 2.4–3.1 s in three, while the pelvis rises only 0.02–0.26 m. A simple

@@ -216,8 +216,8 @@ footer code{font-family:var(--f-mono); font-size:.82rem; color:var(--ink-2)}
     <div class="byline">
       <span><b>Generator</b> ARDY-G1, frozen</span>
       <span><b>Controller</b> SONIC, frozen</span>
-      <span><b>Evidence</b> reference geometry and tracked rollouts, obstacle absent from the physics scene</span>
-      <span><b>Not shown</b> obstacle-present traversal — never measured</span>
+      <span><b>Evidence</b> reference geometry, tracked rollouts, and one campaign with the box in the simulation</span>
+      <span><b>Not shown</b> a completed local traversal — 0 of 64 with the box present</span>
     </div>
   </div>
 </header>
@@ -315,7 +315,9 @@ footer code{font-family:var(--f-mono); font-size:.82rem; color:var(--ink-2)}
             <span class="mono" style="font-size:.76rem;color:var(--ink-3)">obstacle present in the physics scene</span></td>
           <td>passes through the specified corridor with the obstacle in the simulation,
             finishes beyond it, no prohibited contact, no fall, within the time limit</td>
-          <td class="num"><strong>never measured</strong></td><td><strong>never measured</strong></td>
+          <td class="num"><strong>0 / 64</strong><br>
+            <span class="mono" style="font-size:.72rem;color:var(--ink-3)">5 cm box; 0 / 64 again at 20 cm</span></td>
+          <td><strong>never measured</strong></td>
         </tr>
       </tbody>
     </table>
@@ -789,13 +791,14 @@ footer code{font-family:var(--f-mono); font-size:.82rem; color:var(--ink-2)}
   <div class="shead"><span class="snum">Scope</span><h2>What this does not show</h2></div>
   <div class="col">
     <p>
-      <strong>No obstacle-present traversal, in either family.</strong> Every tracked result
-      here was produced with the obstacle absent from the physics scene and the recorded robot
-      states checked afterwards against its geometry. Collision is therefore a property of the
-      recorded motion, not an observed contact, and no completed local traversal has been
-      measured. Putting the obstacle in the simulation — as a contact-sensing body, with an
-      environment spacing and episode length that let a 7.2 m route reach it — is the next
-      experiment.
+      <strong>Almost every tracked result here has no obstacle in the physics scene.</strong>
+      Except where a panel says otherwise, a reference was tracked on open ground and the
+      recorded robot states were checked afterwards against the box's geometry, so collision is
+      a property of the recorded motion rather than an observed contact. That proxy has since
+      been tested against the real thing. With a contact-sensing box actually in the simulation,
+      the same 64 references complete local traversal 0 of 64 times at 5 cm and 0 of 64 at 20 cm,
+      against 1 of 64 with no box at all; per reference, the replayed and the felt outcome agree
+      on 63 of 64 at 5 cm. The proxy is faithful, and what it faithfully reports is failure.
     </p>
     <p>
       <strong>The prospective screen test is unfinished.</strong> The rule is frozen and its

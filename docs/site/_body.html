@@ -1,38 +1,46 @@
 <header class="top">
   <div class="wrap masthead">
     <div class="kicker">
-      <span class="tag live">Working draft · 2026-09-01</span>
-      <span class="tag">Scene2Motion-G1</span>
-      <span class="tag">frozen ARDY-G1 · Unitree G1</span>
+      <span class="tag live">Companion page · 2026-09-03</span>
+      <span class="tag">Scene2Motion</span>
+      <span class="tag">frozen ARDY-G1 · SONIC · Unitree G1</span>
     </div>
-    <h1>When the Prior Steps</h1>
+    <h1>Which generated motions can a controller use to get through this obstacle?</h1>
     <p class="deck">
-      A frozen humanoid motion prior will step over an obstacle on request. It will not
-      step over <b>your</b> obstacle. We measured why: the prior emits the requested
-      behaviour <b>once, early</b> — median frame 34 of 200 — and no conditioning channel
-      we tried moves that timing. The practical consequence is that placement is won by
-      <b>staging the scene around the prior</b>, not by commanding the prior, and that
-      costs 7–8 generator calls.
+      A humanoid can perform a convincing step-over and still walk into the box, because
+      the step happens somewhere else. This page plays the archived motions behind that
+      claim and shows the measurements beside them: <b>where</b> the motion happens,
+      <b>whether</b> it clears the obstacle the scene specifies, and <b>what is left</b>
+      after a controller tracks it.
     </p>
     <div class="byline">
-      <span><b>Prior</b> ARDY-G1, frozen</span>
-      <span><b>Tracker</b> SONIC (staged, not yet in the endpoint)</span>
-      <span><b>Spend</b> 1,150 samples · 15 preregistered campaigns</span>
-      <span><b>Status</b> kinematic stage · pre-execution</span>
+      <span><b>Generator</b> ARDY-G1, frozen</span>
+      <span><b>Controller</b> SONIC, frozen</span>
+      <span><b>Evidence</b> reference geometry and tracked rollouts, obstacle absent from the physics scene</span>
+      <span><b>Not shown</b> obstacle-present traversal — never measured</span>
     </div>
   </div>
 </header>
 
 <div class="wrap">
 
-<!-- ================= THE FINDING ================= -->
+<div class="note" style="margin-top:26px">
+  <span class="eyebrow">What this page is</span>
+  The companion viewer for the Scene2Motion project page, which carries the full argument
+  and the figures: <a href="../index.html">project page</a> ·
+  <a href="https://github.com/linjiw/scene2motion">code and receipts</a>. Every number here
+  is read from a committed receipt in the repository, at the same definition. Analyses done
+  after seeing the data are labelled post hoc. Nothing on this page is a hardware result.
+</div>
+
+<!-- ================= THE PROBLEM ================= -->
 <section id="finding">
-  <div class="shead"><span class="snum">Finding</span><h2>One motion, two obstacles</h2></div>
+  <div class="shead"><span class="snum">The problem</span><h2>One motion, two obstacles</h2></div>
   <p class="lede">
     These two panels play the <em>same generated clip</em>, frame for frame. Nothing about
-    the motion differs. Only the obstacle moved — from where the prior actually steps, to
-    the mid-route position a scene would specify. That single change is the difference
-    between clearing the box and walking into it.
+    the motion differs. Only the box moves — from where the model happened to step, to the
+    mid-route position a scene would specify. That is the difference between clearing the
+    box and walking into it.
   </p>
 
   <div class="duo">
@@ -41,289 +49,174 @@
   </div>
 
   <p class="fig-note">
-    Side view, at the apex of each clip's highest swing; press play to run the motion.
-    Fading traces follow the feet, the swing side in green. The strip beneath is the
-    <em>clearance profile</em> over the whole route: for every position, the tallest box
-    the entire body would clear there. It is non-zero only where a foot leaves the ground,
-    and the dashed marker is where the scene asked for that lift.
+    Side view at the apex of the highest swing; press play to run the motion. Fading traces
+    follow the feet, the swing side in green. The strip beneath is the <em>clearance
+    profile</em> over the whole route: for every position, the tallest box the entire body
+    would clear there, measured against the robot's own collision primitives with a 4 cm
+    margin. The dashed marker is where the scene asked for the clearance. In the left panel
+    the box was placed <em>after</em> watching the clip, so it shows capability, not
+    placement — it is not a traversal result.
   </p>
 
   <div class="pull">
-    The prior is not unable to step over. It is unable to be told <em>where</em>.
+    Producing a stepping motion does not make it happen at the box.
   </div>
 </section>
 
-<!-- ================= WHY IT MATTERS ================= -->
-<section id="why">
-  <div class="shead"><span class="snum">Context</span><h2>Why this matters for humanoid research</h2></div>
-  <div class="col">
-    <p>
-      Large motion priors are increasingly proposed as the motion substrate for humanoid
-      systems: a frozen generator supplies natural whole-body movement, a tracker executes
-      it, and a planner is supposed to steer the pair through a scene. That division of
-      labour assumes the planner can address the generator — that asking for a behaviour
-      at a place and time produces that behaviour at that place and time.
-    </p>
-    <p>
-      We tested that assumption exhaustively for one behaviour, stepping over an obstacle,
-      through every conditioning channel the released interface exposes. It does not hold,
-      and the reason is specific and reusable: <strong>the timing of an elicited behaviour
-      is a property of the generator's own rollout, not of the conditioning.</strong> A
-      planner that issues spatial commands to such a prior is writing into a channel the
-      decoder does not read.
-    </p>
-    <p>
-      The finding is worth reporting because the failure is invisible in the metrics the
-      field commonly uses. Every arm we ran <em>looks</em> like a step-over: the behaviour
-      is present, the motion is natural, a foot leaves the ground. Scored on foot height
-      or on semantic similarity to a prompt, all of it passes. Scored on whether the robot
-      clears the box that was actually in front of it, almost none of it does.
-    </p>
-  </div>
-</section>
-
-<!-- ================= HOW ARDY IS USED ================= -->
-<section id="pipeline">
-  <div class="shead"><span class="snum">System</span><h2>How the prior is driven, and what we measure</h2></div>
+<!-- ================= EVIDENCE LEVELS ================= -->
+<section id="levels">
+  <div class="shead"><span class="snum">How we count</span><h2>Five evidence levels, reported separately</h2></div>
   <p class="lede">
-    ARDY-G1 is an autoregressive diffusion motion prior for the Unitree G1: it rolls a clip
-    out in windows, each conditioned on a text embedding, on sparse kinematic constraints,
-    and on the motion it has already produced. We never update its weights. Everything in
-    this work is a question about what its <em>conditioning interface</em> can be made to do.
-  </p>
-
-  <figure class="figure">
-    <svg viewBox="0 0 980 380" role="img" width="980" height="380"
-      aria-label="Pipeline: text and kinematic channels condition the frozen ARDY prior, which rolls out a reference motion; our geometry measurement scores clearance at the obstacle and drives accept-or-resample; the SONIC tracker stage is not yet in the endpoint. Route position is honoured to about 1.4 centimetres, rotations have negative compliance, and the event's timing is set inside the rollout rather than by any channel.">
-      <defs>
-        <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7"
-          markerHeight="7" orient="auto-start-reverse">
-          <path d="M 0 0 L 10 5 L 0 10 z" fill="currentColor"/>
-        </marker>
-        <marker id="arDim" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7"
-          markerHeight="7" orient="auto-start-reverse">
-          <path d="M 0 0 L 10 5 L 0 10 z" fill="currentColor" opacity=".45"/>
-        </marker>
-      </defs>
-
-      <!-- channels -->
-      <text x="14" y="24" font-size="11" font-weight="600" letter-spacing="1.4"
-        fill="currentColor" opacity=".55">CONDITIONING CHANNELS</text>
-
-      <rect x="14" y="40" width="196" height="46" rx="3" fill="none"
-        stroke="currentColor" stroke-opacity=".45"/>
-      <text x="26" y="60" font-size="13" fill="currentColor">text prompt</text>
-      <text x="26" y="76" font-size="11" fill="currentColor" opacity=".6">"steps over an obstacle"</text>
-
-      <rect x="14" y="98" width="196" height="46" rx="3" fill="none"
-        stroke="var(--pine)" stroke-width="1.6"/>
-      <text x="26" y="118" font-size="13" fill="currentColor">route (root x, z)</text>
-      <text x="26" y="134" font-size="11" fill="var(--pine)">honoured to ~1.4 cm</text>
-
-      <rect x="14" y="156" width="196" height="46" rx="3" fill="none"
-        stroke="var(--clay)" stroke-width="1.6" stroke-dasharray="4 3"/>
-      <text x="26" y="176" font-size="13" fill="currentColor">global joint rotations</text>
-      <text x="26" y="192" font-size="11" fill="var(--clay)">compliance −0.26 · unread</text>
-
-      <rect x="14" y="214" width="196" height="46" rx="3" fill="none"
-        stroke="currentColor" stroke-opacity=".3" stroke-dasharray="4 3"/>
-      <text x="26" y="234" font-size="13" fill="currentColor" opacity=".65">root height</text>
-      <text x="26" y="250" font-size="11" fill="currentColor" opacity=".5">clean, but tiny here</text>
-
-      <rect x="14" y="272" width="196" height="46" rx="3" fill="none"
-        stroke="currentColor" stroke-opacity=".3" stroke-dasharray="4 3"/>
-      <text x="26" y="292" font-size="13" fill="currentColor" opacity=".65">joint positions</text>
-      <text x="26" y="308" font-size="11" fill="currentColor" opacity=".5">literal · destroys gait</text>
-
-      <!-- arrows into the prior -->
-      <line x1="212" y1="63" x2="286" y2="140" stroke="currentColor" stroke-opacity=".45" marker-end="url(#arDim)"/>
-      <line x1="212" y1="121" x2="286" y2="152" stroke="var(--pine)" stroke-width="1.6" marker-end="url(#ar)"/>
-      <line x1="212" y1="179" x2="286" y2="168" stroke="var(--clay)" stroke-width="1.6" stroke-dasharray="4 3" marker-end="url(#ar)"/>
-      <line x1="212" y1="237" x2="286" y2="182" stroke="currentColor" stroke-opacity=".3" stroke-dasharray="4 3" marker-end="url(#arDim)"/>
-      <line x1="212" y1="295" x2="286" y2="196" stroke="currentColor" stroke-opacity=".3" stroke-dasharray="4 3" marker-end="url(#arDim)"/>
-
-      <!-- the prior -->
-      <rect x="290" y="106" width="212" height="126" rx="3" fill="none"
-        stroke="currentColor" stroke-width="1.8"/>
-      <text x="396" y="132" font-size="14" font-weight="600" text-anchor="middle" fill="currentColor">frozen ARDY-G1</text>
-      <text x="396" y="150" font-size="11" text-anchor="middle" fill="currentColor" opacity=".6">autoregressive diffusion</text>
-      <line x1="308" y1="164" x2="484" y2="164" stroke="currentColor" stroke-opacity=".25"/>
-      <text x="396" y="184" font-size="11.5" text-anchor="middle" fill="var(--clay)">the rollout decides WHEN</text>
-      <text x="396" y="202" font-size="11" text-anchor="middle" fill="currentColor" opacity=".6">event lands at frame 34 ± 17</text>
-      <text x="396" y="219" font-size="11" text-anchor="middle" fill="currentColor" opacity=".6">no channel moves it</text>
-
-      <!-- reference motion -->
-      <line x1="504" y1="169" x2="566" y2="169" stroke="currentColor" marker-end="url(#ar)"/>
-      <text x="535" y="160" font-size="10.5" text-anchor="middle" fill="currentColor" opacity=".6">200 frames</text>
-      <rect x="570" y="132" width="150" height="74" rx="3" fill="none" stroke="currentColor" stroke-opacity=".55"/>
-      <text x="645" y="160" font-size="13" text-anchor="middle" fill="currentColor">reference motion</text>
-      <text x="645" y="178" font-size="11" text-anchor="middle" fill="currentColor" opacity=".6">qpos, 25 fps</text>
-      <text x="645" y="194" font-size="11" text-anchor="middle" fill="currentColor" opacity=".6">kinematic only</text>
-
-      <!-- measurement -->
-      <line x1="722" y1="169" x2="784" y2="169" stroke="currentColor" marker-end="url(#ar)"/>
-      <rect x="788" y="120" width="178" height="98" rx="3" fill="none"
-        stroke="var(--pine)" stroke-width="1.8"/>
-      <text x="877" y="144" font-size="13" font-weight="600" text-anchor="middle" fill="currentColor">our measurement</text>
-      <text x="877" y="164" font-size="11" text-anchor="middle" fill="currentColor" opacity=".7">whole-body box clearance</text>
-      <text x="877" y="180" font-size="11" text-anchor="middle" fill="currentColor" opacity=".7">at the obstacle</text>
-      <text x="877" y="202" font-size="11" text-anchor="middle" fill="var(--pine)">accept · or resample</text>
-
-      <!-- resample loop -->
-      <path d="M 877 218 L 877 268 L 396 268 L 396 236" fill="none" stroke="var(--pine)"
-        stroke-width="1.6" marker-end="url(#ar)"/>
-      <text x="640" y="284" font-size="11.5" text-anchor="middle" fill="var(--pine)">resample: a new seed, staged 1.2 m before the obstacle</text>
-
-      <!-- tracker, deferred -->
-      <rect x="788" y="292" width="178" height="52" rx="3" fill="none"
-        stroke="currentColor" stroke-opacity=".35" stroke-dasharray="5 4"/>
-      <text x="877" y="314" font-size="12.5" text-anchor="middle" fill="currentColor" opacity=".65">SONIC tracker</text>
-      <text x="877" y="331" font-size="10.5" text-anchor="middle" fill="currentColor" opacity=".5">next campaign · not yet scored</text>
-      <line x1="877" y1="220" x2="877" y2="290" stroke="currentColor" stroke-opacity=".35"
-        stroke-dasharray="5 4" marker-end="url(#arDim)"/>
-    </svg>
-    <figcaption>
-      Solid marks are channels the decoder demonstrably reads; dashed marks are channels it
-      does not, or that we deliberately do not use. The route is honoured closely enough to
-      plan against. The rotation channel that carries a coherent motion packet is not:
-      constrained frames end further from the command than the untouched clip was. And the
-      quantity a planner most needs — <em>when</em> the behaviour happens — is decided inside
-      the rollout, which is why the loop closes through measurement rather than through a
-      better command.
-    </figcaption>
-  </figure>
-
-  <div class="grid2">
-    <div class="card">
-      <h3>What we send in</h3>
-      <p>A prompt, a dense root path along the route, and (in the packet arms) full-body
-      global rotations plus a root-height trace over a five-frame window aligned to a
-      measured gait cycle. Identical channel support across compared arms, asserted before
-      generation.</p>
-    </div>
-    <div class="card">
-      <h3>What comes back</h3>
-      <p>A 200-frame, 25 fps joint trajectory. Nothing about clearance, contact, or success
-      is provided by the prior — every endpoint on this page is measured afterwards against
-      the robot's own MuJoCo collision primitives.</p>
-    </div>
-    <div class="card">
-      <h3>Where the tracker sits</h3>
-      <p>SONIC converts a reference clip into executed whole-body motion. It is staged and
-      callable but deliberately not yet in the endpoint: at the 5–8 cm amplitudes this work
-      lives at, tracking error previously consumed most of the margin, so putting it in
-      before the kinematic story was settled would have confounded both.</p>
-    </div>
-    <div class="card">
-      <h3>Why a frozen prior at all</h3>
-      <p>Retraining buys placement trivially and gives up the reason to use a prior: broad,
-      natural, human-like motion learned from data no robotics lab will re-collect. The
-      question worth answering is what the frozen artefact can be made to do — which is
-      what a practitioner picking it off the shelf actually faces.</p>
-    </div>
-  </div>
-</section>
-
-<!-- ================= THE THREE CHANNELS ================= -->
-<section id="channels">
-  <div class="shead"><span class="snum">Result 1</span><h2>Three channels, one outcome</h2></div>
-  <p class="lede">
-    Everything the interface offers was tried on the same behaviour. Each channel is scored
-    on three questions a planner needs answered independently: does it produce the
-    behaviour, does it put it where asked, and does it leave the gait intact.
+    A collision-free reference, a completed tracking run and a completed traversal are
+    different results, and one is never allowed to stand in for the next. Every number on
+    this page belongs to exactly one row below.
   </p>
 
   <div class="tablewrap">
     <table>
       <thead><tr>
-        <th>Conditioning channel</th><th>Elicits</th><th>Places</th>
-        <th>Keeps contact</th><th class="num">Clears the box</th>
+        <th>Level</th><th>What it means</th><th class="num">Stepping · 64 references</th><th>Ducking</th>
       </tr></thead>
       <tbody>
         <tr>
-          <td><span class="lab">Text prompt</span><br><span class="mono" style="font-size:.78rem;color:var(--ink-3)">route conditioning only</span></td>
-          <td>yes — 7/8, 49/64</td><td><strong>no</strong></td><td>yes</td>
-          <td class="num">3/8</td>
+          <td><span class="lab">Produced</span></td>
+          <td>the reference clears a 3 cm box at some tested position along the route, in a
+            whole-body geometry check — a box-clearance statement, not a foot height</td>
+          <td class="num">44 / 64</td><td>—</td>
+        </tr>
+        <tr class="hi">
+          <td><span class="lab">Placed</span></td>
+          <td>it clears a 5 cm box at the position the scene specifies (1.2 m), not at a
+            position chosen to fit the clip</td>
+          <td class="num">12 / 64</td><td>reference geometry; see the correction table</td>
         </tr>
         <tr>
-          <td><span class="lab">Sparse joint positions</span><br><span class="mono" style="font-size:.78rem;color:var(--ink-3)">literal keyframes</span></td>
-          <td>literal</td><td>yes</td><td><strong>no</strong> — gait destroyed</td>
-          <td class="num">—</td>
+          <td><span class="lab">Collision-free reference</span></td>
+          <td>the reference itself does not intersect the obstacle</td>
+          <td class="num">12 / 64</td>
+          <td>72.9 % → 99.3 % after up to two corrections (learned proposer)</td>
         </tr>
         <tr>
-          <td><span class="lab">Coherent motion packet</span><br><span class="mono" style="font-size:.78rem;color:var(--ink-3)">phase-aligned, zero frame shift</span></td>
-          <td>yes — 8/8</td><td><strong>no</strong></td><td>degraded</td>
-          <td class="num">0/16</td>
+          <td><span class="lab">Completed tracking run</span></td>
+          <td>the controller followed the reference to the end without the evaluator's
+            tracking-error cutoff</td>
+          <td class="num">11 / 64</td><td>not evaluated under a usable protocol</td>
+        </tr>
+        <tr>
+          <td><span class="lab">Clearance preserved after tracking</span></td>
+          <td>a clearing reference yields a tracked trajectory that passes the obstacle
+            corridor, finishes beyond it, stays collision-free at the graded height and
+            satisfies the termination rule</td>
+          <td class="num"><strong>0 / 64</strong></td>
+          <td>0 / 859, under a protocol confounded by a 14 s clip cap</td>
+        </tr>
+        <tr>
+          <td><span class="lab">Local traversal completion</span><br>
+            <span class="mono" style="font-size:.76rem;color:var(--ink-3)">obstacle present in the physics scene</span></td>
+          <td>passes through the specified corridor with the obstacle in the simulation,
+            finishes beyond it, no prohibited contact, no fall, within the time limit</td>
+          <td class="num"><strong>never measured</strong></td><td><strong>never measured</strong></td>
         </tr>
       </tbody>
     </table>
   </div>
   <p class="fig-note">
-    The packet is the strongest structured request we can make: a real step-over lifted
-    from the prior's own output, phase-matched to the target gait cycle, anchored to that
-    cycle's apex with a center shift of exactly zero, and rendered with identical channel
-    support across arms. It still does not place the behaviour.
+    Local traversal means passing through the specified corridor; walking around does not
+    count. Navigation — reaching a destination, where walking around may be the best answer
+    — is a different task and never shares a success label with it. Rates are over all
+    assigned trials, so a rule that rejects every candidate scores zero completions rather
+    than looking perfect.
   </p>
-
-  <div class="grid2">
-    <div class="card">
-      <div class="stat bad">−0.44</div>
-      <h3>Placement gain</h3>
-      <p>Slope of realised lift position on requested position, where 1.0 would be perfect
-      placement. The residual packet gives +0.02. The request carries no positional
-      information into the output.</p>
-    </div>
-    <div class="card">
-      <div class="stat bad">−0.26</div>
-      <h3>Rotation compliance</h3>
-      <p>At exactly the frames and joints the packet constrains, the generated clip ends
-      <em>further</em> from the commanded pose than the untouched nominal was. The command
-      is not partially met; it is moved away from.</p>
-    </div>
-    <div class="card">
-      <div class="stat bad">0 / 16</div>
-      <h3>Clips honouring the packet at any lag</h3>
-      <p>Sweeping the comparison window across −40 to +80 frames finds no offset at which
-      any clip matches the command better than the nominal. The packet is not late — it is
-      unread.</p>
-    </div>
-  </div>
 </section>
 
-<!-- ================= THE PACKET HURTS ================= -->
-<section id="harm">
-  <div class="shead"><span class="snum">Result 2</span><h2>The structured channel is worse than the prompt</h2></div>
+<!-- ================= QUESTION 1 ================= -->
+<section id="pool">
+  <div class="shead"><span class="snum">Question 1</span><h2>Does the generated pool contain a motion for the specified obstacle?</h2></div>
   <p class="lede">
-    The obvious reading of a null result is that the added structure is inert. It is not.
-    Held against the same prompt, on the same seeds, routes and endpoints, adding the
-    packet actively degrades the behaviour the prompt already produces.
+    We asked for the step in every way the released interface allows — the text prompt, a
+    foot-position request, a phase-aligned rotation request, and a prompt switched on
+    mid-walk — and scored every clip at the position the scene specifies, because a motion
+    can clear the same obstacle somewhere else on its route.
   </p>
 
   <div class="tablewrap">
     <table>
       <thead><tr>
-        <th>Arm (8 paired seeds)</th><th class="num">Elicits</th><th class="num">Mean lift</th>
-        <th class="num">Max lift</th><th class="num">Clears obstacle</th>
+        <th>How the step was asked for</th><th class="num">Produced</th>
+        <th class="num">Clears at the specified position</th>
+        <th class="num">Passes the reference screen</th>
+        <th class="num">Clearance preserved after tracking</th>
       </tr></thead>
       <tbody>
-        <tr><td>Walk prompt — no elicitation floor</td>
-          <td class="num">3/8</td><td class="num">0.002 m</td><td class="num">0.005 m</td><td class="num">0/8</td></tr>
-        <tr class="hi"><td><strong>Step prompt, route only</strong></td>
-          <td class="num">7/8</td><td class="num"><strong>0.121 m</strong></td><td class="num">0.212 m</td><td class="num"><strong>3/8</strong></td></tr>
-        <tr><td>Step prompt + absolute packet</td>
-          <td class="num">8/8</td><td class="num">0.072 m</td><td class="num">0.138 m</td><td class="num">0/8</td></tr>
-        <tr><td>Step prompt + residual packet</td>
-          <td class="num">8/8</td><td class="num">0.061 m</td><td class="num">0.144 m</td><td class="num">0/8</td></tr>
+        <tr class="hi">
+          <td><span class="lab">Text prompt, from frame 0</span><br><span class="mono" style="font-size:.78rem;color:var(--ink-3)">64 seeds · route conditioning only</span></td>
+          <td class="num">44 / 64</td><td class="num">12 / 64</td><td class="num">8 / 64</td><td class="num"><strong>0 / 64</strong></td>
+        </tr>
+        <tr>
+          <td><span class="lab">Foot-position request</span><br><span class="mono" style="font-size:.78rem;color:var(--ink-3)">144 clips · six requested amplitudes</span></td>
+          <td class="num">81 / 144</td><td class="num">65 / 144 *</td><td class="num">13 / 144</td><td class="num">not evaluated</td>
+        </tr>
+        <tr>
+          <td><span class="lab">Rotation request, absolute</span><br><span class="mono" style="font-size:.78rem;color:var(--ink-3)">8 seeds · phase-aligned, zero frame shift</span></td>
+          <td class="num">7 / 8</td><td class="num">0 / 8</td><td class="num">—</td><td class="num">—</td>
+        </tr>
+        <tr>
+          <td><span class="lab">Rotation request, residual</span><br><span class="mono" style="font-size:.78rem;color:var(--ink-3)">8 seeds</span></td>
+          <td class="num">5 / 8</td><td class="num">0 / 8</td><td class="num">—</td><td class="num">—</td>
+        </tr>
+        <tr>
+          <td><span class="lab">Prompt switched on mid-walk</span><br><span class="mono" style="font-size:.78rem;color:var(--ink-3)">16 seeds · switch at frame 52</span></td>
+          <td class="num">3 / 16</td><td class="num">0 / 16</td><td class="num">—</td><td class="num">—</td>
+        </tr>
+        <tr>
+          <td><span class="lab">Walking control</span><br><span class="mono" style="font-size:.78rem;color:var(--ink-3)">16 seeds · the expected floor</span></td>
+          <td class="num">0 / 16</td><td class="num">0 / 16</td><td class="num">—</td><td class="num">—</td>
+        </tr>
       </tbody>
     </table>
   </div>
   <p class="fig-note">
-    Paired per seed, the packet costs a median <strong>6.0 cm</strong> (absolute) and
-    <strong>6.8 cm</strong> (residual) of lift in 6 of 8 seeds, and removes the prompt's
-    only successes. This is what the negative compliance predicts: the packet's targets sit
-    off the prior's own coordinated manifold, and the decoder's compromise between them and
-    its learned step-over is an attenuated, displaced motion.
+    "Produced" is a whole-body clearance of at least 3 cm somewhere on the route; the text
+    prompt reaches any positive clearance in 49 of 64. * The foot-position row is scored by
+    that campaign's own fixed probe at 3.6 m, not by the 1.2 m box the other rows use, so its
+    third column is not comparable across rows; it is shown because only 9 of its 144 rollouts
+    completed tracking and none of those 65 clearing clips was among them. "Not evaluated"
+    and the dashes are levels not measured for that channel. The full figure with
+    intervals is on the <a href="../index.html#pool">project page</a>.
   </p>
+
+  <div class="chart" style="margin-top:26px">
+    <h3>When the requested step happens</h3>
+    <p class="sub">Frame at which the reference root reaches the position of maximum box clearance · 49 clips with positive clearance, from 64 generated · 200-frame clips at 25 fps</p>
+    <canvas id="timing" height="300"></canvas>
+    <p class="fig-note" style="margin-top:14px">
+      Median frame 35 — 1.4 s — with a 10th–90th percentile of 21 to 55. Forty of the 49
+      land inside the first 50 frames (95 % interval 0.69–0.90) and four after frame 60.
+      This is the root arriving at the location of greatest clearance, not a detected
+      foot-crossing event. The prompt does not lift exactly once: 30 of the 49 clips contain
+      more than one positive lift region, and "early" is a statement about the tallest one.
+    </p>
+  </div>
+
+  <div class="chart" style="margin-top:30px">
+    <h3>Clearance at the exact position, everywhere on the route</h3>
+    <p class="sub">Clips of 64 that clear a box standing exactly there · every 5 cm from 0.6 m to 6.6 m</p>
+    <div class="legend">
+      <span><i class="swatch" style="background:var(--pine)"></i>5 cm box</span>
+      <span><i class="swatch" style="background:var(--clay)"></i>8 cm box</span>
+    </div>
+    <canvas id="clearance" height="300"></canvas>
+    <p class="fig-note" style="margin-top:14px">
+      No position on the route is much better than the one we use. A 5 cm box peaks at 1.2 m
+      with 12 of 64, an 8 cm box at the same place with 11 of 64, and a 3 cm box at 1.15 m
+      with 15 of 64; at the 3.6 m control position it is 2 of 64 at every height. The 1.2 m
+      position was chosen on these same clips and is now fixed for replication. Sampling
+      raises <em>reference</em> clearance — about 12 fresh draws for a 90 % chance of at
+      least one clearing reference at 5 cm, 13 at 8 cm — and, as the next section shows,
+      does not move the joint count at all. Letting the box move after seeing each clip is a
+      different measurement, and we never report it as a fixed-obstacle success rate.
+    </p>
+  </div>
 
   <div class="trio">
     <div class="stage" data-clip="donor" data-video-only></div>
@@ -331,241 +224,323 @@
     <div class="stage" data-clip="packet" data-video-only></div>
   </div>
   <p class="fig-note">
-    Rendered in MuJoCo from the released G1 model with the scored obstacle welded into the
-    world, straight from the archived joint trajectories — the same clips the numbers above
-    come from, not re-runs or illustrations.
+    Rendered in MuJoCo from the released G1 model with the scored box welded into the world,
+    straight from the archived joint trajectories — the same clips the numbers above come
+    from, not re-runs or illustrations. The rotation request is not partially met: at exactly
+    the frames and joints it constrains, the generated clip ends <em>further</em> from the
+    request than the untouched clip did (mean compliance −0.26 absolute, −0.44 residual), no
+    offset between −40 and +80 frames makes any of the 16 clips match it better, and its
+    placement gain is −0.44 where 1.0 would be perfect placement.
   </p>
-</section>
-
-<!-- ================= MECHANISM ================= -->
-<section id="mechanism">
-  <div class="shead"><span class="snum">Result 3</span><h2>The mechanism: once, early</h2></div>
-  <p class="lede">
-    Sixty-four clips under the prompt alone, on one fixed route, with every lift located in
-    space and converted to its frame in the clip. The distribution is the explanation for
-    every negative above.
-  </p>
-
-  <div class="chart" style="margin-top:26px">
-    <h3>When the prior performs the requested step-over</h3>
-    <p class="sub">Frame of the elicited lift · 49 clips with a lift, from 64 generated · 200-frame clips at 25 fps</p>
-    <canvas id="timing" height="300"></canvas>
-    <p class="fig-note" style="margin-top:14px">
-      Median frame 34 (1.36 s), 10th–90th percentile 20–54, and <strong>80 % of all lifts
-      inside the first 50 frames</strong>. Restricting to lifts above 8 cm does not move it
-      (median frame 33). Only 3 of 49 land after frame 60 — the prior expresses the prompt
-      shortly after its context settles, then returns to walking.
-    </p>
-  </div>
 
   <div class="note">
-    <span class="eyebrow">What this explains</span>
-    Every earlier negative in this program follows from one sentence: <strong>the event's
-    <em>when</em> is set by the rollout, so no channel specifying <em>where</em> can move
-    it.</strong> A pilot that waited for a gait event at a predeclared obstacle found one
-    eligible seed in eight. A pilot that warped route timing to bring the root to the
-    obstacle kept the gait in one case of six. And an earlier text experiment that reported
-    "elicits but places randomly" was never seeing randomness — it was seeing <em>early</em>,
-    against obstacles that were elsewhere.
-  </div>
-
-  <div class="chart" style="margin-top:30px">
-    <h3>The addressable region</h3>
-    <p class="sub">Per-clip probability that a single sample clears a box at that route position, within 25 cm</p>
-    <div class="legend">
-      <span><i class="swatch" style="background:var(--pine)"></i>5 cm box</span>
-      <span><i class="swatch" style="background:var(--clay)"></i>8 cm box</span>
-    </div>
-    <canvas id="region" height="300"></canvas>
-    <p class="fig-note" style="margin-top:14px">
-      The prior is not uniformly unaddressable — it has a narrow window near 1.0–1.4 m of
-      route and is <strong>exactly zero beyond 3.4 m</strong>. Averaging over obstacle
-      positions spread across the whole route, as a naive evaluation would, hides the window
-      and reports a uniformly hopeless prior.
-    </p>
+    <span class="eyebrow">What the mid-walk prompt switch does, and what we withdrew</span>
+    Switching the prompt from walking to stepping at frame 52 produced the step in 3 of 8
+    fresh seeds where an earlier run of the same arm produced none: pooled, 3 of 16 against
+    6 of 8 when the prompt is given from the start. The step arrives 0.8–3.0 s after the
+    switch and none of those clips clears a box at the position predicted for the switch. On
+    that evidence we <strong>withdrew</strong> our earlier claims that a later prompt does
+    not elicit the step and that the step is tied to the start of the rollout; what survives
+    is that a delayed prompt elicits it less often, later, and not at the specified place.
+    The handoff does transmit — the delayed prompt moves the joints after the switch by
+    0.14–0.20 rad RMS, while the frames before the switch are bit-for-bit identical to the
+    walking arm.
   </div>
 </section>
 
-<!-- ================= METHOD ================= -->
-<section id="method">
-  <div class="shead"><span class="snum">Method</span><h2>Stage the scene, then select</h2></div>
+<!-- ================= QUESTION 2 ================= -->
+<section id="selection">
+  <div class="shead"><span class="snum">Question 2</span><h2>Could a selector have found it?</h2></div>
   <p class="lede">
-    If the prior cannot be told when to act, the planner's job changes from commanding to
-    arranging. Measure when the prior acts, place the robot so that moment lands on the
-    obstacle, and spend samples to cover the residual variance.
+    Choosing a motion the controller can execute is not the same as choosing a motion that
+    solves the scene task. So we tracked all 64 references — the ones our screen flags and
+    the ones it passes alike — and asked how many satisfy both requirements at once.
   </p>
-
-  <ol class="steps">
-    <li><strong>Stage the approach.</strong> Walk the robot to a point roughly 1.2 m
-      (≈ 1.36 s) before the obstacle, and begin a fresh generation there. This is not a
-      coordinate shift of an existing clip — the prior is not translation-equivariant, and
-      offsetting a route is absorbed as a speed change. The offset must come from
-      re-planning the approach.</li>
-    <li><strong>Generate under the prompt alone.</strong> No packet, no rotation channel,
-      no root-height channel — the arm that beat every structured alternative.</li>
-    <li><strong>Measure, don't trust.</strong> Score whole-body box clearance at the
-      obstacle against the simulation collision model. Accept or resample.</li>
-    <li><strong>Budget 7–8 calls.</strong> At the staged optimum, a single sample clears a
-      5 cm box with probability 0.312 and an 8 cm box with 0.266, so eight calls reach
-      95 % and 92 % respectively.</li>
-  </ol>
 
   <div class="tablewrap">
     <table>
       <thead><tr>
-        <th>Obstacle</th><th class="num">Best staging point</th><th class="num">One sample</th>
-        <th class="num">N=2</th><th class="num">N=4</th><th class="num">N=8</th><th class="num">N=16</th>
+        <th>Pool of 64 candidates · 5 cm box at the specified position</th><th class="num">Count</th>
       </tr></thead>
       <tbody>
-        <tr class="hi"><td>5 cm box</td><td class="num">1.2 m</td><td class="num">0.31</td>
-          <td class="num">0.53</td><td class="num">0.78</td><td class="num">0.95</td><td class="num">1.00</td></tr>
-        <tr><td>8 cm box</td><td class="num">1.2 m</td><td class="num">0.27</td>
-          <td class="num">0.46</td><td class="num">0.71</td><td class="num">0.92</td><td class="num">0.99</td></tr>
+        <tr><td>clears the obstacle in the reference</td><td class="num">12</td></tr>
+        <tr><td>completes tracking without an evaluator cutoff</td><td class="num">11</td></tr>
+        <tr class="hi"><td><strong>both</strong></td><td class="num"><strong>0</strong></td></tr>
+        <tr><td>passes the lateral corridor and finishes beyond the obstacle</td><td class="num">14 (11 of them without a cutoff)</td></tr>
+        <tr><td>never reaches the obstacle</td><td class="num">50</td></tr>
+        <tr><td>satisfies the full clearance-after-tracking endpoint</td><td class="num">0</td></tr>
       </tbody>
     </table>
   </div>
   <p class="fig-note">
-    Independent resampling from the measured per-clip rate. For comparison, the coherent
-    packet's rate at its own obstacles was 0/16, whose 95 % upper bound is 0.19 — a budget
-    of at least 11 calls even under the most generous reading of a result that never
-    succeeded once.
+    <strong>The two useful sets are disjoint.</strong> Every reference that clears the box
+    was stopped by the evaluator, and every rollout that completed came from a reference that
+    does not clear the box. No selection rule over this pool could have succeeded — including
+    an offline oracle with access to every outcome — at any candidate budget up to the whole
+    pool. For this stepping family the limitation is the candidate pool, not the choice among
+    candidates, and a better verifier would not change the outcome.
   </p>
 
   <div class="note">
-    <span class="eyebrow">Honest naming</span>
-    This is selection, not control, and we do not intend to dress it as a controller. Its
-    scientific content is the cost curve and the staging geometry that makes the curve
-    affordable — both of which are measurements of the prior, reusable by anyone building
-    on a frozen generator.
+    <span class="eyebrow">Why coverage and selection are reported separately</span>
+    Pool coverage — does any candidate complete the task — and selected success — does the
+    deployed rule pick one that does — answer different questions. High coverage with low
+    selected success is a selector problem. Low coverage at every budget is a candidate
+    problem no ranking function can fix. Clearing references that fail in execution are a
+    controller-compatibility problem. Reporting them apart says which problem you actually
+    have before investing in a better selector.
   </div>
+
+  <h3 style="margin-top:34px">The same rollouts, scored against the whole traversal problem</h3>
+  <p>
+    A single "clearance preserved" number merges a robot that drove its body through the box
+    with one that never left the first metre. So every rollout is scored against the scene as
+    a task — start at the origin, goal 7.2 m away, box at 1.2 m — and given one outcome.
+  </p>
+  <div class="tablewrap">
+    <table>
+      <thead><tr>
+        <th>Box height</th><th class="num">Fell</th><th class="num">Hit the box</th>
+        <th class="num">Hit a wall</th><th class="num">Evaluator cutoff</th><th class="num">Timeout</th>
+        <th class="num">Stalled</th><th class="num">Completed</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>3 cm</td><td class="num">0</td><td class="num">21</td><td class="num">0</td><td class="num">43</td><td class="num">0</td><td class="num">0</td><td class="num"><strong>0</strong></td></tr>
+        <tr class="hi"><td>5 cm</td><td class="num">0</td><td class="num">21</td><td class="num">0</td><td class="num">43</td><td class="num">0</td><td class="num">0</td><td class="num"><strong>0</strong></td></tr>
+        <tr><td>8 cm</td><td class="num">0</td><td class="num">22</td><td class="num">0</td><td class="num">42</td><td class="num">0</td><td class="num">0</td><td class="num"><strong>0</strong></td></tr>
+        <tr><td>12 cm</td><td class="num">0</td><td class="num">25</td><td class="num">0</td><td class="num">39</td><td class="num">0</td><td class="num">0</td><td class="num"><strong>0</strong></td></tr>
+        <tr><td>20 cm</td><td class="num">0</td><td class="num">30</td><td class="num">0</td><td class="num">34</td><td class="num">0</td><td class="num">0</td><td class="num"><strong>0</strong></td></tr>
+        <tr><td>30 cm</td><td class="num">0</td><td class="num">31</td><td class="num">0</td><td class="num">33</td><td class="num">0</td><td class="num">0</td><td class="num"><strong>0</strong></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="fig-note">
+    All 64 assigned trials were executed and none was rejected before execution, so the rates
+    are over all 64. At the 5 cm box, 21 rollouts drive the body through the obstacle's
+    volume and 43 are stopped by the evaluator before anything else happens; the 21 include
+    <strong>every one of the 11 rollouts that were never cut off</strong> — all 11 reach and
+    pass the obstacle's position, and all 11 intersect the box there. Nothing falls, nothing
+    stalls, nothing runs out of time, and nothing completes the traversal at any height.
+    Completion requires passing the obstacle <em>inside the corridor</em>: walking around it
+    is not a completed local traversal.
+  </p>
+  <p class="fig-note">
+    <strong>Scope, and it is a real limit.</strong> These rollouts were tracked with the box
+    absent from the physics scene, so "hit the box" means the recorded motion intersects its
+    volume in replay — the robot never felt contact and its controller was never perturbed by
+    one. It is a statement about the achieved motion, not about contact dynamics.
+  </p>
 </section>
 
-<!-- ================= EXPERIMENTS ================= -->
-<section id="experiments">
-  <div class="shead"><span class="snum">Ledger</span><h2>Experiments, budgets, outcomes</h2></div>
+<!-- ================= THE SCREEN ================= -->
+<section id="screen">
+  <div class="shead"><span class="snum">Question 3</span><h2>Can the loss be predicted before a rollout?</h2></div>
   <p class="lede">
-    Every campaign was preregistered before generation and stops fail-closed on its own
-    gates. Refusals are kept as evidence and reported alongside successes; two claims we
-    made ourselves were retracted when fresh pools contradicted them.
+    The controller's evaluator stopped 53 of the 64 rollouts on its tracking-error rule. All
+    53 were upright at the last archived state — pelvis between 0.56 m and 0.95 m, none below
+    0.5 m — so the cutoff is a rule firing, not an observed fall.
+  </p>
+
+  <div class="grid2">
+    <div class="card">
+      <div class="stat">0.997</div>
+      <h3>Ranking performance of one reference-only feature</h3>
+      <p>The longest period in which neither foot meets the support test separates stopped
+      from completed rollouts with AUC 0.997 (95 % 0.987–1.00) on these 64. Post hoc on this
+      corpus; the prospective test is running.</p>
+    </div>
+    <div class="card">
+      <div class="stat">53 / 53 · 8 / 11</div>
+      <h3>The screen at its calibrated threshold</h3>
+      <p>A threshold of 0.20 s, calibrated on tracker-successful references before any of
+      these clips existed, rejects every stopped reference and passes 8 of the 11 completed
+      runs — rejecting three of them. A post hoc sweep optimum at 0.32 s gives 51 of 53 and
+      11 of 11 and is reported as a sweep, never as the rule.</p>
+    </div>
+    <div class="card">
+      <div class="stat">47 / 53</div>
+      <h3>Cutoffs landing at the unsupported period</h3>
+      <p>The cutoff falls within 0.2 s of the start of that period in 47 of the 53 stopped
+      rollouts, median +0.04 s. At the cutoff the robot is upright while the reference's
+      higher foot is a median 0.40 m in the air.</p>
+    </div>
+    <div class="card">
+      <div class="stat bad">0 / 44</div>
+      <h3>Produced steps that pass the screen</h3>
+      <p>None of the 44 references that produce the step passes the screen; the 8 that pass
+      it are clips that did not step, and all 8 completed tracking. Selecting a motion the controller can execute and
+      selecting a motion that solves the scene task pull in opposite directions here, and the
+      conflict has to be named rather than averaged away.</p>
+    </div>
+  </div>
+
+  <p class="fig-note">
+    A foot meets the support test at a frame when its sole is within 4.65 cm of the ground and
+    its planar speed is below 1.18 m/s. The screen predicts <em>one controller evaluator's
+    stopping rule</em> under the release configuration. It does not establish zero contact
+    force, a fall, or physical impossibility, and a calibrated score is not a physical
+    guarantee. The panel figure is on the <a href="../index.html#screen">project page</a>.
+  </p>
+
+  <h3 style="margin-top:34px">The prospective test, in progress</h3>
+  <p>
+    128 fresh references — 32 seeds under each of four native root settings — were generated
+    and scored, and the screen's per-clip predictions were committed to the repository before
+    any tracking run: 95 flagged, 33 passed. All four settings are constructible by their
+    preregistered criteria. The free setting replicates the original prospectively.
+  </p>
+  <div class="tablewrap">
+    <table>
+      <thead><tr>
+        <th>Root control</th><th class="num">Step produced</th>
+        <th class="num">Clears 5 cm at the specified position</th>
+        <th class="num">Passes the screen</th>
+        <th class="num">Valid step passing the support test</th>
+        <th class="num">Median unsupported period</th>
+      </tr></thead>
+      <tbody>
+        <tr class="hi"><td>free</td><td class="num">23 / 32</td><td class="num">7 / 32</td><td class="num">6 / 32</td><td class="num"><strong>0 / 32</strong></td><td class="num">0.48 s</td></tr>
+        <tr><td>heading pinned</td><td class="num">27 / 32</td><td class="num">8 / 32</td><td class="num">3 / 32</td><td class="num"><strong>0 / 32</strong></td><td class="num">0.74 s</td></tr>
+        <tr><td>root height pinned</td><td class="num">19 / 32</td><td class="num">1 / 32</td><td class="num">8 / 32</td><td class="num"><strong>0 / 32</strong></td><td class="num">0.36 s</td></tr>
+        <tr><td>both pinned</td><td class="num">11 / 32</td><td class="num">2 / 32</td><td class="num">16 / 32</td><td class="num"><strong>0 / 32</strong></td><td class="num">0.22 s</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="fig-note">
+    "Valid step passing the support test" requires a locally valid step <em>and</em> no
+    unsupported period longer than 0.20 s, which is why it is zero while 33 references pass
+    the screen alone. Pinning the root shortens the unsupported period and lowers the peak
+    pelvis height from 0.955 m to 0.77 m, but does not turn the motion into a supported step.
+    <strong>The tracking stage has not run:</strong> outcomes and clearance after tracking are
+    pending for all 128 references, flagged and passed alike, as are the rollouts without the
+    cutoff rule that would say what the physical outcome is.
+  </p>
+</section>
+
+<!-- ================= TRANSFER ================= -->
+<section id="transfer">
+  <div class="shead"><span class="snum">Does it generalise?</span><h2>The same screen ranks ducking cutoffs, weakly</h2></div>
+  <p class="lede">
+    The screen was built on motions that leave the ground, so it could simply be detecting
+    stepping. We tested it on a second behaviour family from a different pipeline: 526
+    ducking references produced by a planner-and-correction loop, of which 344 were stopped
+    by the same controller's evaluator, across 36 beam scenes. Groups, primaries, direction
+    and the decision rule were fixed before any feature was computed; the outcome labels were
+    already public, so this is post hoc on a completed campaign.
   </p>
 
   <div class="tablewrap">
     <table>
       <thead><tr>
-        <th>Campaign</th><th>Question</th><th class="num">Samples</th><th>Outcome</th>
+        <th>Reference feature</th><th class="num">Pooled ranking (AUC)</th>
+        <th class="num">95 % interval, 36-scene bootstrap</th><th class="num">Within scene</th>
       </tr></thead>
       <tbody>
-        <tr><td class="mono">calib v1–v3</td>
-          <td>Can a gait event be measured and anchored reproducibly?</td>
-          <td class="num">216</td>
-          <td>Passed on the third preregistration. Observability gate 0.042 m, replicated 3×.</td></tr>
-        <tr><td class="mono">exp017</td>
-          <td>Wait for a gait event at a predeclared obstacle</td>
-          <td class="num">16</td>
-          <td><strong>1/8 eligible</strong> — pool exhausted, no arm generated.</td></tr>
-        <tr><td class="mono">exp018</td>
-          <td>Warp route timing to bring the root to the obstacle</td>
-          <td class="num">62</td>
-          <td><strong>1/6 persisted</strong> — the prior re-plans its gait when root timing changes.</td></tr>
-        <tr><td class="mono">exp019</td>
-          <td>Absolute vs residual packet, obstacle matched to the gait</td>
-          <td class="num">216</td>
-          <td><strong>0/8 clear</strong> for both arms; residual − absolute is noise on every endpoint.</td></tr>
-        <tr class="hi"><td class="mono">exp020</td>
-          <td>Does the packet beat the prompt alone?</td>
-          <td class="num">8</td>
-          <td><strong>No — the prompt wins.</strong> Packet halves amplitude, removes all clearances.</td></tr>
-        <tr class="hi"><td class="mono">exp021</td>
-          <td>Where and when does the prior step on its own?</td>
-          <td class="num">64</td>
-          <td><strong>Median frame 34</strong>, 80 % in the first 50; addressable window 1.0–1.4 m.</td></tr>
+        <tr class="hi"><td>longest unsupported period <span class="mono" style="font-size:.78rem;color:var(--ink-3)">the screen</span></td>
+          <td class="num"><strong>0.674</strong></td><td class="num">0.625 – 0.721</td><td class="num">0.694</td></tr>
+        <tr><td>crouch depth requested</td><td class="num">0.707</td><td class="num">0.632 – 0.770</td><td class="num">0.565</td></tr>
+        <tr><td>peak root speed <span class="mono" style="font-size:.78rem;color:var(--ink-3)">the confound named in advance</span></td>
+          <td class="num">0.441</td><td class="num">0.328 – 0.552</td><td class="num">0.601</td></tr>
       </tbody>
     </table>
   </div>
 
   <div class="grid2">
-    <div class="card"><h3>Primary endpoint</h3><p>Obstacle-centred <strong>whole-body box
-      clearance</strong> — the tallest box the entire body clears at the obstacle, against
-      the robot's simulation collision model with a separately measured margin. Never
-      swing-foot peak, which passes for motions that collide.</p></div>
-    <div class="card"><h3>Supporting vector</h3><p>Collision-free flag, crossing position
-      and frame error, lead-side match, stance and contact fractions, foot-floor
-      penetration, progress ratio, integrated program deformation, generator calls and
-      wall-clock.</p></div>
-    <div class="card"><h3>Inference unit</h3><p>Scene, never the seed. Seeds are the
-      resampling budget within a scene. Wilson intervals on every rate; descriptive paired
-      differences with no interval claimed at these sample sizes.</p></div>
-    <div class="card"><h3>Controls that caught errors</h3><p>A free nominal arm, an
-      outcome-free constructibility probe, and a byte-identical determinism replay. Each
-      caught an invalid comparison before it produced a claim.</p></div>
+    <div class="card">
+      <h3>Above chance in every stratum</h3>
+      <p>The unsupported-period feature is the only one of the three above 0.5 in all seven
+      preregistered strata — three crouch-depth bins and four beam counts — from 0.578 to
+      0.707. Its margin over speed is +0.233 (0.120–0.362) pooled and +0.092 (−0.018–0.210)
+      within scene, so the ordering is established pooled and only suggested once the
+      between-scene confound is removed.</p>
+    </div>
+    <div class="card">
+      <h3>The confound is refuted, not assumed away</h3>
+      <p>That campaign capped clips at 14 s, which made every reference fast, so speed was the
+      obvious alternative explanation. It fails: speed is at or below chance in five of seven
+      strata, and the references that survived are <em>faster</em> than the ones that were
+      stopped (median peak root speed 1.87 vs 1.75 m/s). The two features are near
+      independent, correlation −0.18.</p>
+    </div>
+    <div class="card">
+      <h3>Crouch depth mostly reads the scene</h3>
+      <p>It is the best pooled predictor at 0.707 but falls to 0.565 within scene: deeper
+      crouches were requested in harder scenes, so the pooled number partly reads the scene
+      rather than the reference.</p>
+    </div>
+    <div class="card">
+      <div class="stat bad">0.297</div>
+      <h3>Not a ducking accept/reject rule</h3>
+      <p>At the calibrated 0.20 s threshold the screen flags 313 of 344 stopped references but
+      also 128 of 182 completed ones, and 441 of the 526 references — 84 % — have an
+      unsupported period longer than 0.20 s. The correction pipeline produces motions without
+      conventional foot support too. Nothing here says a ducking reference that passes the
+      screen is trackable.</p>
+    </div>
+  </div>
+  <p class="fig-note">
+    Post hoc, one physics seed, one rollout per reference, one controller checkpoint, 36
+    scenes of one beam family; intervals are a cluster bootstrap over scenes. What this adds
+    is that the screen is a property of <em>this controller's evaluator applied to
+    references</em> rather than of stepping — two actuation channels in one family plus one
+    different family, all ranking the same way, and far weaker here than on the prompt-elicited
+    stepping references.
+  </p>
+</section>
+
+<!-- ================= CORRECTION ================= -->
+<section id="repair">
+  <div class="shead"><span class="snum">Question 4</span><h2>Does correcting a measured clearance error create a usable candidate?</h2></div>
+  <p class="lede">
+    Ducking references admit a correction that stepping does not: their clearance error is
+    scalar and monotone in a control the model actually reads, so a measured error identifies
+    the fix. The adjustment is applied at most twice, remeasured after each step, and rejected
+    with its residual error if the response saturates.
+  </p>
+
+  <div class="tablewrap">
+    <table>
+      <thead><tr>
+        <th>Two corrections minus best-of-three resampling</th><th class="num">Difference (pp)</th>
+        <th class="num">95 % interval, 36-scene bootstrap</th>
+      </tr></thead>
+      <tbody>
+        <tr class="hi"><td>learned proposer, collision-free references</td><td class="num">+21.9</td><td class="num">+9.4 to +35.4</td></tr>
+        <tr><td>learned proposer, 18 cm margin</td><td class="num">+36.1</td><td class="num">+25.0 to +47.6</td></tr>
+        <tr><td>QP teacher, 18 cm margin</td><td class="num">+38.5</td><td class="num">+28.1 to +48.6</td></tr>
+        <tr><td>heuristic proposer, 18 cm margin</td><td class="num">−8.0</td><td class="num">−14.2 to −1.7</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="fig-note">
+    Measured correction improves reference clearance for the learned proposer — 72.9 % to
+    99.3 % collision-free — but does not outperform resampling for every proposer: for the
+    heuristic proposer, whose references are already almost always collision-free, resampling
+    reaches the higher margin rate (72.6 % against 64.6 %). The learned proposer's 99.3 %
+    collision-free rate is not its margin rate of 37.5 %. An equal maximum of three
+    generations is not equal computation: 2.72 generations were used under correction against
+    2.99 under resampling. These are descriptive paired differences over the same rows, not a
+    new experiment.
+  </p>
+  <div class="note">
+    <span class="eyebrow">The boundary</span>
+    All of this is reference geometry. Whether a corrected reference completes the traversal
+    is unmeasured, and a deeper crouch could improve geometry while making tracking harder —
+    a loss we do not yet have the result for. Whether the gain comes specifically from
+    measurement is also untested: a fixed extra-crouch adjustment under the same budget is the
+    mechanism test.
   </div>
 </section>
 
-<!-- ================= HOW THE RESEARCH WENT ================= -->
+<!-- ================= PROCESS ================= -->
 <section id="workflow">
-  <div class="shead"><span class="snum">Process</span><h2>How the work actually went</h2></div>
+  <div class="shead"><span class="snum">Process</span><h2>How the work is run</h2></div>
   <p class="lede">
-    Nine of the fifteen campaigns behind this page stopped without producing the result they
-    were built to produce. That is the method working, not the method failing: each was
-    preregistered with gates that could refuse it, and every refusal is kept as evidence and
-    diagnosed before anything is changed.
+    Every campaign is preregistered before the first sample with its arms, seeds, gates,
+    budget and kill conditions, and stops fail-closed on its own gates. A gate outcome is
+    never rerun on the same seeds with a looser gate: it is diagnosed, the refusal is kept as
+    evidence, and any successor draws seeds it has never seen.
   </p>
-
-  <figure class="figure">
-    <svg viewBox="0 0 980 300" role="img" width="980" height="300"
-      aria-label="The campaign loop: preregister gates and seeds, generate, then either the gates pass and the result is reported, or the campaign fails closed, is diagnosed, and is resized on fresh seeds. Gate outcomes are never rerun; only harness defects are. Nine of fifteen campaigns took the refusal branch.">
-      <defs>
-        <marker id="w-ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7"
-          markerHeight="7" orient="auto-start-reverse">
-          <path d="M 0 0 L 10 5 L 0 10 z" fill="currentColor"/>
-        </marker>
-      </defs>
-
-      <rect x="16" y="96" width="150" height="62" rx="3" fill="none" stroke="currentColor" stroke-width="1.6"/>
-      <text x="91" y="122" font-size="13" font-weight="600" text-anchor="middle" fill="currentColor">preregister</text>
-      <text x="91" y="140" font-size="10.5" text-anchor="middle" fill="currentColor" opacity=".6">gates, seeds, budget</text>
-
-      <line x1="168" y1="127" x2="216" y2="127" stroke="currentColor" marker-end="url(#w-ar)"/>
-
-      <rect x="220" y="96" width="150" height="62" rx="3" fill="none" stroke="currentColor" stroke-width="1.6"/>
-      <text x="295" y="122" font-size="13" font-weight="600" text-anchor="middle" fill="currentColor">generate</text>
-      <text x="295" y="140" font-size="10.5" text-anchor="middle" fill="currentColor" opacity=".6">exact sample accounting</text>
-
-      <line x1="372" y1="127" x2="420" y2="127" stroke="currentColor" marker-end="url(#w-ar)"/>
-
-      <polygon points="500,86 574,127 500,168 426,127" fill="none" stroke="currentColor" stroke-width="1.6"/>
-      <text x="500" y="124" font-size="12.5" font-weight="600" text-anchor="middle" fill="currentColor">gates</text>
-      <text x="500" y="140" font-size="10.5" text-anchor="middle" fill="currentColor" opacity=".6">pass?</text>
-
-      <!-- pass branch -->
-      <line x1="576" y1="127" x2="646" y2="127" stroke="var(--pine)" stroke-width="1.8" marker-end="url(#w-ar)"/>
-      <text x="611" y="118" font-size="11" text-anchor="middle" fill="var(--pine)">6 of 15</text>
-      <rect x="650" y="96" width="164" height="62" rx="3" fill="none" stroke="var(--pine)" stroke-width="1.8"/>
-      <text x="732" y="122" font-size="13" font-weight="600" text-anchor="middle" fill="currentColor">report the result</text>
-      <text x="732" y="140" font-size="10.5" text-anchor="middle" fill="currentColor" opacity=".6">with its scope</text>
-
-      <!-- refuse branch -->
-      <line x1="500" y1="170" x2="500" y2="212" stroke="var(--clay)" stroke-width="1.8" marker-end="url(#w-ar)"/>
-      <text x="516" y="194" font-size="11" fill="var(--clay)">9 of 15 · fail closed</text>
-      <rect x="392" y="216" width="216" height="60" rx="3" fill="none" stroke="var(--clay)" stroke-width="1.8"/>
-      <text x="500" y="240" font-size="13" font-weight="600" text-anchor="middle" fill="currentColor">diagnose the refusal</text>
-      <text x="500" y="258" font-size="10.5" text-anchor="middle" fill="currentColor" opacity=".6">evidence kept · nothing relaxed</text>
-
-      <!-- loop back -->
-      <path d="M 392 246 L 91 246 L 91 160" fill="none" stroke="var(--clay)" stroke-width="1.8" marker-end="url(#w-ar)"/>
-      <text x="240" y="266" font-size="11" text-anchor="middle" fill="var(--clay)">resize on FRESH seeds</text>
-
-      <text x="16" y="34" font-size="11" font-weight="600" letter-spacing="1.4" fill="currentColor" opacity=".55">THE LOOP</text>
-      <text x="16" y="56" font-size="11.5" fill="currentColor" opacity=".7">A gate outcome is never rerun. Only a harness defect is — into a fresh directory,</text>
-      <text x="16" y="72" font-size="11.5" fill="currentColor" opacity=".7">with the failed attempt preserved beside it.</text>
-    </svg>
-    <figcaption>
-      The rule that makes the loop honest is the one on the return edge: a campaign that
-      fails its own gate is never rerun on the same seeds with a looser gate. It is
-      diagnosed, and any successor draws seeds it has never seen. Twice this forced us to
-      retract our own estimates when fresh pools contradicted them.
-    </figcaption>
-  </figure>
 
   <div class="tablewrap">
     <table>
@@ -573,136 +548,39 @@
         <th>What stopped it</th><th>Where</th><th>What the refusal taught</th>
       </tr></thead>
       <tbody>
-        <tr><td class="lab">Substrate attrition</td><td class="mono">calibration v1</td>
-          <td>Two seeds had no complete gait cycle at any speed — ~6 % of seeds are
-            washouts, which every later pool budget had to carry.</td></tr>
-        <tr><td class="lab">Optimistic gate</td><td class="mono">calibration v2</td>
+        <tr><td class="lab">Optimistic gate</td><td class="mono">route-phase calibration</td>
           <td>A coverage rate estimated at 5/7 measured 3/7. The gate was resized to the
-            measurement, on fresh seeds, and passed at v3.</td></tr>
-        <tr><td class="lab">Pool exhaustion</td><td class="mono">exp017</td>
-          <td>Waiting for a gait event at a predeclared obstacle yields 1 seed in 8. The
-            fixed-frame design was closed rather than widened.</td></tr>
-        <tr><td class="lab">Gait re-planning</td><td class="mono">exp018</td>
-          <td>Warping route timing to move the root re-plans the gait: 1 of 6 seeds kept
-            the swing the program was built around.</td></tr>
-        <tr><td class="lab">Two enumerators</td><td class="mono">exp019 v1</td>
-          <td>Placement was chosen with one cycle detector and executed with another. Fixed
-            by making selection dry-run the real render — outcome-free, but binding.</td></tr>
-        <tr><td class="lab">Insufficient control</td><td class="mono">exp019 v3</td>
-          <td>All arms scored zero and we first read it as a broken scene. The free nominal
-            arm proved the endpoint was simply strict: a walk clears nothing anywhere.</td></tr>
-        <tr class="hi"><td class="lab">Our own estimate</td><td class="mono">exp019 v5–v6</td>
-          <td>An offline replay predicted 13/32 eligibility; three real pools returned
-            6, 6 and 5. The estimate was retracted in the record, and the pool doubled.</td></tr>
+            measurement, on fresh seeds, and passed on the third preregistration.</td></tr>
+        <tr><td class="lab">Pool exhaustion</td><td class="mono">predeclared-obstacle waiting</td>
+          <td>Waiting for a gait event at an obstacle declared in advance yields 1 seed in 8.
+            The fixed-frame design was closed rather than widened.</td></tr>
+        <tr><td class="lab">Gait re-planning</td><td class="mono">route warping</td>
+          <td>Stretching the route to bring the root to the obstacle re-plans the gait: 1 of 6
+            seeds kept the swing the program was built around.</td></tr>
+        <tr class="hi"><td class="lab">Our own estimate</td><td class="mono">rotation-request pools</td>
+          <td>An offline replay predicted 13/32 eligibility; three real pools returned 6, 6
+            and 5. The estimate was retracted in the record and the pool doubled.</td></tr>
+        <tr class="hi"><td class="lab">Substrate gate</td><td class="mono">prompt-switch positive control</td>
+          <td>The sideways-squeeze prompt never produced a sidestep under a dense route
+            constraint (0 of 8 by the preregistered composite); it produced a lifting gait
+            instead, 5 of 8 lifting and 2 of 8 clearing a 5 cm box at the predicted position.
+            The control is inconclusive for the question it was built to answer and needs a
+            re-design on fresh seeds; the gate was not relaxed to rescue it.</td></tr>
+        <tr><td class="lab">Provenance refusal</td><td class="mono">reference-contract scoring</td>
+          <td>Scoring was blocked twice by provenance checks unrelated to the data. Both
+            blocked attempts are preserved beside the ledger and eight re-scored rows
+            reproduced byte for byte.</td></tr>
       </tbody>
     </table>
   </div>
 
   <div class="note">
-    <span class="eyebrow">Two defects the process caught that a passing run would have hidden</span>
-    exp017's channel guard listed names from the wrong namespace, so it would have aborted
-    <em>any</em> real arm generation — it survived only because no campaign had yet reached
-    that line. And the first complete arm set was scored on scenes we had mis-specified;
-    the control arm that cost nothing to add is what made that legible. Both are in the
-    committed record with the commits that fixed them.
-  </div>
-</section>
-
-<!-- ================= DATA SHAPES ================= -->
-<section id="data">
-  <div class="shead"><span class="snum">Data</span><h2>What the pipeline emits, and why it is a dataset</h2></div>
-  <p class="lede">
-    A frozen prior plus a geometric scorer is, incidentally, a generator of labelled
-    traversal data — the thing humanoid navigation research is usually short of. Every
-    campaign on this page wrote the same record shape, and the negatives are as labelled as
-    the positives.
-  </p>
-
-  <div class="tablewrap">
-    <table>
-      <thead><tr>
-        <th>Artefact</th><th>Shape</th><th>What it carries</th>
-      </tr></thead>
-      <tbody>
-        <tr>
-          <td><span class="lab">Motion</span><br><span class="mono" style="font-size:.76rem;color:var(--ink-3)">qpos.npz</span></td>
-          <td class="mono">200 × n<sub>q</sub> float, 25 fps</td>
-          <td>The joint trajectory exactly as the prior emitted it, archived before any gate
-            so a rejected clip stays replayable.</td>
-        </tr>
-        <tr>
-          <td><span class="lab">Scene</span><br><span class="mono" style="font-size:.76rem;color:var(--ink-3)">receipt.json</span></td>
-          <td class="mono">route + box (x, half, height)</td>
-          <td>The prescribed root path and the obstacle the clip was scored against, with
-            the body margin used by the collision model.</td>
-        </tr>
-        <tr>
-          <td><span class="lab">Request</span><br><span class="mono" style="font-size:.76rem;color:var(--ink-3)">program_rows.jsonl</span></td>
-          <td class="mono">prompt + channel usage + hashes</td>
-          <td>What was asked for: prompt string, which ARDY channels were written at which
-            frames and joints, packet and program digests, control parameters.</td>
-        </tr>
-        <tr>
-          <td><span class="lab">Response</span><br><span class="mono" style="font-size:.76rem;color:var(--ink-3)">arm_rows.jsonl</span></td>
-          <td class="mono">~20 scalars per clip</td>
-          <td>Whole-body box clearance at the obstacle and its profile along the route,
-            collision-free flag, crossing position and frame error, lead side, stance and
-            contact fractions, foot-floor penetration, progress ratio, deformation.</td>
-        </tr>
-        <tr class="hi">
-          <td><span class="lab">Refusal</span><br><span class="mono" style="font-size:.76rem;color:var(--ink-3)">attrition + kill reasons</span></td>
-          <td class="mono">reason string per rejected unit</td>
-          <td>Why a seed, cycle, placement or whole campaign was rejected — the label that
-            makes a negative usable rather than merely absent.</td>
-        </tr>
-        <tr>
-          <td><span class="lab">Provenance</span><br><span class="mono" style="font-size:.76rem;color:var(--ink-3)">receipt.json</span></td>
-          <td class="mono">content hashes, revalidated</td>
-          <td>Repository commit, checkpoint manifest, text-cache embedding, runtime and
-            physical-model identities, bound before generation and rechecked after.</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <div class="grid2">
-    <div class="card">
-      <div class="stat">1,150</div>
-      <h3>Generator samples archived</h3>
-      <p>Across 15 preregistered campaigns, every one with exact launched-versus-returned
-      accounting. 1,152 joint trajectories are stored and replayable, including every clip
-      that failed a gate.</p>
-    </div>
-    <div class="card">
-      <div class="stat">~7.7 s</div>
-      <h3>Per clip, end to end</h3>
-      <p>Generation is fast — batches of eight return in under a second on one RTX 5080.
-      The cost is in scoring: a clearance profile sweeps the whole route against the
-      collision model, which is what makes the labels trustworthy.</p>
-    </div>
-    <div class="card">
-      <div class="stat good">0.31</div>
-      <h3>Yield at the staged optimum</h3>
-      <p>Roughly one clip in three clears a 5 cm obstacle when the scene is staged to the
-      prior's window. A dataset builder can either keep the winners or — more usefully —
-      keep everything and label it, which is what the record shape above is for.</p>
-    </div>
-    <div class="card">
-      <h3>The honest caveat</h3>
-      <p>These are <em>kinematic</em> labels against a simulation collision model. They are
-      not physics-verified traversals and must not be reported as such until the tracker is
-      in the endpoint. Any throughput figure quoted from this pipeline should name which
-      tier it refers to.</p>
-    </div>
-  </div>
-
-  <div class="note">
-    <span class="eyebrow">Why the negatives are the valuable part</span>
-    A corpus of successful step-overs teaches a downstream policy what success looks like.
-    A corpus that also carries <em>where the prior tried and missed, by how much, and in
-    which direction</em> is a corpus you can learn a correction from. That is the shape this
-    work argues for: scene, request, response, measured error, outcome — with the error
-    signed and spatial, not a scalar reward.
+    <span class="eyebrow">What every campaign binds before it generates</span>
+    Repository commit, generator checkpoint and denoiser hash, robot-model hash, the
+    calibration receipt the support thresholds come from, controller commit and checkpoint,
+    the exact ordered batch plan, and exact launched-versus-returned sample accounting —
+    persisted before generation and revalidated after. Every clip is archived, including the
+    ones that fail a gate, so a rejected candidate stays replayable.
   </div>
 </section>
 
@@ -711,70 +589,35 @@
   <div class="shead"><span class="snum">Scope</span><h2>What this does not show</h2></div>
   <div class="col">
     <p>
-      <strong>One prior, one behaviour, one geometry.</strong> Everything here is ARDY-G1
-      with a released checkpoint, a step-over, and a 20 cm-deep box on a straight route.
-      Duck and lateral squeeze have their own contracts and are untested under this
-      analysis. Cross-prior replication on Kimodo-G1 is staged but unrun.
+      <strong>No obstacle-present traversal, in either family.</strong> Every tracked result
+      here was produced with the obstacle absent from the physics scene and the recorded robot
+      states checked afterwards against its geometry. Collision is therefore a property of the
+      recorded motion, not an observed contact, and no completed local traversal has been
+      measured. Putting the obstacle in the simulation — as a contact-sensing body, with an
+      environment spacing and episode length that let a 7.2 m route reach it — is the next
+      experiment.
     </p>
     <p>
-      <strong>No execution claim.</strong> Every number is kinematic. The operating envelope
-      the method targets, 5–8 cm, is precisely the amplitude at which whole-body tracking
-      previously consumed most of the clearance margin, so the tracker must enter the
-      endpoint before any of this is called a traversal. The SONIC path is verified callable
-      and is the first item in the next campaign.
+      <strong>The prospective screen test is unfinished.</strong> The rule is frozen and its
+      128 per-clip predictions are committed, but no tracking outcome exists for them yet, and
+      neither do the rollouts without the cutoff rule that would distinguish an evaluator
+      cutoff from a loss of balance. Until those land, the screen's strongest claim stays post
+      hoc on one corpus, with a directional and much weaker replication on a second family.
     </p>
     <p>
-      <strong>The timing window is a measurement, not a theory.</strong> Frame 34 is a
-      property of this prior at this history and horizon configuration. Whether the window
-      is set by the autoregressive context length, by the text-conditioning schedule, or by
-      the training distribution is untested, and it is the most interesting open question
-      the result raises.
+      <strong>One generator, one controller, one geometry.</strong> One released ARDY-G1
+      checkpoint at its default minimum history, one SONIC checkpoint — the vendor's
+      motion-tracking release — a 20 cm-deep box on a straight route, one scene, physics seed
+      0 and one rollout per reference. Longer history crops, the shorter-horizon checkpoint,
+      re-issued prompts, a second controller and a cross-generator replication are all
+      untested.
     </p>
     <p>
-      <strong>Staging assumes a run-up.</strong> A 1.2 m approach is available in a corridor
-      with one obstacle and not in dense clutter. The honest generalisation is
-      receding-horizon replanning at each obstacle, where the per-clip rate becomes the cost
-      driver and the budget compounds.
+      <strong>Evaluation, not a method.</strong> The strongest current contribution is a
+      measurement of where generated motions fail, plus a correction that improves ducking
+      reference geometry. It is not a demonstrated obstacle-traversal system, and the paper is
+      coherent only if that boundary is kept.
     </p>
-  </div>
-</section>
-
-<!-- ================= NEXT ================= -->
-<section id="next">
-  <div class="shead"><span class="snum">Proposal</span><h2>What we would run next</h2></div>
-  <p class="lede">
-    The next campaign is drafted and its budget is already measured. It is deliberately not
-    a controller: the evidence says a controller has nothing to act on.
-  </p>
-  <div class="grid2">
-    <div class="card">
-      <h3>Staged selection, with the tracker in the loop</h3>
-      <p>Five arms — one-shot, staged selection at N=8, an <em>unstaged</em> control that
-      isolates staging from resampling, a packet arm at the same budget, and the walk floor.
-      Accepted clips replayed through SONIC and scored on achieved state. Graded box heights
-      0.03–0.30 m rather than pass/fail on one demanding obstacle.</p>
-    </div>
-    <div class="card">
-      <h3>What would change our mind</h3>
-      <p>If the staged rate survives tracking, the method ships and the paper is about
-      measuring a generator's addressable window. If tracking eats the 5–8 cm envelope, the
-      honest result is a cost curve for frozen priors as planners — and the line ends there
-      rather than in another controller.</p>
-    </div>
-    <div class="card">
-      <h3>The open mechanism question</h3>
-      <p>Why frame 34? Varying history length, generation horizon, and prompt schedule would
-      establish whether the window is a tunable of the interface or a property of
-      autoregressive motion priors in general. The latter would matter well beyond this
-      system.</p>
-    </div>
-    <div class="card">
-      <h3>Deliberately deferred</h3>
-      <p>The output-space adapter — authoring the event outside the prior and stitching it
-      in — stays last, and must first be beaten by a procedural, non-learned stitch. Our own
-      packet failed precisely by pulling motion off the prior's manifold, which is that
-      approach's characteristic risk, so its judge must be the tracker.</p>
-    </div>
   </div>
 </section>
 
@@ -783,13 +626,17 @@
 <footer>
   <div class="wrap col">
     <p>
-      All figures are generated from committed campaign receipts; motion panels play
-      world-space forward kinematics of the archived clips, not illustrations. Campaigns
-      bind repository, checkpoint, text-cache and runtime identities and revalidate them
-      after generation; arm clips in the replayed analyses were verified byte-identical
-      (16/16).
+      Figures and tables are generated from committed campaign receipts; the motion panels
+      play world-space forward kinematics of archived clips and MuJoCo renders of the same
+      trajectories, not illustrations. Campaigns bind repository, checkpoint, text-cache and
+      runtime identities and revalidate them after generation. Manuscript in preparation under
+      double-anonymous review; this page carries no author list.
     </p>
-    <p><code>outputs/exp019_gait_matched_stepover_v7/ · outputs/exp020_text_only_control/ ·
-      outputs/exp021_elicited_lift_distribution_v2/ · docs/ramp-e1a-*.md · docs/REPORT.md §31–37</code></p>
+    <p><code>outputs/exp021_elicited_lift_distribution_v2/ · outputs/exp022_exact_tracking_bridge/ ·
+      outputs/exp023b_prompt_switch_control/ · outputs/exp024_reference_contract/ ·
+      outputs/analysis_event_frames/ · outputs/analysis_exact_centre_cost_curve/ ·
+      outputs/analysis_trackability_contract/ · outputs/analysis_pool_coverage/ ·
+      outputs/analysis_traversal_outcomes/ · outputs/analysis_duck_contract/ ·
+      outputs/analysis_repair_paired_bootstrap/ · docs/REPORT.md §31–46</code></p>
   </div>
 </footer>

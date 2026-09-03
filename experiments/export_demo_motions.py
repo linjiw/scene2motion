@@ -7,11 +7,14 @@ committed campaign archive.
 
 The clips are chosen to make four points in order:
 
-* the frozen prior can step over -- the donor clip clears 0.30 m;
-* an ordinary walk clears nothing anywhere, which is the correct baseline;
-* under the prompt alone the behavior appears once, early, and a staged obstacle catches
-  it while the same motion misses an obstacle placed mid-route on command;
-* adding the coherent packet keeps the behavior but displaces and attenuates it.
+* the frozen model can step over -- the donor clip clears 0.30 m;
+* an ordinary walk clears nothing anywhere, which is the correct floor;
+* under the prompt alone the step appears early, and a box placed afterwards at that
+  point is cleared while the same motion misses a box at the position a scene specifies;
+* asking through the joint-rotation channel keeps the step but displaces and attenuates it.
+
+The two text-only panels are a capability illustration: the box in the first is placed
+after watching the clip, so neither panel is a placement or traversal result.
 """
 
 from __future__ import annotations
@@ -131,11 +134,11 @@ def main(argv=None) -> None:
     clips.append(clip_entry(
         body, donor_qpos, reference_route,
         key="donor",
-        title="The prior can step over",
+        title="The model can step over a box",
         caption=(
-            "Seed 2603 under the step-over prompt. Scored against a box placed at its "
-            f"own crossing, it clears {donor_peak_h:.2f} m. This is the capability every "
-            "later result is measured against."),
+            "Seed 2603 under the step prompt, scored against a box placed at its own "
+            f"crossing: it clears {donor_peak_h:.2f} m. Capability, not placement — the "
+            "box was put where the step already was."),
         obstacle_x=donor_peak_x, obstacle_height_m=0.20,
         extra={"badge": "capability", "tone": "good"}))
 
@@ -154,8 +157,8 @@ def main(argv=None) -> None:
         title="An ordinary walk clears nothing",
         caption=(
             "The same route under the walk prompt. The swing foot sweeps through every "
-            "position at low height, so the tallest box that clears anywhere on the whole "
-            "route is 5 mm. A zero here is the expected baseline, not a broken scene."),
+            "position at low height, so the tallest box the whole body clears anywhere on "
+            "the route is 5 mm. A zero here is the expected floor, not a broken scene."),
         obstacle_x=float(per_seed[walk_seed]["obstacle_x_m"]), obstacle_height_m=0.08,
         extra={"badge": "baseline", "tone": "neutral"}))
 
@@ -171,25 +174,23 @@ def main(argv=None) -> None:
     clips.append(clip_entry(
         body, text_qpos, reference_route,
         key="staged",
-        title="Staged: the obstacle is put where the prior steps",
+        title="A box placed where the model stepped",
         caption=(
-            f"Seed {staged['seed']} under the prompt alone. The step-over arrives early, "
-            "as it almost always does, and an obstacle staged at that point is cleared. "
-            "This is the whole method: measure when the prior acts, then arrange the "
-            "scene around it."),
+            f"Seed {staged['seed']} under the prompt alone. The step comes early, as it "
+            "usually does, and a box placed at that point is cleared. The box was placed "
+            "after watching the clip, so this shows capability, not placement."),
         obstacle_x=float(staged["lift_x_m"]), obstacle_height_m=0.08,
-        extra={"badge": "our method", "tone": "good"}))
+        extra={"badge": "capability, not placement", "tone": "good"}))
     clips.append(clip_entry(
         body, text_qpos, reference_route,
         key="commanded",
-        title="Commanded: the same motion, an obstacle placed on demand",
+        title="The same clip does not clear this box",
         caption=(
-            "Identical clip, identical motion — only the obstacle moved, to the "
-            "mid-route position a scene would actually specify. The lift is metres away "
-            "and nothing clears. The difference between this panel and the one above is "
-            "the entire finding."),
+            "Identical clip, identical motion — only the box moved, to the mid-route "
+            "position a scene would actually specify. The lift is metres away and nothing "
+            "clears. Producing a stepping motion does not make it happen at the box."),
         obstacle_x=3.6, obstacle_height_m=0.08,
-        extra={"badge": "why commanding fails", "tone": "bad"}))
+        extra={"badge": "the specified position", "tone": "bad"}))
 
     # 5. A packet arm: the behavior survives, displaced and attenuated.
     arms = np.load(repo / "outputs/exp019_gait_matched_stepover_v7/arm_qpos.npz")
@@ -199,14 +200,13 @@ def main(argv=None) -> None:
         body, np.asarray(arms[f"s{packet_seed}__absolute"], dtype=float),
         cal.route_xz_for_speed(dict(cal.SPEEDS)[packet_label]),
         key="packet",
-        title="With the coherent packet: elicited, displaced, attenuated",
+        title="Asking through the joint-rotation channel",
         caption=(
-            f"Seed {packet_seed} with the packet transported onto its own measured gait "
-            "phase at zero frame shift. A step-over appears — and lands 3.2 m from the "
-            "obstacle it was anchored to, at half the amplitude the prompt alone "
-            "produces."),
+            f"Seed {packet_seed} with a step transported onto its own measured gait "
+            "phase at zero frame shift. A step appears — 3.2 m from the box it was "
+            "anchored to, at about half the amplitude the prompt alone produces."),
         obstacle_x=float(per_seed[packet_seed]["obstacle_x_m"]), obstacle_height_m=0.08,
-        extra={"badge": "packet arm", "tone": "bad"}))
+        extra={"badge": "displaced and attenuated", "tone": "bad"}))
 
     payload = {
         "bodies": list(DRAWN_BODIES),

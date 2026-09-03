@@ -78,11 +78,12 @@ code{font:13px var(--mono);background:var(--grey-soft);padding:1px 5px;border-ra
 <body>
 
 <header class="hero"><div class="wrap">
-  <div class="kicker">Scene2Motion · research project page · updated 2026-09-02</div>
+  <div class="kicker">Scene2Motion · research project page · updated 2026-09-03</div>
   <h1>Which generated motions can a controller use to get through this obstacle?</h1>
   <p class="sub">A humanoid may execute a convincing ducking motion and still collide with a low beam if it stands up before reaching the obstacle. Obstacle traversal takes more than a plausible motion or accurate tracking: the robot must produce enough clearance at the obstacle's location and continue to the other side. Scene2Motion studies this gap by separating reference clearance, controller execution and traversal completion, using a pretrained motion model (NVIDIA ARDY-G1) and an existing controller (SONIC) on the Unitree G1, both frozen.</p>
   <div class="links">
     <a class="primary" href="https://github.com/linjiw/scene2motion">Code &amp; receipts</a>
+    <a href="site/index.html">Motion viewer</a>
     <a href="https://github.com/linjiw/scene2motion/blob/master/docs/paper-draft-v2-2026-09-02.md">Paper draft</a>
     <a href="https://github.com/linjiw/scene2motion/blob/master/docs/project-goal-2026-09-02.md">Project goal</a>
     <a href="https://github.com/linjiw/scene2motion/blob/master/docs/REPORT.md">Research log</a>
@@ -91,7 +92,7 @@ code{font:13px var(--mono);background:var(--grey-soft);padding:1px 5px;border-ra
 </div></header>
 
 <nav class="toc"><div class="wrap">
-  <a href="#demo">Same motion, two obstacles</a> · <a href="#pool">Is the motion in the pool?</a> · <a href="#selection">Could a selector find it?</a> · <a href="#screen">Predicting the failure</a> · <a href="#repair">Does correction help?</a> · <a href="#records">Records</a> · <a href="#next">What comes next</a>
+  <a href="#demo">Same motion, two obstacles</a> · <a href="#levels">Evidence levels</a> · <a href="#pool">Is the motion in the pool?</a> · <a href="#selection">Could a selector find it?</a> · <a href="#screen">Predicting the failure</a> · <a href="#transfer">Does the screen generalise?</a> · <a href="#repair">Does correction help?</a> · <a href="#records">Records</a> · <a href="#next">What comes next</a>
 </div></nav>
 
 <!-- ================= DEMO ================= -->
@@ -123,6 +124,23 @@ code{font:13px var(--mono);background:var(--grey-soft);padding:1px 5px;border-ra
   <p class="note">All clips are archived joint trajectories from the experiments, not re-runs. Three motions can all look relevant to "step over an obstacle": one that steps in the wrong place, one that clears the box in the reference but cannot be tracked, and one that clears it and is tracked to the other side. Only the third completes the traversal. The sections below measure how many of each we actually get.</p>
 </div></section>
 
+<!-- ================= EVIDENCE LEVELS ================= -->
+<section id="levels"><div class="wrap">
+  <div class="snum">How we count</div>
+  <h2>Five evidence levels, reported separately</h2>
+  <p class="lede">A collision-free reference, a completed tracking run and a completed traversal are different results, and one is never allowed to stand in for the next. Every number on this page belongs to exactly one row below.</p>
+  <div class="tbl"><table>
+    <tr><th>level</th><th>what it means</th><th>stepping · 64 references</th><th>ducking</th></tr>
+    <tr><td><b>produced</b></td><td>the reference clears a 3 cm box at some tested position along the route, in a whole-body geometry check — a box-clearance statement, not a foot height</td><td>44 / 64</td><td>—</td></tr>
+    <tr><td><b>placed</b></td><td>it clears a 5 cm box at the position the scene specifies (1.2 m), not at a position chosen to fit the clip</td><td>12 / 64</td><td>reference geometry; see the correction table</td></tr>
+    <tr><td><b>collision-free reference</b></td><td>the reference itself does not intersect the obstacle</td><td>12 / 64</td><td>72.9 % → 99.3 % after up to two corrections (learned proposer)</td></tr>
+    <tr><td><b>completed tracking run</b></td><td>the controller followed the reference to the end without the evaluator's tracking-error cutoff</td><td>11 / 64</td><td>not evaluated under a usable protocol</td></tr>
+    <tr><td><b>clearance preserved after tracking</b></td><td>a clearing reference yields a tracked trajectory that passes the obstacle corridor, finishes beyond it, stays collision-free at the graded height and satisfies the termination rule</td><td><b>0 / 64</b>, and still zero with the termination condition dropped</td><td>0 / 859, under a protocol confounded by a 14 s clip cap</td></tr>
+    <tr><td><b>local traversal completion, obstacle present</b></td><td>passes through the specified corridor with the obstacle in the physics scene, finishes beyond it, no prohibited contact, no fall, within the time limit</td><td colspan="2"><b>never measured, for either family</b></td></tr>
+  </table></div>
+  <p class="note">Local traversal means passing through the specified corridor; walking around does not count. Navigation — reaching a destination, where walking around may be the best answer — is a different task and never shares a success label with it. Rates are over all assigned trials, so a rule that rejects every candidate scores zero completions rather than looking perfect.</p>
+</div></section>
+
 <!-- ================= POOL ================= -->
 <section id="pool"><div class="wrap">
   <div class="snum">Question 1</div>
@@ -140,9 +158,20 @@ code{font:13px var(--mono);background:var(--grey-soft);padding:1px 5px;border-ra
   <ul>
     <li><b>The motion arrives early and on its own schedule.</b> Among the 49 references with positive clearance somewhere on the route, the reference root reaches the location of maximum box clearance after a median 1.4 s, and 40 of 49 within the first two seconds. Where the box is does not move it.</li>
     <li><b>Joint-level requests do not place it either.</b> A requested foot lift over-responds by 1.7–2.3× and lifts both feet; a rotation request produces a step 3.2 m from its anchor at half the amplitude; a route stretched to line the step up with the box preserves the intended gait in 1 of 6.</li>
-    <li><b>Letting the box move to fit the clip is a different statement.</b> Within ±0.25 m of the target, 20 of 64 clear; at the specified position, 12. We report both, labelled.</li>
+    <li><b>No position on the route is much better.</b> Re-scoring all 64 clips against a box at every 5 cm step from 0.6 m to 6.6 m, the best position for a 5 cm box is 1.2 m, where 12 of 64 clear; 8 cm peaks there too at 11 of 64, and 3 cm peaks at 1.15 m with 15 of 64. At the 3.6 m control position it is 2 of 64 at every height. The 1.2 m position was chosen on these same clips and is now fixed for replication.</li>
+    <li><b>A tolerance window is a different measurement.</b> Allowing the box to move after seeing each clip answers "could this motion have cleared something nearby", not "did it clear the specified obstacle". We keep the two apart and never report a tolerance-window rate as a fixed-obstacle success rate.</li>
   </ul>
-  <p class="note">At the reference level, sampling helps: reaching a 90 % chance of at least one clearing reference takes about 12 fresh draws at the observed rate for a 5 cm box, 13 for 8 cm.</p>
+  <figure>
+    <img src="figures/fig4_cost_curve.png" alt="Exact-position clearance rate along the route for 3, 5 and 8 cm boxes, the best-of-N curve it implies, and the paired reference-to-tracked retention at the staged and control positions">
+    <figcaption><b>Clearance at the exact specified position, along the whole route.</b> 64 clips × 121 positions × three box heights, all scored with the same whole-body geometry check (23,232 probes). Sampling raises <em>reference</em> clearance — about 12 fresh draws for a 90 % chance of at least one clearing reference at 5 cm, 13 at 8 cm — while the paired retention after tracking is zero at every height and at both positions.</figcaption>
+  </figure>
+  <figure>
+    <img src="figures/fig3_channel_response.png" alt="How each conditioning channel responds: text-prompt lift heights, requested versus achieved foot lift, rotation-request compliance, and where the requested step actually lands">
+    <figcaption><b>What each way of asking actually does.</b> The text prompt produces the tallest lifts but chooses its own moment. A requested foot lift over-responds by 1.7–2.3× and takes both feet off the ground. A phase-aligned rotation request is not partially met: at exactly the frames and joints it constrains, the generated clip ends <em>further</em> from the request than the untouched clip did (mean compliance −0.26 absolute, −0.44 residual), and no offset between −40 and +80 frames makes any of the 16 clips match it better than the untouched clip. Its placement gain is −0.44 (1.0 would be perfect placement); 0 of 16 land within 0.25 m of where they were asked for.</figcaption>
+  </figure>
+  <h3>What the mid-walk prompt switch does, and what we withdrew</h3>
+  <p>Switching the prompt from walking to stepping at frame 52, through the released minimum-history interface, produced the step in 3 of 8 fresh seeds where an earlier run of the same arm produced none: pooled, 3 of 16 against 6 of 8 when the prompt is given from the start. The step arrives 0.8–3.0 s after the switch and none of those clips clears a box at the position predicted for the switch. On that evidence we <b>withdrew</b> our earlier claims that a later prompt does not elicit the step and that the step is tied to the start of the rollout; the statement that survives is that a delayed prompt elicits it less often, later, and not at the specified place. The handoff does transmit: the delayed prompt moves the joints after the switch by 0.14–0.20 rad RMS, while the frames before the switch are bit-for-bit identical to the walking arm.</p>
+  <p class="note"><b>A positive control that we refused rather than reinterpreted.</b> The same campaign was designed around a sideways-squeeze prompt as a positive control, and its substrate gate failed: under a dense route constraint the squeeze prompt never produced a sidestep (0 of 8 by the preregistered composite of heading deviation, lateral excursion and foot crossing). It produced a lifting gait instead — 5 of 8 seeds lift, 2 of 8 clear a 5 cm box at the predicted position. The control is inconclusive for the question it was built to answer and has to be re-designed on fresh seeds; we did not relax the gate to rescue it.</p>
 </div></section>
 
 <!-- ================= SELECTION ================= -->
@@ -186,8 +215,9 @@ code{font:13px var(--mono);background:var(--grey-soft);padding:1px 5px;border-ra
     <tr><td>20 cm</td><td>0</td><td>30</td><td>0</td><td>34</td><td>0</td><td>0</td><td><b>0</b></td></tr>
     <tr><td>30 cm</td><td>0</td><td>31</td><td>0</td><td>33</td><td>0</td><td>0</td><td><b>0</b></td></tr>
   </table></div>
-  <p><b>The pool fails by colliding, not only by being stopped.</b> At the 5 cm box, 21 of the 64 rollouts drive the body through the obstacle's volume and 43 are stopped by the evaluator before anything else happens. Nothing falls, nothing stalls, nothing runs out of time, and nothing completes the traversal at any height. Completion requires passing the obstacle <em>inside the corridor</em>: walking around it is not a completed local traversal.</p>
-  <p class="note">These rollouts were tracked with the box absent from the physics scene, so "hit the box" means the recorded motion intersects its volume in replay — the robot never felt contact and its controller was never perturbed by one. Putting the obstacle in the simulation is the next experiment. Rates are over all assigned trials.</p>
+  <p><b>The pool fails by colliding, not only by being stopped.</b> At the 5 cm box, 21 of the 64 rollouts drive the body through the obstacle's volume and 43 are stopped by the evaluator before anything else happens. Nothing falls, nothing stalls, nothing runs out of time, and nothing completes the traversal at any height. Completion requires passing the obstacle <em>inside the corridor</em>: walking around it is not a completed local traversal. This is strictly more informative than a single "zero preserved", which merges a robot that drove its body through the box with one that never left the first metre.</p>
+  <p>The 21 collisions include <b>every one of the 11 rollouts that were never cut off</b>: all 11 reach and pass the obstacle's position, and all 11 intersect the box there. The other 10 were also stopped by the evaluator, later than the intersection, which is why collision outranks the cutoff in the outcome ordering. Fifty rollouts never reach the obstacle at all. Raising the box from 3 cm to 30 cm moves collisions from 21 to 31 and cutoffs from 43 to 33, and leaves completions at zero throughout.</p>
+  <p class="note">All 64 assigned trials were executed; none was rejected before execution, and rates are over all 64. These rollouts were tracked with the box absent from the physics scene, so "hit the box" means the recorded motion intersects its volume in replay — the robot never felt contact and its controller was never perturbed by one. It is a statement about the achieved motion, not about contact dynamics. Putting the obstacle in the simulation is the next experiment; <b>obstacle-present traversal has never been measured in this project, for either behaviour family.</b></p>
 
   <h3>What the screen measures</h3>
   <p>A foot meets the support test when its sole is within 4.65 cm of the ground and moving slower than 1.18 m/s. Long periods in which neither foot meets that test are associated with the tracking-error cutoffs: in all 12 clearing references both feet fail it for 0.44–1.04 s (nine clips) or 2.4–3.1 s (three) while the pelvis rises only 2–26 cm, and the evaluator's cutoff lands within ±0.2 s of the start of that period in 47 of 53 rollouts. A simple flight-time comparison (the period is 1.3–15.6× longer than a ballistic flight for that pelvis rise) motivates further physical validation; it is not a dynamics analysis, and failing the support test does not establish zero contact force.</p>
@@ -197,7 +227,7 @@ code{font:13px var(--mono);background:var(--grey-soft);padding:1px 5px;border-ra
   </figure>
   <blockquote><b>What the screen does and does not say.</b> It predicts one evaluator's stopping rule under the release configuration. It does not say the robot would fall, and it does not say the motion is physically impossible. A calibrated score is not a physical guarantee. We evaluate the screen and the ducking correction as separate components, and to evaluate the screen we track both flagged and passed references.</blockquote>
   <h3>Prospective test, in progress</h3>
-  <p>128 fresh references (32 seeds under four root-control settings) were generated, scored, and the screen's per-clip predictions committed before any tracking run. The free setting replicates the original (23 of 32 produce the step; 7 of 32 clear at the specified position). Tracking outcomes and clearance after tracking are pending for all 128 references, flagged and passed alike.</p>
+  <p>128 fresh references (32 seeds under four root-control settings) were generated, scored, and the screen's per-clip predictions committed to the repository before any tracking run — 95 flagged, 33 passed, file hash recorded in the campaign receipt. All four settings are constructible by their preregistered criteria, so the comparison is between four requests the model actually honours. The free setting replicates the original prospectively (23 of 32 produce the step against 44 of 64 before; 7 of 32 clear at the specified position against 12 of 64). <b>The tracking stage has not run</b>: outcomes and clearance after tracking are pending for all 128 references, flagged and passed alike, as are the rollouts without the cutoff rule that would say what the physical outcome is.</p>
   <div class="tbl"><table>
     <tr><th>root control</th><th>step produced</th><th>clears 5 cm at the specified position</th><th>passes the screen</th><th>valid step passing the support test</th><th>median unsupported period</th></tr>
     <tr><td>free</td><td>23/32</td><td>7/32</td><td>6/32</td><td>0/32</td><td>0.48 s</td></tr>
@@ -205,7 +235,30 @@ code{font:13px var(--mono);background:var(--grey-soft);padding:1px 5px;border-ra
     <tr><td>root height pinned</td><td>19/32</td><td>1/32</td><td>8/32</td><td>0/32</td><td>0.36 s</td></tr>
     <tr><td>both pinned</td><td>11/32</td><td>2/32</td><td>16/32</td><td>0/32</td><td>0.22 s</td></tr>
   </table></div>
-  <p class="note">"Valid step passing the support test" requires a locally valid step <em>and</em> no unsupported period longer than 0.20 s, which is why it is zero while 33 references pass the screen alone. Pinning the root shortens the unsupported period but does not turn the motion into a supported step.</p>
+  <p class="note">"Valid step passing the support test" requires a locally valid step <em>and</em> no unsupported period longer than 0.20 s, which is why it is zero while 33 references pass the screen alone. Pinning the root shortens the unsupported period (median 0.48 s free, 0.22 s with both pinned) and lowers the peak pelvis height from 0.955 m to 0.77 m, but it does not turn the motion into a supported step: under all four native root settings the prompt puts its lift inside a period with neither foot supported. A prescriptive contract of the form "produce a valid supported step that clears the box" therefore has nothing to select before tracking even begins.</p>
+</div></section>
+
+<!-- ================= TRANSFER ================= -->
+<section id="transfer"><div class="wrap">
+  <div class="snum">Does the screen generalise?</div>
+  <h2>The same screen ranks ducking cutoffs, weakly — and it is not a stepping artefact</h2>
+  <p class="lede">The screen was built on motions that leave the ground, so it could simply be detecting stepping. We tested it on a second behaviour family produced by a different pipeline: 526 ducking references from a planner-and-correction loop, of which 344 were stopped by the same controller's evaluator, across 36 beam scenes. The groups, the primary feature of each, the direction and the decision rule were fixed before any feature was computed; the outcome labels were already public, so this is a post hoc test on a completed campaign.</p>
+  <figure>
+    <img src="figures/fig6_screen_across_families.png" alt="The screen's ranking performance on three corpora: stepping by text prompt, stepping by joint-position channel, and ducking; with the ducking strata and the contact-minus-speed differences">
+    <figcaption><b>One reference-only feature, three corpora, two behaviour families.</b> The longest period with neither foot supported ranks the controller's cutoffs above chance in all three, but far more strongly in one family than the other: 0.997 on the prompt-elicited stepping references, 0.921 on the joint-position stepping ladder, 0.674 on the ducking corpus.</figcaption>
+  </figure>
+  <div class="grid3">
+    <div class="card stat"><b>0.674</b><span>ranking performance (AUC) of the unsupported-period feature on 526 ducking references, 95 % interval 0.625–0.721 over 36 scenes; 0.694 within scene</span></div>
+    <div class="card stat"><b>0.441</b><span>the speed confound the plan named in advance, interval 0.328–0.552 spanning chance: reference speed does not predict ducking cutoffs</span></div>
+    <div class="card stat"><b>0.297</b><span>specificity at the calibrated 0.20 s threshold: as an accept/reject rule for ducking it would reject most of the corpus</span></div>
+  </div>
+  <ul>
+    <li><b>Above chance in every stratum.</b> The unsupported-period feature is the only one of the three above 0.5 in all seven preregistered strata (three crouch-depth bins, four beam counts), from 0.578 to 0.707.</li>
+    <li><b>The confound is refuted, not assumed away.</b> The earlier ducking campaign capped clips at 14 s, which forced every reference to be fast, so speed was the obvious alternative explanation. It fails: speed is at or below chance in five of the seven strata, and the references that survived are <em>faster</em> than the ones that were stopped (median peak root speed 1.87 vs 1.75 m/s). The two features are near-independent, correlation −0.18, so the screen is not a repackaged speed measure.</li>
+    <li><b>Crouch depth mostly reads the scene, not the reference.</b> It is the best pooled predictor at 0.707, but falls to 0.565 within scene: deeper crouches were requested in harder scenes.</li>
+    <li><b>What it does not license.</b> The transfer is directional and far weaker than on the stepping family, and the screen is not usable as a ducking accept/reject rule: at its calibrated threshold it flags 313 of 344 stopped references but also 128 of 182 completed ones, and 441 of the 526 references (84 %) have an unsupported period longer than 0.20 s. The correction pipeline produces motions without conventional foot support too. Nothing here says a ducking reference that passes the screen is trackable.</li>
+  </ul>
+  <p class="note">Post hoc on a completed campaign, one physics seed, one rollout per reference, one controller checkpoint, 36 scenes of one beam family; intervals are a cluster bootstrap over scenes. What this adds is that the screen is a property of <em>this controller's evaluator applied to references</em> rather than of stepping: two actuation channels in one family plus one different family, all ranking the same way.</p>
 </div></section>
 
 <!-- ================= REPAIR ================= -->
@@ -254,8 +307,8 @@ code{font:13px var(--mono);background:var(--grey-soft);padding:1px 5px;border-ra
   <h2>Two experiments decide what this becomes</h2>
   <p class="lede">The evidence so far is an evaluation contribution: where generation, selection and tracking fail for obstacle-relative tasks. It becomes a method contribution only if a mechanism is shown to improve actual traversal. We do not promise the second before measuring it.</p>
   <div class="grid2">
-    <div class="card"><h4>1 · Complete the prospective screen evaluation</h4><p>The rule is frozen. Obtain outcomes for all 128 fresh references, flagged and passed. Run the original 64 without the tracking-error cutoff and classify the physical outcome: fell, stalled, continued, cleared. Include known-trackable walking and jumping controls, so the screen is tested against legitimate dynamic motion rather than only against motion without conventional foot support.</p></div>
-    <div class="card"><h4>2 · A shared-pool obstacle-position study, beam present</h4><p>Hold the instruction, start state, controller and candidate pool fixed; move the beam to positions fixed in advance; compare random selection, a trackability-and-text rule, geometry-only selection, the combination, and an offline oracle. Report pool coverage separately from selected success, and compare extra sampling, a fixed extra-crouch adjustment and the measured correction under one budget. Requires spawning the beam in the physics scene, a rollout horizon that reaches it, and an evaluator validated on a known-trackable positive control.</p></div>
+    <div class="card"><h4>1 · Complete the prospective screen evaluation</h4><p>The rule is frozen and the per-clip predictions are committed. What is missing is the tracking itself: outcomes for all 128 fresh references, flagged and passed; the original 64 re-run without the tracking-error cutoff, so the physical outcome can be classified as fell, stalled, continued or cleared instead of inferred from a rule firing; and known-trackable walking and jumping controls, so the screen is tested against legitimate dynamic motion rather than only against motion without conventional foot support. The jump reference ships with the controller checkout but in its deployment format, so it needs a duration- and ordering-preserving conversion first.</p></div>
+    <div class="card"><h4>2 · A shared-pool obstacle-position study, beam present</h4><p>Hold the instruction, start state, controller and candidate pool fixed; move the beam to positions fixed in advance; compare random selection, a trackability-and-text rule, geometry-only selection, the combination, and an offline oracle. Report pool coverage separately from selected success, and compare extra sampling, a fixed extra-crouch adjustment and the measured correction under one budget. This needs the beam spawned in the physics scene as a contact-sensing body, an environment spacing and episode length that let a 7.2 m route reach it — the shipped defaults are 2.0 m and 10 s — and an evaluator validated on a known-trackable positive control. Only then does "hit the obstacle" become an observed contact rather than a geometry replay.</p></div>
   </div>
   <p class="note">Local traversal, which this project measures, means passing through a specified corridor; walking around does not count. Navigation, which it does not measure, means reaching a destination, where walking around may be the best answer, and adds route choice, transitions, replanning and recovery. Whether records with rejection reasons help a navigation policy is a separate question. Protocols, seeds, schedules and the full history are in the <a href="https://github.com/linjiw/scene2motion/blob/master/docs/REPORT.md">research log</a>, the <a href="https://github.com/linjiw/scene2motion/blob/master/docs/ramp-exp029-selection-vs-coverage-protocol.md">EXP-029 protocol</a> and the <a href="https://github.com/linjiw/scene2motion/blob/master/docs/plan-2026-09-01-icra2027.md">plan of record</a>.</p>
 </div></section>

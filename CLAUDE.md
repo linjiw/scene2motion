@@ -139,6 +139,17 @@ The exp023 `step_0` fresh-seed events show the same runs
 (0.16–1.76 s) but were not tracked. Tracked v2 step-family references: 352 (64 + 288), not 416;
 v2 generations: 5,393 (5,361 + EXP-023's 32).
 
+**Obstacle-present execution is now possible (2026-09-03, REPORT §47).** `add_table=true` spawns a
+collidable cuboid (`size` = full x/y/z extents, `pos` = centre), but the pose is rewritten per
+environment on every reset, so the obstacle must be carried as **per-motion `table_pos`/`table_quat`
+inside the motion pickle**. The checkout crashed on `add_table` without `add_object`
+(`right_hand_wrist_links` unbound); the fix keeps the table-to-robot contact sensor inside the
+`add_object` branch. Measured: a 0.30 m box at x = 0.5 m stops the robot in front of it (s4434
+walks 6.06 m uncut without the box, stops at 0.29 m cut off with it). That file is in the pinned
+SONIC core manifest, so **EXP-028/EXP-024 must run against the unpatched tracker and EXP-029
+against the patched one with its own baseline.** Host RAM (~6.8 GiB per launch), not VRAM
+(~3.8 GiB), is the binding resource; an unguarded launch OOM-killed a browser.
+
 **Dead lines — do not propose again as the next native-interface experiment:** coherent packets /
 RepairNet / local response optimizer / re-anchoring through the unread rotation packet; route
 warping; fixed-frame predeclared-obstacle waiting; position-channel lifts (bilateral flight);

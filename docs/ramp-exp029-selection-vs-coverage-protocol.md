@@ -28,41 +28,54 @@ state? Concretely, three sub-questions on one shared candidate pool:
 
 ## 2. Gating engineering (must be done and validated before any arm is generated)
 
-### 2.1 The beam must exist in the physics scene — the code path, read 2026-09-02
+### 2.1 The beam in the physics scene — MEASURED 2026-09-03, and the first recipe was wrong
 
-Every existing SONIC path in this repository tracks with the obstacle **absent** and replays
-achieved states against the geometry afterwards. A static obstacle can be spawned through the
-`add_table` branch of `gear_sonic/envs/manager_env/modular_tracking_env_cfg.py` (SONIC checkout
-`ca86b5e`, lines 595–670). What that branch does, verified by reading it:
+Every executed result before this date tracked with the obstacle **absent** and replayed achieved
+states against our collision model. That is no longer a limitation: an obstacle can now be put in
+the SONIC scene and the robot feels it. Three things had to be corrected first, and two of them
+invalidate the recipe this protocol carried on 2026-09-02.
 
-- builds a `RigidObjectCfg` at prim path `{ENV_REGEX_NS}/Table`, i.e. **one obstacle per
-  environment**, positioned relative to that environment's origin;
-- spawns `sim_utils.CuboidCfg` with `size=(table_width, table_depth, table_thickness)` taken from
-  `config["table_size"]`, and `init_state.pos` from `config["table_position"]` with an identity
-  quaternion on the cuboid path;
-- sets `rigid_props.kinematic_enabled=True`, so the box is static and cannot be shoved aside;
-- sets `collision_props.collision_enabled=True`, so the robot actually collides with it;
-- sets `activate_contact_sensors=True`, which is what makes **collision an observed outcome
-  class** rather than a geometry replay.
+**(a) The spawn pose does not survive a reset.** `add_table=true` spawns
+`{ENV_REGEX_NS}/Table` as a `CuboidCfg` with `kinematic_enabled`, `collision_enabled` and
+`activate_contact_sensors`, but `commands.py` rewrites the table pose per environment on **every
+reset**: from the motion's own `table_pos` / `table_quat` when the motion carries them (plus that
+environment's origin), and otherwise from a fallback that puts it at the object's position with
+`z = 0.76` and no environment offset. Setting `++manager_env.config.table_position` on the
+command line — what this protocol originally specified — therefore places the obstacle somewhere
+else entirely. **The working route is per-motion table metadata written into the motion pickle**,
+which makes the cached branch fire and puts one obstacle per environment at the intended place.
 
-The configuration node is `manager_env.config`, so the overrides are Hydra `++` flags on the
-existing launch command, alongside the ones the current bridges already pass:
+**(b) `add_table` without `add_object` crashed before the simulator started.**
+`table_to_robot_contact_sensor` filters on `right_hand_wrist_links`, which is defined only inside
+the `add_object` branch, while the sensor itself sat one level out inside the `add_table` branch.
+A table used as a plain scene obstacle rather than a manipulation surface therefore raised
+`UnboundLocalError` during env-cfg construction. Fixed in our fork by moving the sensor inside
+the branch that defines its filter and that gives it meaning (it compares table contact against
+*object* contact for grasp termination). **Fork commit `7c63c53` must be pinned in every EXP-029
+receipt**, and the campaign must refuse to run against a checkout without it.
 
-```
-++manager_env.config.add_table=true
-++manager_env.config.table_position=[<x>,0.0,<z_centre>]
-++manager_env.config.table_size=[<size_x>,<size_y>,<size_z>]
-```
+**(c) `add_object=true` is not a workaround.** It tries to spawn `data/wheelchair.usd`, which the
+checkout does not ship, and it would put an irrelevant object in the scene. Do not use it.
 
-`table_size` maps to the cuboid's (x, y, z) extent, so for a **floor box** of height h spanning
-the corridor, `table_size=[0.20, <corridor_width>, h]` with `table_position=[x_o, 0.0, h/2]`; for
-a **beam** leaving clearance c, `table_size=[0.20, <corridor_width>, t]` with
-`table_position=[x_o, 0.0, c + t/2]`. The axis mapping is inferred from `CuboidCfg`'s (x, y, z)
-size convention and the code's width/depth/thickness naming, and must be confirmed in 2.4 by
-measuring the spawned prim rather than assumed.
+Geometry convention, confirmed against the spawned prim: `table_size` is the cuboid's **full
+x, y, z extents** and `table_position` is its **centre**, so a box of height *h* resting on the
+floor is `size=[depth_x, width_y, h]` at `z = h/2`; a beam leaving clearance *c* is
+`size=[depth_x, width_y, t]` at `z = c + t/2`.
 
-The release checkpoint's saved configuration contains no `add_table` key, so the branch is
-opt-in and currently off; `terrain_type` there is `trimesh` (the mm-rough evaluation terrain).
+**Verified on 2026-09-03** (`experiments/probe_obstacle_present.py`,
+`outputs/probe_obstacle_present_fix/`, 2 environments, no seeds spent, not campaign evidence):
+with the fix and per-motion metadata, both arms return 0, and the same two motions run with and
+without a 0.30 m box produce **different achieved trajectories** — max |Δqpos| of 0.109 and
+0.332 rad over the common frames — so `obstacle_has_physical_effect` is true. The robot is
+genuinely being perturbed by the box rather than passing through it.
+
+**Not yet verified, and 2.4–2.6 still gate the campaign:** both probe motions were cut off early
+and their roots never passed 0.96 m against a box at 1.2 m, so this establishes *physical
+effect*, not that a traversal can succeed. Contact attribution is also still to be built: the
+table's contact sensor is enabled but the probe does not yet read it, and EXP-029 must record and
+report **physical contact with the obstacle**, **violations of the conservative replay clearance
+model** (which inflates obstacles by 4 cm and is therefore not the same event), and **prohibited
+floor contact** as three separate quantities, never merged.
 
 ### 2.2 Risk found while reading: environment spacing versus route length
 

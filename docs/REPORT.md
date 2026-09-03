@@ -1842,3 +1842,100 @@ The screen's cross-family evidence is now two actuation channels within the step
 different behaviour family, which is what lets the paper call it a property of this controller's
 evaluator applied to references rather than an artefact of stepping.
 
+
+## 47. The obstacle is in the physics scene, and the robot feels it (2026-09-03)
+
+The project's standing limitation — every executed result replays achieved states against our
+collision model with the obstacle absent from Isaac — is lifted. Three corrections were needed,
+two of which invalidate the recipe §44 recorded from reading the code alone. Reading the source
+was not enough; the measurement was.
+
+1. **The spawn pose does not survive a reset.** `commands.py` rewrites the table pose per
+   environment on every reset, from the motion's own `table_pos` / `table_quat` plus that
+   environment's origin when the motion carries them, and otherwise from an object-derived
+   fallback at `z = 0.76` with no environment offset. §44's command-line
+   `++manager_env.config.table_position` therefore places the obstacle somewhere else entirely.
+   The working route is **per-motion table metadata inside the motion pickle**.
+2. **`add_table` without `add_object` crashed before the simulator started.**
+   `table_to_robot_contact_sensor` filters on `right_hand_wrist_links`, defined only inside the
+   `add_object` branch, while the sensor sat one indent level out inside the `add_table` branch;
+   a table used as a plain scene obstacle raised `UnboundLocalError` during env-cfg construction.
+   Fixed in our fork at **`7c63c53`** by moving the sensor inside the branch that defines its
+   filter and gives it meaning. Every EXP-029 receipt must pin that commit.
+3. **`add_object=true` is not a workaround**: it spawns `data/wheelchair.usd`, which the checkout
+   does not ship, and would add an irrelevant object to the scene.
+
+Geometry convention, confirmed: `table_size` is the cuboid's full x/y/z extents and
+`table_position` its centre, so a box of height *h* on the floor is `size=[depth, width, h]` at
+`z = h/2`.
+
+**Result** (`experiments/probe_obstacle_present.py` → `outputs/probe_obstacle_present_fix/`;
+2 environments, `env_spacing = 12.0 m`, `episode_length_s = 20.0`, no seeds spent, **not campaign
+evidence**): both arms return 0, and the same two motions run with and without a 0.30 m box at
+x = 1.2 m produce different achieved trajectories — max |Δqpos| 0.109 rad (s4401) and 0.332 rad
+(s4409) over the common frames. `obstacle_has_physical_effect` is true: the robot is perturbed by
+the box rather than passing through it.
+
+**What this does not yet show.** Both probe motions were cut off early and their roots never
+passed 0.96 m against a box at 1.2 m, so this is *physical effect*, not a demonstrated traversal,
+and it is two motions rather than a campaign. The positive controls of the EXP-029 protocol
+(§2.4–2.6: a walk that reaches the goal with the beam out of the way, a known-trackable duck under
+a reachable beam, a deliberately intersecting trajectory that logs a beam contact, and an intended
+crouch that is not labelled a fall) all remain to be run. Contact attribution is also unbuilt: the
+table's contact sensor is enabled but unread, and the campaign must report physical obstacle
+contact, conservative replay-clearance violations (a 4 cm-inflated model, so a different event)
+and prohibited floor contact as three separate quantities.
+
+## 47. The obstacle can be put in the tracker's scene, and the robot is stopped by it
+
+The project has never executed a rollout with the obstacle *present* in physics: every executed
+result replays achieved states against our collision model with the box absent from Isaac. §44
+found the spawn mechanism by reading the checkout. Running it exposed three things reading did
+not (`experiments/probe_obstacle_present.py`, `outputs/probe_obstacle_present/`; operational
+probes, no seeds spent, not campaign evidence).
+
+**The spawn pose does not survive a reset.** Whenever a table exists, `commands.py:3134` rewrites
+its pose per environment on every reset — from the motion's own `table_pos` / `table_quat` plus
+that environment's origin when the motion carries them, and otherwise from a fallback that puts
+it at the object's position with `z = 0.76` and no environment offset (`:3149-3181`). Motion
+pickles from `scene2motion.sonic_export.write_motion_pkl` carry no table metadata, so setting
+`table_position` on the command line alone would have placed the obstacle somewhere else and the
+campaign would have measured a box that was not where it said. The working route is **per-motion
+table metadata inside the pickle**. Geometry, from the code: `CuboidCfg` size is the full x/y/z
+extents and the position is the centre, so a box of height *h* on the floor is
+`size=[depth_x, width_y, h]` at `pos=[x, y, h/2]`.
+
+**`add_table=true` without `add_object=true` crashed the checkout.** `right_hand_wrist_links` was
+assigned only inside the `add_object` branch while the table-to-robot contact sensor used it
+unconditionally (`modular_tracking_env_cfg.py:729` vs `:755`), so a table used as a plain scene
+obstacle raised `UnboundLocalError` before the simulator started. The obvious workaround,
+`add_object=true`, fails differently: it spawns a missing `data/wheelchair.usd`. The fix is to
+keep that sensor inside the `add_object` branch, where its filter list is defined and where
+comparing table contact against object contact means anything.
+
+**With the fix, the obstacle is real.** Paired launches over two archived EXP-021 references,
+identical but for the box, physics seed 0:
+
+| reference | max root x, no box | max root x, box | cut off, no box | cut off, box |
+|---|---|---|---|---|
+| s4434 | 6.06 m | **0.29 m** | no (397 frames) | yes (283 frames) |
+| s4459 | 0.98 m | **0.38 m** | yes (52) | yes (45) |
+
+A 0.30 m box at x = 0.5 m stops the robot in front of it. s4434 is the decisive one: without the
+box it walks 6.06 m of the route and is never cut off; with the box it stops at 0.29 m, short of
+the box's front face at 0.40 m. So the obstacle spawns where it was asked for, the robot collides
+with it, and the collision changes the outcome. **This is the first physical-obstacle evidence in
+the project**, and it is what EXP-029 needs to measure local traversal completion rather than
+infer it from replay.
+
+**An ordering constraint this creates.** The fixed file is in the SONIC core source manifest that
+every receipt binds equal to EXP-022A's `44e98c45…`, so EXP-028 and EXP-024's tracked stage — which
+must stay comparable to EXP-022A and never set `add_table` — have to run against the pinned,
+unpatched tracker, and EXP-029 against the patched one with its own declared baseline. The
+EXP-028 driver refused to launch on the patched checkout, which is the guard working as designed.
+
+**Host RAM, not VRAM, is the resource that bites.** A launch that started with 13.6 GiB available
+drove the host to 376 MiB and the kernel OOM-killer took a browser process. Both probes now
+refuse to start below a RAM floor and kill their own launch if available RAM collapses; the
+campaign gate's RAM threshold already carried the measured 6.8 GiB consumption.
+

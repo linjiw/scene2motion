@@ -90,14 +90,14 @@ def build_pkl(keys: list[str], path: Path, table: dict[str, Any] | None) -> Path
 
 
 def launch(pkl: Path, eval_dir: Path, overrides: list[str], *, num_envs: int, timeout_s: int,
-           abort_free_mib: int) -> dict[str, Any]:
+           abort_free_mib: int, abort_free_ram_mib: int) -> dict[str, Any]:
     """One monitored SONIC launch; the VRAM probe's safety monitor is reused unchanged."""
     command = e28.build_sonic_command(pkl, eval_dir, num_envs, 0, overrides)
     started = time.monotonic()
     process = subprocess.Popen(command, cwd=exp1b.SONIC, stdout=subprocess.PIPE,
                                stderr=subprocess.STDOUT, text=True, env=exp1b.sonic_env(),
                                stdin=subprocess.DEVNULL, start_new_session=True)
-    monitor = pv.Monitor(process.pid, abort_free_mib)
+    monitor = pv.Monitor(process.pid, abort_free_mib, abort_free_ram_mib)
     monitor.start()
     try:
         log = process.communicate(timeout=timeout_s)[0]
@@ -156,6 +156,7 @@ def compare(no_box: dict[str, Any], box: dict[str, Any]) -> dict[str, Any]:
 def probe(*, motion_keys: list[str], box_x_m: float, box_height_m: float, box_depth_m: float,
           box_width_m: float, env_spacing_m: float, episode_length_s: float, num_envs: int,
           timeout_s: int, safety_floor_mib: int, abort_free_mib: int,
+          safety_floor_ram_mib: int = 10000, abort_free_ram_mib: int = 1500,
           extra_box_overrides: list[str] | None = None,
           run_dir: Path = RUN_DIR, dry_run: bool = False) -> dict[str, Any]:
     run_dir = Path(run_dir)
@@ -192,6 +193,12 @@ def probe(*, motion_keys: list[str], box_x_m: float, box_height_m: float, box_de
     free = before.get("free_mib")
     if free is None or free < int(safety_floor_mib):
         raise pv.ProbeRefusal(f"free VRAM {free} MiB is below the safety floor {safety_floor_mib}")
+    available_ram = report["before"]["ram"].get("available_mib")
+    if available_ram is None or available_ram < int(safety_floor_ram_mib):
+        raise pv.ProbeRefusal(
+            f"available host RAM {available_ram} MiB is below the safety floor "
+            f"{safety_floor_ram_mib} MiB; a launch consumes about 6.8 GiB and the kernel "
+            "OOM-killer takes whatever is largest")
 
     arms: dict[str, Any] = {}
     rollouts: dict[str, dict[str, Any]] = {}
@@ -199,7 +206,8 @@ def probe(*, motion_keys: list[str], box_x_m: float, box_height_m: float, box_de
         arm_dir = run_dir / arm
         pkl = build_pkl(list(motion_keys), arm_dir / "motions.pkl", table_meta)
         arms[arm] = launch(pkl, arm_dir / "eval", overrides, num_envs=num_envs,
-                           timeout_s=timeout_s, abort_free_mib=abort_free_mib)
+                           timeout_s=timeout_s, abort_free_mib=abort_free_mib,
+                           abort_free_ram_mib=abort_free_ram_mib)
         if arms[arm]["returncode"] == 0:
             try:
                 rollouts[arm] = {r.motion_key: r
@@ -232,6 +240,10 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--timeout-s", type=int, default=900)
     parser.add_argument("--safety-floor-mib", type=int, default=4500)
     parser.add_argument("--abort-free-mib", type=int, default=1200)
+    parser.add_argument("--safety-floor-ram-mib", type=int, default=10000,
+                        help="refuse to launch unless this much host RAM is available")
+    parser.add_argument("--abort-free-ram-mib", type=int, default=1500,
+                        help="kill the launch if available host RAM falls below this")
     parser.add_argument("--out", default=str(OUT_DIR))
     parser.add_argument("--run-dir", default=str(RUN_DIR))
     parser.add_argument("--extra-box-override", action="append", default=[],
@@ -245,6 +257,8 @@ def main(argv: list[str] | None = None) -> int:
                        episode_length_s=args.episode_length_s, num_envs=args.num_envs,
                        timeout_s=args.timeout_s, safety_floor_mib=args.safety_floor_mib,
                        abort_free_mib=args.abort_free_mib,
+                       safety_floor_ram_mib=args.safety_floor_ram_mib,
+                       abort_free_ram_mib=args.abort_free_ram_mib,
                        extra_box_overrides=list(args.extra_box_override),
                        run_dir=Path(args.run_dir), dry_run=args.dry_run)
     except pv.ProbeRefusal as exc:

@@ -104,10 +104,14 @@ def descendants(pid: int) -> set[int]:
 class Monitor(threading.Thread):
     """Sample the GPU while the launch runs; abort the launch if the host gets tight."""
 
-    def __init__(self, pid: int, abort_free_mib: int):
+    def __init__(self, pid: int, abort_free_mib: int, abort_free_ram_mib: int = 0):
         super().__init__(daemon=True)
         self.pid = pid
         self.abort_free_mib = int(abort_free_mib)
+        # Host RAM, not VRAM, is what a SONIC launch actually exhausts: on 2026-09-03 a launch
+        # that started with 13.6 GiB available drove the host to 376 MiB and the kernel OOM-killer
+        # took a browser.  A zero floor keeps the old VRAM-only behaviour.
+        self.abort_free_ram_mib = int(abort_free_ram_mib)
         self.samples: list[dict[str, Any]] = []
         self.stop_event = threading.Event()
         self.aborted_reason: str | None = None
@@ -126,9 +130,17 @@ class Monitor(threading.Thread):
                                       if p not in ours)
             self.samples.append(sample)
             free = sample.get("free_mib")
-            if free is not None and free < self.abort_free_mib and self.aborted_reason is None:
-                self.aborted_reason = (f"free VRAM {free} MiB fell below the abort floor "
-                                       f"{self.abort_free_mib} MiB")
+            ram = sample.get("available_ram_mib")
+            reason = None
+            if free is not None and free < self.abort_free_mib:
+                reason = (f"free VRAM {free} MiB fell below the abort floor "
+                          f"{self.abort_free_mib} MiB")
+            elif (self.abort_free_ram_mib and ram is not None
+                    and ram < self.abort_free_ram_mib):
+                reason = (f"available host RAM {ram} MiB fell below the abort floor "
+                          f"{self.abort_free_ram_mib} MiB")
+            if reason is not None and self.aborted_reason is None:
+                self.aborted_reason = reason
                 try:
                     os.killpg(os.getpgid(self.pid), signal.SIGTERM)
                 except (ProcessLookupError, PermissionError):

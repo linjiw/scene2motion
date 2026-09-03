@@ -61,12 +61,24 @@ own_lineage() {
   printf '%s' "$out"
 }
 
-# Pids matching $1 that are not this process or one of its ancestors.
+# Pids matching $1 that are neither an ancestor of this process nor one of its descendants.
+# Descendants matter as much as ancestors: every command substitution in this script forks a
+# subshell that KEEPS the script's own command line, so `pgrep -f` finds our own `$(...)` calls
+# and the guard reported them as a second owner.  A pid that has exited between pgrep and ps is
+# skipped rather than counted, so the check does not flicker on transient shells.
 others_running() {
-  local lineage pid keep=""
+  local lineage pid walk args keep=""
   lineage=" $(own_lineage) "
   for pid in $(pgrep -f "$1" 2>/dev/null); do
     case "$lineage" in *" $pid "*) continue ;; esac
+    args=$(ps -o args= -p "$pid" 2>/dev/null)
+    [ -n "$args" ] || continue
+    walk=$(ps -o ppid= -p "$pid" 2>/dev/null | tr -d ' ')
+    while [ -n "$walk" ] && [ "$walk" -gt 1 ] 2>/dev/null; do
+      [ "$walk" = "$$" ] && break
+      walk=$(ps -o ppid= -p "$walk" 2>/dev/null | tr -d ' ')
+    done
+    [ "$walk" = "$$" ] && continue
     keep="$keep $pid"
   done
   printf '%s' "${keep# }"

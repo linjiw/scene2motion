@@ -162,6 +162,37 @@ preflight() {
   say "preflight ok; gate state now: $(gates_pass && echo PASS || echo "WAIT ($LAST_GATE)")"
 }
 
+# A finished campaign has to be committed before the next one launches.  EXP-028 refuses to
+# create a fresh campaign unless the Scene2Motion worktree is exactly clean, and EXP-024's stage
+# guard refuses any worktree change outside its own output directory.  Both guards are right --
+# they bind the code that produced the numbers -- but together they mean the first campaign's
+# artifacts would block the second one, with a refusal that reads like a provenance failure when
+# it is only sequencing.  Committing the finished output restores the state both guards expect.
+# Only the campaign's own path is staged, so unrelated work in the tree is never swept in.
+commit_stage_output() {
+  local label="$1" path="$2" head
+  [ -e "$path" ] || { say "$label: no output at $path to commit"; return 0; }
+  git add -- "$path" || refuse "could not stage $path after $label"
+  if git diff --cached --quiet -- "$path"; then
+    say "$label: nothing new under $path"
+    return 0
+  fi
+  # Refuse rather than commit if staging picked up anything outside the campaign output.
+  local extra
+  extra=$(git diff --cached --name-only | grep -v "^${path%/}/" | grep -v "^${path%/}$" || true)
+  [ -z "$extra" ] || refuse "$label staged paths outside $path: $(echo "$extra" | tr '\n' ' ')"
+  git commit -q -m "$label: campaign output, committed by the legacy chain before the next stage
+
+The next campaign's provenance guard requires a clean worktree, so the chain commits each
+finished output rather than letting it block the stage that follows.
+
+Co-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01Uk5yjo2YmPcV4nGSehN2m5" ||
+    refuse "could not commit $path after $label"
+  head=$(git rev-parse --short HEAD)
+  say "$label: committed $path as $head"
+}
+
 # Every launch re-checks the refusal conditions: LUCID commits to the shared tracker checkout
 # while we wait, and a manifest that drifted between stages must stop the chain, not be ignored.
 run_stage() {
@@ -191,8 +222,10 @@ say "=== legacy chain armed (EXP-028 -> EXP-024 sonic -> EXP-024 analyze) ==="
 preflight
 run_stage "EXP-028" "$S2M_PY" experiments/exp028_termination_free_rollouts.py \
   --stage all --out "$EXP028_OUT"
+commit_stage_output "EXP-028" "$EXP028_OUT"
 run_stage "EXP-024 sonic" "$S2M_PY" experiments/exp024_reference_contract.py \
   --stage sonic --require-committed-predictions --out "$EXP024_OUT"
 run_stage "EXP-024 analyze" "$S2M_PY" experiments/exp024_reference_contract.py \
   --stage analyze --out "$EXP024_OUT"
+commit_stage_output "EXP-024" "$EXP024_OUT"
 say "=== legacy chain complete ==="

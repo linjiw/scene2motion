@@ -353,6 +353,20 @@ exp019's eight selected seeds; Phase-4 demo/corpus seeds 100–107 and 5000–52
 | first evening plan / CLAUDE.md revision | "the elicited step is a hop"; "terminates at take-off in every clearing clip" | non-ballistic float (ballistic ratio 1.3–15.6); termination within 0.2 s of the first no-support onset in 11/12 clearing clips, before it in 10/53 overall; every terminated robot upright |
 | first evening plan | "416 tracked references"; "5,361 v2 generations" | 352 tracked step-family references (64 + 288; exp023's 32 untracked); 5,393 v2 generations incl. EXP-023 |
 
+## A locked hash you will trip over
+
+`experiments/analyze_exp021_exact_addressability.py` pins `LOCKED_SCORING_FILES` — the sha256 of
+**`scene2motion/robot.py` and `scene2motion/stepover_eval.py`** — and both it and
+`experiments/analyze_exact_centre_cost_curve.py` refuse to run if either file changes. That is
+deliberate: those two files are the exact collision scorer behind every clearance number.
+
+So **whoever commits the pending additive `first`-penetrating-frame block in `robot.py` must
+re-lock its hash in the same commit**, with a one-line justification saying the edit only adds a
+report key and does not touch the penetration computation. Otherwise both analysers refuse and the
+refusal looks like a data problem rather than an intended guard. Re-locking in a separate later
+commit is worse than useless: it reads as loosening a guard after a failed gate, which house rule 2
+forbids. Record the re-lock in the review log either way.
+
 ## Stale documents (banner or rewrite before anyone reads them as current)
 
 - `README.md`: method status ends at exp017 and points at packets/RepairNet as next steps —

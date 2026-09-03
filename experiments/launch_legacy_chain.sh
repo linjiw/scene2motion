@@ -180,7 +180,12 @@ commit_stage_output() {
   # Refuse rather than commit if staging picked up anything outside the campaign output.
   local extra
   extra=$(git diff --cached --name-only | grep -v "^${path%/}/" | grep -v "^${path%/}$" || true)
-  [ -z "$extra" ] || refuse "$label staged paths outside $path: $(echo "$extra" | tr '\n' ' ')"
+  if [ -n "$extra" ]; then
+    # Do not rely on refuse() exiting: this is the check that keeps another session's work out
+    # of a campaign commit, so it returns non-zero on its own as well.
+    refuse "$label staged paths outside $path: $(echo "$extra" | tr '\n' ' ')"
+    return 1
+  fi
   git commit -q -m "$label: campaign output, committed by the legacy chain before the next stage
 
 The next campaign's provenance guard requires a clean worktree, so the chain commits each

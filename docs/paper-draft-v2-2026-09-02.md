@@ -1,8 +1,16 @@
 <!--
-Scene2Motion paper draft v2.3 (2026-09-03), after the advisor's third review
-(docs/pi-advice-2026-09-02-c.md, TEXEDO reading) and the integration of EXP-030
+Scene2Motion paper draft v2.4 (2026-09-03), after the advisor's third review
+(docs/pi-advice-2026-09-02-c.md, TEXEDO reading), the integration of EXP-030
 (outputs/exp030_obstacle_present/receipt.json), the first campaign with the obstacle in the
-physics scene. Evidence cutoff: repository receipts at HEAD on 2026-09-03. Bold bracketed tokens are slots for results that have not landed; fill only from
+physics scene, and the integration of EXP-025
+(outputs/exp025_kimodo_cross_prior/receipt.json), the first cross-prior campaign: 64
+step-prompted and 64 walk-prompted Kimodo-G1-RP-v1 references, kinematic only, no tracking. Its
+two preregistered rules split — the early-lift window is attributed to the autoregressive
+rollout context (1/41 inside 2.0 s), the support-screen property recurs at 19/23 = 0.826 with a
+Wilson interval, 0.629–0.930, that straddles the preregistered 0.80 bar — and both halves must
+stay visible. Fig. 6's three corpora all come from ARDY
+(docs/figures/fig6_numbers.json); it must never be cited for the Kimodo result.
+Evidence cutoff: repository receipts at HEAD on 2026-09-03. Bold bracketed tokens are slots for results that have not landed; fill only from
 the named receipt. Layout budget (ICRA 2027, 8 pages incl. references):
 I 1.0 · II 0.7 · III 1.0 · IV 0.8 · V 0.6 · VI 2.3 · VII 0.6 · VIII + refs 1.0.
 Definitions, vocabulary and the claims table: docs/project-goal-2026-09-02.md.
@@ -84,7 +92,13 @@ completes that traversal with the obstacle actually present in the physics scene
 We measure clearance at the specified obstacle position, rather than anywhere along the route,
 because a generated motion can clear the same obstacle elsewhere on its path: in our stepping
 family the model lifts the foot early and on its own schedule, so 37 of 64 references clear a 5 cm
-box somewhere along the route while only 12 clear that same box where the scene puts it. We
+box somewhere along the route while only 12 clear that same box where the scene puts it. That
+schedule belongs to this model rather than to released G1 models in general: a second released
+model, an offline diffusion model given the identical step prompt, lifts late instead — 1 of its
+41 references with a lift reaches it inside the first 2.0 s, against 40 of 49 here — and lifts so
+far down the route that none of its 64 references clears any tested box height where the scene
+puts one. Neither model places the step reliably where the scene puts it, though they fail by
+different margins — 12 of 64 against 0 of 64 — and the timing is not shared at all. We
 measure the support phase of the reference, rather than trusting the tracker to discover problems,
 because references that clear the box do so during long periods in which neither foot meets a
 support test, and the evaluator stops those rollouts within a fraction of a second. And we report
@@ -106,7 +120,10 @@ execution results rest on against physics, per reference, at one box height. (ii
 coverage-versus-selection decomposition showing that, for the stepping family, the limitation is
 the candidate pool rather than the choice among candidates. (iii) A
 reference-only screen that flagged every early termination of the tested controller's evaluator
-on 64 references, with a prospective test on 128 fresh references in progress. (iv) A measured
+on 64 references, with a prospective test on 128 fresh references in progress and a
+reference-only cross-model check in which the property the screen keys on recurs on a second
+released G1 model — in 19 of its 23 produced references, on an interval that straddles the
+preregistered bar — while the early-lift timing does not. (iv) A measured
 clearance correction for ducking references, evaluated against equal-budget resampling on 36
 multi-beam scenes with its wins and its losses reported.
 
@@ -126,7 +143,9 @@ tracker, and evaluates interpretable screening and correction without retraining
 generator. Several capabilities it builds on already exist.
 
 **Generated humanoid motion, including scene placement.** ARDY [1] and Kimodo [2] generate
-long-horizon humanoid motion from text and sparse kinematic controls; MotionStreamer [3] streams
+long-horizon humanoid motion from text and sparse kinematic controls, and we run this paper's
+stepping reference-side measurements on both and every tracking measurement on the first;
+MotionStreamer [3] streams
 compositional motion. MotionBricks [4] goes further and conditions on object-relative placement
 and scene-bound interaction keyframes. Object-relative conditioning is therefore not the missing
 ingredient we claim to supply. What we measure, and these works do not report, is whether the
@@ -285,6 +304,20 @@ corrections and for best-of-three. Only the two-correction and best-of-three arm
 compares, are equal-budget, and even there the number of generations actually used differs and is
 reported. Endpoints: collision-free reference, and the 18 cm clearance margin.
 
+**A second motion model (reference-side only).** Kimodo-G1-RP-v1 [2], a second released G1
+motion model and an offline diffusion model that denoises a whole clip in one pass with no
+history window, on a straight 7.2 m route at 0.9 m/s (240 frames at 30 fps, 100 denoising steps) with a
+dense path constraint on its smoothed root and heading and root height free — the free contract
+of the stepping study. 64 fresh seeds, the step prompt and a walk control paired on the same
+seeds. The step prompt's text embedding is copied byte for byte from the ARDY cache, so the *text*
+request is identical across the two models; the path channel is not — the stepping study
+constrains the raw root, this model's dense constraint acts on its ADMM-smoothed root (0.06 m
+smoother margin), which is why its route error is measured against that smoothed root. Both are
+exported to the same robot description file and scored by the same collision model and the same
+analysis code. The walk control uses that
+model's own cached walk sentence, whose wording differs from the stepping study's. No rollout was
+run in this campaign: it measures references only.
+
 **Units and intervals.** The scene is the inference unit for the multi-scene ducking study
 (paired per-scene differences with a 36-scene cluster bootstrap); stepping rates are Wilson
 intervals over seeds within one scene and are not generalised beyond it. Analyses chosen after
@@ -304,8 +337,10 @@ In a whole-body geometry check, 44 of 64 step-prompted references cleared a 3 cm
 tested position along the route (49 of 64 had positive clearance somewhere). Among those 49,
 the reference root reached the location of maximum box clearance after a median of 1.4 s (frame
 35), and 40 of 49 within the first 50 frames: the model produces the motion early and on its
-own schedule. At the scene's box position, 12 of 64 clear a 5 cm box and 11 clear 8 cm, while
-37 of 64 clear that same 5 cm box somewhere along the route. Allowing the box to move to
+own schedule. That schedule is this model's: under the identical prompt the offline model of §V
+lifts late and never at the specified position, as §VI-C reports. At the scene's box position,
+12 of 64 clear a 5 cm box and 11 clear 8 cm, while 37 of 64 clear that same 5 cm box somewhere
+along the route. Allowing the box to move to
 whichever position suits each clip — the union over a 0.05 m grid of centres within ±0.25 m of
 the scene's, that is the eleven positions from 0.95 m to 1.45 m — raises the 5 cm count to 24
 of 64, and to 17 of 64 within ±0.10 m. Those are counts of what the clips can do somewhere, not
@@ -572,7 +607,9 @@ and carry 140 of the ladder's 149 completed runs, so it is reported for complete
 than as independent transfer; on those control references alone, of which only 4 were cut off,
 the feature ranks at 0.513, which is why that corpus is reported as calibration and carries no
 predictive claim. The screen is therefore not an artefact of the stepping family or of the
-text-prompt channel; the learned and quadratic-programme proposers remain untested for it.
+text-prompt channel; the learned and quadratic-programme proposers remain untested for it. All
+three corpora in Fig. 6 come from the same motion model, so that figure varies the behaviour
+family and the conditioning pipeline, not the generator.
 
 It is also much weaker there, and it is not a decision rule for ducking. At its calibrated 0.20 s
 threshold it flags 313 of the 344 references whose rollouts ended at the evaluator's cutoff
@@ -584,6 +621,55 @@ scopes bound the result. The analysis is post hoc: the feature groups, their pri
 direction of the test were fixed before any feature was computed, but the outcomes were already
 known. And in that tracking campaign only 200 of 859 rollouts reached the first beam, so most of
 the cutoffs the feature ranks occurred before the obstacle.
+
+**Does the screen only describe this generator?** Fig. 6 changes the behaviour family and the
+conditioning pipeline but not the model. To change the model we generated 64 step-prompted and
+64 walk-prompted references from Kimodo-G1-RP-v1 [2], the offline model of §V, under the
+identical step-prompt embedding, and scored them with the same code. Two rules were registered
+before the first sample, and they split. No rollout was run in that campaign, so it can show only
+that the reference-side property the screen keys on recurs on another model; it cannot show that
+the screen predicts that model's tracking outcomes, and nothing in it says a reference from that
+model would or would not be followed by a controller.
+
+*The timing does not carry over.* The registered rule attributes the early-lift window of §VI-A to
+the autoregressive rollout context if at most 0.4 of the offline model's references with a lift
+position reach the lift within the first 2.0 s. Measured: 1 of 41 (0.024, Wilson 0.004 to 0.126),
+median 3.9 s, q10 to q90 of 2.5 to 5.8 s, and the same count under both event-time definitions —
+the root reaching the maximum-clearance location, as in §VI-A, and a nominal-speed conversion; 1
+of 64 over all assigned step trials, and none of its 23 produced references. The offline model
+lifts late and far down the route (median lift position 3.4 m of 7.2 m over those 41) and clears
+no tested box height at the specified 1.2 m position in any of its 64 references, while its body
+swept that position in all 64, so that zero is a measured non-clearance and not a robot that never
+arrived; at a second fixed centre 3.6 m along the same route it clears a 3 cm box in 4 of its 64
+references and a 5 cm box in 3. "The model produces the step early, on its own schedule" is
+therefore a statement about the autoregressive model we study, not about released G1 motion
+models. The placement argument of §VI-A does not rest on it — this model places the step worse,
+not better — but the early window itself is now scoped to one architecture.
+
+*The screened property does carry over, on a thin margin.* The registered rule generalises the
+support statement to released G1 motion models if at least 0.80 of the offline model's *produced*
+references — the 23 of 64 that clear a 3 cm box somewhere, the level defined in §III-C — exceed
+the 0.20 s screen. Measured: 19 of 23, a fraction of 0.826 whose Wilson interval, 0.629 to 0.930,
+straddles the 0.80 bar; the post hoc 0.28 s cut flags the same 19. The point estimate meets the
+preregistered bar and the interval does not settle it, so we report the rule as met on 23
+references rather than as a demonstrated property of released G1 motion models. The comparator is
+44 of 44 for the autoregressive model. Asked for the same step, a one-pass offline generator
+produces the same long periods with neither foot meeting the support test — a median longest
+period of 0.67 s among its produced references, against 0.0 s in all 64 of its walk references —
+rather than a supported step.
+
+*Denominators and rates.* The two rules read over different sets, by design and by
+preregistration. The timing rule uses the 41 references with positive clearance somewhere on the
+route, because the quantity it is compared against in §VI-A (40 of 49) is defined over that set,
+and a reference with a lift position but no defined event time counts as outside the window
+rather than being dropped from the denominator. The screen rule uses the 23 produced references,
+the set its protocol names. Over all 64 assigned step trials the two numerators are 1 of 64 and
+19 of 64 (0.297, 0.199 to 0.418); counting every reference above the screen, produced or not,
+gives 31 of 64. The offline model also produces the step far less often than the autoregressive
+one — 23 of 64 clear a 3 cm box somewhere (0.359, 0.253 to 0.482) against 44 of 64, and 41 of 64
+have positive clearance somewhere against 49 of 64 — which bounds what a 23-reference denominator
+can carry. Its walk control produces no clearance at all: 0 of 64 references clear any box
+height anywhere on the route (Wilson 0 to 0.057).
 
 **Prospective test, in progress.** 128 fresh references (32 seeds × four root-control settings:
 free, pinned heading, pinned root height, both) were generated and scored, and the screen's
@@ -702,7 +788,17 @@ downstream navigation policy is a separate question this paper does not address.
 
 ## VII. Limitations
 
-One motion model, one controller, one robot, physics seed 0. Stepping results come from one
+One controller, one robot, physics seed 0, and — apart from a single reference-side comparison on
+the stepping family — one motion model: every result that ties a reference to a tracking outcome
+(the screen's validation, the coverage decomposition and the traversal measurement) and every
+correction result of §VI-E alike come from that one generator. That comparison put a second
+released G1 model on the stepping family's reference side only — 64 step-prompted references
+and a 64-reference walk control, with no rollouts at all — which
+narrows that scope without removing it: on it the early-lift timing of §VI-A did not reproduce,
+and the long periods outside the support test did, at 19 of 23 produced references, on a point
+estimate that meets the preregistered 0.80 bar with an interval that straddles it. Whether the
+screen predicts *that* model's evaluator cutoffs is untested, because it was never tracked, and
+one further model is not a claim about released motion models in general. Stepping results come from one
 route and one obstacle position, chosen after inspecting the clips; the fresh-seed replication
 uses the same position, fixed in advance. The coverage decomposition of §VI-B is exact for the
 realised pool of 64 at one scene and is not a general statement about the model. The obstacle
@@ -738,7 +834,9 @@ of the 64 references at the 5 cm box.
 
 Two experiments decide what this line of work becomes. First, complete the prospective screen
 evaluation: outcomes for every reference, rollouts without the cutoff rule, and known-trackable
-walking and jumping controls, so that evaluator cutoffs are distinguished from falls. Second, run
+walking and jumping controls, so that evaluator cutoffs are distinguished from falls. Tracking a
+pool from the second motion model belongs to that list: its references carry the flagged
+property, and only rollouts can say whether the screen predicts its cutoffs too. Second, run
 a shared-pool obstacle-position study for ducking with the beam present in the physics scene:
 hold the instruction, start state, controller and candidate pool fixed, move the obstacle, and
 compare random selection, a trackability-and-text rule of the kind TEXEDO proposes, geometry-only

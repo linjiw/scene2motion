@@ -2036,3 +2036,104 @@ no wall-clock deadline was preregistered (`time_limit_s: null`), so its count of
 information. Rates are over all 64 assigned trials per arm, never over an executed or accepted
 subset, so rejecting references could not read as success. "Cut off" is the tracker evaluator's
 stopping rule, not a fall — nothing in any arm met the fall criterion.
+
+
+## 49. EXP-025: the float crosses the prior boundary on a thin margin, the early timing does not
+
+Preregistered in `docs/ramp-exp025-kimodo-cross-prior-protocol.md` (sha `3d8a47bc…`, bound into
+the receipt before the first sample, with a three-point amendment also written before any sample),
+run 2026-09-03 in 24.7 min on the clean worktree `93323a09`; result note
+`docs/ramp-exp025-kimodo-cross-prior-result-2026-09-03.md`, ledger
+`outputs/exp025_kimodo_cross_prior/`. **The project's first cross-prior campaign.** 64 STEP and 64
+WALK references from **Kimodo-G1-RP-v1** (HF `3020ad8c…`, checkout `1aece8c1…`) — a released
+**offline, non-autoregressive** G1 prior, one denoising pass and no history window, 30 fps — on
+seeds 4700–4763, paired per seed, scored by the same committed analysers the ARDY family uses with
+the support thresholds read from the frozen exp016 calibration receipt (`f6dba8be…`). Exact
+accounting 128/128 over 16 of 16 generate invocations, latent pairing verified in every chunk. The
+STEP embedding is the **byte-identical** vector ARDY used, copied under the same sha1 key, with the
+two LLM2Vec wrappers equal as normalised ASTs and no encoder loaded. **Kinematic only: tiers are
+generated 128, kinematically scored 128, SONIC-executed 0** — nothing here is an execution outcome,
+and the 0.20 s rule is the reference screen for predicted tracking cutoffs, not a physical verdict.
+
+**The two preregistered rules split, and the split is the finding: the float crosses the
+architecture boundary — 19 of 23 elicited references, 0.826, on a Wilson interval (0.629–0.930)
+that straddles the preregistered 0.80 bar — and the early timing does not.**
+
+*Timing → `ardy_window_attributed_to_autoregressive_rollout_context`.* Over the 41 STEP clips with
+a lift position, Kimodo puts the lift inside the first 2.0 s in **1 of 41 = 0.024**
+(0.004–0.126), median lift time **3.87 s** by root crossing (q10–q90 2.47–5.77) and 3.77 s by
+nominal-speed conversion, against ARDY's **40/49 = 0.816** (0.686–0.900) and 42/49, median 1.40 s.
+Both event-time definitions agree (`definitions_agree: true`), and so does the companion elicited
+denominator (0/23, 0–0.143); over all 64 assigned trials it is 1/64. The rule's branch threshold is
+a fraction **at or below 0.4** and the measured value is 0.024, so "the prompted behaviour lands
+early" is scoped to ARDY's autoregressive rollout, not to released G1 priors. The distributions
+barely overlap — ARDY's q90 (2.22 s) is below Kimodo's q10 (2.47 s) — and the single early Kimodo
+clip (`s4720_step`, 1.73 s) misses the 3 cm elicitation bar by 0.3 mm.
+
+*Screen → `screen_generalises_to_released_g1_priors`, thinly.* **19 of 23** elicited Kimodo clips
+exceed the calibrated 0.20 s support screen: **0.826, Wilson 0.629–0.930**, against the
+preregistered **0.80** threshold; the secondary `> 0.28 s` cut flags the same 19; ARDY's comparator
+is 44/44. **The point estimate meets the bar and the interval does not settle it** — the Wilson
+interval straddles 0.80 and one clip flips the verdict (18/23 = 0.783). The uncertainty is about
+how many clips, not where the line is: the four passing clips run 0.000–0.100 s and the 19 flagged
+ones 0.367–2.967 s, with **no elicited clip between 0.100 and 0.367 s**, so any threshold in that
+band returns the same count. Ballistic ratio over the 19 flagged elicited clips is 1.35–9.85
+(different set, same shape as the 1.3–15.6 of the 12 ARDY references clearing 5 cm at x = 1.2 m).
+So an offline, non-autoregressive prior produces the same float.
+
+**Elicitation is much lower, which is what bounds the screen rule's denominator.** Whole-body-
+clearable lift ≥ 3 cm *somewhere along the route* — an anywhere-measure, never a clearance rate at
+a specified obstacle — is **23/64 = 0.359** (0.253–0.482) against ARDY's 44/64 = 0.688, an interval
+that excludes ARDY's point estimate; any positive lift is 41/64. The free WALK control is a hard
+floor: **0/64** elicited, 0/64 with any lift, and a maximum longest no-support run over all 64 WALK
+clips of exactly **0.000 s**, so 0/64 are flagged. Paired over the 64 seeds: 23 step-only
+discordant pairs, 0 walk-only, 41 concordant; median paired differences +0.0143 m lift height and
++0.183 s longest run, descriptive with no interval claimed on the difference.
+
+**Denominators differ between the two rules by design** (`decisions.denominator_rule`). The timing
+rule is reported over clips with a lift position because that is the denominator ARDY's comparator
+was measured on (40/49, 42/49 over the 49 exp021 clips with any positive lift); the screen rule
+keeps the elicited denominator because the protocol names it ("≥ 80 % of Kimodo's elicited clips").
+Both are reported beside rates over all 64 assigned trials — 19/64 = 0.297 elicited-and-flagged,
+31/64 = 0.484 flagged in total — so no accepted subset can read as a rate.
+
+**Placement, kept separate from production.** Exact whole-body clearance at the two preregistered
+centres is **0/64 at every graded height at the staged x = 1.2 m**, and 4/64 at 3 cm, 3/64 at 5 and
+8 cm at the unstaged x = 3.6 m. This is a measured non-clearance, not a coverage artefact: the
+envelope swept both centres in 64/64 clips (`not_reached: 0`, 120/120 scan points). The cause is
+placement — elicited lifts land at 1.91–5.79 m (median 3.29 m) and the lowest lift anywhere in the
+arm sits at 1.576 m (`lift_position_any_lift_m.min`, `s4720_step`) — not route error (smooth-root
+path MAE median 0.032 m, progress ratio 0.982).
+Produced 23/64, placed at the specified obstacle 0/64, tracked: not attempted.
+
+**What it licenses.** The screen's target behaviour is not an artefact of one architecture. With
+**EXP-026** (§46, duck family, contact AUC 0.674 against a speed confound at 0.441) the screen now
+has evidence of **two different kinds** — a ranking against real tracking outcomes for the duck
+family, property recurrence with no tracking outcomes at all for the second prior — across **two
+behaviour families and two priors**. It is not a 2 × 2: only ARDY varies the behaviour family and
+only the step family varies the prior. Each row carries its own limit:
+EXP-026's transfer is directional and much weaker than the step family's 0.997, and **EXP-025's
+margin is thin and its Wilson interval straddles its own threshold**. And the early-window finding
+is now correctly scoped to the autoregressive rollout rather than to released G1 priors.
+
+**What it does not license.** Nothing about execution: no rollout was run, Kimodo references have
+never been tracked, and no number here says a Kimodo reference would or would not be followed by
+the controller or bears on falling. No placement claim (0/64 at the specified obstacle), no local
+traversal and no navigation claim — no obstacle was in any physics scene. And the two verdicts must
+not be merged into a single "cross-prior" statement.
+
+**Scope.** One prior checkpoint, one prompt per arm, one straight route, one scene, 64 seeds,
+kinematic only. Timing is compared in seconds and the support thresholds are fps-free, because
+Kimodo runs at 30 fps and ARDY at 25. Route error is measured against `smooth_root_pos`, as the
+amendment requires, since `smooth_root_2d` constrains the ADMM-smoothed root and not the raw
+pelvis. The WALK arm uses Kimodo's own prompt text, so it is this prior's elicitation floor, not a
+cross-prior WALK comparison. Three departures from the protocol's letter are recorded: the host
+gate ran with relaxed thresholds
+(4 GiB VRAM / 8 GiB RAM, `require_no_concurrent_isaac: false`, measured 8,077 MiB free VRAM and
+11,237 MiB available RAM with no Isaac process running) rather than the ≥ 12 GB / ≥ 18 GB the
+protocol names; the campaign was launched from the sibling worktree
+`/home/linjiw/scene2motion-exp030` at the same commit; and the protocol's prose secondary cut
+("the post hoc 0.32 s cut") is implemented in its fps-free form, `> 0.28 s`, which cannot change
+the count on this corpus (no elicited clip runs between 0.100 s and 0.367 s). Part B, the reduced
+capability audit rerun, is out of scope and was not run, so the 4.5× / 6× counting rows stay transcript-sourced. Seeds
+4700–4763 are spent; 4800–4927 remain reserved for EXP-027.

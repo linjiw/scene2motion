@@ -1,0 +1,29 @@
+{
+  "checkpoint": "/home/linjiw/lucid/GR00T-WholeBodyControl/sonic_release/last.pt",
+  "command": [
+    "/home/linjiw/isaaclab-install/env_isaaclab/bin/python",
+    "-u",
+    "-m",
+    "gear_sonic.eval_agent_trl",
+    "+checkpoint=/home/linjiw/lucid/GR00T-WholeBodyControl/sonic_release/last.pt",
+    "+headless=True",
+    "++eval_callbacks=im_eval",
+    "++run_eval_loop=False",
+    "++num_envs=32",
+    "++eval_output_dir=/home/linjiw/scene2motion-exp030/outputs/exp030_obstacle_present/launches/present_05_chunk00_seed0/attempt-000/eval",
+    "++seed=0",
+    "++manager_env.commands.motion.motion_lib_cfg.multi_thread=False",
+    "+manager_env/terminations=tracking/eval",
+    "+manager_env.commands.motion.motion_lib_cfg.motion_file=/home/linjiw/scene2motion-exp030/outputs/exp030_obstacle_present/launches/present_05_chunk00_seed0/motions.pkl",
+    "+log_keys=motions",
+    "++callbacks.im_eval._target_=scene2motion.sonic_state_export.SonicStateExportCallback",
+    "++callbacks.im_eval.state_filename=achieved_qpos.npz",
+    "++manager_env.config.env_spacing=12.0",
+    "++manager_env.config.episode_length_s=20.0",
+    "++manager_env.config.add_table=true",
+    "++manager_env.config.table_size=[0.2, 2.8, 0.05]",
+    "++manager_env.config.table_position=[1.2, 0.0, 0.025]"
+  ],
+  "cwd": "/home/linjiw/lucid/GR00T-WBC-exp029",
+  "note": "the subprocess runs with the patched worktree as its working directory, so `python -m gear_sonic...` resolves that checkout"
+}

@@ -1,0 +1,431 @@
+{
+  "arms": {
+    "absent": {
+      "arm": "absent",
+      "box_height_m": null,
+      "collision_rate": 0.0,
+      "completion_rate": 0.015625,
+      "completion_rate_of_executed": 0.015625,
+      "local_traversal_completion": {
+        "completed": 1,
+        "completing_motion_keys": [
+          "s4434"
+        ],
+        "definition": "local traversal: passed the obstacle inside the corridor (|y| <= 1.4 m), reached within 0.5 m of the goal at 7.2 m after passing, collision-free and upright; walking around does not count and this is not navigation",
+        "n_assigned_trials": 64,
+        "rate": 0.015625,
+        "wilson95": [
+          0.0027634707504014047,
+          0.08334298900290629
+        ]
+      },
+      "n_assigned_trials": 64,
+      "n_executed": 64,
+      "n_rejected_before_execution": 0,
+      "obstacle_in_physics": false,
+      "outcome_precedence": [
+        "rejected",
+        "fell",
+        "collided_obstacle",
+        "collided_wall",
+        "cutoff",
+        "timeout",
+        "stalled",
+        "completed"
+      ],
+      "outcomes": {
+        "collided_obstacle": 0,
+        "collided_wall": 0,
+        "completed": 1,
+        "cutoff": 54,
+        "fell": 0,
+        "rejected": 0,
+        "stalled": 9,
+        "timeout": 0
+      }
+    },
+    "present_05": {
+      "arm": "present_05",
+      "box_height_m": 0.05,
+      "collision_rate": 0.3125,
+      "completion_rate": 0.0,
+      "completion_rate_of_executed": 0.0,
+      "local_traversal_completion": {
+        "completed": 0,
+        "completing_motion_keys": [],
+        "definition": "local traversal: passed the obstacle inside the corridor (|y| <= 1.4 m), reached within 0.5 m of the goal at 7.2 m after passing, collision-free and upright; walking around does not count and this is not navigation",
+        "n_assigned_trials": 64,
+        "rate": 0.0,
+        "wilson95": [
+          0.0,
+          0.056626022971156334
+        ]
+      },
+      "n_assigned_trials": 64,
+      "n_executed": 64,
+      "n_rejected_before_execution": 0,
+      "obstacle_in_physics": true,
+      "outcome_precedence": [
+        "rejected",
+        "fell",
+        "collided_obstacle",
+        "collided_wall",
+        "cutoff",
+        "timeout",
+        "stalled",
+        "completed"
+      ],
+      "outcomes": {
+        "collided_obstacle": 20,
+        "collided_wall": 0,
+        "completed": 0,
+        "cutoff": 44,
+        "fell": 0,
+        "rejected": 0,
+        "stalled": 0,
+        "timeout": 0
+      }
+    },
+    "present_20": {
+      "arm": "present_20",
+      "box_height_m": 0.2,
+      "collision_rate": 0.46875,
+      "completion_rate": 0.0,
+      "completion_rate_of_executed": 0.0,
+      "local_traversal_completion": {
+        "completed": 0,
+        "completing_motion_keys": [],
+        "definition": "local traversal: passed the obstacle inside the corridor (|y| <= 1.4 m), reached within 0.5 m of the goal at 7.2 m after passing, collision-free and upright; walking around does not count and this is not navigation",
+        "n_assigned_trials": 64,
+        "rate": 0.0,
+        "wilson95": [
+          0.0,
+          0.056626022971156334
+        ]
+      },
+      "n_assigned_trials": 64,
+      "n_executed": 64,
+      "n_rejected_before_execution": 0,
+      "obstacle_in_physics": true,
+      "outcome_precedence": [
+        "rejected",
+        "fell",
+        "collided_obstacle",
+        "collided_wall",
+        "cutoff",
+        "timeout",
+        "stalled",
+        "completed"
+      ],
+      "outcomes": {
+        "collided_obstacle": 30,
+        "collided_wall": 0,
+        "completed": 0,
+        "cutoff": 34,
+        "fell": 0,
+        "rejected": 0,
+        "stalled": 0,
+        "timeout": 0
+      }
+    }
+  },
+  "interpretation_guard": "The obstacle was present in the Isaac scene, so 'collided_obstacle' here means the robot actually contacted the box -- unlike every earlier campaign, where it meant the recorded motion intersected the box's volume in replay. Local traversal is not navigation: passing outside the corridor is a failure here. One route, one scene, one obstacle position, physics seed 0, one rollout per reference; rates are over all 64 assigned trials and are not generalised beyond this scene.",
+  "n_assigned_trials_per_arm": 64,
+  "p1_absent_vs_exp022a": {
+    "disagreeing_references": [
+      {
+        "motion_key": "s4409",
+        "terminated": {
+          "exp022a": true,
+          "exp030_absent": true
+        },
+        "valid_frames": {
+          "exp022a": 46,
+          "exp030_absent": 48
+        }
+      },
+      {
+        "motion_key": "s4423",
+        "terminated": {
+          "exp022a": true,
+          "exp030_absent": true
+        },
+        "valid_frames": {
+          "exp022a": 49,
+          "exp030_absent": 50
+        }
+      },
+      {
+        "motion_key": "s4424",
+        "terminated": {
+          "exp022a": true,
+          "exp030_absent": true
+        },
+        "valid_frames": {
+          "exp022a": 28,
+          "exp030_absent": 27
+        }
+      },
+      {
+        "motion_key": "s4435",
+        "terminated": {
+          "exp022a": true,
+          "exp030_absent": true
+        },
+        "valid_frames": {
+          "exp022a": 44,
+          "exp030_absent": 45
+        }
+      },
+      {
+        "motion_key": "s4436",
+        "terminated": {
+          "exp022a": true,
+          "exp030_absent": true
+        },
+        "valid_frames": {
+          "exp022a": 63,
+          "exp030_absent": 62
+        }
+      },
+      {
+        "motion_key": "s4443",
+        "terminated": {
+          "exp022a": true,
+          "exp030_absent": true
+        },
+        "valid_frames": {
+          "exp022a": 55,
+          "exp030_absent": 56
+        }
+      },
+      {
+        "motion_key": "s4451",
+        "terminated": {
+          "exp022a": true,
+          "exp030_absent": true
+        },
+        "valid_frames": {
+          "exp022a": 68,
+          "exp030_absent": 58
+        }
+      },
+      {
+        "motion_key": "s4453",
+        "terminated": {
+          "exp022a": true,
+          "exp030_absent": true
+        },
+        "valid_frames": {
+          "exp022a": 76,
+          "exp030_absent": 80
+        }
+      },
+      {
+        "motion_key": "s4459",
+        "terminated": {
+          "exp022a": false,
+          "exp030_absent": true
+        },
+        "valid_frames": {
+          "exp022a": 397,
+          "exp030_absent": 120
+        }
+      },
+      {
+        "motion_key": "s4461",
+        "terminated": {
+          "exp022a": true,
+          "exp030_absent": true
+        },
+        "valid_frames": {
+          "exp022a": 28,
+          "exp030_absent": 29
+        }
+      }
+    ],
+    "n": 64,
+    "terminated_counts": {
+      "exp022a": 53,
+      "exp030_absent": 54
+    },
+    "termination_flag": {
+      "fraction": 0.984375,
+      "n": 64,
+      "n_agreeing": 63,
+      "wilson95": [
+        0.9166570109970937,
+        0.9972365292495986
+      ]
+    },
+    "valid_length": {
+      "fraction": 0.84375,
+      "n": 64,
+      "n_agreeing": 54,
+      "role": "reported alongside; the preregistered rule is the flag",
+      "wilson95": [
+        0.7357170979769467,
+        0.9128525112303834
+      ]
+    }
+  },
+  "paired_progress_change": {
+    "arm": "present_05",
+    "definition": "absent max root x - present_05 max root x, per reference (metres)",
+    "iqr_m": [
+      0.0,
+      0.0005331039428710938
+    ],
+    "iqr_width_m": 0.0005331039428710938,
+    "max_m": 3.9346084594726562,
+    "median_m": 0.0,
+    "min_m": -4.521175384521484,
+    "n": 64,
+    "n_excluded_without_a_measurable_maximum": 0,
+    "n_falling_more_than_threshold": 8,
+    "note": "a reference that never reaches the box must show about 0; a large positive difference means the box stopped the robot short",
+    "references_falling_more_than_threshold": [
+      "s4408",
+      "s4418",
+      "s4419",
+      "s4428",
+      "s4440",
+      "s4452",
+      "s4453",
+      "s4463"
+    ],
+    "threshold_m": 0.05
+  },
+  "predictions": {
+    "P1": {
+      "consequence_if_failed": "the fork fix or the run conditions are not inert: every cross-campaign comparison is re-scoped, Q1's answer is scoped to this tracker build, and the disagreement is the headline rather than the proxy result",
+      "n": 64,
+      "n_agreeing": 63,
+      "prediction_held": true,
+      "rule": "P1 (control): the `absent` arm reproduces EXP-022A -- >= 58/64 references agree on the termination flag",
+      "threshold": 58
+    },
+    "P2": {
+      "completing_motion_keys": {
+        "present_05": [],
+        "present_20": []
+      },
+      "completions": {
+        "present_05": 0,
+        "present_20": 0
+      },
+      "consequence_if_failed": "any completion is the project's first measured local traversal and is reported prominently, with its reference identified",
+      "predicted_completions": 0,
+      "prediction_held": true,
+      "rule": "P2 (completion): local traversal completion is 0/64 in both present arms; any completion is the project's first measured local traversal and is reported prominently, with its reference identified"
+    },
+    "P3": {
+      "agreement_fraction": 0.984375,
+      "agreement_ok": true,
+      "consequence_if_failed": "the paper states that obstacle-absent replay is a biased proxy and names the direction of the bias",
+      "evaluable": true,
+      "kappa": 0.9641255605381166,
+      "kappa_ci95": [
+        0.8823366315102751,
+        1.0
+      ],
+      "kappa_degenerate": false,
+      "kappa_ok": true,
+      "min_agreement": 0.8,
+      "min_kappa": 0.6,
+      "note": null,
+      "prediction_held": true,
+      "rule": "P3 (the proxy): the replay-inferred and physics-measured classes for present_05 agree on >= 80 % of references (kappa >= 0.6)"
+    }
+  },
+  "q1_proxy_check": {
+    "agreement_fraction": 0.984375,
+    "agreement_wilson95": [
+      0.9166570109970937,
+      0.9972365292495986
+    ],
+    "box_height_m": 0.05,
+    "cohens_kappa": {
+      "degenerate": false,
+      "degenerate_note": "both labellings are (almost) constant, so chance agreement is 1 and kappa is undefined; the agreement fraction still applies",
+      "expected_agreement": 0.564453125,
+      "kappa": 0.9641255605381166,
+      "n": 64,
+      "observed_agreement": 0.984375
+    },
+    "confusion": {
+      "column_definition": "physics-measured class (present_05 arm)",
+      "labels": [
+        "collided_obstacle",
+        "cutoff"
+      ],
+      "matrix": {
+        "collided_obstacle": {
+          "collided_obstacle": 20,
+          "cutoff": 1
+        },
+        "cutoff": {
+          "collided_obstacle": 0,
+          "cutoff": 43
+        }
+      },
+      "row_definition": "replay-inferred class (absent arm scored against the 5 cm box)"
+    },
+    "disagreeing_references": [
+      {
+        "motion_key": "s4410",
+        "physics_measured": "cutoff",
+        "replay_inferred": "collided_obstacle"
+      }
+    ],
+    "kappa_bootstrap": {
+      "ci95": [
+        0.8823366315102751,
+        1.0
+      ],
+      "method": "percentile bootstrap over the 64 references; resamples whose chance agreement is 1 have no defined kappa and are excluded and counted; the interval is reported only when at least 100 finite resamples remain",
+      "n_degenerate_excluded": 0,
+      "n_finite": 2000,
+      "n_resamples": 2000,
+      "seed": 30
+    },
+    "n": 64,
+    "n_agreeing": 63,
+    "per_class_agreement": {
+      "collided_obstacle": {
+        "agreement_of_measured": 1.0,
+        "n_agreeing": 20,
+        "n_physics_measured": 20,
+        "n_replay_inferred": 21
+      },
+      "cutoff": {
+        "agreement_of_measured": 0.9772727272727273,
+        "n_agreeing": 43,
+        "n_physics_measured": 44,
+        "n_replay_inferred": 43
+      }
+    },
+    "question": "Q1: does the obstacle-absent replay predict the obstacle-present outcome, per reference?",
+    "scope": "'collided_obstacle' means measured contact in the present arm and a replay intersection in the inferred column; that distinction is the point of the comparison"
+  },
+  "scene": {
+    "corridor_half_width_m": 1.4,
+    "evaluator_version": 1,
+    "goal_tolerance_m": 0.5,
+    "goal_xy_m": [
+      7.2,
+      0.0
+    ],
+    "obstacle_depth_m": 0.2,
+    "obstacle_width_m": 2.8,
+    "obstacle_x_m": 1.2,
+    "sample_dt_s": 0.02,
+    "start_xy_m": [
+      0.0,
+      0.0
+    ],
+    "time_limit_s": null,
+    "timeout_note": "no wall-clock deadline was preregistered, so the timeout class is not assessed and its count of zero means 'not assessed'"
+  },
+  "status": "complete"
+}

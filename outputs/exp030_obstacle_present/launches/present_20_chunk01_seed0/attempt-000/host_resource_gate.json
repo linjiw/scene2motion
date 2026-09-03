@@ -1,0 +1,40 @@
+{
+  "concurrent_isaac_processes": [
+    {
+      "args": "/home/linjiw/isaaclab-install/env_isaaclab/bin/python scripts/practice_utility/run_curriculum_robustness_eval.py --training-receipt /home/linjiw/lucid-sonic/manifests/expansion_prototype_20260903_005338/curriculum_comparison_ne1024_20260903",
+      "pid": 3571478
+    },
+    {
+      "args": "/home/linjiw/isaaclab-install/env_isaaclab/bin/python /home/linjiw/lucid/GR00T-WholeBodyControl/scripts/practice_utility/eval_with_delay.py --max-delay 12 -- checkpoint=/home/linjiw/lucid-sonic/artifacts/curriculum_comparison/curriculum_com",
+      "pid": 3584911
+    }
+  ],
+  "gate": {
+    "checks": {
+      "no_isaac": true,
+      "ram": true,
+      "vram": true
+    },
+    "concurrent_isaac_processes": [],
+    "measured_at_unix_s": 1788417238.5503685,
+    "pass": true,
+    "ram": {
+      "available_mib": 10093,
+      "error": null,
+      "total_mib": 30670
+    },
+    "thresholds": {
+      "min_available_ram_mib": 9500,
+      "min_free_vram_mib": 5500,
+      "require_no_concurrent_isaac": false
+    },
+    "vram": {
+      "error": null,
+      "free_mib": 10426,
+      "total_mib": 16303,
+      "used_mib": 5383
+    }
+  },
+  "n_concurrent_isaac_processes": 2,
+  "note": "the SONIC preset does not gate on Isaac co-tenants (see host_gate); they are recorded per launch as the protocol requires"
+}

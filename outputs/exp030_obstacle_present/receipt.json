@@ -1,0 +1,3635 @@
+{
+  "actual_ardy_samples": 0,
+  "blocked": false,
+  "campaign_identity_sha256": "0f46d10c9bdd60e3f47c87841bda666588282d73a970476034931c423f35013e",
+  "claim_scope": "the archived EXP-021 pool replayed through SONIC with the obstacle PRESENT in the Isaac scene (per-motion table pose) beside an obstacle-absent control arm; release evaluator, physics seed 0, one rollout per reference, one scene",
+  "complete": true,
+  "design": {
+    "arms": [
+      {
+        "arm": "absent",
+        "box_height_m": null,
+        "why": "replicates EXP-022A's configuration on this tracker build; the control for Q1 and the check that the fork fix is inert"
+      },
+      {
+        "arm": "present_05",
+        "box_height_m": 0.05,
+        "why": "the project's staged endpoint height; the primary arm"
+      },
+      {
+        "arm": "present_20",
+        "box_height_m": 0.2,
+        "why": "a graded, harder obstacle; separates 'the box is too small to matter' from 'the robot cannot pass any box'"
+      }
+    ],
+    "env_spacing_m": 12.0,
+    "episode_length_s": 20.0,
+    "execution_root": {
+      "branch": "exp029-obstacle-present",
+      "checkpoint": "/home/linjiw/lucid/GR00T-WholeBodyControl/sonic_release/last.pt",
+      "legacy_root_refused": "/home/linjiw/lucid/GR00T-WholeBodyControl",
+      "sonic_root": "/home/linjiw/lucid/GR00T-WBC-exp029",
+      "why": "CLAUDE.md 'Two tracker checkouts' and protocol section 2's amendment: the add_table fix is reverted on the legacy checkout so EXP-022A/024/028 keep manifest 44e98c45f840ed32cd54d0dbc322e4ed1ef1743625e70ca94c7af01eb70efe0a; every EXP-030 arm, including the absent control, runs on the patched worktree"
+    },
+    "launch_plan": [
+      {
+        "arm": "absent",
+        "box_height_m": null,
+        "chunk": 0,
+        "extra_overrides": [
+          "++manager_env.config.env_spacing=12.0",
+          "++manager_env.config.episode_length_s=20.0"
+        ],
+        "motion_keys": [
+          "s4400",
+          "s4401",
+          "s4402",
+          "s4403",
+          "s4404",
+          "s4405",
+          "s4406",
+          "s4407",
+          "s4408",
+          "s4409",
+          "s4410",
+          "s4411",
+          "s4412",
+          "s4413",
+          "s4414",
+          "s4415",
+          "s4416",
+          "s4417",
+          "s4418",
+          "s4419",
+          "s4420",
+          "s4421",
+          "s4422",
+          "s4423",
+          "s4424",
+          "s4425",
+          "s4426",
+          "s4427",
+          "s4428",
+          "s4429",
+          "s4430",
+          "s4431"
+        ],
+        "n_motions": 32,
+        "name": "absent_chunk00_seed0",
+        "obstacle_in_physics": false,
+        "physics_seed": 0,
+        "seeds": [
+          4400,
+          4401,
+          4402,
+          4403,
+          4404,
+          4405,
+          4406,
+          4407,
+          4408,
+          4409,
+          4410,
+          4411,
+          4412,
+          4413,
+          4414,
+          4415,
+          4416,
+          4417,
+          4418,
+          4419,
+          4420,
+          4421,
+          4422,
+          4423,
+          4424,
+          4425,
+          4426,
+          4427,
+          4428,
+          4429,
+          4430,
+          4431
+        ],
+        "table": null
+      },
+      {
+        "arm": "absent",
+        "box_height_m": null,
+        "chunk": 1,
+        "extra_overrides": [
+          "++manager_env.config.env_spacing=12.0",
+          "++manager_env.config.episode_length_s=20.0"
+        ],
+        "motion_keys": [
+          "s4432",
+          "s4433",
+          "s4434",
+          "s4435",
+          "s4436",
+          "s4437",
+          "s4438",
+          "s4439",
+          "s4440",
+          "s4441",
+          "s4442",
+          "s4443",
+          "s4444",
+          "s4445",
+          "s4446",
+          "s4447",
+          "s4448",
+          "s4449",
+          "s4450",
+          "s4451",
+          "s4452",
+          "s4453",
+          "s4454",
+          "s4455",
+          "s4456",
+          "s4457",
+          "s4458",
+          "s4459",
+          "s4460",
+          "s4461",
+          "s4462",
+          "s4463"
+        ],
+        "n_motions": 32,
+        "name": "absent_chunk01_seed0",
+        "obstacle_in_physics": false,
+        "physics_seed": 0,
+        "seeds": [
+          4432,
+          4433,
+          4434,
+          4435,
+          4436,
+          4437,
+          4438,
+          4439,
+          4440,
+          4441,
+          4442,
+          4443,
+          4444,
+          4445,
+          4446,
+          4447,
+          4448,
+          4449,
+          4450,
+          4451,
+          4452,
+          4453,
+          4454,
+          4455,
+          4456,
+          4457,
+          4458,
+          4459,
+          4460,
+          4461,
+          4462,
+          4463
+        ],
+        "table": null
+      },
+      {
+        "arm": "present_05",
+        "box_height_m": 0.05,
+        "chunk": 0,
+        "extra_overrides": [
+          "++manager_env.config.env_spacing=12.0",
+          "++manager_env.config.episode_length_s=20.0",
+          "++manager_env.config.add_table=true",
+          "++manager_env.config.table_size=[0.2, 2.8, 0.05]",
+          "++manager_env.config.table_position=[1.2, 0.0, 0.025]"
+        ],
+        "motion_keys": [
+          "s4400",
+          "s4401",
+          "s4402",
+          "s4403",
+          "s4404",
+          "s4405",
+          "s4406",
+          "s4407",
+          "s4408",
+          "s4409",
+          "s4410",
+          "s4411",
+          "s4412",
+          "s4413",
+          "s4414",
+          "s4415",
+          "s4416",
+          "s4417",
+          "s4418",
+          "s4419",
+          "s4420",
+          "s4421",
+          "s4422",
+          "s4423",
+          "s4424",
+          "s4425",
+          "s4426",
+          "s4427",
+          "s4428",
+          "s4429",
+          "s4430",
+          "s4431"
+        ],
+        "n_motions": 32,
+        "name": "present_05_chunk00_seed0",
+        "obstacle_in_physics": true,
+        "physics_seed": 0,
+        "seeds": [
+          4400,
+          4401,
+          4402,
+          4403,
+          4404,
+          4405,
+          4406,
+          4407,
+          4408,
+          4409,
+          4410,
+          4411,
+          4412,
+          4413,
+          4414,
+          4415,
+          4416,
+          4417,
+          4418,
+          4419,
+          4420,
+          4421,
+          4422,
+          4423,
+          4424,
+          4425,
+          4426,
+          4427,
+          4428,
+          4429,
+          4430,
+          4431
+        ],
+        "table": {
+          "convention": "CuboidCfg size is the full x/y/z extents and the position is the box centre; a box of height h resting on the floor is size=[depth_x, width_y, h] at pos=[x, y, h/2]",
+          "height_m": 0.05,
+          "pos": [
+            1.2,
+            0.0,
+            0.025
+          ],
+          "quat": [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "size_xyz": [
+            0.2,
+            2.8,
+            0.05
+          ],
+          "width_source": "scene2motion.stepover_eval.step_scene (half-width 1.4 m)"
+        }
+      },
+      {
+        "arm": "present_05",
+        "box_height_m": 0.05,
+        "chunk": 1,
+        "extra_overrides": [
+          "++manager_env.config.env_spacing=12.0",
+          "++manager_env.config.episode_length_s=20.0",
+          "++manager_env.config.add_table=true",
+          "++manager_env.config.table_size=[0.2, 2.8, 0.05]",
+          "++manager_env.config.table_position=[1.2, 0.0, 0.025]"
+        ],
+        "motion_keys": [
+          "s4432",
+          "s4433",
+          "s4434",
+          "s4435",
+          "s4436",
+          "s4437",
+          "s4438",
+          "s4439",
+          "s4440",
+          "s4441",
+          "s4442",
+          "s4443",
+          "s4444",
+          "s4445",
+          "s4446",
+          "s4447",
+          "s4448",
+          "s4449",
+          "s4450",
+          "s4451",
+          "s4452",
+          "s4453",
+          "s4454",
+          "s4455",
+          "s4456",
+          "s4457",
+          "s4458",
+          "s4459",
+          "s4460",
+          "s4461",
+          "s4462",
+          "s4463"
+        ],
+        "n_motions": 32,
+        "name": "present_05_chunk01_seed0",
+        "obstacle_in_physics": true,
+        "physics_seed": 0,
+        "seeds": [
+          4432,
+          4433,
+          4434,
+          4435,
+          4436,
+          4437,
+          4438,
+          4439,
+          4440,
+          4441,
+          4442,
+          4443,
+          4444,
+          4445,
+          4446,
+          4447,
+          4448,
+          4449,
+          4450,
+          4451,
+          4452,
+          4453,
+          4454,
+          4455,
+          4456,
+          4457,
+          4458,
+          4459,
+          4460,
+          4461,
+          4462,
+          4463
+        ],
+        "table": {
+          "convention": "CuboidCfg size is the full x/y/z extents and the position is the box centre; a box of height h resting on the floor is size=[depth_x, width_y, h] at pos=[x, y, h/2]",
+          "height_m": 0.05,
+          "pos": [
+            1.2,
+            0.0,
+            0.025
+          ],
+          "quat": [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "size_xyz": [
+            0.2,
+            2.8,
+            0.05
+          ],
+          "width_source": "scene2motion.stepover_eval.step_scene (half-width 1.4 m)"
+        }
+      },
+      {
+        "arm": "present_20",
+        "box_height_m": 0.2,
+        "chunk": 0,
+        "extra_overrides": [
+          "++manager_env.config.env_spacing=12.0",
+          "++manager_env.config.episode_length_s=20.0",
+          "++manager_env.config.add_table=true",
+          "++manager_env.config.table_size=[0.2, 2.8, 0.2]",
+          "++manager_env.config.table_position=[1.2, 0.0, 0.1]"
+        ],
+        "motion_keys": [
+          "s4400",
+          "s4401",
+          "s4402",
+          "s4403",
+          "s4404",
+          "s4405",
+          "s4406",
+          "s4407",
+          "s4408",
+          "s4409",
+          "s4410",
+          "s4411",
+          "s4412",
+          "s4413",
+          "s4414",
+          "s4415",
+          "s4416",
+          "s4417",
+          "s4418",
+          "s4419",
+          "s4420",
+          "s4421",
+          "s4422",
+          "s4423",
+          "s4424",
+          "s4425",
+          "s4426",
+          "s4427",
+          "s4428",
+          "s4429",
+          "s4430",
+          "s4431"
+        ],
+        "n_motions": 32,
+        "name": "present_20_chunk00_seed0",
+        "obstacle_in_physics": true,
+        "physics_seed": 0,
+        "seeds": [
+          4400,
+          4401,
+          4402,
+          4403,
+          4404,
+          4405,
+          4406,
+          4407,
+          4408,
+          4409,
+          4410,
+          4411,
+          4412,
+          4413,
+          4414,
+          4415,
+          4416,
+          4417,
+          4418,
+          4419,
+          4420,
+          4421,
+          4422,
+          4423,
+          4424,
+          4425,
+          4426,
+          4427,
+          4428,
+          4429,
+          4430,
+          4431
+        ],
+        "table": {
+          "convention": "CuboidCfg size is the full x/y/z extents and the position is the box centre; a box of height h resting on the floor is size=[depth_x, width_y, h] at pos=[x, y, h/2]",
+          "height_m": 0.2,
+          "pos": [
+            1.2,
+            0.0,
+            0.1
+          ],
+          "quat": [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "size_xyz": [
+            0.2,
+            2.8,
+            0.2
+          ],
+          "width_source": "scene2motion.stepover_eval.step_scene (half-width 1.4 m)"
+        }
+      },
+      {
+        "arm": "present_20",
+        "box_height_m": 0.2,
+        "chunk": 1,
+        "extra_overrides": [
+          "++manager_env.config.env_spacing=12.0",
+          "++manager_env.config.episode_length_s=20.0",
+          "++manager_env.config.add_table=true",
+          "++manager_env.config.table_size=[0.2, 2.8, 0.2]",
+          "++manager_env.config.table_position=[1.2, 0.0, 0.1]"
+        ],
+        "motion_keys": [
+          "s4432",
+          "s4433",
+          "s4434",
+          "s4435",
+          "s4436",
+          "s4437",
+          "s4438",
+          "s4439",
+          "s4440",
+          "s4441",
+          "s4442",
+          "s4443",
+          "s4444",
+          "s4445",
+          "s4446",
+          "s4447",
+          "s4448",
+          "s4449",
+          "s4450",
+          "s4451",
+          "s4452",
+          "s4453",
+          "s4454",
+          "s4455",
+          "s4456",
+          "s4457",
+          "s4458",
+          "s4459",
+          "s4460",
+          "s4461",
+          "s4462",
+          "s4463"
+        ],
+        "n_motions": 32,
+        "name": "present_20_chunk01_seed0",
+        "obstacle_in_physics": true,
+        "physics_seed": 0,
+        "seeds": [
+          4432,
+          4433,
+          4434,
+          4435,
+          4436,
+          4437,
+          4438,
+          4439,
+          4440,
+          4441,
+          4442,
+          4443,
+          4444,
+          4445,
+          4446,
+          4447,
+          4448,
+          4449,
+          4450,
+          4451,
+          4452,
+          4453,
+          4454,
+          4455,
+          4456,
+          4457,
+          4458,
+          4459,
+          4460,
+          4461,
+          4462,
+          4463
+        ],
+        "table": {
+          "convention": "CuboidCfg size is the full x/y/z extents and the position is the box centre; a box of height h resting on the floor is size=[depth_x, width_y, h] at pos=[x, y, h/2]",
+          "height_m": 0.2,
+          "pos": [
+            1.2,
+            0.0,
+            0.1
+          ],
+          "quat": [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "size_xyz": [
+            0.2,
+            2.8,
+            0.2
+          ],
+          "width_source": "scene2motion.stepover_eval.step_scene (half-width 1.4 m)"
+        }
+      }
+    ],
+    "num_envs": 32,
+    "obstacle": {
+      "carried_as": "per-motion table_pos / table_quat inside the motion pickle, because commands.py rewrites the table pose per environment on every reset (REPORT \u00a747)",
+      "depth_m": 0.2,
+      "half_width_m": 1.4,
+      "width_m": 2.8,
+      "width_source": "scene2motion.stepover_eval.step_scene",
+      "x_m": 1.2
+    },
+    "physics_seed": 0,
+    "predictions": {
+      "P1": "P1 (control): the `absent` arm reproduces EXP-022A -- >= 58/64 references agree on the termination flag",
+      "P2": "P2 (completion): local traversal completion is 0/64 in both present arms; any completion is the project's first measured local traversal and is reported prominently, with its reference identified",
+      "P3": "P3 (the proxy): the replay-inferred and physics-measured classes for present_05 agree on >= 80 % of references (kappa >= 0.6)"
+    },
+    "release_termination_terms": [
+      "anchor_ori_full",
+      "anchor_pos",
+      "ee_body_pos",
+      "foot_pos_xyz",
+      "time_out"
+    ],
+    "scene": {
+      "corridor_half_width_m": 1.4,
+      "evaluator_version": 1,
+      "goal_tolerance_m": 0.5,
+      "goal_xy_m": [
+        7.2,
+        0.0
+      ],
+      "outcome_precedence": [
+        "rejected",
+        "fell",
+        "collided_obstacle",
+        "collided_wall",
+        "cutoff",
+        "timeout",
+        "stalled",
+        "completed"
+      ],
+      "sample_dt_s": 0.02,
+      "start_xy_m": [
+        0.0,
+        0.0
+      ],
+      "time_limit_s": null
+    },
+    "shared_overrides": [
+      "++manager_env.config.env_spacing=12.0",
+      "++manager_env.config.episode_length_s=20.0"
+    ]
+  },
+  "evidence_anchors": {
+    "rows": {
+      "file_sha256": "e126186f0276ab74a8ca6c8abaf25bddd4e86e5bf82fb14d4be57c128feb35f2",
+      "logical_sha256": "f186889c8892fcf7f8679606eec744d015fc38c3ebf4d0669087b7e801c66b39",
+      "n_rows": 192
+    },
+    "summary": {
+      "file_sha256": "5c0d120973e49d633fc67fa4a85a7171cdabcee8056d495f11389e746bd07650",
+      "logical_sha256": "b651223388d98c8d957f377d08f2ba2b6729e6bcb21d5f1eaeece00599af6fe2"
+    }
+  },
+  "experiment": "exp030_obstacle_present",
+  "host_gate_blocks": [],
+  "launches": {
+    "absent_chunk00_seed0": {
+      "archive_aggregate": {
+        "progress_rate": 0.2280150759324897,
+        "success_rate": 0.15625
+      },
+      "archive_schema_version": 2,
+      "arm": "absent",
+      "artifacts": {
+        "archive_sha256": {
+          "achieved_qpos.npz": "e56b5cd75d16c44ee7f7d5c4f1228c281e8824d95c324bb6cba120bc258f27c0"
+        },
+        "log_sha256": "75446efd08222cd3750b9791c8c53097aa840149fc3c2d7df7899cb58ff7d148",
+        "metrics_sha256": "a3569a8bbfd43579760dd3dc80113a59cb85efc7fe7bef921db93801f1ad262d"
+      },
+      "attempt": "/home/linjiw/scene2motion-exp030/outputs/exp030_obstacle_present/launches/absent_chunk00_seed0/attempt-000",
+      "attempt_receipt_sha256": "2b95572d4b3d03409a7c583f3954c0c819cba58aec5331d50bf23556c2d83698",
+      "box_height_m": null,
+      "command_sha256": "de3f4eb21cc4628e4c3b56e5aeefaf4445f603c5333be3b9472e0abbe458c1fa",
+      "elapsed_s": 48.84328672400443,
+      "extra_overrides": [
+        "++manager_env.config.env_spacing=12.0",
+        "++manager_env.config.episode_length_s=20.0"
+      ],
+      "host_resource_gate": {
+        "concurrent_isaac_processes": [
+          {
+            "args": "/home/linjiw/isaaclab-install/env_isaaclab/bin/python scripts/practice_utility/run_curriculum_robustness_eval.py --training-receipt /home/linjiw/lucid-sonic/manifests/expansion_prototype_20260903_005338/curriculum_comparison_ne1024_20260903",
+            "pid": 3571478
+          },
+          {
+            "args": "/home/linjiw/isaaclab-install/env_isaaclab/bin/python /home/linjiw/lucid/GR00T-WholeBodyControl/scripts/practice_utility/eval_with_delay.py --max-delay 12 -- checkpoint=/home/linjiw/lucid-sonic/artifacts/curriculum_comparison/curriculum_com",
+            "pid": 3576724
+          }
+        ],
+        "gate": {
+          "checks": {
+            "no_isaac": true,
+            "ram": true,
+            "vram": true
+          },
+          "concurrent_isaac_processes": [],
+          "measured_at_unix_s": 1788417002.001924,
+          "pass": true,
+          "ram": {
+            "available_mib": 12311,
+            "error": null,
+            "total_mib": 30670
+          },
+          "thresholds": {
+            "min_available_ram_mib": 9500,
+            "min_free_vram_mib": 5500,
+            "require_no_concurrent_isaac": false
+          },
+          "vram": {
+            "error": null,
+            "free_mib": 14340,
+            "total_mib": 16303,
+            "used_mib": 1469
+          }
+        },
+        "n_concurrent_isaac_processes": 2,
+        "note": "the SONIC preset does not gate on Isaac co-tenants (see host_gate); they are recorded per launch as the protocol requires"
+      },
+      "launch": "absent_chunk00_seed0",
+      "log_termination_terms": {
+        "anchor_ori_full": false,
+        "anchor_pos": false,
+        "ee_body_pos": false,
+        "foot_pos_xyz": false,
+        "time_out": true
+      },
+      "metrics_key_set": [
+        "eval/all/accel_dist",
+        "eval/all/accel_dist_foot",
+        "eval/all/accel_dist_legs",
+        "eval/all/accel_dist_other_upper_bodies",
+        "eval/all/accel_dist_vr_3points",
+        "eval/all/mpjpe_g",
+        "eval/all/mpjpe_g_foot",
+        "eval/all/mpjpe_g_legs",
+        "eval/all/mpjpe_g_other_upper_bodies",
+        "eval/all/mpjpe_g_vr_3points",
+        "eval/all/mpjpe_l",
+        "eval/all/mpjpe_l_foot",
+        "eval/all/mpjpe_l_legs",
+        "eval/all/mpjpe_l_other_upper_bodies",
+        "eval/all/mpjpe_l_vr_3points",
+        "eval/all/mpjpe_pa",
+        "eval/all/mpjpe_pa_foot",
+        "eval/all/mpjpe_pa_legs",
+        "eval/all/mpjpe_pa_other_upper_bodies",
+        "eval/all/mpjpe_pa_vr_3points",
+        "eval/all/vel_dist",
+        "eval/all/vel_dist_foot",
+        "eval/all/vel_dist_legs",
+        "eval/all/vel_dist_other_upper_bodies",
+        "eval/all/vel_dist_vr_3points",
+        "eval/all_metrics_dict",
+        "eval/failed_metrics_dict",
+        "eval/success/accel_dist",
+        "eval/success/accel_dist_foot",
+        "eval/success/accel_dist_legs",
+        "eval/success/accel_dist_other_upper_bodies",
+        "eval/success/accel_dist_vr_3points",
+        "eval/success/mpjpe_g",
+        "eval/success/mpjpe_g_foot",
+        "eval/success/mpjpe_g_legs",
+        "eval/success/mpjpe_g_other_upper_bodies",
+        "eval/success/mpjpe_g_vr_3points",
+        "eval/success/mpjpe_l",
+        "eval/success/mpjpe_l_foot",
+        "eval/success/mpjpe_l_legs",
+        "eval/success/mpjpe_l_other_upper_bodies",
+        "eval/success/mpjpe_l_vr_3points",
+        "eval/success/mpjpe_pa",
+        "eval/success/mpjpe_pa_foot",
+        "eval/success/mpjpe_pa_legs",
+        "eval/success/mpjpe_pa_other_upper_bodies",
+        "eval/success/mpjpe_pa_vr_3points",
+        "eval/success/progress_rate",
+        "eval/success/success_rate",
+        "eval/success/vel_dist",
+        "eval/success/vel_dist_foot",
+        "eval/success/vel_dist_legs",
+        "eval/success/vel_dist_other_upper_bodies",
+        "eval/success/vel_dist_vr_3points",
+        "failed_idxes",
+        "failed_keys",
+        "log_keys"
+      ],
+      "motion_id_key_map_sha256": "bc10fde478816b74a2a1004132ad8166e9f69ba09c93774c328fc0d02a063275",
+      "motion_keys": [
+        "s4400",
+        "s4401",
+        "s4402",
+        "s4403",
+        "s4404",
+        "s4405",
+        "s4406",
+        "s4407",
+        "s4408",
+        "s4409",
+        "s4410",
+        "s4411",
+        "s4412",
+        "s4413",
+        "s4414",
+        "s4415",
+        "s4416",
+        "s4417",
+        "s4418",
+        "s4419",
+        "s4420",
+        "s4421",
+        "s4422",
+        "s4423",
+        "s4424",
+        "s4425",
+        "s4426",
+        "s4427",
+        "s4428",
+        "s4429",
+        "s4430",
+        "s4431"
+      ],
+      "motion_pkl_sha256": "d81707e8c2ec2dda92f42773c811070a22727558d4acac124b0cba432291489b",
+      "n_rollouts": 32,
+      "physics_seed": 0,
+      "process_result": {
+        "arm": "absent",
+        "extra_overrides": [
+          "++manager_env.config.env_spacing=12.0",
+          "++manager_env.config.episode_length_s=20.0"
+        ],
+        "extra_overrides_sha256": "9d34fdf9e802041c1572d07a610a7037601c1612efb8c549e00f044dd482d678",
+        "file_sha256": "28200ef739045d6af1029c697e3b256336fef91f8b71bf3ffec133fd8686a33e",
+        "launch": "absent_chunk00_seed0",
+        "motion_keys": [
+          "s4400",
+          "s4401",
+          "s4402",
+          "s4403",
+          "s4404",
+          "s4405",
+          "s4406",
+          "s4407",
+          "s4408",
+          "s4409",
+          "s4410",
+          "s4411",
+          "s4412",
+          "s4413",
+          "s4414",
+          "s4415",
+          "s4416",
+          "s4417",
+          "s4418",
+          "s4419",
+          "s4420",
+          "s4421",
+          "s4422",
+          "s4423",
+          "s4424",
+          "s4425",
+          "s4426",
+          "s4427",
+          "s4428",
+          "s4429",
+          "s4430",
+          "s4431"
+        ],
+        "motion_pkl_sha256": "d81707e8c2ec2dda92f42773c811070a22727558d4acac124b0cba432291489b",
+        "physics_seed": 0,
+        "returncode": 0,
+        "returncode_observed": true,
+        "schema": "exp030-sonic-process-result-v1",
+        "sonic_log_sha256": "75446efd08222cd3750b9791c8c53097aa840149fc3c2d7df7899cb58ff7d148"
+      },
+      "recovered_or_resumed": false,
+      "returncode": 0,
+      "returncode_observed": true,
+      "rollout_check": {
+        "n_rollouts": 32,
+        "terminated_keys": [
+          "s4400",
+          "s4402",
+          "s4403",
+          "s4404",
+          "s4405",
+          "s4406",
+          "s4407",
+          "s4409",
+          "s4410",
+          "s4412",
+          "s4413",
+          "s4414",
+          "s4415",
+          "s4416",
+          "s4417",
+          "s4420",
+          "s4421",
+          "s4422",
+          "s4423",
+          "s4424",
+          "s4425",
+          "s4426",
+          "s4427",
+          "s4428",
+          "s4429",
+          "s4430",
+          "s4431"
+        ],
+        "valid_lengths": {
+          "s4400": 46,
+          "s4401": 397,
+          "s4402": 20,
+          "s4403": 46,
+          "s4404": 30,
+          "s4405": 32,
+          "s4406": 10,
+          "s4407": 20,
+          "s4408": 397,
+          "s4409": 48,
+          "s4410": 70,
+          "s4411": 397,
+          "s4412": 30,
+          "s4413": 45,
+          "s4414": 36,
+          "s4415": 55,
+          "s4416": 25,
+          "s4417": 30,
+          "s4418": 397,
+          "s4419": 397,
+          "s4420": 6,
+          "s4421": 30,
+          "s4422": 50,
+          "s4423": 50,
+          "s4424": 27,
+          "s4425": 26,
+          "s4426": 21,
+          "s4427": 31,
+          "s4428": 63,
+          "s4429": 14,
+          "s4430": 25,
+          "s4431": 28
+        }
+      },
+      "sample_dt_s": 0.02,
+      "sonic_log": {
+        "progress_rate": 0.2280150759,
+        "success_rate": 0.15625
+      },
+      "status": "complete",
+      "table": null
+    },
+    "absent_chunk01_seed0": {
+      "archive_aggregate": {
+        "progress_rate": 0.26271985040511936,
+        "success_rate": 0.15625
+      },
+      "archive_schema_version": 2,
+      "arm": "absent",
+      "artifacts": {
+        "archive_sha256": {
+          "achieved_qpos.npz": "90447ed8da44360240847e0045691f0998997b6200c2365c88b0a9335d19f3c7"
+        },
+        "log_sha256": "775b6c082e1d4970befc9952d149c86751a34c6e1626812c3382e1696b7c23cd",
+        "metrics_sha256": "ddb94b0c9468fd2875a7924cd8752945dd8b8d49ace1f3494b46bfe74de90f76"
+      },
+      "attempt": "/home/linjiw/scene2motion-exp030/outputs/exp030_obstacle_present/launches/absent_chunk01_seed0/attempt-000",
+      "attempt_receipt_sha256": "6c2ee2de617ea832c987761771f0eef95d564c147ae6e99a2276f9cd1fd95a15",
+      "box_height_m": null,
+      "command_sha256": "0d602989f627f3bf5afd70cea1152c535aaa81e254ef25b9b3ee7a5543676763",
+      "elapsed_s": 50.0515770969796,
+      "extra_overrides": [
+        "++manager_env.config.env_spacing=12.0",
+        "++manager_env.config.episode_length_s=20.0"
+      ],
+      "host_resource_gate": {
+        "concurrent_isaac_processes": [
+          {
+            "args": "/home/linjiw/isaaclab-install/env_isaaclab/bin/python scripts/practice_utility/run_curriculum_robustness_eval.py --training-receipt /home/linjiw/lucid-sonic/manifests/expansion_prototype_20260903_005338/curriculum_comparison_ne1024_20260903",
+            "pid": 3571478
+          },
+          {
+            "args": "/home/linjiw/isaaclab-install/env_isaaclab/bin/python /home/linjiw/lucid/GR00T-WholeBodyControl/scripts/practice_utility/eval_with_delay.py --max-delay 12 -- checkpoint=/home/linjiw/lucid-sonic/artifacts/curriculum_comparison/curriculum_com",
+            "pid": 3578876
+          }
+        ],
+        "gate": {
+          "checks": {
+            "no_isaac": true,
+            "ram": true,
+            "vram": true
+          },
+          "concurrent_isaac_processes": [],
+          "measured_at_unix_s": 1788417052.1762412,
+          "pass": true,
+          "ram": {
+            "available_mib": 12382,
+            "error": null,
+            "total_mib": 30670
+          },
+          "thresholds": {
+            "min_available_ram_mib": 9500,
+            "min_free_vram_mib": 5500,
+            "require_no_concurrent_isaac": false
+          },
+          "vram": {
+            "error": null,
+            "free_mib": 14337,
+            "total_mib": 16303,
+            "used_mib": 1472
+          }
+        },
+        "n_concurrent_isaac_processes": 2,
+        "note": "the SONIC preset does not gate on Isaac co-tenants (see host_gate); they are recorded per launch as the protocol requires"
+      },
+      "launch": "absent_chunk01_seed0",
+      "log_termination_terms": {
+        "anchor_ori_full": false,
+        "anchor_pos": false,
+        "ee_body_pos": false,
+        "foot_pos_xyz": false,
+        "time_out": true
+      },
+      "metrics_key_set": [
+        "eval/all/accel_dist",
+        "eval/all/accel_dist_foot",
+        "eval/all/accel_dist_legs",
+        "eval/all/accel_dist_other_upper_bodies",
+        "eval/all/accel_dist_vr_3points",
+        "eval/all/mpjpe_g",
+        "eval/all/mpjpe_g_foot",
+        "eval/all/mpjpe_g_legs",
+        "eval/all/mpjpe_g_other_upper_bodies",
+        "eval/all/mpjpe_g_vr_3points",
+        "eval/all/mpjpe_l",
+        "eval/all/mpjpe_l_foot",
+        "eval/all/mpjpe_l_legs",
+        "eval/all/mpjpe_l_other_upper_bodies",
+        "eval/all/mpjpe_l_vr_3points",
+        "eval/all/mpjpe_pa",
+        "eval/all/mpjpe_pa_foot",
+        "eval/all/mpjpe_pa_legs",
+        "eval/all/mpjpe_pa_other_upper_bodies",
+        "eval/all/mpjpe_pa_vr_3points",
+        "eval/all/vel_dist",
+        "eval/all/vel_dist_foot",
+        "eval/all/vel_dist_legs",
+        "eval/all/vel_dist_other_upper_bodies",
+        "eval/all/vel_dist_vr_3points",
+        "eval/all_metrics_dict",
+        "eval/failed_metrics_dict",
+        "eval/success/accel_dist",
+        "eval/success/accel_dist_foot",
+        "eval/success/accel_dist_legs",
+        "eval/success/accel_dist_other_upper_bodies",
+        "eval/success/accel_dist_vr_3points",
+        "eval/success/mpjpe_g",
+        "eval/success/mpjpe_g_foot",
+        "eval/success/mpjpe_g_legs",
+        "eval/success/mpjpe_g_other_upper_bodies",
+        "eval/success/mpjpe_g_vr_3points",
+        "eval/success/mpjpe_l",
+        "eval/success/mpjpe_l_foot",
+        "eval/success/mpjpe_l_legs",
+        "eval/success/mpjpe_l_other_upper_bodies",
+        "eval/success/mpjpe_l_vr_3points",
+        "eval/success/mpjpe_pa",
+        "eval/success/mpjpe_pa_foot",
+        "eval/success/mpjpe_pa_legs",
+        "eval/success/mpjpe_pa_other_upper_bodies",
+        "eval/success/mpjpe_pa_vr_3points",
+        "eval/success/progress_rate",
+        "eval/success/success_rate",
+        "eval/success/vel_dist",
+        "eval/success/vel_dist_foot",
+        "eval/success/vel_dist_legs",
+        "eval/success/vel_dist_other_upper_bodies",
+        "eval/success/vel_dist_vr_3points",
+        "failed_idxes",
+        "failed_keys",
+        "log_keys"
+      ],
+      "motion_id_key_map_sha256": "576d49b5ebe7106a9ce6533c2230652ccbbf83ffc8cd969629c73a8943593839",
+      "motion_keys": [
+        "s4432",
+        "s4433",
+        "s4434",
+        "s4435",
+        "s4436",
+        "s4437",
+        "s4438",
+        "s4439",
+        "s4440",
+        "s4441",
+        "s4442",
+        "s4443",
+        "s4444",
+        "s4445",
+        "s4446",
+        "s4447",
+        "s4448",
+        "s4449",
+        "s4450",
+        "s4451",
+        "s4452",
+        "s4453",
+        "s4454",
+        "s4455",
+        "s4456",
+        "s4457",
+        "s4458",
+        "s4459",
+        "s4460",
+        "s4461",
+        "s4462",
+        "s4463"
+      ],
+      "motion_pkl_sha256": "7ed177e2559539cfeacd8eaaed59c09bb2cf8f52b704e2ab373e8ff771b552d6",
+      "n_rollouts": 32,
+      "physics_seed": 0,
+      "process_result": {
+        "arm": "absent",
+        "extra_overrides": [
+          "++manager_env.config.env_spacing=12.0",
+          "++manager_env.config.episode_length_s=20.0"
+        ],
+        "extra_overrides_sha256": "9d34fdf9e802041c1572d07a610a7037601c1612efb8c549e00f044dd482d678",
+        "file_sha256": "81e1ba5d0f941ebd62e321a3a588fe9cbadb1d0dc0258f4224eac5ea10019bc0",
+        "launch": "absent_chunk01_seed0",
+        "motion_keys": [
+          "s4432",
+          "s4433",
+          "s4434",
+          "s4435",
+          "s4436",
+          "s4437",
+          "s4438",
+          "s4439",
+          "s4440",
+          "s4441",
+          "s4442",
+          "s4443",
+          "s4444",
+          "s4445",
+          "s4446",
+          "s4447",
+          "s4448",
+          "s4449",
+          "s4450",
+          "s4451",
+          "s4452",
+          "s4453",
+          "s4454",
+          "s4455",
+          "s4456",
+          "s4457",
+          "s4458",
+          "s4459",
+          "s4460",
+          "s4461",
+          "s4462",
+          "s4463"
+        ],
+        "motion_pkl_sha256": "7ed177e2559539cfeacd8eaaed59c09bb2cf8f52b704e2ab373e8ff771b552d6",
+        "physics_seed": 0,
+        "returncode": 0,
+        "returncode_observed": true,
+        "schema": "exp030-sonic-process-result-v1",
+        "sonic_log_sha256": "775b6c082e1d4970befc9952d149c86751a34c6e1626812c3382e1696b7c23cd"
+      },
+      "recovered_or_resumed": false,
+      "returncode": 0,
+      "returncode_observed": true,
+      "rollout_check": {
+        "n_rollouts": 32,
+        "terminated_keys": [
+          "s4433",
+          "s4435",
+          "s4436",
+          "s4437",
+          "s4438",
+          "s4439",
+          "s4441",
+          "s4442",
+          "s4443",
+          "s4444",
+          "s4445",
+          "s4446",
+          "s4447",
+          "s4448",
+          "s4449",
+          "s4450",
+          "s4451",
+          "s4453",
+          "s4454",
+          "s4455",
+          "s4456",
+          "s4457",
+          "s4458",
+          "s4459",
+          "s4460",
+          "s4461",
+          "s4462"
+        ],
+        "valid_lengths": {
+          "s4432": 397,
+          "s4433": 14,
+          "s4434": 397,
+          "s4435": 45,
+          "s4436": 62,
+          "s4437": 46,
+          "s4438": 48,
+          "s4439": 54,
+          "s4440": 397,
+          "s4441": 36,
+          "s4442": 32,
+          "s4443": 56,
+          "s4444": 44,
+          "s4445": 27,
+          "s4446": 58,
+          "s4447": 43,
+          "s4448": 59,
+          "s4449": 33,
+          "s4450": 89,
+          "s4451": 58,
+          "s4452": 397,
+          "s4453": 80,
+          "s4454": 30,
+          "s4455": 26,
+          "s4456": 33,
+          "s4457": 59,
+          "s4458": 19,
+          "s4459": 120,
+          "s4460": 106,
+          "s4461": 29,
+          "s4462": 50,
+          "s4463": 397
+        }
+      },
+      "sample_dt_s": 0.02,
+      "sonic_log": {
+        "progress_rate": 0.2627198504,
+        "success_rate": 0.15625
+      },
+      "status": "complete",
+      "table": null
+    },
+    "present_05_chunk00_seed0": {
+      "archive_aggregate": {
+        "progress_rate": 0.200376885040896,
+        "success_rate": 0.125
+      },
+      "archive_schema_version": 2,
+      "arm": "present_05",
+      "artifacts": {
+        "archive_sha256": {
+          "achieved_qpos.npz": "4fa73ff98db95c02574872a77d76dd04320512e6b93fdc70208a19ad86a5a9f6"
+        },
+        "log_sha256": "32b244a8bf22d49342e8d8aab01f46fa44fabb78393b04c4350e8135eeee7c74",
+        "metrics_sha256": "0acfcfe4f706c163e8786c45db556e632482616013a2c1c80c8ab5cf17b49ed5"
+      },
+      "attempt": "/home/linjiw/scene2motion-exp030/outputs/exp030_obstacle_present/launches/present_05_chunk00_seed0/attempt-000",
+      "attempt_receipt_sha256": "c6605c8ad25f35ab4f251d4263a51aaa22491b030ed39914827d8546c71353b7",
+      "box_height_m": 0.05,
+      "command_sha256": "63092869f5f1a6a123ff3e2f49b37113f3a4d41a522c94ed990c34059031f5d2",
+      "elapsed_s": 50.470916410995414,
+      "extra_overrides": [
+        "++manager_env.config.env_spacing=12.0",
+        "++manager_env.config.episode_length_s=20.0",
+        "++manager_env.config.add_table=true",
+        "++manager_env.config.table_size=[0.2, 2.8, 0.05]",
+        "++manager_env.config.table_position=[1.2, 0.0, 0.025]"
+      ],
+      "host_resource_gate": {
+        "concurrent_isaac_processes": [
+          {
+            "args": "/home/linjiw/isaaclab-install/env_isaaclab/bin/python scripts/practice_utility/run_curriculum_robustness_eval.py --training-receipt /home/linjiw/lucid-sonic/manifests/expansion_prototype_20260903_005338/curriculum_comparison_ne1024_20260903",
+            "pid": 3571478
+          },
+          {
+            "args": "/home/linjiw/isaaclab-install/env_isaaclab/bin/python /home/linjiw/lucid/GR00T-WholeBodyControl/scripts/practice_utility/eval_with_delay.py --max-delay 12 -- checkpoint=/home/linjiw/lucid-sonic/artifacts/curriculum_comparison/curriculum_com",
+            "pid": 3580999
+          }
+        ],
+        "gate": {
+          "checks": {
+            "no_isaac": true,
+            "ram": true,
+            "vram": true
+          },
+          "concurrent_isaac_processes": [],
+          "measured_at_unix_s": 1788417103.7369936,
+          "pass": true,
+          "ram": {
+            "available_mib": 12909,
+            "error": null,
+            "total_mib": 30670
+          },
+          "thresholds": {
+            "min_available_ram_mib": 9500,
+            "min_free_vram_mib": 5500,
+            "require_no_concurrent_isaac": false
+          },
+          "vram": {
+            "error": null,
+            "free_mib": 14366,
+            "total_mib": 16303,
+            "used_mib": 1443
+          }
+        },
+        "n_concurrent_isaac_processes": 2,
+        "note": "the SONIC preset does not gate on Isaac co-tenants (see host_gate); they are recorded per launch as the protocol requires"
+      },
+      "launch": "present_05_chunk00_seed0",
+      "log_termination_terms": {
+        "anchor_ori_full": false,
+        "anchor_pos": false,
+        "ee_body_pos": false,
+        "foot_pos_xyz": false,
+        "time_out": true
+      },
+      "metrics_key_set": [
+        "eval/all/accel_dist",
+        "eval/all/accel_dist_foot",
+        "eval/all/accel_dist_legs",
+        "eval/all/accel_dist_other_upper_bodies",
+        "eval/all/accel_dist_vr_3points",
+        "eval/all/mpjpe_g",
+        "eval/all/mpjpe_g_foot",
+        "eval/all/mpjpe_g_legs",
+        "eval/all/mpjpe_g_other_upper_bodies",
+        "eval/all/mpjpe_g_vr_3points",
+        "eval/all/mpjpe_l",
+        "eval/all/mpjpe_l_foot",
+        "eval/all/mpjpe_l_legs",
+        "eval/all/mpjpe_l_other_upper_bodies",
+        "eval/all/mpjpe_l_vr_3points",
+        "eval/all/mpjpe_pa",
+        "eval/all/mpjpe_pa_foot",
+        "eval/all/mpjpe_pa_legs",
+        "eval/all/mpjpe_pa_other_upper_bodies",
+        "eval/all/mpjpe_pa_vr_3points",
+        "eval/all/vel_dist",
+        "eval/all/vel_dist_foot",
+        "eval/all/vel_dist_legs",
+        "eval/all/vel_dist_other_upper_bodies",
+        "eval/all/vel_dist_vr_3points",
+        "eval/all_metrics_dict",
+        "eval/failed_metrics_dict",
+        "eval/success/accel_dist",
+        "eval/success/accel_dist_foot",
+        "eval/success/accel_dist_legs",
+        "eval/success/accel_dist_other_upper_bodies",
+        "eval/success/accel_dist_vr_3points",
+        "eval/success/mpjpe_g",
+        "eval/success/mpjpe_g_foot",
+        "eval/success/mpjpe_g_legs",
+        "eval/success/mpjpe_g_other_upper_bodies",
+        "eval/success/mpjpe_g_vr_3points",
+        "eval/success/mpjpe_l",
+        "eval/success/mpjpe_l_foot",
+        "eval/success/mpjpe_l_legs",
+        "eval/success/mpjpe_l_other_upper_bodies",
+        "eval/success/mpjpe_l_vr_3points",
+        "eval/success/mpjpe_pa",
+        "eval/success/mpjpe_pa_foot",
+        "eval/success/mpjpe_pa_legs",
+        "eval/success/mpjpe_pa_other_upper_bodies",
+        "eval/success/mpjpe_pa_vr_3points",
+        "eval/success/progress_rate",
+        "eval/success/success_rate",
+        "eval/success/vel_dist",
+        "eval/success/vel_dist_foot",
+        "eval/success/vel_dist_legs",
+        "eval/success/vel_dist_other_upper_bodies",
+        "eval/success/vel_dist_vr_3points",
+        "failed_idxes",
+        "failed_keys",
+        "log_keys"
+      ],
+      "motion_id_key_map_sha256": "bc10fde478816b74a2a1004132ad8166e9f69ba09c93774c328fc0d02a063275",
+      "motion_keys": [
+        "s4400",
+        "s4401",
+        "s4402",
+        "s4403",
+        "s4404",
+        "s4405",
+        "s4406",
+        "s4407",
+        "s4408",
+        "s4409",
+        "s4410",
+        "s4411",
+        "s4412",
+        "s4413",
+        "s4414",
+        "s4415",
+        "s4416",
+        "s4417",
+        "s4418",
+        "s4419",
+        "s4420",
+        "s4421",
+        "s4422",
+        "s4423",
+        "s4424",
+        "s4425",
+        "s4426",
+        "s4427",
+        "s4428",
+        "s4429",
+        "s4430",
+        "s4431"
+      ],
+      "motion_pkl_sha256": "3e61f119b37ed9a5463ee0fc03731a82e5d1ac4aee5ba32d5dc2fff29133946d",
+      "n_rollouts": 32,
+      "physics_seed": 0,
+      "process_result": {
+        "arm": "present_05",
+        "extra_overrides": [
+          "++manager_env.config.env_spacing=12.0",
+          "++manager_env.config.episode_length_s=20.0",
+          "++manager_env.config.add_table=true",
+          "++manager_env.config.table_size=[0.2, 2.8, 0.05]",
+          "++manager_env.config.table_position=[1.2, 0.0, 0.025]"
+        ],
+        "extra_overrides_sha256": "f47af355cb6538518bf767cc08ed43a567766294182f583bd76b0afb7f37a771",
+        "file_sha256": "5554efdb05b2805ce018abea797c25c44d31a1c1ddb294a8f8896d95e01699d0",
+        "launch": "present_05_chunk00_seed0",
+        "motion_keys": [
+          "s4400",
+          "s4401",
+          "s4402",
+          "s4403",
+          "s4404",
+          "s4405",
+          "s4406",
+          "s4407",
+          "s4408",
+          "s4409",
+          "s4410",
+          "s4411",
+          "s4412",
+          "s4413",
+          "s4414",
+          "s4415",
+          "s4416",
+          "s4417",
+          "s4418",
+          "s4419",
+          "s4420",
+          "s4421",
+          "s4422",
+          "s4423",
+          "s4424",
+          "s4425",
+          "s4426",
+          "s4427",
+          "s4428",
+          "s4429",
+          "s4430",
+          "s4431"
+        ],
+        "motion_pkl_sha256": "3e61f119b37ed9a5463ee0fc03731a82e5d1ac4aee5ba32d5dc2fff29133946d",
+        "physics_seed": 0,
+        "returncode": 0,
+        "returncode_observed": true,
+        "schema": "exp030-sonic-process-result-v1",
+        "sonic_log_sha256": "32b244a8bf22d49342e8d8aab01f46fa44fabb78393b04c4350e8135eeee7c74"
+      },
+      "recovered_or_resumed": false,
+      "returncode": 0,
+      "returncode_observed": true,
+      "rollout_check": {
+        "n_rollouts": 32,
+        "terminated_keys": [
+          "s4400",
+          "s4402",
+          "s4403",
+          "s4404",
+          "s4405",
+          "s4406",
+          "s4407",
+          "s4409",
+          "s4410",
+          "s4412",
+          "s4413",
+          "s4414",
+          "s4415",
+          "s4416",
+          "s4417",
+          "s4419",
+          "s4420",
+          "s4421",
+          "s4422",
+          "s4423",
+          "s4424",
+          "s4425",
+          "s4426",
+          "s4427",
+          "s4428",
+          "s4429",
+          "s4430",
+          "s4431"
+        ],
+        "valid_lengths": {
+          "s4400": 46,
+          "s4401": 397,
+          "s4402": 20,
+          "s4403": 46,
+          "s4404": 30,
+          "s4405": 32,
+          "s4406": 10,
+          "s4407": 20,
+          "s4408": 397,
+          "s4409": 48,
+          "s4410": 70,
+          "s4411": 397,
+          "s4412": 30,
+          "s4413": 45,
+          "s4414": 36,
+          "s4415": 53,
+          "s4416": 25,
+          "s4417": 30,
+          "s4418": 397,
+          "s4419": 58,
+          "s4420": 6,
+          "s4421": 30,
+          "s4422": 51,
+          "s4423": 50,
+          "s4424": 27,
+          "s4425": 26,
+          "s4426": 21,
+          "s4427": 31,
+          "s4428": 52,
+          "s4429": 14,
+          "s4430": 25,
+          "s4431": 28
+        }
+      },
+      "sample_dt_s": 0.02,
+      "sonic_log": {
+        "progress_rate": 0.200376885,
+        "success_rate": 0.125
+      },
+      "status": "complete",
+      "table": {
+        "convention": "CuboidCfg size is the full x/y/z extents and the position is the box centre; a box of height h resting on the floor is size=[depth_x, width_y, h] at pos=[x, y, h/2]",
+        "height_m": 0.05,
+        "pos": [
+          1.2,
+          0.0,
+          0.025
+        ],
+        "quat": [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "size_xyz": [
+          0.2,
+          2.8,
+          0.05
+        ],
+        "width_source": "scene2motion.stepover_eval.step_scene (half-width 1.4 m)"
+      }
+    },
+    "present_05_chunk01_seed0": {
+      "archive_aggregate": {
+        "progress_rate": 0.25722361903171986,
+        "success_rate": 0.15625
+      },
+      "archive_schema_version": 2,
+      "arm": "present_05",
+      "artifacts": {
+        "archive_sha256": {
+          "achieved_qpos.npz": "4991683a770da7a4757adb39a66ebf6b5b5728884bb9a3b9a9f8d219e1ecd93a"
+        },
+        "log_sha256": "9038e76c886690a8b61a5cc770e2f9e3b2162bf5a6be33b2fc74ceef1425f5d2",
+        "metrics_sha256": "558d4b3c5d585a3759f8c0b791b6b30ccbad46914d5b477da091af28104c1217"
+      },
+      "attempt": "/home/linjiw/scene2motion-exp030/outputs/exp030_obstacle_present/launches/present_05_chunk01_seed0/attempt-000",
+      "attempt_receipt_sha256": "86a795184eeee1c9062d8c6612ca2e0d25a568382605b21a6f598d72655a2cc3",
+      "box_height_m": 0.05,
+      "command_sha256": "62f7aad9abe8c981241c1786f41d85595f9ed1fef1fd8b4c2fc8875dee9fc6ee",
+      "elapsed_s": 52.98955339900567,
+      "extra_overrides": [
+        "++manager_env.config.env_spacing=12.0",
+        "++manager_env.config.episode_length_s=20.0",
+        "++manager_env.config.add_table=true",
+        "++manager_env.config.table_size=[0.2, 2.8, 0.05]",
+        "++manager_env.config.table_position=[1.2, 0.0, 0.025]"
+      ],
+      "host_resource_gate": {
+        "concurrent_isaac_processes": [
+          {
+            "args": "/home/linjiw/isaaclab-install/env_isaaclab/bin/python scripts/practice_utility/run_curriculum_robustness_eval.py --training-receipt /home/linjiw/lucid-sonic/manifests/expansion_prototype_20260903_005338/curriculum_comparison_ne1024_20260903",
+            "pid": 3571478
+          },
+          {
+            "args": "/home/linjiw/isaaclab-install/env_isaaclab/bin/python /home/linjiw/lucid/GR00T-WholeBodyControl/scripts/practice_utility/eval_with_delay.py --max-delay 12 -- checkpoint=/home/linjiw/lucid-sonic/artifacts/curriculum_comparison/curriculum_com",
+            "pid": 3582855
+          }
+        ],
+        "gate": {
+          "checks": {
+            "no_isaac": true,
+            "ram": true,
+            "vram": true
+          },
+          "concurrent_isaac_processes": [],
+          "measured_at_unix_s": 1788417155.3200064,
+          "pass": true,
+          "ram": {
+            "available_mib": 14490,
+            "error": null,
+            "total_mib": 30670
+          },
+          "thresholds": {
+            "min_available_ram_mib": 9500,
+            "min_free_vram_mib": 5500,
+            "require_no_concurrent_isaac": false
+          },
+          "vram": {
+            "error": null,
+            "free_mib": 14533,
+            "total_mib": 16303,
+            "used_mib": 1276
+          }
+        },
+        "n_concurrent_isaac_processes": 2,
+        "note": "the SONIC preset does not gate on Isaac co-tenants (see host_gate); they are recorded per launch as the protocol requires"
+      },
+      "launch": "present_05_chunk01_seed0",
+      "log_termination_terms": {
+        "anchor_ori_full": false,
+        "anchor_pos": false,
+        "ee_body_pos": false,
+        "foot_pos_xyz": false,
+        "time_out": true
+      },
+      "metrics_key_set": [
+        "eval/all/accel_dist",
+        "eval/all/accel_dist_foot",
+        "eval/all/accel_dist_legs",
+        "eval/all/accel_dist_other_upper_bodies",
+        "eval/all/accel_dist_vr_3points",
+        "eval/all/mpjpe_g",
+        "eval/all/mpjpe_g_foot",
+        "eval/all/mpjpe_g_legs",
+        "eval/all/mpjpe_g_other_upper_bodies",
+        "eval/all/mpjpe_g_vr_3points",
+        "eval/all/mpjpe_l",
+        "eval/all/mpjpe_l_foot",
+        "eval/all/mpjpe_l_legs",
+        "eval/all/mpjpe_l_other_upper_bodies",
+        "eval/all/mpjpe_l_vr_3points",
+        "eval/all/mpjpe_pa",
+        "eval/all/mpjpe_pa_foot",
+        "eval/all/mpjpe_pa_legs",
+        "eval/all/mpjpe_pa_other_upper_bodies",
+        "eval/all/mpjpe_pa_vr_3points",
+        "eval/all/vel_dist",
+        "eval/all/vel_dist_foot",
+        "eval/all/vel_dist_legs",
+        "eval/all/vel_dist_other_upper_bodies",
+        "eval/all/vel_dist_vr_3points",
+        "eval/all_metrics_dict",
+        "eval/failed_metrics_dict",
+        "eval/success/accel_dist",
+        "eval/success/accel_dist_foot",
+        "eval/success/accel_dist_legs",
+        "eval/success/accel_dist_other_upper_bodies",
+        "eval/success/accel_dist_vr_3points",
+        "eval/success/mpjpe_g",
+        "eval/success/mpjpe_g_foot",
+        "eval/success/mpjpe_g_legs",
+        "eval/success/mpjpe_g_other_upper_bodies",
+        "eval/success/mpjpe_g_vr_3points",
+        "eval/success/mpjpe_l",
+        "eval/success/mpjpe_l_foot",
+        "eval/success/mpjpe_l_legs",
+        "eval/success/mpjpe_l_other_upper_bodies",
+        "eval/success/mpjpe_l_vr_3points",
+        "eval/success/mpjpe_pa",
+        "eval/success/mpjpe_pa_foot",
+        "eval/success/mpjpe_pa_legs",
+        "eval/success/mpjpe_pa_other_upper_bodies",
+        "eval/success/mpjpe_pa_vr_3points",
+        "eval/success/progress_rate",
+        "eval/success/success_rate",
+        "eval/success/vel_dist",
+        "eval/success/vel_dist_foot",
+        "eval/success/vel_dist_legs",
+        "eval/success/vel_dist_other_upper_bodies",
+        "eval/success/vel_dist_vr_3points",
+        "failed_idxes",
+        "failed_keys",
+        "log_keys"
+      ],
+      "motion_id_key_map_sha256": "576d49b5ebe7106a9ce6533c2230652ccbbf83ffc8cd969629c73a8943593839",
+      "motion_keys": [
+        "s4432",
+        "s4433",
+        "s4434",
+        "s4435",
+        "s4436",
+        "s4437",
+        "s4438",
+        "s4439",
+        "s4440",
+        "s4441",
+        "s4442",
+        "s4443",
+        "s4444",
+        "s4445",
+        "s4446",
+        "s4447",
+        "s4448",
+        "s4449",
+        "s4450",
+        "s4451",
+        "s4452",
+        "s4453",
+        "s4454",
+        "s4455",
+        "s4456",
+        "s4457",
+        "s4458",
+        "s4459",
+        "s4460",
+        "s4461",
+        "s4462",
+        "s4463"
+      ],
+      "motion_pkl_sha256": "54e929d9f02c78ca705047e6d258d24660c6aed7979add2029560cfa41903c90",
+      "n_rollouts": 32,
+      "physics_seed": 0,
+      "process_result": {
+        "arm": "present_05",
+        "extra_overrides": [
+          "++manager_env.config.env_spacing=12.0",
+          "++manager_env.config.episode_length_s=20.0",
+          "++manager_env.config.add_table=true",
+          "++manager_env.config.table_size=[0.2, 2.8, 0.05]",
+          "++manager_env.config.table_position=[1.2, 0.0, 0.025]"
+        ],
+        "extra_overrides_sha256": "f47af355cb6538518bf767cc08ed43a567766294182f583bd76b0afb7f37a771",
+        "file_sha256": "86b7c13f8963e2312a307f0e868f89d852f840cca7af928b152884ddbaefff19",
+        "launch": "present_05_chunk01_seed0",
+        "motion_keys": [
+          "s4432",
+          "s4433",
+          "s4434",
+          "s4435",
+          "s4436",
+          "s4437",
+          "s4438",
+          "s4439",
+          "s4440",
+          "s4441",
+          "s4442",
+          "s4443",
+          "s4444",
+          "s4445",
+          "s4446",
+          "s4447",
+          "s4448",
+          "s4449",
+          "s4450",
+          "s4451",
+          "s4452",
+          "s4453",
+          "s4454",
+          "s4455",
+          "s4456",
+          "s4457",
+          "s4458",
+          "s4459",
+          "s4460",
+          "s4461",
+          "s4462",
+          "s4463"
+        ],
+        "motion_pkl_sha256": "54e929d9f02c78ca705047e6d258d24660c6aed7979add2029560cfa41903c90",
+        "physics_seed": 0,
+        "returncode": 0,
+        "returncode_observed": true,
+        "schema": "exp030-sonic-process-result-v1",
+        "sonic_log_sha256": "9038e76c886690a8b61a5cc770e2f9e3b2162bf5a6be33b2fc74ceef1425f5d2"
+      },
+      "recovered_or_resumed": false,
+      "returncode": 0,
+      "returncode_observed": true,
+      "rollout_check": {
+        "n_rollouts": 32,
+        "terminated_keys": [
+          "s4433",
+          "s4435",
+          "s4436",
+          "s4437",
+          "s4438",
+          "s4439",
+          "s4441",
+          "s4442",
+          "s4443",
+          "s4444",
+          "s4445",
+          "s4446",
+          "s4447",
+          "s4448",
+          "s4449",
+          "s4450",
+          "s4451",
+          "s4453",
+          "s4454",
+          "s4455",
+          "s4456",
+          "s4457",
+          "s4458",
+          "s4460",
+          "s4461",
+          "s4462",
+          "s4463"
+        ],
+        "valid_lengths": {
+          "s4432": 397,
+          "s4433": 14,
+          "s4434": 397,
+          "s4435": 45,
+          "s4436": 62,
+          "s4437": 46,
+          "s4438": 48,
+          "s4439": 54,
+          "s4440": 397,
+          "s4441": 36,
+          "s4442": 32,
+          "s4443": 56,
+          "s4444": 44,
+          "s4445": 27,
+          "s4446": 59,
+          "s4447": 43,
+          "s4448": 59,
+          "s4449": 33,
+          "s4450": 88,
+          "s4451": 58,
+          "s4452": 397,
+          "s4453": 65,
+          "s4454": 30,
+          "s4455": 26,
+          "s4456": 33,
+          "s4457": 59,
+          "s4458": 19,
+          "s4459": 397,
+          "s4460": 106,
+          "s4461": 29,
+          "s4462": 50,
+          "s4463": 65
+        }
+      },
+      "sample_dt_s": 0.02,
+      "sonic_log": {
+        "progress_rate": 0.257223619,
+        "success_rate": 0.15625
+      },
+      "status": "complete",
+      "table": {
+        "convention": "CuboidCfg size is the full x/y/z extents and the position is the box centre; a box of height h resting on the floor is size=[depth_x, width_y, h] at pos=[x, y, h/2]",
+        "height_m": 0.05,
+        "pos": [
+          1.2,
+          0.0,
+          0.025
+        ],
+        "quat": [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "size_xyz": [
+          0.2,
+          2.8,
+          0.05
+        ],
+        "width_source": "scene2motion.stepover_eval.step_scene (half-width 1.4 m)"
+      }
+    },
+    "present_20_chunk00_seed0": {
+      "archive_aggregate": {
+        "progress_rate": 0.09798994989250787,
+        "success_rate": 0.0
+      },
+      "archive_schema_version": 2,
+      "arm": "present_20",
+      "artifacts": {
+        "archive_sha256": {
+          "achieved_qpos.npz": "82e73f935e5a9e762d43bdc34e4e7d0a76f29ccb46bf4ed91dfc25f96d260963"
+        },
+        "log_sha256": "4296763077601ffac765f55a9e8ca56509168dd59b194aa0980c9c761dbb3c0a",
+        "metrics_sha256": "03cbfd5331a5f1b6b642d49d11a2a9c7dad736fe9eb601e60d17b2215f29fdc1"
+      },
+      "attempt": "/home/linjiw/scene2motion-exp030/outputs/exp030_obstacle_present/launches/present_20_chunk00_seed0/attempt-000",
+      "attempt_receipt_sha256": "f431cdf1dac46511f7a026969c5112adce56f15c05591cde16cd703f1c85b6eb",
+      "box_height_m": 0.2,
+      "command_sha256": "4f34a406819b873037669e924dedc5f5ea63b05810ef44870643015a2db45998",
+      "elapsed_s": 26.98761615398689,
+      "extra_overrides": [
+        "++manager_env.config.env_spacing=12.0",
+        "++manager_env.config.episode_length_s=20.0",
+        "++manager_env.config.add_table=true",
+        "++manager_env.config.table_size=[0.2, 2.8, 0.2]",
+        "++manager_env.config.table_position=[1.2, 0.0, 0.1]"
+      ],
+      "host_resource_gate": {
+        "concurrent_isaac_processes": [
+          {
+            "args": "/home/linjiw/isaaclab-install/env_isaaclab/bin/python scripts/practice_utility/run_curriculum_robustness_eval.py --training-receipt /home/linjiw/lucid-sonic/manifests/expansion_prototype_20260903_005338/curriculum_comparison_ne1024_20260903",
+            "pid": 3571478
+          },
+          {
+            "args": "/home/linjiw/isaaclab-install/env_isaaclab/bin/python /home/linjiw/lucid/GR00T-WholeBodyControl/scripts/practice_utility/eval_with_delay.py --max-delay 12 -- checkpoint=/home/linjiw/lucid-sonic/artifacts/curriculum_comparison/curriculum_com",
+            "pid": 3584911
+          }
+        ],
+        "gate": {
+          "checks": {
+            "no_isaac": true,
+            "ram": true,
+            "vram": true
+          },
+          "concurrent_isaac_processes": [],
+          "measured_at_unix_s": 1788417210.0918033,
+          "pass": true,
+          "ram": {
+            "available_mib": 13402,
+            "error": null,
+            "total_mib": 30670
+          },
+          "thresholds": {
+            "min_available_ram_mib": 9500,
+            "min_free_vram_mib": 5500,
+            "require_no_concurrent_isaac": false
+          },
+          "vram": {
+            "error": null,
+            "free_mib": 14911,
+            "total_mib": 16303,
+            "used_mib": 898
+          }
+        },
+        "n_concurrent_isaac_processes": 2,
+        "note": "the SONIC preset does not gate on Isaac co-tenants (see host_gate); they are recorded per launch as the protocol requires"
+      },
+      "launch": "present_20_chunk00_seed0",
+      "log_termination_terms": {
+        "anchor_ori_full": false,
+        "anchor_pos": false,
+        "ee_body_pos": false,
+        "foot_pos_xyz": false,
+        "time_out": true
+      },
+      "metrics_key_set": [
+        "eval/all/accel_dist",
+        "eval/all/accel_dist_foot",
+        "eval/all/accel_dist_legs",
+        "eval/all/accel_dist_other_upper_bodies",
+        "eval/all/accel_dist_vr_3points",
+        "eval/all/mpjpe_g",
+        "eval/all/mpjpe_g_foot",
+        "eval/all/mpjpe_g_legs",
+        "eval/all/mpjpe_g_other_upper_bodies",
+        "eval/all/mpjpe_g_vr_3points",
+        "eval/all/mpjpe_l",
+        "eval/all/mpjpe_l_foot",
+        "eval/all/mpjpe_l_legs",
+        "eval/all/mpjpe_l_other_upper_bodies",
+        "eval/all/mpjpe_l_vr_3points",
+        "eval/all/mpjpe_pa",
+        "eval/all/mpjpe_pa_foot",
+        "eval/all/mpjpe_pa_legs",
+        "eval/all/mpjpe_pa_other_upper_bodies",
+        "eval/all/mpjpe_pa_vr_3points",
+        "eval/all/vel_dist",
+        "eval/all/vel_dist_foot",
+        "eval/all/vel_dist_legs",
+        "eval/all/vel_dist_other_upper_bodies",
+        "eval/all/vel_dist_vr_3points",
+        "eval/all_metrics_dict",
+        "eval/failed_metrics_dict",
+        "eval/success/accel_dist",
+        "eval/success/accel_dist_foot",
+        "eval/success/accel_dist_legs",
+        "eval/success/accel_dist_other_upper_bodies",
+        "eval/success/accel_dist_vr_3points",
+        "eval/success/mpjpe_g",
+        "eval/success/mpjpe_g_foot",
+        "eval/success/mpjpe_g_legs",
+        "eval/success/mpjpe_g_other_upper_bodies",
+        "eval/success/mpjpe_g_vr_3points",
+        "eval/success/mpjpe_l",
+        "eval/success/mpjpe_l_foot",
+        "eval/success/mpjpe_l_legs",
+        "eval/success/mpjpe_l_other_upper_bodies",
+        "eval/success/mpjpe_l_vr_3points",
+        "eval/success/mpjpe_pa",
+        "eval/success/mpjpe_pa_foot",
+        "eval/success/mpjpe_pa_legs",
+        "eval/success/mpjpe_pa_other_upper_bodies",
+        "eval/success/mpjpe_pa_vr_3points",
+        "eval/success/progress_rate",
+        "eval/success/success_rate",
+        "eval/success/vel_dist",
+        "eval/success/vel_dist_foot",
+        "eval/success/vel_dist_legs",
+        "eval/success/vel_dist_other_upper_bodies",
+        "eval/success/vel_dist_vr_3points",
+        "failed_idxes",
+        "failed_keys",
+        "log_keys"
+      ],
+      "motion_id_key_map_sha256": "bc10fde478816b74a2a1004132ad8166e9f69ba09c93774c328fc0d02a063275",
+      "motion_keys": [
+        "s4400",
+        "s4401",
+        "s4402",
+        "s4403",
+        "s4404",
+        "s4405",
+        "s4406",
+        "s4407",
+        "s4408",
+        "s4409",
+        "s4410",
+        "s4411",
+        "s4412",
+        "s4413",
+        "s4414",
+        "s4415",
+        "s4416",
+        "s4417",
+        "s4418",
+        "s4419",
+        "s4420",
+        "s4421",
+        "s4422",
+        "s4423",
+        "s4424",
+        "s4425",
+        "s4426",
+        "s4427",
+        "s4428",
+        "s4429",
+        "s4430",
+        "s4431"
+      ],
+      "motion_pkl_sha256": "4bf83507af5ac9d2f58370ee8f7052e383edce14d5a3c69b47058ffba681075e",
+      "n_rollouts": 32,
+      "physics_seed": 0,
+      "process_result": {
+        "arm": "present_20",
+        "extra_overrides": [
+          "++manager_env.config.env_spacing=12.0",
+          "++manager_env.config.episode_length_s=20.0",
+          "++manager_env.config.add_table=true",
+          "++manager_env.config.table_size=[0.2, 2.8, 0.2]",
+          "++manager_env.config.table_position=[1.2, 0.0, 0.1]"
+        ],
+        "extra_overrides_sha256": "fb1741fc3579509f57f31c5bd9a6e05c339c8e222055b75229eb993d35b78a46",
+        "file_sha256": "ee4f8526e2ad327c594f56a0f9cba48e573797a5a2465632e965eb9c47003cb0",
+        "launch": "present_20_chunk00_seed0",
+        "motion_keys": [
+          "s4400",
+          "s4401",
+          "s4402",
+          "s4403",
+          "s4404",
+          "s4405",
+          "s4406",
+          "s4407",
+          "s4408",
+          "s4409",
+          "s4410",
+          "s4411",
+          "s4412",
+          "s4413",
+          "s4414",
+          "s4415",
+          "s4416",
+          "s4417",
+          "s4418",
+          "s4419",
+          "s4420",
+          "s4421",
+          "s4422",
+          "s4423",
+          "s4424",
+          "s4425",
+          "s4426",
+          "s4427",
+          "s4428",
+          "s4429",
+          "s4430",
+          "s4431"
+        ],
+        "motion_pkl_sha256": "4bf83507af5ac9d2f58370ee8f7052e383edce14d5a3c69b47058ffba681075e",
+        "physics_seed": 0,
+        "returncode": 0,
+        "returncode_observed": true,
+        "schema": "exp030-sonic-process-result-v1",
+        "sonic_log_sha256": "4296763077601ffac765f55a9e8ca56509168dd59b194aa0980c9c761dbb3c0a"
+      },
+      "recovered_or_resumed": false,
+      "returncode": 0,
+      "returncode_observed": true,
+      "rollout_check": {
+        "n_rollouts": 32,
+        "terminated_keys": [
+          "s4400",
+          "s4401",
+          "s4402",
+          "s4403",
+          "s4404",
+          "s4405",
+          "s4406",
+          "s4407",
+          "s4408",
+          "s4409",
+          "s4410",
+          "s4411",
+          "s4412",
+          "s4413",
+          "s4414",
+          "s4415",
+          "s4416",
+          "s4417",
+          "s4418",
+          "s4419",
+          "s4420",
+          "s4421",
+          "s4422",
+          "s4423",
+          "s4424",
+          "s4425",
+          "s4426",
+          "s4427",
+          "s4428",
+          "s4429",
+          "s4430",
+          "s4431"
+        ],
+        "valid_lengths": {
+          "s4400": 46,
+          "s4401": 55,
+          "s4402": 20,
+          "s4403": 46,
+          "s4404": 30,
+          "s4405": 32,
+          "s4406": 10,
+          "s4407": 20,
+          "s4408": 94,
+          "s4409": 48,
+          "s4410": 64,
+          "s4411": 63,
+          "s4412": 30,
+          "s4413": 45,
+          "s4414": 36,
+          "s4415": 55,
+          "s4416": 25,
+          "s4417": 30,
+          "s4418": 76,
+          "s4419": 64,
+          "s4420": 6,
+          "s4421": 30,
+          "s4422": 51,
+          "s4423": 50,
+          "s4424": 27,
+          "s4425": 26,
+          "s4426": 21,
+          "s4427": 31,
+          "s4428": 50,
+          "s4429": 14,
+          "s4430": 25,
+          "s4431": 28
+        }
+      },
+      "sample_dt_s": 0.02,
+      "sonic_log": {
+        "progress_rate": 0.0979899499,
+        "success_rate": 0.0
+      },
+      "status": "complete",
+      "table": {
+        "convention": "CuboidCfg size is the full x/y/z extents and the position is the box centre; a box of height h resting on the floor is size=[depth_x, width_y, h] at pos=[x, y, h/2]",
+        "height_m": 0.2,
+        "pos": [
+          1.2,
+          0.0,
+          0.1
+        ],
+        "quat": [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "size_xyz": [
+          0.2,
+          2.8,
+          0.2
+        ],
+        "width_source": "scene2motion.stepover_eval.step_scene (half-width 1.4 m)"
+      }
+    },
+    "present_20_chunk01_seed0": {
+      "archive_aggregate": {
+        "progress_rate": 0.12617776391562074,
+        "success_rate": 0.0
+      },
+      "archive_schema_version": 2,
+      "arm": "present_20",
+      "artifacts": {
+        "archive_sha256": {
+          "achieved_qpos.npz": "17c7b10b5750f03fbbb10563fb690db796800fa02a0fb40fb5a875b7f972a125"
+        },
+        "log_sha256": "92c5eaf31a377b4176d67e4c3c5c8bf3f6a2c672144383a84c7a21534f7a5d16",
+        "metrics_sha256": "e0f3feabe38441aa9998a9c31f97d9736148f80d7bfa136dd2078ddcdf8ce05f"
+      },
+      "attempt": "/home/linjiw/scene2motion-exp030/outputs/exp030_obstacle_present/launches/present_20_chunk01_seed0/attempt-000",
+      "attempt_receipt_sha256": "256f708fbbe31b870f27e5f98a31653edc6faaa93f43639491de3956e1336535",
+      "box_height_m": 0.2,
+      "command_sha256": "ef4fd6a2efb434de00f45857a3c0326708896306bd9a4d0c88e8d94f64ca3e76",
+      "elapsed_s": 25.638301240978763,
+      "extra_overrides": [
+        "++manager_env.config.env_spacing=12.0",
+        "++manager_env.config.episode_length_s=20.0",
+        "++manager_env.config.add_table=true",
+        "++manager_env.config.table_size=[0.2, 2.8, 0.2]",
+        "++manager_env.config.table_position=[1.2, 0.0, 0.1]"
+      ],
+      "host_resource_gate": {
+        "concurrent_isaac_processes": [
+          {
+            "args": "/home/linjiw/isaaclab-install/env_isaaclab/bin/python scripts/practice_utility/run_curriculum_robustness_eval.py --training-receipt /home/linjiw/lucid-sonic/manifests/expansion_prototype_20260903_005338/curriculum_comparison_ne1024_20260903",
+            "pid": 3571478
+          },
+          {
+            "args": "/home/linjiw/isaaclab-install/env_isaaclab/bin/python /home/linjiw/lucid/GR00T-WholeBodyControl/scripts/practice_utility/eval_with_delay.py --max-delay 12 -- checkpoint=/home/linjiw/lucid-sonic/artifacts/curriculum_comparison/curriculum_com",
+            "pid": 3584911
+          }
+        ],
+        "gate": {
+          "checks": {
+            "no_isaac": true,
+            "ram": true,
+            "vram": true
+          },
+          "concurrent_isaac_processes": [],
+          "measured_at_unix_s": 1788417238.5503685,
+          "pass": true,
+          "ram": {
+            "available_mib": 10093,
+            "error": null,
+            "total_mib": 30670
+          },
+          "thresholds": {
+            "min_available_ram_mib": 9500,
+            "min_free_vram_mib": 5500,
+            "require_no_concurrent_isaac": false
+          },
+          "vram": {
+            "error": null,
+            "free_mib": 10426,
+            "total_mib": 16303,
+            "used_mib": 5383
+          }
+        },
+        "n_concurrent_isaac_processes": 2,
+        "note": "the SONIC preset does not gate on Isaac co-tenants (see host_gate); they are recorded per launch as the protocol requires"
+      },
+      "launch": "present_20_chunk01_seed0",
+      "log_termination_terms": {
+        "anchor_ori_full": false,
+        "anchor_pos": false,
+        "ee_body_pos": false,
+        "foot_pos_xyz": false,
+        "time_out": true
+      },
+      "metrics_key_set": [
+        "eval/all/accel_dist",
+        "eval/all/accel_dist_foot",
+        "eval/all/accel_dist_legs",
+        "eval/all/accel_dist_other_upper_bodies",
+        "eval/all/accel_dist_vr_3points",
+        "eval/all/mpjpe_g",
+        "eval/all/mpjpe_g_foot",
+        "eval/all/mpjpe_g_legs",
+        "eval/all/mpjpe_g_other_upper_bodies",
+        "eval/all/mpjpe_g_vr_3points",
+        "eval/all/mpjpe_l",
+        "eval/all/mpjpe_l_foot",
+        "eval/all/mpjpe_l_legs",
+        "eval/all/mpjpe_l_other_upper_bodies",
+        "eval/all/mpjpe_l_vr_3points",
+        "eval/all/mpjpe_pa",
+        "eval/all/mpjpe_pa_foot",
+        "eval/all/mpjpe_pa_legs",
+        "eval/all/mpjpe_pa_other_upper_bodies",
+        "eval/all/mpjpe_pa_vr_3points",
+        "eval/all/vel_dist",
+        "eval/all/vel_dist_foot",
+        "eval/all/vel_dist_legs",
+        "eval/all/vel_dist_other_upper_bodies",
+        "eval/all/vel_dist_vr_3points",
+        "eval/all_metrics_dict",
+        "eval/failed_metrics_dict",
+        "eval/success/accel_dist",
+        "eval/success/accel_dist_foot",
+        "eval/success/accel_dist_legs",
+        "eval/success/accel_dist_other_upper_bodies",
+        "eval/success/accel_dist_vr_3points",
+        "eval/success/mpjpe_g",
+        "eval/success/mpjpe_g_foot",
+        "eval/success/mpjpe_g_legs",
+        "eval/success/mpjpe_g_other_upper_bodies",
+        "eval/success/mpjpe_g_vr_3points",
+        "eval/success/mpjpe_l",
+        "eval/success/mpjpe_l_foot",
+        "eval/success/mpjpe_l_legs",
+        "eval/success/mpjpe_l_other_upper_bodies",
+        "eval/success/mpjpe_l_vr_3points",
+        "eval/success/mpjpe_pa",
+        "eval/success/mpjpe_pa_foot",
+        "eval/success/mpjpe_pa_legs",
+        "eval/success/mpjpe_pa_other_upper_bodies",
+        "eval/success/mpjpe_pa_vr_3points",
+        "eval/success/progress_rate",
+        "eval/success/success_rate",
+        "eval/success/vel_dist",
+        "eval/success/vel_dist_foot",
+        "eval/success/vel_dist_legs",
+        "eval/success/vel_dist_other_upper_bodies",
+        "eval/success/vel_dist_vr_3points",
+        "failed_idxes",
+        "failed_keys",
+        "log_keys"
+      ],
+      "motion_id_key_map_sha256": "576d49b5ebe7106a9ce6533c2230652ccbbf83ffc8cd969629c73a8943593839",
+      "motion_keys": [
+        "s4432",
+        "s4433",
+        "s4434",
+        "s4435",
+        "s4436",
+        "s4437",
+        "s4438",
+        "s4439",
+        "s4440",
+        "s4441",
+        "s4442",
+        "s4443",
+        "s4444",
+        "s4445",
+        "s4446",
+        "s4447",
+        "s4448",
+        "s4449",
+        "s4450",
+        "s4451",
+        "s4452",
+        "s4453",
+        "s4454",
+        "s4455",
+        "s4456",
+        "s4457",
+        "s4458",
+        "s4459",
+        "s4460",
+        "s4461",
+        "s4462",
+        "s4463"
+      ],
+      "motion_pkl_sha256": "3d3f34961d5edaacbffe4b1d08a2068dbe85e22dd71a61d5ea9fccd8a5421e21",
+      "n_rollouts": 32,
+      "physics_seed": 0,
+      "process_result": {
+        "arm": "present_20",
+        "extra_overrides": [
+          "++manager_env.config.env_spacing=12.0",
+          "++manager_env.config.episode_length_s=20.0",
+          "++manager_env.config.add_table=true",
+          "++manager_env.config.table_size=[0.2, 2.8, 0.2]",
+          "++manager_env.config.table_position=[1.2, 0.0, 0.1]"
+        ],
+        "extra_overrides_sha256": "fb1741fc3579509f57f31c5bd9a6e05c339c8e222055b75229eb993d35b78a46",
+        "file_sha256": "509c7a479890d87495cb3d7a79643a01f75d1a81e58c328cdb5d6286ede70bc4",
+        "launch": "present_20_chunk01_seed0",
+        "motion_keys": [
+          "s4432",
+          "s4433",
+          "s4434",
+          "s4435",
+          "s4436",
+          "s4437",
+          "s4438",
+          "s4439",
+          "s4440",
+          "s4441",
+          "s4442",
+          "s4443",
+          "s4444",
+          "s4445",
+          "s4446",
+          "s4447",
+          "s4448",
+          "s4449",
+          "s4450",
+          "s4451",
+          "s4452",
+          "s4453",
+          "s4454",
+          "s4455",
+          "s4456",
+          "s4457",
+          "s4458",
+          "s4459",
+          "s4460",
+          "s4461",
+          "s4462",
+          "s4463"
+        ],
+        "motion_pkl_sha256": "3d3f34961d5edaacbffe4b1d08a2068dbe85e22dd71a61d5ea9fccd8a5421e21",
+        "physics_seed": 0,
+        "returncode": 0,
+        "returncode_observed": true,
+        "schema": "exp030-sonic-process-result-v1",
+        "sonic_log_sha256": "92c5eaf31a377b4176d67e4c3c5c8bf3f6a2c672144383a84c7a21534f7a5d16"
+      },
+      "recovered_or_resumed": false,
+      "returncode": 0,
+      "returncode_observed": true,
+      "rollout_check": {
+        "n_rollouts": 32,
+        "terminated_keys": [
+          "s4432",
+          "s4433",
+          "s4434",
+          "s4435",
+          "s4436",
+          "s4437",
+          "s4438",
+          "s4439",
+          "s4440",
+          "s4441",
+          "s4442",
+          "s4443",
+          "s4444",
+          "s4445",
+          "s4446",
+          "s4447",
+          "s4448",
+          "s4449",
+          "s4450",
+          "s4451",
+          "s4452",
+          "s4453",
+          "s4454",
+          "s4455",
+          "s4456",
+          "s4457",
+          "s4458",
+          "s4459",
+          "s4460",
+          "s4461",
+          "s4462",
+          "s4463"
+        ],
+        "valid_lengths": {
+          "s4432": 97,
+          "s4433": 14,
+          "s4434": 68,
+          "s4435": 45,
+          "s4436": 63,
+          "s4437": 47,
+          "s4438": 43,
+          "s4439": 54,
+          "s4440": 64,
+          "s4441": 36,
+          "s4442": 32,
+          "s4443": 54,
+          "s4444": 34,
+          "s4445": 27,
+          "s4446": 60,
+          "s4447": 43,
+          "s4448": 59,
+          "s4449": 33,
+          "s4450": 88,
+          "s4451": 56,
+          "s4452": 70,
+          "s4453": 43,
+          "s4454": 30,
+          "s4455": 26,
+          "s4456": 33,
+          "s4457": 59,
+          "s4458": 19,
+          "s4459": 72,
+          "s4460": 69,
+          "s4461": 29,
+          "s4462": 50,
+          "s4463": 90
+        }
+      },
+      "sample_dt_s": 0.02,
+      "sonic_log": {
+        "progress_rate": 0.1261777639,
+        "success_rate": 0.0
+      },
+      "status": "complete",
+      "table": {
+        "convention": "CuboidCfg size is the full x/y/z extents and the position is the box centre; a box of height h resting on the floor is size=[depth_x, width_y, h] at pos=[x, y, h/2]",
+        "height_m": 0.2,
+        "pos": [
+          1.2,
+          0.0,
+          0.1
+        ],
+        "quat": [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "size_xyz": [
+          0.2,
+          2.8,
+          0.2
+        ],
+        "width_source": "scene2motion.stepover_eval.step_scene (half-width 1.4 m)"
+      }
+    }
+  },
+  "obstacle_present_in_physics": true,
+  "post_launch_revalidation": {
+    "absent_chunk00_seed0": {
+      "exp022a_unchanged": true,
+      "project": {
+        "allowed_output_status": [
+          "?? outputs/exp030_obstacle_present/"
+        ],
+        "commit_unchanged": true,
+        "tracked_diff_unchanged": true,
+        "unexpected_status": []
+      },
+      "source_exp021_unchanged": true,
+      "tracker_bound_identity_unchanged": true,
+      "tracker_dirty_paths_now": []
+    },
+    "absent_chunk01_seed0": {
+      "exp022a_unchanged": true,
+      "project": {
+        "allowed_output_status": [
+          "?? outputs/exp030_obstacle_present/"
+        ],
+        "commit_unchanged": true,
+        "tracked_diff_unchanged": true,
+        "unexpected_status": []
+      },
+      "source_exp021_unchanged": true,
+      "tracker_bound_identity_unchanged": true,
+      "tracker_dirty_paths_now": []
+    },
+    "present_05_chunk00_seed0": {
+      "exp022a_unchanged": true,
+      "project": {
+        "allowed_output_status": [
+          "?? outputs/exp030_obstacle_present/"
+        ],
+        "commit_unchanged": true,
+        "tracked_diff_unchanged": true,
+        "unexpected_status": []
+      },
+      "source_exp021_unchanged": true,
+      "tracker_bound_identity_unchanged": true,
+      "tracker_dirty_paths_now": []
+    },
+    "present_05_chunk01_seed0": {
+      "exp022a_unchanged": true,
+      "project": {
+        "allowed_output_status": [
+          "?? outputs/exp030_obstacle_present/"
+        ],
+        "commit_unchanged": true,
+        "tracked_diff_unchanged": true,
+        "unexpected_status": []
+      },
+      "source_exp021_unchanged": true,
+      "tracker_bound_identity_unchanged": true,
+      "tracker_dirty_paths_now": []
+    },
+    "present_20_chunk00_seed0": {
+      "exp022a_unchanged": true,
+      "project": {
+        "allowed_output_status": [
+          "?? outputs/exp030_obstacle_present/"
+        ],
+        "commit_unchanged": true,
+        "tracked_diff_unchanged": true,
+        "unexpected_status": []
+      },
+      "source_exp021_unchanged": true,
+      "tracker_bound_identity_unchanged": true,
+      "tracker_dirty_paths_now": []
+    },
+    "present_20_chunk01_seed0": {
+      "exp022a_unchanged": true,
+      "project": {
+        "allowed_output_status": [
+          "?? outputs/exp030_obstacle_present/"
+        ],
+        "commit_unchanged": true,
+        "tracked_diff_unchanged": true,
+        "unexpected_status": []
+      },
+      "source_exp021_unchanged": true,
+      "tracker_bound_identity_unchanged": true,
+      "tracker_dirty_paths_now": []
+    }
+  },
+  "provenance": {
+    "exp022a": {
+      "archive_paths": {
+        "chunk00_seed0": "/home/linjiw/scene2motion-exp030/outputs/exp022_exact_tracking_bridge/launches/chunk00_seed0/attempt-000/eval/achieved_qpos.npz",
+        "chunk01_seed0": "/home/linjiw/scene2motion-exp030/outputs/exp022_exact_tracking_bridge/launches/chunk01_seed0/attempt-000/eval/achieved_qpos.npz"
+      },
+      "archive_sha256": {
+        "chunk00_seed0": "5c23897ecc8b02aeafc89895aaf88956955c14f2c5f9efe5fe0717a89117f6a6",
+        "chunk01_seed0": "73ac1b5277c5c5badda8e31e014ae0301d020053f00c9957ea9627825de5d323"
+      },
+      "motion_pkl_sha256": {
+        "chunk00_seed0": "d81707e8c2ec2dda92f42773c811070a22727558d4acac124b0cba432291489b",
+        "chunk01_seed0": "7ed177e2559539cfeacd8eaaed59c09bb2cf8f52b704e2ab373e8ff771b552d6"
+      },
+      "path": "/home/linjiw/scene2motion-exp030/outputs/exp022_exact_tracking_bridge",
+      "physics_seed": 0,
+      "project_commit": "291f2ecbf90307c6c80d2a89b2d82d7c134e63e2",
+      "receipt_sha256": "af686316883d3fe8ebc64deaca6d76ceeb5bf534ff0f2c7282fc306adc3680f2",
+      "tracker_commit": "dd0fd61b6bf6090d9f0f1c430b2ec895f9e9dc1e"
+    },
+    "exp022a_achieved_rows": {
+      "path": "/home/linjiw/scene2motion-exp030/outputs/exp022_exact_tracking_bridge/achieved_rows.jsonl",
+      "sha256": "70cef0916289b37c23795988402d14369838c3ad2418727c7fe82e76319e5c02"
+    },
+    "initial_host_resource_gate": {
+      "checks": {
+        "no_isaac": true,
+        "ram": true,
+        "vram": true
+      },
+      "concurrent_isaac_processes": [],
+      "measured_at_unix_s": 1788417001.847946,
+      "pass": true,
+      "ram": {
+        "available_mib": 12687,
+        "error": null,
+        "total_mib": 30670
+      },
+      "thresholds": {
+        "min_available_ram_mib": 9500,
+        "min_free_vram_mib": 5500,
+        "require_no_concurrent_isaac": false
+      },
+      "vram": {
+        "error": null,
+        "free_mib": 14340,
+        "total_mib": 16303,
+        "used_mib": 1469
+      }
+    },
+    "project": {
+      "git": {
+        "commit": "53c97cefa3b4444cf3dddca9c5275f67cb1fbb23",
+        "dirty": false,
+        "status": [],
+        "tracked_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "physical_model": {
+        "body_margin_m": 0.04,
+        "path": "/home/linjiw/ardy/ardy/assets/skeletons/g1skel34/xml/g1.xml",
+        "sha256": "5d76cf92f00dd49d6eb9fae38d7d38e46886848b602ac691051e886c3bcccfb1"
+      },
+      "runtime": {
+        "fields": {
+          "ardy_git_commit": "693f74d13b3d04a0a22ce127ee79c929dd89756b",
+          "ardy_package_root": "/home/linjiw/ardy/ardy",
+          "ardy_python_source_count": 54,
+          "ardy_python_source_manifest_sha256": "f79d8b330d37c3fa94615aedb264f20bb780421fb5d260dec119ab23357ac5b2",
+          "ardy_python_source_sha256": {
+            "__init__.py": "1c84133148843972777013a5d33c83a957936c11219301a34e10bd6273c46bbb",
+            "assets.py": "df261ed2d6021c389ea6578c2f377ac7984806b7fa5f5fcf43be9df1d22bee39",
+            "constraints.py": "57d0b1418cfe689b9c69c41120d9ef2d6a65a59f3bf8ffc21d7fec06380ed7ef",
+            "data_processing/__init__.py": "39b67a3543de12fbe919327958818a53222b223688ef8ece33a12bc1e46d1f14",
+            "data_processing/bvh.py": "7504e4811bd9526edfcff5e23e9ab6835ea8ae1051951e83945878f9ecad54e4",
+            "data_processing/skeleton.py": "e39ba723fa77efb3e1d95197432a53f840c5866d6160d3f5563ea045cfce5447",
+            "exports/__init__.py": "018bcb15b4efed6e6c7a6471c3c70d7fb257ec2071b3875af732598b4e63c747",
+            "exports/mujoco.py": "3d3d16b80c24e6a68f329504edd72b400f2df998ca7bdfddbf548674a9e79fa5",
+            "geometry.py": "4d5a5d8c71e3cd9f3f10fc837698652a78fad621cdd25b1d4b0e8515153f20d9",
+            "model/__init__.py": "984d21defa5001d276aba8c0bffff649a9ec117f5cdd9ca2d199718d2a5b0684",
+            "model/ardy_model.py": "3fc21ad6a53a41ad4f968f18e2d7f27d8212bf123544503cf21151bfd783b338",
+            "model/auto_latent_twostage_denoiser.py": "7a5b49c90f46c9507f2175b9180de5bdd9c114743abbbe2771efc21066f25b00",
+            "model/autoencoder/__init__.py": "83379d29bca875b122df43be9f30d0210a8ade9a32c0f8b830ca2d19737376cc",
+            "model/autoencoder/fsq.py": "f46306ba9610d57cfaf1d134ef96e9b17a48acf5b61d5d2342077aa06b6828f6",
+            "model/autoencoder/transformer.py": "245a9041f67a26c38d307d55568427773a0e3da477cd0b827b0dae0b42e00407",
+            "model/backbone.py": "16b55c5330a9cd46d6aff496222a479ee251a52bff401a7b568f29255bba3346",
+            "model/cfg.py": "d47c213f63d159d38b8df07a39a19c2bf8944474984a0086eda73916be2a8964",
+            "model/diffusion.py": "783122d3d2782043e956f106ac420d601fcfb653ae4d60e0937f9b41b9887d70",
+            "model/latent_utils.py": "bbf6bf81bfbc96d6fcc225e99c2675bf5769a8d32a2840e6d9e4b6e444688bac",
+            "model/llm2vec/__init__.py": "217714cb3a5cf5b3733feaec6e87d83a4191cd65eda6abecc2da827c5ce066ad",
+            "model/llm2vec/llm2vec.py": "e3f78a9e931b2b4fea29b625b9570d1c45f71941c4104706b46ba0edc5b63436",
+            "model/llm2vec/llm2vec_wrapper.py": "2d80c51d6d44048ec83d457bdf138b783bbe4342b52204b606790f41a367460e",
+            "model/llm2vec/models/__init__.py": "c47228e98e752ddaf3ad5b71967820fc276723a5518f2df0c06b45914f0d1961",
+            "model/llm2vec/models/attn_mask_utils.py": "ebac1133236a4d9cd56747d23c9c0355b3b9d0652910f6b60b01d773721aee98",
+            "model/llm2vec/models/bidirectional_llama.py": "5d446109170e3aed437c5039661e6c23b3455ea5b3df866ece5b84bbd6fcfdca",
+            "model/llm2vec/models/utils.py": "2a361b55e067ae450152920dcb5b5f9e4694ac91ac1a0aa325799bcb5ee37153",
+            "model/load_model.py": "3249c864d11f977056c191408a5b6e0670ac2ba4cfbff0acaac76b60e3e68554",
+            "model/loading.py": "1857e14ed49423ca9f310ec6b428d25f10af7dbbd4897696fabc0923f6d177bc",
+            "model/registry.py": "1a6a6552a7b47e881b94a99659092d966152cf8024736b26d316040621e03968",
+            "model/text_encoder_api.py": "2d9e4652ef85bd49a86abcad7c1c29cae871fd6d5730c286e145f49a94ff3f91",
+            "model/trt.py": "44021ff563d758d123ba90bf3965ce26c68d85ca057ce477ea9ce899d97ba15f",
+            "motion_rep/__init__.py": "917ca1876a39df876484e2402c0dabe81ad79dc147e4f1b5be4e9cd865fbf933",
+            "motion_rep/conditioning.py": "cab545e3325065f4fe5a48a6b2dab807e37ebd22f6fc69e08930f98d542f1944",
+            "motion_rep/feet.py": "a89a5b57cb7e505dd2ed35e2dbef9a326bd8831d922be8087f5ce6c2fc92fdb6",
+            "motion_rep/reps/__init__.py": "2ec6e639d6690b5c41ef62f05dfd51f07a840f0a051026383cb0e321bba00bb8",
+            "motion_rep/reps/ardy_motionrep.py": "83231aac1b2e77b34e3dcd3d71f97b92f5b73537d1d2ca8915b53128aa3b5980",
+            "motion_rep/reps/base.py": "4c27eab1964402a2dba6d960a2fe0eab92ab9520d754e8b6c3ec045cdd1b52ab",
+            "motion_rep/smooth_root.py": "5776896446788655365f083b78ce715ab8853912b52e46374c4952e3751db711",
+            "motion_rep/stats.py": "61e64fc70d54cc48e0ebe9cc80bbb932424f9ea8137e133a8495ea14b9b3340e",
+            "motion_rep/tools.py": "58c7724e36853731b0767ef52f5349f3dd641a25fe23f72bbde93beb28351ff6",
+            "postprocess.py": "646a495330548dbaca4911bf02fef33bec8b09e90da939161fc4258a7db843d4",
+            "skeleton/__init__.py": "953be64bba3df61b6aee0e25032e5f0b5c969170dfefa68b7fccb6bc223361fb",
+            "skeleton/base.py": "cff3089f3ac38a8f1f8cbf88d6d087a08bba3b289ac42762ae03a44ecd109e4e",
+            "skeleton/bvh.py": "2aeea04251713ab2757fdf1bcd978189707ba7f60c78ddb833c7000e36984bd8",
+            "skeleton/definitions.py": "790ecd42819c3bc35e61631925671c5b8d757c1932045ab55bffb713db91033a",
+            "skeleton/kinematics.py": "7113ae39074b98e96f8d53310a1706c8c2e66ead8c5b1f3a8b83a0fbccb39aa7",
+            "skeleton/registry.py": "d0a13e96c5b2e12b63933275905e3dfc523af4507bd68d03bf1fd794078ef4bc",
+            "skeleton/transforms.py": "b845b90bc1f6ac350cf7325d0bcd08e54f2ce4d255171c20ef3e5d0c32946969",
+            "tools.py": "2b0f462a2be34a6e8d0adabdc663a9530c741ef052fae834daed4cdb90507983",
+            "viz/__init__.py": "a43983b5b9c8d31ab92420124d5e507bf78bcbda8b752e4d07224ae42fc6df2a",
+            "viz/core_skin.py": "670dc6be751b66a6e32b85f42d317078c61fcf32859ea2e401a44d9400e639c4",
+            "viz/g1_rig.py": "2fbc523d0dfb9d0ed8ad09144b82ca31d8497530b7223c21f0101ceb4a76d7d7",
+            "viz/soma_skin.py": "709b6057d68b15176c92af136f4152fdebff575401e56ebd80843dc9f33e9ff4",
+            "viz/viser_utils.py": "65c4c6930f3ec9480ce581b23fbba4e518715e223f9a99d6a999a1ada55f8098"
+          },
+          "ardy_tracked_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "ardy_tracked_status": [],
+          "mujoco_version": "3.12.0",
+          "numpy_version": "1.26.4",
+          "python": "3.11.16 | packaged by conda-forge | (main, Aug 21 2026, 22:44:51) [GCC 14.4.0]",
+          "torch_cuda_version": "12.8",
+          "torch_cudnn_version": 91900,
+          "torch_version": "2.11.0+cu128"
+        },
+        "schema": "ramp-ardy-runtime-identity-v1",
+        "sha256": "aa653c1010f770ec66e471ea525abcd0a95b4a92cbab14a798dececcb28caaca"
+      },
+      "source_sha256": {
+        "env.sh": "59889bac7a9a688472c6bac730d6229c0a299bd58d735e8d4ff04b5411cf95d6",
+        "experiments/calibrate_ramp_route_phase.py": "ccbf5a13a78578c31579121650ab9378468c5b73e8c61c758a7c9cc9b503c26a",
+        "experiments/exp022_exact_tracking_bridge.py": "83fa1b1f42c0162028e3d94caaa047763d4ddc01a22105e6cefeb47169f5e112",
+        "experiments/exp028_termination_free_rollouts.py": "1c9264114f9d892d8d89bc75b5bc8381142a55c05f11c54f6e08c5217cc5fc57",
+        "experiments/exp030_obstacle_present.py": "10db7110d88e4caddd965830d8c7c07b507d945f598cffb4282d2a6efd5020d0",
+        "experiments/exp1b_execution_clearance.py": "7170cbaa5063429d0e3de121b08a3ce90b099e50d4efcd5a77cd3aa95f464b71",
+        "scene2motion/host_gate.py": "7e09b0e143fb5f0aa75ad641d51322a117b4733edfa591b7bb238344ab3f4acd",
+        "scene2motion/robot.py": "c12b59a999969dd910e0aaef25322695d247bd392899394dd5d35cfc1252fc82",
+        "scene2motion/scenes.py": "5bf05d72777ad137e8407ad8e1e16113e8803dc0d4147c899fafbbd5bf41f4a5",
+        "scene2motion/sonic_export.py": "c79b3edad46175829b411455d64f5ca1a798f4fde5833d8845fd341e2931262c",
+        "scene2motion/sonic_state_export.py": "1606286b1e934dda2203f5f7e57cf4a8b5df76b87cf558e77ff9a7c3957d75a4",
+        "scene2motion/stepover_eval.py": "f0e344def2133f3a45935bb1b7ffad8fb2591145557e6b136d50871827cf77b4",
+        "scene2motion/traversal_eval.py": "f852f6bb14aa1f4c248b418bbe29dd684e06cf235bc3068c4a48fe6d515f0e11"
+      }
+    },
+    "protocol": {
+      "path": "/home/linjiw/scene2motion-exp030/docs/ramp-exp030-obstacle-present-stepping-protocol.md",
+      "sha256": "c1849036c9a3412a664511e109cea9514aa6ddc5d5c8027fdb346fa4b6eede93",
+      "status": "preregistered"
+    },
+    "source_exp021": {
+      "historical_source_sha256": {
+        "experiments/calibrate_ramp_route_phase.py": "ccbf5a13a78578c31579121650ab9378468c5b73e8c61c758a7c9cc9b503c26a",
+        "experiments/exp021_elicited_lift_distribution.py": "c68dd1c50f5e8d60eb12f17f0909c9b08cbdf4a11157f17d21c0b6224c603258",
+        "scene2motion/runner.py": "29139739ebce4891ebbe694010ff367e281a8f12cb3440a4db5410220b372aa0"
+      },
+      "n_qpos": 64,
+      "n_rows": 64,
+      "noise_stream_evidence": "the locked clean EXP-021 source asserts runner.noise_stream_version == cal.NOISE_STREAM_VERSION before generation; the locked constant is 2",
+      "noise_stream_version": 2,
+      "path": "/home/linjiw/scene2motion-exp030/outputs/exp021_elicited_lift_distribution_v2",
+      "pool_seeds": [
+        4400,
+        4401,
+        4402,
+        4403,
+        4404,
+        4405,
+        4406,
+        4407,
+        4408,
+        4409,
+        4410,
+        4411,
+        4412,
+        4413,
+        4414,
+        4415,
+        4416,
+        4417,
+        4418,
+        4419,
+        4420,
+        4421,
+        4422,
+        4423,
+        4424,
+        4425,
+        4426,
+        4427,
+        4428,
+        4429,
+        4430,
+        4431,
+        4432,
+        4433,
+        4434,
+        4435,
+        4436,
+        4437,
+        4438,
+        4439,
+        4440,
+        4441,
+        4442,
+        4443,
+        4444,
+        4445,
+        4446,
+        4447,
+        4448,
+        4449,
+        4450,
+        4451,
+        4452,
+        4453,
+        4454,
+        4455,
+        4456,
+        4457,
+        4458,
+        4459,
+        4460,
+        4461,
+        4462,
+        4463
+      ],
+      "qpos_archive_sha256": "2a4b34479aa24894b854301d91bafe1ad870dc530b70eed5b6703eb02c284687",
+      "qpos_content_sha256": "50c27a6b9d61433a1562d1e704d453b2c907ba9d719f7c23d36acb08a8f61ed0",
+      "receipt_sha256": "0c53d8c5dc2bdfa587f8c0b35d069fcd677f1cdc30221b5ce1afa70d1a5ccf7e",
+      "rows_file_sha256": "1d8cc57df2494bd7179940bfe57325ac922f3f41e2581fcc7cb789b5e0c28f71",
+      "rows_logical_sha256": "1a3a2e83a66119fb6b983da883e5182fa82e9d4b2e26cdc0a0fa20722dcbaa24",
+      "source_commit": "cde0246fc89d45cb71f23fa6b8b3d8729ec00e6b",
+      "source_exp021_sha256_at_commit": "c68dd1c50f5e8d60eb12f17f0909c9b08cbdf4a11157f17d21c0b6224c603258"
+    },
+    "tracker": {
+      "add_table_fix": {
+        "add_object_branch_indent": 12,
+        "add_object_branch_line": 717,
+        "binding_indent": 16,
+        "binding_line": 729,
+        "binding_precedes_use": true,
+        "dedented_lines_between_binding_and_use": [],
+        "detection": "the `self.table_to_robot_contact_sensor` assignment must be indented deeper than the `if config.get(\"add_object\", ...)` line that binds `right_hand_wrist_links`, with the binding before it and no line between them dedenting out of that branch; otherwise `add_table=true` without `add_object=true` raises UnboundLocalError while the env cfg is built, before the simulation starts (SONIC 7c63c53, reverted in 350cae1)",
+        "file": "gear_sonic/envs/manager_env/modular_tracking_env_cfg.py",
+        "fix_present": true,
+        "n_add_object_branches": 3,
+        "n_right_hand_wrist_links_bindings": 1,
+        "n_table_sensor_assignments": 1,
+        "no_dedent_between_binding_and_use": true,
+        "problems": [],
+        "sensor_indent": 16,
+        "sensor_inside_add_object_branch": true,
+        "sensor_line": 758,
+        "sha256": "b5d0789d093412c3bf3faf60d2e93b1deb1b051a7087a7c5f4323b1ad3344e1d",
+        "unbound_local_risk": false
+      },
+      "branch": "exp029-obstacle-present",
+      "callback_schema_version": 2,
+      "checkpoint": {
+        "path": "/home/linjiw/lucid/GR00T-WholeBodyControl/sonic_release/last.pt",
+        "sha256": "e6bdab3f64a39336b3d41877d4f497d05f58af275f288ec0e6746c283ded8909",
+        "size_bytes": 469418283,
+        "source": "legacy_checkout_release_bundle"
+      },
+      "contains_add_table_fix_commit": {
+        "commit": "7c63c539a17008f5efb1e768034c0fb434ae1f65",
+        "contained": true
+      },
+      "core_source_manifest_matches_exp022a": false,
+      "core_source_manifest_sha256": "d90518606e415de5ab32b05b1fcb2458160b4c6a14873428e47d28165bf649bb",
+      "core_source_paths": {
+        "gear_sonic/config/callbacks/im_eval.yaml": "/home/linjiw/lucid/GR00T-WBC-exp029/gear_sonic/config/callbacks/im_eval.yaml",
+        "gear_sonic/config/manager_env/terminations/tracking/eval.yaml": "/home/linjiw/lucid/GR00T-WBC-exp029/gear_sonic/config/manager_env/terminations/tracking/eval.yaml",
+        "gear_sonic/data_process/convert_soma_csv_to_motion_lib.py": "/home/linjiw/lucid/GR00T-WBC-exp029/gear_sonic/data_process/convert_soma_csv_to_motion_lib.py",
+        "gear_sonic/envs/manager_env/modular_tracking_env_cfg.py": "/home/linjiw/lucid/GR00T-WBC-exp029/gear_sonic/envs/manager_env/modular_tracking_env_cfg.py",
+        "gear_sonic/eval_agent_trl.py": "/home/linjiw/lucid/GR00T-WBC-exp029/gear_sonic/eval_agent_trl.py",
+        "gear_sonic/trl/callbacks/im_eval_callback.py": "/home/linjiw/lucid/GR00T-WBC-exp029/gear_sonic/trl/callbacks/im_eval_callback.py",
+        "sonic_release/config.yaml": "/home/linjiw/lucid/GR00T-WholeBodyControl/sonic_release/config.yaml"
+      },
+      "core_source_sha256": {
+        "gear_sonic/config/callbacks/im_eval.yaml": "9253ae831e6af47c5693ffb8a24e497b3eb7097e52b2f0f3033606bc5c8c6c5f",
+        "gear_sonic/config/manager_env/terminations/tracking/eval.yaml": "5ca7fbe4c9dbad836667902c7927a68b947b3cc332292bf486048dde00e6fb83",
+        "gear_sonic/data_process/convert_soma_csv_to_motion_lib.py": "ab8361a08894c19b7160278d25cf3d47aad924f5be78c72fc0f1a38eba68e9dd",
+        "gear_sonic/envs/manager_env/modular_tracking_env_cfg.py": "b5d0789d093412c3bf3faf60d2e93b1deb1b051a7087a7c5f4323b1ad3344e1d",
+        "gear_sonic/eval_agent_trl.py": "2b77eb71e481d014e48eb6b81de62c4e70c8fd701640234e1a45765242d18f01",
+        "gear_sonic/trl/callbacks/im_eval_callback.py": "9c21b68e556dbecaf7945be8c6253963f3f7307b1d8e37f5bc6dae117bbeb8c2",
+        "sonic_release/config.yaml": "f08187795fa16a839a28bc1c18e0555d38d9420e03733744341cdcb56ab629c7"
+      },
+      "dirty_paths": [],
+      "evaluator_source_sha256": {
+        "gear_sonic/config/base_eval.yaml": "c4e5cf797e6a7d675909634c2733a16db3bed084b701a9a6a8e7c1123f1f9efd",
+        "gear_sonic/config/manager_env/terminations/terms/anchor_ori_full.yaml": "40090fdac7c298f8c979b7f0ff13e9ed566b642e0048068be9064e2015b1724e",
+        "gear_sonic/config/manager_env/terminations/terms/anchor_pos.yaml": "ac9e93010c8fadfe3e6346a1917c7a0ed55592c67de02af11c09a3e9a012e890",
+        "gear_sonic/config/manager_env/terminations/terms/ee_body_pos.yaml": "e31b91f3d69c799e4c2c85fc31793c8ef0cd63360a545878c07036b79615f3f2",
+        "gear_sonic/config/manager_env/terminations/terms/foot_pos_xyz.yaml": "92674a2a63447ec3cf0ac9567b279be1c1e7ecae3d5735baf9f44d538c6f0e3b",
+        "gear_sonic/config/manager_env/terminations/terms/motion_time_out.yaml": "3faa62a973adc867c394296d165db2808f1e003a69f7103d60e9bca71f8878e9",
+        "gear_sonic/config/manager_env/terminations/tracking/base.yaml": "f40d9e9430975d5b875a728f713aba32a3cdeb439a206f3d77911b18bc68ee11",
+        "gear_sonic/envs/manager_env/mdp/commands.py": "a28a4f39e19d2ff6c1cb6248cf4e776ecbb263b0647441af589ecc00f8a95390",
+        "gear_sonic/envs/manager_env/mdp/terminations.py": "0f1a01398bead2dea441b854f0fbd8fc627b5fbe7a4702a4cff257908a25db7f",
+        "gear_sonic/trl/utils/torch_transform.py": "4d40e3ac765cb2541aacd8af60f1162914e4ce97b4cc8fadc871a7c6a2fe7b41",
+        "gear_sonic/utils/config_utils.py": "90bbe6ee305c4984077154e289ebd562a2420362e762b300118185d84e881182",
+        "gear_sonic/utils/motion_lib/motion_lib_base.py": "c4a5c0bb70339439a4cfa46db08d7d44d0b75ed70d39a422bf2ea14cd7419c94",
+        "gear_sonic/utils/motion_lib/torch_humanoid_batch.py": "41e5d4a44497547784a1f22fb968d112039f0a7b0eb85e166022e6ac3c4988d1"
+      },
+      "exp022a_core_source_manifest_sha256": "44e98c45f840ed32cd54d0dbc322e4ed1ef1743625e70ca94c7af01eb70efe0a",
+      "expected_achieved_sample_dt_s": 0.02,
+      "expected_branch": "exp029-obstacle-present",
+      "git": {
+        "commit": "7c63c539a17008f5efb1e768034c0fb434ae1f65",
+        "dirty": false,
+        "status": [],
+        "tracked_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "tracked_dirty": false,
+        "tracked_status": []
+      },
+      "guarded_dirty_paths": [],
+      "isaaclab": {
+        "git": {
+          "commit": "37ddf626871758333d6ed89cf64ad702aef127d0",
+          "dirty": false,
+          "status": [],
+          "tracked_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "tracked_dirty": false,
+          "tracked_status": []
+        },
+        "root": "/home/linjiw/isaaclab-install/IsaacLab"
+      },
+      "legacy_checkout": {
+        "core_source_sha256": {
+          "gear_sonic/config/callbacks/im_eval.yaml": "9253ae831e6af47c5693ffb8a24e497b3eb7097e52b2f0f3033606bc5c8c6c5f",
+          "gear_sonic/config/manager_env/terminations/tracking/eval.yaml": "5ca7fbe4c9dbad836667902c7927a68b947b3cc332292bf486048dde00e6fb83",
+          "gear_sonic/data_process/convert_soma_csv_to_motion_lib.py": "ab8361a08894c19b7160278d25cf3d47aad924f5be78c72fc0f1a38eba68e9dd",
+          "gear_sonic/envs/manager_env/modular_tracking_env_cfg.py": "5451b745996e97d2917270dbbeba3fcda8816ca06e2db7fdc79cd5ec37946104",
+          "gear_sonic/eval_agent_trl.py": "2b77eb71e481d014e48eb6b81de62c4e70c8fd701640234e1a45765242d18f01",
+          "gear_sonic/trl/callbacks/im_eval_callback.py": "9c21b68e556dbecaf7945be8c6253963f3f7307b1d8e37f5bc6dae117bbeb8c2"
+        },
+        "files_differing_from_execution_root": [
+          "gear_sonic/envs/manager_env/modular_tracking_env_cfg.py"
+        ],
+        "root": "/home/linjiw/lucid/GR00T-WholeBodyControl"
+      },
+      "manifest_policy": "EXP-030 declares its own tracker baseline: it requires the add_table-without-add_object fix and therefore records both manifests instead of asserting EXP-022A's; the per-file diff against the legacy checkout is recorded above",
+      "motion_export_root": {
+        "converter": "gear_sonic/data_process/convert_soma_csv_to_motion_lib.py",
+        "converter_sha256": "ab8361a08894c19b7160278d25cf3d47aad924f5be78c72fc0f1a38eba68e9dd",
+        "matches_execution_checkout": true,
+        "path": "/home/linjiw/lucid/GR00T-WholeBodyControl"
+      },
+      "physics_seed": 0,
+      "python": "/home/linjiw/.local/share/uv/python/cpython-3.11.16-linux-x86_64-gnu/bin/python3.11",
+      "python_runtime": {
+        "executable": "/home/linjiw/isaaclab-install/env_isaaclab/bin/python",
+        "executable_sha256": "bba9c5269e5794349c1b3bf2bcec677315462a4419dadcc3caefd43fb24d8c94",
+        "packages": {
+          "isaaclab": "0.54.2",
+          "isaacsim": "5.1.0.0",
+          "numpy": "1.26.0",
+          "torch": "2.7.0+cu128",
+          "warp-lang": "1.16.0"
+        },
+        "python": "3.11.16 (main, Aug 25 2026, 14:00:53) [Clang 22.1.3 ]",
+        "requested_executable": "/home/linjiw/.local/share/uv/python/cpython-3.11.16-linux-x86_64-gnu/bin/python3.11",
+        "torch_cuda_version": "12.8",
+        "torch_cudnn_version": 90701
+      },
+      "release_bundle": {
+        "checkpoint_path": "/home/linjiw/lucid/GR00T-WholeBodyControl/sonic_release/last.pt",
+        "config_path": "/home/linjiw/lucid/GR00T-WholeBodyControl/sonic_release/config.yaml",
+        "note": "the release bundle is gitignored in both checkouts; it is passed to SONIC as an absolute +checkpoint= path and its config.yaml is the one the eval loads from the checkpoint's own directory",
+        "root": "/home/linjiw/lucid/GR00T-WholeBodyControl",
+        "source": "legacy_checkout_release_bundle"
+      },
+      "role": "the dedicated patched worktree for obstacle-present campaigns; every arm, including the absent control, runs here (CLAUDE.md: two tracker checkouts)",
+      "root": "/home/linjiw/lucid/GR00T-WBC-exp029"
+    },
+    "tracker_at_resume": {
+      "add_table_fix": {
+        "add_object_branch_indent": 12,
+        "add_object_branch_line": 717,
+        "binding_indent": 16,
+        "binding_line": 729,
+        "binding_precedes_use": true,
+        "dedented_lines_between_binding_and_use": [],
+        "detection": "the `self.table_to_robot_contact_sensor` assignment must be indented deeper than the `if config.get(\"add_object\", ...)` line that binds `right_hand_wrist_links`, with the binding before it and no line between them dedenting out of that branch; otherwise `add_table=true` without `add_object=true` raises UnboundLocalError while the env cfg is built, before the simulation starts (SONIC 7c63c53, reverted in 350cae1)",
+        "file": "gear_sonic/envs/manager_env/modular_tracking_env_cfg.py",
+        "fix_present": true,
+        "n_add_object_branches": 3,
+        "n_right_hand_wrist_links_bindings": 1,
+        "n_table_sensor_assignments": 1,
+        "no_dedent_between_binding_and_use": true,
+        "problems": [],
+        "sensor_indent": 16,
+        "sensor_inside_add_object_branch": true,
+        "sensor_line": 758,
+        "sha256": "b5d0789d093412c3bf3faf60d2e93b1deb1b051a7087a7c5f4323b1ad3344e1d",
+        "unbound_local_risk": false
+      },
+      "branch": "exp029-obstacle-present",
+      "callback_schema_version": 2,
+      "checkpoint": {
+        "path": "/home/linjiw/lucid/GR00T-WholeBodyControl/sonic_release/last.pt",
+        "sha256": "e6bdab3f64a39336b3d41877d4f497d05f58af275f288ec0e6746c283ded8909",
+        "size_bytes": 469418283,
+        "source": "legacy_checkout_release_bundle"
+      },
+      "contains_add_table_fix_commit": {
+        "commit": "7c63c539a17008f5efb1e768034c0fb434ae1f65",
+        "contained": true
+      },
+      "core_source_manifest_matches_exp022a": false,
+      "core_source_manifest_sha256": "d90518606e415de5ab32b05b1fcb2458160b4c6a14873428e47d28165bf649bb",
+      "core_source_paths": {
+        "gear_sonic/config/callbacks/im_eval.yaml": "/home/linjiw/lucid/GR00T-WBC-exp029/gear_sonic/config/callbacks/im_eval.yaml",
+        "gear_sonic/config/manager_env/terminations/tracking/eval.yaml": "/home/linjiw/lucid/GR00T-WBC-exp029/gear_sonic/config/manager_env/terminations/tracking/eval.yaml",
+        "gear_sonic/data_process/convert_soma_csv_to_motion_lib.py": "/home/linjiw/lucid/GR00T-WBC-exp029/gear_sonic/data_process/convert_soma_csv_to_motion_lib.py",
+        "gear_sonic/envs/manager_env/modular_tracking_env_cfg.py": "/home/linjiw/lucid/GR00T-WBC-exp029/gear_sonic/envs/manager_env/modular_tracking_env_cfg.py",
+        "gear_sonic/eval_agent_trl.py": "/home/linjiw/lucid/GR00T-WBC-exp029/gear_sonic/eval_agent_trl.py",
+        "gear_sonic/trl/callbacks/im_eval_callback.py": "/home/linjiw/lucid/GR00T-WBC-exp029/gear_sonic/trl/callbacks/im_eval_callback.py",
+        "sonic_release/config.yaml": "/home/linjiw/lucid/GR00T-WholeBodyControl/sonic_release/config.yaml"
+      },
+      "core_source_sha256": {
+        "gear_sonic/config/callbacks/im_eval.yaml": "9253ae831e6af47c5693ffb8a24e497b3eb7097e52b2f0f3033606bc5c8c6c5f",
+        "gear_sonic/config/manager_env/terminations/tracking/eval.yaml": "5ca7fbe4c9dbad836667902c7927a68b947b3cc332292bf486048dde00e6fb83",
+        "gear_sonic/data_process/convert_soma_csv_to_motion_lib.py": "ab8361a08894c19b7160278d25cf3d47aad924f5be78c72fc0f1a38eba68e9dd",
+        "gear_sonic/envs/manager_env/modular_tracking_env_cfg.py": "b5d0789d093412c3bf3faf60d2e93b1deb1b051a7087a7c5f4323b1ad3344e1d",
+        "gear_sonic/eval_agent_trl.py": "2b77eb71e481d014e48eb6b81de62c4e70c8fd701640234e1a45765242d18f01",
+        "gear_sonic/trl/callbacks/im_eval_callback.py": "9c21b68e556dbecaf7945be8c6253963f3f7307b1d8e37f5bc6dae117bbeb8c2",
+        "sonic_release/config.yaml": "f08187795fa16a839a28bc1c18e0555d38d9420e03733744341cdcb56ab629c7"
+      },
+      "dirty_paths": [],
+      "evaluator_source_sha256": {
+        "gear_sonic/config/base_eval.yaml": "c4e5cf797e6a7d675909634c2733a16db3bed084b701a9a6a8e7c1123f1f9efd",
+        "gear_sonic/config/manager_env/terminations/terms/anchor_ori_full.yaml": "40090fdac7c298f8c979b7f0ff13e9ed566b642e0048068be9064e2015b1724e",
+        "gear_sonic/config/manager_env/terminations/terms/anchor_pos.yaml": "ac9e93010c8fadfe3e6346a1917c7a0ed55592c67de02af11c09a3e9a012e890",
+        "gear_sonic/config/manager_env/terminations/terms/ee_body_pos.yaml": "e31b91f3d69c799e4c2c85fc31793c8ef0cd63360a545878c07036b79615f3f2",
+        "gear_sonic/config/manager_env/terminations/terms/foot_pos_xyz.yaml": "92674a2a63447ec3cf0ac9567b279be1c1e7ecae3d5735baf9f44d538c6f0e3b",
+        "gear_sonic/config/manager_env/terminations/terms/motion_time_out.yaml": "3faa62a973adc867c394296d165db2808f1e003a69f7103d60e9bca71f8878e9",
+        "gear_sonic/config/manager_env/terminations/tracking/base.yaml": "f40d9e9430975d5b875a728f713aba32a3cdeb439a206f3d77911b18bc68ee11",
+        "gear_sonic/envs/manager_env/mdp/commands.py": "a28a4f39e19d2ff6c1cb6248cf4e776ecbb263b0647441af589ecc00f8a95390",
+        "gear_sonic/envs/manager_env/mdp/terminations.py": "0f1a01398bead2dea441b854f0fbd8fc627b5fbe7a4702a4cff257908a25db7f",
+        "gear_sonic/trl/utils/torch_transform.py": "4d40e3ac765cb2541aacd8af60f1162914e4ce97b4cc8fadc871a7c6a2fe7b41",
+        "gear_sonic/utils/config_utils.py": "90bbe6ee305c4984077154e289ebd562a2420362e762b300118185d84e881182",
+        "gear_sonic/utils/motion_lib/motion_lib_base.py": "c4a5c0bb70339439a4cfa46db08d7d44d0b75ed70d39a422bf2ea14cd7419c94",
+        "gear_sonic/utils/motion_lib/torch_humanoid_batch.py": "41e5d4a44497547784a1f22fb968d112039f0a7b0eb85e166022e6ac3c4988d1"
+      },
+      "exp022a_core_source_manifest_sha256": "44e98c45f840ed32cd54d0dbc322e4ed1ef1743625e70ca94c7af01eb70efe0a",
+      "expected_achieved_sample_dt_s": 0.02,
+      "expected_branch": "exp029-obstacle-present",
+      "git": {
+        "commit": "7c63c539a17008f5efb1e768034c0fb434ae1f65",
+        "dirty": false,
+        "status": [],
+        "tracked_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "tracked_dirty": false,
+        "tracked_status": []
+      },
+      "guarded_dirty_paths": [],
+      "isaaclab": {
+        "git": {
+          "commit": "37ddf626871758333d6ed89cf64ad702aef127d0",
+          "dirty": false,
+          "status": [],
+          "tracked_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "tracked_dirty": false,
+          "tracked_status": []
+        },
+        "root": "/home/linjiw/isaaclab-install/IsaacLab"
+      },
+      "legacy_checkout": {
+        "core_source_sha256": {
+          "gear_sonic/config/callbacks/im_eval.yaml": "9253ae831e6af47c5693ffb8a24e497b3eb7097e52b2f0f3033606bc5c8c6c5f",
+          "gear_sonic/config/manager_env/terminations/tracking/eval.yaml": "5ca7fbe4c9dbad836667902c7927a68b947b3cc332292bf486048dde00e6fb83",
+          "gear_sonic/data_process/convert_soma_csv_to_motion_lib.py": "ab8361a08894c19b7160278d25cf3d47aad924f5be78c72fc0f1a38eba68e9dd",
+          "gear_sonic/envs/manager_env/modular_tracking_env_cfg.py": "5451b745996e97d2917270dbbeba3fcda8816ca06e2db7fdc79cd5ec37946104",
+          "gear_sonic/eval_agent_trl.py": "2b77eb71e481d014e48eb6b81de62c4e70c8fd701640234e1a45765242d18f01",
+          "gear_sonic/trl/callbacks/im_eval_callback.py": "9c21b68e556dbecaf7945be8c6253963f3f7307b1d8e37f5bc6dae117bbeb8c2"
+        },
+        "files_differing_from_execution_root": [
+          "gear_sonic/envs/manager_env/modular_tracking_env_cfg.py"
+        ],
+        "root": "/home/linjiw/lucid/GR00T-WholeBodyControl"
+      },
+      "manifest_policy": "EXP-030 declares its own tracker baseline: it requires the add_table-without-add_object fix and therefore records both manifests instead of asserting EXP-022A's; the per-file diff against the legacy checkout is recorded above",
+      "motion_export_root": {
+        "converter": "gear_sonic/data_process/convert_soma_csv_to_motion_lib.py",
+        "converter_sha256": "ab8361a08894c19b7160278d25cf3d47aad924f5be78c72fc0f1a38eba68e9dd",
+        "matches_execution_checkout": true,
+        "path": "/home/linjiw/lucid/GR00T-WholeBodyControl"
+      },
+      "physics_seed": 0,
+      "python": "/home/linjiw/.local/share/uv/python/cpython-3.11.16-linux-x86_64-gnu/bin/python3.11",
+      "python_runtime": {
+        "executable": "/home/linjiw/isaaclab-install/env_isaaclab/bin/python",
+        "executable_sha256": "bba9c5269e5794349c1b3bf2bcec677315462a4419dadcc3caefd43fb24d8c94",
+        "packages": {
+          "isaaclab": "0.54.2",
+          "isaacsim": "5.1.0.0",
+          "numpy": "1.26.0",
+          "torch": "2.7.0+cu128",
+          "warp-lang": "1.16.0"
+        },
+        "python": "3.11.16 (main, Aug 25 2026, 14:00:53) [Clang 22.1.3 ]",
+        "requested_executable": "/home/linjiw/.local/share/uv/python/cpython-3.11.16-linux-x86_64-gnu/bin/python3.11",
+        "torch_cuda_version": "12.8",
+        "torch_cudnn_version": 90701
+      },
+      "release_bundle": {
+        "checkpoint_path": "/home/linjiw/lucid/GR00T-WholeBodyControl/sonic_release/last.pt",
+        "config_path": "/home/linjiw/lucid/GR00T-WholeBodyControl/sonic_release/config.yaml",
+        "note": "the release bundle is gitignored in both checkouts; it is passed to SONIC as an absolute +checkpoint= path and its config.yaml is the one the eval loads from the checkpoint's own directory",
+        "root": "/home/linjiw/lucid/GR00T-WholeBodyControl",
+        "source": "legacy_checkout_release_bundle"
+      },
+      "role": "the dedicated patched worktree for obstacle-present campaigns; every arm, including the absent control, runs here (CLAUDE.md: two tracker checkouts)",
+      "root": "/home/linjiw/lucid/GR00T-WBC-exp029"
+    }
+  },
+  "resume_project_check": {
+    "allowed_output_status": [
+      "?? outputs/exp030_obstacle_present/"
+    ],
+    "commit_unchanged": true,
+    "tracked_diff_unchanged": true,
+    "unexpected_status": []
+  },
+  "resume_supported": true,
+  "reused_archived_ardy_samples": 64,
+  "schema": "exp030-obstacle-present-v1",
+  "sonic_rollouts_requested": 192,
+  "sonic_rollouts_returned": 192,
+  "stage": "complete",
+  "stages_complete": {
+    "analysis": true,
+    "launch": true
+  },
+  "status": "complete",
+  "summary": {
+    "arms": {
+      "absent": {
+        "arm": "absent",
+        "box_height_m": null,
+        "collision_rate": 0.0,
+        "completion_rate": 0.015625,
+        "completion_rate_of_executed": 0.015625,
+        "local_traversal_completion": {
+          "completed": 1,
+          "completing_motion_keys": [
+            "s4434"
+          ],
+          "definition": "local traversal: passed the obstacle inside the corridor (|y| <= 1.4 m), reached within 0.5 m of the goal at 7.2 m after passing, collision-free and upright; walking around does not count and this is not navigation",
+          "n_assigned_trials": 64,
+          "rate": 0.015625,
+          "wilson95": [
+            0.0027634707504014047,
+            0.08334298900290629
+          ]
+        },
+        "n_assigned_trials": 64,
+        "n_executed": 64,
+        "n_rejected_before_execution": 0,
+        "obstacle_in_physics": false,
+        "outcome_precedence": [
+          "rejected",
+          "fell",
+          "collided_obstacle",
+          "collided_wall",
+          "cutoff",
+          "timeout",
+          "stalled",
+          "completed"
+        ],
+        "outcomes": {
+          "collided_obstacle": 0,
+          "collided_wall": 0,
+          "completed": 1,
+          "cutoff": 54,
+          "fell": 0,
+          "rejected": 0,
+          "stalled": 9,
+          "timeout": 0
+        }
+      },
+      "present_05": {
+        "arm": "present_05",
+        "box_height_m": 0.05,
+        "collision_rate": 0.3125,
+        "completion_rate": 0.0,
+        "completion_rate_of_executed": 0.0,
+        "local_traversal_completion": {
+          "completed": 0,
+          "completing_motion_keys": [],
+          "definition": "local traversal: passed the obstacle inside the corridor (|y| <= 1.4 m), reached within 0.5 m of the goal at 7.2 m after passing, collision-free and upright; walking around does not count and this is not navigation",
+          "n_assigned_trials": 64,
+          "rate": 0.0,
+          "wilson95": [
+            0.0,
+            0.056626022971156334
+          ]
+        },
+        "n_assigned_trials": 64,
+        "n_executed": 64,
+        "n_rejected_before_execution": 0,
+        "obstacle_in_physics": true,
+        "outcome_precedence": [
+          "rejected",
+          "fell",
+          "collided_obstacle",
+          "collided_wall",
+          "cutoff",
+          "timeout",
+          "stalled",
+          "completed"
+        ],
+        "outcomes": {
+          "collided_obstacle": 20,
+          "collided_wall": 0,
+          "completed": 0,
+          "cutoff": 44,
+          "fell": 0,
+          "rejected": 0,
+          "stalled": 0,
+          "timeout": 0
+        }
+      },
+      "present_20": {
+        "arm": "present_20",
+        "box_height_m": 0.2,
+        "collision_rate": 0.46875,
+        "completion_rate": 0.0,
+        "completion_rate_of_executed": 0.0,
+        "local_traversal_completion": {
+          "completed": 0,
+          "completing_motion_keys": [],
+          "definition": "local traversal: passed the obstacle inside the corridor (|y| <= 1.4 m), reached within 0.5 m of the goal at 7.2 m after passing, collision-free and upright; walking around does not count and this is not navigation",
+          "n_assigned_trials": 64,
+          "rate": 0.0,
+          "wilson95": [
+            0.0,
+            0.056626022971156334
+          ]
+        },
+        "n_assigned_trials": 64,
+        "n_executed": 64,
+        "n_rejected_before_execution": 0,
+        "obstacle_in_physics": true,
+        "outcome_precedence": [
+          "rejected",
+          "fell",
+          "collided_obstacle",
+          "collided_wall",
+          "cutoff",
+          "timeout",
+          "stalled",
+          "completed"
+        ],
+        "outcomes": {
+          "collided_obstacle": 30,
+          "collided_wall": 0,
+          "completed": 0,
+          "cutoff": 34,
+          "fell": 0,
+          "rejected": 0,
+          "stalled": 0,
+          "timeout": 0
+        }
+      }
+    },
+    "interpretation_guard": "The obstacle was present in the Isaac scene, so 'collided_obstacle' here means the robot actually contacted the box -- unlike every earlier campaign, where it meant the recorded motion intersected the box's volume in replay. Local traversal is not navigation: passing outside the corridor is a failure here. One route, one scene, one obstacle position, physics seed 0, one rollout per reference; rates are over all 64 assigned trials and are not generalised beyond this scene.",
+    "n_assigned_trials_per_arm": 64,
+    "p1_absent_vs_exp022a": {
+      "disagreeing_references": [
+        {
+          "motion_key": "s4409",
+          "terminated": {
+            "exp022a": true,
+            "exp030_absent": true
+          },
+          "valid_frames": {
+            "exp022a": 46,
+            "exp030_absent": 48
+          }
+        },
+        {
+          "motion_key": "s4423",
+          "terminated": {
+            "exp022a": true,
+            "exp030_absent": true
+          },
+          "valid_frames": {
+            "exp022a": 49,
+            "exp030_absent": 50
+          }
+        },
+        {
+          "motion_key": "s4424",
+          "terminated": {
+            "exp022a": true,
+            "exp030_absent": true
+          },
+          "valid_frames": {
+            "exp022a": 28,
+            "exp030_absent": 27
+          }
+        },
+        {
+          "motion_key": "s4435",
+          "terminated": {
+            "exp022a": true,
+            "exp030_absent": true
+          },
+          "valid_frames": {
+            "exp022a": 44,
+            "exp030_absent": 45
+          }
+        },
+        {
+          "motion_key": "s4436",
+          "terminated": {
+            "exp022a": true,
+            "exp030_absent": true
+          },
+          "valid_frames": {
+            "exp022a": 63,
+            "exp030_absent": 62
+          }
+        },
+        {
+          "motion_key": "s4443",
+          "terminated": {
+            "exp022a": true,
+            "exp030_absent": true
+          },
+          "valid_frames": {
+            "exp022a": 55,
+            "exp030_absent": 56
+          }
+        },
+        {
+          "motion_key": "s4451",
+          "terminated": {
+            "exp022a": true,
+            "exp030_absent": true
+          },
+          "valid_frames": {
+            "exp022a": 68,
+            "exp030_absent": 58
+          }
+        },
+        {
+          "motion_key": "s4453",
+          "terminated": {
+            "exp022a": true,
+            "exp030_absent": true
+          },
+          "valid_frames": {
+            "exp022a": 76,
+            "exp030_absent": 80
+          }
+        },
+        {
+          "motion_key": "s4459",
+          "terminated": {
+            "exp022a": false,
+            "exp030_absent": true
+          },
+          "valid_frames": {
+            "exp022a": 397,
+            "exp030_absent": 120
+          }
+        },
+        {
+          "motion_key": "s4461",
+          "terminated": {
+            "exp022a": true,
+            "exp030_absent": true
+          },
+          "valid_frames": {
+            "exp022a": 28,
+            "exp030_absent": 29
+          }
+        }
+      ],
+      "n": 64,
+      "terminated_counts": {
+        "exp022a": 53,
+        "exp030_absent": 54
+      },
+      "termination_flag": {
+        "fraction": 0.984375,
+        "n": 64,
+        "n_agreeing": 63,
+        "wilson95": [
+          0.9166570109970937,
+          0.9972365292495986
+        ]
+      },
+      "valid_length": {
+        "fraction": 0.84375,
+        "n": 64,
+        "n_agreeing": 54,
+        "role": "reported alongside; the preregistered rule is the flag",
+        "wilson95": [
+          0.7357170979769467,
+          0.9128525112303834
+        ]
+      }
+    },
+    "paired_progress_change": {
+      "arm": "present_05",
+      "definition": "absent max root x - present_05 max root x, per reference (metres)",
+      "iqr_m": [
+        0.0,
+        0.0005331039428710938
+      ],
+      "iqr_width_m": 0.0005331039428710938,
+      "max_m": 3.9346084594726562,
+      "median_m": 0.0,
+      "min_m": -4.521175384521484,
+      "n": 64,
+      "n_excluded_without_a_measurable_maximum": 0,
+      "n_falling_more_than_threshold": 8,
+      "note": "a reference that never reaches the box must show about 0; a large positive difference means the box stopped the robot short",
+      "references_falling_more_than_threshold": [
+        "s4408",
+        "s4418",
+        "s4419",
+        "s4428",
+        "s4440",
+        "s4452",
+        "s4453",
+        "s4463"
+      ],
+      "threshold_m": 0.05
+    },
+    "predictions": {
+      "P1": {
+        "consequence_if_failed": "the fork fix or the run conditions are not inert: every cross-campaign comparison is re-scoped, Q1's answer is scoped to this tracker build, and the disagreement is the headline rather than the proxy result",
+        "n": 64,
+        "n_agreeing": 63,
+        "prediction_held": true,
+        "rule": "P1 (control): the `absent` arm reproduces EXP-022A -- >= 58/64 references agree on the termination flag",
+        "threshold": 58
+      },
+      "P2": {
+        "completing_motion_keys": {
+          "present_05": [],
+          "present_20": []
+        },
+        "completions": {
+          "present_05": 0,
+          "present_20": 0
+        },
+        "consequence_if_failed": "any completion is the project's first measured local traversal and is reported prominently, with its reference identified",
+        "predicted_completions": 0,
+        "prediction_held": true,
+        "rule": "P2 (completion): local traversal completion is 0/64 in both present arms; any completion is the project's first measured local traversal and is reported prominently, with its reference identified"
+      },
+      "P3": {
+        "agreement_fraction": 0.984375,
+        "agreement_ok": true,
+        "consequence_if_failed": "the paper states that obstacle-absent replay is a biased proxy and names the direction of the bias",
+        "evaluable": true,
+        "kappa": 0.9641255605381166,
+        "kappa_ci95": [
+          0.8823366315102751,
+          1.0
+        ],
+        "kappa_degenerate": false,
+        "kappa_ok": true,
+        "min_agreement": 0.8,
+        "min_kappa": 0.6,
+        "note": null,
+        "prediction_held": true,
+        "rule": "P3 (the proxy): the replay-inferred and physics-measured classes for present_05 agree on >= 80 % of references (kappa >= 0.6)"
+      }
+    },
+    "q1_proxy_check": {
+      "agreement_fraction": 0.984375,
+      "agreement_wilson95": [
+        0.9166570109970937,
+        0.9972365292495986
+      ],
+      "box_height_m": 0.05,
+      "cohens_kappa": {
+        "degenerate": false,
+        "degenerate_note": "both labellings are (almost) constant, so chance agreement is 1 and kappa is undefined; the agreement fraction still applies",
+        "expected_agreement": 0.564453125,
+        "kappa": 0.9641255605381166,
+        "n": 64,
+        "observed_agreement": 0.984375
+      },
+      "confusion": {
+        "column_definition": "physics-measured class (present_05 arm)",
+        "labels": [
+          "collided_obstacle",
+          "cutoff"
+        ],
+        "matrix": {
+          "collided_obstacle": {
+            "collided_obstacle": 20,
+            "cutoff": 1
+          },
+          "cutoff": {
+            "collided_obstacle": 0,
+            "cutoff": 43
+          }
+        },
+        "row_definition": "replay-inferred class (absent arm scored against the 5 cm box)"
+      },
+      "disagreeing_references": [
+        {
+          "motion_key": "s4410",
+          "physics_measured": "cutoff",
+          "replay_inferred": "collided_obstacle"
+        }
+      ],
+      "kappa_bootstrap": {
+        "ci95": [
+          0.8823366315102751,
+          1.0
+        ],
+        "method": "percentile bootstrap over the 64 references; resamples whose chance agreement is 1 have no defined kappa and are excluded and counted; the interval is reported only when at least 100 finite resamples remain",
+        "n_degenerate_excluded": 0,
+        "n_finite": 2000,
+        "n_resamples": 2000,
+        "seed": 30
+      },
+      "n": 64,
+      "n_agreeing": 63,
+      "per_class_agreement": {
+        "collided_obstacle": {
+          "agreement_of_measured": 1.0,
+          "n_agreeing": 20,
+          "n_physics_measured": 20,
+          "n_replay_inferred": 21
+        },
+        "cutoff": {
+          "agreement_of_measured": 0.9772727272727273,
+          "n_agreeing": 43,
+          "n_physics_measured": 44,
+          "n_replay_inferred": 43
+        }
+      },
+      "question": "Q1: does the obstacle-absent replay predict the obstacle-present outcome, per reference?",
+      "scope": "'collided_obstacle' means measured contact in the present arm and a replay intersection in the inferred column; that distinction is the point of the comparison"
+    },
+    "scene": {
+      "corridor_half_width_m": 1.4,
+      "evaluator_version": 1,
+      "goal_tolerance_m": 0.5,
+      "goal_xy_m": [
+        7.2,
+        0.0
+      ],
+      "obstacle_depth_m": 0.2,
+      "obstacle_width_m": 2.8,
+      "obstacle_x_m": 1.2,
+      "sample_dt_s": 0.02,
+      "start_xy_m": [
+        0.0,
+        0.0
+      ],
+      "time_limit_s": null,
+      "timeout_note": "no wall-clock deadline was preregistered, so the timeout class is not assessed and its count of zero means 'not assessed'"
+    },
+    "status": "complete"
+  },
+  "wall_clock_s": 2.451519990019733
+}

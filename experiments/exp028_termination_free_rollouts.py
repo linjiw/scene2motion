@@ -903,7 +903,7 @@ def run_or_resume_launch(
     # exists: a failed gate or an unusable composition leaves no attempt behind, so the same
     # campaign directory can be resumed once the host is free.
     attempt = launch_dir / f"attempt-{len(attempts):03d}"
-    gate = dict(host_gate_fn(require_no_isaac=True))
+    gate = dict(host_gate_fn(**host_gate.SONIC_LAUNCH_GATE))
     command = build_sonic_command(pkl, attempt / "eval", spec["n_motions"],
                                   spec["physics_seed"], spec["extra_overrides"])
     resolved_raw = dict(compose_fn(hydra_overrides_of(command)))
@@ -1582,7 +1582,7 @@ def run_campaign(
     plan = smoke_launch_plan() + campaign_launch_plan()
 
     if dry_run:
-        report = dict(host_report_fn(require_no_isaac=True))
+        report = dict(host_report_fn(**host_gate.SONIC_LAUNCH_GATE))
         commands = {spec["name"]: build_sonic_command(
             output / "launches" / spec["name"] / "motions.pkl",
             output / "launches" / spec["name"] / "attempt-000/eval",
@@ -1650,7 +1650,7 @@ def run_campaign(
     if old is None:
         # Host gate before the output directory exists: a failed gate leaves nothing behind.
         try:
-            initial_gate = dict(host_gate_fn(require_no_isaac=True))
+            initial_gate = dict(host_gate_fn(**host_gate.SONIC_LAUNCH_GATE))
         except host_gate.HostResourceGateFailed as exc:
             raise BridgeAbort(f"host-resource gate failed before the campaign was created: {exc}") from exc
         output.mkdir(parents=True, exist_ok=False)

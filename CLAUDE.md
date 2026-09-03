@@ -288,6 +288,48 @@ $S2M_PY experiments/exp021_elicited_lift_distribution.py --out outputs/<new_dir>
 10. **Every throughput or dataset number names its tier**: generated / kinematically scored /
     accepted / SONIC-executed, with wall-clock and GPU.
 
+## The legacy chain is armed and waiting for one command (2026-09-03)
+
+`experiments/launch_legacy_chain.sh` had **three defects that would each have blocked or stalled
+it silently**; all are fixed, and both the pass and the refuse path are tested:
+
+1. `check_no_other_owner` used `pgrep -f` and excluded only `$$`. Every ancestor shell carries the
+   script name on its command line, so the guard counted its own invocation and refused forever
+   with pids that had already exited.
+2. The same check then matched the script's **own command substitutions**, which fork subshells
+   that keep the script's command line. A matching pid is now ignored when it is an ancestor or a
+   descendant, and skipped when it exited between the `pgrep` and the `ps`.
+3. `gates_pass` used `pgrep -c … || echo 0`. `pgrep -c` prints `0` *and* exits non-zero, so the
+   value was `"0\n0"`, every integer test errored, and the gates could never pass: the chain
+   would have polled for its full 12-hour timeout on a host that already satisfied every gate,
+   reporting `WAIT` the whole time.
+
+The chain also now **commits each finished campaign output before the next stage**. EXP-028
+refuses a fresh campaign unless the worktree is exactly clean, and EXP-024's stage guard refuses
+any worktree change outside its own output, so the first campaign's artifacts would otherwise
+block the second with what looks like a provenance failure. Only the campaign's own path is
+staged, and the commit is refused if anything outside it was picked up.
+
+**Why it runs from a worktree.** Another session left complete, passing but uncommitted work in
+`scene2motion/robot.py`, `scene2motion/traversal_eval.py` and two test files (all 879 tests pass).
+Committing that `robot.py` edit would be **wrong for these campaigns**: it is in EXP-024's
+`SOURCE_FILES` and its receipt pins `c12b59a…`, so a changed hash would correctly make EXP-024's
+own SONIC stage refuse — the references were scored with the committed file. The chain therefore
+runs from `/home/linjiw/s2m-chain`, a worktree on branch `legacy-chain-2026-09-03`, whose
+`robot.py` hashes to exactly `c12b59a…` and whose tree state reproduces the campaign's pin
+(`dirty: false`, empty status, empty tracked diff). Commit drift is explicitly allowed and
+recorded by `_verify_stage_git_state`.
+
+Preflight passes there and all four gates are open (manifest `44e98c45…`, the frozen EXP-022A
+baseline). To run EXP-028, then EXP-024's SONIC and analyse stages:
+
+```bash
+cd /home/linjiw/s2m-chain && source env.sh && bash experiments/launch_legacy_chain.sh
+```
+
+Afterwards fast-forward `master` onto `legacy-chain-2026-09-03`; it touches only `outputs/` and
+never the other session's files. `--check` runs the preflight and changes nothing.
+
 ## Working alongside another session (2026-09-03 ruling)
 
 More than one agent session works this repo at once. Two sessions independently diagnosed and

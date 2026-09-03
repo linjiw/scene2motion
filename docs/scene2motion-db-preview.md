@@ -30,6 +30,18 @@ counts, row and seed identity, outcome semantics, every NPZ array name/shape/dty
 and the presence and content hash of every advertised clip before writing anything. The output
 is built in a temporary directory and renamed into place only after validation.
 
+A recipient can validate a built package without the source corpus:
+
+```bash
+PYTHONPATH=. /home/linjiw/ardy/.venv/bin/python \
+  experiments/export_scene2motion_db_preview.py \
+  --out outputs/scene2motion_db_preview_v1 \
+  --validate-only
+```
+
+This checks the package hash manifest, record and outcome counts, evidence tiers, split membership,
+scene-ID disjointness, and included motion payload hashes.
+
 ## Split and leakage boundary
 
 The preview supplies an outcome-stratified 70/15/15 development split. Scene IDs are disjoint,

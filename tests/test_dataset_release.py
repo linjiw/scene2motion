@@ -13,6 +13,7 @@ from scene2motion.dataset_release import (
     SCHEMA_VERSION,
     build_preview,
     validate_pilot,
+    validate_preview,
 )
 
 
@@ -61,6 +62,7 @@ def test_preview_preserves_tiers_and_gives_every_rare_outcome_each_split(tmp_pat
     assert accepted["artifact"]["included"] is False
     assert len(accepted["artifact"]["sha256"]) == 64
     assert not (output / "clips").exists()
+    assert validate_preview(output) == receipt
 
 
 def test_clip_copy_is_opt_in_and_hash_preserving(tmp_path):
@@ -114,3 +116,16 @@ def test_validator_rejects_nonfinite_payload_data(tmp_path):
     np.savez_compressed(path, **arrays)
     with pytest.raises(DatasetValidationError, match="qpos is not finite"):
         validate_pilot(source)
+
+
+def test_standalone_preview_validator_catches_a_changed_record(tmp_path):
+    output = tmp_path / "preview"
+    build_preview(PILOT, output)
+    records = output / "records.jsonl"
+    records.write_text(records.read_text().replace(
+        '"controller_execution":"not_measured"',
+        '"controller_execution":"measured"',
+        1,
+    ))
+    with pytest.raises(DatasetValidationError, match="payload hash mismatch: records.jsonl"):
+        validate_preview(output)

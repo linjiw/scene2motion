@@ -431,3 +431,107 @@ def build_preview(source: Path, output: Path, *, include_clips: bool = False) ->
         shutil.rmtree(temp, ignore_errors=True)
         raise
     return preview_receipt
+
+
+def validate_preview(output: Path) -> dict[str, Any]:
+    """Verify a built preview using only the files inside the package."""
+
+    output = Path(output)
+    receipt_path = output / "receipt.json"
+    _require(receipt_path.is_file(), f"missing preview receipt: {receipt_path}")
+    try:
+        receipt = json.loads(receipt_path.read_text())
+    except json.JSONDecodeError as error:
+        raise DatasetValidationError(f"preview receipt is not valid JSON: {error}") from error
+    _require(receipt.get("schema_version") == SCHEMA_VERSION,
+             "preview receipt has an unsupported schema version")
+
+    expected_hashes = receipt.get("output_sha256")
+    _require(isinstance(expected_hashes, dict) and expected_hashes,
+             "preview receipt has no output hash manifest")
+    for relative, expected in expected_hashes.items():
+        relative_path = Path(relative)
+        _require(not relative_path.is_absolute() and ".." not in relative_path.parts,
+                 f"preview hash path escapes the package: {relative}")
+        path = output / relative_path
+        _require(path.is_file(), f"preview payload is missing: {relative}")
+        _require(_sha256(path) == expected, f"preview payload hash mismatch: {relative}")
+
+    records_path = output / "records.jsonl"
+    splits_path = output / "splits.json"
+    schema_path = output / "schema.json"
+    _require(all(path.name in expected_hashes for path in
+                 (output / "README.md", records_path, splits_path, schema_path)),
+             "preview hash manifest omits a required metadata file")
+    records = _read_jsonl(records_path)
+    schema = json.loads(schema_path.read_text())
+    splits = json.loads(splits_path.read_text())
+    _require(schema.get("properties", {}).get("schema_version", {}).get("const")
+             == SCHEMA_VERSION, "record schema does not bind the preview version")
+    _require(len(records) == receipt.get("n_records"),
+             "preview record count differs from the receipt")
+    _require(len({record.get("record_id") for record in records}) == len(records),
+             "preview record IDs are not unique")
+    _require(len({record.get("identity", {}).get("scene_id") for record in records})
+             == len(records), "preview scene identities are not disjoint")
+
+    outcome_counts = Counter()
+    tier_counts = Counter()
+    execution_counts = Counter()
+    actual_members: dict[str, list[str]] = {split: [] for split in SPLIT_ORDER}
+    artifact_count = included_count = 0
+    for record in records:
+        record_id = record.get("record_id")
+        split = record.get("split")
+        _require(record.get("schema_version") == SCHEMA_VERSION,
+                 f"record {record_id} has the wrong schema version")
+        _require(split in SPLIT_ORDER, f"record {record_id} has an unknown split")
+        label = record.get("label")
+        _require(isinstance(label, dict), f"record {record_id} has no label object")
+        outcome = label.get("outcome")
+        _require(outcome in OUTCOMES, f"record {record_id} has an unknown outcome")
+        outcome_counts[outcome] += 1
+        tier_counts[label.get("evidence_tier")] += 1
+        execution_counts[label.get("controller_execution")] += 1
+        actual_members[split].append(record_id)
+        artifact = record.get("artifact")
+        if artifact is not None:
+            artifact_count += 1
+            _require(isinstance(artifact, dict) and len(artifact.get("sha256", "")) == 64,
+                     f"record {record_id} has invalid artifact metadata")
+            if artifact.get("included"):
+                included_count += 1
+                relative = artifact.get("path")
+                _require(isinstance(relative, str),
+                         f"record {record_id} included artifact has no path")
+                path = output / relative
+                _require(path.is_file(), f"record {record_id} included artifact is missing")
+                _require(_sha256(path) == artifact["sha256"],
+                         f"record {record_id} artifact hash mismatch")
+
+    _require(dict(outcome_counts) == receipt.get("outcome_counts"),
+             "preview outcome counts differ from the receipt")
+    _require(dict(tier_counts) == receipt.get("evidence_tier_counts"),
+             "preview evidence-tier counts differ from the receipt")
+    _require(dict(execution_counts) == receipt.get("controller_execution_counts"),
+             "preview execution counts differ from the receipt")
+    _require(artifact_count == receipt.get("n_motion_payloads"),
+             "preview artifact count differs from the receipt")
+    expected_included = bool(receipt.get("motion_payloads_included"))
+    _require(included_count == (artifact_count if expected_included else 0),
+             "preview included-payload state differs from the receipt")
+
+    members = splits.get("members")
+    _require(isinstance(members, dict), "preview split file has no member lists")
+    for split in SPLIT_ORDER:
+        _require(members.get(split) == actual_members[split],
+                 f"preview {split} members differ between records and splits")
+        expected_counts = Counter(
+            record["label"]["outcome"] for record in records if record["split"] == split
+        )
+        _require(dict(expected_counts) == receipt.get("split_outcome_counts", {}).get(split),
+                 f"preview {split} outcome counts differ from the receipt")
+    _require(set().union(*(set(members[split]) for split in SPLIT_ORDER))
+             == {record["record_id"] for record in records},
+             "preview split membership does not cover the records exactly")
+    return receipt

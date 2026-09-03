@@ -7,7 +7,7 @@ import argparse
 import json
 from pathlib import Path
 
-from scene2motion.dataset_release import build_preview
+from scene2motion.dataset_release import build_preview, validate_preview
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -21,8 +21,13 @@ def main() -> None:
                         default=ROOT / "outputs/scene2motion_db_preview_v1")
     parser.add_argument("--include-clips", action="store_true",
                         help="copy the 268 motion payloads after redistribution review")
+    parser.add_argument("--validate-only", action="store_true",
+                        help="validate an existing --out package without rebuilding it")
     args = parser.parse_args()
-    receipt = build_preview(args.source, args.out, include_clips=args.include_clips)
+    if args.validate_only:
+        receipt = validate_preview(args.out)
+    else:
+        receipt = build_preview(args.source, args.out, include_clips=args.include_clips)
     print(json.dumps(receipt, indent=2, sort_keys=True))
 
 

@@ -1,7 +1,8 @@
 <!--
-Scene2Motion paper draft v2.2 (2026-09-02), after the advisor's third review
-(docs/pi-advice-2026-09-02-c.md, TEXEDO reading). Evidence cutoff: repository receipts at HEAD
-on 2026-09-02. Bold bracketed tokens are slots for results that have not landed; fill only from
+Scene2Motion paper draft v2.3 (2026-09-03), after the advisor's third review
+(docs/pi-advice-2026-09-02-c.md, TEXEDO reading) and the integration of EXP-030
+(outputs/exp030_obstacle_present/receipt.json), the first campaign with the obstacle in the
+physics scene. Evidence cutoff: repository receipts at HEAD on 2026-09-03. Bold bracketed tokens are slots for results that have not landed; fill only from
 the named receipt. Layout budget (ICRA 2027, 8 pages incl. references):
 I 1.0 · II 0.7 · III 1.0 · IV 0.8 · V 0.6 · VI 2.3 · VII 0.6 · VIII + refs 1.0.
 Definitions, vocabulary and the claims table: docs/project-goal-2026-09-02.md.
@@ -26,17 +27,24 @@ fixed. Using ARDY-G1 and SONIC in simulation, we separate motion generation, obs
 clearance, and clearance after tracking. Of 64 step-prompted references, 12 cleared a 5 cm box
 at a position selected after inspecting the motions; none retained clearance after tracking.
 Tracking ran without the obstacle, with recorded robot states subsequently checked against its
-geometry. A foot-support screen flagged all 53 references whose rollouts triggered the
+geometry. A paired study then placed the box in the physics scene for those same 64 references:
+local traversal completion was 0 of 64 with a 5 cm box and 0 of 64 with a 20 cm box, against 1 of
+64 in an obstacle-absent control arm on the same references, and the obstacle-absent replay
+predicted the obstacle-present outcome class for 63 of 64 references at the 5 cm box (Cohen's
+kappa 0.96). A foot-support screen flagged all 53 references whose rollouts triggered the
 configured tracking-error cutoffs, while also rejecting three of the eleven runs that did not
-terminate early. This analysis predicts evaluator behavior, not whether the robot would fall.
+terminate early. This analysis
+predicts evaluator behavior, not whether the robot would fall.
 For ducking motions, we use measured clearance errors to adjust the generation controls. Across
 36 beam scenes and eight seeds, up to two repairs increased collision-free references from
 72.9% to 99.3% for a learned proposal model, compared with 77.4% for resampling under the same
-three-attempt limit. These improvements concern reference geometry; successful obstacle
-traversal has not yet been demonstrated under the tested tracking protocols. The results
-identify limits of the current generator–controller combination and show where measured
-feedback improves clearance. Prospective screen validation and obstacle-present execution
-remain future work.
+three-attempt limit. These improvements concern reference geometry. For stepping, local traversal
+completion is now a measured zero with the obstacle present; for ducking, traversal completion has
+not been measured at all, and the only execution evidence is a replay against beam geometry. The
+results identify limits of the current generator–controller combination and show where measured
+feedback improves clearance.
+Prospective screen validation remains future work, as does obstacle-present execution for the
+ducking pipeline.
 
 ## I. Introduction
 
@@ -65,12 +73,13 @@ destination — information a motion-and-language verifier does not receive.
 
 This paper therefore asks: **which generated motions can this controller use to get through this
 obstacle, from this starting state?** We instrument one frozen motion model (ARDY-G1 [1]) and
-one frozen whole-body controller (SONIC [7]) on the Unitree G1, and measure four things
+one frozen whole-body controller (SONIC [7]) on the Unitree G1, and measure five things
 separately for each generated reference: whether the requested motion was produced; whether it
 clears the obstacle at the position the scene specifies; whether it passes a reference-only
-screen that predicts the controller evaluator's stopping rule; and whether, after tracking, the
+screen that predicts the controller evaluator's stopping rule; whether, after tracking, the
 recorded robot states still clear the obstacle under a traversal endpoint that requires passage
-through the corridor and a finish beyond it.
+through the corridor and a finish beyond it; and, for the stepping pool, whether the robot
+completes that traversal with the obstacle actually present in the physics scene.
 
 We measure clearance at the specified obstacle position, rather than anywhere along the route,
 because a generated motion can clear the same obstacle elsewhere on its path: in our stepping
@@ -89,20 +98,26 @@ resampling under the same generation budget. Where it fails the support screen, 
 record why.
 
 **Contributions.** (i) An evaluation protocol for generated humanoid motions that separates
-production, obstacle-relative placement, tracking completion and clearance after tracking, with
-scoring at a fixed scene position and a traversal endpoint that a robot stopping short cannot
-satisfy. (ii) A coverage-versus-selection decomposition showing that, for the stepping family,
-the limitation is the candidate pool rather than the choice among candidates. (iii) A
+production, obstacle-relative placement, tracking completion, clearance after tracking and local
+traversal completion with the obstacle in the physics scene, with scoring at a fixed scene
+position and a traversal endpoint that a robot stopping short cannot satisfy; the last level is
+measured on the stepping pool, and the same study checks the obstacle-absent replay the stepping
+execution results rest on against physics, per reference, at one box height. (ii) A
+coverage-versus-selection decomposition showing that, for the stepping family, the limitation is
+the candidate pool rather than the choice among candidates. (iii) A
 reference-only screen that flagged every early termination of the tested controller's evaluator
 on 64 references, with a prospective test on 128 fresh references in progress. (iv) A measured
 clearance correction for ducking references, evaluated against equal-budget resampling on 36
 multi-beam scenes with its wins and its losses reported.
 
 Our strongest current contribution is an evaluation of where generated motions fail, plus a
-promising correction method. We do not claim a working traversal or navigation system. No
-measurement protocol in this paper has yet run with the obstacle present in the physics scene
-(the two-motion instrument check of §VIII aside), and the screen predicts one evaluator's
-stopping rule, not whether the robot would fall.
+promising correction method. We do not claim a working traversal or navigation system:
+with the box in the physics scene, none of the 64 stepping references completed the traversal.
+Most measurements here track the reference with the obstacle absent from the physics scene and
+score the recorded states against its geometry afterwards; one campaign (§VI-D) puts the box in
+the scene for the stepping pool, which both measures that zero directly and tests the replay
+proxy the stepping execution results depend on. The screen predicts one evaluator's stopping rule,
+not whether the robot would fall.
 
 ## II. Related Work
 
@@ -152,9 +167,11 @@ to a reference $x_{\mathrm{ref}}$ at 25 fps. Obstacles are described in route co
 of height $h_o$ at route position $s_o$ for stepping, beams at clearance $c_o$ for ducking. A
 whole-body collision model of the G1 (Unitree's collision primitives with a measured 4 cm
 margin) scores any joint trajectory against the obstacle. A frozen controller $T_\phi$ tracks the
-reference in Isaac Sim; its recorded joint states are scored by the same collision model. In
-every measurement protocol reported here the obstacle is absent from the physics scene; the
-two-motion instrument check of §VIII is the only rollout in the paper that runs against it.
+reference in Isaac Sim; its recorded joint states are scored by the same collision model. The
+obstacle is absent from the physics scene in the campaigns behind most results reported here, and
+the recorded states are scored against its geometry afterwards; one campaign (§VI-D) spawns the
+box as a collidable body for the 64 stepping references, so that the robot contacts it and the
+traversal outcome is measured rather than replayed.
 
 ### B. Local traversal is not navigation
 
@@ -174,7 +191,7 @@ navigation.
 | collision-free reference | the reference clears the obstacle geometry with the stated margin |
 | completed tracking run | the controller followed the reference to the end without the evaluator's tracking-error cutoff |
 | clearance preserved after tracking | a reference that clears the obstacle yields a tracked trajectory that passes through the obstacle corridor, finishes beyond the obstacle, remains collision-free at the graded height, and satisfies the stated termination rule |
-| local traversal completion | the same, with the obstacle present in the physics scene, no prohibited contact, no fall, within the time limit — **not measured in this paper** |
+| local traversal completion | the same, with the obstacle present in the physics scene, no prohibited contact, no fall, within the time limit — measured for the stepping pool in §VI-D: **0 of 64** with a 5 cm box and 0 of 64 with a 20 cm box |
 
 The fifth definition matters: a geometry query on the recorded states alone is not an endpoint,
 because a robot that stops before the box looks collision-free. In our tracked pool an unguarded
@@ -238,8 +255,8 @@ outcome, achieved-state endpoint, physics seed, and provenance.
 §VI comes from separate component studies. We evaluate the support screen and the ducking
 correction as separate components. To evaluate the screen, we track both flagged and passed
 references; a flow that tracked only passing references could not test its own screen. The
-ducking correction is evaluated on reference geometry; its effect on tracked clearance is the
-obstacle-present experiment of §VIII.
+ducking correction is evaluated on reference geometry; its effect on tracked clearance awaits the
+beam-present ducking study proposed in §VIII.
 
 ## V. Experimental Setup
 
@@ -250,7 +267,11 @@ physics seed 0, one rollout per reference unless stated. One RTX 5080 (16 GB).
 **Stepping.** One route, one scene. Prompt "A person steps over an obstacle." 64 fresh seeds.
 Obstacle: a 5 cm (and 8 cm) box at $s_o = 1.2$ m. The position was chosen after inspecting the
 64 clips as the position maximising exact clearance on a 0.05 m grid; the fresh-seed replication
-in §VI-C uses the same position fixed in advance. Controls: the walk prompt on the same route; a
+in §VI-C uses the same position fixed in advance. The same 64 references were tracked a second
+time on a controller build that spawns the box as a collidable body of the same geometry at
+$s_o$, in three arms on identical references and the same physics seed: no box, a 5 cm box and a
+20 cm box. Traversal scene: start at the route origin, goal at 7.2 m with a 0.5 m tolerance,
+corridor half-width 1.4 m, no time limit configured. Controls: the walk prompt on the same route; a
 delayed prompt switch (walk → step at 2.1 s). Its sideways-step positive control was refused at
 its preregistered substrate gate — 0 of 8 references carried the sidestep composite against a
 required 4 — so the delayed-switch arm has no working positive control. The arm itself was
@@ -260,7 +281,7 @@ retained by design, the absence of the step being an outcome rather than a gate.
 and gaps) × 8 seeds × three proposers, each in five arms: uncorrected, one correction, two
 corrections, and best-of-two and best-of-three resampling with fresh seeds. Budgets differ by
 arm: one generation uncorrected, two for one correction and for best-of-two, three for two
-corrections and for best-of-three. Only the two-correction and best-of-three arms, which Table III
+corrections and for best-of-three. Only the two-correction and best-of-three arms, which Table IV
 compares, are equal-budget, and even there the number of generations actually used differs and is
 reported. Endpoints: collision-free reference, and the 18 cm clearance margin.
 
@@ -272,7 +293,10 @@ seeing outcomes are labelled post hoc.
 ## VI. Results
 
 The results answer four questions in order: does the pool contain a suitable motion; could a
-selector find one; does correction create one; and does any of it survive execution.
+selector find one; does correction create one; and does any of it survive execution. Two
+subsections are placed where their evidence sits rather than where the question falls: §VI-C
+explains why the tracked stepping references fail, and §VI-D answers the fourth question for the
+stepping pool, whose obstacle-present measurement belongs beside the replay it validates.
 
 ### A. Does the generated pool contain a motion for the specified obstacle?
 
@@ -362,27 +386,31 @@ tracking-error rule firing, not an observed fall.
 
 Scored against the whole traversal problem — start at the route origin, goal 7.2 m away, the
 box at the specified position — every rollout receives one outcome class rather than a boolean.
-Table II gives the breakdown and Fig. 8 **[FIG-8-OUTCOMES]** the same classes across the six box
-heights; a boolean endpoint would merge the first two columns.
+Table II gives the breakdown and Fig. 8 **[FIG-8-OUTCOMES]** the same replay classes across the
+six box heights; a boolean endpoint would merge the first two columns. Both are computed from
+rollouts recorded with the obstacle absent from the physics scene and scored afterwards against
+its geometry; §VI-D gives the obstacle-present measurement.
 
-| box height | fell | hit the box | hit a wall | evaluator cutoff | timeout | stalled | **completed (replay)** |
+| box height | fell | intersects the box (replay) | hit a wall | evaluator cutoff | timeout | stalled | **completed (replay)** |
 |---|---|---|---|---|---|---|---|
-| 3 cm | 0 | 21 | 0 | 43 | 0 | 0 | **0** |
-| 5 cm | 0 | 21 | 0 | 43 | 0 | 0 | **0** |
-| 8 cm | 0 | 22 | 0 | 42 | 0 | 0 | **0** |
-| 12 cm | 0 | 25 | 0 | 39 | 0 | 0 | **0** |
-| 20 cm | 0 | 30 | 0 | 34 | 0 | 0 | **0** |
-| 30 cm | 0 | 31 | 0 | 33 | 0 | 0 | **0** |
+| 3 cm | 0 | 21 | — | 43 | — | 0 | **0** |
+| 5 cm | 0 | 21 | — | 43 | — | 0 | **0** |
+| 8 cm | 0 | 22 | — | 42 | — | 0 | **0** |
+| 12 cm | 0 | 25 | — | 39 | — | 0 | **0** |
+| 20 cm | 0 | 30 | — | 34 | — | 0 | **0** |
+| 30 cm | 0 | 31 | — | 33 | — | 0 | **0** |
 
 At the 5 cm box, 21 of 64 achieved trajectories intersect the obstacle's volume and 43 are
 classed as evaluator cutoffs; ten further rollouts were also stopped by the evaluator but are
-counted under "hit the box", which precedes the cutoff class, so this column's 43 and the 53
-stopped rollouts named above are the same set less those ten. The collision count rises to 31
-at 30 cm. No rollout fell, and none satisfies the completion class in replay at any height;
-with the obstacle absent from the physics scene that column is not a local-traversal-completion
-measurement, and §VII's statement that none is made in this paper stands. The other two zeros
-need reading with care. The timeout class was disabled for this analysis, so its zero records
-the absence of a measurement rather than the absence of timeouts. The stall class is the
+counted under the intersection column, which precedes the cutoff class, so this column's 43 and
+the 53 stopped rollouts named above are the same set less those ten. The collision count rises to 31
+at 30 cm. No rollout met the fall criteria over its archived samples, and none satisfies the
+completion class in replay at any height; with the obstacle absent from the physics scene that
+column is not a local-traversal-completion measurement, and §VI-D gives the measurement that is.
+Two columns are dashed here and in Table III, in both cases because the class could not fire: no
+time limit was configured in either analysis, so the timeout class was not assessed, and the scene
+carries a single obstacle box and no wall geometry, so a wall collision could not be recorded. A
+dash there records the absence of a measurement, not a measured zero. The stall class is the
 residual one, preempted by the collision and cutoff classes above it in the precedence order,
 so its zero should be read together with the 50 of 64 rollouts that never reached the obstacle
 at all. Completion requires passing the obstacle inside the corridor, so walking around it does
@@ -395,6 +423,100 @@ why. At every box height, all 14 trajectories that pass the corridor and finish 
 obstacle also intersect its volume in replay, and exactly one rollout of the 64 reaches the goal
 region — that one intersects the box as well. Reaching the far side of the obstacle's position is
 not clearing it, which is what separates the corridor-passage row from the endpoint.
+
+### D. Does the traversal complete with the obstacle in the scene?
+
+Table II, and every execution measurement in this paper except the one that follows, tracks the
+reference with the obstacle absent and scores the recorded states against its geometry
+afterwards. That proxy is testable, and we tested it. The same 64 references were
+tracked again on a controller build that spawns the box as a collidable body, in three arms
+sharing the references and the physics seed: no box, a 5 cm box at the specified position, and a
+20 cm box there. Table III gives the outcome classes over all 64 assigned trials in each arm.
+
+| arm | fell | collides with the box (physics) | hit a wall | evaluator cutoff | timeout | stalled | **completed** |
+|---|---|---|---|---|---|---|---|
+| no box (control) | 0 | 0 | — | 54 | — | 9 | **1** |
+| 5 cm box present | 0 | 20 | — | 44 | — | 0 | **0** |
+| 20 cm box present | 0 | 30 | — | 34 | — | 0 | **0** |
+
+Three scope notes belong with this table. First, unlike every other collision count in this paper,
+this column counts collisions of a robot that had the box physically in its scene, so the states
+scored are those of a robot that ran into it rather than of one that walked an empty world. The
+class itself is still scored by the same conservative collision model, which inflates every scene
+box by the 4 cm body margin, and no contact sensor was read: 18 of the 20 collisions at 5 cm
+(0.040–0.055 m) and 25 of the 30 at 20 cm (0.040–0.068 m) penetrate at or beyond that margin, so
+the collision primitives are resting on the box surface, while 2 of 20 and 5 of 30 are shallower
+than the margin and need not be primitive contact at all. Second, the timeout and wall columns are
+dashed rather than zero for the reason given under Table II: no time limit was configured and the
+scene carries no wall geometry, so neither class could fire. Third, the control arm is scored
+with no box in its scene at all, which is why rollouts that Table II
+would class as intersecting the box appear here as cutoffs, as stalls, or — for the one that
+reaches the goal — as a completion; the fall class, as in Table II, is evaluated only over the
+archived samples, which for a cut-off rollout end at the cutoff.
+
+Three predictions were registered before the first launch, and all three held.
+
+*The control.* The no-box arm reproduces the earlier obstacle-absent campaign on this build: 63 of
+64 references agree on the termination flag, against a preregistered threshold of 58 (54 stopped
+here, 53 there; the single disagreement ran to the end of its reference in the earlier campaign
+and was stopped after 120 of 397 recorded samples here). The build's box-spawning fix and the run
+conditions are inert for the termination flag, though rollout length agrees less closely — 54 of
+64 references match on valid length (0.736 to 0.913), ten differing, nine of them by one to ten
+frames and the tenth being that flag disagreement — so the two runs match in outcome rather than
+frame for frame. That is what licenses comparing this campaign against the earlier obstacle-absent
+one on this pool; it says nothing about the other campaigns. One consequence is worth naming: the
+reference the two runs disagree on is one of the eleven that completed tracking in the earlier
+campaign, so the eleven completed runs of Table I are ten on this build. The disjointness of §VI-B
+is unchanged by that, since none of the eleven clears the box either way, but comparisons that
+turn on the exact count of completed runs are scoped to the earlier campaign.
+
+*Completion.* Local traversal completion is 0 of 64 with the box present, at both heights (Wilson
+0 to 0.057). With no box in the scene one of the 64 rollouts reached the goal region upright and
+inside the corridor (1 of 64, Wilson 0.003 to 0.083); passing an obstacle is vacuous in that arm,
+because there is no obstacle to pass, so this is a route-completion control rather than a
+traversal. It is what gives the zero its meaning: the controller can carry one of these references
+the length of the route, and the box removes that. That reference is instructive on its own. With
+no box it reaches 7.63 m along the route and completes; with the 5 cm box it again reaches 7.64 m
+and again runs uncut, but its closest approach violates the 4 cm clearance margin (3.6 cm
+penetration, about 4 mm from the box surface), which the endpoint counts as a failure; the 5 cm
+zero therefore turns on a margin violation for this one reference. With the 20 cm box it is
+stopped at 1.51 m, at the obstacle.
+
+*The proxy.* The obstacle-absent replay predicts the obstacle-present outcome class for 63 of 64
+references (agreement 0.984, Wilson 0.917 to 0.997; Cohen's $\kappa$ 0.964, percentile bootstrap
+over the 64 references 0.882 to 1.00). Rescoring the no-box arm's recorded states against the 5 cm
+box gives the same split as Table II's 5 cm row — 21 classed as intersecting the box, 43 as
+cutoffs — and of those 21, 20 collided with the box in physics, while one was stopped by the
+evaluator short of it instead; that reference's replayed trajectory penetrates the box by
+1.8 cm, so the
+disagreement is a marginal case rather than a class error. All 43 the replay classed as cutoffs
+were cutoffs in physics. The comparison has two classes only: neither labelling produced a
+completion, so the agreement establishes that replay predicts which failure mode occurs, not that
+replay would recognise a successful traversal. The success class was never exercised in either
+direction, and the replay endpoint's zeros are not validated by this check.
+
+The box changes the rollout where the rollout reaches it, and not otherwise. The paired change in
+maximum achieved root position between the no-box and 5 cm arms has a median of 0.0 m and an
+interquartile width below 1 mm; 8 of 64 references lose more than 0.05 m of progress, the largest
+by 3.93 m, and one travels 4.52 m further with the box present than without it, a reminder that
+the two arms are separate rollouts of a contact-rich system rather than perturbations of one.
+With the box removed, the root of 50 of the 64 rollouts never passes the obstacle's position at
+1.2 m; 51 do not with the 5 cm box and 60 do not with the 20 cm box. Because the box spans 1.1 to
+1.3 m and the collision check is whole-body, 20 rollouts nevertheless registered a collision with
+the 5 cm box.
+
+Two conclusions follow, and no more. Local traversal completion has now been measured rather than
+inferred, and with a box in the way it is zero. And the obstacle-absent replay endpoint used for
+the stepping execution results of §VI-B and §VI-C agrees with physics on this pool at the 5 cm
+box, so those results keep their meaning rather than inheriting a caveat; the ducking execution
+evidence is a different behaviour family, a different pipeline and a different obstacle, and is
+not covered. What does not follow is any claim of a traversal system, or any generalisation beyond
+this route, this scene, this obstacle position and this box height: one physics seed, one rollout
+per reference, one pool of 64. Nor does the proxy agreeing mean the obstacle is immaterial — 20
+references collide with the 5 cm box and 30 with the 20 cm one — only that replay and physics
+assign the same class to the same reference.
+The outcome classes were scored under the first version of the traversal evaluator, and a
+re-score under its corrected version is a separate versioned analysis.
 
 Long periods outside the foot-support test are associated with those cutoffs. The 12 clearing
 references all lift during a period in which neither foot meets the test, lasting 0.44–1.04 s in
@@ -485,10 +607,10 @@ problematic references from legitimate dynamic motion rather than penalising mot
 conventional foot support: **[EXP-024B-CONTROLS]**. Until these land, the screen is validated
 retrospectively only.
 
-### D. Does correction create a usable candidate?
+### E. Does correction create a usable candidate?
 
 Where selection has nothing to select, correction is the remaining lever. Ducking references
-admit one because their clearance error is scalar-coupled and monotone. Table III gives the
+admit one because their clearance error is scalar-coupled and monotone. Table IV gives the
 36-scene study, 288 scene × seed pairs per arm, and Fig. 7 **[FIG-7-REPAIR]** the paired view of
 its equal-budget comparison. Every rate is over all assigned trials, so a candidate the loop
 rejects rather than passing on for execution counts in the rejection column and never as a
@@ -509,7 +631,7 @@ its reference is not collision-free within the arm's budget.
 | | two corrections | 100 % | 0 % | 64.6 % | 1.84 |
 | | best of three | 100 % | 0 % | **72.6 %** | 1.81 |
 
-Table IV gives paired per-scene differences, two corrections minus best-of-three resampling,
+Table V gives paired per-scene differences, two corrections minus best-of-three resampling,
 with 95 % intervals from a 36-scene cluster bootstrap (30,000 resamples). It is a descriptive
 reanalysis of the same rows, not a new experiment, and claims nothing beyond this benchmark.
 
@@ -538,13 +660,15 @@ whose interval touches zero, and the heuristic's reach 100 % either way. The cor
 collision-free advantage is therefore a property of the proposer that starts furthest from the
 constraint.
 
-All of Tables III and IV concern reference geometry. Whether a corrected reference completes the
-traversal is §VIII's experiment.
+All of Tables IV and V concern reference geometry. Whether a corrected reference completes the
+traversal is the beam-present study proposed in §VIII, not yet run.
 
-### E. Does the benefit survive execution?
+### F. Does the benefit survive execution?
 
-Not yet answered for either family. For stepping, §VI-B and §VI-C give a measured zero under an
-achieved-state replay endpoint. For ducking, an earlier tracking study of 526 references
+Not yet answered for ducking, and for stepping there was no benefit to survive: stepping
+references are not corrected. §VI-B and §VI-C give the stepping pool a measured zero under an
+achieved-state replay endpoint, and §VI-D a measured zero for local traversal completion itself
+with the box in the physics scene. For ducking, an earlier tracking study of 526 references
 preserved clearance in 0 of its 859 rollouts; 554 of those rollouts ended at the evaluator's
 tracking-error cutoff and only 200 reached the first beam, so the endpoint was rarely reachable at
 all, and the ~14 s clip length bounds the 305 rollouts that were not cut off.
@@ -556,11 +680,14 @@ corrections, has never been tracked at all: it has evidence at the reference-geo
 no level beyond it. The negative execution result bounds the heuristic pipeline; the headline
 repair gain is untested in execution in either direction.
 
-No measurement protocol in this paper places the obstacle in the physics scene (the two-motion
-instrument check of §VIII aside). A deeper crouch could improve geometry while making tracking
-harder, and that possible loss is a result we have not yet measured.
+No measurement in this paper places the *beam* in the physics scene. The stepping campaign of
+§VI-D does place its box there and measures local traversal completion at zero, but that result
+covers a different behaviour family, a different conditioning pipeline and a different obstacle,
+and it says nothing about whether a corrected ducking reference would complete a traversal. A
+deeper crouch could improve geometry while making tracking harder, and that possible loss is a
+result we have not yet measured.
 
-### F. Records with rejection reasons
+### G. Records with rejection reasons
 
 Every candidate is stored with its measurements. For the ducking pilot (300 procedural scenes,
 one proposer, at most two corrections), 268 references were collision-free (192 meeting the 18 cm
@@ -579,9 +706,14 @@ One motion model, one controller, one robot, physics seed 0. Stepping results co
 route and one obstacle position, chosen after inspecting the clips; the fresh-seed replication
 uses the same position, fixed in advance. The coverage decomposition of §VI-B is exact for the
 realised pool of 64 at one scene and is not a general statement about the model. The obstacle
-is absent from the physics scene in every measurement protocol — the two-motion instrument
-check of §VIII aside — so no local traversal completion is measured anywhere in this paper. The
-screen predicts the evaluator's stopping rule under the release configuration; the physical
+is absent from the physics scene in the campaigns behind every result here except one: the
+stepping pool of §VI-D was tracked a second time with the box spawned as a collidable body, which
+measured local traversal completion at zero and found the obstacle-absent replay agreeing with
+physics on 63 of those 64 references at the 5 cm box. That validation is bounded in §VI-D — one
+pool, one route, one obstacle position, one box height, under the first version of the traversal
+evaluator — and does not extend to the ducking results, whose execution evidence remains a replay
+against beam geometry. The screen predicts the evaluator's stopping rule under the release
+configuration; the physical
 outcome without that rule, and the known-trackable controls, are pending. The corrections are
 kinematic; no executed benefit has been shown and the mechanism baseline has not been run. In
 the ducking tracking study most rollouts ended at the evaluator's cutoff before the first beam,
@@ -598,7 +730,11 @@ a reference-only feature, and separates a selection problem from a candidate-sup
 our stepping pool the references that clear the obstacle and the rollouts that complete tracking
 do not overlap, so no ranking function would have helped. For ducking, correcting the measured
 clearance error improves reference geometry for a learned proposer and does not beat resampling
-for a well-shaped one.
+for a well-shaped one. Putting the box in the physics scene turns the stepping outcome from an
+inference into a measurement: none of the 64 stepping references completed the local traversal,
+one of them completed the same route in an obstacle-absent control arm, and the obstacle-absent
+replay the stepping execution results rest on assigned the same outcome class as physics for 63
+of the 64 references at the 5 cm box.
 
 Two experiments decide what this line of work becomes. First, complete the prospective screen
 evaluation: outcomes for every reference, rollouts without the cutoff rule, and known-trackable
@@ -610,15 +746,12 @@ selection, the combination, and an offline oracle, reporting pool coverage separ
 selected success and comparing extra sampling, a fixed extra-crouch adjustment and the measured
 correction under one budget.
 
-The second of those is now buildable. In a two-motion operational probe, a collidable box of
-0.2 × 2.0 × 0.30 m spawned at 0.5 m along the route, with its pose carried per motion inside
-the reference file, changed the achieved motion: one reference is tracked to 6.06 m with the
-box absent and to 0.29 m with it present, and that rollout ends at the evaluator's cutoff where
-the obstacle-free rollout ran to the end. That is an instrument check and not a result — two
-motions, physics seed 0, no local-traversal endpoint scored, and the probe's own record marks
-it as not campaign evidence — but it removes the reason every execution measurement in this
-paper had to be a replay against the obstacle's geometry rather than a rollout against the
-obstacle.
+The instrument for the second has been exercised at campaign scale for a floor box carried as a
+per-motion table pose — the stepping study of §VI-D spawned a collidable box for all 64 references
+across three arms and scored local traversal directly — and scored under the first version of the
+traversal evaluator. Spawning an overhead beam, the rollout horizon and the corrected evaluator
+still have to be validated before the ducking study can run, and nothing in the stepping result
+predicts its outcome.
 
 If correction improves local traversal completion, this becomes a method contribution; if it
 improves only reference geometry, the narrower conclusion stands. Downstream navigation policy is

@@ -1903,9 +1903,136 @@ tracked stage can launch. EXP-029 must run against `7c63c53` (cherry-pick or che
 branch) and declare its own baseline; the two families are never compared across that boundary.
 Verified after the revert: `exp028.tracker_identity()` reports the expected manifest.
 
-**Three contact quantities, never merged.** The table's contact sensor is enabled but nothing
-reads it yet. EXP-029 must record and report separately: **physical contact with the obstacle**
-(from the sensor, which is what the box being in physics now makes available), **violations of
-the conservative replay clearance model** (which inflates obstacles by 4 cm, so it is a different
-event and a stricter one), and **prohibited floor contact**. Collapsing them would reintroduce
-exactly the ambiguity §45 removed.
+**Three contact quantities, never merged.** No table contact sensor is instantiated by this
+configuration. The table-to-robot sensor lives inside the `add_object` branch — that is exactly
+where this fix put it — and `add_object=true` still fails on the missing `data/wheelchair.usd`;
+the other table sensor, `table_to_hand_contact_sensor`, is gated on `robot_has_hands`
+(`"43dof" in robot_type or "hand" in robot_type`) while the release config's robot type is
+`g1_model_12_dex`, and it filters right hand/wrist links, which could never see foot or shin
+contact with a floor box. So spawning the box does **not** by itself make sensor contact
+available. EXP-029 must still record and report separately: **physical contact with the obstacle**
+(which needs a contact-sensor path that does not yet exist), **violations of the conservative
+replay clearance model** (which inflates obstacles by 4 cm, so it is a different event and a
+stricter one), and **prohibited floor contact**. Collapsing them would reintroduce exactly the
+ambiguity §45 removed.
+
+## 48. EXP-030: obstacle in the physics scene — local traversal measured, replay proxy validated
+
+Preregistered in `docs/ramp-exp030-obstacle-present-stepping-protocol.md` (sha
+`c1849036…`, bound into the receipt before the first launch). **This is the first campaign in
+this project to put the obstacle in the physics scene**; every executed result before it — EXP-1B,
+EXP-1C, EXP-011/012/014, EXP-022A, §45 — tracked with the box absent from Isaac and replayed the
+achieved states against our collision model. Six launches of 32 over the **same 64 archived
+EXP-021 references EXP-022A tracked**, physics seed 0, one rollout per reference, 192 rollouts
+requested and 192 returned, no new ARDY samples and no seeds spent. All three arms — including
+the obstacle-absent control — ran on the patched worktree `/home/linjiw/lucid/GR00T-WBC-exp029`
+(branch `exp029-obstacle-present`, contains `7c63c53`), which declares its own tracker baseline
+rather than asserting EXP-022A's `44e98c45…` manifest. Scene: start (0, 0), goal (7.2, 0),
+corridor half-width 1.4 m, box at x = 1.2 m, depth 0.20 m, width 2.8 m from
+`stepover_eval.step_scene`, carried as per-motion `table_pos`/`table_quat` inside the motion
+pickle (§47). Ledger `outputs/exp030_obstacle_present/` (`receipt.json`, `summary.json`,
+192-row `rows.jsonl`).
+
+**Outcome classes over all 64 assigned trials per arm** (`summary.arms`; the precedence is
+`rejected > fell > collided_obstacle > collided_wall > cutoff > timeout > stalled > completed`,
+and nothing was rejected, nothing fell and nothing hit a corridor wall in any arm):
+
+| arm | obstacle | completed | evaluator cutoff | stalled | collided with the box |
+|---|---|---|---|---|---|
+| `absent` | none | **1** | 54 | 9 | 0 |
+| `present_05` | 5 cm box at x = 1.2 m | **0** | 44 | 0 | 20 |
+| `present_20` | 20 cm box at x = 1.2 m | **0** | 34 | 0 | 30 |
+
+**Local traversal completion is now measured, not inferred: 0 of 64 with the obstacle present**
+(Wilson 0–0.057 at both heights), against **1 of 64 without it** (Wilson 0.003–0.083; the
+completing reference is `s4434`). That single completion is what gives the zero its meaning: the
+controller can carry one of these references down this route to the goal, and the obstacle is
+what removes that. Local traversal, not navigation — the endpoint requires passing the obstacle
+**inside the corridor**, so walking around would have been a failure, and no rate here is a
+navigation success rate.
+
+**The three preregistered predictions all held** (`summary.predictions`).
+
+*P1, the control (threshold ≥ 58/64).* The `absent` arm reproduces EXP-022A on **63 of 64**
+termination flags; the terminated counts are 53 (EXP-022A) and 54 (EXP-030 `absent`), and the one
+disagreement is `s4459` (397 valid frames and uncut in EXP-022A, cut off at 120 here). Valid-frame
+counts agree on 54 of 64 (0.844, 0.736–0.913) and are reported alongside; the preregistered rule
+was the flag. So the fork fix and the run conditions are inert at the resolution this campaign
+needs, and comparison across the two campaigns stands.
+
+*P2, completion.* 0 of 64 in both present arms, as predicted. The prediction carried a
+consequence — any completion would have been the project's first measured local traversal and
+would be named — and none occurred.
+
+*P3, the proxy.* The obstacle-absent replay predicts the obstacle-present class on **63 of 64**
+references: agreement **0.984** (Wilson 0.917–0.997), Cohen's **κ = 0.964** (percentile bootstrap
+over the 64 references, 2000 resamples, seed 30, no degenerate resample; CI 0.882–1.0), against a
+preregistered floor of 0.80 agreement and κ ≥ 0.6. Confusion, replay-inferred class in rows and
+physics-measured class in columns (`summary.q1_proxy_check.confusion`):
+
+| replay-inferred ↓ / physics-measured → | collided with the box | evaluator cutoff |
+|---|---|---|
+| collided with the box (21) | 20 | 1 |
+| evaluator cutoff (43) | 0 | 43 |
+
+Per class, agreement of the measured label is 20/20 for collision and 43/44 for the cutoff. The
+single disagreement is `s4410`, whose replay intersection was the shallowest in the pool (1.8 cm
+into the margin-inflated box) and which the physics arm merely cut off: the proxy's one error sits
+at its own margin.
+
+**How much the obstacle changed the rollout** (`summary.paired_progress_change`, `absent` minus
+`present_05` maximum achieved root x, all 64 paired, none excluded): median **0.0 m**, IQR width
+0.5 mm, **8 of 64** references losing more than 0.05 m of progress (`s4408`, `s4418`, `s4419`,
+`s4428`, `s4440`, `s4452`, `s4453`, `s4463`), maximum +3.93 m and minimum **−4.52 m**. The median
+of zero is the expected shape, not a null result: most of these rollouts are cut off in the first
+metre and never reach x = 1.2 m, so the box cannot touch them. Where the robot did get there the
+effect is large and it runs both ways — `s4463` loses 3.94 m (5.28 → 1.34 m) and `s4459` gains
+4.52 m (1.73 → 6.25 m), its rollout running the full 397 samples uncut with the box present after
+being cut off at 120 without it.
+
+**What "collided with the box" means here, and it is not what it meant in §45.** The box was
+physically in the scene, so these achieved states were produced by a robot that ran into a real
+obstacle and was stopped by it — not by a replay of a motion recorded in an empty world. The
+signature is in the depths: in the present arms the penetration into the margin-inflated box
+piles up **at** the 4 cm margin (18 of the 20 collisions at 5 cm lie in 0.040–0.055 m and 25 of
+the 30 at the 20 cm height in 0.040–0.068 m, i.e. the collision primitives are essentially
+resting on the box surface), whereas the obstacle-absent replay of the same references drives 19
+of its 21 intersections to 0.062–0.075 m, through the volume the box would have occupied. **The
+class is still scored by the same conservative model** (`traversal_eval.evaluate_traversal` →
+`G1Body.trajectory_report`, with every scene box inflated by `BODY_MARGIN` = 4 cm). No table
+contact sensor was instantiated in this configuration — the table-to-robot sensor lives inside the
+`add_object` branch, which EXP-030 does not enable (and `add_object=true` still fails on the
+missing `data/wheelchair.usd`, §47), and the hand sensor needs a 43-dof/hand robot type — so
+physical sensor contact was not measured at all here, and §44's three quantities stand with the
+sensor one still unavailable: physical sensor contact, replay-clearance violation and floor
+contact remain distinct, and this campaign reports the second, measured under physics with the
+obstacle present. Collisions shallower than the 4 cm
+margin may not be primitive contact at all: two of the twenty at 5 cm (`s4462` at 2.7 cm, also
+cut off, and `s4434` at 3.6 cm) and five of the thirty at 20 cm (0.0015–0.0195 m). One of them
+matters for the headline: **`s4434` is the one reference that reached the goal inside the
+corridor, uncut, in the 5 cm arm** (397 frames, final goal distance 0.44 m) and is classified
+`collided_obstacle` only because collision outranks completion. P2's zero at 5 cm therefore rests
+on a margin violation for that reference; settling it needs a contact-sensor path that does not
+yet exist.
+
+**What it licenses.** Two things, and only these. First, local traversal completion has been
+**measured** with a real obstacle and it is zero, with an obstacle-absent control that completes
+once, so the zero is attributable to the obstacle rather than to the route or the controller
+being unable to walk it. Second, the obstacle-absent replay endpoint that every earlier executed
+result in this paper depends on is **validated against physics on this pool** (0.984, κ 0.964),
+so those results keep their meaning instead of inheriting a stated caveat about a proxy nobody had
+tested.
+
+**What it does not license.** No claim of a traversal system. No generalisation beyond this route,
+this scene and this obstacle position — one physics seed, one rollout per reference, one prompt
+family. Nothing about ducking. The proxy is validated on 64 references from one pool at one box
+height, not as a general property of replay scoring. And the completion zero is an outcome for
+*these* references under *this* controller, not a statement that the task is impossible.
+
+**Scope to state whenever the numbers are quoted.** Scored under `traversal_eval` **version 1**
+(recorded as `summary.scene.evaluator_version`); a re-score under the corrected evaluator is a
+separate versioned analysis and must say so. The **timeout class is "not assessed", not zero**:
+no wall-clock deadline was preregistered (`time_limit_s: null`), so its count of zero carries no
+information. Rates are over all 64 assigned trials per arm, never over an executed or accepted
+subset, so rejecting references could not read as success. "Cut off" is the tracker evaluator's
+stopping rule, not a fall — nothing in any arm met the fall criterion.

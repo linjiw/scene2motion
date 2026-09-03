@@ -91,10 +91,15 @@ reader's main explanation of the paper.
   position chosen to fit the clip. exp021: 12 of 64 at 5 cm, 11 of 64 at 8 cm, at x = 1.2 m; the
   position was selected after inspecting the clips and is fixed for the replication.
 - **Support test.** A foot meets it at a frame when its sole is within 4.65 cm of the ground and
-  its planar speed is below 1.18 m/s (calibrated on tracker-successful references before any
-  stepping experiment). The **reference screen** rejects a reference whose longest period with
-  neither foot meeting the test exceeds 0.20 s. It predicts the controller evaluator's stopping
-  rule. It does not establish zero contact force, a fall, or physical impossibility.
+  its planar speed is below 1.18 m/s. The thresholds were calibrated on **284 clips from the
+  control arms of the earlier position-channel study** — the **144** model references at 25 fps
+  together with the **140** rollouts the controller completed from them, recorded at 50 Hz — and
+  frozen before the step-prompted references were generated
+  (`outputs/exp016_threshold_calibration/receipt.json`). All 144 control references are in the
+  corpus, including the four whose rollouts were cut off, so "calibrated on tracker-successful
+  references" overstates it: only the achieved half of the corpus was selected that way.
+  The **reference screen** rejects a reference whose longest period with neither foot meeting the
+  test exceeds 0.20 s. It predicts the controller evaluator's stopping rule. It does not establish zero contact force, a fall, or physical impossibility.
 - **Valid step passing the support test** (EXP-024 column). A locally valid step by the 13-gate
   evaluator *and* no period over 0.20 s outside the support test. 0 of 32 in every arm, while
   33 of 128 pass the screen alone.
@@ -106,9 +111,14 @@ reader's main explanation of the paper.
   collision-free at the graded height, and satisfies the stated termination rule. A geometry
   query alone is not this endpoint: a robot that stops before the box looks collision-free.
   exp021/EXP-022A: 0 of 64, and still zero with the termination condition removed.
-- **Local traversal completion** (the endpoint EXP-029 will use, with the obstacle present in
+- **Local traversal completion** (the endpoint EXP-030 used, with the obstacle present in
   the physics scene): passes through the specified corridor, finishes beyond the obstacle, no
-  prohibited contact, no fall, within the time limit. Never yet measured.
+  prohibited contact, no fall, within the time limit. **Measured 2026-09-03 (EXP-030, REPORT §48,
+  `outputs/exp030_obstacle_present/`)** on the 64 archived exp021 references, physics seed 0, one
+  rollout each: **0 of 64 with a 5 cm box and 0 of 64 with a 20 cm box at x = 1.2 m** (Wilson
+  0–0.057), against **1 of 64 in the obstacle-absent control arm**, which is what makes the zero
+  attributable to the obstacle. `traversal_eval` version 1; no time limit was configured, so the
+  timeout class is "not assessed" rather than zero; one route, one scene, one obstacle position.
 - **Upright at the last archived state.** Pelvis height 0.56–0.95 m at the final frame, none
   below 0.5 m. Say exactly this; do not say "did not fall".
 
@@ -121,7 +131,7 @@ reader's main explanation of the paper.
 | collision-free reference | 12/64 | TCN 72.9 % → 99.3 % after two corrections |
 | completed tracking run | 11/64 | not evaluated under a usable protocol |
 | clearance preserved after tracking | 0/64 | 0/859 under a protocol confounded by a 14 s clip cap |
-| local traversal completion, obstacle present | not tested | not tested (EXP-029) |
+| local traversal completion, obstacle present | EXP-030: 0/64 at 5 cm, 0/64 at 20 cm (its obstacle-*absent* control arm, a different level, completes 1/64) | not tested |
 
 ## Metrics discipline
 

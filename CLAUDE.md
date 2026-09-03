@@ -47,7 +47,7 @@ verified data engine) reconciled against receipts in `docs/framing-2026-09-02-co
 Gate thresholds: the calibrated gate flags `max_unsupported_run_s > 0.20 s` (≥ 6 frames); the post hoc
 optimum is `> 0.28 s` = **≥ 0.32 s = 8 frames** (51/53, 11/11) — writing it "> 0.32 s" gives 46/53.
 
-## State of the research (2026-09-01)
+## State of the research (2026-09-01, EXP-030 added 2026-09-03)
 
 **Landed finding (kinematic, v2 sampler).** Under the STEP prompt ("A person steps over an
 obstacle."), 44/64 exp021 clips lift the leading foot over a whole-body-clearable box of ≥ 3 cm
@@ -146,9 +146,34 @@ inside the motion pickle**. The checkout crashed on `add_table` without `add_obj
 (`right_hand_wrist_links` unbound); the fix keeps the table-to-robot contact sensor inside the
 `add_object` branch. Measured: a 0.30 m box at x = 0.5 m stops the robot in front of it (s4434
 walks 6.06 m uncut without the box, stops at 0.29 m cut off with it). That file is in the pinned
-SONIC core manifest, so **EXP-028/EXP-024 must run against the unpatched tracker and EXP-029
-against the patched one with its own baseline.** Host RAM (~6.8 GiB per launch), not VRAM
-(~3.8 GiB), is the binding resource; an unguarded launch OOM-killed a browser.
+SONIC core manifest, so **EXP-028/EXP-024 must run against the unpatched tracker and
+EXP-029/EXP-030 against the patched one with their own baseline.** Host RAM (~6.8 GiB per
+launch), not VRAM (~3.8 GiB), is the binding resource; an unguarded launch OOM-killed a browser.
+
+**EXP-030 landed — the first campaign with the obstacle in the physics scene (2026-09-03,
+REPORT §48, `outputs/exp030_obstacle_present/`).** Six launches of 32 over the same 64 archived
+EXP-021 references EXP-022A tracked, physics seed 0, one rollout each, all three arms on the
+patched worktree. Two results the next agent must not re-derive:
+**(1) local traversal completion is now MEASURED, not inferred — 0/64 with a 5 cm box and 0/64
+with a 20 cm box, against 1/64 (`s4434`) in the obstacle-absent control**, which is what makes the
+zero attributable to the obstacle rather than to the route. Classes over all 64 assigned trials:
+absent 1 completed / 54 cutoff / 9 stalled / 0 collided; present_05 0 / 44 / 0 / 20; present_20
+0 / 34 / 0 / 30. Nothing fell, nothing hit a wall; **timeout is "not assessed", not zero** (no
+deadline configured). **(2) the obstacle-absent replay proxy is validated on this pool** — it
+predicts the obstacle-present class on 63/64, agreement 0.984 (Wilson 0.917–0.997), κ 0.964
+(bootstrap 0.882–1.0); the one miss (`s4410`) is the shallowest replay intersection. So every
+earlier replay-scored executed result keeps its meaning instead of inheriting a proxy caveat. The
+`absent` arm also reproduces EXP-022A on 63/64 termination flags, so the fork fix is inert. Paired
+progress (absent − present_05 max root x): median 0 m, 8/64 lose > 0.05 m, extremes +3.93/−4.52 m.
+Scored under `traversal_eval` **version 1** (`summary.scene.evaluator_version`); a re-score under
+the corrected evaluator is a separate versioned analysis. **`collided_obstacle` means something
+different here than in §45:** the box was physically present and stopped the robot (penetrations
+pile up at the 4 cm margin, i.e. on the box surface) instead of a replayed motion passing through
+an absent box — say so wherever the two are compared. It is still the conservative clearance
+model, not the table contact sensor (still unread), and two of the twenty 5 cm collisions are
+sub-margin, one being `s4434`, which otherwise reached the goal inside the corridor uncut. Not
+licensed: any traversal system, any generalisation beyond this route / scene / obstacle position,
+anything about ducking; one physics seed, one rollout per reference.
 
 **Dead lines — do not propose again as the next native-interface experiment:** coherent packets /
 RepairNet / local response optimizer / re-anchoring through the unread rotation packet; route
@@ -212,10 +237,11 @@ $S2M_PY experiments/exp021_elicited_lift_distribution.py --out outputs/<new_dir>
   `experiments/exp011_tracked_addressability.py::run_sonic`; callback
   `scene2motion.sonic_state_export.SonicStateExportCallback`. 52–94 s per ≤36-env launch.
   Free ARDY from the GPU before launching Isaac (`del runner; gc.collect(); torch.cuda.empty_cache()`).
-  **The obstacle is absent from Isaac in every existing SONIC path**: "executed clearance" means
-  achieved qpos replayed against our collision model. SONIC eval terrain is a mm-rough trimesh
-  (`sonic_release/config.yaml: terrain_type: trimesh`). A floor box could be spawned via SONIC's
-  `add_table` CuboidCfg path (unvalidated).
+  **The obstacle is absent from Isaac in every SONIC path except EXP-030**: outside it, "executed
+  clearance" means achieved qpos replayed against our collision model. SONIC eval terrain is a
+  mm-rough trimesh (`sonic_release/config.yaml: terrain_type: trimesh`). A floor box **is** spawned
+  via SONIC's `add_table` CuboidCfg path — validated and used by EXP-030 on the patched worktree
+  (per-motion `table_pos`/`table_quat` in the motion pickle; REPORT §47–48).
 - **Findings page**: `$S2M_PY experiments/export_demo_motions.py` →
   `MUJOCO_GL=glfw $S2M_PY experiments/render_demo_videos.py` (EGL/OSMesa fail here; needs ffmpeg) →
   `$S2M_PY docs/site/build.py` → `docs/site/index.html` + `artifact.html`.

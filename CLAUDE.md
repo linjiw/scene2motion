@@ -127,7 +127,15 @@ clips, 9 survivors) AUC 0.92; cross-family logistic 0.92/0.90. The exp1c **contr
 gate's calibration corpus (tracker-successful selection; 59/144 advanced < 1 m) and carry no
 predictive claim. Scope: physics seed 0, one rollout per clip, achieved-state replay, one scene;
 label it post hoc — **EXP-024 is its prospective test and EXP-028 (terminations disabled) gives
-the physical outcome class.** The exp023 `step_0` fresh-seed events show the same runs
+the physical outcome class.** **Cross-behaviour transfer (EXP-026, 2026-09-03, CPU,
+`outputs/analysis_duck_contract/`):** on the 526 duck references (crouches from a different
+pipeline; 344 of the first rollouts terminated) the longest no-support run ranks cutoffs at
+**0.674 pooled (0.625–0.721)** and **0.694 within scene**, above 0.5 in **all seven** strata,
+while the speed confound the plan feared is **refuted** (0.441, CI spans chance; survivors are
+*faster*) and crouch depth is largely between-scene (0.707 → 0.565). Contact vs speed r = −0.18.
+So the screen is not a stepping artefact — but it is much weaker here and is **not** a duck
+accept/reject rule (specificity 0.297; 441/526 duck references are floats).
+The exp023 `step_0` fresh-seed events show the same runs
 (0.16–1.76 s) but were not tracked. Tracked v2 step-family references: 352 (64 + 288), not 416;
 v2 generations: 5,393 (5,361 + EXP-023's 32).
 
@@ -162,9 +170,10 @@ replace accepted frames with the model's re-encoded/reconstructed history.
 | `scene2motion/traversal_eval.py` | scene-level endpoint: start/goal/obstacles -> outcome (`completed`/`collided_obstacle`/`collided_wall`/`fell`/`cutoff`/`timeout`/`stalled`/`rejected`); corridor rule makes walking around a failure; rates over ALL assigned trials; EXP-028's fall constants, `exp022.score_trajectory` untouched |
 | `scene2motion/scenes.py`, `planner.py`, `program.py` | Phase-1 scene families, A* over (x, y, body mode), 43-D constraint program (frozen audit representation) |
 | `scene2motion/verify/`, `optim/`, `learn/`, `demo/` | Phase 2–4 duck-under-beam stack: generate→verify→repair→select loop, QP scheduler, TCN, demo app; v1-era except `phase4e_architecture_v2_s8` |
-| `experiments/` | one script per campaign; each writes `rows.jsonl` + `receipt.json` (exact sample accounting). Post hoc CPU analysers: `analyze_trackability_contract.py` (float + gate), `analyze_exact_centre_cost_curve.py` (A0c), `analyze_event_frames.py` (A0a); figure scripts `fig_contract_gate.py` (Fig. 5), `fig_cost_curve.py` (Fig. 4) read committed outputs only and run under `/home/linjiw/isaaclab-install/env_isaaclab/bin/python` (the only local interpreter with matplotlib; `$S2M_PY` has none) |
+| `experiments/` | one script per campaign; each writes `rows.jsonl` + `receipt.json` (exact sample accounting). Post hoc CPU analysers: `analyze_trackability_contract.py` (float + gate), `analyze_exact_centre_cost_curve.py` (A0c), `analyze_event_frames.py` (A0a), `analyze_duck_contract.py` (EXP-026), `analyze_pool_coverage.py`, `analyze_traversal_outcomes.py`; figure scripts `fig_contract_gate.py` (Fig. 5), `fig_cost_curve.py` (Fig. 4) read committed outputs only and run under `/home/linjiw/isaaclab-install/env_isaaclab/bin/python` (the only local interpreter with matplotlib; `$S2M_PY` has none) |
 | `scene2motion/host_gate.py` | shared host-resource gate (≥ 12 GiB free VRAM, ≥ 18 GiB available RAM, no Isaac process for SONIC); every EXP-02x driver calls it before touching `--out` and binds the report |
 | `outputs/<campaign>/` | receipts, rows, `qpos.npz` archives (every clip, including gate failures) |
+| `scene2motion/demo_outputs/clips` | **the duck-family reference cache** (8,978 content-addressed `.npy`+`.json` pairs, cache v2): the only surviving copy of EXP-1B's 526 duck references, keyed by `clip_key` in `outputs/exp1b_execution_clearance_v2/rows.jsonl` (the `run/` cache and the exp1b achieved archives are gone). Do not delete; EXP-026 depends on it |
 | `docs/REPORT.md` | research ledger §1–39 (§35–39 current); `docs/design.md` is the pre-RAMP log |
 | `docs/site/` | findings page ("When the Prior Steps"); build chain below |
 | `docs/ramp-*.md` | preregistered protocols, results, refusals of the RAMP campaigns |

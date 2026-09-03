@@ -120,11 +120,22 @@ check_outputs_launchable() {
     refuse "$EXP024_OUT/receipt.json is missing; EXP-024's frozen predictions must exist first"
 }
 
+# Isaac processes that are not this script's own shells.  A shell whose command line merely
+# mentions the interpreter path is not a running simulator; a real one, LUCID's included, is.
+isaac_process_count() {
+  others_running 'env_isaaclab|isaacsim|eval_agent_trl' | wc -w
+}
+
 gates_pass() {
   local vram ram isaac
   vram=$(nvidia-smi --query-gpu=memory.free --format=csv,noheader,nounits 2>/dev/null | head -1)
   ram=$(awk '/MemAvailable/{print int($2/1024)}' /proc/meminfo)
-  isaac=$(pgrep -c -f 'env_isaaclab|isaacsim|eval_agent_trl' 2>/dev/null || echo 0)
+  # `pgrep -c` prints 0 AND exits non-zero when nothing matches, so the old `|| echo 0` appended
+  # a SECOND zero.  Every integer test below then failed with "integer expression expected",
+  # gates_pass could never return true, and the chain would have waited out its entire timeout
+  # on a host that already satisfied every gate -- a silent 12-hour stall reported as "WAIT".
+  isaac=$(isaac_process_count)
+  isaac=${isaac:-0}
   LAST_GATE="vram=${vram:-0}MiB ram=${ram:-0}MiB isaac=${isaac}"
   [ "${vram:-0}" -ge "$MIN_VRAM_MIB" ] && [ "${ram:-0}" -ge "$MIN_RAM_MIB" ] && [ "$isaac" -eq 0 ]
 }

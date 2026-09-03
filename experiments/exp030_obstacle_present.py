@@ -91,6 +91,18 @@ FAILURE_SCHEMA_VERSION = "exp030-obstacle-present-failure-v1"
 PROCESS_RESULT_SCHEMA = "exp030-sonic-process-result-v1"
 STAGES = ("launch", "analyze", "all")
 
+
+def evaluator_version() -> int:
+    """Which ``traversal_eval`` scored this run, recorded rather than assumed.
+
+    The outcome evaluator gained a version marker only in a later revision.  The **launch** stage
+    is independent of it — the six SONIC rollouts are the same whichever evaluator later reads
+    them — so the driver must not refuse to launch merely because the marker is absent.  The
+    receipt therefore records the version actually used, defaulting to 1, and the analysis stage
+    is free to be re-run under a newer evaluator as a separate, versioned analysis.
+    """
+    return int(getattr(te, "EVALUATOR_VERSION", 1))
+
 # ------------------------------------------------------------------ locked external identities
 EXPECTED_CHECKPOINT_SHA256 = e28.EXPECTED_CHECKPOINT_SHA256
 EXPECTED_G1_XML_SHA256 = e28.EXPECTED_G1_XML_SHA256
@@ -1058,7 +1070,7 @@ def _zero_length_record(rollout: Any, scene: Any) -> dict[str, Any]:
     """
     return {
         "outcome": "cutoff" if rollout.terminated else "stalled",
-        "evaluator_version": te.EVALUATOR_VERSION, "executed": True,
+        "evaluator_version": evaluator_version(), "executed": True,
         "zero_length_archive": True, "scene_id": scene.scene_id, "samples": 0,
         "duration_s": 0.0, "tracker_terminated": bool(rollout.terminated),
         "collided_obstacle": False, "collided_wall": False, "fell": False, "timed_out": False,
@@ -1417,7 +1429,7 @@ def summarise(rows: Sequence[Mapping[str, Any]],
             "time_limit_s": None,
             "timeout_note": ("no wall-clock deadline was preregistered, so the timeout class is "
                              "not assessed and its count of zero means 'not assessed'"),
-            "evaluator_version": te.EVALUATOR_VERSION,
+            "evaluator_version": evaluator_version(),
         },
         "interpretation_guard": (
             "The obstacle was present in the Isaac scene, so 'collided_obstacle' here means the "
@@ -1671,7 +1683,7 @@ def run_campaign(
                           "goal_tolerance_m": GOAL_TOLERANCE_M,
                           "corridor_half_width_m": OBSTACLE_HALF_WIDTH_M,
                           "sample_dt_s": SAMPLE_DT_S, "time_limit_s": None,
-                          "evaluator_version": te.EVALUATOR_VERSION,
+                          "evaluator_version": evaluator_version(),
                           "outcome_precedence": list(te.OUTCOMES)},
                 "env_spacing_m": ENV_SPACING_M, "episode_length_s": EPISODE_LENGTH_S,
                 "num_envs": exp022.CHUNK_SIZE, "physics_seed": PHYSICS_SEED,

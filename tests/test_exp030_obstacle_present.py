@@ -907,3 +907,12 @@ def test_locked_design_constants_match_the_protocol():
     assert "EXPECTED_CORE_MANIFEST_SHA256" not in dir(x)
     protocol = x.protocol_identity()
     assert protocol["status"] == "preregistered" and len(protocol["sha256"]) == 64
+
+
+def test_evaluator_version_is_recorded_not_assumed(monkeypatch):
+    """The launch stage must not depend on a marker a later evaluator revision introduced."""
+    import scene2motion.traversal_eval as te
+    monkeypatch.delattr(te, "EVALUATOR_VERSION", raising=False)
+    assert x.evaluator_version() == 1
+    monkeypatch.setattr(te, "EVALUATOR_VERSION", 2, raising=False)
+    assert x.evaluator_version() == 2

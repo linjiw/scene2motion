@@ -9,6 +9,7 @@ Claude Artifact (no `<!doctype>` wrapper; the host supplies it).
 ```
 $S2M_PY experiments/export_demo_motions.py           # skeleton tracks from archives
 MUJOCO_GL=glfw $S2M_PY experiments/render_demo_videos.py   # MuJoCo simulation video
+MUJOCO_GL=egl $S2M_PY experiments/render_step_repair_demo.py --out docs/media
 $S2M_PY docs/site/make_payload.py                    # tracks + videos + chart numbers -> _payload.js
 $S2M_PY docs/site/build.py                           # concatenate -> index/artifact
 ```
@@ -16,9 +17,12 @@ $S2M_PY docs/site/build.py                           # concatenate -> index/arti
 Only the last two steps are needed when the prose or a chart number changes; the first two
 touch the archives and the renderer.
 
-Rendering needs `MUJOCO_GL=glfw` (EGL and OSMesa both fail on this box) and `ffmpeg`. The
-five clips encode to ~0.55 MB total, small enough to inline as data URIs; the artifact
-limit is 16 MB and the built page is under 1 MB.
+Rendering needs `ffmpeg` and a working MuJoCo OpenGL backend. The original five inline clips
+were built with `MUJOCO_GL=glfw`; the standalone EXP-031 reference-repair comparison is
+headless-safe with `MUJOCO_GL=egl` on this host. The five inline clips encode to ~0.55 MB total,
+small enough to inline as data URIs; the artifact limit is 16 MB and the built page is under
+1 MB. The two externally linked evidence videos live under `docs/media/` with manifests beside
+them.
 
 The two charts are read by `make_payload.py` straight out of the committed analysis
 ledgers — the event-time histogram from `outputs/analysis_event_frames/receipt.json`, the

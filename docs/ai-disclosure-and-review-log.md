@@ -55,4 +55,5 @@ section; figures one row each; the released dataset README one row.
 | 2026-09-03 | `experiments/analyze_duck_contract.py` + `outputs/analysis_duck_contract/` | Claude | EXP-1B rows, the 526-clip duck cache, exp016 threshold receipt (all hashed in the receipt) | | | post hoc on a completed campaign; 23 tests |
 | 2026-09-03 | `docs/ramp-exp026-duck-contract-result-2026-09-03.md`, REPORT §46 | Claude | `outputs/analysis_duck_contract/receipt.json` | | | speed confound refuted; transfer weak |
 | 2026-09-03 | `experiments/fig_screen_across_families.py` → `docs/figures/fig6_screen_across_families.*` | Claude | the two contract receipts (hashes in `fig6_numbers.json`) | | | reads committed outputs only |
-
+| 2026-09-03 | `docs/index.html` and `docs/site/*` constructive-method/evidence revision | Codex, using the local Xiao review/writing rubrics | EXP-030 receipt and media manifest; EXP-031 protocol/tests; `docs/media/step_repair_manifest.json`; Scene2Motion-DB preview receipt | | | six evidence levels preserved; new repair video explicitly reference-only; no traversal claim |
+| 2026-09-03 | `experiments/render_step_repair_demo.py` → `docs/media/s4434_reference_repair.{mp4,png}` + manifest | Codex | EXP-021 qpos hash; frozen EXP-031 candidate hash and full repair record | | | MuJoCo FK replay only; not SONIC; true-size box shown, 4 cm scoring margin stated |

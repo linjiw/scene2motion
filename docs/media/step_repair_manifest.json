@@ -1,0 +1,276 @@
+{
+  "evidence_level": "reference_geometry_only",
+  "files": {
+    "poster": {
+      "bytes": 132568,
+      "path": "docs/media/s4434_reference_repair.png",
+      "sha256": "81fa4b72cde579bbd62fb639874ccf64ef489e1f451f01751767a6713cdd8893",
+      "source_frame": 33
+    },
+    "video": {
+      "bytes": 265616,
+      "path": "docs/media/s4434_reference_repair.mp4",
+      "sha256": "5877011d930301c740b8e554aaefca94c0ffa50c4f238632c8e7de8bba6eb817"
+    }
+  },
+  "motion": {
+    "raw_array_sha256": "77d6081e18f94d575f2c5b366d1edad7d45e154fc0bda9992e40b46928eaf35f",
+    "record": {
+      "accepted": true,
+      "after": {
+        "collision": {
+          "collision_free": true,
+          "culprit_geoms": [
+            "left_foot4_collision",
+            "left_foot5_collision",
+            "left_foot6_collision",
+            "left_foot7_collision",
+            "left_shin",
+            "right_foot1_collision",
+            "right_foot3_collision",
+            "right_foot4_collision",
+            "right_foot5_collision",
+            "right_shin"
+          ],
+          "max_penetration_m": 0.0,
+          "min_clearance_m": 0.0010145638178511527,
+          "penetration_frames": 0,
+          "worst": {
+            "depth_m": 0.0,
+            "frame": -1,
+            "robot_geom": "",
+            "scene_geom": ""
+          }
+        },
+        "max_foot_floor_penetration_m": 0.007108939552553014,
+        "max_joint_speed_rads": 13.215536794612937,
+        "support": {
+          "longest_unsupported_run_frames": 5,
+          "longest_unsupported_run_s": 0.2,
+          "max_allowed_unsupported_run_s": 0.2,
+          "passes": true,
+          "support_height_m": 0.04649341314007449,
+          "support_speed_mps": 1.1753078750567545,
+          "supported_fraction": {
+            "left": 0.455,
+            "right": 0.435
+          }
+        }
+      },
+      "assigned": true,
+      "before": {
+        "collision": {
+          "collision_free": false,
+          "culprit_geoms": [
+            "left_foot4_collision",
+            "left_foot5_collision",
+            "left_foot6_collision",
+            "left_foot7_collision",
+            "left_shin",
+            "right_foot1_collision",
+            "right_foot3_collision",
+            "right_foot4_collision",
+            "right_foot5_collision",
+            "right_shin"
+          ],
+          "max_penetration_m": 0.06895501426629234,
+          "min_clearance_m": -0.06895501426629234,
+          "penetration_frames": 16,
+          "worst": {
+            "depth_m": 0.06895501426629234,
+            "frame": 39,
+            "robot_geom": "left_foot4_collision",
+            "scene_geom": "scene_0_low_box"
+          }
+        },
+        "max_foot_floor_penetration_m": 0.007108939552553014,
+        "max_joint_speed_rads": 13.246715068817139,
+        "support": {
+          "longest_unsupported_run_frames": 4,
+          "longest_unsupported_run_s": 0.16,
+          "max_allowed_unsupported_run_s": 0.2,
+          "passes": true,
+          "support_height_m": 0.04649341314007449,
+          "support_speed_mps": 1.1753078750567545,
+          "supported_fraction": {
+            "left": 0.46,
+            "right": 0.445
+          }
+        }
+      },
+      "candidate_array_sha256": "b6dc740973ad4404c1b3b736683339e3fecf5490de7a7cd6c9ca8c7b50c0fa3e",
+      "candidate_stored": true,
+      "config": {
+        "active_offset_tolerance_m": 0.0001,
+        "clearance_buffer_m": 0.008,
+        "descriptor_weight": 8.0,
+        "joint_delta_smoothing_sigma_frames": 1.0,
+        "joint_fidelity_weight": 0.12,
+        "max_ik_evaluations": 100,
+        "max_ik_target_residual_m": 0.005,
+        "max_joint_delta_rad": 0.5,
+        "max_joint_speed_increase_rads": 2.0,
+        "max_post_smoothing_target_residual_m": 0.025,
+        "numeric_tolerance": 1e-08,
+        "previous_solution_fraction": 0.3,
+        "temporal_continuity_weight": 0.05,
+        "temporal_dilation_frames": 5,
+        "temporal_smoothing_sigma_frames": 1.0
+      },
+      "deformation": {
+        "max_global_joint_speed_change_rads": -0.031178274204201273,
+        "max_ik_target_residual_m": 0.0006454192176842798,
+        "max_leg_joint_delta_rad": 0.21240143470961836,
+        "max_pointwise_joint_acceleration_increase_rads2": 21.040810046563536,
+        "max_pointwise_joint_speed_increase_rads": 1.459695908114289,
+        "max_post_smoothing_target_residual_m": 0.008427132951290498,
+        "root_exactly_unchanged": true,
+        "upper_body_exactly_unchanged": true
+      },
+      "feet": [
+        {
+          "active_first_frame": 30,
+          "active_last_frame": 48,
+          "max_forward_offset_m": 0.07980888267255892,
+          "max_target_residual_m": 0.00040269060811368987,
+          "max_vertical_offset_m": 0.046373866918401244,
+          "n_active_frames": 19,
+          "post_smoothing_max_target_residual_m": 0.005728972420378541,
+          "side": "left",
+          "solver_calls": 19,
+          "solver_successes": 19,
+          "total_function_evaluations": 206
+        },
+        {
+          "active_first_frame": 22,
+          "active_last_frame": 39,
+          "max_forward_offset_m": 0.06177728022354412,
+          "max_target_residual_m": 0.0006454192176842798,
+          "max_vertical_offset_m": 0.025960053713811798,
+          "n_active_frames": 18,
+          "post_smoothing_max_target_residual_m": 0.008427132951290498,
+          "side": "right",
+          "solver_calls": 18,
+          "solver_successes": 18,
+          "total_function_evaluations": 131
+        }
+      ],
+      "joint_delta_smoothing": [
+        {
+          "max_raw_joint_delta_rad": 0.1593876146483748,
+          "max_smoothed_joint_delta_rad": 0.15292074418886997,
+          "side": "left",
+          "sigma_frames": 1.0
+        },
+        {
+          "max_raw_joint_delta_rad": 0.2484328276243133,
+          "max_smoothed_joint_delta_rad": 0.21240143470961836,
+          "side": "right",
+          "sigma_frames": 1.0
+        }
+      ],
+      "method": "obstacle-relative, support-screened foot-envelope IK with smoothed leg-joint deformation; root and upper body unchanged",
+      "motion_key": "s4434",
+      "reasons": [],
+      "scene": {
+        "body_margin_m": 0.04,
+        "obstacle_depth_m": 0.2,
+        "obstacle_height_m": 0.05,
+        "obstacle_x_m": 1.2
+      },
+      "schema_version": "step-foot-envelope-ik-v2",
+      "seed": 4434,
+      "source_array_sha256": "77d6081e18f94d575f2c5b366d1edad7d45e154fc0bda9992e40b46928eaf35f",
+      "source_qpos_content_sha256": "38b145a56771934461217d6b25449d937ed984cb8783bcbf88551b0146c299ba",
+      "status": "accepted",
+      "support_rule": {
+        "max_unsupported_run_s": 0.2,
+        "support_height_m": 0.04649341314007449,
+        "support_speed_mps": 1.1753078750567545
+      }
+    },
+    "repaired_array_sha256": "b6dc740973ad4404c1b3b736683339e3fecf5490de7a7cd6c9ca8c7b50c0fa3e"
+  },
+  "not_evidence_of": [
+    "SONIC tracking",
+    "physical obstacle traversal",
+    "success rate"
+  ],
+  "preexecution_accounting": {
+    "accepted_keys": [
+      "s4408",
+      "s4434"
+    ],
+    "n_accepted_for_execution": 2,
+    "n_assigned_trials": 64,
+    "n_input_support_pass": 8,
+    "n_refused_input_support": 56,
+    "n_rejected_after_projection": 6,
+    "status_counts": {
+      "accepted": 2,
+      "refused": 56,
+      "rejected": 6
+    },
+    "support_passing_keys": [
+      "s4408",
+      "s4411",
+      "s4418",
+      "s4419",
+      "s4434",
+      "s4440",
+      "s4452",
+      "s4459"
+    ]
+  },
+  "renderer": {
+    "engine": "MuJoCo 3.12.0 forward-kinematic replay",
+    "frame_stride": 2,
+    "frames": 100,
+    "gl": "egl",
+    "height": 504,
+    "model": {
+      "path": "/home/linjiw/ardy/ardy/assets/skeletons/g1skel34/xml/g1.xml",
+      "sha256": "5d76cf92f00dd49d6eb9fae38d7d38e46886848b602ac691051e886c3bcccfb1"
+    },
+    "source": {
+      "path": "experiments/render_step_repair_demo.py",
+      "sha256": "5467619446b37dcae91b9113d2db33c9424470d38f3f8a7ae11f87d0884fe55d"
+    },
+    "source_fps": 25.0,
+    "video_fps": 12.5,
+    "width": 1280
+  },
+  "scene": {
+    "body_margin_m_used_for_scoring_not_drawing": 0.04,
+    "drawn_at_true_size": true,
+    "obstacle_depth_m": 0.2,
+    "obstacle_height_m": 0.05,
+    "obstacle_x_m": 1.2
+  },
+  "schema": "scene2motion-step-repair-demo-v1",
+  "selection": {
+    "default_motion_key": "s4434",
+    "historical_outcome_disclosure": {
+      "absent": {
+        "max_root_x_m": 7.632789611816406,
+        "obstacle_in_physics": false,
+        "outcome": "completed",
+        "tracker_terminated": false
+      },
+      "present_05": {
+        "max_root_x_m": 7.6390838623046875,
+        "obstacle_in_physics": true,
+        "outcome": "collided_obstacle",
+        "tracker_terminated": false
+      }
+    },
+    "overridden": false,
+    "rendered_motion_key": "s4434",
+    "rule": "by default, render the only admitted candidate that historically completed the obstacle-absent route; this illustration choice is not an admission rule"
+  },
+  "source_pool": {
+    "n_assigned_references": 64,
+    "path": "outputs/exp021_elicited_lift_distribution_v2/qpos.npz",
+    "sha256": "2a4b34479aa24894b854301d91bafe1ad870dc530b70eed5b6703eb02c284687"
+  }
+}

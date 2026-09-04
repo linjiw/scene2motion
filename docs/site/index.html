@@ -246,6 +246,32 @@ footer code{font-family:var(--f-mono); font-size:.82rem; color:var(--ink-2)}
   after seeing the data are labelled post hoc. Nothing on this page is a hardware result.
 </div>
 
+<!-- ================= EXECUTED EVIDENCE ================= -->
+<section id="execution">
+  <div class="shead"><span class="snum">Executed evidence</span><h2>The same reference, with the box absent and physically present</h2></div>
+  <p class="lede">
+    These are achieved Unitree G1 states from the frozen SONIC controller, not generated
+    references. The three Isaac rollouts share reference s4434, controller, start and physics
+    seed; only the box changes. The middle and right runs are physically obstructed, and neither
+    completes local traversal.
+  </p>
+  <figure class="figure">
+    <video src="../media/s4434_triptych_absent_5cm_20cm.mp4"
+      poster="../media/s4434_triptych_absent_5cm_20cm.png" controls loop muted playsinline
+      preload="metadata" aria-label="SONIC achieved-state rollouts of reference s4434 with no box, a five centimetre box, and a twenty centimetre box"></video>
+    <figcaption>
+      <strong>Obstacle-present execution, shown at its exact evidence level.</strong> Left: the
+      no-box control completes the route; it is not a traversal result. Middle: the 5 cm run
+      enters the obstacle's 4 cm body margin and continues. Right: the 20 cm run enters the
+      margin and the evaluator then cuts it off. Each frame is an archived achieved state
+      replayed in MuJoCo; nothing was re-simulated for this video. The boxes acted in Isaac,
+      while the published contact class is still computed by the whole-body geometry check on
+      those archived states—not by a tracker contact sensor. Provenance:
+      <span class="mono">docs/media/manifest.json</span>.
+    </figcaption>
+  </figure>
+</section>
+
 <!-- ================= THE PROBLEM ================= -->
 <section id="finding">
   <div class="shead"><span class="snum">The problem</span><h2>One motion, two obstacles</h2></div>
@@ -278,7 +304,7 @@ footer code{font-family:var(--f-mono); font-size:.82rem; color:var(--ink-2)}
 
 <!-- ================= EVIDENCE LEVELS ================= -->
 <section id="levels">
-  <div class="shead"><span class="snum">How we count</span><h2>Five evidence levels, reported separately</h2></div>
+  <div class="shead"><span class="snum">How we count</span><h2>Six evidence levels, reported separately</h2></div>
   <p class="lede">
     A collision-free reference, a completed tracking run and a completed traversal are
     different results, and one is never allowed to stand in for the next. Every number on
@@ -327,7 +353,8 @@ footer code{font-family:var(--f-mono); font-size:.82rem; color:var(--ink-2)}
           <td><span class="lab">Local traversal completion</span><br>
             <span class="mono" style="font-size:.76rem;color:var(--ink-3)">obstacle present in the physics scene</span></td>
           <td>passes through the specified corridor with the obstacle in the simulation,
-            finishes beyond it, no prohibited contact, no fall, within the time limit</td>
+            finishes beyond it, no prohibited contact and no fall; no wall-clock deadline was
+            configured, so timeout is not assessed</td>
           <td class="num"><strong>0 / 64</strong><br>
             <span class="mono" style="font-size:.72rem;color:var(--ink-3)">5 cm box; 0 / 64 again at 20 cm</span></td>
           <td><strong>never measured</strong></td>
@@ -707,10 +734,10 @@ footer code{font-family:var(--f-mono); font-size:.82rem; color:var(--ink-2)}
 <section id="repair">
   <div class="shead"><span class="snum">Question 4</span><h2>Does correcting a measured clearance error create a usable candidate?</h2></div>
   <p class="lede">
-    Ducking references admit a correction that stepping does not: their clearance error is
-    scalar and monotone in a control the model actually reads, so a measured error identifies
-    the fix. The adjustment is applied at most twice, remeasured after each step, and rejected
-    with its residual error if the response saturates.
+    Ducking admits a generator-level scalar correction: its clearance error is monotone in a
+    control the model reads, so a measured error identifies a candidate fix. Stepping now has a
+    separate reference-level operator: obstacle-relative, support-screened leg IK. Neither has
+    yet produced an obstacle-present traversal.
   </p>
 
   <div class="tablewrap">
@@ -745,6 +772,28 @@ footer code{font-family:var(--f-mono); font-size:.82rem; color:var(--ink-2)}
     measurement is also untested: a fixed extra-crouch adjustment under the same budget is the
     mechanism test.
   </div>
+
+  <h3 style="margin-top:32px">The stepping repair now reaches the execution gate</h3>
+  <p>
+    Over the complete 64-reference source pool, 56 references are refused because the frozen
+    support screen already fails. Of the eight remaining inputs, six fail a post-projection
+    collision, support, residual or edit-budget gate. Two—s4408 and s4434—are admitted for the
+    paired SONIC experiment. This is a severe bottleneck, but it is also a concrete intervention
+    whose next endpoint is closed-loop execution rather than another verifier score.
+  </p>
+  <figure class="figure">
+    <video src="../media/s4434_reference_repair.mp4"
+      poster="../media/s4434_reference_repair.png" controls loop muted playsinline
+      preload="metadata" aria-label="Raw and repaired reference s4434 rendered against the five centimetre obstacle"></video>
+    <figcaption>
+      <strong>Reference geometry only.</strong> The repair edits twelve leg joints while keeping
+      root, upper body, duration and frame rate unchanged. For s4434 it removes 16 penetrating
+      frames, leaves 1.0 mm scored clearance, passes the support screen at 0.20 s and stays within
+      a 0.212 rad maximum leg-joint edit. The true-size box is drawn; scoring uses the 4 cm body
+      margin. This clip is not SONIC and not a traversal. Full record and hashes:
+      <span class="mono">docs/media/step_repair_manifest.json</span>.
+    </figcaption>
+  </figure>
 </section>
 
 <!-- ================= PROCESS ================= -->
@@ -808,10 +857,12 @@ footer code{font-family:var(--f-mono); font-size:.82rem; color:var(--ink-2)}
       Except where a panel says otherwise, a reference was tracked on open ground and the
       recorded robot states were checked afterwards against the box's geometry, so collision is
       a property of the recorded motion rather than an observed contact. That proxy has since
-      been tested against the real thing. With a contact-sensing box actually in the simulation,
+      been tested against the real thing. With the box physically present in the simulation,
       the same 64 references complete local traversal 0 of 64 times at 5 cm and 0 of 64 at 20 cm,
       against 1 of 64 with no box at all; per reference, the replayed and the felt outcome agree
-      on 63 of 64 at 5 cm. The proxy is faithful, and what it faithfully reports is failure.
+      on 63 of 64 at 5 cm. The outcome label remains a geometry check on archived achieved
+      states, not a tracker contact-sensor label. The proxy is faithful, and what it faithfully
+      reports is failure.
     </p>
     <p>
       <strong>The prospective screen test is unfinished.</strong> The rule is frozen and its
@@ -821,18 +872,19 @@ footer code{font-family:var(--f-mono); font-size:.82rem; color:var(--ink-2)}
       hoc on one corpus, with a directional and much weaker replication on a second family.
     </p>
     <p>
-      <strong>One generator, one controller, one geometry.</strong> One released ARDY-G1
-      checkpoint at its default minimum history, one SONIC checkpoint — the vendor's
-      motion-tracking release — a 20 cm-deep box on a straight route, one scene, physics seed
+      <strong>Two generators scored, one generator executed.</strong> ARDY-G1 and a second
+      released, non-autoregressive G1 prior were both tested at the reference-geometry level.
+      Only ARDY-G1 was tracked by the one released SONIC checkpoint. The stepping execution
+      evidence remains one 20 cm-deep box geometry on a straight route, one scene, physics seed
       0 and one rollout per reference. Longer history crops, the shorter-horizon checkpoint,
-      re-issued prompts, a second controller and a cross-generator replication are all
-      untested.
+      re-issued prompts, a second controller and cross-prior execution are untested.
     </p>
     <p>
-      <strong>Evaluation, not a method.</strong> The strongest current contribution is a
-      measurement of where generated motions fail, plus a correction that improves ducking
-      reference geometry. It is not a demonstrated obstacle-traversal system, and the paper is
-      coherent only if that boundary is kept.
+      <strong>A method at reference level, not yet a traversal system.</strong> The strongest
+      closed evidence remains a measurement of where generated motions fail. Ducking correction
+      improves reference geometry, and the new stepping operator admits two support-screened,
+      obstacle-relative repaired references for paired execution. Neither correction has yet
+      demonstrated obstacle-present traversal, and that boundary must stay explicit.
     </p>
   </div>
 </section>
@@ -853,7 +905,8 @@ footer code{font-family:var(--f-mono); font-size:.82rem; color:var(--ink-2)}
       outputs/analysis_event_frames/ · outputs/analysis_exact_centre_cost_curve/ ·
       outputs/analysis_trackability_contract/ · outputs/analysis_pool_coverage/ ·
       outputs/analysis_traversal_outcomes/ · outputs/analysis_duck_contract/ ·
-      outputs/analysis_repair_paired_bootstrap/ · docs/REPORT.md §31–46</code></p>
+      outputs/analysis_repair_paired_bootstrap/ · docs/media/step_repair_manifest.json ·
+      docs/REPORT.md §31–46</code></p>
   </div>
 </footer>
 

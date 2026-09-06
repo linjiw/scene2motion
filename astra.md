@@ -4,6 +4,15 @@
 
 **Status:** active research plan; proposed experiments below are not preregistered campaigns or reported results. Refer to this file when choosing the next task. Update the work log after each completed milestone, attaching the exact artifact and the decision it changes. Existing campaign protocols and historical receipts retain their own definitions.
 
+**Publication verified (2026-09-05 local / September6 UTC):**
+[GitHub Pages](https://linjiw.github.io/scene2motion/) now serves `gh-pages:/docs`,
+publication commit `42068ae`, research source `e15daab`. Main/companion HTML, CSS,
+public snapshot and publication manifest fetched with HTTP200 and exact export hashes.
+[Release receipt](outputs/astra_site_release_v1/receipt.json). The publication checkout is
+`/tmp/astra-pages-publish-XZsEVW`; future updates must fast-forward that branch, not
+force-push an orphan or publish research master. Only selected docs, JSON and assets
+were uploaded; no motion-payload release. The underlying research objective remains open.
+
 **Newest follow-up (2026-09-05):** the [displacement-sensitivity receipt](outputs/astra_a5_progress_sensitivity_v1/summary.json)
 checks the previous recovery conclusion without choosing a new quality threshold. All17
 fixed3/default local passes advance more than25 cm in the following second;15 exceed50 cm.

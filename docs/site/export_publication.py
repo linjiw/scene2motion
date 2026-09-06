@@ -20,6 +20,7 @@ EXTRA = {
     "docs/execution-aware-step-compiler-v2-plan-2026-09-04.md",
     "scene2motion/recovery_sensitivity.py", "experiments/analyze_astra_a5_progress_sensitivity.py",
     "tests/test_recovery_sensitivity.py", "tests/test_public_progress.py",
+    "outputs/astra_site_release_v1/receipt.json",
 }
 
 
@@ -30,7 +31,7 @@ def allowed(path):
     return (path in EXTRA or path in SOURCES.values()
         or (p.parent.as_posix() == "docs" and p.name.startswith("astra-") and p.suffix == ".md")
         or (p.parent.as_posix() == "docs/site" and p.suffix in {".html", ".css", ".js", ".py", ".md"})
-        or (p.parent.as_posix() in {"docs/figures", "docs/media"} and p.suffix in {".svg", ".png", ".jpg", ".mp4", ".json", ".pdf"}))
+        or (p.parent.as_posix() in {"docs/figures", "docs/media", "docs/assets"} and p.suffix in {".svg", ".png", ".jpg", ".mp4", ".json", ".pdf"}))
 
 
 def export(destination, root=ROOT):

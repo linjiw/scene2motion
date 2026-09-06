@@ -1,7 +1,12 @@
 {
   "files": {
-    "astra.md": "0d62c12cf20f840ee54242aa9aa3c5c5535c69bf04f573245597864e0119f763",
+    "astra.md": "9a22139ba034e8dbf3f6f895d452e1409e189d4aac717baa397e345a73b9109b",
     "docs/.nojekyll": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "docs/assets/commanded.mp4": "9ede7b222ce67b1e0cd62b0e5bdda026d34e423a8ed415743d5a2ddb950c5d1e",
+    "docs/assets/donor.mp4": "3d69bea9e60dbc8084ad13e1108b29d53476f6472572ecc4ef257c7a11cb337b",
+    "docs/assets/packet.mp4": "7f84d82f2d2402da3f2aad0aa2e649d46ecdf48b994f6ca779fb792abda69584",
+    "docs/assets/staged.mp4": "32e6c75920f21f2ac8440829d6c0e004b920bbf700543738234dd032ee82a413",
+    "docs/assets/walk.mp4": "4e52945fbb46e60660139d9c594e071832593be9c5512f40741b7be99bfcbcaf",
     "docs/astra-a1-preflight-2026-09-05.md": "9cd4288a9983e143126f32ddfef89aca8ddaa00f02d9c2e2d64883a5330610c1",
     "docs/astra-a1-protocol.md": "ee25b6a8fbd9c75dbc20693d228f41d9e80c6c08e9b093ea0f418ebdcf554b23",
     "docs/astra-a1-results-2026-09-05.md": "b8635d564d62b88abc3e5c9adb564e8ea842b99181dfefc2bd366038ceb07062",
@@ -88,7 +93,7 @@
     "docs/site/artifact.html": "36bf60a1e133ce520e15a3b2b68448639322bac5873aedeae3841c75e0315709",
     "docs/site/build.py": "f0d978d7dc968b4b9c9d5b37ca5bd3f1db76ee3dbcabd3c20a11d3935e072bda",
     "docs/site/build_progress.py": "4330bc33cc1b17c2743634788d2cb8517679f5d6cf9a5e0d16c18a69726b30e9",
-    "docs/site/export_publication.py": "f173360d150a3920c69be7c1dbec8c8c95a98349e0e7199a60b86f927b9e9677",
+    "docs/site/export_publication.py": "ff06bb133d3a23790c5a9315dd346275db6bebae3fe2ff157ab76d81d80676ea",
     "docs/site/index.html": "57ca0247fed3057047d806ea8da0e57909a9380b26117b53f35f540b1e16e03a",
     "docs/site/make_payload.py": "bfa6594a18d21723894a4707f4c9ffdf02947bb776e74910a59cc24e98b2dc96",
     "docs/site/progress.css": "43347b0c833b81ff7dbf7bc4fd005d8d8008912412396ff64b9fbe7b84f63c80",
@@ -101,12 +106,13 @@
     "outputs/astra_a5_recovery_ceiling_v1/summary.json": "8138e3c6efda454e4850e36750c00d11aeb52526934ed1d4c176769bf2e81bd5",
     "outputs/astra_contact_replay_v2/summary.json": "796d0ed1e9bd906d5abcdd27ac98e66da00f6296a6d81cf807f327a692d83e6f",
     "outputs/astra_contact_validation_v2/summary.json": "4dfc725ba07131125e566f8f17a19c8b112adeb66fedc90f48b225f2c0fa8fe6",
+    "outputs/astra_site_release_v1/receipt.json": "3d3cd897f89e5f4647fb70682e7183a6e524f8c7e4687fed13011749a351c01c",
     "scene2motion/recovery_sensitivity.py": "c5f99a07576fcf5bc8b3a7a8b0eb431734679fb75cb9b750ef410c4fa84d0dc7",
-    "tests/test_public_progress.py": "838b775f08dc37935ef5d77b58dab09cd4045e228fc6f47b4010694854712ee9",
+    "tests/test_public_progress.py": "e88eb4c9b4996606d40d80625ac080e1466f39bb7b33a765541177c905e5be06",
     "tests/test_recovery_sensitivity.py": "bd958a7ffa36bc750aa776efedf6cb56642359f2c1575fd70e2312e59e3095be"
   },
   "motion_payloads_included": false,
-  "research_source_commit": "e15daab79edb57a014b2f1f953d73a1835187985",
+  "research_source_commit": "bf7914021a0e95903b8c7a72f7437be072ea4e5f",
   "schema_version": "scene2motion-pages-export-v1",
   "scope": "static pages, selected result/protocol documents and JSON receipts; not a motion dataset release"
 }

@@ -53,6 +53,7 @@ def test_export_excludes_unreleased_and_unrelated_files(path):
 def test_publication_allows_only_selected_evidence():
     assert allowed("docs/index.html")
     assert allowed("docs/media/s4434_reference_repair.mp4")
+    assert allowed("docs/assets/staged.mp4")
     assert allowed(progress.SOURCES["a5"])
     assert not allowed("outputs/astra_a5_encoder_d0/fixed3.pkl")
 
@@ -83,5 +84,6 @@ def test_static_assets_and_internal_anchors_exist(page):
             continue
         target = path.parent / unquote(value.path) if value.path else path
         assert target.exists(), (page, url)
+        assert allowed(target.resolve().relative_to(ROOT).as_posix()), ("missing from publication allowlist", page, url)
         if not value.path and value.fragment:
             assert value.fragment in parsed.ids, (page, url)

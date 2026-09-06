@@ -1,0 +1,27 @@
+{
+  "schema_version": "scene2motion-live-publication-check-v1",
+  "checked_at_utc": "2026-09-06T03:39:57.702Z",
+  "url": "https://linjiw.github.io/scene2motion/",
+  "pages_source": {"branch": "gh-pages", "path": "/docs"},
+  "previous_pages_source": {"branch": "master", "path": "/docs"},
+  "pages_build_status": "built",
+  "pages_build_updated_at_utc": "2026-09-06T03:39:33Z",
+  "publication_commit": "42068ae2626c4da3f98fca516fdaf0df4c1017c7",
+  "research_source_commit": "e15daab79edb57a014b2f1f953d73a1835187985",
+  "publication_checkout": "/tmp/astra-pages-publish-XZsEVW",
+  "manifest_exported_files": 104,
+  "publication_manifest_added_separately": true,
+  "motion_payloads_included": false,
+  "research_master_pushed": false,
+  "checks": [
+    {"file": "index.html", "http_status": 200, "sha256": "9be443bf20bf7b5ee163d5945c4c1ec7f1870e7e07ca804fd631969cd29cf703", "matches_export": true},
+    {"file": "site/index.html", "http_status": 200, "sha256": "57ca0247fed3057047d806ea8da0e57909a9380b26117b53f35f540b1e16e03a", "matches_export": true},
+    {"file": "site/progress.css", "http_status": 200, "sha256": "43347b0c833b81ff7dbf7bc4fd005d8d8008912412396ff64b9fbe7b84f63c80", "matches_export": true},
+    {"file": "progress.json", "http_status": 200, "sha256": "350ef22be11c631df05ad917e1e20f19faf54e475953be02ba80a34e1f500937", "matches_export": true},
+    {"file": "publication.json", "http_status": 200, "sha256": "d2df42a6bc2a03a772f4a79c136083deddde92541c043f202804eb43eeb7e37e", "matches_export": true}
+  ],
+  "full_cpu_tests_passed": 1185,
+  "full_cpu_test_elapsed_s": 211.46,
+  "focused_tests_passed": 23,
+  "pass": true
+}

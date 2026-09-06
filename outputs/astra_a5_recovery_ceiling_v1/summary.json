@@ -1,0 +1,195 @@
+{
+  "analysis_source_sha256": "624a676ab7e5725b754477a23631c8fe7706f61ef5e3b593582093df85c07cbf",
+  "assigned_slots": 32,
+  "assigned_units": 8,
+  "fixed3_passes": 17,
+  "high_quality_motion_qualified": null,
+  "input_hashes": {
+    "/home/linjiw/scene2motion/outputs/astra_a5_bank_selection_v1/summary.json": "924e425d823576418d6083b724ac7ec369281ff464f20e8454c9b3db71a023d7",
+    "/home/linjiw/scene2motion/outputs/astra_a5_recovery_audit_v1/summary.json": "7cded05bcd1bee4f84a3598f4c18bb0e3ed47dd5d423403c407580f4810fa5e9"
+  },
+  "new_executions": 0,
+  "schema_version": "astra-a5-recovery-ceiling-v1",
+  "scope": "post-hoc conjunction of original local passage and observed one-second kinematic recovery, not quality/contact certification",
+  "selected_passes": 17,
+  "slotwise_oracle_passes": 17,
+  "unit_fixed_hold_oracle_passes": 17,
+  "units": [
+    {
+      "fixed3_passes": 3,
+      "operational_and_recovery": {
+        "fixed2": [
+          false,
+          false,
+          false,
+          false
+        ],
+        "fixed3": [
+          false,
+          true,
+          true,
+          true
+        ]
+      },
+      "selected_arm": "fixed3",
+      "selected_passes": 3,
+      "slotwise_oracle_passes": 3,
+      "unit_fixed_hold_oracle_passes": 3,
+      "unit_id": "a5u0"
+    },
+    {
+      "fixed3_passes": 0,
+      "operational_and_recovery": {
+        "fixed2": [
+          false,
+          false,
+          false,
+          false
+        ],
+        "fixed3": [
+          false,
+          false,
+          false,
+          false
+        ]
+      },
+      "selected_arm": "fixed2",
+      "selected_passes": 0,
+      "slotwise_oracle_passes": 0,
+      "unit_fixed_hold_oracle_passes": 0,
+      "unit_id": "a5u1"
+    },
+    {
+      "fixed3_passes": 4,
+      "operational_and_recovery": {
+        "fixed2": [
+          true,
+          true,
+          true,
+          true
+        ],
+        "fixed3": [
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      "selected_arm": "fixed3",
+      "selected_passes": 4,
+      "slotwise_oracle_passes": 4,
+      "unit_fixed_hold_oracle_passes": 4,
+      "unit_id": "a5u2"
+    },
+    {
+      "fixed3_passes": 0,
+      "operational_and_recovery": {
+        "fixed2": [
+          false,
+          false,
+          false,
+          false
+        ],
+        "fixed3": [
+          false,
+          false,
+          false,
+          false
+        ]
+      },
+      "selected_arm": "fixed2",
+      "selected_passes": 0,
+      "slotwise_oracle_passes": 0,
+      "unit_fixed_hold_oracle_passes": 0,
+      "unit_id": "a5u3"
+    },
+    {
+      "fixed3_passes": 1,
+      "operational_and_recovery": {
+        "fixed2": [
+          true,
+          false,
+          false,
+          false
+        ],
+        "fixed3": [
+          true,
+          false,
+          false,
+          false
+        ]
+      },
+      "selected_arm": "fixed3",
+      "selected_passes": 1,
+      "slotwise_oracle_passes": 1,
+      "unit_fixed_hold_oracle_passes": 1,
+      "unit_id": "a5u4"
+    },
+    {
+      "fixed3_passes": 4,
+      "operational_and_recovery": {
+        "fixed2": [
+          true,
+          true,
+          true,
+          true
+        ],
+        "fixed3": [
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      "selected_arm": "fixed3",
+      "selected_passes": 4,
+      "slotwise_oracle_passes": 4,
+      "unit_fixed_hold_oracle_passes": 4,
+      "unit_id": "a5u5"
+    },
+    {
+      "fixed3_passes": 1,
+      "operational_and_recovery": {
+        "fixed2": [
+          false,
+          false,
+          false,
+          false
+        ],
+        "fixed3": [
+          false,
+          false,
+          true,
+          false
+        ]
+      },
+      "selected_arm": "fixed3",
+      "selected_passes": 1,
+      "slotwise_oracle_passes": 1,
+      "unit_fixed_hold_oracle_passes": 1,
+      "unit_id": "a5u6"
+    },
+    {
+      "fixed3_passes": 4,
+      "operational_and_recovery": {
+        "fixed2": [
+          true,
+          true,
+          true,
+          true
+        ],
+        "fixed3": [
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      "selected_arm": "fixed3",
+      "selected_passes": 4,
+      "slotwise_oracle_passes": 4,
+      "unit_fixed_hold_oracle_passes": 4,
+      "unit_id": "a5u7"
+    }
+  ]
+}

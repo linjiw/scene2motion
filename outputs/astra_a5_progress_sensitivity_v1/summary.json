@@ -1,0 +1,471 @@
+{
+  "analysis_source_hashes": {
+    "/home/linjiw/scene2motion/experiments/analyze_astra_a5_progress_sensitivity.py": "f90d813dbf45f9bf126726097e404de2c2c8f8c83139e30f898f02a864f2532d",
+    "/home/linjiw/scene2motion/scene2motion/recovery_sensitivity.py": "c5f99a07576fcf5bc8b3a7a8b0eb431734679fb75cb9b750ef410c4fa84d0dc7"
+  },
+  "assigned_slots": 32,
+  "assigned_units": 8,
+  "curve": [
+    {
+      "by_unit": [
+        {
+          "fixed2": 0,
+          "fixed3": 3,
+          "slotwise_oracle": 3,
+          "unit_fixed_hold_oracle": 3,
+          "unit_id": "a5u0"
+        },
+        {
+          "fixed2": 0,
+          "fixed3": 0,
+          "slotwise_oracle": 0,
+          "unit_fixed_hold_oracle": 0,
+          "unit_id": "a5u1"
+        },
+        {
+          "fixed2": 4,
+          "fixed3": 4,
+          "slotwise_oracle": 4,
+          "unit_fixed_hold_oracle": 4,
+          "unit_id": "a5u2"
+        },
+        {
+          "fixed2": 1,
+          "fixed3": 0,
+          "slotwise_oracle": 1,
+          "unit_fixed_hold_oracle": 1,
+          "unit_id": "a5u3"
+        },
+        {
+          "fixed2": 1,
+          "fixed3": 1,
+          "slotwise_oracle": 1,
+          "unit_fixed_hold_oracle": 1,
+          "unit_id": "a5u4"
+        },
+        {
+          "fixed2": 4,
+          "fixed3": 4,
+          "slotwise_oracle": 4,
+          "unit_fixed_hold_oracle": 4,
+          "unit_id": "a5u5"
+        },
+        {
+          "fixed2": 0,
+          "fixed3": 1,
+          "slotwise_oracle": 1,
+          "unit_fixed_hold_oracle": 1,
+          "unit_id": "a5u6"
+        },
+        {
+          "fixed2": 4,
+          "fixed3": 4,
+          "slotwise_oracle": 4,
+          "unit_fixed_hold_oracle": 4,
+          "unit_id": "a5u7"
+        }
+      ],
+      "fixed2": 14,
+      "fixed3": 17,
+      "slotwise_oracle": 18,
+      "strict_net_displacement_gt_m": -0.001,
+      "unit_fixed_hold_oracle": 18
+    },
+    {
+      "by_unit": [
+        {
+          "fixed2": 0,
+          "fixed3": 3,
+          "slotwise_oracle": 3,
+          "unit_fixed_hold_oracle": 3,
+          "unit_id": "a5u0"
+        },
+        {
+          "fixed2": 0,
+          "fixed3": 0,
+          "slotwise_oracle": 0,
+          "unit_fixed_hold_oracle": 0,
+          "unit_id": "a5u1"
+        },
+        {
+          "fixed2": 4,
+          "fixed3": 4,
+          "slotwise_oracle": 4,
+          "unit_fixed_hold_oracle": 4,
+          "unit_id": "a5u2"
+        },
+        {
+          "fixed2": 0,
+          "fixed3": 0,
+          "slotwise_oracle": 0,
+          "unit_fixed_hold_oracle": 0,
+          "unit_id": "a5u3"
+        },
+        {
+          "fixed2": 1,
+          "fixed3": 1,
+          "slotwise_oracle": 1,
+          "unit_fixed_hold_oracle": 1,
+          "unit_id": "a5u4"
+        },
+        {
+          "fixed2": 4,
+          "fixed3": 4,
+          "slotwise_oracle": 4,
+          "unit_fixed_hold_oracle": 4,
+          "unit_id": "a5u5"
+        },
+        {
+          "fixed2": 0,
+          "fixed3": 1,
+          "slotwise_oracle": 1,
+          "unit_fixed_hold_oracle": 1,
+          "unit_id": "a5u6"
+        },
+        {
+          "fixed2": 4,
+          "fixed3": 4,
+          "slotwise_oracle": 4,
+          "unit_fixed_hold_oracle": 4,
+          "unit_id": "a5u7"
+        }
+      ],
+      "fixed2": 13,
+      "fixed3": 17,
+      "slotwise_oracle": 17,
+      "strict_net_displacement_gt_m": 0.0,
+      "unit_fixed_hold_oracle": 17
+    },
+    {
+      "by_unit": [
+        {
+          "fixed2": 0,
+          "fixed3": 3,
+          "slotwise_oracle": 3,
+          "unit_fixed_hold_oracle": 3,
+          "unit_id": "a5u0"
+        },
+        {
+          "fixed2": 0,
+          "fixed3": 0,
+          "slotwise_oracle": 0,
+          "unit_fixed_hold_oracle": 0,
+          "unit_id": "a5u1"
+        },
+        {
+          "fixed2": 4,
+          "fixed3": 4,
+          "slotwise_oracle": 4,
+          "unit_fixed_hold_oracle": 4,
+          "unit_id": "a5u2"
+        },
+        {
+          "fixed2": 0,
+          "fixed3": 0,
+          "slotwise_oracle": 0,
+          "unit_fixed_hold_oracle": 0,
+          "unit_id": "a5u3"
+        },
+        {
+          "fixed2": 1,
+          "fixed3": 1,
+          "slotwise_oracle": 1,
+          "unit_fixed_hold_oracle": 1,
+          "unit_id": "a5u4"
+        },
+        {
+          "fixed2": 4,
+          "fixed3": 4,
+          "slotwise_oracle": 4,
+          "unit_fixed_hold_oracle": 4,
+          "unit_id": "a5u5"
+        },
+        {
+          "fixed2": 0,
+          "fixed3": 1,
+          "slotwise_oracle": 1,
+          "unit_fixed_hold_oracle": 1,
+          "unit_id": "a5u6"
+        },
+        {
+          "fixed2": 4,
+          "fixed3": 4,
+          "slotwise_oracle": 4,
+          "unit_fixed_hold_oracle": 4,
+          "unit_id": "a5u7"
+        }
+      ],
+      "fixed2": 13,
+      "fixed3": 17,
+      "slotwise_oracle": 17,
+      "strict_net_displacement_gt_m": 0.01,
+      "unit_fixed_hold_oracle": 17
+    },
+    {
+      "by_unit": [
+        {
+          "fixed2": 0,
+          "fixed3": 3,
+          "slotwise_oracle": 3,
+          "unit_fixed_hold_oracle": 3,
+          "unit_id": "a5u0"
+        },
+        {
+          "fixed2": 0,
+          "fixed3": 0,
+          "slotwise_oracle": 0,
+          "unit_fixed_hold_oracle": 0,
+          "unit_id": "a5u1"
+        },
+        {
+          "fixed2": 4,
+          "fixed3": 4,
+          "slotwise_oracle": 4,
+          "unit_fixed_hold_oracle": 4,
+          "unit_id": "a5u2"
+        },
+        {
+          "fixed2": 0,
+          "fixed3": 0,
+          "slotwise_oracle": 0,
+          "unit_fixed_hold_oracle": 0,
+          "unit_id": "a5u3"
+        },
+        {
+          "fixed2": 1,
+          "fixed3": 1,
+          "slotwise_oracle": 1,
+          "unit_fixed_hold_oracle": 1,
+          "unit_id": "a5u4"
+        },
+        {
+          "fixed2": 4,
+          "fixed3": 4,
+          "slotwise_oracle": 4,
+          "unit_fixed_hold_oracle": 4,
+          "unit_id": "a5u5"
+        },
+        {
+          "fixed2": 0,
+          "fixed3": 1,
+          "slotwise_oracle": 1,
+          "unit_fixed_hold_oracle": 1,
+          "unit_id": "a5u6"
+        },
+        {
+          "fixed2": 4,
+          "fixed3": 4,
+          "slotwise_oracle": 4,
+          "unit_fixed_hold_oracle": 4,
+          "unit_id": "a5u7"
+        }
+      ],
+      "fixed2": 13,
+      "fixed3": 17,
+      "slotwise_oracle": 17,
+      "strict_net_displacement_gt_m": 0.05,
+      "unit_fixed_hold_oracle": 17
+    },
+    {
+      "by_unit": [
+        {
+          "fixed2": 0,
+          "fixed3": 3,
+          "slotwise_oracle": 3,
+          "unit_fixed_hold_oracle": 3,
+          "unit_id": "a5u0"
+        },
+        {
+          "fixed2": 0,
+          "fixed3": 0,
+          "slotwise_oracle": 0,
+          "unit_fixed_hold_oracle": 0,
+          "unit_id": "a5u1"
+        },
+        {
+          "fixed2": 4,
+          "fixed3": 4,
+          "slotwise_oracle": 4,
+          "unit_fixed_hold_oracle": 4,
+          "unit_id": "a5u2"
+        },
+        {
+          "fixed2": 0,
+          "fixed3": 0,
+          "slotwise_oracle": 0,
+          "unit_fixed_hold_oracle": 0,
+          "unit_id": "a5u3"
+        },
+        {
+          "fixed2": 1,
+          "fixed3": 1,
+          "slotwise_oracle": 1,
+          "unit_fixed_hold_oracle": 1,
+          "unit_id": "a5u4"
+        },
+        {
+          "fixed2": 4,
+          "fixed3": 4,
+          "slotwise_oracle": 4,
+          "unit_fixed_hold_oracle": 4,
+          "unit_id": "a5u5"
+        },
+        {
+          "fixed2": 0,
+          "fixed3": 1,
+          "slotwise_oracle": 1,
+          "unit_fixed_hold_oracle": 1,
+          "unit_id": "a5u6"
+        },
+        {
+          "fixed2": 4,
+          "fixed3": 4,
+          "slotwise_oracle": 4,
+          "unit_fixed_hold_oracle": 4,
+          "unit_id": "a5u7"
+        }
+      ],
+      "fixed2": 13,
+      "fixed3": 17,
+      "slotwise_oracle": 17,
+      "strict_net_displacement_gt_m": 0.1,
+      "unit_fixed_hold_oracle": 17
+    },
+    {
+      "by_unit": [
+        {
+          "fixed2": 0,
+          "fixed3": 3,
+          "slotwise_oracle": 3,
+          "unit_fixed_hold_oracle": 3,
+          "unit_id": "a5u0"
+        },
+        {
+          "fixed2": 0,
+          "fixed3": 0,
+          "slotwise_oracle": 0,
+          "unit_fixed_hold_oracle": 0,
+          "unit_id": "a5u1"
+        },
+        {
+          "fixed2": 1,
+          "fixed3": 4,
+          "slotwise_oracle": 4,
+          "unit_fixed_hold_oracle": 4,
+          "unit_id": "a5u2"
+        },
+        {
+          "fixed2": 0,
+          "fixed3": 0,
+          "slotwise_oracle": 0,
+          "unit_fixed_hold_oracle": 0,
+          "unit_id": "a5u3"
+        },
+        {
+          "fixed2": 1,
+          "fixed3": 1,
+          "slotwise_oracle": 1,
+          "unit_fixed_hold_oracle": 1,
+          "unit_id": "a5u4"
+        },
+        {
+          "fixed2": 4,
+          "fixed3": 4,
+          "slotwise_oracle": 4,
+          "unit_fixed_hold_oracle": 4,
+          "unit_id": "a5u5"
+        },
+        {
+          "fixed2": 0,
+          "fixed3": 1,
+          "slotwise_oracle": 1,
+          "unit_fixed_hold_oracle": 1,
+          "unit_id": "a5u6"
+        },
+        {
+          "fixed2": 3,
+          "fixed3": 4,
+          "slotwise_oracle": 4,
+          "unit_fixed_hold_oracle": 4,
+          "unit_id": "a5u7"
+        }
+      ],
+      "fixed2": 9,
+      "fixed3": 17,
+      "slotwise_oracle": 17,
+      "strict_net_displacement_gt_m": 0.25,
+      "unit_fixed_hold_oracle": 17
+    },
+    {
+      "by_unit": [
+        {
+          "fixed2": 0,
+          "fixed3": 3,
+          "slotwise_oracle": 3,
+          "unit_fixed_hold_oracle": 3,
+          "unit_id": "a5u0"
+        },
+        {
+          "fixed2": 0,
+          "fixed3": 0,
+          "slotwise_oracle": 0,
+          "unit_fixed_hold_oracle": 0,
+          "unit_id": "a5u1"
+        },
+        {
+          "fixed2": 0,
+          "fixed3": 4,
+          "slotwise_oracle": 4,
+          "unit_fixed_hold_oracle": 4,
+          "unit_id": "a5u2"
+        },
+        {
+          "fixed2": 0,
+          "fixed3": 0,
+          "slotwise_oracle": 0,
+          "unit_fixed_hold_oracle": 0,
+          "unit_id": "a5u3"
+        },
+        {
+          "fixed2": 0,
+          "fixed3": 0,
+          "slotwise_oracle": 0,
+          "unit_fixed_hold_oracle": 0,
+          "unit_id": "a5u4"
+        },
+        {
+          "fixed2": 3,
+          "fixed3": 4,
+          "slotwise_oracle": 4,
+          "unit_fixed_hold_oracle": 4,
+          "unit_id": "a5u5"
+        },
+        {
+          "fixed2": 0,
+          "fixed3": 0,
+          "slotwise_oracle": 0,
+          "unit_fixed_hold_oracle": 0,
+          "unit_id": "a5u6"
+        },
+        {
+          "fixed2": 0,
+          "fixed3": 4,
+          "slotwise_oracle": 4,
+          "unit_fixed_hold_oracle": 4,
+          "unit_id": "a5u7"
+        }
+      ],
+      "fixed2": 3,
+      "fixed3": 15,
+      "slotwise_oracle": 15,
+      "strict_net_displacement_gt_m": 0.5,
+      "unit_fixed_hold_oracle": 15
+    }
+  ],
+  "historical_labels_unchanged": true,
+  "input_sha256": "7cded05bcd1bee4f84a3598f4c18bb0e3ed47dd5d423403c407580f4810fa5e9",
+  "new_executions": 0,
+  "recommended_threshold_m": null,
+  "schema_version": "astra-recovery-sensitivity-v1",
+  "scope": "post-hoc threshold sensitivity on a spent development pool; not prospective qualification, contact or safety"
+}

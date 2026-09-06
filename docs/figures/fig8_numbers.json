@@ -1,0 +1,237 @@
+{
+  "analysis": "scene-level traversal outcomes for the tracked stepping pool",
+  "annotation": {
+    "constant_across_all_heights": true,
+    "goal_region_clips": [
+      "s4434"
+    ],
+    "n_passed_and_intersected_box": 14,
+    "n_passed_obstacle_position": 14,
+    "n_passed_without_intersecting_box": 0,
+    "n_reached_goal_region": 1
+  },
+  "by_height": {
+    "0.03": {
+      "collided_obstacle_past_position": 14,
+      "collided_obstacle_short_of_position": 7,
+      "collision_rate_over_assigned": 0.328125,
+      "completion_rate_over_assigned": 0.0,
+      "goal_region_clips": [
+        "s4434"
+      ],
+      "n_assigned_trials": 64,
+      "n_cutoff_past_obstacle_position": 0,
+      "n_executed": 64,
+      "n_never_reached_obstacle_position": 50,
+      "n_passed_obstacle_position": 14,
+      "n_passed_without_cutoff": 11,
+      "n_reached_goal_region": 1,
+      "n_terminated_preempted_by_collision": 10,
+      "n_tracker_terminated": 53,
+      "obstacle_height_m": 0.03,
+      "outcomes": {
+        "collided_obstacle": 21,
+        "collided_wall": 0,
+        "completed": 0,
+        "cutoff": 43,
+        "fell": 0,
+        "rejected": 0,
+        "stalled": 0,
+        "timeout": 0
+      }
+    },
+    "0.05": {
+      "collided_obstacle_past_position": 14,
+      "collided_obstacle_short_of_position": 7,
+      "collision_rate_over_assigned": 0.328125,
+      "completion_rate_over_assigned": 0.0,
+      "goal_region_clips": [
+        "s4434"
+      ],
+      "n_assigned_trials": 64,
+      "n_cutoff_past_obstacle_position": 0,
+      "n_executed": 64,
+      "n_never_reached_obstacle_position": 50,
+      "n_passed_obstacle_position": 14,
+      "n_passed_without_cutoff": 11,
+      "n_reached_goal_region": 1,
+      "n_terminated_preempted_by_collision": 10,
+      "n_tracker_terminated": 53,
+      "obstacle_height_m": 0.05,
+      "outcomes": {
+        "collided_obstacle": 21,
+        "collided_wall": 0,
+        "completed": 0,
+        "cutoff": 43,
+        "fell": 0,
+        "rejected": 0,
+        "stalled": 0,
+        "timeout": 0
+      }
+    },
+    "0.08": {
+      "collided_obstacle_past_position": 14,
+      "collided_obstacle_short_of_position": 8,
+      "collision_rate_over_assigned": 0.34375,
+      "completion_rate_over_assigned": 0.0,
+      "goal_region_clips": [
+        "s4434"
+      ],
+      "n_assigned_trials": 64,
+      "n_cutoff_past_obstacle_position": 0,
+      "n_executed": 64,
+      "n_never_reached_obstacle_position": 50,
+      "n_passed_obstacle_position": 14,
+      "n_passed_without_cutoff": 11,
+      "n_reached_goal_region": 1,
+      "n_terminated_preempted_by_collision": 11,
+      "n_tracker_terminated": 53,
+      "obstacle_height_m": 0.08,
+      "outcomes": {
+        "collided_obstacle": 22,
+        "collided_wall": 0,
+        "completed": 0,
+        "cutoff": 42,
+        "fell": 0,
+        "rejected": 0,
+        "stalled": 0,
+        "timeout": 0
+      }
+    },
+    "0.12": {
+      "collided_obstacle_past_position": 14,
+      "collided_obstacle_short_of_position": 11,
+      "collision_rate_over_assigned": 0.390625,
+      "completion_rate_over_assigned": 0.0,
+      "goal_region_clips": [
+        "s4434"
+      ],
+      "n_assigned_trials": 64,
+      "n_cutoff_past_obstacle_position": 0,
+      "n_executed": 64,
+      "n_never_reached_obstacle_position": 50,
+      "n_passed_obstacle_position": 14,
+      "n_passed_without_cutoff": 11,
+      "n_reached_goal_region": 1,
+      "n_terminated_preempted_by_collision": 14,
+      "n_tracker_terminated": 53,
+      "obstacle_height_m": 0.12,
+      "outcomes": {
+        "collided_obstacle": 25,
+        "collided_wall": 0,
+        "completed": 0,
+        "cutoff": 39,
+        "fell": 0,
+        "rejected": 0,
+        "stalled": 0,
+        "timeout": 0
+      }
+    },
+    "0.2": {
+      "collided_obstacle_past_position": 14,
+      "collided_obstacle_short_of_position": 16,
+      "collision_rate_over_assigned": 0.46875,
+      "completion_rate_over_assigned": 0.0,
+      "goal_region_clips": [
+        "s4434"
+      ],
+      "n_assigned_trials": 64,
+      "n_cutoff_past_obstacle_position": 0,
+      "n_executed": 64,
+      "n_never_reached_obstacle_position": 50,
+      "n_passed_obstacle_position": 14,
+      "n_passed_without_cutoff": 11,
+      "n_reached_goal_region": 1,
+      "n_terminated_preempted_by_collision": 19,
+      "n_tracker_terminated": 53,
+      "obstacle_height_m": 0.2,
+      "outcomes": {
+        "collided_obstacle": 30,
+        "collided_wall": 0,
+        "completed": 0,
+        "cutoff": 34,
+        "fell": 0,
+        "rejected": 0,
+        "stalled": 0,
+        "timeout": 0
+      }
+    },
+    "0.3": {
+      "collided_obstacle_past_position": 14,
+      "collided_obstacle_short_of_position": 17,
+      "collision_rate_over_assigned": 0.484375,
+      "completion_rate_over_assigned": 0.0,
+      "goal_region_clips": [
+        "s4434"
+      ],
+      "n_assigned_trials": 64,
+      "n_cutoff_past_obstacle_position": 0,
+      "n_executed": 64,
+      "n_never_reached_obstacle_position": 50,
+      "n_passed_obstacle_position": 14,
+      "n_passed_without_cutoff": 11,
+      "n_reached_goal_region": 1,
+      "n_terminated_preempted_by_collision": 20,
+      "n_tracker_terminated": 53,
+      "obstacle_height_m": 0.3,
+      "outcomes": {
+        "collided_obstacle": 31,
+        "collided_wall": 0,
+        "completed": 0,
+        "cutoff": 33,
+        "fell": 0,
+        "rejected": 0,
+        "stalled": 0,
+        "timeout": 0
+      }
+    }
+  },
+  "classes_not_assessed": {
+    "timeout": "not assessed: analyze_traversal_outcomes.py builds TraversalCriteria without time_limit_s, and None disables the timeout class in scene2motion/traversal_eval.py; the zero is the absence of a measurement, not the absence of timeouts"
+  },
+  "descriptive_only": true,
+  "heights_m": [
+    0.03,
+    0.05,
+    0.08,
+    0.12,
+    0.2,
+    0.3
+  ],
+  "inputs": {
+    "summary_path": "outputs/analysis_traversal_outcomes/summary.json",
+    "summary_sha256": "1bbc7f3c514f1324c02721aa4f8020e34520a60bc9d9f74f61285738f60604b3"
+  },
+  "n_assigned_trials": 64,
+  "n_clips": 64,
+  "outcome_classes_precedence": [
+    "rejected",
+    "fell",
+    "collided_obstacle",
+    "collided_wall",
+    "cutoff",
+    "timeout",
+    "stalled",
+    "completed"
+  ],
+  "panel_a_stack_fields_bottom_to_top": [
+    "collided_obstacle_past_position",
+    "collided_obstacle_short_of_position",
+    "cutoff"
+  ],
+  "scene": {
+    "corridor_half_width_m": 1.4,
+    "goal_m": [
+      7.2,
+      0.0
+    ],
+    "goal_tolerance_m": 0.5,
+    "obstacle_depth_m": 0.2,
+    "obstacle_x_m": 1.2,
+    "start_m": [
+      0.0,
+      0.0
+    ]
+  },
+  "scope": "obstacle ABSENT from the physics scene: 'collided_obstacle' means the achieved trajectory intersects the obstacle geometry in replay, not that the robot felt contact; one route, one scene, physics seed 0"
+}

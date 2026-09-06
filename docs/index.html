@@ -1,0 +1,788 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Scene2Motion</title>
+<meta name="description" content="Scene2Motion research progress: frozen humanoid motion priors, local beam passage in simulation, recovery and contact audits, and the path toward execution-labelled scene-motion data.">
+<link rel="stylesheet" href="site/progress.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&family=Source+Sans+3:wght@400;600&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<style>
+:root{
+  --bg:#fbfaf7;--fg:#1c1c1a;--muted:#5d5c57;--line:#e3e0d8;--card:#ffffff;
+  --teal:#0A8C72;--teal-soft:#e2f3ee;--orange:#C05A18;--orange-soft:#fbe9dd;--grey-soft:#f0efeb;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --serif:"Source Serif 4",Georgia,"Times New Roman",serif;
+  --sans:"Source Sans 3",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#15161a;--fg:#ececea;--muted:#a5a49e;--line:#2c2e35;--card:#1d1f25;
+  --teal:#28A084;--teal-soft:#16302a;--orange:#CE7238;--orange-soft:#3a2418;--grey-soft:#24262d;}}
+:root[data-theme="dark"]{
+  --bg:#15161a;--fg:#ececea;--muted:#a5a49e;--line:#2c2e35;--card:#1d1f25;
+  --teal:#28A084;--teal-soft:#16302a;--orange:#CE7238;--orange-soft:#3a2418;--grey-soft:#24262d;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:17px/1.55 var(--sans)}
+a{color:var(--teal)}
+a:focus-visible,video:focus-visible,summary:focus-visible{outline:2px solid var(--orange);outline-offset:2px}
+.wrap{max-width:980px;margin:0 auto;padding:0 20px}
+header.hero{padding:56px 0 28px;border-bottom:1px solid var(--line)}
+.kicker{font:600 12px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--teal)}
+h1{font-family:var(--serif);font-weight:600;font-size:clamp(30px,4.6vw,46px);line-height:1.1;margin:12px 0 12px;letter-spacing:-.012em;text-wrap:balance;max-width:880px}
+.sub{font-size:19px;color:var(--muted);max-width:820px;margin:0 0 18px}
+.links a{display:inline-block;margin:6px 10px 0 0;padding:8px 14px;border:1px solid var(--line);border-radius:8px;text-decoration:none;color:var(--fg);background:var(--card);font-size:14px}
+.links a.primary{background:var(--teal);border-color:var(--teal);color:#fff}
+nav.toc{display:flex;flex-wrap:wrap;gap:6px 18px;padding:14px 0;border-bottom:1px solid var(--line);font-size:14px}
+nav.toc a{text-decoration:none;color:var(--muted)}
+section{padding:40px 0 8px}
+h2{font-family:var(--serif);font-weight:600;font-size:28px;margin:0 0 6px;letter-spacing:-.01em;text-wrap:balance}
+h3{font-family:var(--serif);font-weight:600;font-size:20px;margin:26px 0 6px}
+h4.qh{font-family:var(--serif);font-weight:600;font-size:22px;margin:30px 0 4px}
+.snum{font:600 12px var(--mono);color:var(--orange);letter-spacing:.1em;text-transform:uppercase}
+p.lede{font-size:17.5px;max-width:860px}
+.note{font-size:14px;color:var(--muted);max-width:900px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px;margin:14px 0}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin:14px 0}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.card h4{margin:0 0 6px;font-size:15px}
+.card p{margin:0;font-size:14.5px;color:var(--muted)}
+.badge{display:inline-block;font:600 11px var(--mono);letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border-radius:999px;margin-bottom:8px}
+.badge.good{background:var(--teal-soft);color:var(--teal)}
+.badge.bad{background:var(--orange-soft);color:var(--orange)}
+.badge.neutral{background:var(--grey-soft);color:var(--muted)}
+video{width:100%;height:auto;border-radius:8px;background:#000;display:block}
+figure{margin:18px 0}
+figure img{width:100%;height:auto;border:1px solid var(--line);border-radius:10px;background:#fff}
+figcaption{font-size:13.5px;color:var(--muted);margin-top:8px;max-width:920px}
+.stat{display:flex;flex-direction:column;gap:2px}
+.stat b{font-family:var(--serif);font-size:30px;line-height:1.1;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.stat span{font-size:13px;color:var(--muted)}
+table{border-collapse:collapse;width:100%;font-size:14px;margin:12px 0;font-variant-numeric:tabular-nums}
+th,td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+th{font-weight:600;background:var(--grey-soft)}
+.tbl{overflow-x:auto}
+blockquote{margin:14px 0;padding:10px 16px;border-left:3px solid var(--teal);background:var(--teal-soft);border-radius:0 8px 8px 0;font-size:15px}
+.callout{border:1px solid var(--orange);background:var(--orange-soft);border-radius:10px;padding:12px 16px;font-size:14.5px;margin:16px 0}
+.callout.major{padding:18px 20px;font-size:16px}
+.callout.major b{font-family:var(--serif);font-size:19px}
+ul{padding-left:20px}li{margin:4px 0}
+footer{padding:36px 0 48px;border-top:1px solid var(--line);font-size:13.5px;color:var(--muted)}
+code{font:13px var(--mono);background:var(--grey-soft);padding:1px 5px;border-radius:4px;overflow-wrap:anywhere}
+abbr[title],b[title],span[title]{text-decoration:underline dotted var(--muted);text-underline-offset:3px;cursor:help}
+.ladder{display:grid;gap:8px;margin:16px 0}
+.rung{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center;background:var(--card);border:1px solid var(--line);border-left:4px solid var(--teal);border-radius:8px;padding:9px 14px}
+.rung.zero{border-left-color:var(--orange)}
+.rung .lbl{font-size:14.5px}
+.rung .lbl .rsub{color:var(--muted);font-size:13px;display:block;margin-top:2px}
+.rung .cnt{font:600 17px var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+.rung.zero .cnt{color:var(--orange)}
+.disjoint{font-size:13.5px;color:var(--muted);padding:2px 14px 2px 18px}
+.svgwrap{overflow-x:auto;margin:16px 0;border:1px solid var(--line);border-radius:12px;background:var(--card);padding:10px}
+.flowsvg{display:block;min-width:900px;width:100%;height:auto}
+.flowsvg .bx{fill:var(--card);stroke:var(--line)}
+.flowsvg .bx-good{fill:var(--teal-soft);stroke:var(--teal)}
+.flowsvg .bx-drop{fill:var(--grey-soft);stroke:var(--line)}
+.flowsvg .bx-stop{fill:var(--orange-soft);stroke:var(--orange)}
+.flowsvg .t{fill:var(--fg);font:600 12.5px var(--sans)}
+.flowsvg .s{fill:var(--muted);font:11px var(--sans)}
+.flowsvg .m{fill:var(--muted);font:10.5px var(--mono)}
+.flowsvg .lab{fill:var(--orange);font:600 11px var(--sans)}
+.flowsvg .ar{stroke:var(--muted);fill:none;stroke-width:1.4}
+.flowsvg .ar-drop{stroke:var(--muted);fill:none;stroke-width:1.2;stroke-dasharray:3 3}
+.flowsvg .hd{fill:var(--muted)}
+details{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 14px;margin:10px 0}
+summary{cursor:pointer;font-weight:600;font-size:15px}
+details[open] summary{margin-bottom:8px}
+</style>
+</head>
+<body>
+
+<header class="hero"><div class="wrap">
+  <div class="kicker">Scene2Motion &middot; research project page &middot; updated 2026-09-05</div>
+  <h1>Which generated motions can a controller use to get through this obstacle?</h1>
+  <p class="sub">A humanoid can execute a convincing step-over and still walk straight into the box, because the step happened two metres earlier. Traversing an obstacle takes more than a plausible motion or accurate tracking: the clearance has to appear where the scene puts the obstacle, and survive being tracked. Scene2Motion measures that chain with a released motion model (NVIDIA ARDY-G1) and a released whole-body controller (SONIC) on the Unitree G1, both frozen.</p>
+  <div class="links">
+    <a class="primary" href="https://github.com/linjiw/scene2motion">Code &amp; receipts</a>
+    <a href="site/index.html">Motion viewer</a>
+    <a href="https://github.com/linjiw/scene2motion/blob/master/docs/paper-draft-v2-2026-09-02.md">Paper draft</a>
+    <a href="https://github.com/linjiw/scene2motion/blob/gh-pages/astra.md">Active research plan</a>
+    <a href="https://github.com/linjiw/scene2motion/blob/master/docs/REPORT.md">Research log</a>
+    <a href="https://github.com/linjiw/scene2motion/blob/master/docs/SETUP.md">Install &amp; continue</a>
+  </div>
+  <div class="callout major">
+    <b>New: local ducking passage in an obstacle-present simulation.</b><br>
+    The latest campaign reaches <b>17 / 32</b> local beam passages with a fixed three-second native duck in default controller mode. This is eight motion-seed groups in one reused beam scene, not a general navigation or high-quality motion result. Contact coverage and demonstration qualification remain open. The earlier stepping repair still has <b>0 / 2</b> repaired-present local completions. <a href="#latest-progress">Read the current method, full comparison and recovery analysis</a>.
+  </div>
+</div></header>
+
+<nav class="toc"><div class="wrap">
+  <a href="#latest-progress">Latest progress</a> <a href="#current-method">Current method</a>
+  <a href="#question">The question</a> &middot; <a href="#demo">The situation, in one clip</a> &middot; <a href="#q1">1 &middot; Is it in the pool?</a> &middot; <a href="#q2">2 &middot; Could a selector find it?</a> &middot; <a href="#q3">3 &middot; Does correction help?</a> &middot; <a href="#q4">4 &middot; Does it survive execution?</a> &middot; <a href="#constructive">The constructive attempt</a> &middot; <a href="#generalise">What generalises</a> &middot; <a href="#system">How the system works</a> &middot; <a href="#engine">Records &amp; quality control</a> &middot; <a href="#repro">Reproducibility</a>
+</div></nav>
+
+<!-- BEGIN RECEIPT-DERIVED PROGRESS -->
+<section id="latest-progress" aria-labelledby="progress-title">
+<div class="wrap progress-content">
+  <p class="kicker">Latest research · September 5, 2026 · simulation + archived-data analysis</p>
+  <h2 id="progress-title">Local beam passage works. Motion quality is the next question.</h2>
+  <p class="lede">Scene2Motion now has obstacle-present ducking results with frozen ARDY-G1 and SONIC.
+    The strongest established setting here is a fixed three-second native duck, not a learned
+    repair: <strong>17 / 32 local passages</strong> in the default-mode A5 campaign.
+    Changing the encoder mode does not improve that total. The stepping repair remains a negative result.</p>
+  <div class="progress-stats" aria-label="A5 experiment scope">
+    <div><strong>24</strong><span>generated references</span></div>
+    <div><strong>576</strong><span>verified simulation executions</span></div>
+    <div><strong>8</strong><span>motion-seed groups, four slot repeats</span></div>
+    <div><strong>1</strong><span>reused beam geometry; no scene holdout</span></div>
+  </div>
+
+  <h3 id="current-method">What the current method actually does</h3>
+  <ol class="progress-pipeline">
+    <li><b>Scene → native motion controls</b><p>Specify the beam geometry, forward route and a smooth
+      root-height schedule. The tested duck uses a 0.28 m requested dip and quintic entry/recovery
+      ramps; fixed2 and fixed3 change the hold-end time, not the frozen model weights.</p></li>
+    <li><b>Frozen prior → frozen controller</b><p>ARDY generates 208 frames at 25 Hz from the cached
+      WALK prompt and native constraints. Freeze every array, then track it in 32 isolated Isaac
+      environments with SONIC. Paired absent/present arms share references, order and physics seed.</p></li>
+    <li><b>Achieved motion → separate evidence labels</b><p>Check actual beam placement, controller
+      mode and achieved whole-body passage. Save failures, cutoffs, missing suffixes and recovery
+      diagnostics alongside successes. Geometry, contact and motion quality remain different labels.</p></li>
+  </ol>
+  <p><b>The proposed compiler is broader than the implemented result.</b> It would qualify the final
+    edited motion and choose a bounded scene-relative correction that preserves both clearance and
+    progress. That improvement is not established yet. The earlier stepping backend used bounded
+    per-frame nonlinear IK over twelve leg joints—not a support QP—and completed 0 / 2 repaired-present
+    local crossings. Neither passing a support proxy nor reference clearance guarantees execution.</p>
+  <p class="note">A5's <b>operational local passage</b> requires the rear body envelope beyond x = 1.32 m,
+    root beyond x = 1.82 m, upright and inside the corridor for 0.20 s by 4.0 s, with no nominal or
+    40 mm margin-inflated geometric hazard in that prefix. The beam underside is 1.15 m.
+    This is not a physical-contact-free endpoint or the separate 7.2 m full-route goal.
+    <a href="https://github.com/linjiw/scene2motion/blob/gh-pages/docs/astra-a5-encoder-protocol.md">Frozen protocol</a>.</p>
+
+  <h3>Does choosing the controller mode improve passage?</h3>
+  <div class="progress-table"><table>
+    <caption>A5: all assigned present executions. Recovery is a subsequent post-hoc diagnostic.</caption>
+    <thead><tr><th scope="col">Reference control</th><th scope="col">Encoder mode</th>
+      <th scope="col">Local passage</th><th scope="col">Groups passing ≥3/4</th>
+      <th scope="col">Local + 1 s recovery</th><th scope="col">Full route</th></tr></thead>
+    <tbody><tr><th scope="row">Free WALK</th><td>default</td><td>0 / 32</td><td>0 / 8</td><td>0 / 32</td><td>0 / 32</td></tr>
+<tr><th scope="row">Free WALK</th><td>g1</td><td>0 / 32</td><td>0 / 8</td><td>0 / 32</td><td>0 / 32</td></tr>
+<tr><th scope="row">Free WALK</th><td>teleop</td><td>0 / 32</td><td>0 / 8</td><td>0 / 32</td><td>0 / 32</td></tr>
+<tr><th scope="row">2-second duck</th><td>default</td><td>14 / 32</td><td>3 / 8</td><td>13 / 32</td><td>0 / 32</td></tr>
+<tr><th scope="row">2-second duck</th><td>g1</td><td>15 / 32</td><td>3 / 8</td><td>15 / 32</td><td>0 / 32</td></tr>
+<tr><th scope="row">2-second duck</th><td>teleop</td><td>13 / 32</td><td>3 / 8</td><td>12 / 32</td><td>0 / 32</td></tr>
+<tr><th scope="row">3-second duck</th><td>default</td><td>17 / 32</td><td>4 / 8</td><td>17 / 32</td><td>0 / 32</td></tr>
+<tr><th scope="row">3-second duck</th><td>g1</td><td>17 / 32</td><td>4 / 8</td><td>17 / 32</td><td>0 / 32</td></tr>
+<tr><th scope="row">3-second duck</th><td>teleop</td><td>15 / 32</td><td>3 / 8</td><td>15 / 32</td><td>0 / 32</td></tr></tbody>
+  </table></div>
+  <p><b>No aggregate gain over default.</b> On fixed3, G1 gains one matched pass and loses one
+    versus default; it gains two and loses none versus teleop. “Teleop” names a pretrained encoder
+    branch, not a human operator. These eight groups share one geometry and physics seed 0:
+    32 slots are not 32 independent scenes. No significance or geometry-generalization claim.</p>
+  <p class="note">Four of eight fixed3/default groups pass at least three repeats; the descriptive
+    unit-level Wilson 95% interval is 21.5–78.5%. Equal totals are not identical trajectories.
+    <a href="https://github.com/linjiw/scene2motion/blob/gh-pages/docs/astra-a5-results-2026-09-05.md">A5 analysis and cost</a>.</p>
+
+  <h3>Why not just extend the duck or select a better clip?</h3>
+  <p>The preceding A4 comparison lost: overlap-adaptive timing completed <b>16 / 32</b>
+    versus <b>19 / 32</b> for fixed3, with three paired losses and no gains. Those lost
+    repeats cleared the archived geometry but missed the recovery deadline. A longer low posture
+    does not automatically preserve forward progress. A4 and A5 use different motion seeds;
+    their totals are not a matched before/after method comparison.</p>
+  <p>An offline A5 bank choosing between fixed2 and fixed3 from <b>64 paid absent executions</b>
+    obtains 18 / 32 local passes. Its sole gain over fixed3 advances −0.313 mm in the next
+    second—essentially stationary, not a demonstrated fall. The table below checks how that inference
+    depends on the displacement requirement. The oracle can choose using present outcomes and is
+    an upper bound for this pool, not a deployable selector.</p>
+  <div class="progress-table"><table>
+    <caption>Post-hoc sensitivity: original local pass + complete 1 s kinematic bounds + net displacement strictly above the row threshold. No threshold is a recommended quality standard.</caption>
+    <thead><tr><th scope="col">Displacement threshold</th><th scope="col">fixed2</th>
+      <th scope="col">fixed3</th><th scope="col">Slotwise pool oracle</th></tr></thead>
+    <tbody><tr><th scope="row">-0.1 cm</th><td>14 / 32</td><td>17 / 32</td><td>18 / 32</td></tr>
+<tr><th scope="row">0 cm</th><td>13 / 32</td><td>17 / 32</td><td>17 / 32</td></tr>
+<tr><th scope="row">1 cm</th><td>13 / 32</td><td>17 / 32</td><td>17 / 32</td></tr>
+<tr><th scope="row">5 cm</th><td>13 / 32</td><td>17 / 32</td><td>17 / 32</td></tr>
+<tr><th scope="row">10 cm</th><td>13 / 32</td><td>17 / 32</td><td>17 / 32</td></tr>
+<tr><th scope="row">25 cm</th><td>9 / 32</td><td>17 / 32</td><td>17 / 32</td></tr>
+<tr><th scope="row">50 cm</th><td>3 / 32</td><td>15 / 32</td><td>15 / 32</td></tr></tbody>
+  </table></div>
+  <p><b>Decision:</b> improve the candidate motions before investing in a ranker for this pool.
+    All 17 fixed3 local passes exceed 25 cm of continuation; allowing a 1 mm backward tolerance
+    adds one near-stationary candidate to the oracle. This diagnoses limited observed selection
+    headroom, not impossibility for new motions, controllers or scenes.</p>
+
+  <h3>Contact logging and lower-memory execution</h3>
+  <div class="progress-grid">
+    <article><h4>What contact validation establishes</h4><p>Six corrected simple-body controls passed.
+      Sixty-four G1 operational replays reproduce A5 achieved states, apparatus and modes exactly.
+      The 32 present valid prefixes report zero Table contacts across 30 robot-body filters,
+      but the untrimmed reader reached six points. Excluded-event attribution and a controlled
+      G1 positive-contact probe remain open. Prefix zeros are not episode-level contact freedom.</p></article>
+    <article><h4>What the resource optimization establishes</h4><p>Separate preparation/validation
+      workers and a small resident supervisor avoid keeping model inputs loaded beside Isaac.
+      Compact allocation retained the same 32 slots and exact control replay outcomes. A5 used
+      18.54 minutes of simulator-process time and peaked at 5.96 GiB child RSS.
+      This is measured memory use, not an end-to-end speedup or permission to lower resource gates.</p></article>
+  </div>
+
+  <h3>From execution records to a useful dataset</h3>
+  <p>The existing 300-record DB preview is geometry/feasibility metadata, not 300 executed
+    demonstrations. A5 adds grouped execution records, but they are not yet a qualified imitation
+    bank or integrated public motion release. Keep every carrier's raw/edited, absent/present,
+    mode and repeat variants in one split. Contact unknown stays unknown.</p>
+  <ol>
+    <li><b>Finish measurement:</b> locate excluded contact events and validate positive G1 sensitivity.</li>
+    <li><b>Freeze qualification and one bounded edit:</b> require final-output progress and clearance;
+      test on fresh motion–scene groups against fixed2/fixed3 and budget-disclosed controls.</li>
+    <li><b>Then expand data claims:</b> scene-disjoint coverage, payload redistribution review and a
+      pre-execution learner utility test. No broad navigation, hardware or safety claim yet.</li>
+  </ol>
+  <p class="note">These tables are rebuilt from receipts, not retyped. The existing videos below show
+    the historical stepping experiments; none is an A5 ducking video.
+    <a href="https://github.com/linjiw/scene2motion/blob/gh-pages/astra.md">Active research plan</a> ·
+    <a href="https://github.com/linjiw/scene2motion/blob/gh-pages/docs/astra-a5-recovery-selection-result-2026-09-05.md">Recovery/selection analysis</a> ·
+    <a href="https://github.com/linjiw/scene2motion/blob/gh-pages/docs/progress.json">Machine-readable public snapshot</a>.</p>
+  <details><summary>Evidence receipts and exact source hashes</summary><ul class="progress-sources"><li><a href="https://github.com/linjiw/scene2motion/blob/gh-pages/outputs/astra_a5_encoder_d0/summary.json">outputs/astra_a5_encoder_d0/summary.json</a> <code>sha256: f5222a781a79…</code></li>
+<li><a href="https://github.com/linjiw/scene2motion/blob/gh-pages/outputs/astra_a4_adaptive_d0/summary.json">outputs/astra_a4_adaptive_d0/summary.json</a> <code>sha256: 31f6d3ec78e8…</code></li>
+<li><a href="https://github.com/linjiw/scene2motion/blob/gh-pages/outputs/astra_a5_recovery_audit_v1/summary.json">outputs/astra_a5_recovery_audit_v1/summary.json</a> <code>sha256: 7cded05bcd1b…</code></li>
+<li><a href="https://github.com/linjiw/scene2motion/blob/gh-pages/outputs/astra_a5_bank_selection_v1/summary.json">outputs/astra_a5_bank_selection_v1/summary.json</a> <code>sha256: 924e425d8235…</code></li>
+<li><a href="https://github.com/linjiw/scene2motion/blob/gh-pages/outputs/astra_a5_recovery_ceiling_v1/summary.json">outputs/astra_a5_recovery_ceiling_v1/summary.json</a> <code>sha256: 8138e3c6efda…</code></li>
+<li><a href="https://github.com/linjiw/scene2motion/blob/gh-pages/outputs/astra_a5_progress_sensitivity_v1/summary.json">outputs/astra_a5_progress_sensitivity_v1/summary.json</a> <code>sha256: 97ee3fec3420…</code></li>
+<li><a href="https://github.com/linjiw/scene2motion/blob/gh-pages/outputs/astra_contact_replay_v2/summary.json">outputs/astra_contact_replay_v2/summary.json</a> <code>sha256: 796d0ed1e9bd…</code></li>
+<li><a href="https://github.com/linjiw/scene2motion/blob/gh-pages/outputs/astra_contact_validation_v2/summary.json">outputs/astra_contact_validation_v2/summary.json</a> <code>sha256: 4dfc725ba071…</code></li></ul>
+    <p class="note">The publication branch contains selected JSON receipts and documentation, not
+      the unreleased motion payloads. Full hashes are in progress.json; raw-archive rebuilding
+      requires the research workspace and pinned external assets.</p></details>
+</div>
+</section>
+<!-- END RECEIPT-DERIVED PROGRESS -->
+
+<!-- ================= THE QUESTION ================= -->
+<section id="question"><div class="wrap">
+  <div class="snum">Historical stepping audit · definitions retained</div>
+  <h2>The question, and what would count as an answer</h2>
+  <p class="lede">A box 0.20&nbsp;m deep and 2.8&nbsp;m wide lies across a corridor at <b>x&nbsp;=&nbsp;1.2&nbsp;m</b>. A Unitree G1 starts at the origin facing down the corridor; the goal is 7.2&nbsp;m away, reached within 0.5&nbsp;m, and the corridor is 1.4&nbsp;m of half-width on either side of the centre line.</p>
+  <blockquote><b>Which generated motions can this controller use to get through this obstacle, from this starting state?</b></blockquote>
+  <div class="grid2">
+    <div class="card"><span class="badge good">what is measured</span>
+      <h4>Local traversal</h4>
+      <p>Pass through the specified corridor and remain 0.50&nbsp;m beyond the box's far edge for 0.20&nbsp;s, <b>upright and outside both nominal geometry and the conservative body-margin envelope</b>, within 4.0&nbsp;s. Walking around is a <em>failure</em>. Reaching the 7.2&nbsp;m route goal is reported separately as a secondary tracking endpoint.</p></div>
+    <div class="card"><span class="badge neutral">what is not measured</span>
+      <h4>Navigation</h4>
+      <p>Reach a destination through a scene, where going around an obstacle is often the right answer. It adds route choice, transitions between motions, replanning and recovery. Nothing on this page is a navigation result, and the two never share a success label.</p></div>
+  </div>
+  <p class="note">Scene geometry comes from <code>outputs/exp030_obstacle_present/receipt.json</code> &rarr; <code>design.obstacle</code> and <code>design.scene</code>. The endpoint above is evaluator v2 as frozen in <code>outputs/exp031_constructive_step_repair_execution/summary.json</code> &rarr; <code>arms.repaired_present_05.local_traversal_completion.definition</code>. EXP-030 remains a versioned evaluator-v1 result whose older endpoint coupled obstacle passage to the 7.2&nbsp;m goal and carried no time limit; it is not silently rewritten.</p>
+
+  <h3>Six evidence levels, reported separately</h3>
+  <p>A collision-free reference, a completed tracking run and a completed traversal are different results. One is never allowed to stand in for the next, and every number on this page belongs to exactly one rung.</p>
+  <div class="ladder">
+    <div class="rung"><div class="lbl"><b>Produced</b> &mdash; the reference clears a 3&nbsp;cm box at <em>some</em> tested position along the route, in a whole-body geometry check<span class="rsub">A box-clearance statement, not a foot height.</span></div><div class="cnt" title="outputs/exp021_elicited_lift_distribution_v2/receipt.json &rarr; summary.n_clearing[&quot;0.03&quot;]">44 / 64</div></div>
+    <div class="rung"><div class="lbl"><b>Placed</b> &mdash; it clears a 5&nbsp;cm box at the position the scene specifies<span class="rsub">Not at a position chosen afterwards to fit the clip.</span></div><div class="cnt" title="outputs/analysis_exact_centre_cost_curve/receipt.json &rarr; at_exp022a_centres.staged.reference_exact_hits[&quot;0.05&quot;]">12 / 64</div></div>
+    <div class="rung"><div class="lbl"><b>Collision-free reference</b> &mdash; the reference trajectory itself does not intersect that box<span class="rsub">Same 12 references; the box is 5&nbsp;cm at x&nbsp;=&nbsp;1.2&nbsp;m.</span></div><div class="cnt" title="outputs/analysis_pool_coverage/summary.json &rarr; results[staged].by_height[&quot;0.05&quot;].n_reference_clears">12 / 64</div></div>
+    <div class="rung"><div class="lbl"><b>Completed tracking run</b> &mdash; the controller followed the reference to the end without the evaluator's tracking-error cutoff<span class="rsub">Pelvis height error &gt; 0.25&nbsp;m, orientation &gt; 1.0&nbsp;rad, ankle/wrist height error &gt; 0.25&nbsp;m, ankle position error &gt; 0.2&nbsp;m; release configuration.</span></div><div class="cnt" title="outputs/analysis_pool_coverage/summary.json &rarr; results[staged].n_completes_tracking">11 / 64</div></div>
+    <div class="disjoint">&#8709;&nbsp; The 12 and the 11 are <b>disjoint sets</b> &mdash; 0 references are in both.</div>
+    <div class="rung zero"><div class="lbl"><b>Clearance preserved after tracking</b> &mdash; a clearing reference yields a tracked trajectory that passes the corridor, finishes beyond the box, stays collision-free at the graded height and satisfies the termination rule<span class="rsub">Still zero at every graded height from 3&nbsp;cm to 30&nbsp;cm, and still zero with the termination condition dropped.</span></div><div class="cnt" title="outputs/exp022_exact_tracking_bridge/summary.json &rarr; paired_reference_to_achieved_retention.staged.*.achieved_guarded_clear">0 / 64</div></div>
+    <div class="rung zero"><div class="lbl"><b>Local traversal completion, obstacle present in physics</b> &mdash; measured 2026-09-03<span class="rsub">5&nbsp;cm box and 20&nbsp;cm box at x&nbsp;=&nbsp;1.2&nbsp;m; its obstacle-absent control arm, a different level, completes 1 of 64.</span></div><div class="cnt" title="outputs/exp030_obstacle_present/summary.json &rarr; arms.present_05 / arms.present_20 .local_traversal_completion.completed">0 / 64</div></div>
+  </div>
+  <p class="note">The historical ducking reference correction improves geometry (72.9&nbsp;% &rarr; 99.3&nbsp;% collision-free for the learned proposer); its older tracked endpoint was 0 of 859 under a protocol confounded by a 14&nbsp;s clip cap. The separate ASTRA campaigns now include beam-present local passage, reported <a href="#latest-progress">above</a> with their own protocol. Do not pool those endpoints. Rates retain all assigned trials.</p>
+</div></section>
+
+<!-- ================= DEMO ================= -->
+<section id="demo"><div class="wrap">
+  <div class="snum">The situation, concretely</div>
+  <h2>One reference, one controller, three scenes</h2>
+  <p class="lede">These three panels are the <em>same</em> generated reference tracked three times by the same controller from the same physics seed. Only the box changes: absent, 5&nbsp;cm, 20&nbsp;cm, at the position the scene specifies. Every frame is an archived achieved state replayed in MuJoCo &mdash; nothing was re-simulated for the video. The box is in the Isaac scene in the two right-hand panels, so those rollouts were physically obstructed; the <em>outcome label</em> is still a whole-body geometry check on the archived states against that box inflated by the 4&nbsp;cm body margin.</p>
+  <figure>
+    <video src="media/s4434_triptych_absent_5cm_20cm.mp4" poster="media/s4434_triptych_absent_5cm_20cm.png" controls loop muted playsinline preload="metadata" aria-label="Three side-by-side rollouts of the same reference: no box, a 5 cm box, and a 20 cm box in the physics scene"></video>
+    <figcaption><b>Reference s4434, the obstacle-present campaign.</b> Left: the obstacle-absent control arm, where this reference completes the route &mdash; a control result, not a traversal result, because there was no obstacle to pass. Middle: with a 5&nbsp;cm box in the scene the body enters that box's 4&nbsp;cm margin at 1.26&nbsp;s, overlapping the margin-inflated box by at most 3.6&nbsp;cm &mdash; less than the margin itself &mdash; and then continues to the goal; the contact class makes this a failed local traversal regardless of where it finishes. Right: with a 20&nbsp;cm box the margin is first entered at 1.28&nbsp;s with a maximum overlap of 6.7&nbsp;cm, and the evaluator's tracking-error cutoff ends the episode at 1.36&nbsp;s, 1.51&nbsp;m along the route. Panels hold their last archived state once a rollout ends. Provenance and every number in this caption: <code>docs/media/manifest.json</code> &rarr; <code>clips.{absent, present_05, present_20}</code>, which binds <code>outputs/exp030_obstacle_present/receipt.json</code> (sha256 <code>86209c94&hellip;</code>) and the per-arm achieved-state archives; every value also stands on its own in the committed rows, <code>outputs/exp030_obstacle_present/rows.jsonl</code> &rarr; the three <code>motion_key = "s4434"</code> rows, <code>traversal.{outcome, obstacle_max_penetration_m, duration_s}</code> and <code>max_root_x_m</code>.</figcaption>
+  </figure>
+  <div class="tbl"><table>
+    <caption class="note" style="text-align:left;padding-bottom:6px">The three panels as measurements &mdash; <code>docs/media/manifest.json</code> &rarr; <code>clips.*</code></caption>
+    <tr><th>panel</th><th>box in the physics scene</th><th>outcome class</th><th>margin first entered</th><th>maximum overlap, margin-inflated box</th><th>archived duration</th><th>furthest root x</th></tr>
+    <tr><td>left</td><td>none (control arm)</td><td>completed the route</td><td>&mdash;</td><td>&mdash;</td><td>7.94 s</td><td>7.63 m</td></tr>
+    <tr><td>middle</td><td>5 cm at x = 1.2 m</td><td>contacted the obstacle</td><td>1.26 s</td><td>0.036 m</td><td>7.94 s</td><td>7.64 m</td></tr>
+    <tr><td>right</td><td>20 cm at x = 1.2 m</td><td>contacted the obstacle, then evaluator cutoff</td><td>1.28 s</td><td>0.067 m</td><td>1.36 s</td><td>1.51 m</td></tr>
+  </table></div>
+  <p class="note"><b>This reference was chosen, not sampled.</b> The rule was fixed in the manifest: among the references whose 20&nbsp;cm rollout ended in an obstacle-envelope violation and that travelled at least 1.0&nbsp;m further in the obstacle-absent arm, take the one that got furthest in that arm &mdash; 11 references were eligible and s4434 ranked first (<code>docs/media/manifest.json</code> &rarr; <code>selection.{rule, eligible_count, ranking_top5}</code>). It is the clearest illustration in the pool, not a typical one, and the pool-wide counts are in the next four sections. The box is drawn at true size; the collision metric inflates the same box by a 4&nbsp;cm body margin, which the renderer does not show.</p>
+
+  <h3>The other half of the problem: the motion happens, somewhere else</h3>
+  <p>Before the controller ever sees a reference, the reference has to put its clearance at the box. These two panels are the same generated clip, frame for frame, rendered from the released G1 model with the scored box in the world. Only the box moves.</p>
+  <div class="grid2">
+    <div class="card"><span class="badge neutral">box placed where the model stepped</span>
+      <video src="assets/staged.mp4" controls loop muted playsinline preload="metadata" aria-label="A generated step-over clearing a box placed at the clip's own lift"></video>
+      <h4>The model can step over a box</h4>
+      <p>Seed 4437 under the prompt &ldquo;A person steps over an obstacle.&rdquo; The step comes early, as it usually does, and reaches the 0.40&nbsp;m cap of the height probe &mdash; one of only two clips in the 64 that do. The box was placed after watching the clip, so this is a capability illustration and <em>not</em> a placement result.</p></div>
+    <div class="card"><span class="badge bad">box placed where the scene needs it</span>
+      <video src="assets/commanded.mp4" controls loop muted playsinline preload="metadata" aria-label="The same clip with the box at the position a scene specifies; nothing clears"></video>
+      <h4>The same clip does not step over <em>this</em> box</h4>
+      <p>Identical motion, box moved to a mid-route position a scene would specify. The lift is metres away and nothing clears. Producing a stepping motion does not make it happen at the box.</p></div>
+  </div>
+  <div class="grid2">
+    <div class="card"><span class="badge neutral">the floor</span>
+      <video src="assets/walk.mp4" controls loop muted playsinline preload="metadata" aria-label="A walking clip on the same route"></video>
+      <h4>What the route alone gives you</h4>
+      <p>The same route under &ldquo;A person walks forward.&rdquo; The tallest box the whole body clears anywhere on the route is <b title="docs/figures/fig3_channel_response_numbers.json &rarr; panel_a_text['WALK exp019 v7 nominal (8 seeds)'].max_m">5&nbsp;mm</b>, and <b title="&hellip;.ge_3cm = 0 of n = 8">0 of 8</b> seeds reach the 3&nbsp;cm definition. A zero here is the correct floor, and it is what makes the prompted counts attributable to the prompt.</p></div>
+    <div class="card"><span class="badge bad">asking through the joint channels</span>
+      <video src="assets/packet.mp4" controls loop muted playsinline preload="metadata" aria-label="A rotation-request clip whose step lands far from where it was asked for"></video>
+      <h4>Asking for it <em>there</em> does not put it there</h4>
+      <p>Seed 4353 with a phase-aligned rotation request. A step appears &mdash; <b title="docs/figures/fig3_channel_response_numbers.json &rarr; panel_d_packet_placement.absolute.signed_placement_error_m, last entry (seed 4353)">3.17&nbsp;m</b> from the obstacle it was anchored to. Across the arm, <b title="&hellip;.absolute.within_0p25m = 0 and .residual.within_0p25m = 0, 8 seeds each">0 of 16</b> clips land within 0.25&nbsp;m of the request.</p></div>
+  </div>
+  <p class="note">Clips are archived joint trajectories from committed campaign archives, rendered by <code>experiments/export_demo_motions.py</code> and <code>experiments/render_demo_videos.py</code>; the per-clip measurements above are read from <code>docs/figures/fig3_channel_response_numbers.json</code>, whose own inputs are the campaign receipts. None of these four is a tracking result: they show what the model generates, before any controller is involved.</p>
+</div></section>
+
+<!-- ================= Q1 ================= -->
+<section id="q1"><div class="wrap">
+  <div class="snum">Question 1</div>
+  <h2>Do generated pools contain motions suitable for the specified obstacle?</h2>
+  <p class="lede">The behaviour is produced readily. It is almost never produced <em>at the box</em>. We measure clearance at the position the scene specifies, not anywhere along the route, because a motion can clear the same obstacle somewhere else on its path &mdash; and that difference is the project's first result.</p>
+  <div class="grid3">
+    <div class="card stat"><b title="outputs/exp021_elicited_lift_distribution_v2/receipt.json &rarr; summary.n_clearing['0.03']">44 / 64</b><span>references clear a 3&nbsp;cm box at some tested position along the route</span></div>
+    <div class="card stat"><b title="outputs/exp021_elicited_lift_distribution_v2/receipt.json &rarr; summary.n_clearing['0.05']">37 / 64</b><span>clear a 5&nbsp;cm box somewhere along the route &mdash; the like-for-like comparison for the number beside it</span></div>
+    <div class="card stat"><b title="outputs/analysis_exact_centre_cost_curve/receipt.json &rarr; at_exp022a_centres.staged.reference_exact_hits['0.05'] = 12; interval from docs/figures/fig2_channel_funnel_numbers.json &rarr; channels[0].stages.clears.wilson95">12 / 64</b><span>clear that same 5&nbsp;cm box at the position the scene specifies (Wilson 0.111&ndash;0.300)</span></div>
+  </div>
+  <p><b>37 against 12 at the same box height is the gap.</b> The cause is spread, not weakness: across the 49 clips that have a location of maximum clearance at all &mdash; the other 15 never clear anything &mdash; that location has a median of 1.24&nbsp;m and a standard deviation of 1.04&nbsp;m, with a q10&ndash;q90 span of 0.73&ndash;1.97&nbsp;m <span title="outputs/exp021_elicited_lift_distribution_v2/receipt.json &rarr; summary.lift_position_m.{quantiles, sd}">(receipt)</span>. Where the box is does not move it.</p>
+  <figure>
+    <img src="figures/fig2_channel_funnel.png" alt="For each way of asking the model, four bars: produced, passes the support test, clears at the fixed position, and clearance preserved after tracking">
+    <figcaption><b>Each way of asking, at each evidence level.</b> Bars are counts with 95&nbsp;% intervals; the dark inner bar counts clips that also passed every earlier level. &ldquo;Contact-consistent&rdquo; on the figure is the support test &mdash; no period longer than 0.20&nbsp;s with neither foot supported. One route, one scene. Inputs and every plotted count: <code>docs/figures/fig2_channel_funnel_numbers.json</code> &rarr; <code>channels[*].stages</code>.</figcaption>
+  </figure>
+  <h3>Timing: the motion arrives early, on its own schedule</h3>
+  <p>Among the <b title="outputs/analysis_event_frames/receipt.json &rarr; summary.exp021.lifting_all.A_root_crossing.n_present">49</b> references with any positive clearance along the route, the reference root reaches the location of <em>maximum</em> clearance after a median of <b title="&hellip;.A_root_crossing.seconds.median = 1.4 s; frames.median = 35">1.4&nbsp;s</b> (frame 35; q10&ndash;q90 20.8&ndash;55.4 frames), with <b title="&hellip;.A_root_crossing.inside_first_50_frames.{count, wilson95_of_present}">40 of 49</b> inside the first 50 frames (Wilson 0.686&ndash;0.900) and 4 of 49 after frame 60. Under the route-nominal speed conversion the count is 42 of 49 <span title="outputs/analysis_event_frames/receipt.json &rarr; summary.exp021.lifting_all.B_nominal_speed_real.inside_first_50_frames.count; the ceil and rounded variants in the same block give 39">(<code>B_nominal_speed_real</code>)</span>. This is the root arriving at a location &mdash; <em>not</em> a detected foot-crossing event.</p>
+  <h3>No position on the route rescues it, and a tolerance window is a different measurement</h3>
+  <figure>
+    <img src="figures/fig4_cost_curve.png" alt="Exact-position clearance rate along the route for 3, 5 and 8 cm boxes, the best-of-N curve it implies, and the paired reference-to-tracked retention">
+    <figcaption><b>Clearance at the exact specified position, along the whole route.</b> 64 clips &times; 121 centres from 0.6&nbsp;m to 6.6&nbsp;m &times; three box heights, all scored with the same whole-body geometry check &mdash; 23,232 probe calls. Sampling raises <em>reference</em> clearance (about 12 fresh draws for a 90&nbsp;% chance of at least one clearing reference at 5&nbsp;cm, 13 at 8&nbsp;cm), while the paired retention after tracking is zero at every height and at both scored centres. Numbers: <code>docs/figures/fig4_numbers.json</code>; source receipt <code>outputs/analysis_exact_centre_cost_curve/receipt.json</code>.</figcaption>
+  </figure>
+  <ul>
+    <li><b>1.2&nbsp;m is the best centre, and it was chosen on these clips.</b> On a 0.05&nbsp;m grid it is the unique maximum at 5&nbsp;cm (12 of 64) and at 8&nbsp;cm (11 of 64); at 3&nbsp;cm the maximum is 15 of 64 at 1.15&nbsp;m <span title="outputs/analysis_exact_centre_cost_curve/receipt.json &rarr; extrema_post_hoc['h=0.05'], ['h=0.08'], ['h=0.03']">(receipt)</span>. Every placement count on this page is therefore an upper bound for a prospectively fixed obstacle. The centre is now frozen for replication.</li>
+    <li><b>A tolerance window is addressability, never success.</b> If the box may move to whichever scanned centre each clip happens to clear, 24 of 64 clear at 5&nbsp;cm within &plusmn;0.25&nbsp;m of 1.2&nbsp;m and 17 of 64 within &plusmn;0.10&nbsp;m <span title="outputs/analysis_exact_centre_cost_curve/receipt.json &rarr; tolerant_union.windows['r=0.25'].by_height['h=0.05'].union_successes and ['r=0.10']">(receipt)</span>. The receipt labels these itself as an addressability analysis and never a fixed-obstacle success probability, because the obstacle is allowed to move to the clip's own lift <em>after</em> the clip has been seen &mdash; a tolerance the scene does not grant. The fixed-obstacle number is 12 of 64, and only that number may be quoted as a rate of clearing an obstacle where it actually is.</li>
+    <li><b>The other conditioning channels place it no better.</b> A requested foot lift over-responds by 1.7&ndash;2.3&times; and takes both feet off the ground; a phase-aligned rotation request is not partially met, ending <em>further</em> from the request than the untouched clip did (mean compliance &minus;0.26 absolute, &minus;0.44 residual) with no frame offset between &minus;40 and +80 improving any of the 16 clips; and 0 of 16 rotation-request clips clear a box at their predeclared centre. Numbers: <code>docs/figures/fig3_channel_response_numbers.json</code> &rarr; <code>panel_b_position</code>, <code>panel_c_packet_compliance</code>, <code>panel_d_packet_placement</code> for the response and placement figures; the clearance count is <code>docs/figures/fig2_channel_funnel_numbers.json</code> &rarr; <code>channels[rotation_packet_absolute, rotation_packet_residual].stages.clears</code> (k&nbsp;=&nbsp;0 of n&nbsp;=&nbsp;8 each), from <code>outputs/exp019_gait_matched_stepover_v7/placement_analysis.json</code> &rarr; <code>rows[arm &isin; {absolute, residual}].graded_clearance</code>.</li>
+  </ul>
+  <figure>
+    <img src="figures/fig3_channel_response.png" alt="How each conditioning channel responds: text-prompt lift heights, requested versus achieved foot lift, rotation-request compliance, and where the requested step actually lands">
+    <figcaption><b>What each way of asking actually does.</b> The text prompt produces the tallest lifts but chooses its own moment. The joint-position channel over-responds and lifts both feet. The rotation channel's placement gain is &minus;0.44 &mdash; 1.0 would be perfect placement. <code>docs/figures/fig3_channel_response_numbers.json</code> records which panels were drawn and which were omitted for want of a committed v2-sampler artifact.</figcaption>
+  </figure>
+  <h3>Switching the prompt mid-walk, and a claim we withdrew</h3>
+  <p>Switching the prompt from walking to stepping at frame 52, through the released minimum-history interface, produced the step in <b title="outputs/exp023b_prompt_switch_control/receipt.json &rarr; summary.step_event_rates_missing_retained.step_52.{present, planned}">3 of 8</b> fresh seeds where an earlier run of the same arm produced <b title="outputs/exp023_prompt_handoff/receipt.json &rarr; summary.event_rates_missing_retained.step_52">none</b> &mdash; pooled, 3 of 16, against <b title="outputs/exp023_prompt_handoff/receipt.json &rarr; summary.event_rates_missing_retained.step_0.{present, planned}">6 of 8</b> when the prompt is given from the first frame. The step arrives 21, 45 and 75 frames after the switch (0.84&nbsp;s, 1.8&nbsp;s, 3.0&nbsp;s at 25&nbsp;fps), and <b title="outputs/exp023b_prompt_switch_control/receipt.json &rarr; summary.fixed_box_rates.step_52.*">0 of 8</b> clear a box at any tested height at the centre predicted for the switch. On that evidence we <b>withdrew</b> our earlier claims that a later prompt does not elicit the step and that the step is tied to the start of the rollout. What survives: a delayed prompt elicits it <em>less often, later, and unplaced</em>. The handoff does transmit &mdash; post-switch joint angles differ from the walking arm by a median 0.20&nbsp;rad RMS (0.13&ndash;0.30 across the eight seeds).</p>
+  <p class="note"><b>A positive control we refused rather than reinterpreted.</b> The same campaign was designed around a sideways-squeeze prompt as its positive control, and its substrate gate failed: under a dense route constraint the squeeze prompt produced a sidestep in <b title="outputs/exp023b_prompt_switch_control/receipt.json &rarr; measurement_gates.squeeze0_substrate.{observed_present, required_min_present, planned}">0 of 8</b> seeds against a required minimum of 4, by the preregistered composite of heading deviation, lateral excursion and foot crossing. It produced a lifting gait instead &mdash; 5 of 8 seeds lift, 2 of 8 clear a 5&nbsp;cm box at the predicted position. The campaign's status in its own receipt is <code>refused</code>, reason <code>squeeze0_substrate_gate_failed</code>. Nothing was rerun on those seeds with a looser gate.</p>
+</div></section>
+
+<!-- ================= Q2 ================= -->
+<section id="q2"><div class="wrap">
+  <div class="snum">Question 2</div>
+  <h2>Can a selector identify them?</h2>
+  <p class="lede">Choosing a motion the controller can execute is not the same as choosing a motion that solves the scene task. Where those two desirable properties conflict, the honest thing is to show the conflict. So we tracked all 64 references &mdash; the ones our screen flags and the ones it passes alike &mdash; and asked how many satisfy both requirements at once.</p>
+  <div class="tbl"><table>
+    <caption class="note" style="text-align:left;padding-bottom:6px">Pool of 64 candidates, 5&nbsp;cm box at the specified position &mdash; <code>outputs/analysis_pool_coverage/summary.json</code> &rarr; <code>results[obstacle_label="staged"]</code></caption>
+    <tr><th>what the candidate does</th><th>count</th><th>key</th></tr>
+    <tr><td>clears the obstacle in the reference</td><td>12</td><td><code>by_height["0.05"].n_reference_clears</code></td></tr>
+    <tr><td>completes tracking without an evaluator cutoff</td><td>11</td><td><code>n_completes_tracking</code></td></tr>
+    <tr><td><b>both</b></td><td><b>0</b></td><td><code>by_height["0.05"].n_reference_clears_and_completes_tracking</code></td></tr>
+    <tr><td>passes the corridor and finishes beyond the obstacle</td><td>14 (11 of them without a cutoff)</td><td><code>n_passed_corridor_and_finished_beyond</code></td></tr>
+    <tr><td>never reaches the obstacle</td><td>50</td><td><code>n_never_reached_obstacle</code></td></tr>
+    <tr><td>satisfies the full clearance-after-tracking endpoint</td><td>0</td><td><code>by_height["0.05"].n_traversal_endpoint</code></td></tr>
+  </table></div>
+  <p><b>The two useful sets are disjoint.</b> Every reference that clears the box was stopped by the evaluator; every rollout that completed came from a reference that does not clear the box. No selection rule over this pool could have succeeded, including an offline oracle with access to every outcome, and the joint count stays at zero for every candidate budget up to the whole pool while reference clearance alone reaches 90&nbsp;% coverage at about 12 fresh draws <span title="outputs/analysis_pool_coverage/summary.json &rarr; results[staged].by_height['0.05'].coverage_curve_reference.n90_budget_fresh_draws and coverage_curve_joint.coverage_at_full_pool = 0.0">(receipt)</span>. For this stepping family the limitation is the candidate pool, not the ranking function, and a better verifier would not change the outcome.</p>
+  <blockquote><b>Why coverage and selection are reported apart.</b> Pool coverage asks whether any candidate completes the task; selected success asks whether the deployed rule picks one that does. High coverage with low selected success is a selector problem. Low coverage at every budget is a candidate problem no ranking function can fix. Clearing references that fail in execution are a controller-compatibility problem. Reporting them separately says which problem you actually have before investing in a better selector.</blockquote>
+
+  <h3>Why tracking loses it &mdash; and a screen that predicts the cutoff before any rollout</h3>
+  <p>A foot meets the <b>support test</b> at a frame when its sole is within <b title="outputs/analysis_trackability_contract/receipt.json &rarr; inputs.threshold_receipt.support_height_m">4.65&nbsp;cm</b> of the ground and its planar speed is below <b title="&hellip;.support_speed_mps">1.18&nbsp;m/s</b>. The thresholds were calibrated on 284 clips from the control arms of an earlier position-channel study &mdash; 144 model references at 25&nbsp;fps plus the 140 rollouts the controller completed from them, at 50&nbsp;Hz &mdash; and frozen before any step-prompted reference existed <span title="outputs/exp016_threshold_calibration/receipt.json &rarr; calibration.n_clips = 284; corpus.selection">(calibration receipt, sha f6dba8be&hellip;)</span>. The <b>reference screen</b> rejects a reference whose longest period with neither foot meeting the test exceeds <b>0.20&nbsp;s</b>.</p>
+  <div class="grid3">
+    <div class="card stat"><b title="outputs/analysis_trackability_contract/receipt.json &rarr; summary.exp021_step.single_feature_auc.max_unsupported_run_s.{auc, ci95_bootstrap}">0.997</b><span>ranking performance (AUC) of that one reference feature against the evaluator's cutoff, bootstrap 0.987&ndash;1.00 &mdash; post hoc, on 64 references</span></div>
+    <div class="card stat"><b title="&hellip;.summary.exp021_step.gate_0p2s_primary.{terminated_above, terminated_n}">53 / 53</b><span>cut-off rollouts the 0.20&nbsp;s screen flags (sensitivity 1.00, Wilson 0.932&ndash;1.00)</span></div>
+    <div class="card stat"><b title="&hellip;.summary.exp021_step.gate_0p2s_primary.{survived_above, survived_n} = 3 of 11 flagged">8 / 11</b><span>completed runs the screen passes (specificity 0.727, Wilson 0.434&ndash;0.903) &mdash; it rejects three of them</span></div>
+  </div>
+  <figure>
+    <img src="figures/fig5_contract_gate.png" alt="Longest unsupported period by rollout outcome, the screen's ROC, the robot's state at the cutoff, and cutoff timing">
+    <figcaption><b>A reference-only screen predicts the cutoff.</b> (a) longest period with neither foot supported, by outcome; (b) that single feature separates cut-off from completed rollouts, with the 0.20&nbsp;s screen &mdash; fixed before these clips existed &mdash; and a post hoc sweep optimum at 0.32&nbsp;s shown separately; (c) at the cutoff the robot is upright while the reference's higher foot is a median 0.40&nbsp;m in the air; (d) cutoff time relative to the start of the unsupported period, median +0.04&nbsp;s. Every plotted value: <code>docs/figures/fig5_numbers.json</code>.</figcaption>
+  </figure>
+  <ul>
+    <li><b>It is not merely &ldquo;did the reference lift&rdquo;.</b> Lift height alone gives 0.924, and among the 20 references that never lift &mdash; 10 of them cut off &mdash; the same period still separates outcomes at 0.98 <span title="outputs/analysis_trackability_contract/receipt.json &rarr; summary.exp021_lift_height_only.auc; summary.exp021_non_lifting_stratum.{n, terminated, run_auc}">(receipt)</span>.</li>
+    <li><b>All 44 produced references are flagged; all 8 that pass the screen completed their run</b> <span title="&hellip;.summary.exp021_lift_ge_3cm.n_within_calibrated_gate = 0 of 44; summary.exp021_within_calibrated_gate = {n: 8, survived: 8}">(receipt)</span>. A prescriptive rule of the form &ldquo;produce a supported step that clears the box&rdquo; therefore has nothing to select before tracking even begins.</li>
+    <li><b>The post hoc optimum is reported as a sweep, never as the rule.</b> A threshold of 0.28&nbsp;s (&ge; 8 frames) gives 51 of 53 and 11 of 11 <span title="&hellip;.summary.exp021_step.sweep_max_unsupported_run_s, entry threshold_s = 0.28">(receipt)</span>. The operating rule stays the pre-frozen 0.20&nbsp;s.</li>
+  </ul>
+  <blockquote><b>What the screen does and does not say.</b> It predicts one evaluator's stopping rule under the release configuration. It does not say the robot would fall, and it does not say the motion is physically impossible; failing the support test does not establish zero contact force. A calibrated score is not a physical guarantee. <b>A cutoff is a rule firing, not an observed fall:</b> at the last archived state the pelvis of every cut-off rollout sits between 0.56&nbsp;m and 0.95&nbsp;m, with 0 of 53 below 0.5&nbsp;m &mdash; the reportable fact is that all 53 were <em>upright at the last archived state</em>, and nothing more <span title="outputs/analysis_trackability_contract/receipt.json &rarr; summary.fall_vs_cutoff_at_last_sample.{achieved_pelvis_z_min_median_max, n_pelvis_below_0p5m}">(receipt)</span>. The cutoff lands within 0.2&nbsp;s of the reference's first &ge;&nbsp;0.2&nbsp;s unsupported onset in 47 of 53 rollouts, median +0.04&nbsp;s, and before the onset in 10.</blockquote>
+  <h3>The prospective test ranks cutoffs but fails admission</h3>
+  <p>128 fresh references (32 seeds &times; four root-control settings) were generated and scored, and the screen's per-reference prediction was written to a file <em>before</em> any tracker launch &mdash; <b title="outputs/exp024_reference_contract/receipt.json &rarr; stages.predict.{n, primary_flagged, secondary_flagged, written_before_sonic, file_sha256}">95 flagged at 0.20&nbsp;s, 33 passing</b>, with the file's hash bound in the receipt. All 128 were then tracked. Prospective AUC is <b>0.855</b> (bootstrap 95&nbsp;% 0.742&ndash;0.943), below the preregistered 0.90 bar; 92 of 95 flagged references terminate, but so do 20 of the 33 passing references. The feature informs ranking and diagnosis, not execution admission.</p>
+  <div class="tbl"><table>
+    <caption class="note" style="text-align:left;padding-bottom:6px">Reference results, followed by 128 / 128 closed-loop SONIC rollouts &mdash; <code>outputs/exp024_reference_contract/summary.json</code></caption>
+    <tr><th>root control</th><th>step produced</th><th>clears 5&nbsp;cm at the specified position</th><th>passes the screen</th><th>valid step passing the support test</th><th>median unsupported period</th></tr>
+    <tr><td>free</td><td>23/32</td><td>7/32</td><td>6/32</td><td>0/32</td><td>0.48 s</td></tr>
+    <tr><td>heading pinned</td><td>27/32</td><td>8/32</td><td>3/32</td><td>0/32</td><td>0.74 s</td></tr>
+    <tr><td>root height pinned</td><td>19/32</td><td>1/32</td><td>8/32</td><td>0/32</td><td>0.36 s</td></tr>
+    <tr><td>both pinned</td><td>11/32</td><td>2/32</td><td>16/32</td><td>0/32</td><td>0.22 s</td></tr>
+  </table></div>
+  <p class="note">&ldquo;Valid step passing the support test&rdquo; requires a locally valid step by the 13-gate evaluator <em>and</em> no unsupported period longer than 0.20&nbsp;s, which is why it is zero while 33 references pass the screen alone. Pinning both root height and heading lowers terminations from 29 / 32 in the free arm to 21 / 32, but also lowers production from 23 / 32 to 11 / 32 and placed 5&nbsp;cm clearance from 7 / 32 to 2 / 32. It trades one rung for another. Rollouts with the cutoff rule removed remain pending.</p>
+</div></section>
+
+<!-- ================= Q3 ================= -->
+<section id="q3"><div class="wrap">
+  <div class="snum">Question 3</div>
+  <h2>Does correction improve the available motions?</h2>
+  <p class="lede">Where selection has nothing to select, the remaining option is to make a better candidate. Ducking references admit a generator-level correction because the deficit is scalar &mdash; missing headroom at a route position &mdash; and the operator acts on the model's root-height control. That this control moves overhead clearance in a predictable direction is the <em>design rationale</em>, not a measured property here: no v2-sampler requested-versus-achieved root-height artifact exists, and the only dose-response data predates the sampler fix and is quarantined as v1 evidence <span title="docs/figures/fig3_channel_response_numbers.json &rarr; omitted_no_committed_artifact.root_height_dose_response_v2">(figure notes)</span>. What is measured in this section is the outcome of the ducking correction arms below. Stepping lacks an effective generator control in these experiments; its separate post-generation leg repair is reported after the execution audit.</p>
+  <p>The operator measures the missing headroom <code>e(s)</code> at each route position, divides by the locally measured gain to get the command change, shifts it early because the body lags, applies it at most twice, and re-measures after each step. If the response saturates, the route is rejected with its residual error rather than corrected harder.</p>
+  <div class="tbl"><table>
+    <caption class="note" style="text-align:left;padding-bottom:6px">36 beam scenes &times; 8 seeds = 288 scene&ndash;seed trials per arm, 0.18&nbsp;m margin target &mdash; <code>outputs/phase4e_architecture_v2_s8/experiment.json</code> &rarr; <code>summary.&lt;arm&gt;.{collision_free_rate, margin_satisfaction_rate, mean_ardy_calls}</code></caption>
+    <tr><th>proposer</th><th>arm</th><th>collision-free references</th><th>18&nbsp;cm margin met</th><th>mean generations used</th></tr>
+    <tr><td rowspan="3">learned (TCN)</td><td>uncorrected</td><td>72.9 %</td><td>0.3 %</td><td>1.00</td></tr>
+    <tr><td>two corrections</td><td><b>99.3 %</b></td><td><b>37.5 %</b></td><td>2.72</td></tr>
+    <tr><td>best of three resamples</td><td>77.4 %</td><td>1.4 %</td><td>2.99</td></tr>
+    <tr><td rowspan="3">QP teacher</td><td>uncorrected</td><td>87.2 %</td><td>0.7 %</td><td>1.00</td></tr>
+    <tr><td>two corrections</td><td>100 %</td><td>41.7 %</td><td>2.67</td></tr>
+    <tr><td>best of three resamples</td><td>97.2 %</td><td>3.1 %</td><td>2.98</td></tr>
+    <tr><td rowspan="3">heuristic</td><td>uncorrected</td><td>98.3 %</td><td>53.5 %</td><td>1.00</td></tr>
+    <tr><td>two corrections</td><td>100 %</td><td>64.6 %</td><td>1.84</td></tr>
+    <tr><td>best of three resamples</td><td>100 %</td><td><b>72.6 %</b></td><td>1.81</td></tr>
+  </table></div>
+  <div class="tbl"><table>
+    <caption class="note" style="text-align:left;padding-bottom:6px">Two corrections minus best-of-three resampling, per-scene paired differences, 36-scene cluster bootstrap, 30,000 resamples, <b>descriptive</b> &mdash; <code>outputs/analysis_repair_paired_bootstrap/summary.json</code> &rarr; <code>results[*]</code></caption>
+    <tr><th>proposer, endpoint</th><th>difference (pp)</th><th>95&nbsp;% interval</th><th>trials won by correction : by resampling</th></tr>
+    <tr><td>learned (TCN), collision-free reference</td><td>+21.9</td><td>+9.4 to +35.4</td><td>63 : 0</td></tr>
+    <tr><td>learned (TCN), 18&nbsp;cm margin</td><td>+36.1</td><td>+25.0 to +47.6</td><td>104 : 0</td></tr>
+    <tr><td>QP teacher, 18&nbsp;cm margin</td><td>+38.5</td><td>+28.1 to +48.6</td><td>112 : 1</td></tr>
+    <tr><td>QP teacher, collision-free reference</td><td>+2.8</td><td>0.0 to +6.9</td><td>8 : 0</td></tr>
+    <tr><td>heuristic, collision-free reference</td><td>0.0 (tie at 100 %)</td><td>0.0 to 0.0</td><td>0 : 0</td></tr>
+    <tr><td><b>heuristic, 18&nbsp;cm margin</b></td><td><b>&minus;8.0</b></td><td>&minus;14.2 to &minus;1.7</td><td>18 : 41</td></tr>
+  </table></div>
+  <figure>
+    <img src="figures/fig7_repair_vs_resampling.png" alt="Correction versus equal-budget resampling for three proposers, on two endpoints, with paired differences and generation counts">
+    <figcaption><b>Correction against equal-budget resampling.</b> Only the two-correction and best-of-three arms share a cap of three generations, so only those are compared; the uncorrected and one-correction arms are not budget-matched and are not in the comparison. Caps and the mean calls actually used: <code>docs/figures/fig7_numbers.json</code> &rarr; <code>budget_parity</code>.</figcaption>
+  </figure>
+  <p><b>The supported conclusion is the narrow one.</b> Measured correction improves reference clearance for the learned proposer, but does not outperform resampling for every proposer &mdash; the benefit depends on the starting planner. Three boundaries belong in the same breath:</p>
+  <ul>
+    <li><b>The losing comparison is part of the result.</b> For the heuristic proposer, whose references are already 98.3&nbsp;% collision-free without help, plain resampling beats correction on margin: 72.6&nbsp;% against 64.6&nbsp;%, with 41 scene&ndash;seed trials won by resampling alone against 18 won by correction alone.</li>
+    <li><b>99.3&nbsp;% is a collision-free rate, not a margin rate.</b> The learned proposer's margin rate under the same two corrections is 37.5&nbsp;%. Different endpoints, reported separately.</li>
+    <li><b>Equal caps are not equal computation.</b> Both compared arms are capped at three generations, but the mean actually used is 2.72 under correction against 2.99 under resampling for the learned proposer, 2.67 against 2.98 for the QP teacher, and 1.84 against 1.81 for the heuristic. Correction is cheaper where it wins and marginally dearer where it loses.</li>
+  </ul>
+  <p class="note"><b>This historical learned-correction result is reference geometry only.</b> The older tracking campaign ran 859 rollouts and preserved clearance in none, with a confounding 14 s clip cap. ASTRA subsequently tested fixed native crouching, resampling and adaptive timing in separate protocols; those results do not establish an execution gain for this learned correction. The current positive fixed-duck baseline and losing adaptive comparison are reported above.</p>
+</div></section>
+
+<!-- ================= Q4 ================= -->
+<section id="q4"><div class="wrap">
+  <div class="snum">Question 4</div>
+  <h2>Did the historical stepping benefit survive execution?</h2>
+  <p class="lede">No in these stepping experiments: the 64-reference obstacle-present pool audit and the two-carrier repaired-reference pilot remain negative. The newer ducking results above concern a different behavior and protocol.</p>
+  <p>Every executed result before this one tracked references with the obstacle <em>absent</em> and replayed the recorded robot states against the collision model &mdash; which is why a robot that stopped before the box could look collision-free. The first obstacle-present campaign ran the same 64 archived references three ways, under the release evaluator, physics seed 0, one rollout each: no box, a 5&nbsp;cm box, and a 20&nbsp;cm box at x&nbsp;=&nbsp;1.2&nbsp;m.</p>
+  <div class="tbl"><table>
+    <caption class="note" style="text-align:left;padding-bottom:6px">Outcome classes over all 64 assigned trials per arm &mdash; <code>outputs/exp030_obstacle_present/summary.json</code> &rarr; <code>arms.&lt;arm&gt;.outcomes</code>, <code>arms.&lt;arm&gt;.n_assigned_trials</code>. The mutually exclusive evaluator-v1 labels use the precedence rejected, fall, obstacle-envelope violation, wall violation, cutoff, timeout, stall, completion (<code>design.scene.outcome_precedence</code>), so an obstacle-envelope violation outranks the cutoff. Read down a column, never across the cutoff row: the evaluator's cutoff actually fired in 54, 55 and 64 of the 64 rollouts (<code>rows.jsonl</code> &rarr; <code>tracker_terminated</code>), so the label precedence did not reduce the independent cutoff count.</caption>
+    <tr><th>outcome class</th><th>no box (control)</th><th>5&nbsp;cm box</th><th>20&nbsp;cm box</th></tr>
+    <tr><td><b>completed local traversal</b></td><td>1 &mdash; control arm: no obstacle to pass</td><td><b>0</b></td><td><b>0</b></td></tr>
+    <tr><td>4&nbsp;cm body-margin violation around the box</td><td>&mdash; (no box present)</td><td>20</td><td>30</td></tr>
+    <tr><td>evaluator cutoff</td><td>54</td><td>44</td><td>34</td></tr>
+    <tr><td>stalled before the obstacle</td><td>9</td><td>0</td><td>0</td></tr>
+    <tr><td>hit a corridor wall</td><td>0</td><td>0</td><td>0</td></tr>
+    <tr><td>fall detected in the archived samples</td><td>0</td><td>0</td><td>0</td></tr>
+    <tr><td>rejected before execution</td><td>0</td><td>0</td><td>0</td></tr>
+    <tr><td>timeout</td><td colspan="3">not assessed &mdash; no wall-clock deadline was preregistered, so a count of zero here is the absence of a measurement</td></tr>
+  </table></div>
+  <div class="grid3">
+    <div class="card stat"><b title="outputs/exp030_obstacle_present/summary.json &rarr; arms.present_05.local_traversal_completion.{completed, wilson95}">0 / 64</b><span>local traversal completions with a 5&nbsp;cm box (Wilson 0&ndash;0.057); 0 / 64 with a 20&nbsp;cm box</span></div>
+    <div class="card stat"><b title="&hellip; arms.present_05.collision_rate = 0.3125; arms.present_20.collision_rate = 0.46875">31 % &middot; 47 %</b><span>of assigned trials entered the conservative obstacle envelope at 5&nbsp;cm and 20&nbsp;cm, with the box present in physics</span></div>
+    <div class="card stat"><b title="&hellip; arms.absent.local_traversal_completion.{completed, completing_motion_keys}">1 / 64</b><span>completions in the obstacle-absent control arm (reference s4434) &mdash; a different evidence level: there was no obstacle to pass</span></div>
+  </div>
+  <p><b>What the obstacle label means here, exactly.</b> The box was in the physics scene and could alter the rollout, unlike an obstacle drawn only during replay. The <em>label</em>, however, is still a whole-body geometry query on the archived achieved states against a box enlarged by the 4&nbsp;cm body margin; the tracker exported no valid table-to-robot contact or impulse report. So the measured class is <b>margin-envelope violation</b>, not sensor-confirmed physical contact. In 8 of the 50 flagged trials &mdash; 2 at 5&nbsp;cm and 6 at 20&nbsp;cm &mdash; the overlap is smaller than the margin itself <span title="outputs/exp030_obstacle_present/rows.jsonl &rarr; traversal.obstacle_max_penetration_m, against BODY_MARGIN = 0.04 m in scene2motion/robot.py">(rows)</span>. Evaluator v2 now reports nominal penetration, margin violation and optional simulator contact separately; EXP-030 remains an evaluator-v1 artifact and is not silently relabelled. The single completion in the control arm must never be quoted as an obstacle traversal, and the &ldquo;fall&rdquo; row is scored over archived samples only &mdash; archiving stops at the evaluator's cutoff, so a zero there is not a claim about what happened afterwards.</p>
+  <h3>Three predictions were written before the tracker ran. All three held.</h3>
+  <div class="grid3">
+    <div class="card"><span class="badge good">P1 &middot; the control</span><h4>63 of 64 termination flags agree</h4><p>The no-box arm reproduces the earlier obstacle-absent campaign on 63 of 64 references, against a preregistered threshold of 58 (53 versus 54 cut off in total). Valid rollout length agrees on 54 of 64 and is reported alongside, not as the rule.</p></div>
+    <div class="card"><span class="badge good">P2 &middot; completion</span><h4>0 of 64, as predicted</h4><p>Written as a prediction of failure so that a completion would be a finding rather than a surprise, with the rule that any completion be reported prominently and its reference identified. There were none in either present arm.</p></div>
+    <div class="card"><span class="badge good">P3 &middot; the proxy</span><h4>Agreement 0.984, &kappa; = 0.964</h4><p>The obstacle-absent replay predicts the obstacle-present outcome class on 63 of 64 references; percentile bootstrap 95&nbsp;% 0.882&ndash;1.0 over 2,000 resamples. Confusion: 20 hit&rarr;hit, 1 hit&rarr;cutoff, 0 cutoff&rarr;hit, 43 cutoff&rarr;cutoff; the single disagreement is reference s4410.</p></div>
+  </div>
+  <p class="note">Keys: <code>outputs/exp030_obstacle_present/summary.json</code> &rarr; <code>predictions.P1.{n_agreeing, threshold, prediction_held}</code>, <code>predictions.P2.{completions, prediction_held}</code>, <code>predictions.P3.{agreement_fraction, kappa, kappa_ci95}</code>, <code>q1_proxy_check.{confusion.matrix, disagreeing_references, kappa_bootstrap}</code>, <code>p1_absent_vs_exp022a.{terminated_counts, valid_length}</code>. <b>P3 is what lets the project's earlier obstacle-absent execution numbers keep their meaning</b> &mdash; on this pool, in this scene, the replay was an accurate proxy for the outcome class. It is one scene and one obstacle position, and it was declared as a falsifiable prediction rather than discovered afterwards.</p>
+  <h3>How much the box changed the rollout</h3>
+  <p>Paired per reference, maximum forward progress falls by a median of 0.000&nbsp;m with an interquartile range of 0.000&ndash;0.001&nbsp;m &mdash; most references never reach the box &mdash; while <b title="outputs/exp030_obstacle_present/summary.json &rarr; paired_progress_change.{n_falling_more_than_threshold, threshold_m, max_m, median_m, iqr_m, min_m}">8 references</b> lose more than 0.05&nbsp;m, up to 3.93&nbsp;m. That tail is consistent with the box stopping robots that would otherwise have kept going &mdash; but it is not one-sided: three references travel more than 0.05&nbsp;m <em>further</em> with the box present, one of them by 4.52&nbsp;m &mdash; the block's <code>min_m</code> <span title="the count of three is the same paired difference over outputs/exp030_obstacle_present/rows.jsonl &rarr; max_root_x_m, absent minus present_05">(rows)</span>, which is larger than the biggest loss. One route and one physics seed cannot separate that spread from the box's effect.</p>
+  <figure>
+    <img src="figures/fig8_traversal_outcomes.png" alt="Outcome classes by box height for the obstacle-absent replay of the 64-reference stepping pool">
+    <figcaption><b>Outcome classes from the obstacle-<em>ABSENT</em> replay, scored against a box in geometry at six heights.</b> This figure is <em>not</em> the obstacle-present campaign: here &ldquo;collided_obstacle&rdquo; means the achieved trajectory intersects the box's volume in replay, and the robot never felt contact or was perturbed by one &mdash; the figure's own <code>scope</code> field says so. Raising the box from 3&nbsp;cm to 30&nbsp;cm moves replay collisions from 21 to 31 and cutoffs from 43 to 33, with completions at zero throughout and 50 rollouts never reaching the obstacle at any height. Its one goal-region clip is reference s4434, the same one that completes in the control arm above. Numbers: <code>docs/figures/fig8_numbers.json</code> &rarr; <code>by_height</code>, <code>scope</code>, <code>annotation</code>; source <code>outputs/analysis_traversal_outcomes/summary.json</code>. No figure of the obstacle-present outcome table exists yet; that table is above.</figcaption>
+  </figure>
+  <p class="note">Scope for everything in this section: one route, one scene, one obstacle position, physics seed 0, one rollout per reference, <code>traversal_eval</code> version 1. Rates are over all 64 assigned trials and none was rejected before execution. Seeds are the resampling budget within this single scene, not independent scenes; only the ducking family has 36 scenes and a cluster bootstrap across them.</p>
+</div></section>
+
+<!-- ================= CONSTRUCTIVE ATTEMPT ================= -->
+<section id="constructive"><div class="wrap">
+  <div class="snum">The constructive attempt</div>
+  <h2>The frozen repair survives one open-space route, but closes zero traversals</h2>
+  <p class="lede">The first intervention has now reached the controller and the real obstacle. Starting from a reference that passes the frozen support screen, the EXP-031 operator measures foot-envelope overlap with the specified box, assigns obstacle-relative forward and vertical foot targets, and solves bounded inverse kinematics over the twelve leg joints. The preregistered two-carrier pilot then tracks raw and repaired references with the box absent and present under evaluator v2. Its constructive endpoint is <b>0 of 2</b>, or <b>0 of 64</b> over the assigned source pool.</p>
+
+  <div class="grid3">
+    <div class="card stat"><b>64</b><span>archived references in the all-assigned source pool</span></div>
+    <div class="card stat"><b>2</b><span>pass every post-repair admission gate: s4408 and s4434</span></div>
+    <div class="card stat"><b>0 / 2</b><span>repaired-present local traversal completions; 0 / 64 all assigned</span></div>
+  </div>
+  <div class="tbl"><table>
+    <caption class="note" style="text-align:left;padding-bottom:6px">Deterministic pre-execution accounting &mdash; <code>docs/media/step_repair_manifest.json</code> &rarr; <code>preexecution_accounting</code></caption>
+    <tr><th>disposition</th><th>count over all 64</th><th>meaning</th></tr>
+    <tr><td>refused before repair</td><td>56</td><td>input violates the frozen support-screen operating rule</td></tr>
+    <tr><td>rejected after projection</td><td>6</td><td>one or more collision, support, residual or edit-budget gates still fails</td></tr>
+    <tr><td>admitted for paired SONIC execution</td><td>2</td><td>reference-level admission only; no rollout outcome is implied</td></tr>
+  </table></div>
+
+  <figure>
+    <video src="media/s4434_reference_repair.mp4" poster="media/s4434_reference_repair.png" controls loop muted playsinline preload="metadata" aria-label="Raw and obstacle-relative repaired versions of reference s4434 rendered side by side against a five centimetre box"></video>
+    <figcaption><b>What the repair changes, before controller execution.</b> Both panels replay reference s4434 against the same true-size 5&nbsp;cm box. The raw reference intersects the 4&nbsp;cm margin-inflated collision volume in 16 frames. The repaired reference is collision-free with 1.0&nbsp;mm minimum scored clearance, still passes the support screen at its 0.20&nbsp;s boundary, and uses a maximum leg-joint edit of 0.212&nbsp;rad. The root and upper body are bitwise unchanged. This is MuJoCo forward-kinematic replay, not SONIC and not a traversal result. Array hashes, the full repair record, selection rule and renderer settings are bound in <code>docs/media/step_repair_manifest.json</code>.</figcaption>
+  </figure>
+
+  <p><b>Where it failed.</b> Both repaired-present trajectories reached the local recovery location upright and without a tracker cutoff, but both entered the nominal box geometry: 2.506&nbsp;mm for s4408 and 0.112&nbsp;mm for s4434. Physical contact is <em>not assessed</em> because no valid table-contact signal was exported. The one raw route completer, s4434, still completes the 7.2&nbsp;m route after repair when the box is absent, so the edit did not first destroy global trackability. It failed to preserve scene-relative clearance after tracking.</p>
+  <p><b>The post-hoc diagnosis changes the next method.</b> Replaying the repaired obstacle-absent achieved trajectories against the box gives 34.9&nbsp;mm nominal penetration for each carrier, despite +5.2 and +1.0&nbsp;mm conservative clearance in the repaired references. Their trajectory-level reference-to-achieved minimum-clearance gaps are 80.1 and 75.5&nbsp;mm. At the declared 50&nbsp;Hz&harr;25&nbsp;Hz alignment, s4408's feet lag the repaired reference by 0.35&ndash;0.56&nbsp;m near the intended event, while s4434's lead by 0.05&ndash;0.17&nbsp;m; only a fraction of the intended 21&ndash;47&nbsp;mm lift appears in the achieved paired edit. A successor therefore needs carrier-specific achieved-phase anchoring and calibrated execution margin, not a relaxed support threshold or a fixed extra 15&nbsp;mm of reference clearance.</p>
+  <p class="note">Protocol: <a href="https://github.com/linjiw/scene2motion/blob/master/docs/ramp-exp031-constructive-step-repair-protocol.md">EXP-031 constructive repair</a>. Result and claim boundary: <a href="https://github.com/linjiw/scene2motion/blob/gh-pages/docs/ramp-exp031-constructive-step-repair-result-2026-09-04.md">EXP-031 result</a>. Evidence-focused design review: <a href="https://github.com/linjiw/scene2motion/blob/master/docs/xiao-review-2026-09-03.md">Xiao-inspired review</a>. The two candidates will not be rerun under relaxed gates; a successor requires a new method version, output and fresh final units.</p>
+</div></section>
+
+<!-- ================= GENERALISE ================= -->
+<section id="generalise"><div class="wrap">
+  <div class="snum">Boundaries</div>
+  <h2>What generalises, and what does not</h2>
+  <p class="lede">Two claims were tested across boundaries the original campaign did not cross. The screen crossed a <em>behaviour</em> boundary weakly and a <em>model</em> boundary by a margin whose interval straddles the threshold; the early-lift timing crossed neither. Both preregistered rules of the cross-model campaign split, and that split is the finding.</p>
+
+  <h3>A second behaviour family: ducking</h3>
+  <p>The screen was built on motions that leave the ground, so it could simply be detecting stepping. We tested it on 526 ducking references produced by a different pipeline &mdash; a planner-and-correction loop &mdash; of which 344 were stopped by the same controller's evaluator, across 36 beam scenes. The groups, the primary feature of each, the direction and the decision rule were fixed before any feature was computed; the outcome labels were already public, so this is post hoc on a completed campaign.</p>
+  <div class="grid3">
+    <div class="card stat"><b title="outputs/analysis_duck_contract/receipt.json &rarr; summary.pooled_auc_by_group.contact.{auc, cluster_bootstrap.ci95}; summary.within_scene_auc_by_group.contact">0.674</b><span>ranking performance (AUC) pooled, cluster bootstrap 0.625&ndash;0.721 over 36 scenes; 0.694 within scene</span></div>
+    <div class="card stat"><b title="&hellip; summary.pooled_auc_by_group.speed.{auc, cluster_bootstrap.ci95}; within-scene value from summary.within_scene_auc_by_group.speed.weighted_mean_auc">0.441</b><span>the speed confound the plan named in advance, cluster bootstrap 0.328&ndash;0.552 spanning chance pooled &mdash; though within scene the same feature reaches 0.601</span></div>
+    <div class="card stat"><b title="&hellip; summary.screen.calibrated_0p20s.{specificity, specificity_wilson95, flagged_survivors, survivors}">0.297</b><span>specificity at the 0.20&nbsp;s threshold (Wilson 0.235&ndash;0.367): as an accept/reject rule for ducking it would reject most of the corpus</span></div>
+  </div>
+  <figure>
+    <img src="figures/fig6_screen_across_families.png" alt="The screen's ranking performance on three corpora: prompt-elicited stepping, position-channel stepping, and ducking, with the ducking strata and contact-minus-speed differences">
+    <figcaption><b>One reference-only feature, three corpora, two behaviour families &mdash; all from the ARDY-driven pipelines.</b> The longest period with neither foot supported ranks the controller's cutoffs above chance in all three, far more strongly in one family than the other: 0.997 on the prompt-elicited stepping references, 0.921 on the joint-position stepping ladder, 0.674 on the ducking corpus. <b>This figure does not include the second released model</b> &mdash; its three corpora are <code>exp021_step</code>, <code>exp1c_lift</code> and <code>duck</code> (<code>docs/figures/fig6_numbers.json</code> &rarr; <code>corpora[*].key</code>); the cross-model result below has no figure.</figcaption>
+  </figure>
+  <ul>
+    <li><b>Above chance in every stratum.</b> The unsupported-period feature is the only one of the three above 0.5 in all seven preregistered strata &mdash; three crouch-depth bins (0.651, 0.578, 0.693) and four beam counts (0.664, 0.663, 0.670, 0.707).</li>
+    <li><b>The confound is refuted, not assumed away.</b> The earlier ducking campaign capped clips at 14&nbsp;s, forcing every reference to be fast, so speed was the obvious alternative explanation. It fails: contact minus speed is +0.233 pooled with an interval of +0.120 to +0.362, and the two features are near-independent at Pearson &minus;0.181.</li>
+    <li><b>Both weaknesses, stated plainly.</b> The transfer is directional and far weaker than on the stepping family. At the calibrated threshold the screen flags 313 of 344 stopped references but also 128 of 182 completed ones, and 441 of the 526 references exceed 0.20&nbsp;s. The within-scene contact-minus-speed interval, +0.092 with 95&nbsp;% &minus;0.018 to +0.210, <b>straddles zero</b>. Nothing here says a ducking reference that passes the screen is trackable.</li>
+  </ul>
+  <p class="note">Keys: <code>outputs/analysis_duck_contract/receipt.json</code> &rarr; <code>summary.{n_clips, n_scenes, n_terminated, decision, pooled_auc_by_group, within_scene_auc_by_group, screen.calibrated_0p20s, strata, float_fraction, primary_correlation, contact_minus_speed_pooled, contact_minus_speed_within_scene}</code>. Post hoc on a completed campaign; one physics seed, one rollout per reference, one controller checkpoint, 36 scenes of one beam family.</p>
+
+  <h3>A second released model: an offline, non-autoregressive G1 prior</h3>
+  <p>The same 64-seed protocol was run on a second released G1 motion prior with a different architecture. Nothing in that campaign was executed by a tracker, so none of it is a tracking outcome &mdash; 128 generated, 128 kinematically scored, 0 tracker-executed <span title="outputs/exp025_kimodo_cross_prior/summary.json &rarr; tiers.{generated, kinematically_scored, sonic_executed}; decisions.scope">(tiers)</span>.</p>
+  <div class="tbl"><table>
+    <caption class="note" style="text-align:left;padding-bottom:6px">Cross-prior replication, 64 step-prompted clips and 64 walk controls &mdash; <code>outputs/exp025_kimodo_cross_prior/summary.json</code></caption>
+    <tr><th>preregistered rule</th><th>result</th><th>verdict</th><th>key</th></tr>
+    <tr><td>The support signature crosses the architecture boundary if &ge; 80&nbsp;% of elicited clips exceed the 0.20&nbsp;s screen</td><td><b>19 of 23 = 0.826</b>, Wilson 0.629&ndash;0.930 &mdash; the interval <b>straddles</b> the 0.80 threshold. The 0.28&nbsp;s secondary gives the same 19 of 23. Over all 64 assigned trials: 19/64 elicited-and-above, 31/64 above the screen at all.</td><td>crosses, thinly</td><td><code>arms.step.screen.{float_primary_0p20s, float_secondary_0p28s, float_primary_elicited_over_all_assigned, float_primary_over_all_assigned}</code></td></tr>
+    <tr><td>The early-lift window generalises if &ge; 0.7 of lifting clips place the lift inside 2.0&nbsp;s; &le; 0.4 attributes it to autoregressive rollout context</td><td><b>1 of 41</b> clips with a lift position (0.024; Wilson 0.004&ndash;0.126), and <b>0 of 23</b> elicited clips, against 40 of 49 for the autoregressive model. Median lift time 3.87&nbsp;s by root crossing, 3.77&nbsp;s by nominal speed.</td><td>does not cross</td><td><code>arms.step.lift_time_s.{root_crossing, nominal_speed}</code>; <code>decisions.timing_rule</code></td></tr>
+  </table></div>
+  <div class="grid3">
+    <div class="card stat"><b title="outputs/exp025_kimodo_cross_prior/summary.json &rarr; arms.step.elicitation.k over n = 64; arms.walk.elicitation.k = 0">23 / 64</b><span>step-prompted clips from the second model that produce the behaviour at the 3&nbsp;cm definition (41 of 64 with any positive clearance), against 0 of 64 in its own walk control</span></div>
+    <div class="card stat"><b title="&hellip; arms.step.exact_clearance.staged.{0.03,0.05,0.08,0.12,0.2,0.3}.k, all zero over n = 64">0 / 64</b><span>clear <em>any</em> tested height at the position the scene specifies &mdash; 3, 5, 8, 12, 20 and 30&nbsp;cm</span></div>
+    <div class="card stat"><b title="&hellip; arms.step.coverage.obstacles.staged.body_swept.{k, n}; arms.step.coverage.rule">64 / 64</b><span>clips whose whole-body envelope swept the specified centre, so the zero above is not a coverage artefact; an unswept centre is recorded as not-reached, never as a pass</span></div>
+  </div>
+  <p><b>Neither released model puts the behaviour where the scene asks.</b> At an unstaged control centre 3.6&nbsp;m along the same route the second model clears 4 of 64 at 3&nbsp;cm and 3 of 64 at 5 and 8&nbsp;cm. So: the support signature travels across the architecture boundary, the timing signature does not, and the placement failure is common to both models tested.</p>
+</div></section>
+
+<!-- ================= SYSTEM ================= -->
+<section id="system"><div class="wrap">
+  <div class="snum">How it works</div>
+  <h2>From scene to record, and where records leave the pipeline</h2>
+  <p class="lede">Six stages turn one scene into one record. Each appends fields to the same record rather than replacing it, and each stage that can end a candidate's life writes the reason down. There is deliberately no single happy path from scene to a completed traversal, because there is none in the measured evidence.</p>
+  <div class="svgwrap">
+  <svg class="flowsvg" viewBox="0 0 980 430" role="img" aria-labelledby="flowtitle flowdesc">
+    <title id="flowtitle">From scene to record, with the record classes that leave at each stage</title>
+    <desc id="flowdesc">Six stages left to right: Route, Request, Generate, Measure, Correct, Execute. A correction loop returns from Correct to Generate, capped at two corrections. A reference screen hangs below Measure and filters launches into Execute as a budget filter rather than a verdict. Beneath the stages, trays name the record class that ends there with its count: refused, accepted below target, rejected, and cutoff or box contact or stall. The pipeline ends with zero completed local traversals out of sixty-four.</desc>
+    <defs>
+      <marker id="ah" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M0 0 L8 4 L0 8 z" class="hd"/>
+      </marker>
+    </defs>
+
+    <g>
+      <rect class="bx" x="10"  y="40" width="140" height="64" rx="9"/>
+      <text class="t" x="24" y="61">1 &#183; Route</text>
+      <text class="s" x="24" y="78">A* route + body mode</text>
+      <text class="m" x="24" y="94">planner.py</text>
+
+      <rect class="bx" x="174" y="40" width="140" height="64" rx="9"/>
+      <text class="t" x="188" y="61">2 &#183; Request</text>
+      <text class="s" x="188" y="78">prompt + 5 channels</text>
+      <text class="m" x="188" y="94">constraints.py</text>
+
+      <rect class="bx" x="338" y="40" width="140" height="64" rx="9"/>
+      <text class="t" x="352" y="61">3 &#183; Generate</text>
+      <text class="s" x="352" y="78">frozen ARDY-G1</text>
+      <text class="m" x="352" y="94">runner.py</text>
+
+      <rect class="bx" x="502" y="40" width="140" height="64" rx="9"/>
+      <text class="t" x="516" y="61">4 &#183; Measure</text>
+      <text class="s" x="516" y="78">whole-body collision,</text>
+      <text class="s" x="516" y="93">graded at the box</text>
+
+      <rect class="bx" x="666" y="40" width="140" height="64" rx="9"/>
+      <text class="t" x="680" y="61">5 &#183; Correct</text>
+      <text class="s" x="680" y="78">deficit &#8594; command</text>
+      <text class="m" x="680" y="94">verify/repair.py</text>
+
+      <rect class="bx" x="830" y="40" width="140" height="64" rx="9"/>
+      <text class="t" x="844" y="61">6 &#183; Execute</text>
+      <text class="s" x="844" y="78">released tracker;</text>
+      <text class="s" x="844" y="93">state at 50 Hz</text>
+    </g>
+
+    <g class="ar" marker-end="url(#ah)">
+      <path d="M150 72 H170"/>
+      <path d="M314 72 H334"/>
+      <path d="M478 72 H498"/>
+      <path d="M642 72 H662"/>
+      <path d="M806 72 H826"/>
+    </g>
+
+    <path class="ar" marker-end="url(#ah)" d="M736 40 V18 H408 V36"/>
+    <text class="lab" x="572" y="13" text-anchor="middle">&#8804; 2 corrections, re-measured after each</text>
+
+    <rect class="bx-good" x="400" y="146" width="326" height="62" rx="9"/>
+    <text class="t" x="414" y="166">Reference screen &#183; flags 56 of 64 references</text>
+    <text class="s" x="414" y="183">longest period with neither foot supported &gt; 0.20 s</text>
+    <text class="s" x="414" y="199">skips 53 of 53 cutoffs; costs 3 of the 11 completed runs</text>
+    <path class="ar" marker-end="url(#ah)" d="M572 104 V142"/>
+    <path class="ar" marker-end="url(#ah)" d="M726 176 H900 V108"/>
+    <text class="lab" x="886" y="137" text-anchor="end">launch-budget filter</text>
+
+    <text class="t" x="10" y="240">What leaves the pipeline, and where it is written down</text>
+    <g>
+      <rect class="bx-drop" x="10"  y="252" width="140" height="58" rx="8"/>
+      <text class="s" x="24" y="270">refused</text>
+      <text class="s" x="24" y="287">unreachable clearance;</text>
+      <text class="s" x="24" y="301">26 of 300 pilot scenes</text>
+
+      <rect class="bx-drop" x="502" y="252" width="140" height="58" rx="8"/>
+      <text class="s" x="516" y="270">accepted below target</text>
+      <text class="s" x="516" y="287">collision-free, under</text>
+      <text class="s" x="516" y="301">18 cm &#183; 76 of 300</text>
+
+      <rect class="bx-drop" x="666" y="252" width="140" height="58" rx="8"/>
+      <text class="s" x="680" y="270">rejected</text>
+      <text class="s" x="680" y="287">still colliding after</text>
+      <text class="s" x="680" y="301">the budget &#183; 6 of 300</text>
+
+      <rect class="bx-stop" x="830" y="252" width="140" height="58" rx="8"/>
+      <text class="s" x="844" y="270">cutoff &#183; hit the box</text>
+      <text class="s" x="844" y="287">&#183; stalled</text>
+      <text class="s" x="844" y="301">64 of 64 in each present arm</text>
+    </g>
+    <g class="ar-drop" marker-end="url(#ah)">
+      <path d="M80 104 V248"/>
+      <path d="M530 104 V124 H386 V266 H498"/>
+      <path d="M736 104 V248"/>
+      <path d="M940 104 V248"/>
+    </g>
+
+    <rect class="bx-stop" x="830" y="330" width="140" height="44" rx="8"/>
+    <text class="t" x="844" y="349">0 of 64</text>
+    <text class="s" x="844" y="364">completed local traversal</text>
+    <path class="ar" marker-end="url(#ah)" d="M900 310 V326"/>
+
+    <text class="s" x="10" y="345">There is no arrow from any stage to a completed traversal, because there is none in the</text>
+    <text class="s" x="10" y="360">measured evidence. Counts: pilot trays from outputs/corpus_pilot_v2 (300 scenes); screen</text>
+    <text class="s" x="10" y="375">from outputs/analysis_trackability_contract, post hoc on this pool (56 = 64 &#8722; the 8 that pass);</text>
+    <text class="s" x="10" y="390">execution tray and terminus from outputs/exp030_obstacle_present. Nothing is discarded:</text>
+    <text class="s" x="10" y="405">every tray is a row in the record set, carrying its reason and the size of the deficit.</text>
+  </svg>
+  </div>
+
+  <h3>Driving a released model without training it</h3>
+  <p>The generator is NVIDIA's released ARDY-G1 humanoid motion prior &mdash; autoregressive diffusion, 25&nbsp;fps, the Horizon52 checkpoint &mdash; and it is <b>frozen</b>. No weights are trained, fine-tuned or adapted anywhere in this project; the model holds about <b title="outputs/exp024_reference_contract/receipt.json &rarr; stages.generate.runner_release.cuda_memory_allocated_bytes = 935,241,728">0.93&nbsp;GB</b> of GPU memory and is driven entirely through its own published conditioning interface: a text prompt plus five channels the model will let you overwrite frame by frame &mdash; the pelvis ground path, pelvis height, heading, per-joint limb orientation, and joint position targets.</p>
+  <p>One property of that interface explains a large share of the findings, and it is a fact about the released model rather than a modelling choice of ours: <b>the decoder poses the body by forward kinematics from the rotation channel</b>, and the joint-position channel is not read when the pose is decoded. A world-height target for a foot is expressible, but it steers generation only indirectly &mdash; the denoiser must produce a feature vector whose position block matches the request, and nothing forces the rotation block to agree. Every step-over and tuck this project requested through the position channel went by that indirect route. Because nothing is trained, every negative result here is a statement about the <em>released conditioning interface</em>, not about a fine-tune that might have gone wrong.</p>
+  <p class="note">One correction was required before any of it could be measured: ARDY seeds its sampler once per generation call, so a sample's noise depended on its position in the batch, which silently breaks matched-pair comparisons. <code>scene2motion/runner.py</code> gives each batch element its own advancing noise stream keyed by its own seed (<code>NOISE_STREAM_VERSION = 2</code>). Clips generated before that fix are quarantined as audit evidence and never pooled with clips generated after it.</p>
+
+  <h3>What each measurement stage actually computes</h3>
+  <div class="grid2">
+    <div class="card"><h4>Whole-body collision, not a foot height</h4><p><code>G1Body</code> runs MuJoCo forward kinematics on Unitree's own collision primitives for the G1, inflated by a measured 4&nbsp;cm body margin, and reports clearance out to 0.6&nbsp;m. Contacts are split by contact normal into overhead and lateral deficits, because an undifferentiated whole-scene minimum answers &ldquo;crouch&rdquo; to a corridor that is simply too narrow.</p></div>
+    <div class="card"><h4>Clearance at the obstacle, graded</h4><p><code>BoxHeightProbe</code> mutates the half-height of the single box geom and asks whether the whole trajectory is collision-free against it, over all scored frames, margin included. Clearance is graded across 0.03&ndash;0.30&nbsp;m rather than thresholded once, and the centre is the position the scene specifies.</p></div>
+    <div class="card"><h4>The support test and the screen</h4><p>Thresholds frozen in a calibration receipt before any stepping reference existed. The screen's prediction target is named and narrow: the controller evaluator's stopping rule. It is not a fall detector, a contact-force claim, or a statement of physical impossibility.</p></div>
+    <div class="card"><h4>Execution and replay</h4><p>References are exported to the tracker's motion format and tracked in Isaac from a released checkpoint; the achieved robot state is archived at 50&nbsp;Hz and replayed against the same collision model that scored the reference. Until the obstacle-present campaign the box was absent from physics, so &ldquo;clearance after tracking&rdquo; was a geometry query on recorded states. With the box present the rollout is physically obstructed, but its collision label is still that same geometry check, run against the box inflated by the 4&nbsp;cm margin.</p></div>
+  </div>
+</div></section>
+
+<!-- ================= ENGINE ================= -->
+<section id="engine"><div class="wrap">
+  <div class="snum">The product</div>
+  <h2>A released model as a record generator, and how quality is controlled</h2>
+  <p class="lede">The interesting use of a frozen motion prior here is as a generator of <em>measured records</em>, not as a planner. The loop above emits one record per scene attempt &mdash; accepted or not &mdash; and the record, with its rejection reason attached, is the product.</p>
+  <div class="grid2">
+    <div class="card"><h4>What a record carries</h4><p>Identity (scene id, seed, physics seed, sampler and cache version) &middot; scene geometry, route endpoints and requested margin &middot; the request, including which channels were written and the constraint-spec hash &middot; the full reference trajectory, archived for every clip including failures &middot; overhead and lateral clearance traces along the route, plus graded obstacle-centred clearance &middot; correction steps, command change per step and residual error &middot; the located, quantified refusal reason where there is one &middot; reference screen features and the screen's flag &middot; the evaluator outcome, the achieved-state archive, corridor passage and finish beyond the obstacle &middot; full provenance.</p></div>
+    <div class="card"><h4>Rejection is an outcome class with a reason</h4><p>A rejected candidate is a statement about that reference under this controller's evaluator; it does not mean the scene cannot be traversed. Rates are reported over all assigned trials, so a rule that rejects a candidate without executing it scores that trial as a non-completion. Where the rejection avoided an unsafe attempt, that is reported separately. Rejecting everything must never read as perfect task performance.</p></div>
+  </div>
+  <h3>Tiered accounting, never one headline number</h3>
+  <p>A single &ldquo;records per GPU-day&rdquo; figure is exactly the number that would mislead, because the tiers differ by orders of magnitude in cost and by everything in what they establish.</p>
+  <div class="tbl"><table>
+    <tr><th>tier</th><th>ducking</th><th>stepping</th></tr>
+    <tr><td>generated</td><td>300 scenes in <b title="outputs/corpus_pilot_v2/receipt.json &rarr; n_scenes, wall_clock_s">301.9&nbsp;s</b> on one RTX 5080 (heuristic proposer, &le; 2 corrections)</td><td>64 references in the elicitation pool; 128 in the frozen-prediction screen test (<b title="outputs/exp024_reference_contract/receipt.json &rarr; wall_clock_s">1,194&nbsp;s</b>); 128 samples from a second released prior (<b title="outputs/exp025_kimodo_cross_prior/receipt.json &rarr; actual_kimodo_samples, wall_clock_s">1,482&nbsp;s</b>)</td></tr>
+    <tr><td>kinematically scored</td><td><b title="outputs/corpus_pilot_v2/receipt.json &rarr; counts.accepted = 192 plus counts.accepted_margin = 76">268</b> collision-free records &mdash; 192 meeting the 0.18&nbsp;m margin, 76 collision-free below it; <b title="&hellip; counts.rejected">6 rejected</b>; <b title="&hellip; counts.refused; split from manifest.jsonl refusal.functional">26 refused</b> with a named deficit (13 overhead clearance, 13 lateral)</td><td>12 of 64 clear the 5&nbsp;cm box where the scene specifies</td></tr>
+    <tr><td>screen-accepted</td><td>441 of 526 references exceed the screen; it is not usable as a ducking accept/reject rule</td><td>8 of 64 pass the calibrated screen; 33 of 128 in the frozen prospective test</td></tr>
+    <tr><td>tracker-executed</td><td>859 rollouts over 526 references; 0 preserved clearance, under a protocol confounded by a 14&nbsp;s clip cap</td><td>128 rollouts across 4 launches with the box in the physics scene, beside a 64-rollout obstacle-absent control arm (192 rollouts, 6 launches in all); <b>0 of 64</b> local traversal completions at either box height</td></tr>
+  </table></div>
+  <p class="note">All 300 pilot scenes are accounted for: 192 + 76 + 6 + 26 = 300. A worked refusal from that pilot, verbatim from the manifest: overhead clearance short by 0.1672&nbsp;m &mdash; scene value 1.1688&nbsp;m against a best available 1.336&nbsp;m, at the beam labelled <code>partial_beam_3</code> &mdash; the fourth and last of that scene&rsquo;s four beams &mdash; 9.15&nbsp;m along the route (<code>outputs/corpus_pilot_v2/manifest.jsonl</code>, first row, <code>refusal.*</code>). What is claimed is the schema, the tiers and the records, including the negatives with their signed deficits and locations &mdash; not &ldquo;a dataset for training&rdquo;, until a downstream result exists.</p>
+
+  <h3>Scene2Motion-DB: a rebuild-checked corpus preview</h3>
+  <div class="grid2">
+    <div class="card"><h4>What exists now</h4><p>A machine-validated, metadata-first export accounts for all 300 pilot scenes: 192 records meet the requested 18&nbsp;cm margin, 76 are collision-free below it, 6 retain a residual collision, and 26 carry a named scene-feasibility refusal with a signed deficit and location. The builder validates row identity, denominators, outcome semantics, split membership, array schemas and all 268 advertised motion hashes before publishing the preview directory.</p></div>
+    <div class="card"><h4>What is deliberately not claimed</h4><p>The release status is <code>internal_preview_redistribution_review_required</code>. Motion payloads are not copied by default; the current 70/15/15 split is scene-disjoint but not geometry-OOD; EXP-024 and EXP-031 now add execution-labelled records, but no downstream utility result exists. Promotion to a public benchmark requires redistribution clearance, the EXP-028 outcome-semantic records, a frozen scene-family holdout and a same-learner ablation with versus without signed negative records.</p></div>
+  </div>
+  <p class="note">Build and standalone validation instructions: <a href="https://github.com/linjiw/scene2motion/blob/master/docs/scene2motion-db-preview.md">Scene2Motion-DB preview protocol</a>. This is an ecosystem artifact claim about schema and accounting, not yet a training-benefit or generalization claim.</p>
+
+  <h3>How quality is actually controlled</h3>
+  <p>Each practice below is a house rule the harnesses enforce, and each is followed by the artifact showing it happening rather than being aspired to.</p>
+  <div class="grid2">
+    <div class="card"><h4>Preregister, then generate</h4><p>The obstacle-present campaign wrote three predictions with numeric thresholds and a named consequence for each failure before the tracker ran; all three held. The screen's prospective test committed its per-reference flags to a file, with the file's hash in the receipt, before any launch.</p></div>
+    <div class="card"><h4>Fail closed, and record the refusal</h4><p>The sideways-step positive control was refused at its own preregistered substrate gate &mdash; 0 of 8 observed against a required 4 &mdash; and the receipt's status is <code>refused</code> with the reason named. Nothing was rerun on those seeds with a looser gate. The route-phase calibration went through three preregistrations and two written refusals before it produced a number.</p></div>
+    <div class="card"><h4>Planned denominators</h4><p>Rates are over all assigned trials. The obstacle-present campaign reports 64 assigned trials per arm and 0 rejected before execution alongside its outcome breakdown. The cross-prior campaign writes the rule into its own receipt: a clip that never swept a box has a null outcome there and counts as not clearing it, never as a pass.</p></div>
+    <div class="card"><h4>Exact endpoints, tolerant windows kept apart</h4><p>The cost-curve receipt publishes both and refuses to let them be confused. It goes further and flags a numerical trap: two integers in its tolerance block coincide with older, voided figures one box height away, so any citation must name both the height and the window radius.</p></div>
+    <div class="card"><h4>Provenance bound, then revalidated</h4><p>Each campaign binds the generator's checkpoint revision and denoiser hash, the runtime commit and source manifest, the collision model's <code>g1.xml</code> hash, the frozen threshold receipt, the tracker commit and checkpoint hash, the resolved termination configuration, the protocol hash, and a host-resource gate report &mdash; then re-checks after every launch that the project commit, the tracked diff, the source archives and the tracker identity are unchanged. Six launches, six clean revalidations.</p></div>
+    <div class="card"><h4>Seeds and samplers</h4><p>Spent seed blocks are ledgered project-wide and receipts carry an explicit list of seeds that must not be reused. The runner pins the v2 noise stream and the harnesses raise on a dirty working tree, a non-empty output directory, or any other sampler version. v1 and v2 clips are never pooled.</p></div>
+  </div>
+  <p class="note">A standing table of numbers that do <em>not</em> reproduce from the archives is maintained in the repository's orientation file and treated as authoritative over any prose, including prose on this page. Where an analysis was done after seeing the data it is labelled post hoc, and where a comparison is a reanalysis of existing rows it is labelled descriptive.</p>
+</div></section>
+
+<!-- ================= REPRO ================= -->
+<section id="repro"><div class="wrap">
+  <div class="snum">Reproducibility</div>
+  <h2>Every number on this page, and the artifact it comes from</h2>
+  <p class="lede">Experiment identifiers live here rather than in the narrative above. Each row names a committed artifact under <code>outputs/</code>; receipts carry exact sample accounting, and the analysis scripts read committed rows only.</p>
+  <div class="tbl"><table>
+    <tr><th>what it measured</th><th>artifact</th><th>n</th></tr>
+    <tr><td>Step-prompted reference pool; lift height and position on a fixed route</td><td><code>outputs/exp021_elicited_lift_distribution_v2/{receipt.json, rows.jsonl, qpos.npz}</code></td><td>64 references</td></tr>
+    <tr><td>Those 64 references tracked with the obstacle absent; guarded clearance-after-tracking endpoint</td><td><code>outputs/exp022_exact_tracking_bridge/{summary.json, reference_rows.jsonl, achieved_rows.jsonl}</code></td><td>64 rollouts</td></tr>
+    <tr><td><b>The same 64 references with the obstacle present in physics</b>, plus an obstacle-absent control arm</td><td><code>outputs/exp030_obstacle_present/{receipt.json, summary.json, rows.jsonl}</code></td><td>3 arms &times; 64 = 192 rollouts</td></tr>
+    <tr><td>Constructive stepping repair: pre-execution disposition, four paired arms, evaluator-v2 endpoint and post-hoc execution-gap diagnosis</td><td><code>outputs/exp031_constructive_step_repair_execution/{receipt.json, summary.json, rows.jsonl, execution_gap_diagnostic.json}</code>; protocol and result note under <code>docs/ramp-exp031-*</code></td><td>64 references; 2 admitted; 8 rollouts; 0 / 2 repaired-present completions</td></tr>
+    <tr><td>Position-channel lift arms, and the screen's calibration corpus</td><td><code>outputs/exp1c_stepover/{receipt.json, rows.jsonl}</code>; thresholds in <code>outputs/exp016_threshold_calibration/receipt.json</code></td><td>288 clips (144 lift, 144 control); 284 calibration clips</td></tr>
+    <tr><td>Rotation-request arms, free nominal walk arm, text-only control</td><td><code>outputs/exp019_gait_matched_stepover_v7/</code>, <code>outputs/exp020_text_only_control/</code></td><td>8 seeds per arm</td></tr>
+    <tr><td>Prompt switched mid-rollout, with walk and sidestep controls (the refused positive control)</td><td><code>outputs/exp023_prompt_handoff/</code>, <code>outputs/exp023b_prompt_switch_control/</code></td><td>8 + 8 seeds per arm</td></tr>
+    <tr><td>Conditioning-arm ablation; predictions frozen before release-evaluator tracking</td><td><code>outputs/exp024_reference_contract/{receipt.json, summary.json, rows.jsonl, predictions.jsonl, achieved_rows.jsonl}</code></td><td>128 references, 128 tracked</td></tr>
+    <tr><td>Cross-prior replication on a second released G1 model</td><td><code>outputs/exp025_kimodo_cross_prior/{receipt.json, summary.json, rows.jsonl}</code></td><td>128 clips (64 step, 64 walk), 0 tracked</td></tr>
+    <tr><td>Tracked ducking campaign (heuristic arms only)</td><td><code>outputs/exp1b_execution_clearance_v2/receipt.json</code></td><td>859 rollouts, 526 unique references</td></tr>
+    <tr><td>Proposer &times; correction &times; resampling benchmark on 36 beam scenes</td><td><code>outputs/phase4e_architecture_v2_s8/experiment.json</code></td><td>15 arms &times; 288 trials</td></tr>
+    <tr><td>The record engine with rejection reasons</td><td><code>outputs/corpus_pilot_v2/{receipt.json, manifest.jsonl}</code></td><td>300 scenes</td></tr>
+    <tr><td>Screen features versus evaluator cutoffs, stepping</td><td><code>outputs/analysis_trackability_contract/{receipt.json, rows.jsonl}</code> &mdash; <code>status: post_hoc_exploratory</code></td><td>384 rows</td></tr>
+    <tr><td>The same features on the ducking family</td><td><code>outputs/analysis_duck_contract/{receipt.json, rows.jsonl}</code></td><td>526 references, 36 scenes</td></tr>
+    <tr><td>Pool coverage against selected success</td><td><code>outputs/analysis_pool_coverage/summary.json</code> &mdash; <code>descriptive_only</code></td><td>64 references</td></tr>
+    <tr><td>Exact-centre clearance, best-of-N, tolerance windows</td><td><code>outputs/analysis_exact_centre_cost_curve/{receipt.json, curve.jsonl, exact_hits.npz}</code></td><td>64 &times; 121 centres &times; 3 heights</td></tr>
+    <tr><td>When the reference root reaches maximum clearance</td><td><code>outputs/analysis_event_frames/{receipt.json, rows.jsonl}</code></td><td>96 rows</td></tr>
+    <tr><td>Paired scene-cluster bootstrap over the correction benchmark</td><td><code>outputs/analysis_repair_paired_bootstrap/summary.json</code> &mdash; <code>descriptive_only</code></td><td>36 scenes, 30,000 resamples</td></tr>
+    <tr><td>Outcome classes from the obstacle-<b>absent</b> replay</td><td><code>outputs/analysis_traversal_outcomes/summary.json</code></td><td>64 references &times; 6 heights</td></tr>
+    <tr><td>The demo clips on this page: provenance, per-arm outcomes, renderer settings</td><td><code>docs/media/manifest.json</code> (binds the campaign receipt and each achieved-state archive by sha256); every caption number also reads directly from <code>outputs/exp030_obstacle_present/rows.jsonl</code></td><td>3 arms of reference s4434</td></tr>
+  </table></div>
+  <details>
+    <summary>Reading the figures on this page &mdash; two cautions that matter</summary>
+    <p class="note" style="margin:0"><b>Figure 6 does not include the second released model.</b> Its three corpora are the prompt-elicited stepping references, the position-channel stepping ladder, and the ducking corpus &mdash; all from the ARDY-driven pipelines (<code>docs/figures/fig6_numbers.json</code> &rarr; <code>corpora[*].key</code>). The cross-model result has no figure.<br><br>
+    <b>Figure 8 is the obstacle-ABSENT replay.</b> Its &ldquo;collided_obstacle&rdquo; class means the achieved trajectory intersects the box's volume in a geometry query on recorded states; the robot never felt contact (<code>docs/figures/fig8_numbers.json</code> &rarr; <code>scope</code>). It must never be captioned with the obstacle-present counts, which are in the table under Question 4. No figure of the obstacle-present outcome table exists yet.<br><br>
+    Each figure ships a companion <code>*_numbers.json</code> naming its inputs and every plotted value; the figure scripts read committed outputs only.</p>
+  </details>
+  <h3>What is not shown</h3>
+  <ul>
+    <li><b>No successful stepping repair is established</b> &mdash; 0 of 64 at each box height in EXP-030, followed by 0 of 2 repaired-present candidates in EXP-031. ASTRA ducking now has local passage under a different protocol, not a solution to stepping or full-route navigation.</li>
+    <li><b>The prospective screen operating contract failed.</b> All 128 frozen predictions were tracked: AUC 0.855; 92 / 95 flagged references and 20 / 33 passing references terminate. The cross-model campaign executed none at all. The cutoff-free rollout set and known-trackable walking and jumping controls remain pending.</li>
+    <li><b>The original stepping-screen AUC is post hoc</b>; the 128-reference result is prospective, obstacle absent, and does not establish a fall or traversal outcome.</li>
+    <li><b>One route and one scene</b> for every stepping rate, one obstacle position, one physics seed, one rollout per reference. Only the ducking family has 36 scenes and a cluster bootstrap across them.</li>
+    <li><b>The obstacle position was chosen after inspecting the clips</b>, and the correction and coverage analyses are marked descriptive by their own receipts.</li>
+    <li><b>Navigation is not measured at all</b>, and no navigation result may share a success label with local traversal. Whether records with rejection reasons help a downstream navigation policy is a separate question this project does not promise.</li>
+  </ul>
+  <h3>What would change the answer</h3>
+  <div class="grid2">
+    <div class="card"><h4>1 &middot; Finish the cutoff semantics</h4><p>EXP-024 has prospectively rejected the frozen admission contract. Run EXP-028 with the tracking-error cutoff removed to observe what happens after the evaluator would have stopped. Known-trackable walking and jumping controls keep a legitimate dynamic motion from being mislabeled as a violation.</p></div>
+    <div class="card"><h4>2 &middot; Build the execution-aware successor</h4><p>EXP-031 is complete and lost; do not loosen its gates or rerun its two development carriers as a new primary result. Measure carrier-specific reference-to-achieved phase and spatial error in open-space tracking, anchor lead/trail task-space splines to the predicted achieved obstacle location, impose absolute dynamic and endpoint-continuity constraints, and calibrate the required execution margin on held-out development carriers before a fresh comparison.</p></div>
+    <div class="card"><h4>3 &middot; Qualify and extend the ducking result</h4><p>ASTRA now supplies a fixed-duck passage baseline. Complete contact coverage and final-motion qualification, then test one progress-aware correction on fresh grouped scenes. Only then claim scene transfer or downstream dataset utility. Keep the losing adaptive timing and null mode comparison visible.</p></div>
+  </div>
+  <p class="note">Protocols, seeds, schedules and the full history are in the <a href="https://github.com/linjiw/scene2motion/blob/master/docs/REPORT.md">research log</a>, the <a href="https://github.com/linjiw/scene2motion/blob/master/docs/ramp-exp030-obstacle-present-stepping-protocol.md">obstacle-present protocol</a>, the <a href="https://github.com/linjiw/scene2motion/blob/master/docs/ramp-exp031-constructive-step-repair-protocol.md">constructive repair protocol</a>, the <a href="https://github.com/linjiw/scene2motion/blob/master/docs/ramp-exp029-selection-vs-coverage-protocol.md">selection-versus-coverage protocol</a> and the <a href="https://github.com/linjiw/scene2motion/blob/master/docs/plan-2026-09-01-icra2027.md">plan of record</a>.</p>
+</div></section>
+
+<footer><div class="wrap">
+  Scene2Motion &middot; frozen ARDY-G1 and SONIC &middot; Unitree G1 in Isaac Sim &middot; one RTX 5080. Latest tables are receipt-derived; historical experiments retain their own definitions. Local ducking passage is measured in one beam scene; stepping repair, high-quality motion qualification, scene generalization and downstream utility remain open. No result here is a hardware or general safety result. This is a research-progress page, not an accepted-paper announcement.
+</div></footer>
+</body>
+</html>

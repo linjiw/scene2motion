@@ -1,0 +1,683 @@
+{
+  "analysis_source_hashes": {
+    "/home/linjiw/scene2motion/experiments/analyze_astra_a5_bank_selection.py": "fd3a3be2256cdfa5b25aa315930e9dae317bc1cb8c12d2247489e9d7572c1fa5",
+    "/home/linjiw/scene2motion/experiments/analyze_astra_a5_quality.py": "c50737522ccc0126aec03259cb71e56ef52153e0dc4eea2b3e54acc574b6e3f3",
+    "/home/linjiw/scene2motion/scene2motion/astra_bank_selection.py": "0accd475bacd5ed75b68b03c6365389d3c71d8c6822166e77f78a92d4c288bb2"
+  },
+  "assigned_present_slots": 32,
+  "assigned_units": 8,
+  "decisions": [
+    {
+      "absent_execution_cost": 8,
+      "gains_vs_fixed3": 0,
+      "losses_vs_fixed3": 0,
+      "policy": "virtual target pass count, horizon coverage, complete-repeat median progress, fixed3 tie",
+      "present_outcomes": {
+        "fixed2": [
+          false,
+          false,
+          false,
+          false
+        ],
+        "fixed3": [
+          false,
+          true,
+          true,
+          true
+        ]
+      },
+      "quality_admission": null,
+      "reference_candidates": 2,
+      "scores": {
+        "fixed2": {
+          "median_root_x_4s_m": 1.662628173828125,
+          "observed_4s_repeats": 4,
+          "source_execution_ids": [
+            "fixed2_default_absent/a5u0_r0",
+            "fixed2_default_absent/a5u0_r1",
+            "fixed2_default_absent/a5u0_r2",
+            "fixed2_default_absent/a5u0_r3"
+          ],
+          "virtual_target_passes": 0
+        },
+        "fixed3": {
+          "median_root_x_4s_m": 1.9988059997558594,
+          "observed_4s_repeats": 4,
+          "source_execution_ids": [
+            "fixed3_default_absent/a5u0_r0",
+            "fixed3_default_absent/a5u0_r1",
+            "fixed3_default_absent/a5u0_r2",
+            "fixed3_default_absent/a5u0_r3"
+          ],
+          "virtual_target_passes": 3
+        }
+      },
+      "selected_arm": "fixed3",
+      "selected_present_outcomes": [
+        false,
+        true,
+        true,
+        true
+      ],
+      "slotwise_oracle_passes": 3,
+      "split_group_id": "astra-a5/a5u0",
+      "unit_fixed_hold_oracle_passes": 3,
+      "unit_id": "a5u0"
+    },
+    {
+      "absent_execution_cost": 8,
+      "gains_vs_fixed3": 0,
+      "losses_vs_fixed3": 0,
+      "policy": "virtual target pass count, horizon coverage, complete-repeat median progress, fixed3 tie",
+      "present_outcomes": {
+        "fixed2": [
+          false,
+          false,
+          false,
+          false
+        ],
+        "fixed3": [
+          false,
+          false,
+          false,
+          false
+        ]
+      },
+      "quality_admission": null,
+      "reference_candidates": 2,
+      "scores": {
+        "fixed2": {
+          "median_root_x_4s_m": 1.0981216430664062,
+          "observed_4s_repeats": 4,
+          "source_execution_ids": [
+            "fixed2_default_absent/a5u1_r0",
+            "fixed2_default_absent/a5u1_r1",
+            "fixed2_default_absent/a5u1_r2",
+            "fixed2_default_absent/a5u1_r3"
+          ],
+          "virtual_target_passes": 0
+        },
+        "fixed3": {
+          "median_root_x_4s_m": null,
+          "observed_4s_repeats": 0,
+          "source_execution_ids": [
+            "fixed3_default_absent/a5u1_r0",
+            "fixed3_default_absent/a5u1_r1",
+            "fixed3_default_absent/a5u1_r2",
+            "fixed3_default_absent/a5u1_r3"
+          ],
+          "virtual_target_passes": 0
+        }
+      },
+      "selected_arm": "fixed2",
+      "selected_present_outcomes": [
+        false,
+        false,
+        false,
+        false
+      ],
+      "slotwise_oracle_passes": 0,
+      "split_group_id": "astra-a5/a5u1",
+      "unit_fixed_hold_oracle_passes": 0,
+      "unit_id": "a5u1"
+    },
+    {
+      "absent_execution_cost": 8,
+      "gains_vs_fixed3": 0,
+      "losses_vs_fixed3": 0,
+      "policy": "virtual target pass count, horizon coverage, complete-repeat median progress, fixed3 tie",
+      "present_outcomes": {
+        "fixed2": [
+          true,
+          true,
+          true,
+          true
+        ],
+        "fixed3": [
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      "quality_admission": null,
+      "reference_candidates": 2,
+      "scores": {
+        "fixed2": {
+          "median_root_x_4s_m": 2.1227340698242188,
+          "observed_4s_repeats": 4,
+          "source_execution_ids": [
+            "fixed2_default_absent/a5u2_r0",
+            "fixed2_default_absent/a5u2_r1",
+            "fixed2_default_absent/a5u2_r2",
+            "fixed2_default_absent/a5u2_r3"
+          ],
+          "virtual_target_passes": 4
+        },
+        "fixed3": {
+          "median_root_x_4s_m": 2.8813228607177734,
+          "observed_4s_repeats": 4,
+          "source_execution_ids": [
+            "fixed3_default_absent/a5u2_r0",
+            "fixed3_default_absent/a5u2_r1",
+            "fixed3_default_absent/a5u2_r2",
+            "fixed3_default_absent/a5u2_r3"
+          ],
+          "virtual_target_passes": 4
+        }
+      },
+      "selected_arm": "fixed3",
+      "selected_present_outcomes": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "slotwise_oracle_passes": 4,
+      "split_group_id": "astra-a5/a5u2",
+      "unit_fixed_hold_oracle_passes": 4,
+      "unit_id": "a5u2"
+    },
+    {
+      "absent_execution_cost": 8,
+      "gains_vs_fixed3": 1,
+      "losses_vs_fixed3": 0,
+      "policy": "virtual target pass count, horizon coverage, complete-repeat median progress, fixed3 tie",
+      "present_outcomes": {
+        "fixed2": [
+          false,
+          true,
+          false,
+          false
+        ],
+        "fixed3": [
+          false,
+          false,
+          false,
+          false
+        ]
+      },
+      "quality_admission": null,
+      "reference_candidates": 2,
+      "scores": {
+        "fixed2": {
+          "median_root_x_4s_m": 1.726541519165039,
+          "observed_4s_repeats": 4,
+          "source_execution_ids": [
+            "fixed2_default_absent/a5u3_r0",
+            "fixed2_default_absent/a5u3_r1",
+            "fixed2_default_absent/a5u3_r2",
+            "fixed2_default_absent/a5u3_r3"
+          ],
+          "virtual_target_passes": 1
+        },
+        "fixed3": {
+          "median_root_x_4s_m": null,
+          "observed_4s_repeats": 1,
+          "source_execution_ids": [
+            "fixed3_default_absent/a5u3_r0",
+            "fixed3_default_absent/a5u3_r1",
+            "fixed3_default_absent/a5u3_r2",
+            "fixed3_default_absent/a5u3_r3"
+          ],
+          "virtual_target_passes": 0
+        }
+      },
+      "selected_arm": "fixed2",
+      "selected_present_outcomes": [
+        false,
+        true,
+        false,
+        false
+      ],
+      "slotwise_oracle_passes": 1,
+      "split_group_id": "astra-a5/a5u3",
+      "unit_fixed_hold_oracle_passes": 1,
+      "unit_id": "a5u3"
+    },
+    {
+      "absent_execution_cost": 8,
+      "gains_vs_fixed3": 0,
+      "losses_vs_fixed3": 0,
+      "policy": "virtual target pass count, horizon coverage, complete-repeat median progress, fixed3 tie",
+      "present_outcomes": {
+        "fixed2": [
+          true,
+          false,
+          false,
+          false
+        ],
+        "fixed3": [
+          true,
+          false,
+          false,
+          false
+        ]
+      },
+      "quality_admission": null,
+      "reference_candidates": 2,
+      "scores": {
+        "fixed2": {
+          "median_root_x_4s_m": null,
+          "observed_4s_repeats": 3,
+          "source_execution_ids": [
+            "fixed2_default_absent/a5u4_r0",
+            "fixed2_default_absent/a5u4_r1",
+            "fixed2_default_absent/a5u4_r2",
+            "fixed2_default_absent/a5u4_r3"
+          ],
+          "virtual_target_passes": 1
+        },
+        "fixed3": {
+          "median_root_x_4s_m": null,
+          "observed_4s_repeats": 3,
+          "source_execution_ids": [
+            "fixed3_default_absent/a5u4_r0",
+            "fixed3_default_absent/a5u4_r1",
+            "fixed3_default_absent/a5u4_r2",
+            "fixed3_default_absent/a5u4_r3"
+          ],
+          "virtual_target_passes": 2
+        }
+      },
+      "selected_arm": "fixed3",
+      "selected_present_outcomes": [
+        true,
+        false,
+        false,
+        false
+      ],
+      "slotwise_oracle_passes": 1,
+      "split_group_id": "astra-a5/a5u4",
+      "unit_fixed_hold_oracle_passes": 1,
+      "unit_id": "a5u4"
+    },
+    {
+      "absent_execution_cost": 8,
+      "gains_vs_fixed3": 0,
+      "losses_vs_fixed3": 0,
+      "policy": "virtual target pass count, horizon coverage, complete-repeat median progress, fixed3 tie",
+      "present_outcomes": {
+        "fixed2": [
+          true,
+          true,
+          true,
+          true
+        ],
+        "fixed3": [
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      "quality_admission": null,
+      "reference_candidates": 2,
+      "scores": {
+        "fixed2": {
+          "median_root_x_4s_m": 2.185396194458008,
+          "observed_4s_repeats": 4,
+          "source_execution_ids": [
+            "fixed2_default_absent/a5u5_r0",
+            "fixed2_default_absent/a5u5_r1",
+            "fixed2_default_absent/a5u5_r2",
+            "fixed2_default_absent/a5u5_r3"
+          ],
+          "virtual_target_passes": 3
+        },
+        "fixed3": {
+          "median_root_x_4s_m": 2.451883316040039,
+          "observed_4s_repeats": 4,
+          "source_execution_ids": [
+            "fixed3_default_absent/a5u5_r0",
+            "fixed3_default_absent/a5u5_r1",
+            "fixed3_default_absent/a5u5_r2",
+            "fixed3_default_absent/a5u5_r3"
+          ],
+          "virtual_target_passes": 4
+        }
+      },
+      "selected_arm": "fixed3",
+      "selected_present_outcomes": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "slotwise_oracle_passes": 4,
+      "split_group_id": "astra-a5/a5u5",
+      "unit_fixed_hold_oracle_passes": 4,
+      "unit_id": "a5u5"
+    },
+    {
+      "absent_execution_cost": 8,
+      "gains_vs_fixed3": 0,
+      "losses_vs_fixed3": 0,
+      "policy": "virtual target pass count, horizon coverage, complete-repeat median progress, fixed3 tie",
+      "present_outcomes": {
+        "fixed2": [
+          false,
+          false,
+          false,
+          false
+        ],
+        "fixed3": [
+          false,
+          false,
+          true,
+          false
+        ]
+      },
+      "quality_admission": null,
+      "reference_candidates": 2,
+      "scores": {
+        "fixed2": {
+          "median_root_x_4s_m": null,
+          "observed_4s_repeats": 2,
+          "source_execution_ids": [
+            "fixed2_default_absent/a5u6_r0",
+            "fixed2_default_absent/a5u6_r1",
+            "fixed2_default_absent/a5u6_r2",
+            "fixed2_default_absent/a5u6_r3"
+          ],
+          "virtual_target_passes": 0
+        },
+        "fixed3": {
+          "median_root_x_4s_m": 1.8225650787353516,
+          "observed_4s_repeats": 4,
+          "source_execution_ids": [
+            "fixed3_default_absent/a5u6_r0",
+            "fixed3_default_absent/a5u6_r1",
+            "fixed3_default_absent/a5u6_r2",
+            "fixed3_default_absent/a5u6_r3"
+          ],
+          "virtual_target_passes": 1
+        }
+      },
+      "selected_arm": "fixed3",
+      "selected_present_outcomes": [
+        false,
+        false,
+        true,
+        false
+      ],
+      "slotwise_oracle_passes": 1,
+      "split_group_id": "astra-a5/a5u6",
+      "unit_fixed_hold_oracle_passes": 1,
+      "unit_id": "a5u6"
+    },
+    {
+      "absent_execution_cost": 8,
+      "gains_vs_fixed3": 0,
+      "losses_vs_fixed3": 0,
+      "policy": "virtual target pass count, horizon coverage, complete-repeat median progress, fixed3 tie",
+      "present_outcomes": {
+        "fixed2": [
+          true,
+          true,
+          true,
+          true
+        ],
+        "fixed3": [
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      "quality_admission": null,
+      "reference_candidates": 2,
+      "scores": {
+        "fixed2": {
+          "median_root_x_4s_m": 2.3394994735717773,
+          "observed_4s_repeats": 4,
+          "source_execution_ids": [
+            "fixed2_default_absent/a5u7_r0",
+            "fixed2_default_absent/a5u7_r1",
+            "fixed2_default_absent/a5u7_r2",
+            "fixed2_default_absent/a5u7_r3"
+          ],
+          "virtual_target_passes": 4
+        },
+        "fixed3": {
+          "median_root_x_4s_m": 2.483370780944824,
+          "observed_4s_repeats": 4,
+          "source_execution_ids": [
+            "fixed3_default_absent/a5u7_r0",
+            "fixed3_default_absent/a5u7_r1",
+            "fixed3_default_absent/a5u7_r2",
+            "fixed3_default_absent/a5u7_r3"
+          ],
+          "virtual_target_passes": 4
+        }
+      },
+      "selected_arm": "fixed3",
+      "selected_present_outcomes": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "slotwise_oracle_passes": 4,
+      "split_group_id": "astra-a5/a5u7",
+      "unit_fixed_hold_oracle_passes": 4,
+      "unit_id": "a5u7"
+    }
+  ],
+  "fixed3_passes": 17,
+  "gains_vs_fixed3": 1,
+  "high_quality_motion_qualified": null,
+  "losses_vs_fixed3": 0,
+  "new_executions": 0,
+  "new_generated_references": 0,
+  "oracle_scope": "ceilings use present outcomes; neither is a deployable selector or new pool success rate",
+  "physical_contact": null,
+  "reused_absent_execution_cost": 64,
+  "reused_candidate_references": 16,
+  "schema_version": "astra-a5-bank-selection-v1",
+  "scope": "post-hoc A5 development analysis: selector sees only absent execution; held-out outcome evaluation is not claimed",
+  "selected_passes": 18,
+  "slotwise_oracle_passes": 18,
+  "source_hashes": {
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/absent_queue.json": "5d9adfbe18aaf48d77f8f60fbe0a06e160a08baa6d9fec88669a8e048d22835a",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed2_default_absent/eval/achieved_qpos.npz": "f3bb04b256a88adf6a1ea8c9bec591d1459ff0a3aed65ccba8a3f63a7307d72c",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed2_default_absent/eval/apparatus.json": "2d6fe2d8d5352a23e77cdbeea37bf0e2d6366f11ac25533d907ea1fb582b61e5",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed2_default_absent/eval/controller_modes.json": "59580f6fbde3a3a124de8f0e022dffcf6743495d9d02dfd3279000c3330dac8d",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed2_default_absent/eval/metrics_eval.json": "8d026590114ebc66136c5329a23228ef088845cd6bf80f3512346e9394afc356",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed2_default_absent/job.json": "30175823ea520f941e9549be08a564c74a24c5431ac8ceb35e565a0b762fc04b",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed2_default_absent/launch.json": "b0de3484fe09f62842ef0d766746b047a0364cee21d11f9d9d4683973cef4f3d",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed2_default_absent/process.json": "bba2f84d2d3bc9f5f81858135d2e0e5aa0061e8403bdd7f0f24e0b11f8f3da11",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed2_default_absent/resource_samples.json": "b061a9f24f8d10f523779ee09df9436d3ff69c8f2c686df3f42c47363d6d460c",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed2_default_absent/sonic.log": "1992283136032af301136b68b03150f6b79dda3386a24cc0f7bbddb4f7bc52fc",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed2_default_absent/verification.json": "817899b15018863ac95cd5a92717da2139342e949cb83f75058ea3c8b408bb15",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed2_default_present/eval/achieved_qpos.npz": "7efcf2bde33bdf9517b3202080220ef823604f6777655bab80788dbcc8833869",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed2_default_present/eval/apparatus.json": "1fc30afd9f6da3191b3826ae8e08e3012c6ecbc085fbbad0b2b108857a3fff72",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed2_default_present/eval/controller_modes.json": "0569a8769f4e65c8470eae1c236807601deab3e1bbb24d7c695a35bb7905b500",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed2_default_present/eval/metrics_eval.json": "2963f4bd71ba7103e4e3515a8321b451ef090ab28a88d3ec1d128537d28fad95",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed2_default_present/job.json": "9c345b24cd3bd1833e7e014a27cfd55ad986da7f7e01cfd44c8e91f05b8aff20",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed2_default_present/launch.json": "f9afc987f2c21b7af1766c70ac45fe543465184e39edc194c71eecbc97f15f6b",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed2_default_present/process.json": "2b0176c54ea7d5c3937fbb7d83ed17935ef2557b02866af33514a6e1f6a2b887",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed2_default_present/resource_samples.json": "c132f2d66ee0d7de8b31975b9de3c37b01c1b6b14d87df1dd076023bd0e6ee1c",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed2_default_present/sonic.log": "5bff1cd75167b7e756fa7f58678e136c66f51f09b099f0167cf579c75c0b2a2d",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed2_default_present/verification.json": "00b7ab8898f513e3c5eb5393c307bddddeac78ba8c4133c44bcf193ede79bedb",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed2_g1_absent/eval/achieved_qpos.npz": "02a00d4edc5c07ed80040b117a9e41db193dcadc2be73f6d0972ed1506d5294e",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed2_g1_absent/eval/apparatus.json": "68faa70a63df038833fa58a6ff1cdcec8f070df1823682c7c2c9b3ca725cd396",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed2_g1_absent/eval/controller_modes.json": "7345ab18e63e89e484c2fa068791827f619618cf7169da22c34b6c7981387986",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed2_g1_absent/eval/metrics_eval.json": "9b971ab393100c1f6836e274e21a378550b85ee36ca99ad9f51d3bebc000c43a",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed2_g1_absent/job.json": "7c28e007ee108f924d96a0a1d6ec735ccc4b8aa7e2323e074a39d09573447cbf",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed2_g1_absent/launch.json": "db7cd59019953690ff10ffd1320102d678d723d464c9691595098aade335424c",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed2_g1_absent/process.json": "bd2c7dd413c7cc41d3b8142035d83ad6fdd592b922946a6c05b0d453d18313d4",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed2_g1_absent/resource_samples.json": "8066e91c3c2ddd1960e3f24ab16ad5f74af00ebfaa15e1f3e09b4f96e48ee9e0",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed2_g1_absent/sonic.log": "b28b73bc4aa5e10296f2aa96a0361b6005bda13af03177fac62fa7959a525521",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed2_g1_absent/verification.json": "56d47bdebcd012352d609063c67305062e3a665280a4138728ea86aa0dbbd95d",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed2_g1_present/eval/achieved_qpos.npz": "4ac1e26014d8992d9d5932e7c44368932ae0b87b1b273f54b7ec2c49e958cb68",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed2_g1_present/eval/apparatus.json": "1070136f9118c640fe7b5869074c9027803d565bab53ba8607a1ca48795f5854",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed2_g1_present/eval/controller_modes.json": "a6fa3edc2fe6d2117ba0a6f9e0a3405c4248218962db8905c61d8e820a826f87",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed2_g1_present/eval/metrics_eval.json": "c08d18f8e512411291f347782138db064410a2bc8bbf3cb20f40fb4f1179672d",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed2_g1_present/job.json": "c66128dde58e73f400be6a2e8bdb273e7696faa8ffc28fff21bcec85488829d6",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed2_g1_present/launch.json": "d82404ea2a1e7b1821d47033bf74a162439fcd0e7762a12764a74734d6df3a7c",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed2_g1_present/process.json": "230d3075262ffdff9abed823d377dd68cfe8fbc17242cbec65726c9be20ae9cf",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed2_g1_present/resource_samples.json": "20a4dcaa97548fd6c8ed751312cee2828eb5683d0c97229249028cd9a091ff8a",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed2_g1_present/sonic.log": "56d1f5bd5fd711d8fb33a85a3d19655e33c0a2cd1b1bfa1869b427bb83fb673c",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed2_g1_present/verification.json": "54eba5179f946048b7bf1fd497624eed604aa39e3993beac8a7b5f97a7e70088",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed2_teleop_absent/eval/achieved_qpos.npz": "3f9dee158a0f9f907a894b3cb1a94ff6c95aa37fb66757c533efaece1ccc3d95",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed2_teleop_absent/eval/apparatus.json": "c23413dad6610ff5cc8257ff904d644a0678e73f0ce5deae23d18a7e0bac2f19",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed2_teleop_absent/eval/controller_modes.json": "acecc49efdf7182116b9edf725dc7f0cca41b8c2107aadefdf89f493419cb04f",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed2_teleop_absent/eval/metrics_eval.json": "1314526183b2407f59f22b4d5a83da411425acac08908ed2efaf3c792ee43db8",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed2_teleop_absent/job.json": "3b6aabefc73c16d7179d3dad3d1b8e02161de4fda2c7191d6125be75b163aaf6",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed2_teleop_absent/launch.json": "89e17382fddf4d2778166a36cc2feb37b9dfb8166a140f8c3f7c8dd34f4cd257",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed2_teleop_absent/process.json": "d75f29b5691c8007eb34421ec88b54cf773b74d453c6c371738ac129d611db6b",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed2_teleop_absent/resource_samples.json": "559f8c919b73ff3877e1ee0548f39c8d0fa773f2329e6c65bcf86d156dd82921",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed2_teleop_absent/sonic.log": "311570ffea650d8515bfe36d262047a8bd385d4cfb4656f524853f40c84b75d6",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed2_teleop_absent/verification.json": "bc95928603110a3064aa1d9cce0426c609b82c4fb6de50eb845b3c20aedbcef0",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed2_teleop_present/eval/achieved_qpos.npz": "63be7e4a67604ac94bc36ae5c2342f742d91169f6902a1ac654c3c72cfa5a6e2",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed2_teleop_present/eval/apparatus.json": "3cf27082304a64cc0255ac79293460c2907a132b4b188fc8266dc96cd43f9080",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed2_teleop_present/eval/controller_modes.json": "c780b8eade95f85b4440a803e762f52180adedf38dbefbfd48cf6d6405fe9228",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed2_teleop_present/eval/metrics_eval.json": "2a17f0a520abff759e9cdbf3a1bb7f68f74595825db924997561669d298c5b28",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed2_teleop_present/job.json": "48c7b0e433eeee2fc98bdc8f0475e26fa53bc59c0e4a7a0815c8c7831e1f8044",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed2_teleop_present/launch.json": "7e9928f0eb5139b9b058efa80feb3c30161b36538adcbe9b58c30ec44365bde1",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed2_teleop_present/process.json": "ab766ac54f5550d5a07825ab8ebafe10a787693d1aeaa0a57c5f6f687ad359ec",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed2_teleop_present/resource_samples.json": "4f8495dcb7ad06fd75e065ca5b2271f939716024175023dd4411d2aa4fc04b66",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed2_teleop_present/sonic.log": "82ee6f04d33be870eb1a8933e3b19ff29fbdfd7c37b85551fb11fb6b38f1c6d6",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed2_teleop_present/verification.json": "ee5f91cf6678179283e2d71d6978358d54e8c27d94dd7c71b8868025d4b78da3",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed3_default_absent/eval/achieved_qpos.npz": "f39306580ece2df9651fd5ad19d5dee1eaa04116de4ce7a5f3c22d6a02ae1216",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed3_default_absent/eval/apparatus.json": "1dc4cd6dc0cd2d3db6c5323dfcf88bce419339344593ed7e4dd1349a86507147",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed3_default_absent/eval/controller_modes.json": "24f85dfb9d8c556987f75a2524c966f60f297158f83e2f28a9750344ef0845b5",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed3_default_absent/eval/metrics_eval.json": "e6b64894a3e40104cfaa153b85a935f75db2c471eaaa48449dc5acd7479d571b",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed3_default_absent/job.json": "2e25efef2c8fc20763062ce1de197d001a250b081b4715ebbabc385e30201770",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed3_default_absent/launch.json": "d92cf9515de0006edb1f8c0fafd52a00bb8f343ea9a60d42e8802627155c6c82",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed3_default_absent/process.json": "03c3478cf56dac35e427372c7dde458066c8530cb0c8954065d280e464d0963d",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed3_default_absent/resource_samples.json": "97f23afb59554a85c26cce064e327dc1a0874ca9895f744437a8aa3f87896b07",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed3_default_absent/sonic.log": "cad36a11de21ab2cd43c987f3de131926681335151f6ee5d730807e32d1f3af3",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed3_default_absent/verification.json": "1f8b1e0a5ab627af9e57bd667cb08456cb5e224337c5d168fcde8dc37536a040",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed3_default_present/eval/achieved_qpos.npz": "f29e23bf00a55e06f841bda9bae1d32fc240604b9afddcd6e6e7b138ac395c7d",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed3_default_present/eval/apparatus.json": "a833298f9408d0572c9a1804e7581aa2b3cdbcd4a42a18663dcb46ca4bd8b781",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed3_default_present/eval/controller_modes.json": "026ef65a40ce4a0d876e04dee4c4900f96fcbf4a1d92e648c985475793136413",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed3_default_present/eval/metrics_eval.json": "ae63deb86ceb9d8c2d3bb1f87cacc5c9e8508818a23908846db859572d26fe64",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed3_default_present/job.json": "7d4650976c393f3a8836bd9ce74ac8335be2c23d4022307c7f27567667cf427d",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed3_default_present/launch.json": "c700907c06cc372b8d5ae15c233e3dd40f94a292227a871ae23dff3584ac677b",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed3_default_present/process.json": "ed9bdf711c6f53f2cf3fde00a7b81347990940038552415dcec2040c143615ef",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed3_default_present/resource_samples.json": "54cb27a202150001c90839d1473a15afce5a4e30e5f51ee3fde4ae28b38b3917",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed3_default_present/sonic.log": "43656986b487292ee9f1e191c60e4c832def6441f3f78f5ddc8545eef5d9be70",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed3_default_present/verification.json": "01e3f47b990686cd030343e7a03f5a426664af291b095768dc580919e8c36550",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed3_g1_absent/eval/achieved_qpos.npz": "cccc67ffadfbc3d1dcef1c00c5322ac68f113a3d2f9e5d3d6234457813604edd",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed3_g1_absent/eval/apparatus.json": "b451ee25457e8bd8f5b9e11197028ac5f76f2c28c30961147a1b837b9575788f",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed3_g1_absent/eval/controller_modes.json": "a7e92ad9b1c58c297b6034801aeb62bf0ecda779a4fee3a17c19cb893d776dfc",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed3_g1_absent/eval/metrics_eval.json": "5c649c2e756ab7641a28549c7d7a46f565ead0efa6ac5809d3d7eae4516f0758",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed3_g1_absent/job.json": "ed9be9e5a2d93157726a7856b68d652e27c784294b440ab6e06c02e772f07eda",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed3_g1_absent/launch.json": "8dc5fa8a802d8eb92c8c364172803cbbf1b17c0c447ebfb67e7ec28a2116e66d",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed3_g1_absent/process.json": "ebb0e5c72d8edff208296c5e1b726782043e98b086a2723a0a3ff31211242bc3",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed3_g1_absent/resource_samples.json": "0da6982ad2c805332b75b204b889475c665b821378e359da809cf7fe42b09603",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed3_g1_absent/sonic.log": "d39a8dcf9d89f817b4e224ffb735da3f65c4dc65acdcdb91c28c476620ca2d59",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed3_g1_absent/verification.json": "63ca184be3e8378b1df932ddc781e3ae56fb099786e0970b025b3cf5324b2f4c",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed3_g1_present/eval/achieved_qpos.npz": "7121a1e8cc3a3c20f8a79013d922dfcd0c5ded3f69fb08206ae8f4bf60b98e1c",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed3_g1_present/eval/apparatus.json": "399d256db8bdcdeb37588e019d78117d3dc3ecce0db8ab789e1b89f608522856",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed3_g1_present/eval/controller_modes.json": "3056b45255050d5e77ca7d6dcb8d175a2a5c06b365af1bd0e8a0b501d0afbc8e",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed3_g1_present/eval/metrics_eval.json": "d5e8ec65831b7f482e907c870bb046e62ce00ecedd8600be157676be2f1d3674",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed3_g1_present/job.json": "8cb1f2a490138ce01a9cac5f2ade665e522f01b7f1d78271acba158e37368fd5",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed3_g1_present/launch.json": "518d854560f2abd8ea88e4c528c775809dba61c60c145531a586e3b6add7e6d2",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed3_g1_present/process.json": "351c65785c5400dc2c48d9bf0531d67d35f7902e0b81a3f5ae114e602cb565da",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed3_g1_present/resource_samples.json": "ac4216294fb0d920f6497eb433f2f1b7f0e7b026143c004f65917f661c0febaf",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed3_g1_present/sonic.log": "d4570b334df6ab9ce63809fa6dcd7f78f9a59a1d556d81294b619d2d6aa3fea7",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed3_g1_present/verification.json": "344f110938e191eefdcf6b2a49b5fe9cf90cd1e678532295a95bc30c794ab2d0",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed3_teleop_absent/eval/achieved_qpos.npz": "120b78f4abec9041123d973aee03fbc569e7558e77f889c7a3e4372acf9fb375",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed3_teleop_absent/eval/apparatus.json": "e9e73c62972e0e8a66507ddcf31aee7bd24d004cbf76e850ae943db359284360",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed3_teleop_absent/eval/controller_modes.json": "e253949cd423ff52b2c37e7e03b19a17f56b77c7759f9869d7026c72dd839ff0",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed3_teleop_absent/eval/metrics_eval.json": "f7e98c8f2172c5787efecc7e3960fb2abc36b3f863ee6365538952a1e7036b47",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed3_teleop_absent/job.json": "4eb050550d31161f6b8d1d64377a06b555c5bc5dba7430c874561be9d3cf46f3",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed3_teleop_absent/launch.json": "be5966d264c8e66bef885474516fbe57ff8a938eafbd2b7d564c141f7712dc69",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed3_teleop_absent/process.json": "176cb2b3a7d38706b7185ffc8ae6a9166b0514b7c2f556f1b6ccc546dbd73016",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed3_teleop_absent/resource_samples.json": "7ddbaf02777bd54b2f5c10354ff97e1ec700bbba0435742c27f3c81a3c8c2486",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed3_teleop_absent/sonic.log": "fccabc64660c23de19ef685a9f303e5c63d769e62bb48658662be076b38e16bf",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed3_teleop_absent/verification.json": "43114d1c7096520f3e97c252b23ba2df092168a3019c724b74b4d324c0ceaf8b",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed3_teleop_present/eval/achieved_qpos.npz": "f64aaaba594077c28f78c4371cd33b7b53c03c29b46be27ea0a311c7c27fc64c",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed3_teleop_present/eval/apparatus.json": "996f161448576b590dd9b38c70e60dca10efdeb8d0ae261d3a211ff824544b76",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed3_teleop_present/eval/controller_modes.json": "5c987c6e9bc80a8528f37f8251cfca5233f41ea5bb7306ef7d8aa70b6e96b184",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed3_teleop_present/eval/metrics_eval.json": "ebb0d31c4e9b1d9b64ac7d7d96a5c2639fc73babd80e53a6b22eb328fb4763a7",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed3_teleop_present/job.json": "57a049acd7889404136c16eae986c25baa79d492845567b49e8ab61294e57288",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed3_teleop_present/launch.json": "a3505345084b8dc04373340d01ebcfa2a61dcfa582c1de301887b47ba5176e07",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed3_teleop_present/process.json": "cfd0014a6c685b4c65676f7c11eaa2a2e2fe1e28fa8374ae6e48e55c970df6f0",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed3_teleop_present/resource_samples.json": "d2e7b18ac7af9afd363c7163fb48eca861eb9c998241ef54c3aa19bab2dcb230",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed3_teleop_present/sonic.log": "568b73b68f1bc5c9f9e261b68c032696371e221005e96e37663c212c6bcbcf76",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/fixed3_teleop_present/verification.json": "48ee8bac183c52ad9e7a155e800c7183dd922b7435b110412fc419149606d8da",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/free_nominal_default_absent/eval/achieved_qpos.npz": "1997011bf4f490c976edeb05fb832e42fca9ca5bba468031b0d48460f3af8fa2",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/free_nominal_default_absent/eval/apparatus.json": "44a5eabda28dc86e6788b8b52c81942d860077fe4e542140c1a079013b4bf4b8",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/free_nominal_default_absent/eval/controller_modes.json": "b626d88135a19277fd8d08e1f710c001a2076cd44606a0a13be5b52bcb265092",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/free_nominal_default_absent/eval/metrics_eval.json": "5deb39f48d26ea1943659bdc0377dc40f994a453eb7d417435527f8db4a5c416",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/free_nominal_default_absent/job.json": "9243ad61c2d2dc177207e358ddb68405ac59961469022daf1ecffe6910beac28",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/free_nominal_default_absent/launch.json": "5254a6bf1fd4209308f9d0abd8588562bb20031bcf0b1ff5a7528b5583b4bff9",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/free_nominal_default_absent/process.json": "7f8959d5b59c5f0cf0d08a9b6cd62a50c9b26e1b4fa65963e1db2a82e706d87f",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/free_nominal_default_absent/resource_samples.json": "40239a63b3e712ecf30bf9812301f570a41c5289df75fabc2e71d37c549745d2",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/free_nominal_default_absent/sonic.log": "292efbaa0b5220729071037233d1fbc7eff4a897fc9455d7b33aff69a71840be",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/free_nominal_default_absent/verification.json": "b8c43a905d66f7a046ccb83af5e309ae8f5d72971d7bbfab4c3f2d817fab7c8c",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/free_nominal_default_present/eval/achieved_qpos.npz": "8c34b66673f308212323c2ad11d9a24bc9b47377b3acb823fe60bd17142b6713",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/free_nominal_default_present/eval/apparatus.json": "b08653ca7b041417f868f8ce914f99260f7b6f9a1f6b50c17d23568502de726c",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/free_nominal_default_present/eval/controller_modes.json": "bc8e915c75bad7ab99ae9468867f880db36f36647542b0ce1b00b031e1c19b3b",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/free_nominal_default_present/eval/metrics_eval.json": "fbfd9e0c6887f1700f93dd28fdf8545b55ce2bba55582ebe0ce91e5434403c6f",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/free_nominal_default_present/job.json": "3ea6f1573c26f535d29e9b257f89b8c2a09c338f8be73767030772ffeb89f28c",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/free_nominal_default_present/launch.json": "0f24f335ffbce22708d03ed70bfac63b1884680d8203eefd359c3e4f6cdeb6a0",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/free_nominal_default_present/process.json": "63c2380f7ee625b66cf7ea0d7a92623280bd234b80414c778d63dea95fd1e9c5",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/free_nominal_default_present/resource_samples.json": "219042b6ca90c8627430d98c6785aceca0ee08a2ac10402ed26a21fb08a4e6c5",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/free_nominal_default_present/sonic.log": "94736e2cb3851ff5d40769d30ca1048d7ecca9254f6cbf0582a26b715c1e9ba9",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/free_nominal_default_present/verification.json": "17563c9e9da4aedb58246a3dbfda9183c15b8a362fae698fde8feb9e26b5062d",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/free_nominal_g1_absent/eval/achieved_qpos.npz": "d77b8d56c6a538121e6df43706e00302776cf0267a1d627e6eee0d3349c2f12d",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/free_nominal_g1_absent/eval/apparatus.json": "510e0b549ad458722c5534fec0e768afecabfeb9bf08fea159bbdc72447bf6a6",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/free_nominal_g1_absent/eval/controller_modes.json": "3d04b01c96b833c47d7e305d36985c682e5bb103945241a9e69652644a653353",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/free_nominal_g1_absent/eval/metrics_eval.json": "f715ccb8675decd08fbfa654929f6f8e4ca8e33aee257c4e3bf528ea68acbd05",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/free_nominal_g1_absent/job.json": "b00c40d2391bd627ec81029406d1fcb147ac686f465ca5fb2652308505bcba76",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/free_nominal_g1_absent/launch.json": "5904213907eb478b225f71f1c43d816115bd34a25ae61cae448d888f865a8783",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/free_nominal_g1_absent/process.json": "e07c0d9f322e2fb011f7bdef30101cea7f7db6d58bb25939f26decd4dc66f8e3",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/free_nominal_g1_absent/resource_samples.json": "1170ac46b8227ba04e661fa3cb7fffd58fc18bc307485f4ad47c3b113ad54b0f",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/free_nominal_g1_absent/sonic.log": "6d3376012fbd979cd1ba57f3fa15bc6382444be906b981f0fdc93d4030467f0d",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/free_nominal_g1_absent/verification.json": "54ace97f606fb4d56aca2481460946bc19e526a905889e08d0a243f4d7f09c6b",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/free_nominal_g1_present/eval/achieved_qpos.npz": "5a82c1355ca06d23e58056d4dae111637f37bba8e4872e9d02bcf79f2f8f9ca2",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/free_nominal_g1_present/eval/apparatus.json": "0f54227d55c27888570624452900f3069975b98f311754b55d9e9f7c2863f878",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/free_nominal_g1_present/eval/controller_modes.json": "029c4fa1342dd1fb8afcb6da79db5239e65b0e3a0c92b122fe7bef9ad6bfa1c0",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/free_nominal_g1_present/eval/metrics_eval.json": "81bc1b53a75d4b1f5a489228eb6c4333011c9fb220e077948824f818e38324e0",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/free_nominal_g1_present/job.json": "6205187e4e09c801d4d646b4389e507a1f0633b8492f5e2cc48177f8282d64bf",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/free_nominal_g1_present/launch.json": "d8e2eeda152d72e53244c8004cae4641f94f8d204eb510ad29c068be29345432",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/free_nominal_g1_present/process.json": "cd9d5eea2fb2416ff7a130ef850254954df3550edf0b57f7beba433a9245775e",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/free_nominal_g1_present/resource_samples.json": "597edf7676ab85ba405f5ba66e50ae4375f9e8c7c937bf68c7b4b7fc28f5b941",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/free_nominal_g1_present/sonic.log": "1449a14eb8fa9270bf9de2cf2ebedf75d8e51ce5cdcf7fa7bf3aadf32f209909",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/free_nominal_g1_present/verification.json": "df481299f237d0a64001434d73daa4fa8df01933222f780ce04ca4a628d75b45",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/free_nominal_teleop_absent/eval/achieved_qpos.npz": "1eb222d3360c31cb8773510db3d401b70910c1719c98872699dcb1970d1b4ad9",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/free_nominal_teleop_absent/eval/apparatus.json": "ad5abaf6f17b435abf981e792c5bc94f058e9803016abec65b4e30c10b891c05",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/free_nominal_teleop_absent/eval/controller_modes.json": "818cfffe66989f105915152d2379c9e522f16425e5c160afd396247e2d563d3d",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/free_nominal_teleop_absent/eval/metrics_eval.json": "8667df9e004c3e395dad60143556766b104d97860f373a2acf781cd76b4fb5a8",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/free_nominal_teleop_absent/job.json": "efe4f2cdc45beafe69361209db99d71c51de7b657583215bbf7861e00160dd72",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/free_nominal_teleop_absent/launch.json": "dcfb0e05787418fe80d671b4e57b9abb180028d195e0a31f84601422a3571178",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/free_nominal_teleop_absent/process.json": "e63279c3daa1de3b40c6ecd9709fb5db705e4995b248e7911bfa19df5d674690",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/free_nominal_teleop_absent/resource_samples.json": "bd448e620e0cc9c3ae208fd165e5c11e6f83461c5e0be832db258de065d285c5",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/free_nominal_teleop_absent/sonic.log": "01c29765eeda433f9d7c67112a544c03e117a6fb4853146d51431cfc6cef6d35",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/free_nominal_teleop_absent/verification.json": "e821e25c9a0c63fdce4941d9a726ee6c854f80afc1a7879c875da75b34b4e007",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/free_nominal_teleop_present/eval/achieved_qpos.npz": "0a31838f5ba6ae47ee7523ddf1f983b9451b5f614674b6ed058d91029f9f5352",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/free_nominal_teleop_present/eval/apparatus.json": "f27308b9cc7581abd689aeaba0070c059ec9f284dac4fd437e267fe618a08b4f",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/free_nominal_teleop_present/eval/controller_modes.json": "081fe704275b29772cee591860aab3f24647f9a84a17a37d32c67ce1ea859566",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/free_nominal_teleop_present/eval/metrics_eval.json": "f8e702d22102c97cc5c14e4606970c3d75ac7ba471ebda1accb76b57e5a205fc",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/free_nominal_teleop_present/job.json": "500fb8259084777c7781ffa4b1a51e95d65acc4ae8b852ad19af603576d03f52",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/free_nominal_teleop_present/launch.json": "337e9919b470bc2ef831cfa70baf4a6dbc0fec94bbf30861ccb8e0bdd9501ce3",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/free_nominal_teleop_present/process.json": "c1b68b168190b48e18f0721ae53fd3099ea26a9bb5043d8e133e2f4c7f208ccf",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/free_nominal_teleop_present/resource_samples.json": "b73f31ac64b6628f94b0fbbf295db56f4e1bdf1f61514ebe2fcc23a61630c14b",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/free_nominal_teleop_present/sonic.log": "cf2d229083fe698463153cc37fb583e8a7925ac4851f2b7b3578d60ba69c84b5",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/free_nominal_teleop_present/verification.json": "f905cff9bb5e14845b1deadce5108f514c97a0ada961c95db8401721a98d45da",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/generation/fixed2/complete.json": "3e4f07b1d97155fe44f93b6bab042d08fe089ff5da122f982feeb9a8be566330",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/generation/fixed2/qpos.npz": "e302bf3291c6acd9971def6c6c793d5103b947de886ceacbae669e9f5f056e3f",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/generation/fixed2/rows.json": "ed91394bb2f3568f1e3ed4ce573e42243e0099ca42edff0f0c890e9642909625",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/generation/fixed2/start.json": "e0f1502377b96be5d35b4a128e60392df4843795ebc0f62e4589a9856569ecac",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/generation/fixed3/complete.json": "b3f2e317e3cbf0de1f9d81dcee1ca7e0a1b2858c05c4b02565bb6f1e71d637f5",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/generation/fixed3/qpos.npz": "612a43aae114e78d38e8b1ada689a2d86133ac540829d20b394847d1d293f485",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/generation/fixed3/rows.json": "b5c1e2796d557a524dea29547fa701533ada7dbc103942d01b130d4577ef1c9f",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/generation/fixed3/start.json": "d2a2a147e2bb41ac31661d2e5f9082cc28f6a7f3a05b85b2dc4c4f79e139e68c",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/generation/free_nominal/complete.json": "20d5f1e08c75827a2d0cdfa14a0d9717a85b124de927cf4e5c585de3a54ea4c4",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/generation/free_nominal/qpos.npz": "608291ee18b5049527349b4954bc8ac09f9b44ef84a88438761a7973668d9e09",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/generation/free_nominal/rows.json": "e8dba206dfd06a7cb28a12ff5e480ea37453a2bca6b4108b9ec40349d4f7cb44",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/generation/free_nominal/start.json": "e4bedeba1dc1782646c982b987dcf91499c6b23b438e0548cdaf9f09f1acc5af",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/generation_identity.json": "85563f5e9f608a9c8f9469bc125a39f19457c4500a60ba1f5ec148bf28d0f0d8",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/identity.json": "c550698ef9e75744c317aa0af86c3e710866a7dd88432ca1a53bfc454a3faac9",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/present_queue.json": "0bc425bf72b04a55f8447ffffbd7eda440bff854fd3ca18d470860c9dd62a269",
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/reachability.json": "ec10bbe53e1c82811fda7ad4f856263f96e9fb901a48080f76be28e8857bb7b7"
+  },
+  "source_summary_sha256": "f5222a781a794a4ad92a02624e621eb446e58ad782cfbc285023f2e8c1b83c58",
+  "target_geometries": 1,
+  "unit_fixed_hold_oracle_passes": 18
+}

@@ -1,0 +1,69 @@
+"""Assemble the Scene2Motion findings page from its parts.
+
+Produces two files from the same sources so the local copy and the published artifact
+never drift:
+
+* ``docs/site/index.html`` -- a standalone page, openable with a browser, for the repo;
+* ``docs/site/artifact.html`` -- the same content without the ``<!doctype>`` wrapper,
+  which the Artifact tool supplies itself.
+
+The payload is assembled by ``make_payload.py`` from ``outputs/demo_motions.json``
+(``experiments/export_demo_motions.py``), ``outputs/demo_videos.json``
+(``experiments/render_demo_videos.py``) and the committed analysis ledgers the two charts
+draw from; this script only concatenates.
+"""
+
+from __future__ import annotations
+
+import sys
+from pathlib import Path
+
+from build_progress import build as build_progress
+
+HERE = Path(__file__).resolve().parent
+
+DOCTYPE = """<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root{color-scheme:light dark}
+  body{margin:0}
+  img{max-width:100%}
+  [hidden]{display:none!important}
+</style>
+"""
+
+
+def build() -> tuple[Path, Path]:
+    build_progress()
+    head = (HERE / "_head.html").read_text()
+    progress_css = (HERE / "progress.css").read_text()
+    head = head.replace('<link rel="stylesheet" href="progress.css">', f"<style>{progress_css}</style>")
+    body = (HERE / "_body.html").read_text()
+    script = (HERE / "_script.html").read_text()
+    payload = (HERE / "_payload.js").read_text()
+    inline = f"<script>{payload}</script>"
+
+    artifact = f"{head}\n{body}\n{inline}\n{script}\n"
+    standalone = f"{DOCTYPE}{head}\n</head>\n<body>\n{body}\n{inline}\n{script}\n</body>\n</html>\n"
+
+    artifact_path = HERE / "artifact.html"
+    index_path = HERE / "index.html"
+    artifact_path.write_text(artifact)
+    index_path.write_text(standalone)
+    return index_path, artifact_path
+
+
+def main() -> None:
+    index_path, artifact_path = build()
+    for path in (index_path, artifact_path):
+        size = path.stat().st_size / 1024
+        if size > 15_000:
+            sys.exit(f"{path.name} is {size:.0f} KB, over the 16 MB artifact limit")
+        print(f"wrote {path.relative_to(HERE.parents[1])} ({size:.0f} KB)")
+
+
+if __name__ == "__main__":
+    main()

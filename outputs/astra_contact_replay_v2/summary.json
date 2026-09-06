@@ -1,0 +1,786 @@
+{
+  "analysis_source_sha256": "7790e33eb4f7a4bb783fe36399368958dd7675793f4f2dfd885dfdc47b64f0a4",
+  "batches": {
+    "fixed3_default_absent": {
+      "body_count": 30,
+      "child_peak_rss_mib": 6055.36328125,
+      "elapsed_s": 65.42939770399244,
+      "exact_replay": true,
+      "max_contact_points": 0,
+      "minimum_available_ram_mib": 10402,
+      "minimum_free_vram_mib": 4666,
+      "records": 32
+    },
+    "fixed3_default_present": {
+      "body_count": 30,
+      "child_peak_rss_mib": 6101.08984375,
+      "elapsed_s": 70.27744247001829,
+      "exact_replay": true,
+      "max_contact_points": 6,
+      "minimum_available_ram_mib": 9397,
+      "minimum_free_vram_mib": 4584,
+      "records": 32
+    }
+  },
+  "generated_references": 0,
+  "geometry_contact_groups": {
+    "local_fail": {
+      "assigned": 15,
+      "through_dwell_measured": 0,
+      "through_dwell_with_reported_points": 0,
+      "valid_prefix_with_nonzero_impulse": 0,
+      "valid_prefix_with_reported_points": 0
+    },
+    "local_pass": {
+      "assigned": 17,
+      "through_dwell_measured": 17,
+      "through_dwell_with_reported_points": 0,
+      "valid_prefix_with_nonzero_impulse": 0,
+      "valid_prefix_with_reported_points": 0
+    }
+  },
+  "new_scientific_units": 0,
+  "operational_executions": 64,
+  "present_rows": [
+    {
+      "entire_episode_contact_free": null,
+      "high_quality_motion_qualified": null,
+      "motion_key": "a5u0_r0",
+      "replay_through_dwell_contact": null,
+      "replay_valid_prefix_contact": {
+        "actions_with_reported_contact": 0,
+        "contact_body_names": [],
+        "contact_observations": 0,
+        "motion_key": "a5u0_r0",
+        "total_normal_impulse_ns": 0.0
+      },
+      "source_execution_id": "fixed3_default_present/a5u0_r0",
+      "source_full_prefix_margin_violation": false,
+      "source_full_prefix_nominal_penetration": false,
+      "source_geometry_local_pass": false,
+      "source_tracker_terminated": false,
+      "split_group_id": "astra-a5/a5u0",
+      "valid_samples": 413
+    },
+    {
+      "entire_episode_contact_free": null,
+      "high_quality_motion_qualified": null,
+      "motion_key": "a5u0_r1",
+      "replay_through_dwell_contact": {
+        "end_sample_inclusive": 198,
+        "normal_impulse_ns": 0.0,
+        "point_observations": 0
+      },
+      "replay_valid_prefix_contact": {
+        "actions_with_reported_contact": 0,
+        "contact_body_names": [],
+        "contact_observations": 0,
+        "motion_key": "a5u0_r1",
+        "total_normal_impulse_ns": 0.0
+      },
+      "source_execution_id": "fixed3_default_present/a5u0_r1",
+      "source_full_prefix_margin_violation": false,
+      "source_full_prefix_nominal_penetration": false,
+      "source_geometry_local_pass": true,
+      "source_tracker_terminated": false,
+      "split_group_id": "astra-a5/a5u0",
+      "valid_samples": 413
+    },
+    {
+      "entire_episode_contact_free": null,
+      "high_quality_motion_qualified": null,
+      "motion_key": "a5u0_r2",
+      "replay_through_dwell_contact": {
+        "end_sample_inclusive": 187,
+        "normal_impulse_ns": 0.0,
+        "point_observations": 0
+      },
+      "replay_valid_prefix_contact": {
+        "actions_with_reported_contact": 0,
+        "contact_body_names": [],
+        "contact_observations": 0,
+        "motion_key": "a5u0_r2",
+        "total_normal_impulse_ns": 0.0
+      },
+      "source_execution_id": "fixed3_default_present/a5u0_r2",
+      "source_full_prefix_margin_violation": false,
+      "source_full_prefix_nominal_penetration": false,
+      "source_geometry_local_pass": true,
+      "source_tracker_terminated": false,
+      "split_group_id": "astra-a5/a5u0",
+      "valid_samples": 413
+    },
+    {
+      "entire_episode_contact_free": null,
+      "high_quality_motion_qualified": null,
+      "motion_key": "a5u0_r3",
+      "replay_through_dwell_contact": {
+        "end_sample_inclusive": 190,
+        "normal_impulse_ns": 0.0,
+        "point_observations": 0
+      },
+      "replay_valid_prefix_contact": {
+        "actions_with_reported_contact": 0,
+        "contact_body_names": [],
+        "contact_observations": 0,
+        "motion_key": "a5u0_r3",
+        "total_normal_impulse_ns": 0.0
+      },
+      "source_execution_id": "fixed3_default_present/a5u0_r3",
+      "source_full_prefix_margin_violation": false,
+      "source_full_prefix_nominal_penetration": false,
+      "source_geometry_local_pass": true,
+      "source_tracker_terminated": false,
+      "split_group_id": "astra-a5/a5u0",
+      "valid_samples": 413
+    },
+    {
+      "entire_episode_contact_free": null,
+      "high_quality_motion_qualified": null,
+      "motion_key": "a5u1_r0",
+      "replay_through_dwell_contact": null,
+      "replay_valid_prefix_contact": {
+        "actions_with_reported_contact": 0,
+        "contact_body_names": [],
+        "contact_observations": 0,
+        "motion_key": "a5u1_r0",
+        "total_normal_impulse_ns": 0.0
+      },
+      "source_execution_id": "fixed3_default_present/a5u1_r0",
+      "source_full_prefix_margin_violation": false,
+      "source_full_prefix_nominal_penetration": false,
+      "source_geometry_local_pass": false,
+      "source_tracker_terminated": true,
+      "split_group_id": "astra-a5/a5u1",
+      "valid_samples": 7
+    },
+    {
+      "entire_episode_contact_free": null,
+      "high_quality_motion_qualified": null,
+      "motion_key": "a5u1_r1",
+      "replay_through_dwell_contact": null,
+      "replay_valid_prefix_contact": {
+        "actions_with_reported_contact": 0,
+        "contact_body_names": [],
+        "contact_observations": 0,
+        "motion_key": "a5u1_r1",
+        "total_normal_impulse_ns": 0.0
+      },
+      "source_execution_id": "fixed3_default_present/a5u1_r1",
+      "source_full_prefix_margin_violation": false,
+      "source_full_prefix_nominal_penetration": false,
+      "source_geometry_local_pass": false,
+      "source_tracker_terminated": true,
+      "split_group_id": "astra-a5/a5u1",
+      "valid_samples": 8
+    },
+    {
+      "entire_episode_contact_free": null,
+      "high_quality_motion_qualified": null,
+      "motion_key": "a5u1_r2",
+      "replay_through_dwell_contact": null,
+      "replay_valid_prefix_contact": {
+        "actions_with_reported_contact": 0,
+        "contact_body_names": [],
+        "contact_observations": 0,
+        "motion_key": "a5u1_r2",
+        "total_normal_impulse_ns": 0.0
+      },
+      "source_execution_id": "fixed3_default_present/a5u1_r2",
+      "source_full_prefix_margin_violation": false,
+      "source_full_prefix_nominal_penetration": false,
+      "source_geometry_local_pass": false,
+      "source_tracker_terminated": true,
+      "split_group_id": "astra-a5/a5u1",
+      "valid_samples": 8
+    },
+    {
+      "entire_episode_contact_free": null,
+      "high_quality_motion_qualified": null,
+      "motion_key": "a5u1_r3",
+      "replay_through_dwell_contact": null,
+      "replay_valid_prefix_contact": {
+        "actions_with_reported_contact": 0,
+        "contact_body_names": [],
+        "contact_observations": 0,
+        "motion_key": "a5u1_r3",
+        "total_normal_impulse_ns": 0.0
+      },
+      "source_execution_id": "fixed3_default_present/a5u1_r3",
+      "source_full_prefix_margin_violation": false,
+      "source_full_prefix_nominal_penetration": false,
+      "source_geometry_local_pass": false,
+      "source_tracker_terminated": true,
+      "split_group_id": "astra-a5/a5u1",
+      "valid_samples": 7
+    },
+    {
+      "entire_episode_contact_free": null,
+      "high_quality_motion_qualified": null,
+      "motion_key": "a5u2_r0",
+      "replay_through_dwell_contact": {
+        "end_sample_inclusive": 130,
+        "normal_impulse_ns": 0.0,
+        "point_observations": 0
+      },
+      "replay_valid_prefix_contact": {
+        "actions_with_reported_contact": 0,
+        "contact_body_names": [],
+        "contact_observations": 0,
+        "motion_key": "a5u2_r0",
+        "total_normal_impulse_ns": 0.0
+      },
+      "source_execution_id": "fixed3_default_present/a5u2_r0",
+      "source_full_prefix_margin_violation": false,
+      "source_full_prefix_nominal_penetration": false,
+      "source_geometry_local_pass": true,
+      "source_tracker_terminated": false,
+      "split_group_id": "astra-a5/a5u2",
+      "valid_samples": 413
+    },
+    {
+      "entire_episode_contact_free": null,
+      "high_quality_motion_qualified": null,
+      "motion_key": "a5u2_r1",
+      "replay_through_dwell_contact": {
+        "end_sample_inclusive": 131,
+        "normal_impulse_ns": 0.0,
+        "point_observations": 0
+      },
+      "replay_valid_prefix_contact": {
+        "actions_with_reported_contact": 0,
+        "contact_body_names": [],
+        "contact_observations": 0,
+        "motion_key": "a5u2_r1",
+        "total_normal_impulse_ns": 0.0
+      },
+      "source_execution_id": "fixed3_default_present/a5u2_r1",
+      "source_full_prefix_margin_violation": false,
+      "source_full_prefix_nominal_penetration": false,
+      "source_geometry_local_pass": true,
+      "source_tracker_terminated": false,
+      "split_group_id": "astra-a5/a5u2",
+      "valid_samples": 413
+    },
+    {
+      "entire_episode_contact_free": null,
+      "high_quality_motion_qualified": null,
+      "motion_key": "a5u2_r2",
+      "replay_through_dwell_contact": {
+        "end_sample_inclusive": 124,
+        "normal_impulse_ns": 0.0,
+        "point_observations": 0
+      },
+      "replay_valid_prefix_contact": {
+        "actions_with_reported_contact": 0,
+        "contact_body_names": [],
+        "contact_observations": 0,
+        "motion_key": "a5u2_r2",
+        "total_normal_impulse_ns": 0.0
+      },
+      "source_execution_id": "fixed3_default_present/a5u2_r2",
+      "source_full_prefix_margin_violation": false,
+      "source_full_prefix_nominal_penetration": false,
+      "source_geometry_local_pass": true,
+      "source_tracker_terminated": false,
+      "split_group_id": "astra-a5/a5u2",
+      "valid_samples": 413
+    },
+    {
+      "entire_episode_contact_free": null,
+      "high_quality_motion_qualified": null,
+      "motion_key": "a5u2_r3",
+      "replay_through_dwell_contact": {
+        "end_sample_inclusive": 134,
+        "normal_impulse_ns": 0.0,
+        "point_observations": 0
+      },
+      "replay_valid_prefix_contact": {
+        "actions_with_reported_contact": 0,
+        "contact_body_names": [],
+        "contact_observations": 0,
+        "motion_key": "a5u2_r3",
+        "total_normal_impulse_ns": 0.0
+      },
+      "source_execution_id": "fixed3_default_present/a5u2_r3",
+      "source_full_prefix_margin_violation": false,
+      "source_full_prefix_nominal_penetration": false,
+      "source_geometry_local_pass": true,
+      "source_tracker_terminated": false,
+      "split_group_id": "astra-a5/a5u2",
+      "valid_samples": 413
+    },
+    {
+      "entire_episode_contact_free": null,
+      "high_quality_motion_qualified": null,
+      "motion_key": "a5u3_r0",
+      "replay_through_dwell_contact": null,
+      "replay_valid_prefix_contact": {
+        "actions_with_reported_contact": 0,
+        "contact_body_names": [],
+        "contact_observations": 0,
+        "motion_key": "a5u3_r0",
+        "total_normal_impulse_ns": 0.0
+      },
+      "source_execution_id": "fixed3_default_present/a5u3_r0",
+      "source_full_prefix_margin_violation": false,
+      "source_full_prefix_nominal_penetration": false,
+      "source_geometry_local_pass": false,
+      "source_tracker_terminated": true,
+      "split_group_id": "astra-a5/a5u3",
+      "valid_samples": 121
+    },
+    {
+      "entire_episode_contact_free": null,
+      "high_quality_motion_qualified": null,
+      "motion_key": "a5u3_r1",
+      "replay_through_dwell_contact": null,
+      "replay_valid_prefix_contact": {
+        "actions_with_reported_contact": 0,
+        "contact_body_names": [],
+        "contact_observations": 0,
+        "motion_key": "a5u3_r1",
+        "total_normal_impulse_ns": 0.0
+      },
+      "source_execution_id": "fixed3_default_present/a5u3_r1",
+      "source_full_prefix_margin_violation": false,
+      "source_full_prefix_nominal_penetration": false,
+      "source_geometry_local_pass": false,
+      "source_tracker_terminated": true,
+      "split_group_id": "astra-a5/a5u3",
+      "valid_samples": 120
+    },
+    {
+      "entire_episode_contact_free": null,
+      "high_quality_motion_qualified": null,
+      "motion_key": "a5u3_r2",
+      "replay_through_dwell_contact": null,
+      "replay_valid_prefix_contact": {
+        "actions_with_reported_contact": 0,
+        "contact_body_names": [],
+        "contact_observations": 0,
+        "motion_key": "a5u3_r2",
+        "total_normal_impulse_ns": 0.0
+      },
+      "source_execution_id": "fixed3_default_present/a5u3_r2",
+      "source_full_prefix_margin_violation": false,
+      "source_full_prefix_nominal_penetration": false,
+      "source_geometry_local_pass": false,
+      "source_tracker_terminated": true,
+      "split_group_id": "astra-a5/a5u3",
+      "valid_samples": 208
+    },
+    {
+      "entire_episode_contact_free": null,
+      "high_quality_motion_qualified": null,
+      "motion_key": "a5u3_r3",
+      "replay_through_dwell_contact": null,
+      "replay_valid_prefix_contact": {
+        "actions_with_reported_contact": 0,
+        "contact_body_names": [],
+        "contact_observations": 0,
+        "motion_key": "a5u3_r3",
+        "total_normal_impulse_ns": 0.0
+      },
+      "source_execution_id": "fixed3_default_present/a5u3_r3",
+      "source_full_prefix_margin_violation": false,
+      "source_full_prefix_nominal_penetration": false,
+      "source_geometry_local_pass": false,
+      "source_tracker_terminated": true,
+      "split_group_id": "astra-a5/a5u3",
+      "valid_samples": 120
+    },
+    {
+      "entire_episode_contact_free": null,
+      "high_quality_motion_qualified": null,
+      "motion_key": "a5u4_r0",
+      "replay_through_dwell_contact": {
+        "end_sample_inclusive": 160,
+        "normal_impulse_ns": 0.0,
+        "point_observations": 0
+      },
+      "replay_valid_prefix_contact": {
+        "actions_with_reported_contact": 0,
+        "contact_body_names": [],
+        "contact_observations": 0,
+        "motion_key": "a5u4_r0",
+        "total_normal_impulse_ns": 0.0
+      },
+      "source_execution_id": "fixed3_default_present/a5u4_r0",
+      "source_full_prefix_margin_violation": false,
+      "source_full_prefix_nominal_penetration": false,
+      "source_geometry_local_pass": true,
+      "source_tracker_terminated": false,
+      "split_group_id": "astra-a5/a5u4",
+      "valid_samples": 413
+    },
+    {
+      "entire_episode_contact_free": null,
+      "high_quality_motion_qualified": null,
+      "motion_key": "a5u4_r1",
+      "replay_through_dwell_contact": null,
+      "replay_valid_prefix_contact": {
+        "actions_with_reported_contact": 0,
+        "contact_body_names": [],
+        "contact_observations": 0,
+        "motion_key": "a5u4_r1",
+        "total_normal_impulse_ns": 0.0
+      },
+      "source_execution_id": "fixed3_default_present/a5u4_r1",
+      "source_full_prefix_margin_violation": false,
+      "source_full_prefix_nominal_penetration": false,
+      "source_geometry_local_pass": false,
+      "source_tracker_terminated": false,
+      "split_group_id": "astra-a5/a5u4",
+      "valid_samples": 413
+    },
+    {
+      "entire_episode_contact_free": null,
+      "high_quality_motion_qualified": null,
+      "motion_key": "a5u4_r2",
+      "replay_through_dwell_contact": null,
+      "replay_valid_prefix_contact": {
+        "actions_with_reported_contact": 0,
+        "contact_body_names": [],
+        "contact_observations": 0,
+        "motion_key": "a5u4_r2",
+        "total_normal_impulse_ns": 0.0
+      },
+      "source_execution_id": "fixed3_default_present/a5u4_r2",
+      "source_full_prefix_margin_violation": false,
+      "source_full_prefix_nominal_penetration": false,
+      "source_geometry_local_pass": false,
+      "source_tracker_terminated": true,
+      "split_group_id": "astra-a5/a5u4",
+      "valid_samples": 9
+    },
+    {
+      "entire_episode_contact_free": null,
+      "high_quality_motion_qualified": null,
+      "motion_key": "a5u4_r3",
+      "replay_through_dwell_contact": null,
+      "replay_valid_prefix_contact": {
+        "actions_with_reported_contact": 0,
+        "contact_body_names": [],
+        "contact_observations": 0,
+        "motion_key": "a5u4_r3",
+        "total_normal_impulse_ns": 0.0
+      },
+      "source_execution_id": "fixed3_default_present/a5u4_r3",
+      "source_full_prefix_margin_violation": false,
+      "source_full_prefix_nominal_penetration": false,
+      "source_geometry_local_pass": false,
+      "source_tracker_terminated": false,
+      "split_group_id": "astra-a5/a5u4",
+      "valid_samples": 413
+    },
+    {
+      "entire_episode_contact_free": null,
+      "high_quality_motion_qualified": null,
+      "motion_key": "a5u5_r0",
+      "replay_through_dwell_contact": {
+        "end_sample_inclusive": 160,
+        "normal_impulse_ns": 0.0,
+        "point_observations": 0
+      },
+      "replay_valid_prefix_contact": {
+        "actions_with_reported_contact": 0,
+        "contact_body_names": [],
+        "contact_observations": 0,
+        "motion_key": "a5u5_r0",
+        "total_normal_impulse_ns": 0.0
+      },
+      "source_execution_id": "fixed3_default_present/a5u5_r0",
+      "source_full_prefix_margin_violation": false,
+      "source_full_prefix_nominal_penetration": false,
+      "source_geometry_local_pass": true,
+      "source_tracker_terminated": false,
+      "split_group_id": "astra-a5/a5u5",
+      "valid_samples": 413
+    },
+    {
+      "entire_episode_contact_free": null,
+      "high_quality_motion_qualified": null,
+      "motion_key": "a5u5_r1",
+      "replay_through_dwell_contact": {
+        "end_sample_inclusive": 166,
+        "normal_impulse_ns": 0.0,
+        "point_observations": 0
+      },
+      "replay_valid_prefix_contact": {
+        "actions_with_reported_contact": 0,
+        "contact_body_names": [],
+        "contact_observations": 0,
+        "motion_key": "a5u5_r1",
+        "total_normal_impulse_ns": 0.0
+      },
+      "source_execution_id": "fixed3_default_present/a5u5_r1",
+      "source_full_prefix_margin_violation": false,
+      "source_full_prefix_nominal_penetration": false,
+      "source_geometry_local_pass": true,
+      "source_tracker_terminated": false,
+      "split_group_id": "astra-a5/a5u5",
+      "valid_samples": 413
+    },
+    {
+      "entire_episode_contact_free": null,
+      "high_quality_motion_qualified": null,
+      "motion_key": "a5u5_r2",
+      "replay_through_dwell_contact": {
+        "end_sample_inclusive": 164,
+        "normal_impulse_ns": 0.0,
+        "point_observations": 0
+      },
+      "replay_valid_prefix_contact": {
+        "actions_with_reported_contact": 0,
+        "contact_body_names": [],
+        "contact_observations": 0,
+        "motion_key": "a5u5_r2",
+        "total_normal_impulse_ns": 0.0
+      },
+      "source_execution_id": "fixed3_default_present/a5u5_r2",
+      "source_full_prefix_margin_violation": false,
+      "source_full_prefix_nominal_penetration": false,
+      "source_geometry_local_pass": true,
+      "source_tracker_terminated": false,
+      "split_group_id": "astra-a5/a5u5",
+      "valid_samples": 413
+    },
+    {
+      "entire_episode_contact_free": null,
+      "high_quality_motion_qualified": null,
+      "motion_key": "a5u5_r3",
+      "replay_through_dwell_contact": {
+        "end_sample_inclusive": 163,
+        "normal_impulse_ns": 0.0,
+        "point_observations": 0
+      },
+      "replay_valid_prefix_contact": {
+        "actions_with_reported_contact": 0,
+        "contact_body_names": [],
+        "contact_observations": 0,
+        "motion_key": "a5u5_r3",
+        "total_normal_impulse_ns": 0.0
+      },
+      "source_execution_id": "fixed3_default_present/a5u5_r3",
+      "source_full_prefix_margin_violation": false,
+      "source_full_prefix_nominal_penetration": false,
+      "source_geometry_local_pass": true,
+      "source_tracker_terminated": false,
+      "split_group_id": "astra-a5/a5u5",
+      "valid_samples": 413
+    },
+    {
+      "entire_episode_contact_free": null,
+      "high_quality_motion_qualified": null,
+      "motion_key": "a5u6_r0",
+      "replay_through_dwell_contact": null,
+      "replay_valid_prefix_contact": {
+        "actions_with_reported_contact": 0,
+        "contact_body_names": [],
+        "contact_observations": 0,
+        "motion_key": "a5u6_r0",
+        "total_normal_impulse_ns": 0.0
+      },
+      "source_execution_id": "fixed3_default_present/a5u6_r0",
+      "source_full_prefix_margin_violation": false,
+      "source_full_prefix_nominal_penetration": false,
+      "source_geometry_local_pass": false,
+      "source_tracker_terminated": false,
+      "split_group_id": "astra-a5/a5u6",
+      "valid_samples": 413
+    },
+    {
+      "entire_episode_contact_free": null,
+      "high_quality_motion_qualified": null,
+      "motion_key": "a5u6_r1",
+      "replay_through_dwell_contact": null,
+      "replay_valid_prefix_contact": {
+        "actions_with_reported_contact": 0,
+        "contact_body_names": [],
+        "contact_observations": 0,
+        "motion_key": "a5u6_r1",
+        "total_normal_impulse_ns": 0.0
+      },
+      "source_execution_id": "fixed3_default_present/a5u6_r1",
+      "source_full_prefix_margin_violation": false,
+      "source_full_prefix_nominal_penetration": false,
+      "source_geometry_local_pass": false,
+      "source_tracker_terminated": false,
+      "split_group_id": "astra-a5/a5u6",
+      "valid_samples": 413
+    },
+    {
+      "entire_episode_contact_free": null,
+      "high_quality_motion_qualified": null,
+      "motion_key": "a5u6_r2",
+      "replay_through_dwell_contact": {
+        "end_sample_inclusive": 149,
+        "normal_impulse_ns": 0.0,
+        "point_observations": 0
+      },
+      "replay_valid_prefix_contact": {
+        "actions_with_reported_contact": 0,
+        "contact_body_names": [],
+        "contact_observations": 0,
+        "motion_key": "a5u6_r2",
+        "total_normal_impulse_ns": 0.0
+      },
+      "source_execution_id": "fixed3_default_present/a5u6_r2",
+      "source_full_prefix_margin_violation": false,
+      "source_full_prefix_nominal_penetration": false,
+      "source_geometry_local_pass": true,
+      "source_tracker_terminated": false,
+      "split_group_id": "astra-a5/a5u6",
+      "valid_samples": 413
+    },
+    {
+      "entire_episode_contact_free": null,
+      "high_quality_motion_qualified": null,
+      "motion_key": "a5u6_r3",
+      "replay_through_dwell_contact": null,
+      "replay_valid_prefix_contact": {
+        "actions_with_reported_contact": 0,
+        "contact_body_names": [],
+        "contact_observations": 0,
+        "motion_key": "a5u6_r3",
+        "total_normal_impulse_ns": 0.0
+      },
+      "source_execution_id": "fixed3_default_present/a5u6_r3",
+      "source_full_prefix_margin_violation": false,
+      "source_full_prefix_nominal_penetration": false,
+      "source_geometry_local_pass": false,
+      "source_tracker_terminated": true,
+      "split_group_id": "astra-a5/a5u6",
+      "valid_samples": 173
+    },
+    {
+      "entire_episode_contact_free": null,
+      "high_quality_motion_qualified": null,
+      "motion_key": "a5u7_r0",
+      "replay_through_dwell_contact": {
+        "end_sample_inclusive": 145,
+        "normal_impulse_ns": 0.0,
+        "point_observations": 0
+      },
+      "replay_valid_prefix_contact": {
+        "actions_with_reported_contact": 0,
+        "contact_body_names": [],
+        "contact_observations": 0,
+        "motion_key": "a5u7_r0",
+        "total_normal_impulse_ns": 0.0
+      },
+      "source_execution_id": "fixed3_default_present/a5u7_r0",
+      "source_full_prefix_margin_violation": false,
+      "source_full_prefix_nominal_penetration": false,
+      "source_geometry_local_pass": true,
+      "source_tracker_terminated": false,
+      "split_group_id": "astra-a5/a5u7",
+      "valid_samples": 413
+    },
+    {
+      "entire_episode_contact_free": null,
+      "high_quality_motion_qualified": null,
+      "motion_key": "a5u7_r1",
+      "replay_through_dwell_contact": {
+        "end_sample_inclusive": 159,
+        "normal_impulse_ns": 0.0,
+        "point_observations": 0
+      },
+      "replay_valid_prefix_contact": {
+        "actions_with_reported_contact": 0,
+        "contact_body_names": [],
+        "contact_observations": 0,
+        "motion_key": "a5u7_r1",
+        "total_normal_impulse_ns": 0.0
+      },
+      "source_execution_id": "fixed3_default_present/a5u7_r1",
+      "source_full_prefix_margin_violation": false,
+      "source_full_prefix_nominal_penetration": false,
+      "source_geometry_local_pass": true,
+      "source_tracker_terminated": false,
+      "split_group_id": "astra-a5/a5u7",
+      "valid_samples": 413
+    },
+    {
+      "entire_episode_contact_free": null,
+      "high_quality_motion_qualified": null,
+      "motion_key": "a5u7_r2",
+      "replay_through_dwell_contact": {
+        "end_sample_inclusive": 155,
+        "normal_impulse_ns": 0.0,
+        "point_observations": 0
+      },
+      "replay_valid_prefix_contact": {
+        "actions_with_reported_contact": 0,
+        "contact_body_names": [],
+        "contact_observations": 0,
+        "motion_key": "a5u7_r2",
+        "total_normal_impulse_ns": 0.0
+      },
+      "source_execution_id": "fixed3_default_present/a5u7_r2",
+      "source_full_prefix_margin_violation": false,
+      "source_full_prefix_nominal_penetration": false,
+      "source_geometry_local_pass": true,
+      "source_tracker_terminated": false,
+      "split_group_id": "astra-a5/a5u7",
+      "valid_samples": 413
+    },
+    {
+      "entire_episode_contact_free": null,
+      "high_quality_motion_qualified": null,
+      "motion_key": "a5u7_r3",
+      "replay_through_dwell_contact": {
+        "end_sample_inclusive": 152,
+        "normal_impulse_ns": 0.0,
+        "point_observations": 0
+      },
+      "replay_valid_prefix_contact": {
+        "actions_with_reported_contact": 0,
+        "contact_body_names": [],
+        "contact_observations": 0,
+        "motion_key": "a5u7_r3",
+        "total_normal_impulse_ns": 0.0
+      },
+      "source_execution_id": "fixed3_default_present/a5u7_r3",
+      "source_full_prefix_margin_violation": false,
+      "source_full_prefix_nominal_penetration": false,
+      "source_geometry_local_pass": true,
+      "source_tracker_terminated": false,
+      "split_group_id": "astra-a5/a5u7",
+      "valid_samples": 413
+    }
+  ],
+  "schema_version": "astra-contact-replay-summary-v1",
+  "scope": "linked replay solver contacts in archived valid prefixes; no terminal-action coverage, A5 relabelling or motion-quality guarantee",
+  "source_hashes": {
+    "/home/linjiw/scene2motion/outputs/astra_a5_encoder_d0/summary.json": "f5222a781a794a4ad92a02624e621eb446e58ad782cfbc285023f2e8c1b83c58",
+    "/home/linjiw/scene2motion/outputs/astra_contact_replay_v2/fixed3_default_absent/eval/achieved_qpos.npz": "f39306580ece2df9651fd5ad19d5dee1eaa04116de4ce7a5f3c22d6a02ae1216",
+    "/home/linjiw/scene2motion/outputs/astra_contact_replay_v2/fixed3_default_absent/eval/apparatus.json": "1dc4cd6dc0cd2d3db6c5323dfcf88bce419339344593ed7e4dd1349a86507147",
+    "/home/linjiw/scene2motion/outputs/astra_contact_replay_v2/fixed3_default_absent/eval/contact_topology.json": "d9fa4bd5064b340566e8f34780de7599edb50cb6cc218190d273d6a5a86eeb9b",
+    "/home/linjiw/scene2motion/outputs/astra_contact_replay_v2/fixed3_default_absent/eval/contacts.json": "4563cfdc6a2facd635524f9643fd370188f198adbb94e7a8426530503bf6f2ea",
+    "/home/linjiw/scene2motion/outputs/astra_contact_replay_v2/fixed3_default_absent/eval/contacts.npz": "8739c76e681f900923b900c9df0ef75cf421d39cabb54650c4b9ad19b6a76d85",
+    "/home/linjiw/scene2motion/outputs/astra_contact_replay_v2/fixed3_default_absent/eval/controller_modes.json": "24f85dfb9d8c556987f75a2524c966f60f297158f83e2f28a9750344ef0845b5",
+    "/home/linjiw/scene2motion/outputs/astra_contact_replay_v2/fixed3_default_absent/eval/metrics_eval.json": "e6b64894a3e40104cfaa153b85a935f75db2c471eaaa48449dc5acd7479d571b",
+    "/home/linjiw/scene2motion/outputs/astra_contact_replay_v2/fixed3_default_absent/job.json": "7f7cb360c33f64521da2f6de698468d77dcc2f5747e80269f88725e370f0e201",
+    "/home/linjiw/scene2motion/outputs/astra_contact_replay_v2/fixed3_default_absent/launch.json": "89fa7f99922949c2e1e9c4e66a1f5fba68c4351ac4b9247e14b6e82c18f54d45",
+    "/home/linjiw/scene2motion/outputs/astra_contact_replay_v2/fixed3_default_absent/process.json": "30b9d78260a26f8e7f6ef26a2a1f1a5d87e4fbd17f7185f2890f9132f3f59758",
+    "/home/linjiw/scene2motion/outputs/astra_contact_replay_v2/fixed3_default_absent/resource_samples.json": "68441e9a16ef28b7cb6dcea27d78a97b5d9c1401ad6981e732bf0b56f33392b8",
+    "/home/linjiw/scene2motion/outputs/astra_contact_replay_v2/fixed3_default_absent/sonic.log": "976bced3f8138623bdf31b93192942b130d5f356e622fcf8cce8dca08a22ffd6",
+    "/home/linjiw/scene2motion/outputs/astra_contact_replay_v2/fixed3_default_absent/verification.json": "4cbb2446ece305c159cad3d4a36800e18fac32f885a09d3c6e602e08ac2c23f3",
+    "/home/linjiw/scene2motion/outputs/astra_contact_replay_v2/fixed3_default_present/eval/achieved_qpos.npz": "f29e23bf00a55e06f841bda9bae1d32fc240604b9afddcd6e6e7b138ac395c7d",
+    "/home/linjiw/scene2motion/outputs/astra_contact_replay_v2/fixed3_default_present/eval/apparatus.json": "a833298f9408d0572c9a1804e7581aa2b3cdbcd4a42a18663dcb46ca4bd8b781",
+    "/home/linjiw/scene2motion/outputs/astra_contact_replay_v2/fixed3_default_present/eval/contact_topology.json": "d9fa4bd5064b340566e8f34780de7599edb50cb6cc218190d273d6a5a86eeb9b",
+    "/home/linjiw/scene2motion/outputs/astra_contact_replay_v2/fixed3_default_present/eval/contacts.json": "9fab8450c30b593e459aefd15e994d0eb3335ee34b55624fdabbc0fafa701ca2",
+    "/home/linjiw/scene2motion/outputs/astra_contact_replay_v2/fixed3_default_present/eval/contacts.npz": "b11fd45ea363ce12dfb9d82b584ff24dbffe7609318b5abb8031fa92a74a1343",
+    "/home/linjiw/scene2motion/outputs/astra_contact_replay_v2/fixed3_default_present/eval/controller_modes.json": "026ef65a40ce4a0d876e04dee4c4900f96fcbf4a1d92e648c985475793136413",
+    "/home/linjiw/scene2motion/outputs/astra_contact_replay_v2/fixed3_default_present/eval/metrics_eval.json": "ae63deb86ceb9d8c2d3bb1f87cacc5c9e8508818a23908846db859572d26fe64",
+    "/home/linjiw/scene2motion/outputs/astra_contact_replay_v2/fixed3_default_present/job.json": "383bb27af7ea8aa63045dbbe7fb50dda9b0d51c4a1bb9d56b4d4b60da6c645bf",
+    "/home/linjiw/scene2motion/outputs/astra_contact_replay_v2/fixed3_default_present/launch.json": "84d13dbece462f451568adbbc7d4b6df923729dbd84447b390034dcd4fb91543",
+    "/home/linjiw/scene2motion/outputs/astra_contact_replay_v2/fixed3_default_present/process.json": "efad202e81f90014ab946938d3d2671204dfd1401d29f48a2bba5497703f2400",
+    "/home/linjiw/scene2motion/outputs/astra_contact_replay_v2/fixed3_default_present/resource_samples.json": "1d48038f33a4e0e998f33413371b03154c3c1184a046a247ee2f160a5ef831c8",
+    "/home/linjiw/scene2motion/outputs/astra_contact_replay_v2/fixed3_default_present/sonic.log": "b8c88119e28b7973f0fad52b4b4505e1afa88b5aecef674eeb2f9f38426774a4",
+    "/home/linjiw/scene2motion/outputs/astra_contact_replay_v2/fixed3_default_present/verification.json": "80b431d5aab9669abccbe9396391c33e4b2e9864b9bf230da2f0d0eb4c421aa9",
+    "/home/linjiw/scene2motion/outputs/astra_contact_replay_v2/queue.json": "cf2d721363b83add5997c0f021923fb4a72ffacdcff41fe3fdb2b2be72f5b14b"
+  }
+}

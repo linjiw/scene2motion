@@ -1,0 +1,252 @@
+{
+  "schema": "scene2motion-obstacle-demo-manifest-v1",
+  "campaign": "outputs/exp030_obstacle_present",
+  "campaign_receipt": "outputs/exp030_obstacle_present/receipt.json",
+  "campaign_receipt_sha256": "86209c942bc26709cbb974d7957e85cf76afc9cf2d6a70c4affb675069efd864",
+  "campaign_identity_sha256": "0f46d10c9bdd60e3f47c87841bda666588282d73a970476034931c423f35013e",
+  "rows": "outputs/exp030_obstacle_present/rows.jsonl",
+  "rows_sha256": "e126186f0276ab74a8ca6c8abaf25bddd4e86e5bf82fb14d4be57c128feb35f2",
+  "physics_seed": 0,
+  "renderer": {
+    "engine": "mujoco 3.12.0",
+    "model": "/home/linjiw/ardy/ardy/assets/skeletons/g1skel34/xml/g1.xml",
+    "model_sha256": "5d76cf92f00dd49d6eb9fae38d7d38e46886848b602ac691051e886c3bcccfb1",
+    "gl": "glfw",
+    "frame_stride": 2,
+    "source_rate_hz": 50.0,
+    "video_fps": 25.0,
+    "crf": 30,
+    "camera": {
+      "azimuth_deg": 112.0,
+      "elevation_deg": -15.0,
+      "distance_m": 3.8,
+      "lookat_z_m": 0.62,
+      "tracks": "pelvis, biased toward the obstacle"
+    }
+  },
+  "selection": {
+    "motion_key": "s4434",
+    "rule": "among references whose 20 cm-box rollout ended in obstacle contact and that travelled at least 1.0 m further in the obstacle-absent control arm, the one with the greatest obstacle-absent achieved max root x",
+    "eligible_count": 11,
+    "absent_max_root_x_m": 7.632789611816406,
+    "present_20_gap_m": 6.126289367675781,
+    "ranking_top5": [
+      {
+        "motion_key": "s4434",
+        "absent_max_root_x_m": 7.632789611816406,
+        "gap_vs_present_20_m": 6.126289367675781
+      },
+      {
+        "motion_key": "s4418",
+        "absent_max_root_x_m": 6.361858367919922,
+        "gap_vs_present_20_m": 5.242633819580078
+      },
+      {
+        "motion_key": "s4408",
+        "absent_max_root_x_m": 5.947451591491699,
+        "gap_vs_present_20_m": 4.892107963562012
+      },
+      {
+        "motion_key": "s4440",
+        "absent_max_root_x_m": 5.867495536804199,
+        "gap_vs_present_20_m": 4.819901466369629
+      },
+      {
+        "motion_key": "s4401",
+        "absent_max_root_x_m": 5.6653594970703125,
+        "gap_vs_present_20_m": 4.717319488525391
+      }
+    ],
+    "rendered_motion_key": "s4434",
+    "overridden": false
+  },
+  "poster_sample_target": 64,
+  "poster_sample_target_why": "the archived sample at which the tallest box was first contacted, so every poster shows the same instant of the same reference",
+  "clips": {
+    "absent": {
+      "motion_key": "s4434",
+      "seed": 4434,
+      "arm": "absent",
+      "obstacle_in_physics": false,
+      "source_archive": "outputs/exp030_obstacle_present/launches/absent_chunk01_seed0/attempt-000/eval/achieved_qpos.npz",
+      "source_archive_sha256": "90447ed8da44360240847e0045691f0998997b6200c2365c88b0a9335d19f3c7",
+      "sample_dt_s": 0.02,
+      "valid_frames": 397,
+      "valid_time_s": 7.94,
+      "outcome": "completed",
+      "outcome_in_words": "completed the route",
+      "tracker_terminated": false,
+      "achieved_max_root_x_m": 7.632789611816406,
+      "achieved_final_root_x_m": 7.632789611816406,
+      "min_pelvis_z_m": 0.6875678300857544,
+      "final_pelvis_z_m": 0.7033893465995789,
+      "obstacle_first_contact_sample": null,
+      "obstacle_first_contact_s": null,
+      "obstacle_max_penetration_m": 0.0,
+      "reached_goal": true,
+      "scene_drawn": {
+        "obstacle_drawn": false,
+        "why": "the campaign's obstacle-absent control arm had no box in the physics scene"
+      },
+      "video": "docs/media/s4434_absent.mp4",
+      "video_bytes": 201854,
+      "poster": "docs/media/s4434_absent.png",
+      "poster_bytes": 151206,
+      "fps": 25.0,
+      "frames": 229,
+      "width": 640,
+      "height": 484,
+      "poster_sample": 64
+    },
+    "present_05": {
+      "motion_key": "s4434",
+      "seed": 4434,
+      "arm": "present_05",
+      "obstacle_in_physics": true,
+      "source_archive": "outputs/exp030_obstacle_present/launches/present_05_chunk01_seed0/attempt-000/eval/achieved_qpos.npz",
+      "source_archive_sha256": "4991683a770da7a4757adb39a66ebf6b5b5728884bb9a3b9a9f8d219e1ecd93a",
+      "sample_dt_s": 0.02,
+      "valid_frames": 397,
+      "valid_time_s": 7.94,
+      "outcome": "collided_obstacle",
+      "outcome_in_words": "contacted the obstacle",
+      "tracker_terminated": false,
+      "achieved_max_root_x_m": 7.6390838623046875,
+      "achieved_final_root_x_m": 7.6390838623046875,
+      "min_pelvis_z_m": 0.6755912899971008,
+      "final_pelvis_z_m": 0.7023347020149231,
+      "obstacle_first_contact_sample": 63,
+      "obstacle_first_contact_s": 1.26,
+      "obstacle_max_penetration_m": 0.03610590817464626,
+      "reached_goal": true,
+      "scene_drawn": {
+        "obstacle_drawn": true,
+        "source": "scene2motion.stepover_eval.step_scene",
+        "scene_id": "step_probe_h0.050",
+        "center_xyz_m": [
+          1.2,
+          0.0,
+          0.025
+        ],
+        "half_extents_m": [
+          0.1,
+          1.4,
+          0.025
+        ],
+        "obstacle_x_m": 1.2,
+        "height_m": 0.05,
+        "depth_m": 0.2,
+        "width_m": 2.8,
+        "drawn_body_margin_m": 0.0,
+        "note": "drawn at true size; the collision metric inflates the same box by BODY_MARGIN = 0.04 m, which is not what the renderer shows"
+      },
+      "video": "docs/media/s4434_present_05.mp4",
+      "video_bytes": 210452,
+      "poster": "docs/media/s4434_present_05.png",
+      "poster_bytes": 153158,
+      "fps": 25.0,
+      "frames": 229,
+      "width": 640,
+      "height": 484,
+      "poster_sample": 64
+    },
+    "present_20": {
+      "motion_key": "s4434",
+      "seed": 4434,
+      "arm": "present_20",
+      "obstacle_in_physics": true,
+      "source_archive": "outputs/exp030_obstacle_present/launches/present_20_chunk01_seed0/attempt-000/eval/achieved_qpos.npz",
+      "source_archive_sha256": "17c7b10b5750f03fbbb10563fb690db796800fa02a0fb40fb5a875b7f972a125",
+      "sample_dt_s": 0.02,
+      "valid_frames": 68,
+      "valid_time_s": 1.36,
+      "outcome": "collided_obstacle",
+      "outcome_in_words": "contacted the obstacle",
+      "tracker_terminated": true,
+      "achieved_max_root_x_m": 1.506500244140625,
+      "achieved_final_root_x_m": 1.506500244140625,
+      "min_pelvis_z_m": 0.7057244777679443,
+      "final_pelvis_z_m": 0.7773965001106262,
+      "obstacle_first_contact_sample": 64,
+      "obstacle_first_contact_s": 1.28,
+      "obstacle_max_penetration_m": 0.0666579575573368,
+      "reached_goal": false,
+      "scene_drawn": {
+        "obstacle_drawn": true,
+        "source": "scene2motion.stepover_eval.step_scene",
+        "scene_id": "step_probe_h0.200",
+        "center_xyz_m": [
+          1.2,
+          0.0,
+          0.1
+        ],
+        "half_extents_m": [
+          0.1,
+          1.4,
+          0.1
+        ],
+        "obstacle_x_m": 1.2,
+        "height_m": 0.2,
+        "depth_m": 0.2,
+        "width_m": 2.8,
+        "drawn_body_margin_m": 0.0,
+        "note": "drawn at true size; the collision metric inflates the same box by BODY_MARGIN = 0.04 m, which is not what the renderer shows"
+      },
+      "video": "docs/media/s4434_present_20.mp4",
+      "video_bytes": 55598,
+      "poster": "docs/media/s4434_present_20.png",
+      "poster_bytes": 152683,
+      "fps": 25.0,
+      "frames": 65,
+      "width": 640,
+      "height": 484,
+      "poster_sample": 64
+    }
+  },
+  "composites": {
+    "pair_absent_vs_20cm": {
+      "arms": [
+        "absent",
+        "present_20"
+      ],
+      "motion_key": "s4434",
+      "video": "docs/media/s4434_pair_absent_vs_20cm.mp4",
+      "video_bytes": 265807,
+      "poster": "docs/media/s4434_pair_absent_vs_20cm.png",
+      "poster_bytes": 286704,
+      "poster_sample": 64,
+      "fps": 25.0,
+      "frames": 229,
+      "width": 1280,
+      "height": 510,
+      "footer": "EXP-030 \u00b7 reference s4434 \u00b7 same reference, same controller, same physics seed 0 \u00b7 one rollout each \u00b7 achieved states replayed in MuJoCo, nothing re-simulated",
+      "panels_hold_last_state": true
+    },
+    "triptych_absent_5cm_20cm": {
+      "arms": [
+        "absent",
+        "present_05",
+        "present_20"
+      ],
+      "motion_key": "s4434",
+      "video": "docs/media/s4434_triptych_absent_5cm_20cm.mp4",
+      "video_bytes": 472288,
+      "poster": "docs/media/s4434_triptych_absent_5cm_20cm.png",
+      "poster_bytes": 404733,
+      "poster_sample": 64,
+      "fps": 25.0,
+      "frames": 229,
+      "width": 1920,
+      "height": 510,
+      "footer": "EXP-030 \u00b7 reference s4434 \u00b7 same reference, same controller, same physics seed 0 \u00b7 one rollout each \u00b7 achieved states replayed in MuJoCo, nothing re-simulated",
+      "panels_hold_last_state": true
+    }
+  },
+  "reading_notes": [
+    "Every frame is an archived achieved state from EXP-030; nothing was re-simulated.",
+    "The obstacle-absent arm is the campaign's control: its completion is not a local traversal result, because there was no obstacle to traverse.",
+    "An evaluator cutoff is a tracking-error stopping rule, not a fall; see final_pelvis_z_m for the pelvis height at the last archived state of each clip.",
+    "Contact with the box in the present arms is a physics contact in the Isaac scene, not a replay-scored geometry query."
+  ],
+  "total_bytes": 2354483
+}

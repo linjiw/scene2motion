@@ -1,0 +1,340 @@
+{
+  "a4": {
+    "counts": {
+      "adaptive": {
+        "absent_progress_pass": 14,
+        "assigned_absent": 32,
+        "assigned_present": 32,
+        "assigned_units": 8,
+        "present_full_route": 0,
+        "present_local_pass": 16,
+        "units_with_3_of_4_present": 3
+      },
+      "fixed2": {
+        "absent_progress_pass": 21,
+        "assigned_absent": 32,
+        "assigned_present": 32,
+        "assigned_units": 8,
+        "present_full_route": 0,
+        "present_local_pass": 18,
+        "units_with_3_of_4_present": 5
+      },
+      "fixed3": {
+        "absent_progress_pass": 17,
+        "assigned_absent": 32,
+        "assigned_present": 32,
+        "assigned_units": 8,
+        "present_full_route": 0,
+        "present_local_pass": 19,
+        "units_with_3_of_4_present": 4
+      },
+      "free_nominal": {
+        "absent_progress_pass": 26,
+        "assigned_absent": 32,
+        "assigned_present": 32,
+        "assigned_units": 8,
+        "present_full_route": 0,
+        "present_local_pass": 0,
+        "units_with_3_of_4_present": 0
+      }
+    },
+    "paired": {
+      "adaptive": {
+        "losses_vs_fixed3": 3,
+        "wins_vs_fixed3": 0
+      },
+      "fixed2": {
+        "losses_vs_fixed3": 9,
+        "wins_vs_fixed3": 8
+      }
+    }
+  },
+  "bank": {
+    "fixed3_passes": 17,
+    "reused_absent_execution_cost": 64,
+    "reused_candidate_references": 16,
+    "selected_passes": 18
+  },
+  "ceiling": {
+    "fixed3_passes": 17,
+    "selected_passes": 17,
+    "slotwise_oracle_passes": 17,
+    "unit_fixed_hold_oracle_passes": 17
+  },
+  "cells": [
+    {
+      "arm": "free_nominal",
+      "assigned": 32,
+      "full_route": 0,
+      "label": "Free WALK",
+      "local_and_recovery": 0,
+      "local_passes": 0,
+      "mode": "default",
+      "unit_wilson95": [
+        0.0,
+        0.32440756488388023
+      ],
+      "units_passing_3_of_4": 0
+    },
+    {
+      "arm": "free_nominal",
+      "assigned": 32,
+      "full_route": 0,
+      "label": "Free WALK",
+      "local_and_recovery": 0,
+      "local_passes": 0,
+      "mode": "g1",
+      "unit_wilson95": [
+        0.0,
+        0.32440756488388023
+      ],
+      "units_passing_3_of_4": 0
+    },
+    {
+      "arm": "free_nominal",
+      "assigned": 32,
+      "full_route": 0,
+      "label": "Free WALK",
+      "local_and_recovery": 0,
+      "local_passes": 0,
+      "mode": "teleop",
+      "unit_wilson95": [
+        0.0,
+        0.32440756488388023
+      ],
+      "units_passing_3_of_4": 0
+    },
+    {
+      "arm": "fixed2",
+      "assigned": 32,
+      "full_route": 0,
+      "label": "2-second duck",
+      "local_and_recovery": 13,
+      "local_passes": 14,
+      "mode": "default",
+      "unit_wilson95": [
+        0.13684428582359742,
+        0.6942576053973727
+      ],
+      "units_passing_3_of_4": 3
+    },
+    {
+      "arm": "fixed2",
+      "assigned": 32,
+      "full_route": 0,
+      "label": "2-second duck",
+      "local_and_recovery": 15,
+      "local_passes": 15,
+      "mode": "g1",
+      "unit_wilson95": [
+        0.13684428582359742,
+        0.6942576053973727
+      ],
+      "units_passing_3_of_4": 3
+    },
+    {
+      "arm": "fixed2",
+      "assigned": 32,
+      "full_route": 0,
+      "label": "2-second duck",
+      "local_and_recovery": 12,
+      "local_passes": 13,
+      "mode": "teleop",
+      "unit_wilson95": [
+        0.13684428582359742,
+        0.6942576053973727
+      ],
+      "units_passing_3_of_4": 3
+    },
+    {
+      "arm": "fixed3",
+      "assigned": 32,
+      "full_route": 0,
+      "label": "3-second duck",
+      "local_and_recovery": 17,
+      "local_passes": 17,
+      "mode": "default",
+      "unit_wilson95": [
+        0.21521606221387757,
+        0.7847839377861224
+      ],
+      "units_passing_3_of_4": 4
+    },
+    {
+      "arm": "fixed3",
+      "assigned": 32,
+      "full_route": 0,
+      "label": "3-second duck",
+      "local_and_recovery": 17,
+      "local_passes": 17,
+      "mode": "g1",
+      "unit_wilson95": [
+        0.21521606221387757,
+        0.7847839377861224
+      ],
+      "units_passing_3_of_4": 4
+    },
+    {
+      "arm": "fixed3",
+      "assigned": 32,
+      "full_route": 0,
+      "label": "3-second duck",
+      "local_and_recovery": 15,
+      "local_passes": 15,
+      "mode": "teleop",
+      "unit_wilson95": [
+        0.13684428582359742,
+        0.6942576053973727
+      ],
+      "units_passing_3_of_4": 3
+    }
+  ],
+  "contact": {
+    "batches": {
+      "fixed3_default_absent": {
+        "body_count": 30,
+        "child_peak_rss_mib": 6055.36328125,
+        "elapsed_s": 65.42939770399244,
+        "exact_replay": true,
+        "max_contact_points": 0,
+        "minimum_available_ram_mib": 10402,
+        "minimum_free_vram_mib": 4666,
+        "records": 32
+      },
+      "fixed3_default_present": {
+        "body_count": 30,
+        "child_peak_rss_mib": 6101.08984375,
+        "elapsed_s": 70.27744247001829,
+        "exact_replay": true,
+        "max_contact_points": 6,
+        "minimum_available_ram_mib": 9397,
+        "minimum_free_vram_mib": 4584,
+        "records": 32
+      }
+    },
+    "operational_replays": 64,
+    "positive_g1_probe_completed": false,
+    "simple_body_controls_passed": 6
+  },
+  "executions": 576,
+  "geometries": 1,
+  "high_quality_motion_qualified": null,
+  "motion_groups": 8,
+  "paired_fixed3": {
+    "fixed3/g1_vs_default": {
+      "losses": 1,
+      "unit_fraction_differences": {
+        "a5u0": 0.0,
+        "a5u1": 0.0,
+        "a5u2": 0.0,
+        "a5u3": 0.0,
+        "a5u4": 0.0,
+        "a5u5": 0.0,
+        "a5u6": 0.0,
+        "a5u7": 0.0
+      },
+      "wins": 1
+    },
+    "fixed3/g1_vs_teleop": {
+      "losses": 0,
+      "unit_fraction_differences": {
+        "a5u0": 0.25,
+        "a5u1": 0.0,
+        "a5u2": 0.0,
+        "a5u3": 0.0,
+        "a5u4": 0.25,
+        "a5u5": 0.0,
+        "a5u6": 0.0,
+        "a5u7": 0.0
+      },
+      "wins": 2
+    },
+    "fixed3/teleop_vs_default": {
+      "losses": 3,
+      "unit_fraction_differences": {
+        "a5u0": -0.25,
+        "a5u1": 0.0,
+        "a5u2": 0.0,
+        "a5u3": 0.0,
+        "a5u4": -0.25,
+        "a5u5": 0.0,
+        "a5u6": 0.0,
+        "a5u7": 0.0
+      },
+      "wins": 1
+    }
+  },
+  "physical_contact": null,
+  "physics_seeds": [
+    0
+  ],
+  "references": 24,
+  "resource": {
+    "peak_child_rss_mib": 6104.578125,
+    "simulator_wall_s": 1112.6502799849259
+  },
+  "schema_version": "scene2motion-public-progress-v1",
+  "scope": "simulation development evidence; no hardware, geometry holdout or high-quality dataset claim",
+  "sensitivity": [
+    {
+      "fixed2": 14,
+      "fixed3": 17,
+      "slotwise_oracle": 18,
+      "strict_net_displacement_gt_m": -0.001,
+      "unit_fixed_hold_oracle": 18
+    },
+    {
+      "fixed2": 13,
+      "fixed3": 17,
+      "slotwise_oracle": 17,
+      "strict_net_displacement_gt_m": 0.0,
+      "unit_fixed_hold_oracle": 17
+    },
+    {
+      "fixed2": 13,
+      "fixed3": 17,
+      "slotwise_oracle": 17,
+      "strict_net_displacement_gt_m": 0.01,
+      "unit_fixed_hold_oracle": 17
+    },
+    {
+      "fixed2": 13,
+      "fixed3": 17,
+      "slotwise_oracle": 17,
+      "strict_net_displacement_gt_m": 0.05,
+      "unit_fixed_hold_oracle": 17
+    },
+    {
+      "fixed2": 13,
+      "fixed3": 17,
+      "slotwise_oracle": 17,
+      "strict_net_displacement_gt_m": 0.1,
+      "unit_fixed_hold_oracle": 17
+    },
+    {
+      "fixed2": 9,
+      "fixed3": 17,
+      "slotwise_oracle": 17,
+      "strict_net_displacement_gt_m": 0.25,
+      "unit_fixed_hold_oracle": 17
+    },
+    {
+      "fixed2": 3,
+      "fixed3": 15,
+      "slotwise_oracle": 15,
+      "strict_net_displacement_gt_m": 0.5,
+      "unit_fixed_hold_oracle": 15
+    }
+  ],
+  "source_receipts": {
+    "outputs/astra_a4_adaptive_d0/summary.json": "31f6d3ec78e8328f6fb41b37fe07e9fe35e5b9e13fa9dfa8cf8fde99e1f333c2",
+    "outputs/astra_a5_bank_selection_v1/summary.json": "924e425d823576418d6083b724ac7ec369281ff464f20e8454c9b3db71a023d7",
+    "outputs/astra_a5_encoder_d0/summary.json": "f5222a781a794a4ad92a02624e621eb446e58ad782cfbc285023f2e8c1b83c58",
+    "outputs/astra_a5_progress_sensitivity_v1/summary.json": "97ee3fec3420596917492771cb16ab44defc918752e2bc1d4e1e019f21532d49",
+    "outputs/astra_a5_recovery_audit_v1/summary.json": "7cded05bcd1bee4f84a3598f4c18bb0e3ed47dd5d423403c407580f4810fa5e9",
+    "outputs/astra_a5_recovery_ceiling_v1/summary.json": "8138e3c6efda454e4850e36750c00d11aeb52526934ed1d4c176769bf2e81bd5",
+    "outputs/astra_contact_replay_v2/summary.json": "796d0ed1e9bd906d5abcdd27ac98e66da00f6296a6d81cf807f327a692d83e6f",
+    "outputs/astra_contact_validation_v2/summary.json": "4dfc725ba07131125e566f8f17a19c8b112adeb66fedc90f48b225f2c0fa8fe6"
+  },
+  "updated": "2026-09-05"
+}

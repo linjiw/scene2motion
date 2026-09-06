@@ -1,0 +1,508 @@
+{
+  "channels": [
+    {
+      "key": "text_step_frame0",
+      "label": "text prompt STEP, frame 0\nexp021 \u00b7 64 seeds",
+      "n": 64,
+      "stages": {
+        "clears": {
+          "definition": "contract rows: exact_clear_5cm_x1.2 (BoxHeightProbe at x = 1.2 m, 0.20 m deep; centre chosen post hoc on these clips)",
+          "k": 12,
+          "measured": true,
+          "n": 64,
+          "nested": 0,
+          "note": null,
+          "rate": 0.1875,
+          "source": "contract_rows",
+          "wilson95": [
+            0.1106464312646328,
+            0.2997436066325612
+          ]
+        },
+        "contact": {
+          "definition": "contract rows (family exp021_step): max_unsupported_run_s <= 0.20",
+          "k": 8,
+          "measured": true,
+          "n": 64,
+          "nested": 0,
+          "note": null,
+          "rate": 0.125,
+          "source": "contract_rows",
+          "wilson95": [
+            0.06472242630161115,
+            0.2277456191750217
+          ]
+        },
+        "elicits": {
+          "definition": "exp021 rows: lift_height_m >= 0.03 (best whole-body-clearable box height anywhere on the route)",
+          "k": 44,
+          "measured": true,
+          "n": 64,
+          "nested": 44,
+          "note": null,
+          "rate": 0.6875,
+          "source": "exp021_rows",
+          "wilson95": [
+            0.566076641982406,
+            0.7876893352792774
+          ]
+        },
+        "retained": {
+          "definition": "EXP-022A paired guarded retention at 5 cm: achieved-state replay non-terminated, clears the exact box, inside the lateral corridor, finishes beyond the obstacle",
+          "k": 0,
+          "measured": true,
+          "n": 64,
+          "nested": 0,
+          "note": "reference_clear 12, lost 12; 53/64 evaluator-terminated",
+          "rate": 0.0,
+          "source": "exp022_summary",
+          "wilson95": [
+            0.0,
+            0.05662406063551054
+          ]
+        }
+      }
+    },
+    {
+      "key": "position_lift_exp1c",
+      "label": "position-channel lift\nEXP-1C lift arms \u00b7 144 clips",
+      "n": 144,
+      "stages": {
+        "clears": {
+          "definition": "exp1c kin rows: clearance_at_fixed_m >= 0.05 at the campaign's fixed probe x = 3.6 m (exp001c probe_box verbatim: 0.25 m-deep corridor-spanning box (half 0.125 x 1.4), cap 0.60 m, bisection tol 0.005 m)",
+          "k": 65,
+          "measured": true,
+          "n": 144,
+          "nested": 0,
+          "note": "EXP-1C's own fixed-centre scorer, not BoxHeightProbe(1.2, 0.20)",
+          "rate": 0.4513888888888889,
+          "source": "exp1c_rows",
+          "wilson95": [
+            0.3724266471510819,
+            0.5328773176099748
+          ]
+        },
+        "contact": {
+          "definition": "contract rows (family exp1c_lift): max_unsupported_run_s <= 0.20",
+          "k": 13,
+          "measured": true,
+          "n": 144,
+          "nested": 0,
+          "note": null,
+          "rate": 0.09027777777777778,
+          "source": "contract_rows",
+          "wilson95": [
+            0.05351799435941436,
+            0.14832970862663458
+          ]
+        },
+        "elicits": {
+          "definition": "exp1c kin rows (lift arms): clearance_at_peak_m >= 0.03 (whole-body clearance of the exp001c probe box at the clip's own swing peak)",
+          "k": 81,
+          "measured": true,
+          "n": 144,
+          "nested": 81,
+          "note": null,
+          "rate": 0.5625,
+          "source": "exp1c_rows",
+          "wilson95": [
+            0.4808944741324241,
+            0.6408575711747888
+          ]
+        },
+        "retained": {
+          "definition": "guarded endpoint never computed for EXP-1C (achieved states were not replayed against the fixed box)",
+          "measured": false,
+          "n": 144,
+          "note": "SONIC survival (not terminated) 9/144; 0 of the 65 fixed-clearing clips survived",
+          "source": "exp1c_receipt"
+        }
+      }
+    },
+    {
+      "key": "rotation_packet_absolute",
+      "label": "rotation packet, absolute\nexp019 v7 \u00b7 8 seeds",
+      "n": 8,
+      "stages": {
+        "clears": {
+          "definition": "exp019 v7 placement_analysis rows: graded_clearance['0.05'] at the predeclared per-seed obstacle (placed at the nominal's swing apex before generation)",
+          "k": 0,
+          "measured": true,
+          "n": 8,
+          "nested": 0,
+          "note": "arm_rows obstacle_collision_free at the scene's 8 cm obstacle: 0/8",
+          "rate": 0.0,
+          "source": "exp019_placement",
+          "wilson95": [
+            0.0,
+            0.3244075683414076
+          ]
+        },
+        "contact": {
+          "definition": "no-support run not computed for exp019 clips (not in the contract analysis)",
+          "measured": false,
+          "n": 8,
+          "note": null,
+          "source": "contract_receipt"
+        },
+        "elicits": {
+          "definition": "exp019 v7 placement_analysis rows: lift_height_m >= 0.03",
+          "k": 7,
+          "measured": true,
+          "n": 8,
+          "nested": 7,
+          "note": null,
+          "rate": 0.875,
+          "source": "exp019_placement",
+          "wilson95": [
+            0.5291118149439162,
+            0.9775825088000281
+          ]
+        },
+        "retained": {
+          "definition": "exp019 packet clips were never tracked",
+          "measured": false,
+          "n": 8,
+          "note": null,
+          "source": "exp019_arm_rows"
+        }
+      }
+    },
+    {
+      "key": "rotation_packet_residual",
+      "label": "rotation packet, residual\nexp019 v7 \u00b7 8 seeds",
+      "n": 8,
+      "stages": {
+        "clears": {
+          "definition": "exp019 v7 placement_analysis rows: graded_clearance['0.05'] at the predeclared per-seed obstacle (placed at the nominal's swing apex before generation)",
+          "k": 0,
+          "measured": true,
+          "n": 8,
+          "nested": 0,
+          "note": "arm_rows obstacle_collision_free at the scene's 8 cm obstacle: 0/8",
+          "rate": 0.0,
+          "source": "exp019_placement",
+          "wilson95": [
+            0.0,
+            0.3244075683414076
+          ]
+        },
+        "contact": {
+          "definition": "no-support run not computed for exp019 clips (not in the contract analysis)",
+          "measured": false,
+          "n": 8,
+          "note": null,
+          "source": "contract_receipt"
+        },
+        "elicits": {
+          "definition": "exp019 v7 placement_analysis rows: lift_height_m >= 0.03",
+          "k": 5,
+          "measured": true,
+          "n": 8,
+          "nested": 5,
+          "note": null,
+          "rate": 0.625,
+          "source": "exp019_placement",
+          "wilson95": [
+            0.30574239265377096,
+            0.8631557152608771
+          ]
+        },
+        "retained": {
+          "definition": "exp019 packet clips were never tracked",
+          "measured": false,
+          "n": 8,
+          "note": null,
+          "source": "exp019_arm_rows"
+        }
+      }
+    },
+    {
+      "key": "delayed_prompt_walk_to_step_52",
+      "label": "delayed prompt WALK\u2192STEP @ frame 52\nEXP-023 + 023b \u00b7 16 seeds",
+      "n": 16,
+      "stages": {
+        "clears": {
+          "definition": "exp023 + exp023b rows: fixed_box.clears['0.05'] at the predicted centre x = 3.11 m (onset frame 52 + frozen 34-frame latency at nominal speed)",
+          "k": 0,
+          "measured": true,
+          "n": 16,
+          "nested": 0,
+          "note": null,
+          "rate": 0.0,
+          "source": "exp023_rows+exp023b_rows",
+          "wilson95": [
+            0.0,
+            0.1936076829974049
+          ]
+        },
+        "contact": {
+          "definition": "no-support run computed only for the EXP-023 half (contract rows, family exp023_untracked); the EXP-023b half is unmeasured, so the pooled stage is not drawn",
+          "measured": false,
+          "n": 16,
+          "note": "EXP-023 half only: 7/8 pass the gate (0/8 of them elicit)",
+          "source": "contract_rows"
+        },
+        "elicits": {
+          "definition": "exp023 + exp023b rows (arm step_52): event.present = whole-body clearance >= 0.03 m inside the 96-frame post-switch window",
+          "k": 3,
+          "measured": true,
+          "n": 16,
+          "nested": 3,
+          "note": null,
+          "rate": 0.1875,
+          "source": "exp023_rows+exp023b_rows",
+          "wilson95": [
+            0.06591599019788683,
+            0.4300888116754912
+          ]
+        },
+        "retained": {
+          "definition": "delayed-prompt clips were never tracked",
+          "measured": false,
+          "n": 16,
+          "note": null,
+          "source": "exp023_receipt"
+        }
+      }
+    },
+    {
+      "key": "free_walk_control",
+      "label": "free nominal WALK (floor)\nEXP-023 + 023b all_walk \u00b7 16 seeds",
+      "n": 16,
+      "stages": {
+        "clears": {
+          "definition": "exp023 + exp023b rows: control_fixed_boxes['52'].clears['0.05'] at x = 3.11 m (the delayed prompt's predicted centre)",
+          "k": 0,
+          "measured": true,
+          "n": 16,
+          "nested": 0,
+          "note": null,
+          "rate": 0.0,
+          "source": "exp023_rows+exp023b_rows",
+          "wilson95": [
+            0.0,
+            0.1936076829974049
+          ]
+        },
+        "contact": {
+          "definition": "EXP-023 half only in the contract rows; pooled stage not drawn",
+          "measured": false,
+          "n": 16,
+          "note": "EXP-023 half only: 8/8 pass the gate",
+          "source": "contract_rows"
+        },
+        "elicits": {
+          "definition": "exp023 + exp023b rows (arm all_walk): any control_events[window].present (matched windows 0/52/104 and 0/52)",
+          "k": 0,
+          "measured": true,
+          "n": 16,
+          "nested": 0,
+          "note": null,
+          "rate": 0.0,
+          "source": "exp023_rows+exp023b_rows",
+          "wilson95": [
+            0.0,
+            0.1936076829974049
+          ]
+        },
+        "retained": {
+          "definition": "WALK control clips were never tracked",
+          "measured": false,
+          "n": 16,
+          "note": null,
+          "source": "exp023_receipt"
+        }
+      }
+    }
+  ],
+  "cross_checks_against_receipts": {
+    "exp019": {
+      "absolute": {
+        "arm_rows_collision_free_at_8cm_obstacle": 0,
+        "graded_clear_0p05": 0,
+        "lift_ge_0p03": 7,
+        "lift_gt_0": 8,
+        "lift_heights_m": [
+          0.07906250000000001,
+          0.07597656250000001,
+          0.048203125000000006,
+          0.06363281250000001,
+          0.026601562500000002,
+          0.085234375,
+          0.06054687500000001,
+          0.13769531250000003
+        ]
+      },
+      "residual": {
+        "arm_rows_collision_free_at_8cm_obstacle": 0,
+        "graded_clear_0p05": 0,
+        "lift_ge_0p03": 5,
+        "lift_gt_0": 8,
+        "lift_heights_m": [
+          0.011171875000000001,
+          0.07289062500000001,
+          0.029687500000000002,
+          0.06363281250000001,
+          0.0204296875,
+          0.0883203125,
+          0.0574609375,
+          0.14386718750000002
+        ]
+      }
+    },
+    "exp021": {
+      "contract_terminated": 53,
+      "exp022_achieved_guarded_clear_0p05": 0,
+      "exp022_endpoint_guard": "achieved replay must be non-terminated, clear the exact box, pass inside the lateral corridor, and finish beyond the obstacle",
+      "exp022_reference_clear_0p05": 12,
+      "receipt_elicitation_rate_any_lift": 0.765625,
+      "receipt_n_clearing_0p03": 44,
+      "rows_lift_ge_0p03": 44,
+      "rows_lift_gt_0": 49
+    },
+    "exp023": {
+      "contract_gate_pass_exp023_half_only": {
+        "all_walk": 8,
+        "step_52": 7
+      },
+      "event_definition": {
+        "analysis_window_frames": 96,
+        "event_min_clearance_m": 0.03,
+        "obstacle_depth_m": 0.2
+      },
+      "predicted_box_centre_m": 3.1115577889447237,
+      "receipt_all_walk_seeds_with_any_event": 0,
+      "receipt_fixed_box_step_52_0p05": 0,
+      "receipt_step_52_present_of_8": 0,
+      "rows_all_walk_any_window_event": 0,
+      "rows_step_52_present": 0
+    },
+    "exp023b": {
+      "receipt_all_walk_seeds_with_any_event": 0,
+      "receipt_fixed_box_step_52_0p05": 0,
+      "receipt_pooled_step_52": {
+        "exp023_step_52_present_of_8": 0,
+        "exp023b_step_52_present_of_8": 3,
+        "pooled_present_of_16": 3,
+        "wilson95": [
+          0.06591478773586765,
+          0.4300935986845823
+        ]
+      },
+      "receipt_step_52_present_of_8": 3,
+      "refusal_reason": "squeeze0_substrate_gate_failed",
+      "rows_all_walk_any_window_event": 0,
+      "rows_step_52_present": 3
+    },
+    "exp1c": {
+      "fixed_clear_and_survived": 0,
+      "fixed_probe_x_m": 3.6,
+      "per_amplitude": {
+        "0.05": {
+          "clears_fixed": 6,
+          "contact": 6,
+          "elicits": 10,
+          "survived": 6
+        },
+        "0.08": {
+          "clears_fixed": 8,
+          "contact": 3,
+          "elicits": 11,
+          "survived": 2
+        },
+        "0.12": {
+          "clears_fixed": 9,
+          "contact": 2,
+          "elicits": 13,
+          "survived": 1
+        },
+        "0.16": {
+          "clears_fixed": 13,
+          "contact": 0,
+          "elicits": 15,
+          "survived": 0
+        },
+        "0.2": {
+          "clears_fixed": 14,
+          "contact": 2,
+          "elicits": 16,
+          "survived": 0
+        },
+        "0.28": {
+          "clears_fixed": 15,
+          "contact": 0,
+          "elicits": 16,
+          "survived": 0
+        }
+      },
+      "probe_geometry": "exp001c probe_box verbatim: 0.25 m-deep corridor-spanning box (half 0.125 x 1.4), cap 0.60 m, bisection tol 0.005 m",
+      "receipt_sonic_lift_successes_sum": 9,
+      "receipt_verdict": "claim KILLED on this ladder: no amplitude reached tracked success >= 0.5 with median clearance >= 0.05 m",
+      "survived_not_terminated": 9
+    }
+  },
+  "figure": "fig2_channel_funnel",
+  "inputs": {
+    "contract_receipt": {
+      "path": "outputs/analysis_trackability_contract/receipt.json",
+      "sha256": "6c0c73ce0d29578064714e8d42451ee2c7f7c32cfd2ea8a7fa4519186443612b"
+    },
+    "contract_rows": {
+      "path": "outputs/analysis_trackability_contract/rows.jsonl",
+      "sha256": "72eb3f3ec9a5d607765c809d4eaed462c54ce07e302c2a9d6049822a074788fb"
+    },
+    "exp019_arm_rows": {
+      "path": "outputs/exp019_gait_matched_stepover_v7/arm_rows.jsonl",
+      "sha256": "079a2e4c3870f5d5d635ce6c048d1d8c2198c255dd00a28752f2c43438bebed8"
+    },
+    "exp019_placement": {
+      "path": "outputs/exp019_gait_matched_stepover_v7/placement_analysis.json",
+      "sha256": "172fffef5b24d64c4e69a7fb6adee152d2c0983c1b360e97426868694f28bb85"
+    },
+    "exp021_receipt": {
+      "path": "outputs/exp021_elicited_lift_distribution_v2/receipt.json",
+      "sha256": "0c53d8c5dc2bdfa587f8c0b35d069fcd677f1cdc30221b5ce1afa70d1a5ccf7e"
+    },
+    "exp021_rows": {
+      "path": "outputs/exp021_elicited_lift_distribution_v2/rows.jsonl",
+      "sha256": "1d8cc57df2494bd7179940bfe57325ac922f3f41e2581fcc7cb789b5e0c28f71"
+    },
+    "exp022_summary": {
+      "path": "outputs/exp022_exact_tracking_bridge/summary.json",
+      "sha256": "0c2e23666d9b707764e8a218211c038ddeadf208ce5b114f31e28c7a23aa6ed6"
+    },
+    "exp023_receipt": {
+      "path": "outputs/exp023_prompt_handoff/receipt.json",
+      "sha256": "1e002bd6402daba738fd1557c5dd6fa165adda678e36b25cff815cf440c74fae"
+    },
+    "exp023_rows": {
+      "path": "outputs/exp023_prompt_handoff/rows.jsonl",
+      "sha256": "9a3596846519c05caf6837a0c41288024308831b40ea0e2fe6d924dfcdb19168"
+    },
+    "exp023b_receipt": {
+      "path": "outputs/exp023b_prompt_switch_control/receipt.json",
+      "sha256": "c5e8567fe92180ccf26992d3881e5046391dd0d2a56c27cda5867fd32f39e390"
+    },
+    "exp023b_rows": {
+      "path": "outputs/exp023b_prompt_switch_control/rows.jsonl",
+      "sha256": "7b4822104aaf59479fbb6312df4ecf6b559674ef2c48961511a7169a2c4d0705"
+    },
+    "exp1c_receipt": {
+      "path": "outputs/exp1c_stepover/receipt.json",
+      "sha256": "787c640713e1ff8305967342ab17f95c92cafbe9685c8fd77081e175737e1443"
+    },
+    "exp1c_rows": {
+      "path": "outputs/exp1c_stepover/rows.jsonl",
+      "sha256": "24965e050ed535facb7ca5bbe208e60a24f8bda0a9effef463a3c85aa73a7b46"
+    }
+  },
+  "scope": "kinematic stages from archived v2 clips; SONIC stage = EXP-022A achieved-state replay, physics seed 0, one scene, obstacle absent from Isaac",
+  "thresholds": {
+    "box_height_m": 0.05,
+    "gate_max_unsupported_run_s": 0.2,
+    "lift_min_m": 0.03,
+    "nested_definition": "clips passing this stage and every earlier measured stage of the same channel",
+    "wilson_z": 1.959964
+  }
+}

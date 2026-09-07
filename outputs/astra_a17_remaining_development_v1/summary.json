@@ -1,0 +1,842 @@
+{
+  "arms": null,
+  "assigned_units": 36,
+  "development_lead_gate": {
+    "absolute_edited_cohort_rates": null,
+    "construction_equivalent_other_pairs": 35,
+    "full_dispatch_authorized_by_gate": false,
+    "measured_distinct_pairs": 1,
+    "pass": false,
+    "selected_decisions": {
+      "fixed_shallow": {
+        "development_pass": false,
+        "scope": "exact absent-preview development descriptor; no present result",
+        "selected": null
+      },
+      "no_phase": {
+        "development_pass": false,
+        "scope": "exact absent-preview development descriptor; no present result",
+        "selected": null
+      }
+    },
+    "selected_net_gain_over36": 0
+  },
+  "development_only": true,
+  "discriminating_record": {
+    "baseline": {
+      "a6_key": "a6s01_u2_baseline",
+      "achieved": {
+        "continuation_m": 0.5525894165039062,
+        "corridor_upright_through_recovery": true,
+        "development_geometry_progress_pass": false,
+        "exit_s": 2.3000000000000003,
+        "exit_sample": 114,
+        "inflated_clearance_m": -0.029506477247995294,
+        "joint_dynamics": {
+          "max_abs_acceleration_rad_s2_by_joint": [
+            120.32359838485718,
+            81.71472698450089,
+            149.04025942087173,
+            361.15914583206177,
+            455.35385608673096,
+            113.58855292201042,
+            63.13353776931763,
+            50.199273973703384,
+            153.02935615181923,
+            188.55780363082886,
+            253.528393805027,
+            182.9367788741365,
+            37.91600465774536,
+            63.51574324071407,
+            134.29388403892517,
+            47.662556171417236,
+            65.07489830255508,
+            63.03340196609497,
+            64.64410573244095,
+            104.01085019111633,
+            29.111504554748535,
+            213.21378648281097,
+            68.33776831626892,
+            20.335093140602112,
+            42.90930926799774,
+            72.31935858726501,
+            126.35983526706696,
+            73.1000117957592,
+            68.67837684694678
+          ],
+          "max_abs_velocity_rad_s_by_joint": [
+            3.5753488540649414,
+            1.4740506187081337,
+            2.4547746405005455,
+            6.1308324337005615,
+            5.729290843009949,
+            2.9067864641547203,
+            3.443998098373413,
+            1.4457538723945618,
+            4.198517091572285,
+            6.588464975357056,
+            6.931793689727783,
+            3.8102392107248306,
+            0.863705575466156,
+            1.5494124963879585,
+            6.194506585597992,
+            2.6468396186828613,
+            2.174685150384903,
+            1.6742751002311707,
+            4.0593549609184265,
+            2.3882925510406494,
+            1.1065274477005005,
+            2.3624345660209656,
+            4.9871474504470825,
+            0.9989377111196518,
+            1.4697149395942688,
+            4.158536903560162,
+            4.549376666545868,
+            0.9804658591747284,
+            1.9705893006175756
+          ],
+          "sample_dt_s": 0.02,
+          "samples": 165
+        },
+        "last_observed_s": 8.26,
+        "margin_violation": true,
+        "nominal_clearance_m": 0.010493522752004714,
+        "nominal_penetration": false,
+        "overlap_intervals": [
+          {
+            "last_overlap_s": 2.2800000000000002,
+            "start_s": 0.54
+          }
+        ],
+        "recovery_end_sample": 164,
+        "recovery_observed": true,
+        "simulator_obstacle_contact": null,
+        "status": "observed"
+      },
+      "beam": {
+        "center_x_m": 1.2,
+        "length_m": 0.6,
+        "underside_m": 1.1
+      },
+      "beam_underside_m": 1.1,
+      "command": {
+        "depth_m": 0.28,
+        "onset_lead_m": 1.08,
+        "recovery_offset_m": 1.38
+      },
+      "key": "g0_slot06",
+      "obstacle_present": false,
+      "original_key": "a10s01_u2_baseline",
+      "proposal": null,
+      "reference": {
+        "continuation_m": 0.8646459579467773,
+        "corridor_upright_through_recovery": true,
+        "development_geometry_progress_pass": true,
+        "exit_s": 1.92,
+        "exit_sample": 48,
+        "inflated_clearance_m": 0.13714806302141833,
+        "joint_dynamics": {
+          "max_abs_acceleration_rad_s2_by_joint": [
+            33.03907811641693,
+            24.242238141596317,
+            24.463152512907982,
+            72.56262004375458,
+            95.17421014606953,
+            39.957561530172825,
+            55.290088057518005,
+            57.392651215195656,
+            35.024124663323164,
+            102.30530053377151,
+            107.9513318836689,
+            70.6956279464066,
+            18.62221397459507,
+            12.977570295333862,
+            20.67035064101219,
+            21.376684308052063,
+            15.868712216615677,
+            53.01814526319504,
+            27.387142181396484,
+            39.34483975172043,
+            30.54044209420681,
+            56.33610999211669,
+            22.94793725013733,
+            25.912588462233543,
+            29.37711775302887,
+            34.15388986468315,
+            92.54297241568565,
+            21.411525085568428,
+            34.16426479816437
+          ],
+          "max_abs_velocity_rad_s_by_joint": [
+            2.298322319984436,
+            0.9496521204710007,
+            1.157882809638977,
+            5.97844123840332,
+            5.6409478187561035,
+            1.7941691912710667,
+            3.7544995546340942,
+            1.77340735681355,
+            1.4461658662185073,
+            7.511723041534424,
+            6.455359235405922,
+            1.9259458407759666,
+            0.58792345225811,
+            0.6268690107390285,
+            0.7350042462348938,
+            1.244211196899414,
+            0.8425362408161163,
+            1.738603413105011,
+            0.9096067398786545,
+            1.7657265067100525,
+            1.2770939618349075,
+            2.015428151935339,
+            1.2116342782974243,
+            0.8890392258763313,
+            1.3145841658115387,
+            1.4063019305467606,
+            2.001821994781494,
+            0.8260443806648254,
+            1.312592439353466
+          ],
+          "sample_dt_s": 0.04,
+          "samples": 74
+        },
+        "last_observed_s": 8.28,
+        "margin_violation": false,
+        "nominal_clearance_m": 0.1772110328537066,
+        "nominal_penetration": false,
+        "overlap_intervals": [
+          {
+            "last_overlap_s": 1.8800000000000001,
+            "start_s": 0.44
+          }
+        ],
+        "recovery_end_sample": 73,
+        "recovery_observed": true,
+        "simulator_obstacle_contact": null,
+        "status": "observed"
+      },
+      "response_scale": 0.5,
+      "role": "scientific",
+      "scene_id": "a6s01",
+      "seed": 64006,
+      "slot_index": 6,
+      "source_key": "a12s01_u2_baseline",
+      "split": "development",
+      "split_group_id": "astra-a6/s01/u2",
+      "terminated": false,
+      "unit_id": "a6s01_u2",
+      "variant": "baseline"
+    },
+    "fixed_shallow": {
+      "achieved": {
+        "continuation_m": 0.6129608154296875,
+        "corridor_upright_through_recovery": true,
+        "development_geometry_progress_pass": false,
+        "exit_s": 2.22,
+        "exit_sample": 110,
+        "inflated_clearance_m": -0.03878768035578109,
+        "joint_dynamics": {
+          "max_abs_acceleration_rad_s2_by_joint": [
+            114.15630578994751,
+            80.67948743700981,
+            123.20452835410833,
+            385.66261529922485,
+            491.35103821754456,
+            130.52989495918155,
+            62.238872051239014,
+            51.95913836359978,
+            71.47260010242462,
+            118.57807636260986,
+            275.76586813665926,
+            176.54851078987122,
+            25.602690875530243,
+            63.303736969828606,
+            104.59616780281067,
+            36.36077046394348,
+            89.94428440928459,
+            65.35649299621582,
+            58.50948393344879,
+            139.32496309280396,
+            23.72998744249344,
+            121.2146133184433,
+            74.71412420272827,
+            21.258294582366943,
+            34.798309206962585,
+            71.39527006074786,
+            107.52834379673004,
+            81.91311731934547,
+            27.3588253185153
+          ],
+          "max_abs_velocity_rad_s_by_joint": [
+            3.1416773796081543,
+            1.5977829694747925,
+            2.25916700437665,
+            6.18622899055481,
+            5.163863301277161,
+            2.776375552639365,
+            3.2613396644592285,
+            1.8030095845460892,
+            2.31882780790329,
+            6.737315654754639,
+            7.52598192775622,
+            3.6842305213212967,
+            0.8948259055614471,
+            1.5782909467816353,
+            5.869761109352112,
+            2.58217453956604,
+            2.772488072514534,
+            1.1104002594947815,
+            4.075568914413452,
+            3.0941933393478394,
+            0.9601548314094543,
+            1.8701806664466858,
+            5.436572432518005,
+            0.8882163092494011,
+            1.7201751470565796,
+            3.2540123909711838,
+            3.599470853805542,
+            1.0657653212547302,
+            1.1557197198271751
+          ],
+          "sample_dt_s": 0.02,
+          "samples": 161
+        },
+        "last_observed_s": 8.26,
+        "margin_violation": true,
+        "nominal_clearance_m": 0.0012123196442189177,
+        "nominal_penetration": false,
+        "overlap_intervals": [
+          {
+            "last_overlap_s": 2.2,
+            "start_s": 0.56
+          }
+        ],
+        "recovery_end_sample": 160,
+        "recovery_observed": true,
+        "simulator_obstacle_contact": null,
+        "status": "observed"
+      },
+      "beam": {
+        "center_x_m": 1.2,
+        "length_m": 0.6,
+        "underside_m": 1.1
+      },
+      "beam_underside_m": 1.1,
+      "command": {
+        "depth_m": 0.26,
+        "onset_lead_m": 1.08,
+        "recovery_offset_m": 1.38
+      },
+      "key": "g0_slot06",
+      "obstacle_present": false,
+      "original_key": "a6s01_u2_depth_minus",
+      "reference": {
+        "continuation_m": 0.8678350448608398,
+        "corridor_upright_through_recovery": true,
+        "development_geometry_progress_pass": true,
+        "exit_s": 1.92,
+        "exit_sample": 48,
+        "inflated_clearance_m": 0.12404122721299324,
+        "joint_dynamics": {
+          "max_abs_acceleration_rad_s2_by_joint": [
+            39.86820578575134,
+            19.88242380321026,
+            25.719767436385155,
+            69.54558193683624,
+            79.61690425872803,
+            37.16018749400973,
+            50.67557096481323,
+            50.30810832977295,
+            35.947171854786575,
+            114.73678052425385,
+            91.6528794914484,
+            81.77153300493956,
+            17.095841467380524,
+            12.6033672131598,
+            18.303263932466507,
+            24.21461045742035,
+            15.455838292837143,
+            37.0100699365139,
+            25.58944746851921,
+            30.890293419361115,
+            30.88141791522503,
+            64.7380351438187,
+            27.657225728034973,
+            24.201376363635063,
+            26.10236406326294,
+            42.312247678637505,
+            82.89728313684464,
+            34.224530681967735,
+            38.72275352478027
+          ],
+          "max_abs_velocity_rad_s_by_joint": [
+            2.3435086011886597,
+            0.9132515639066696,
+            1.2234858237206936,
+            5.875515937805176,
+            6.272206827998161,
+            1.49506451562047,
+            3.375944495201111,
+            1.859785057604313,
+            1.6400982160121202,
+            7.720699906349182,
+            6.354562193155289,
+            2.1597780752927065,
+            0.557214766740799,
+            0.5293737165629864,
+            0.6291486322879791,
+            1.0413527488708496,
+            0.7271908223628998,
+            1.2776702642440796,
+            0.814829021692276,
+            1.745772361755371,
+            1.328415796160698,
+            2.3642466869205236,
+            1.1962652206420898,
+            0.8033500984311104,
+            1.0675020515918732,
+            1.3708572834730148,
+            2.1669626235961914,
+            1.2727883644402027,
+            1.2437302619218826
+          ],
+          "sample_dt_s": 0.04,
+          "samples": 74
+        },
+        "last_observed_s": 8.28,
+        "margin_violation": false,
+        "nominal_clearance_m": 0.16404122721299325,
+        "nominal_penetration": false,
+        "overlap_intervals": [
+          {
+            "last_overlap_s": 1.8800000000000001,
+            "start_s": 0.44
+          }
+        ],
+        "recovery_end_sample": 73,
+        "recovery_observed": true,
+        "simulator_obstacle_contact": null,
+        "status": "observed"
+      },
+      "response_scale": 0.5,
+      "role": "scientific",
+      "scene_id": "a6s01",
+      "seed": 64006,
+      "slot_index": 6,
+      "source_key": "a10s01_u2_depth_minus",
+      "split": "development",
+      "split_group_id": "astra-a6/s01/u2",
+      "terminated": false,
+      "unit_id": "a6s01_u2",
+      "variant": "depth_minus"
+    },
+    "no_phase": {
+      "a6_key": "a6s01_u2_depth_plus",
+      "achieved": {
+        "continuation_m": 0.3703155517578125,
+        "corridor_upright_through_recovery": true,
+        "development_geometry_progress_pass": false,
+        "exit_s": 2.62,
+        "exit_sample": 130,
+        "inflated_clearance_m": -0.019166785598860564,
+        "joint_dynamics": {
+          "max_abs_acceleration_rad_s2_by_joint": [
+            131.34002685546875,
+            64.66379389166832,
+            146.25675976276398,
+            334.4672918319702,
+            622.1108883619308,
+            236.15986807271838,
+            73.15993309020996,
+            43.08903589844704,
+            100.83042085170746,
+            135.2730393409729,
+            282.45046734809875,
+            108.94076200202107,
+            73.98035377264023,
+            44.60231401026249,
+            149.68868345022202,
+            57.4946403503418,
+            113.61643671989441,
+            115.87023735046387,
+            50.680763088166714,
+            111.69314384460449,
+            39.53665494918823,
+            384.11736488342285,
+            88.18209171295166,
+            19.0107524394989,
+            28.66409718990326,
+            81.22904924675822,
+            127.12366878986359,
+            39.40386697649956,
+            23.38883583433926
+          ],
+          "max_abs_velocity_rad_s_by_joint": [
+            4.10040020942688,
+            1.7679274082183838,
+            2.1042950451374054,
+            5.097609758377075,
+            8.828961849212646,
+            3.2226518727838993,
+            3.4772276878356934,
+            1.0945560410618782,
+            1.597382826730609,
+            6.860029697418213,
+            6.989924609661102,
+            1.9416563212871552,
+            0.9852033108472824,
+            1.4386342838406563,
+            6.292212009429932,
+            3.354024887084961,
+            3.85788157582283,
+            2.0899176597595215,
+            5.035333335399628,
+            1.934400200843811,
+            1.469750702381134,
+            5.99323958158493,
+            4.648566246032715,
+            0.8527044206857681,
+            0.9934559464454651,
+            4.261982953175902,
+            4.659858345985413,
+            1.1748932301998138,
+            0.9072262793779373
+          ],
+          "sample_dt_s": 0.02,
+          "samples": 181
+        },
+        "last_observed_s": 8.26,
+        "margin_violation": true,
+        "nominal_clearance_m": 0.020833214401139444,
+        "nominal_penetration": false,
+        "overlap_intervals": [
+          {
+            "last_overlap_s": 2.6,
+            "start_s": 0.64
+          }
+        ],
+        "recovery_end_sample": 180,
+        "recovery_observed": true,
+        "simulator_obstacle_contact": null,
+        "status": "observed"
+      },
+      "beam": {
+        "center_x_m": 1.2,
+        "length_m": 0.6,
+        "underside_m": 1.1
+      },
+      "beam_underside_m": 1.1,
+      "command": {
+        "depth_m": 0.30000000000000004,
+        "onset_lead_m": 1.08,
+        "recovery_offset_m": 1.38
+      },
+      "key": "g0_slot06",
+      "obstacle_present": false,
+      "original_key": "a10s01_u2_depth_plus",
+      "proposal": {
+        "command": {
+          "depth_m": 0.30000000000000004,
+          "onset_lead_m": 1.08,
+          "recovery_offset_m": 1.38
+        },
+        "phase_action": "none",
+        "predicted_pass": null,
+        "preserve_initial": false,
+        "reason": "observed_overhead_deficit_with_progress",
+        "requires_exact_candidate_preview": true,
+        "use_phase": false
+      },
+      "reference": {
+        "continuation_m": 0.8595143556594849,
+        "corridor_upright_through_recovery": true,
+        "development_geometry_progress_pass": true,
+        "exit_s": 1.92,
+        "exit_sample": 48,
+        "inflated_clearance_m": 0.1551871941977149,
+        "joint_dynamics": {
+          "max_abs_acceleration_rad_s2_by_joint": [
+            28.740912675857544,
+            22.818632423877716,
+            19.936487078666687,
+            84.02161300182343,
+            93.10365654528141,
+            47.59413888677955,
+            63.53743374347687,
+            55.89344771578908,
+            38.48977852612734,
+            89.56506848335266,
+            110.56194081902504,
+            57.35363878585531,
+            18.337946385145187,
+            15.705274417996407,
+            20.959042012691498,
+            24.211183190345764,
+            21.623168140649796,
+            42.21465438604355,
+            34.231264144182205,
+            34.939199686050415,
+            31.323200091719627,
+            68.09607381001115,
+            15.831589698791504,
+            27.51212567090988,
+            33.59094262123108,
+            38.61627774313092,
+            89.98915553092957,
+            28.11686135828495,
+            42.96609200537205
+          ],
+          "max_abs_velocity_rad_s_by_joint": [
+            2.2827208042144775,
+            0.7606633007526398,
+            1.0171748232096434,
+            6.071078777313232,
+            5.8936744928359985,
+            1.9268791656941175,
+            3.8684189319610596,
+            1.7354615963995457,
+            1.5040761936688796,
+            7.193213701248169,
+            6.453375518321991,
+            1.7339419304221337,
+            0.5594022572040558,
+            0.6547922501340508,
+            0.7219791412353516,
+            1.325756311416626,
+            0.7669404149055481,
+            1.3663038611412048,
+            1.0633952915668488,
+            1.4899298548698425,
+            1.2938324362039566,
+            2.2029781714081764,
+            0.9495079517364502,
+            1.0360997170209885,
+            1.1542588472366333,
+            1.5410480089485645,
+            1.9384950399398804,
+            1.0528143495321274,
+            1.2361988425254822
+          ],
+          "sample_dt_s": 0.04,
+          "samples": 74
+        },
+        "last_observed_s": 8.28,
+        "margin_violation": false,
+        "nominal_clearance_m": 0.1963941888583663,
+        "nominal_penetration": false,
+        "overlap_intervals": [
+          {
+            "last_overlap_s": 1.8800000000000001,
+            "start_s": 0.44
+          }
+        ],
+        "recovery_end_sample": 73,
+        "recovery_observed": true,
+        "simulator_obstacle_contact": null,
+        "status": "observed"
+      },
+      "response_scale": null,
+      "role": "scientific",
+      "scene_id": "a6s01",
+      "seed": 64006,
+      "slot_index": 6,
+      "source_key": "a12s01_u2_depth_plus",
+      "split": "development",
+      "split_group_id": "astra-a6/s01/u2",
+      "terminated": false,
+      "unit_id": "a6s01_u2",
+      "variant": "no_phase"
+    }
+  },
+  "equivalence_proof": {
+    "distinct_pairs": [
+      [
+        1,
+        2
+      ]
+    ],
+    "equivalent_selected_pairs": 35,
+    "pass": true,
+    "qualified_nominal_preservation_pairs": [
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        3
+      ],
+      [
+        3,
+        2
+      ],
+      [
+        6,
+        3
+      ],
+      [
+        10,
+        1
+      ]
+    ],
+    "shared_candidate_pairs": [
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        0,
+        3
+      ],
+      [
+        1,
+        1
+      ],
+      [
+        1,
+        3
+      ],
+      [
+        2,
+        2
+      ],
+      [
+        3,
+        1
+      ],
+      [
+        3,
+        3
+      ],
+      [
+        4,
+        1
+      ],
+      [
+        4,
+        2
+      ],
+      [
+        4,
+        3
+      ],
+      [
+        5,
+        1
+      ],
+      [
+        5,
+        2
+      ],
+      [
+        5,
+        3
+      ],
+      [
+        6,
+        1
+      ],
+      [
+        6,
+        2
+      ],
+      [
+        7,
+        1
+      ],
+      [
+        7,
+        2
+      ],
+      [
+        7,
+        3
+      ],
+      [
+        8,
+        1
+      ],
+      [
+        8,
+        2
+      ],
+      [
+        8,
+        3
+      ],
+      [
+        9,
+        1
+      ],
+      [
+        9,
+        2
+      ],
+      [
+        9,
+        3
+      ],
+      [
+        10,
+        2
+      ],
+      [
+        10,
+        3
+      ],
+      [
+        11,
+        1
+      ],
+      [
+        11,
+        2
+      ],
+      [
+        11,
+        3
+      ]
+    ],
+    "unknown_shared_candidate_outcomes_assigned": false
+  },
+  "full_cohort_executed": false,
+  "held_out_evaluations": 0,
+  "new_context_workload_executions": 62,
+  "new_generations": 0,
+  "new_independent_units": 0,
+  "new_jobs": 2,
+  "new_operational_executions": 64,
+  "new_unique_scientific_previews": 2,
+  "per_scene_pairs": null,
+  "present_evaluations": 0,
+  "records": [],
+  "scene_bootstrap_selected_rate_difference_95": null,
+  "schema_version": "astra-a17-remaining-result-v1",
+  "source_hashes": {
+    "/home/linjiw/scene2motion/outputs/astra_a15_controlled_correction_v1/g0_nominal/g0_correction_absent/eval/achieved_qpos.npz": "18c2942851561028b490536ed872bf92fa88032160636423675f1b1af85bffe8",
+    "/home/linjiw/scene2motion/outputs/astra_a15_controlled_correction_v1/g0_nominal/g0_correction_absent/job.json": "99fdb681304d586d4f7ba3adfd53f6450ee4e46823c40c02eaef65d592fdfc40",
+    "/home/linjiw/scene2motion/outputs/astra_a15_controlled_correction_v1/g0_nominal/g0_correction_absent/process.json": "3542acbec2835420489e20e8bdd526ee0430ad70a556c8f1968269be23caeaed",
+    "/home/linjiw/scene2motion/outputs/astra_a15_controlled_correction_v1/g0_nominal/g0_correction_absent/verification.json": "ef4b1f12d771d374da275662c8cb74511e623d087f18b988346260d6a0a52e09",
+    "/home/linjiw/scene2motion/outputs/astra_a15_controlled_correction_v1/g1_nominal/g1_correction_absent/eval/achieved_qpos.npz": "b773dadafb3d02c46f1469485542c0ac7087b65919085293df46abac2ece009b",
+    "/home/linjiw/scene2motion/outputs/astra_a15_controlled_correction_v1/g1_nominal/g1_correction_absent/job.json": "bbc490d9864af1be95424d52647cd3d5c4b3aa55313f020e275104bbc741abe0",
+    "/home/linjiw/scene2motion/outputs/astra_a15_controlled_correction_v1/g1_nominal/g1_correction_absent/process.json": "ba4f84beda1cac5ef0f2b1dcb5425894edb4aad7fd23ffe8be52d8864f4fb0b3",
+    "/home/linjiw/scene2motion/outputs/astra_a15_controlled_correction_v1/g1_nominal/g1_correction_absent/verification.json": "82ce2276740e2233470b3514d5c6b64079fc5b71dc6dbf5af58034bf36b481f9",
+    "/home/linjiw/scene2motion/outputs/astra_a17_remaining_development_v1/discriminating_gate.json": "150c4224255d164b201ec3d4e9be24798e4408ad9cb8ff120c89434150bd6a0b",
+    "/home/linjiw/scene2motion/outputs/astra_a17_remaining_development_v1/identity.json": "67bde579fb146ef969a2820127ae41ceceb80c011a6d1d7fbc47f8a73b30748a",
+    "/home/linjiw/scene2motion/outputs/astra_a17_remaining_development_v1/s01_u2_fixed_shallow/g0_correction_absent/eval/achieved_qpos.npz": "1ec1ada6e7467ae8ff2429ed10441b696ed5b401104d92fcd764889823dcc662",
+    "/home/linjiw/scene2motion/outputs/astra_a17_remaining_development_v1/s01_u2_fixed_shallow/g0_correction_absent/job.json": "2a60819bc5f2052d1a0d2dcdfd11acc533da6ecaa3743ba79adfd6bdcba91bf6",
+    "/home/linjiw/scene2motion/outputs/astra_a17_remaining_development_v1/s01_u2_fixed_shallow/g0_correction_absent/process.json": "f0e54eda4701e33b611b937a288eeae4600920aaa8a8e23d21ec6ce03abd5778",
+    "/home/linjiw/scene2motion/outputs/astra_a17_remaining_development_v1/s01_u2_fixed_shallow/g0_correction_absent/verification.json": "e9e019fac29c5d0115fbc66f9958109e7a9a6d9056f8ecbceba276239d68776a",
+    "/home/linjiw/scene2motion/outputs/astra_a17_remaining_development_v1/s01_u2_no_phase/g0_correction_absent/eval/achieved_qpos.npz": "110736e79429b302e48014b52d6a7da577cfcfe28f453f08e124b62213fec249",
+    "/home/linjiw/scene2motion/outputs/astra_a17_remaining_development_v1/s01_u2_no_phase/g0_correction_absent/job.json": "33b17ca794ffba0b3674a28481eeb941a63e7b3e20f543a16ca42002afdfcd74",
+    "/home/linjiw/scene2motion/outputs/astra_a17_remaining_development_v1/s01_u2_no_phase/g0_correction_absent/process.json": "d9021ca21994eebec78e0607602a7d06b198ae144b30e46819c3d8df6914c2b7",
+    "/home/linjiw/scene2motion/outputs/astra_a17_remaining_development_v1/s01_u2_no_phase/g0_correction_absent/verification.json": "aba37463c1eccc406cd4442936f48551f6109bd70dbb54d4aad55778627246bf"
+  },
+  "status": "closed_at_discriminating_gate",
+  "unexecuted_planned_jobs": 35
+}

@@ -21,6 +21,8 @@ EXTRA = {
     "scene2motion/recovery_sensitivity.py", "experiments/analyze_astra_a5_progress_sensitivity.py",
     "tests/test_recovery_sensitivity.py", "tests/test_public_progress.py",
     "outputs/astra_site_release_v1/receipt.json",
+    "outputs/astra_site_release_v3/receipt.json",
+    "outputs/astra_a17_validation_v1/summary.json",
 }
 
 

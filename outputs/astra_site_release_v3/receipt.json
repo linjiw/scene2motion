@@ -1,0 +1,18 @@
+{
+  "desktop_mobile_inspection": true,
+  "focused_campaign_page_tests_passed": 46,
+  "full_cpu_tests_passed": 1332,
+  "motion_payloads_to_publish": false,
+  "pages_branch": "gh-pages",
+  "pages_path": "/docs",
+  "schema_version": "scene2motion-site-release-candidate-v3",
+  "scope": "A10\u2013A17 research progress, two-case figure and ICRA evidence/experiment plan",
+  "source_hashes": {
+    "/home/linjiw/scene2motion/docs/index.html": "cc8ba9e271bed292970aee2ede13c81bebde90c5bdee34211b0ff23102da84b1",
+    "/home/linjiw/scene2motion/docs/progress.json": "7ac682a58cc37492c11c7329945ac84d4e1385b8cc320fd75b424120373610fb",
+    "/home/linjiw/scene2motion/docs/site/index.html": "aa6896ae9ada5d35f80a7c869c1bc4503a452ac84875e6f8afc6735d228cdb0b",
+    "/home/linjiw/scene2motion/outputs/astra_a17_validation_v1/summary.json": "7cdfafc2bf9436ed3087476435b18e6d73a57feb74d29befaf5b89fab3a07e2f"
+  },
+  "status": "validated_publication_candidate",
+  "updated": "2026-09-06"
+}

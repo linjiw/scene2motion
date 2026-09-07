@@ -1,0 +1,28 @@
+{
+  "all32_fields_checked_in_prepared_jobs": 37,
+  "distinct_pair_selected_difference": 0,
+  "equivalent_selected_pairs": 35,
+  "independent_nominal_measurements": 36,
+  "minimum_available_ram_mib": 7332,
+  "new_jobs": 2,
+  "new_operational_executions": 64,
+  "pass": true,
+  "peak_child_rss_mib": 6068.1484375,
+  "raw_state_measurements_reconstructed": 38,
+  "resource_refusals": 0,
+  "schema_version": "astra-a17-independent-audit-v1",
+  "simulator_elapsed_sum_s": 132.11893541598693,
+  "source_hashes": {
+    "/home/linjiw/scene2motion/experiments/audit_astra_a17_completion.py": "c6895f19c26e6a80f64eaa112cf982574cc614dbba392053d432c1617105686d",
+    "/home/linjiw/scene2motion/outputs/astra_a17_remaining_development_v1/identity.json": "67bde579fb146ef969a2820127ae41ceceb80c011a6d1d7fbc47f8a73b30748a",
+    "/home/linjiw/scene2motion/outputs/astra_a17_remaining_development_v1/s01_u2_fixed_shallow/g0_correction_absent/eval/achieved_qpos.npz": "1ec1ada6e7467ae8ff2429ed10441b696ed5b401104d92fcd764889823dcc662",
+    "/home/linjiw/scene2motion/outputs/astra_a17_remaining_development_v1/s01_u2_fixed_shallow/g0_correction_absent/job.json": "2a60819bc5f2052d1a0d2dcdfd11acc533da6ecaa3743ba79adfd6bdcba91bf6",
+    "/home/linjiw/scene2motion/outputs/astra_a17_remaining_development_v1/s01_u2_fixed_shallow/g0_correction_absent/process.json": "f0e54eda4701e33b611b937a288eeae4600920aaa8a8e23d21ec6ce03abd5778",
+    "/home/linjiw/scene2motion/outputs/astra_a17_remaining_development_v1/s01_u2_fixed_shallow/g0_correction_absent/verification.json": "e9e019fac29c5d0115fbc66f9958109e7a9a6d9056f8ecbceba276239d68776a",
+    "/home/linjiw/scene2motion/outputs/astra_a17_remaining_development_v1/s01_u2_no_phase/g0_correction_absent/eval/achieved_qpos.npz": "110736e79429b302e48014b52d6a7da577cfcfe28f453f08e124b62213fec249",
+    "/home/linjiw/scene2motion/outputs/astra_a17_remaining_development_v1/s01_u2_no_phase/g0_correction_absent/job.json": "33b17ca794ffba0b3674a28481eeb941a63e7b3e20f543a16ca42002afdfcd74",
+    "/home/linjiw/scene2motion/outputs/astra_a17_remaining_development_v1/s01_u2_no_phase/g0_correction_absent/process.json": "d9021ca21994eebec78e0607602a7d06b198ae144b30e46819c3d8df6914c2b7",
+    "/home/linjiw/scene2motion/outputs/astra_a17_remaining_development_v1/s01_u2_no_phase/g0_correction_absent/verification.json": "aba37463c1eccc406cd4442936f48551f6109bd70dbb54d4aad55778627246bf",
+    "/home/linjiw/scene2motion/outputs/astra_a17_remaining_development_v1/summary.json": "c5e2129e197047d426d9702903e1607a24301a8b444582cde5638280374ebac7"
+  }
+}

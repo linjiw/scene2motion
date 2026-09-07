@@ -1,0 +1,16 @@
+{
+  "exact_replay_pairs": 64,
+  "new_executions": 128,
+  "new_generations": 0,
+  "new_independent_units": 0,
+  "operational_development_only": true,
+  "pass": true,
+  "pilot_candidates": 2,
+  "schema_version": "astra-a14-canonical-result-v1",
+  "scope": "Canonicalization excludes unrelated incoming rows; it does not establish GPU scene independence or motion-performance gain.",
+  "source_hashes": {
+    "/home/linjiw/scene2motion/outputs/astra_a14_canonical_context_v2/g0_comparison.json": "cb4c29c63c279e15c5d6a614db8a46836ade621b5077356abd3fc3320ed1bc67",
+    "/home/linjiw/scene2motion/outputs/astra_a14_canonical_context_v2/g1_comparison.json": "5e6e2043bca294b30e84d8322980d262f5583e7e1dc2cc1da5eadcbd8c340199",
+    "/home/linjiw/scene2motion/outputs/astra_a14_canonical_context_v2/identity.json": "af757439e3a280537fb9f92550874c89a9c81d64b228a498b10a99abe74ee288"
+  }
+}

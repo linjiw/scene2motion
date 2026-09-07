@@ -15,3 +15,11 @@
 #latest-progress .progress-sources{font-size:.82rem;overflow-wrap:anywhere}
 #latest-progress .note{font-size:.85rem}
 @media(max-width:650px){#latest-progress .progress-stats{grid-template-columns:1fr 1fr}#latest-progress .progress-pipeline,#latest-progress .progress-grid{display:block}#latest-progress table{min-width:580px}#latest-progress .progress-pipeline li{margin-bottom:22px}}
+#latest-progress .progress-stats>div{padding:15px;border:1px solid var(--line,#d8dadb);border-radius:10px;background:var(--card,transparent)}
+#latest-progress .progress-stats strong{font-size:1.65rem;line-height:1.3;margin-bottom:8px}
+#latest-progress .progress-grid article{padding:16px;border:1px solid var(--line,#d8dadb);border-radius:10px}
+#latest-progress .recent-figure{margin:24px 0}
+#latest-progress .recent-figure img{width:100%;height:auto;display:block;background:white;border-radius:10px}
+#latest-progress .recent-figure figcaption{font-size:.85rem;margin-top:10px}
+#latest-progress details{border:1px solid var(--line,#d8dadb);border-radius:10px;padding:15px;margin:20px 0}
+#latest-progress summary{cursor:pointer;font-weight:600}

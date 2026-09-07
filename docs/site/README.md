@@ -7,10 +7,11 @@ Claude Artifact (no `<!doctype>` wrapper; the host supplies it).
 ## Rebuilding
 
 The current-progress section is shared by both pages. Edit `_progress.html` for prose
-and `progress.css` for its layout; `build_progress.py` validates committed A5/audit
+and `progress.css` for its layout; `build_progress.py` validates selected A5 and A10–A17/audit
 receipts, generates `docs/progress.json`, and replaces only the marked blocks in
 `docs/index.html` and `_body.html`. `build.py` runs this step automatically. Do not
-manually edit the generated tables or present old stepping videos as A5 footage.
+manually edit the generated tables or present old stepping videos as recent duck footage.
+The A17 two-case figure is hash-checked and embedded for offline viewing.
 No simulator, model loading or motion payload is needed for this progress build.
 
 ```
@@ -27,8 +28,8 @@ touch the archives and the renderer.
 Rendering needs `ffmpeg` and a working MuJoCo OpenGL backend. The original five inline clips
 were built with `MUJOCO_GL=glfw`; the standalone EXP-031 reference-repair comparison is
 headless-safe with `MUJOCO_GL=egl` on this host. The five inline clips encode to ~0.55 MB total,
-small enough to inline as data URIs; the artifact limit is 16 MB and the built page is under
-1 MB. The two externally linked evidence videos live under `docs/media/` with manifests beside
+small enough to inline as data URIs; the artifact limit is 16 MB and the built page is approximately
+1.1 MB. The two externally linked evidence videos live under `docs/media/` with manifests beside
 them.
 
 The two charts are read by `make_payload.py` straight out of the committed analysis

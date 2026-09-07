@@ -1,0 +1,1365 @@
+{
+  "new_executions": 64,
+  "new_generations": 0,
+  "new_independent_units": 0,
+  "observer_exact_executions": 64,
+  "operational_development_only": true,
+  "policy_probe": {
+    "context_dirs": [
+      "/home/linjiw/scene2motion/outputs/astra_a13_batch_observer_v1/g0_correction_absent/eval",
+      "/home/linjiw/scene2motion/outputs/astra_a13_batch_observer_v1/g0_no_phase_absent/eval"
+    ],
+    "forward_calls": 54,
+    "hybrids": [
+      {
+        "context": 0,
+        "step": -1,
+        "target_action": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "target_input_exact": true,
+        "target_slot": 19
+      },
+      {
+        "context": 0,
+        "step": 0,
+        "target_action": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "target_input_exact": true,
+        "target_slot": 19
+      },
+      {
+        "context": 0,
+        "step": 1,
+        "target_action": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "target_input_exact": true,
+        "target_slot": 19
+      },
+      {
+        "context": 0,
+        "step": 2,
+        "target_action": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "target_input_exact": true,
+        "target_slot": 19
+      },
+      {
+        "context": 0,
+        "step": 3,
+        "target_action": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "target_input_exact": true,
+        "target_slot": 19
+      },
+      {
+        "context": 0,
+        "step": 4,
+        "target_action": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "target_input_exact": true,
+        "target_slot": 19
+      },
+      {
+        "context": 0,
+        "step": 5,
+        "target_action": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "target_input_exact": true,
+        "target_slot": 19
+      },
+      {
+        "context": 0,
+        "step": 6,
+        "target_action": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "target_input_exact": true,
+        "target_slot": 19
+      },
+      {
+        "context": 0,
+        "step": 7,
+        "target_action": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "target_input_exact": true,
+        "target_slot": 19
+      },
+      {
+        "context": 1,
+        "step": -1,
+        "target_action": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "target_input_exact": true,
+        "target_slot": 19
+      },
+      {
+        "context": 1,
+        "step": 0,
+        "target_action": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "target_input_exact": true,
+        "target_slot": 19
+      },
+      {
+        "context": 1,
+        "step": 1,
+        "target_action": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "target_input_exact": true,
+        "target_slot": 19
+      },
+      {
+        "context": 1,
+        "step": 2,
+        "target_action": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "target_input_exact": true,
+        "target_slot": 19
+      },
+      {
+        "context": 1,
+        "step": 3,
+        "target_action": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "target_input_exact": true,
+        "target_slot": 19
+      },
+      {
+        "context": 1,
+        "step": 4,
+        "target_action": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "target_input_exact": true,
+        "target_slot": 19
+      },
+      {
+        "context": 1,
+        "step": 5,
+        "target_action": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "target_input_exact": true,
+        "target_slot": 19
+      },
+      {
+        "context": 1,
+        "step": 6,
+        "target_action": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "target_input_exact": true,
+        "target_slot": 19
+      },
+      {
+        "context": 1,
+        "step": 7,
+        "target_action": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "target_input_exact": true,
+        "target_slot": 19
+      }
+    ],
+    "repeats": [
+      {
+        "context": 0,
+        "live": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "repeat": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "step": -1
+      },
+      {
+        "context": 0,
+        "live": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "repeat": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "step": 0
+      },
+      {
+        "context": 0,
+        "live": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "repeat": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "step": 1
+      },
+      {
+        "context": 0,
+        "live": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "repeat": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "step": 2
+      },
+      {
+        "context": 0,
+        "live": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "repeat": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "step": 3
+      },
+      {
+        "context": 0,
+        "live": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "repeat": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "step": 4
+      },
+      {
+        "context": 0,
+        "live": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "repeat": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "step": 5
+      },
+      {
+        "context": 0,
+        "live": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "repeat": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "step": 6
+      },
+      {
+        "context": 0,
+        "live": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "repeat": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "step": 7
+      },
+      {
+        "context": 1,
+        "live": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "repeat": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "step": -1
+      },
+      {
+        "context": 1,
+        "live": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "repeat": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "step": 0
+      },
+      {
+        "context": 1,
+        "live": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "repeat": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "step": 1
+      },
+      {
+        "context": 1,
+        "live": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "repeat": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "step": 2
+      },
+      {
+        "context": 1,
+        "live": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "repeat": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "step": 3
+      },
+      {
+        "context": 1,
+        "live": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "repeat": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "step": 4
+      },
+      {
+        "context": 1,
+        "live": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "repeat": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "step": 5
+      },
+      {
+        "context": 1,
+        "live": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "repeat": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "step": 6
+      },
+      {
+        "context": 1,
+        "live": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "repeat": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "step": 7
+      }
+    ],
+    "schema_version": "astra-policy-context-probe-v1",
+    "target_slot": 19,
+    "whole_input_control_pass": true
+  },
+  "records": [
+    {
+      "fields": {
+        "command/encoder_index": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "command/time_steps": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "full_tokens": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "obs/actor_obs": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "obs/critic_obs": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "obs/tokenizer": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "policy_input/actor_obs": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "policy_input/critic_obs": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "policy_input/tokenizer": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "pre_state/env_origins": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "pre_state/joint_pos": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "pre_state/joint_vel": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "pre_state/root_state_w": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "raw_actions": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        }
+      },
+      "step": -1,
+      "target_slot": 19
+    },
+    {
+      "fields": {
+        "applied_actions": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "command/encoder_index": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "command/time_steps": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "full_tokens": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "obs/actor_obs": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "obs/critic_obs": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "obs/tokenizer": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "policy_input/actor_obs": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "policy_input/critic_obs": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "policy_input/tokenizer": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "post_state/env_origins": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "post_state/joint_pos": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "post_state/joint_vel": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "post_state/root_state_w": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "pre_state/env_origins": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "pre_state/joint_pos": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "pre_state/joint_vel": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "pre_state/root_state_w": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "raw_actions": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        }
+      },
+      "step": 0,
+      "target_slot": 19
+    },
+    {
+      "fields": {
+        "applied_actions": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "command/encoder_index": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "command/time_steps": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "full_tokens": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "obs/actor_obs": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "obs/critic_obs": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "obs/tokenizer": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "policy_input/actor_obs": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "policy_input/critic_obs": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "policy_input/tokenizer": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "post_state/env_origins": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "post_state/joint_pos": {
+          "exact": false,
+          "max_abs": 5.960464477539063e-08,
+          "shape_or_dtype_mismatch": false
+        },
+        "post_state/joint_vel": {
+          "exact": false,
+          "max_abs": 3.039836883544922e-06,
+          "shape_or_dtype_mismatch": false
+        },
+        "post_state/root_state_w": {
+          "exact": false,
+          "max_abs": 2.384185791015625e-07,
+          "shape_or_dtype_mismatch": false
+        },
+        "pre_state/env_origins": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "pre_state/joint_pos": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "pre_state/joint_vel": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "pre_state/root_state_w": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "raw_actions": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        }
+      },
+      "step": 1,
+      "target_slot": 19
+    },
+    {
+      "fields": {
+        "applied_actions": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "command/encoder_index": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "command/time_steps": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "full_tokens": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "obs/actor_obs": {
+          "exact": false,
+          "max_abs": 3.039836883544922e-06,
+          "shape_or_dtype_mismatch": false
+        },
+        "obs/critic_obs": {
+          "exact": false,
+          "max_abs": 3.039836883544922e-06,
+          "shape_or_dtype_mismatch": false
+        },
+        "obs/tokenizer": {
+          "exact": false,
+          "max_abs": 7.450580596923828e-09,
+          "shape_or_dtype_mismatch": false
+        },
+        "policy_input/actor_obs": {
+          "exact": false,
+          "max_abs": 3.039836883544922e-06,
+          "shape_or_dtype_mismatch": false
+        },
+        "policy_input/critic_obs": {
+          "exact": false,
+          "max_abs": 3.039836883544922e-06,
+          "shape_or_dtype_mismatch": false
+        },
+        "policy_input/tokenizer": {
+          "exact": false,
+          "max_abs": 7.450580596923828e-09,
+          "shape_or_dtype_mismatch": false
+        },
+        "post_state/env_origins": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "post_state/joint_pos": {
+          "exact": false,
+          "max_abs": 2.950429916381836e-06,
+          "shape_or_dtype_mismatch": false
+        },
+        "post_state/joint_vel": {
+          "exact": false,
+          "max_abs": 0.0014221668243408203,
+          "shape_or_dtype_mismatch": false
+        },
+        "post_state/root_state_w": {
+          "exact": false,
+          "max_abs": 0.00017330050468444824,
+          "shape_or_dtype_mismatch": false
+        },
+        "pre_state/env_origins": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "pre_state/joint_pos": {
+          "exact": false,
+          "max_abs": 5.960464477539063e-08,
+          "shape_or_dtype_mismatch": false
+        },
+        "pre_state/joint_vel": {
+          "exact": false,
+          "max_abs": 3.039836883544922e-06,
+          "shape_or_dtype_mismatch": false
+        },
+        "pre_state/root_state_w": {
+          "exact": false,
+          "max_abs": 2.384185791015625e-07,
+          "shape_or_dtype_mismatch": false
+        },
+        "raw_actions": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        }
+      },
+      "step": 2,
+      "target_slot": 19
+    },
+    {
+      "fields": {
+        "applied_actions": {
+          "exact": false,
+          "max_abs": 0.0010409653186798096,
+          "shape_or_dtype_mismatch": false
+        },
+        "command/encoder_index": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "command/time_steps": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "full_tokens": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "obs/actor_obs": {
+          "exact": false,
+          "max_abs": 0.0014221668243408203,
+          "shape_or_dtype_mismatch": false
+        },
+        "obs/critic_obs": {
+          "exact": false,
+          "max_abs": 0.0014221668243408203,
+          "shape_or_dtype_mismatch": false
+        },
+        "obs/tokenizer": {
+          "exact": false,
+          "max_abs": 2.384185791015625e-07,
+          "shape_or_dtype_mismatch": false
+        },
+        "policy_input/actor_obs": {
+          "exact": false,
+          "max_abs": 0.0014221668243408203,
+          "shape_or_dtype_mismatch": false
+        },
+        "policy_input/critic_obs": {
+          "exact": false,
+          "max_abs": 0.0014221668243408203,
+          "shape_or_dtype_mismatch": false
+        },
+        "policy_input/tokenizer": {
+          "exact": false,
+          "max_abs": 2.384185791015625e-07,
+          "shape_or_dtype_mismatch": false
+        },
+        "post_state/env_origins": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "post_state/joint_pos": {
+          "exact": false,
+          "max_abs": 4.3451786041259766e-05,
+          "shape_or_dtype_mismatch": false
+        },
+        "post_state/joint_vel": {
+          "exact": false,
+          "max_abs": 0.0030556917190551758,
+          "shape_or_dtype_mismatch": false
+        },
+        "post_state/root_state_w": {
+          "exact": false,
+          "max_abs": 0.0013174870982766151,
+          "shape_or_dtype_mismatch": false
+        },
+        "pre_state/env_origins": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "pre_state/joint_pos": {
+          "exact": false,
+          "max_abs": 2.950429916381836e-06,
+          "shape_or_dtype_mismatch": false
+        },
+        "pre_state/joint_vel": {
+          "exact": false,
+          "max_abs": 0.0014221668243408203,
+          "shape_or_dtype_mismatch": false
+        },
+        "pre_state/root_state_w": {
+          "exact": false,
+          "max_abs": 0.00017330050468444824,
+          "shape_or_dtype_mismatch": false
+        },
+        "raw_actions": {
+          "exact": false,
+          "max_abs": 0.0010409653186798096,
+          "shape_or_dtype_mismatch": false
+        }
+      },
+      "step": 3,
+      "target_slot": 19
+    },
+    {
+      "fields": {
+        "applied_actions": {
+          "exact": false,
+          "max_abs": 0.0008089542388916016,
+          "shape_or_dtype_mismatch": false
+        },
+        "command/encoder_index": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "command/time_steps": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "full_tokens": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "obs/actor_obs": {
+          "exact": false,
+          "max_abs": 0.0030556917190551758,
+          "shape_or_dtype_mismatch": false
+        },
+        "obs/critic_obs": {
+          "exact": false,
+          "max_abs": 0.0030556917190551758,
+          "shape_or_dtype_mismatch": false
+        },
+        "obs/tokenizer": {
+          "exact": false,
+          "max_abs": 1.6123056411743164e-05,
+          "shape_or_dtype_mismatch": false
+        },
+        "policy_input/actor_obs": {
+          "exact": false,
+          "max_abs": 0.0030556917190551758,
+          "shape_or_dtype_mismatch": false
+        },
+        "policy_input/critic_obs": {
+          "exact": false,
+          "max_abs": 0.0030556917190551758,
+          "shape_or_dtype_mismatch": false
+        },
+        "policy_input/tokenizer": {
+          "exact": false,
+          "max_abs": 1.6123056411743164e-05,
+          "shape_or_dtype_mismatch": false
+        },
+        "post_state/env_origins": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "post_state/joint_pos": {
+          "exact": false,
+          "max_abs": 8.64267349243164e-05,
+          "shape_or_dtype_mismatch": false
+        },
+        "post_state/joint_vel": {
+          "exact": false,
+          "max_abs": 0.004591226577758789,
+          "shape_or_dtype_mismatch": false
+        },
+        "post_state/root_state_w": {
+          "exact": false,
+          "max_abs": 0.0016850437968969345,
+          "shape_or_dtype_mismatch": false
+        },
+        "pre_state/env_origins": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "pre_state/joint_pos": {
+          "exact": false,
+          "max_abs": 4.3451786041259766e-05,
+          "shape_or_dtype_mismatch": false
+        },
+        "pre_state/joint_vel": {
+          "exact": false,
+          "max_abs": 0.0030556917190551758,
+          "shape_or_dtype_mismatch": false
+        },
+        "pre_state/root_state_w": {
+          "exact": false,
+          "max_abs": 0.0013174870982766151,
+          "shape_or_dtype_mismatch": false
+        },
+        "raw_actions": {
+          "exact": false,
+          "max_abs": 0.0008089542388916016,
+          "shape_or_dtype_mismatch": false
+        }
+      },
+      "step": 4,
+      "target_slot": 19
+    },
+    {
+      "fields": {
+        "applied_actions": {
+          "exact": false,
+          "max_abs": 0.05045078694820404,
+          "shape_or_dtype_mismatch": false
+        },
+        "command/encoder_index": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "command/time_steps": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "full_tokens": {
+          "exact": false,
+          "max_abs": 0.0625,
+          "shape_or_dtype_mismatch": false
+        },
+        "obs/actor_obs": {
+          "exact": false,
+          "max_abs": 0.004591226577758789,
+          "shape_or_dtype_mismatch": false
+        },
+        "obs/critic_obs": {
+          "exact": false,
+          "max_abs": 0.004591226577758789,
+          "shape_or_dtype_mismatch": false
+        },
+        "obs/tokenizer": {
+          "exact": false,
+          "max_abs": 4.6372413635253906e-05,
+          "shape_or_dtype_mismatch": false
+        },
+        "policy_input/actor_obs": {
+          "exact": false,
+          "max_abs": 0.004591226577758789,
+          "shape_or_dtype_mismatch": false
+        },
+        "policy_input/critic_obs": {
+          "exact": false,
+          "max_abs": 0.004591226577758789,
+          "shape_or_dtype_mismatch": false
+        },
+        "policy_input/tokenizer": {
+          "exact": false,
+          "max_abs": 4.6372413635253906e-05,
+          "shape_or_dtype_mismatch": false
+        },
+        "post_state/env_origins": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "post_state/joint_pos": {
+          "exact": false,
+          "max_abs": 0.0023976266384124756,
+          "shape_or_dtype_mismatch": false
+        },
+        "post_state/joint_vel": {
+          "exact": false,
+          "max_abs": 0.165479963645339,
+          "shape_or_dtype_mismatch": false
+        },
+        "post_state/root_state_w": {
+          "exact": false,
+          "max_abs": 0.031167469918727875,
+          "shape_or_dtype_mismatch": false
+        },
+        "pre_state/env_origins": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "pre_state/joint_pos": {
+          "exact": false,
+          "max_abs": 8.64267349243164e-05,
+          "shape_or_dtype_mismatch": false
+        },
+        "pre_state/joint_vel": {
+          "exact": false,
+          "max_abs": 0.004591226577758789,
+          "shape_or_dtype_mismatch": false
+        },
+        "pre_state/root_state_w": {
+          "exact": false,
+          "max_abs": 0.0016850437968969345,
+          "shape_or_dtype_mismatch": false
+        },
+        "raw_actions": {
+          "exact": false,
+          "max_abs": 0.05045078694820404,
+          "shape_or_dtype_mismatch": false
+        }
+      },
+      "step": 5,
+      "target_slot": 19
+    },
+    {
+      "fields": {
+        "applied_actions": {
+          "exact": false,
+          "max_abs": 0.01834893226623535,
+          "shape_or_dtype_mismatch": false
+        },
+        "command/encoder_index": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "command/time_steps": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "full_tokens": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "obs/actor_obs": {
+          "exact": false,
+          "max_abs": 0.16548001766204834,
+          "shape_or_dtype_mismatch": false
+        },
+        "obs/critic_obs": {
+          "exact": false,
+          "max_abs": 0.165479963645339,
+          "shape_or_dtype_mismatch": false
+        },
+        "obs/tokenizer": {
+          "exact": false,
+          "max_abs": 0.00036557018756866455,
+          "shape_or_dtype_mismatch": false
+        },
+        "policy_input/actor_obs": {
+          "exact": false,
+          "max_abs": 0.16548001766204834,
+          "shape_or_dtype_mismatch": false
+        },
+        "policy_input/critic_obs": {
+          "exact": false,
+          "max_abs": 0.165479963645339,
+          "shape_or_dtype_mismatch": false
+        },
+        "policy_input/tokenizer": {
+          "exact": false,
+          "max_abs": 0.00036557018756866455,
+          "shape_or_dtype_mismatch": false
+        },
+        "post_state/env_origins": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "post_state/joint_pos": {
+          "exact": false,
+          "max_abs": 0.0031846463680267334,
+          "shape_or_dtype_mismatch": false
+        },
+        "post_state/joint_vel": {
+          "exact": false,
+          "max_abs": 0.06670304387807846,
+          "shape_or_dtype_mismatch": false
+        },
+        "post_state/root_state_w": {
+          "exact": false,
+          "max_abs": 0.017547473311424255,
+          "shape_or_dtype_mismatch": false
+        },
+        "pre_state/env_origins": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "pre_state/joint_pos": {
+          "exact": false,
+          "max_abs": 0.0023976266384124756,
+          "shape_or_dtype_mismatch": false
+        },
+        "pre_state/joint_vel": {
+          "exact": false,
+          "max_abs": 0.165479963645339,
+          "shape_or_dtype_mismatch": false
+        },
+        "pre_state/root_state_w": {
+          "exact": false,
+          "max_abs": 0.031167469918727875,
+          "shape_or_dtype_mismatch": false
+        },
+        "raw_actions": {
+          "exact": false,
+          "max_abs": 0.01834893226623535,
+          "shape_or_dtype_mismatch": false
+        }
+      },
+      "step": 6,
+      "target_slot": 19
+    },
+    {
+      "fields": {
+        "applied_actions": {
+          "exact": false,
+          "max_abs": 0.014939218759536743,
+          "shape_or_dtype_mismatch": false
+        },
+        "command/encoder_index": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "command/time_steps": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "full_tokens": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "obs/actor_obs": {
+          "exact": false,
+          "max_abs": 0.16548001766204834,
+          "shape_or_dtype_mismatch": false
+        },
+        "obs/critic_obs": {
+          "exact": false,
+          "max_abs": 0.165479963645339,
+          "shape_or_dtype_mismatch": false
+        },
+        "obs/tokenizer": {
+          "exact": false,
+          "max_abs": 0.0005282461643218994,
+          "shape_or_dtype_mismatch": false
+        },
+        "policy_input/actor_obs": {
+          "exact": false,
+          "max_abs": 0.16548001766204834,
+          "shape_or_dtype_mismatch": false
+        },
+        "policy_input/critic_obs": {
+          "exact": false,
+          "max_abs": 0.165479963645339,
+          "shape_or_dtype_mismatch": false
+        },
+        "policy_input/tokenizer": {
+          "exact": false,
+          "max_abs": 0.0005282461643218994,
+          "shape_or_dtype_mismatch": false
+        },
+        "post_state/env_origins": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "post_state/joint_pos": {
+          "exact": false,
+          "max_abs": 0.0033522844314575195,
+          "shape_or_dtype_mismatch": false
+        },
+        "post_state/joint_vel": {
+          "exact": false,
+          "max_abs": 1.311874508857727,
+          "shape_or_dtype_mismatch": false
+        },
+        "post_state/root_state_w": {
+          "exact": false,
+          "max_abs": 0.08834028989076614,
+          "shape_or_dtype_mismatch": false
+        },
+        "pre_state/env_origins": {
+          "exact": true,
+          "max_abs": 0.0,
+          "shape_or_dtype_mismatch": false
+        },
+        "pre_state/joint_pos": {
+          "exact": false,
+          "max_abs": 0.0031846463680267334,
+          "shape_or_dtype_mismatch": false
+        },
+        "pre_state/joint_vel": {
+          "exact": false,
+          "max_abs": 0.06670304387807846,
+          "shape_or_dtype_mismatch": false
+        },
+        "pre_state/root_state_w": {
+          "exact": false,
+          "max_abs": 0.017547473311424255,
+          "shape_or_dtype_mismatch": false
+        },
+        "raw_actions": {
+          "exact": false,
+          "max_abs": 0.014939218759536743,
+          "shape_or_dtype_mismatch": false
+        }
+      },
+      "step": 7,
+      "target_slot": 19
+    }
+  ],
+  "schema_version": "astra-a13-batch-observer-v1",
+  "source_hashes": {
+    "/home/linjiw/scene2motion/outputs/astra_a13_batch_observer_v1/g0_correction_absent/repeat_comparison.json": "143ccb5d03a08214075a8a0640c5d970d6c2608f0f3acb3118dfe7ad18bc3550",
+    "/home/linjiw/scene2motion/outputs/astra_a13_batch_observer_v1/g0_no_phase_absent/eval/policy_context_probe.json": "76f642763bf502c5c370a5ba8e8ba25f723696553b566fc51f9338c24c1ac1c4",
+    "/home/linjiw/scene2motion/outputs/astra_a13_batch_observer_v1/g0_no_phase_absent/repeat_comparison.json": "6bbc0fedc493dabee0ee21cce116516c5e53e32382f9c580671f9843a62e468e",
+    "/home/linjiw/scene2motion/outputs/astra_a13_batch_observer_v1/identity.json": "e3b1c1a65dce0788091aae3609720ffff5a368d6482a5f6e7e2e61b152596ecf"
+  },
+  "target": "group0/slot19/astra-a6/s04/u3"
+}

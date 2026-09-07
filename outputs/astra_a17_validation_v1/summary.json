@@ -1,0 +1,23 @@
+{
+  "analysis_rebuild_exact": true,
+  "campaign_closed_at_preregistered_gate": true,
+  "cpu_suite": {
+    "elapsed_s": 204.89,
+    "log_sha256": "b236f0b265587e3e40702adc1bdfcc0c25de601c0e3c8ae337770d05157dd809",
+    "passed": 1332
+  },
+  "desktop_and_mobile_pages_inspected": true,
+  "focused_before_simulation": 25,
+  "focused_campaign_and_page_after_results": 46,
+  "independent_raw_audit_pass": true,
+  "latest_page_tests": 21,
+  "new_simulations": 64,
+  "pass": true,
+  "schema_version": "astra-a17-completion-validation-v1",
+  "scientific_figure_visually_inspected": true,
+  "source_hashes": {
+    "/home/linjiw/scene2motion/outputs/astra_a17_completion_v1/summary.json": "bd425537beaf19ad885b1b7e4268293210ba45be33e31620ee33da13f76d023c",
+    "/home/linjiw/scene2motion/outputs/astra_a17_figures_v1/receipt.json": "4fadd1359643a52a1a66043c8fbbfd52a47156b6d348bbf3c1d509610a6de2a6",
+    "/home/linjiw/scene2motion/outputs/astra_a17_remaining_development_v1/summary.json": "c5e2129e197047d426d9702903e1607a24301a8b444582cde5638280374ebac7"
+  }
+}

@@ -1,113 +1,155 @@
 <section id="latest-progress" aria-labelledby="progress-title">
 <div class="wrap progress-content">
-  <p class="kicker">Latest research · September 5, 2026 · simulation + archived-data analysis</p>
-  <h2 id="progress-title">Local beam passage works. Motion quality is the next question.</h2>
-  <p class="lede">Scene2Motion now has obstacle-present ducking results with frozen ARDY-G1 and SONIC.
-    The strongest established setting here is a fixed three-second native duck, not a learned
-    repair: <strong>17 / 32 local passages</strong> in the default-mode A5 campaign.
-    Changing the encoder mode does not improve that total. The stepping repair remains a negative result.</p>
-  <div class="progress-stats" aria-label="A5 experiment scope">
-    <div><strong>{{REFERENCES}}</strong><span>generated references</span></div>
-    <div><strong>{{EXECUTIONS}}</strong><span>verified simulation executions</span></div>
-    <div><strong>8</strong><span>motion-seed groups, four slot repeats</span></div>
-    <div><strong>1</strong><span>reused beam geometry; no scene holdout</span></div>
+  <p class="kicker">Latest research · September 6, 2026 · simulation development</p>
+  <h2 id="progress-title">Clear the beam—and keep moving.</h2>
+  <p class="lede">Native motion controls can produce local beam passage with frozen ARDY-G1 and
+    SONIC. Our latest experiments ask whether execution-aware correction improves on a simple
+    shallow duck. <strong>Depth-only correction gained one pilot case in A16, but A17 found no
+    additional gain on the remaining development comparison.</strong> We retain the negative result
+    and close this correction rule before expanding the benchmark.</p>
+  <div class="progress-stats" aria-label="Separate evidence levels; these denominators are not pooled">
+    <div><strong>17 / 32</strong><span>A5 obstacle-present local passages<br>one reused beam geometry</span></div>
+    <div><strong>5 vs 4 / 12</strong><span>A16 depth-only vs shallow<br>absent-preview qualification</span></div>
+    <div><strong>0 net gain</strong><span>A17 remaining-unit comparison<br>one measured pair + 35 equivalent pairs</span></div>
+    <div><strong>64</strong><span>A17 operational rollouts<br>2 target previews + 62 context rows</span></div>
   </div>
+  <p class="note">A5 and A16 use different tasks, endpoints and denominators. A17 did not execute
+    the full 36-unit candidate cohort: its absolute edited-method success rates remain unknown.
+    None of these numbers is a hardware or held-out scene result.</p>
 
-  <h3 id="current-method">What the current method actually does</h3>
+  <h3 id="current-method">The system we are testing</h3>
   <ol class="progress-pipeline">
-    <li><b>Scene → native motion controls</b><p>Specify the beam geometry, forward route and a smooth
-      root-height schedule. The tested duck uses a 0.28 m requested dip and quintic entry/recovery
-      ramps; fixed2 and fixed3 change the hold-end time, not the frozen model weights.</p></li>
-    <li><b>Frozen prior → frozen controller</b><p>ARDY generates 208 frames at 25 Hz from the cached
-      WALK prompt and native constraints. Freeze every array, then track it in 32 isolated Isaac
-      environments with SONIC. Paired absent/present arms share references, order and physics seed.</p></li>
-    <li><b>Achieved motion → separate evidence labels</b><p>Check actual beam placement, controller
-      mode and achieved whole-body passage. Save failures, cutoffs, missing suffixes and recovery
-      diagnostics alongside successes. Geometry, contact and motion quality remain different labels.</p></li>
+    <li><b>Describe the obstacle-relative motion</b><p>Known beam geometry and a forward route set
+      native root-height constraints. Depth, onset lead and recovery offset control the duck.
+      ARDY-G1 produces the motion with frozen weights.</p></li>
+    <li><b>Measure the actual tracked preview</b><p>SONIC tracks with the obstacle absent. Replay
+      achieved whole-body states against the beam and measure clearance, exit time and continued
+      forward motion. Keep one target in a fixed 31-reference background.</p></li>
+    <li><b>Correct once, verify, select or abstain</b><p>Preserve a qualified nominal preview.
+      Otherwise test one bounded native correction and measure that exact candidate. A selected
+      preview still needs an obstacle-present evaluation.</p></li>
   </ol>
-  <p><b>The proposed compiler is broader than the implemented result.</b> It would qualify the final
-    edited motion and choose a bounded scene-relative correction that preserves both clearance and
-    progress. That improvement is not established yet. The earlier stepping backend used bounded
-    per-frame nonlinear IK over twelve leg joints—not a support QP—and completed 0 / 2 repaired-present
-    local crossings. Neither passing a support proxy nor reference clearance guarantees execution.</p>
-  <p class="note">A5's <b>operational local passage</b> requires the rear body envelope beyond x = 1.32 m,
-    root beyond x = 1.82 m, upright and inside the corridor for 0.20 s by 4.0 s, with no nominal or
-    40 mm margin-inflated geometric hazard in that prefix. The beam underside is 1.15 m.
-    This is not a physical-contact-free endpoint or the separate 7.2 m full-route goal.
-    <a href="https://github.com/linjiw/scene2motion/blob/gh-pages/docs/astra-a5-encoder-protocol.md">Frozen protocol</a>.</p>
+  <p class="note">This is offline compilation using known geometry and simulated state. It does
+    not impose a hard velocity constraint on the frozen controller. The common background makes
+    comparisons controlled; it does not establish simulator independence. One useful target
+    currently costs a 32-environment job.</p>
 
-  <h3>Does choosing the controller mode improve passage?</h3>
-  <div class="progress-table"><table>
-    <caption>A5: all assigned present executions. Recovery is a subsequent post-hoc diagnostic.</caption>
-    <thead><tr><th scope="col">Reference control</th><th scope="col">Encoder mode</th>
-      <th scope="col">Local passage</th><th scope="col">Groups passing ≥3/4</th>
-      <th scope="col">Local + 1 s recovery</th><th scope="col">Full route</th></tr></thead>
-    <tbody>{{A5_TABLE}}</tbody>
-  </table></div>
-  <p><b>No aggregate gain over default.</b> On fixed3, G1 gains one matched pass and loses one
-    versus default; it gains two and loses none versus teleop. “Teleop” names a pretrained encoder
-    branch, not a human operator. These eight groups share one geometry and physics seed 0:
-    32 slots are not 32 independent scenes. No significance or geometry-generalization claim.</p>
-  <p class="note">Four of eight fixed3/default groups pass at least three repeats; the descriptive
-    unit-level Wilson 95% interval is 21.5–78.5%. Equal totals are not identical trajectories.
-    <a href="https://github.com/linjiw/scene2motion/blob/gh-pages/docs/astra-a5-results-2026-09-05.md">A5 analysis and cost</a>.</p>
-
-  <h3>Why not just extend the duck or select a better clip?</h3>
-  <p>The preceding A4 comparison lost: overlap-adaptive timing completed <b>{{A4_ADAPTIVE}} / 32</b>
-    versus <b>{{A4_FIXED}} / 32</b> for fixed3, with three paired losses and no gains. Those lost
-    repeats cleared the archived geometry but missed the recovery deadline. A longer low posture
-    does not automatically preserve forward progress. A4 and A5 use different motion seeds;
-    their totals are not a matched before/after method comparison.</p>
-  <p>An offline A5 bank choosing between fixed2 and fixed3 from <b>{{BANK_COST}} paid absent executions</b>
-    obtains {{BANK_PASSES}} / 32 local passes. Its sole gain over fixed3 advances −0.313 mm in the next
-    second—essentially stationary, not a demonstrated fall. The table below checks how that inference
-    depends on the displacement requirement. The oracle can choose using present outcomes and is
-    an upper bound for this pool, not a deployable selector.</p>
-  <div class="progress-table"><table>
-    <caption>Post-hoc sensitivity: original local pass + complete 1 s kinematic bounds + net displacement strictly above the row threshold. No threshold is a recommended quality standard.</caption>
-    <thead><tr><th scope="col">Displacement threshold</th><th scope="col">fixed2</th>
-      <th scope="col">fixed3</th><th scope="col">Slotwise pool oracle</th></tr></thead>
-    <tbody>{{SENSITIVITY_TABLE}}</tbody>
-  </table></div>
-  <p><b>Decision:</b> improve the candidate motions before investing in a ranker for this pool.
-    All 17 fixed3 local passes exceed 25 cm of continuation; allowing a 1 mm backward tolerance
-    adds one near-stationary candidate to the oracle. This diagnoses limited observed selection
-    headroom, not impossibility for new motions, controllers or scenes.</p>
-
-  <h3>Contact logging and lower-memory execution</h3>
+  <h3>What changed in the recent experiments?</h3>
   <div class="progress-grid">
-    <article><h4>What contact validation establishes</h4><p>Six corrected simple-body controls passed.
-      Sixty-four G1 operational replays reproduce A5 achieved states, apparatus and modes exactly.
-      The 32 present valid prefixes report zero Table contacts across 30 robot-body filters,
-      but the untrimmed reader reached six points. Excluded-event attribution and a controlled
-      G1 positive-contact probe remain open. Prefix zeros are not episode-level contact freedom.</p></article>
-    <article><h4>What the resource optimization establishes</h4><p>Separate preparation/validation
-      workers and a small resident supervisor avoid keeping model inputs loaded beside Isaac.
-      Compact allocation retained the same 32 slots and exact control replay outcomes. A5 used
-      {{WALL_MIN}} minutes of simulator-process time and peaked at {{PEAK_GIB}} GiB child RSS.
-      This is measured memory use, not an end-to-end speedup or permission to lower resource gates.</p></article>
+    <article><h4>1 · Better candidate supply, limited prediction</h4><p>A10 tested smaller native
+      edits across 12 reused scenes and 48 units. Fixed shallow qualified {{A10_RAW}} / 48 raw candidates,
+      versus 7 / 48 nominal. The predictor still failed its readiness checks. A12's full correction
+      selected 13 / 48, below shallow's 15 / 48.</p>
+      <a href="https://github.com/linjiw/scene2motion/blob/gh-pages/docs/astra-a12-results-2026-09-06.md">Why the full correction failed</a></article>
+    <article><h4>2 · Make the comparison interpretable</h4><p>Identical target references could track
+      differently when other batch inputs changed. A13 localized an observed early divergence
+      downstream of equal applied actions. A14's fixed-background adapter then reproduced all
+      64 paired execution prefixes exactly.</p>
+      <a href="https://github.com/linjiw/scene2motion/blob/gh-pages/docs/astra-a14-result-2026-09-06.md">Controlled-context validation</a></article>
+    <article><h4>3 · A small depth-only lead</h4><p>With the common context, A15 full correction tied
+      shallow at 4 / 12. A16 removed the phase edit and reached 5 / 12. On the gained case, it traded
+      4.29 mm of clearance for 75.23 mm of continuation and crossed the existing progress gate.</p>
+      <a href="https://github.com/linjiw/scene2motion/blob/gh-pages/docs/astra-a16-result-2026-09-06.md">A16 result and mechanism</a></article>
+    <article><h4>4 · The lead did not extend</h4><p>A17 tested the only remaining pair that could
+      distinguish depth-only from shallow. Both failed qualification. The preregistered stop rule
+      avoided 35 further jobs while preserving unknown absolute outcomes.</p>
+      <a href="https://github.com/linjiw/scene2motion/blob/gh-pages/docs/astra-a17-result-2026-09-06.md">A17 result and stop decision</a></article>
   </div>
 
-  <h3>From execution records to a useful dataset</h3>
-  <p>The existing 300-record DB preview is geometry/feasibility metadata, not 300 executed
-    demonstrations. A5 adds grouped execution records, but they are not yet a qualified imitation
-    bank or integrated public motion release. Keep every carrier's raw/edited, absent/present,
-    mode and repeat variants in one split. Contact unknown stays unknown.</p>
-  <ol>
-    <li><b>Finish measurement:</b> locate excluded contact events and validate positive G1 sensitivity.</li>
-    <li><b>Freeze qualification and one bounded edit:</b> require final-output progress and clearance;
-      test on fresh motion–scene groups against fixed2/fixed3 and budget-disclosed controls.</li>
-    <li><b>Then expand data claims:</b> scene-disjoint coverage, payload redistribution review and a
-      pre-execution learner utility test. No broad navigation, hardware or safety claim yet.</li>
-  </ol>
-  <p class="note">These tables are rebuilt from receipts, not retyped. The existing videos below show
-    the historical stepping experiments; none is an A5 ducking video.
+  <h3>The pilot gain and its limit</h3>
+  <div class="progress-table"><table>
+    <caption>A15/A16: selected absent-preview qualification on 12 reused scene–u0 units.
+      All edited methods preserve qualified nominal outputs. Wilson intervals are descriptive.</caption>
+    <thead><tr><th scope="col">Native control</th><th scope="col">Selected passes</th><th scope="col">Wilson 95%</th></tr></thead>
+    <tbody>{{PILOT_TABLE}}</tbody>
+  </table></div>
+  <figure class="recent-figure"><img src="{{RECENT_FIGURE}}" width="1500" height="630"
+    alt="Clearance versus continuation for the A16 gained case and A17 distinguishing case; only A16 depth-only lies inside both displayed thresholds.">
+    <figcaption>Two individual development cases, not a population success plot. Each point is an
+      achieved absent-preview measurement. Nonnegative 40 mm-inflated clearance and at least
+      0.45 m continuation are necessary parts of qualification; corridor, uprightness and deadline
+      are checked separately. The A16 gain survives both displayed thresholds; the A17 candidates do not.</figcaption>
+  </figure>
+
+  <details open><summary>A17: what was measured, and why the larger run stopped</summary>
+    <p>Of 36 remaining reused units, 30 pairs share exactly the same candidate context and five
+      preserve an already-qualified nominal preview. Their selected labels are equal by verified
+      construction. Only <b>s01/u2, seed 64006</b> needed a distinguishing comparison.</p>
+    <div class="progress-table"><table>
+      <caption>A17 distinguishing case. Nominal is cached; shallow and depth-only are two new
+        simulations. The obstacle is absent; negative inflated margin is not a measured contact force.</caption>
+      <thead><tr><th scope="col">Control</th><th scope="col">Inflated clearance</th>
+        <th scope="col">1 s continuation</th><th scope="col">Exit</th><th scope="col">Qualification</th></tr></thead>
+      <tbody>{{A17_PAIR}}</tbody>
+    </table></div>
+    <p>Deeper crouching improves clearance but slows progress. Both selected methods abstain, so
+      the pair ties and the strict lead gate fails. <b>No absolute edited-method rate over 36 is
+      reported.</b> The run used {{A17_SECONDS}} seconds of simulator-process time, with no resource
+      refusal, timeout or abort. These costs exclude preparation and analysis.</p>
+    <p><a href="https://github.com/linjiw/scene2motion/blob/gh-pages/docs/astra-a17-remaining-development-protocol.md">Preregistered proof, assignments and budget</a> ·
+      <a href="https://github.com/linjiw/scene2motion/blob/gh-pages/outputs/astra_a17_completion_v1/summary.json">Independent raw-state audit</a></p>
+  </details>
+
+  <h3 id="icra-direction">What would make this a complete robotics paper?</h3>
+  <p>The technical question is now precise: <b>can a bounded native motion compiler improve
+    obstacle-present clearance and continued motion beyond fixed shallow and equally budgeted
+    search?</b> The strongest current contribution is the measured failure structure and a
+    controlled evaluation procedure. General correction superiority remains open.</p>
+  <div class="progress-table"><table>
+    <caption>Evidence required for the proposed paper. Planned rows are not completed experiments.</caption>
+    <thead><tr><th scope="col">Paper component</th><th scope="col">Current evidence</th><th scope="col">Next decisive test</th></tr></thead>
+    <tbody>
+      <tr><th scope="row">Clearance–progress problem</th><td>Measured in stepping and ducking</td><td>Retain joint metrics and negative comparisons</td></tr>
+      <tr><th scope="row">Constructive compiler</th><td>Local passage baseline; correction lead did not extend</td><td>Freeze strongest supported compiler; compare obstacle-present execution</td></tr>
+      <tr><th scope="row">Physical contact measurement</th><td>Simple-body controls and event attribution; G1 positive sensitivity open</td><td>Known-contact foot, shin and torso controls before contact-free claims</td></tr>
+      <tr><th scope="row">Scene generalization</th><td>12 reused development geometries; no held-out result</td><td>Fresh height/length/position groups, then multi-beam routes</td></tr>
+      <tr><th scope="row">Other motions and utility</th><td>Stepping repair 0 / 2; learner utility unmeasured</td><td>Separate carrier-aware stepping protocol; utility test if claiming a data contribution</td></tr>
+    </tbody>
+  </table></div>
+  <p>ARDY already demonstrates integration with SONIC, and CLoSD already connects diffusion to
+    physics feedback. Our paper must explain the narrower algorithmic change and prove its benefit.
+    More experiment receipts alone do not establish that benefit.
+    <a href="https://research.nvidia.com/labs/sil/projects/ardy/">ARDY primary source</a> ·
+    <a href="https://arxiv.org/abs/2410.03441">CLoSD primary source</a>.</p>
+  <p><a href="https://github.com/linjiw/scene2motion/blob/gh-pages/docs/astra-icra-research-story-2026-09-06.md"><b>Read the paper framing, claim–evidence map and staged experiments</b></a>.
+    ICRA 2027's paper deadline is September 15, 2026; the submission limit is eight pages including
+    references. These dates guide planning, not the claims we can make.
+    <a href="https://2027.ieee-icra.org/contribute/call-for-icra-2027-papers-now-accepting-submissions/">Official submission details</a>.</p>
+
+  <details><summary>Established obstacle-present baseline: A5, with its original endpoint</summary>
+    <p>A5 generated {{REFERENCES}} references and verified {{EXECUTIONS}} absent/present operational
+      executions across three holds and three encoder modes. Fixed3/default completed 17 / 32 local
+      passages, from eight motion-seed groups and four slot repeats on one reused beam geometry.
+      All 17 exceed 25 cm of continuation in the later diagnostic. Full-route success is 0 / 32.</p>
+    <p class="note">Operational local passage requires the rear body envelope beyond x=1.32 m,
+      root beyond x=1.82 m, upright and inside the corridor for 0.20 s by 4.0 s, with no nominal or
+      40 mm-inflated geometric hazard in that prefix. Beam underside:1.15 m. This differs from
+      recent scene-relative qualification and is not a force-verified contact-free endpoint.</p>
+    <div class="progress-table"><table>
+      <caption>All assigned A5 obstacle-present executions. Recovery is a subsequent diagnostic.</caption>
+      <thead><tr><th>Control</th><th>Mode</th><th>Local passage</th><th>Groups ≥3/4</th><th>Local + recovery</th><th>Full route</th></tr></thead>
+      <tbody>{{A5_TABLE}}</tbody>
+    </table></div>
+    <p>Changing encoder mode does not improve the best aggregate total. The earlier A4 adaptive
+      timing lost {{A4_ADAPTIVE}} / 32 versus fixed3's {{A4_FIXED}} / 32 on different motion seeds.
+      An offline A5 selector using {{BANK_COST}} absent executions gets {{BANK_PASSES}} / 32 local
+      passages, but its added case is nearly stationary. The pool needs better motion supply.</p>
+    <div class="progress-table"><table>
+      <caption>Post-hoc A5 continuation sensitivity: local passage plus complete 1 s kinematic
+        bounds and displacement strictly above each threshold. The oracle uses present outcomes.</caption>
+      <thead><tr><th>Displacement</th><th>fixed2</th><th>fixed3</th><th>Slotwise oracle</th></tr></thead>
+      <tbody>{{SENSITIVITY_TABLE}}</tbody>
+    </table></div>
+    <p>Historical A5 simulator-process time:{{WALL_MIN}} min; peak child RSS:{{PEAK_GIB}} GiB.
+      Six simple-body contact controls passed and 64 G1 replays matched A5. Event attribution was
+      subsequently analyzed; controlled positive G1 sensitivity remains open. The metadata DB
+      preview is not a qualified imitation bank.</p>
+  </details>
+  <p class="note">The videos below show historical stepping experiments, not A16/A17 ducking.
     <a href="https://github.com/linjiw/scene2motion/blob/gh-pages/astra.md">Active research plan</a> ·
-    <a href="https://github.com/linjiw/scene2motion/blob/gh-pages/docs/astra-a5-recovery-selection-result-2026-09-05.md">Recovery/selection analysis</a> ·
-    <a href="https://github.com/linjiw/scene2motion/blob/gh-pages/docs/progress.json">Machine-readable public snapshot</a>.</p>
+    <a href="https://github.com/linjiw/scene2motion/blob/gh-pages/docs/progress.json">Machine-readable snapshot</a>.</p>
   <details><summary>Evidence receipts and exact source hashes</summary><ul class="progress-sources">{{PROVENANCE}}</ul>
-    <p class="note">The publication branch contains selected JSON receipts and documentation, not
-      the unreleased motion payloads. Full hashes are in progress.json; raw-archive rebuilding
-      requires the research workspace and pinned external assets.</p></details>
+    <p class="note">The publication branch contains selected receipts and documentation. Raw motion
+      archives and model assets remain in the research workspace; this is not a motion dataset release.</p></details>
 </div>
 </section>

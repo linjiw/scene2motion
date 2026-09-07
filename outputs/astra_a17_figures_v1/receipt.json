@@ -1,0 +1,14 @@
+{
+  "artifact_hashes": {
+    "clearance_progress.pdf": "f3384f65f0e6a6a783ac81e6a5ed197a1f1d32ffa497ba2d933665e4f90bb008",
+    "clearance_progress.png": "3886f0f7ee98bd1e55ee6f4502cda23a7d5399d97853dfb9ac1d216788457f5c"
+  },
+  "schema_version": "astra-a17-figure-v1",
+  "scope": "two individual absent-preview cases; not population inference",
+  "source_hashes": {
+    "/home/linjiw/scene2motion/experiments/fig_astra_a17_clearance_progress.py": "7bf5a2f8f35820f291a73db0bb7875672b7bb5696b5e94e9b7bbdd342eebc7b5",
+    "/home/linjiw/scene2motion/outputs/astra_a16_depth_phase_v1/summary.json": "c3ab380cb62c38ee6676c3a5a1c64d5c8abf454d22d9931f2815caab1e501174",
+    "/home/linjiw/scene2motion/outputs/astra_a17_completion_v1/summary.json": "bd425537beaf19ad885b1b7e4268293210ba45be33e31620ee33da13f76d023c",
+    "/home/linjiw/scene2motion/outputs/astra_a17_remaining_development_v1/summary.json": "c5e2129e197047d426d9702903e1607a24301a8b444582cde5638280374ebac7"
+  }
+}

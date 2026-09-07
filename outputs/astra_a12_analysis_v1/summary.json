@@ -1,0 +1,5868 @@
+{
+  "arms": {
+    "baseline": {
+      "assigned": 48,
+      "passes": 7,
+      "per_scene": {
+        "a6s00": 0,
+        "a6s01": 0,
+        "a6s02": 2,
+        "a6s03": 1,
+        "a6s04": 0,
+        "a6s05": 0,
+        "a6s06": 1,
+        "a6s07": 1,
+        "a6s08": 1,
+        "a6s09": 0,
+        "a6s10": 1,
+        "a6s11": 0
+      }
+    },
+    "correction": {
+      "assigned": 48,
+      "passes": 13,
+      "per_scene": {
+        "a6s00": 1,
+        "a6s01": 1,
+        "a6s02": 3,
+        "a6s03": 1,
+        "a6s04": 0,
+        "a6s05": 0,
+        "a6s06": 2,
+        "a6s07": 1,
+        "a6s08": 1,
+        "a6s09": 0,
+        "a6s10": 2,
+        "a6s11": 1
+      }
+    },
+    "fixed_shallow": {
+      "assigned": 48,
+      "passes": 15,
+      "per_scene": {
+        "a6s00": 1,
+        "a6s01": 1,
+        "a6s02": 3,
+        "a6s03": 2,
+        "a6s04": 0,
+        "a6s05": 0,
+        "a6s06": 2,
+        "a6s07": 1,
+        "a6s08": 1,
+        "a6s09": 0,
+        "a6s10": 2,
+        "a6s11": 2
+      }
+    },
+    "no_phase": {
+      "assigned": 48,
+      "passes": 15,
+      "per_scene": {
+        "a6s00": 2,
+        "a6s01": 1,
+        "a6s02": 3,
+        "a6s03": 2,
+        "a6s04": 0,
+        "a6s05": 0,
+        "a6s06": 2,
+        "a6s07": 1,
+        "a6s08": 1,
+        "a6s09": 0,
+        "a6s10": 2,
+        "a6s11": 1
+      }
+    },
+    "search": {
+      "assigned": 48,
+      "passes": 15,
+      "per_scene": {
+        "a6s00": 1,
+        "a6s01": 1,
+        "a6s02": 3,
+        "a6s03": 2,
+        "a6s04": 0,
+        "a6s05": 0,
+        "a6s06": 2,
+        "a6s07": 1,
+        "a6s08": 1,
+        "a6s09": 0,
+        "a6s10": 2,
+        "a6s11": 2
+      }
+    }
+  },
+  "assigned_units": 48,
+  "branches": {
+    "observed_overhead_deficit_with_progress": 3,
+    "preserve_initial_pass": 7,
+    "reduce_crouch_burden": 38
+  },
+  "comparisons": {
+    "baseline": {
+      "losses": 0,
+      "scene_bootstrap_95": [
+        0.0625,
+        0.1875
+      ],
+      "scene_mean_rate_difference": 0.125,
+      "wins": 6
+    },
+    "fixed_shallow": {
+      "losses": 2,
+      "scene_bootstrap_95": [
+        -0.10416666666666667,
+        0.0
+      ],
+      "scene_mean_rate_difference": -0.041666666666666664,
+      "wins": 0
+    },
+    "no_phase": {
+      "losses": 2,
+      "scene_bootstrap_95": [
+        -0.10416666666666667,
+        0.0
+      ],
+      "scene_mean_rate_difference": -0.041666666666666664,
+      "wins": 0
+    },
+    "search": {
+      "losses": 2,
+      "scene_bootstrap_95": [
+        -0.10416666666666667,
+        0.0
+      ],
+      "scene_mean_rate_difference": -0.041666666666666664,
+      "wins": 0
+    }
+  },
+  "development_only": true,
+  "expansion_gate": {
+    "checks": {
+      "exceeds_fixed_shallow": false,
+      "exceeds_no_phase": false,
+      "exceeds_search": false,
+      "preserves_baseline": true
+    },
+    "pass": false
+  },
+  "held_out_evaluations": 0,
+  "method_gain_demonstrated": false,
+  "new_generations": 384,
+  "new_independent_units": 0,
+  "new_simulations": 256,
+  "padding_previews": 64,
+  "phase_actions": {
+    "earlier_onset_for_approach_event": 3,
+    "earlier_recovery_after_observed_slow_suffix": 6,
+    "none": 39
+  },
+  "present_evaluations": 0,
+  "raw_candidate_passes": {
+    "correction": 12,
+    "no_phase": 14
+  },
+  "records": [
+    {
+      "baseline_pass": false,
+      "proposals": {
+        "correction": {
+          "command": {
+            "depth_m": 0.30000000000000004,
+            "onset_lead_m": 1.1700000000000002,
+            "recovery_offset_m": 1.38
+          },
+          "phase_action": "earlier_onset_for_approach_event",
+          "predicted_pass": null,
+          "preserve_initial": false,
+          "reason": "observed_overhead_deficit_with_progress",
+          "requires_exact_candidate_preview": true,
+          "use_phase": true
+        },
+        "no_phase": {
+          "command": {
+            "depth_m": 0.30000000000000004,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.38
+          },
+          "phase_action": "none",
+          "predicted_pass": null,
+          "preserve_initial": false,
+          "reason": "observed_overhead_deficit_with_progress",
+          "requires_exact_candidate_preview": true,
+          "use_phase": false
+        }
+      },
+      "raw_candidate_pass": {
+        "correction": false,
+        "no_phase": true
+      },
+      "scene_id": "a6s00",
+      "search_training_groups": [
+        "astra-a6/s01/u0",
+        "astra-a6/s01/u1",
+        "astra-a6/s01/u2",
+        "astra-a6/s01/u3",
+        "astra-a6/s02/u0",
+        "astra-a6/s02/u1",
+        "astra-a6/s02/u2",
+        "astra-a6/s02/u3",
+        "astra-a6/s03/u0",
+        "astra-a6/s03/u1",
+        "astra-a6/s03/u2",
+        "astra-a6/s03/u3",
+        "astra-a6/s04/u0",
+        "astra-a6/s04/u1",
+        "astra-a6/s04/u2",
+        "astra-a6/s04/u3",
+        "astra-a6/s05/u0",
+        "astra-a6/s05/u1",
+        "astra-a6/s05/u2",
+        "astra-a6/s05/u3",
+        "astra-a6/s06/u0",
+        "astra-a6/s06/u1",
+        "astra-a6/s06/u2",
+        "astra-a6/s06/u3",
+        "astra-a6/s07/u0",
+        "astra-a6/s07/u1",
+        "astra-a6/s07/u2",
+        "astra-a6/s07/u3",
+        "astra-a6/s08/u0",
+        "astra-a6/s08/u1",
+        "astra-a6/s08/u2",
+        "astra-a6/s08/u3",
+        "astra-a6/s09/u0",
+        "astra-a6/s09/u1",
+        "astra-a6/s09/u2",
+        "astra-a6/s09/u3",
+        "astra-a6/s10/u0",
+        "astra-a6/s10/u1",
+        "astra-a6/s10/u2",
+        "astra-a6/s10/u3",
+        "astra-a6/s11/u0",
+        "astra-a6/s11/u1",
+        "astra-a6/s11/u2",
+        "astra-a6/s11/u3"
+      ],
+      "search_variant": "depth_minus",
+      "selections": {
+        "correction": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "fixed_shallow": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "no_phase": {
+          "development_pass": true,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": "no_phase"
+        },
+        "search": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        }
+      },
+      "split_group_id": "astra-a6/s00/u0",
+      "statuses": {
+        "baseline": "observed",
+        "correction": "observed",
+        "free_nominal": "no_arrival",
+        "no_phase": "observed"
+      },
+      "terminated": {
+        "baseline": false,
+        "correction": false,
+        "free_nominal": true,
+        "no_phase": false
+      }
+    },
+    {
+      "baseline_pass": false,
+      "proposals": {
+        "correction": {
+          "command": {
+            "depth_m": 0.26,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.38
+          },
+          "phase_action": "none",
+          "predicted_pass": null,
+          "preserve_initial": false,
+          "reason": "reduce_crouch_burden",
+          "requires_exact_candidate_preview": true,
+          "use_phase": true
+        },
+        "no_phase": {
+          "command": {
+            "depth_m": 0.26,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.38
+          },
+          "phase_action": "none",
+          "predicted_pass": null,
+          "preserve_initial": false,
+          "reason": "reduce_crouch_burden",
+          "requires_exact_candidate_preview": true,
+          "use_phase": false
+        }
+      },
+      "raw_candidate_pass": {
+        "correction": true,
+        "no_phase": true
+      },
+      "scene_id": "a6s00",
+      "search_training_groups": [
+        "astra-a6/s01/u0",
+        "astra-a6/s01/u1",
+        "astra-a6/s01/u2",
+        "astra-a6/s01/u3",
+        "astra-a6/s02/u0",
+        "astra-a6/s02/u1",
+        "astra-a6/s02/u2",
+        "astra-a6/s02/u3",
+        "astra-a6/s03/u0",
+        "astra-a6/s03/u1",
+        "astra-a6/s03/u2",
+        "astra-a6/s03/u3",
+        "astra-a6/s04/u0",
+        "astra-a6/s04/u1",
+        "astra-a6/s04/u2",
+        "astra-a6/s04/u3",
+        "astra-a6/s05/u0",
+        "astra-a6/s05/u1",
+        "astra-a6/s05/u2",
+        "astra-a6/s05/u3",
+        "astra-a6/s06/u0",
+        "astra-a6/s06/u1",
+        "astra-a6/s06/u2",
+        "astra-a6/s06/u3",
+        "astra-a6/s07/u0",
+        "astra-a6/s07/u1",
+        "astra-a6/s07/u2",
+        "astra-a6/s07/u3",
+        "astra-a6/s08/u0",
+        "astra-a6/s08/u1",
+        "astra-a6/s08/u2",
+        "astra-a6/s08/u3",
+        "astra-a6/s09/u0",
+        "astra-a6/s09/u1",
+        "astra-a6/s09/u2",
+        "astra-a6/s09/u3",
+        "astra-a6/s10/u0",
+        "astra-a6/s10/u1",
+        "astra-a6/s10/u2",
+        "astra-a6/s10/u3",
+        "astra-a6/s11/u0",
+        "astra-a6/s11/u1",
+        "astra-a6/s11/u2",
+        "astra-a6/s11/u3"
+      ],
+      "search_variant": "depth_minus",
+      "selections": {
+        "correction": {
+          "development_pass": true,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": "correction"
+        },
+        "fixed_shallow": {
+          "development_pass": true,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": "depth_minus"
+        },
+        "no_phase": {
+          "development_pass": true,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": "no_phase"
+        },
+        "search": {
+          "development_pass": true,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": "depth_minus"
+        }
+      },
+      "split_group_id": "astra-a6/s00/u1",
+      "statuses": {
+        "baseline": "observed",
+        "correction": "observed",
+        "free_nominal": "observed",
+        "no_phase": "observed"
+      },
+      "terminated": {
+        "baseline": false,
+        "correction": false,
+        "free_nominal": false,
+        "no_phase": false
+      }
+    },
+    {
+      "baseline_pass": false,
+      "proposals": {
+        "correction": {
+          "command": {
+            "depth_m": 0.26,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.38
+          },
+          "phase_action": "none",
+          "predicted_pass": null,
+          "preserve_initial": false,
+          "reason": "reduce_crouch_burden",
+          "requires_exact_candidate_preview": true,
+          "use_phase": true
+        },
+        "no_phase": {
+          "command": {
+            "depth_m": 0.26,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.38
+          },
+          "phase_action": "none",
+          "predicted_pass": null,
+          "preserve_initial": false,
+          "reason": "reduce_crouch_burden",
+          "requires_exact_candidate_preview": true,
+          "use_phase": false
+        }
+      },
+      "raw_candidate_pass": {
+        "correction": false,
+        "no_phase": false
+      },
+      "scene_id": "a6s00",
+      "search_training_groups": [
+        "astra-a6/s01/u0",
+        "astra-a6/s01/u1",
+        "astra-a6/s01/u2",
+        "astra-a6/s01/u3",
+        "astra-a6/s02/u0",
+        "astra-a6/s02/u1",
+        "astra-a6/s02/u2",
+        "astra-a6/s02/u3",
+        "astra-a6/s03/u0",
+        "astra-a6/s03/u1",
+        "astra-a6/s03/u2",
+        "astra-a6/s03/u3",
+        "astra-a6/s04/u0",
+        "astra-a6/s04/u1",
+        "astra-a6/s04/u2",
+        "astra-a6/s04/u3",
+        "astra-a6/s05/u0",
+        "astra-a6/s05/u1",
+        "astra-a6/s05/u2",
+        "astra-a6/s05/u3",
+        "astra-a6/s06/u0",
+        "astra-a6/s06/u1",
+        "astra-a6/s06/u2",
+        "astra-a6/s06/u3",
+        "astra-a6/s07/u0",
+        "astra-a6/s07/u1",
+        "astra-a6/s07/u2",
+        "astra-a6/s07/u3",
+        "astra-a6/s08/u0",
+        "astra-a6/s08/u1",
+        "astra-a6/s08/u2",
+        "astra-a6/s08/u3",
+        "astra-a6/s09/u0",
+        "astra-a6/s09/u1",
+        "astra-a6/s09/u2",
+        "astra-a6/s09/u3",
+        "astra-a6/s10/u0",
+        "astra-a6/s10/u1",
+        "astra-a6/s10/u2",
+        "astra-a6/s10/u3",
+        "astra-a6/s11/u0",
+        "astra-a6/s11/u1",
+        "astra-a6/s11/u2",
+        "astra-a6/s11/u3"
+      ],
+      "search_variant": "depth_minus",
+      "selections": {
+        "correction": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "fixed_shallow": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "no_phase": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "search": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        }
+      },
+      "split_group_id": "astra-a6/s00/u2",
+      "statuses": {
+        "baseline": "recovery_censored",
+        "correction": "observed",
+        "free_nominal": "observed",
+        "no_phase": "observed"
+      },
+      "terminated": {
+        "baseline": true,
+        "correction": false,
+        "free_nominal": false,
+        "no_phase": false
+      }
+    },
+    {
+      "baseline_pass": false,
+      "proposals": {
+        "correction": {
+          "command": {
+            "depth_m": 0.26,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.38
+          },
+          "phase_action": "none",
+          "predicted_pass": null,
+          "preserve_initial": false,
+          "reason": "reduce_crouch_burden",
+          "requires_exact_candidate_preview": true,
+          "use_phase": true
+        },
+        "no_phase": {
+          "command": {
+            "depth_m": 0.26,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.38
+          },
+          "phase_action": "none",
+          "predicted_pass": null,
+          "preserve_initial": false,
+          "reason": "reduce_crouch_burden",
+          "requires_exact_candidate_preview": true,
+          "use_phase": false
+        }
+      },
+      "raw_candidate_pass": {
+        "correction": false,
+        "no_phase": false
+      },
+      "scene_id": "a6s00",
+      "search_training_groups": [
+        "astra-a6/s01/u0",
+        "astra-a6/s01/u1",
+        "astra-a6/s01/u2",
+        "astra-a6/s01/u3",
+        "astra-a6/s02/u0",
+        "astra-a6/s02/u1",
+        "astra-a6/s02/u2",
+        "astra-a6/s02/u3",
+        "astra-a6/s03/u0",
+        "astra-a6/s03/u1",
+        "astra-a6/s03/u2",
+        "astra-a6/s03/u3",
+        "astra-a6/s04/u0",
+        "astra-a6/s04/u1",
+        "astra-a6/s04/u2",
+        "astra-a6/s04/u3",
+        "astra-a6/s05/u0",
+        "astra-a6/s05/u1",
+        "astra-a6/s05/u2",
+        "astra-a6/s05/u3",
+        "astra-a6/s06/u0",
+        "astra-a6/s06/u1",
+        "astra-a6/s06/u2",
+        "astra-a6/s06/u3",
+        "astra-a6/s07/u0",
+        "astra-a6/s07/u1",
+        "astra-a6/s07/u2",
+        "astra-a6/s07/u3",
+        "astra-a6/s08/u0",
+        "astra-a6/s08/u1",
+        "astra-a6/s08/u2",
+        "astra-a6/s08/u3",
+        "astra-a6/s09/u0",
+        "astra-a6/s09/u1",
+        "astra-a6/s09/u2",
+        "astra-a6/s09/u3",
+        "astra-a6/s10/u0",
+        "astra-a6/s10/u1",
+        "astra-a6/s10/u2",
+        "astra-a6/s10/u3",
+        "astra-a6/s11/u0",
+        "astra-a6/s11/u1",
+        "astra-a6/s11/u2",
+        "astra-a6/s11/u3"
+      ],
+      "search_variant": "depth_minus",
+      "selections": {
+        "correction": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "fixed_shallow": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "no_phase": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "search": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        }
+      },
+      "split_group_id": "astra-a6/s00/u3",
+      "statuses": {
+        "baseline": "no_arrival",
+        "correction": "no_arrival",
+        "free_nominal": "no_arrival",
+        "no_phase": "no_arrival"
+      },
+      "terminated": {
+        "baseline": true,
+        "correction": true,
+        "free_nominal": false,
+        "no_phase": true
+      }
+    },
+    {
+      "baseline_pass": false,
+      "proposals": {
+        "correction": {
+          "command": {
+            "depth_m": 0.30000000000000004,
+            "onset_lead_m": 1.1700000000000002,
+            "recovery_offset_m": 1.38
+          },
+          "phase_action": "earlier_onset_for_approach_event",
+          "predicted_pass": null,
+          "preserve_initial": false,
+          "reason": "observed_overhead_deficit_with_progress",
+          "requires_exact_candidate_preview": true,
+          "use_phase": true
+        },
+        "no_phase": {
+          "command": {
+            "depth_m": 0.30000000000000004,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.38
+          },
+          "phase_action": "none",
+          "predicted_pass": null,
+          "preserve_initial": false,
+          "reason": "observed_overhead_deficit_with_progress",
+          "requires_exact_candidate_preview": true,
+          "use_phase": false
+        }
+      },
+      "raw_candidate_pass": {
+        "correction": false,
+        "no_phase": false
+      },
+      "scene_id": "a6s01",
+      "search_training_groups": [
+        "astra-a6/s00/u0",
+        "astra-a6/s00/u1",
+        "astra-a6/s00/u2",
+        "astra-a6/s00/u3",
+        "astra-a6/s02/u0",
+        "astra-a6/s02/u1",
+        "astra-a6/s02/u2",
+        "astra-a6/s02/u3",
+        "astra-a6/s03/u0",
+        "astra-a6/s03/u1",
+        "astra-a6/s03/u2",
+        "astra-a6/s03/u3",
+        "astra-a6/s04/u0",
+        "astra-a6/s04/u1",
+        "astra-a6/s04/u2",
+        "astra-a6/s04/u3",
+        "astra-a6/s05/u0",
+        "astra-a6/s05/u1",
+        "astra-a6/s05/u2",
+        "astra-a6/s05/u3",
+        "astra-a6/s06/u0",
+        "astra-a6/s06/u1",
+        "astra-a6/s06/u2",
+        "astra-a6/s06/u3",
+        "astra-a6/s07/u0",
+        "astra-a6/s07/u1",
+        "astra-a6/s07/u2",
+        "astra-a6/s07/u3",
+        "astra-a6/s08/u0",
+        "astra-a6/s08/u1",
+        "astra-a6/s08/u2",
+        "astra-a6/s08/u3",
+        "astra-a6/s09/u0",
+        "astra-a6/s09/u1",
+        "astra-a6/s09/u2",
+        "astra-a6/s09/u3",
+        "astra-a6/s10/u0",
+        "astra-a6/s10/u1",
+        "astra-a6/s10/u2",
+        "astra-a6/s10/u3",
+        "astra-a6/s11/u0",
+        "astra-a6/s11/u1",
+        "astra-a6/s11/u2",
+        "astra-a6/s11/u3"
+      ],
+      "search_variant": "depth_minus",
+      "selections": {
+        "correction": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "fixed_shallow": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "no_phase": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "search": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        }
+      },
+      "split_group_id": "astra-a6/s01/u0",
+      "statuses": {
+        "baseline": "observed",
+        "correction": "observed",
+        "free_nominal": "observed",
+        "no_phase": "observed"
+      },
+      "terminated": {
+        "baseline": false,
+        "correction": false,
+        "free_nominal": false,
+        "no_phase": false
+      }
+    },
+    {
+      "baseline_pass": false,
+      "proposals": {
+        "correction": {
+          "command": {
+            "depth_m": 0.26,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.38
+          },
+          "phase_action": "none",
+          "predicted_pass": null,
+          "preserve_initial": false,
+          "reason": "reduce_crouch_burden",
+          "requires_exact_candidate_preview": true,
+          "use_phase": true
+        },
+        "no_phase": {
+          "command": {
+            "depth_m": 0.26,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.38
+          },
+          "phase_action": "none",
+          "predicted_pass": null,
+          "preserve_initial": false,
+          "reason": "reduce_crouch_burden",
+          "requires_exact_candidate_preview": true,
+          "use_phase": false
+        }
+      },
+      "raw_candidate_pass": {
+        "correction": true,
+        "no_phase": true
+      },
+      "scene_id": "a6s01",
+      "search_training_groups": [
+        "astra-a6/s00/u0",
+        "astra-a6/s00/u1",
+        "astra-a6/s00/u2",
+        "astra-a6/s00/u3",
+        "astra-a6/s02/u0",
+        "astra-a6/s02/u1",
+        "astra-a6/s02/u2",
+        "astra-a6/s02/u3",
+        "astra-a6/s03/u0",
+        "astra-a6/s03/u1",
+        "astra-a6/s03/u2",
+        "astra-a6/s03/u3",
+        "astra-a6/s04/u0",
+        "astra-a6/s04/u1",
+        "astra-a6/s04/u2",
+        "astra-a6/s04/u3",
+        "astra-a6/s05/u0",
+        "astra-a6/s05/u1",
+        "astra-a6/s05/u2",
+        "astra-a6/s05/u3",
+        "astra-a6/s06/u0",
+        "astra-a6/s06/u1",
+        "astra-a6/s06/u2",
+        "astra-a6/s06/u3",
+        "astra-a6/s07/u0",
+        "astra-a6/s07/u1",
+        "astra-a6/s07/u2",
+        "astra-a6/s07/u3",
+        "astra-a6/s08/u0",
+        "astra-a6/s08/u1",
+        "astra-a6/s08/u2",
+        "astra-a6/s08/u3",
+        "astra-a6/s09/u0",
+        "astra-a6/s09/u1",
+        "astra-a6/s09/u2",
+        "astra-a6/s09/u3",
+        "astra-a6/s10/u0",
+        "astra-a6/s10/u1",
+        "astra-a6/s10/u2",
+        "astra-a6/s10/u3",
+        "astra-a6/s11/u0",
+        "astra-a6/s11/u1",
+        "astra-a6/s11/u2",
+        "astra-a6/s11/u3"
+      ],
+      "search_variant": "depth_minus",
+      "selections": {
+        "correction": {
+          "development_pass": true,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": "correction"
+        },
+        "fixed_shallow": {
+          "development_pass": true,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": "depth_minus"
+        },
+        "no_phase": {
+          "development_pass": true,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": "no_phase"
+        },
+        "search": {
+          "development_pass": true,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": "depth_minus"
+        }
+      },
+      "split_group_id": "astra-a6/s01/u1",
+      "statuses": {
+        "baseline": "no_arrival",
+        "correction": "observed",
+        "free_nominal": "observed",
+        "no_phase": "observed"
+      },
+      "terminated": {
+        "baseline": true,
+        "correction": false,
+        "free_nominal": false,
+        "no_phase": false
+      }
+    },
+    {
+      "baseline_pass": false,
+      "proposals": {
+        "correction": {
+          "command": {
+            "depth_m": 0.30000000000000004,
+            "onset_lead_m": 1.1700000000000002,
+            "recovery_offset_m": 1.38
+          },
+          "phase_action": "earlier_onset_for_approach_event",
+          "predicted_pass": null,
+          "preserve_initial": false,
+          "reason": "observed_overhead_deficit_with_progress",
+          "requires_exact_candidate_preview": true,
+          "use_phase": true
+        },
+        "no_phase": {
+          "command": {
+            "depth_m": 0.30000000000000004,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.38
+          },
+          "phase_action": "none",
+          "predicted_pass": null,
+          "preserve_initial": false,
+          "reason": "observed_overhead_deficit_with_progress",
+          "requires_exact_candidate_preview": true,
+          "use_phase": false
+        }
+      },
+      "raw_candidate_pass": {
+        "correction": false,
+        "no_phase": false
+      },
+      "scene_id": "a6s01",
+      "search_training_groups": [
+        "astra-a6/s00/u0",
+        "astra-a6/s00/u1",
+        "astra-a6/s00/u2",
+        "astra-a6/s00/u3",
+        "astra-a6/s02/u0",
+        "astra-a6/s02/u1",
+        "astra-a6/s02/u2",
+        "astra-a6/s02/u3",
+        "astra-a6/s03/u0",
+        "astra-a6/s03/u1",
+        "astra-a6/s03/u2",
+        "astra-a6/s03/u3",
+        "astra-a6/s04/u0",
+        "astra-a6/s04/u1",
+        "astra-a6/s04/u2",
+        "astra-a6/s04/u3",
+        "astra-a6/s05/u0",
+        "astra-a6/s05/u1",
+        "astra-a6/s05/u2",
+        "astra-a6/s05/u3",
+        "astra-a6/s06/u0",
+        "astra-a6/s06/u1",
+        "astra-a6/s06/u2",
+        "astra-a6/s06/u3",
+        "astra-a6/s07/u0",
+        "astra-a6/s07/u1",
+        "astra-a6/s07/u2",
+        "astra-a6/s07/u3",
+        "astra-a6/s08/u0",
+        "astra-a6/s08/u1",
+        "astra-a6/s08/u2",
+        "astra-a6/s08/u3",
+        "astra-a6/s09/u0",
+        "astra-a6/s09/u1",
+        "astra-a6/s09/u2",
+        "astra-a6/s09/u3",
+        "astra-a6/s10/u0",
+        "astra-a6/s10/u1",
+        "astra-a6/s10/u2",
+        "astra-a6/s10/u3",
+        "astra-a6/s11/u0",
+        "astra-a6/s11/u1",
+        "astra-a6/s11/u2",
+        "astra-a6/s11/u3"
+      ],
+      "search_variant": "depth_minus",
+      "selections": {
+        "correction": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "fixed_shallow": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "no_phase": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "search": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        }
+      },
+      "split_group_id": "astra-a6/s01/u2",
+      "statuses": {
+        "baseline": "observed",
+        "correction": "observed",
+        "free_nominal": "observed",
+        "no_phase": "observed"
+      },
+      "terminated": {
+        "baseline": false,
+        "correction": false,
+        "free_nominal": false,
+        "no_phase": false
+      }
+    },
+    {
+      "baseline_pass": false,
+      "proposals": {
+        "correction": {
+          "command": {
+            "depth_m": 0.26,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.2899999999999998
+          },
+          "phase_action": "earlier_recovery_after_observed_slow_suffix",
+          "predicted_pass": null,
+          "preserve_initial": false,
+          "reason": "reduce_crouch_burden",
+          "requires_exact_candidate_preview": true,
+          "use_phase": true
+        },
+        "no_phase": {
+          "command": {
+            "depth_m": 0.26,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.38
+          },
+          "phase_action": "none",
+          "predicted_pass": null,
+          "preserve_initial": false,
+          "reason": "reduce_crouch_burden",
+          "requires_exact_candidate_preview": true,
+          "use_phase": false
+        }
+      },
+      "raw_candidate_pass": {
+        "correction": false,
+        "no_phase": false
+      },
+      "scene_id": "a6s01",
+      "search_training_groups": [
+        "astra-a6/s00/u0",
+        "astra-a6/s00/u1",
+        "astra-a6/s00/u2",
+        "astra-a6/s00/u3",
+        "astra-a6/s02/u0",
+        "astra-a6/s02/u1",
+        "astra-a6/s02/u2",
+        "astra-a6/s02/u3",
+        "astra-a6/s03/u0",
+        "astra-a6/s03/u1",
+        "astra-a6/s03/u2",
+        "astra-a6/s03/u3",
+        "astra-a6/s04/u0",
+        "astra-a6/s04/u1",
+        "astra-a6/s04/u2",
+        "astra-a6/s04/u3",
+        "astra-a6/s05/u0",
+        "astra-a6/s05/u1",
+        "astra-a6/s05/u2",
+        "astra-a6/s05/u3",
+        "astra-a6/s06/u0",
+        "astra-a6/s06/u1",
+        "astra-a6/s06/u2",
+        "astra-a6/s06/u3",
+        "astra-a6/s07/u0",
+        "astra-a6/s07/u1",
+        "astra-a6/s07/u2",
+        "astra-a6/s07/u3",
+        "astra-a6/s08/u0",
+        "astra-a6/s08/u1",
+        "astra-a6/s08/u2",
+        "astra-a6/s08/u3",
+        "astra-a6/s09/u0",
+        "astra-a6/s09/u1",
+        "astra-a6/s09/u2",
+        "astra-a6/s09/u3",
+        "astra-a6/s10/u0",
+        "astra-a6/s10/u1",
+        "astra-a6/s10/u2",
+        "astra-a6/s10/u3",
+        "astra-a6/s11/u0",
+        "astra-a6/s11/u1",
+        "astra-a6/s11/u2",
+        "astra-a6/s11/u3"
+      ],
+      "search_variant": "depth_minus",
+      "selections": {
+        "correction": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "fixed_shallow": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "no_phase": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "search": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        }
+      },
+      "split_group_id": "astra-a6/s01/u3",
+      "statuses": {
+        "baseline": "observed",
+        "correction": "observed",
+        "free_nominal": "observed",
+        "no_phase": "observed"
+      },
+      "terminated": {
+        "baseline": false,
+        "correction": false,
+        "free_nominal": false,
+        "no_phase": false
+      }
+    },
+    {
+      "baseline_pass": false,
+      "proposals": {
+        "correction": {
+          "command": {
+            "depth_m": 0.26,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.38
+          },
+          "phase_action": "none",
+          "predicted_pass": null,
+          "preserve_initial": false,
+          "reason": "reduce_crouch_burden",
+          "requires_exact_candidate_preview": true,
+          "use_phase": true
+        },
+        "no_phase": {
+          "command": {
+            "depth_m": 0.26,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.38
+          },
+          "phase_action": "none",
+          "predicted_pass": null,
+          "preserve_initial": false,
+          "reason": "reduce_crouch_burden",
+          "requires_exact_candidate_preview": true,
+          "use_phase": false
+        }
+      },
+      "raw_candidate_pass": {
+        "correction": false,
+        "no_phase": false
+      },
+      "scene_id": "a6s02",
+      "search_training_groups": [
+        "astra-a6/s00/u0",
+        "astra-a6/s00/u1",
+        "astra-a6/s00/u2",
+        "astra-a6/s00/u3",
+        "astra-a6/s01/u0",
+        "astra-a6/s01/u1",
+        "astra-a6/s01/u2",
+        "astra-a6/s01/u3",
+        "astra-a6/s03/u0",
+        "astra-a6/s03/u1",
+        "astra-a6/s03/u2",
+        "astra-a6/s03/u3",
+        "astra-a6/s04/u0",
+        "astra-a6/s04/u1",
+        "astra-a6/s04/u2",
+        "astra-a6/s04/u3",
+        "astra-a6/s05/u0",
+        "astra-a6/s05/u1",
+        "astra-a6/s05/u2",
+        "astra-a6/s05/u3",
+        "astra-a6/s06/u0",
+        "astra-a6/s06/u1",
+        "astra-a6/s06/u2",
+        "astra-a6/s06/u3",
+        "astra-a6/s07/u0",
+        "astra-a6/s07/u1",
+        "astra-a6/s07/u2",
+        "astra-a6/s07/u3",
+        "astra-a6/s08/u0",
+        "astra-a6/s08/u1",
+        "astra-a6/s08/u2",
+        "astra-a6/s08/u3",
+        "astra-a6/s09/u0",
+        "astra-a6/s09/u1",
+        "astra-a6/s09/u2",
+        "astra-a6/s09/u3",
+        "astra-a6/s10/u0",
+        "astra-a6/s10/u1",
+        "astra-a6/s10/u2",
+        "astra-a6/s10/u3",
+        "astra-a6/s11/u0",
+        "astra-a6/s11/u1",
+        "astra-a6/s11/u2",
+        "astra-a6/s11/u3"
+      ],
+      "search_variant": "depth_minus",
+      "selections": {
+        "correction": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "fixed_shallow": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "no_phase": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "search": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        }
+      },
+      "split_group_id": "astra-a6/s02/u0",
+      "statuses": {
+        "baseline": "exit_censored",
+        "correction": "observed",
+        "free_nominal": "observed",
+        "no_phase": "observed"
+      },
+      "terminated": {
+        "baseline": true,
+        "correction": false,
+        "free_nominal": false,
+        "no_phase": false
+      }
+    },
+    {
+      "baseline_pass": true,
+      "proposals": {
+        "correction": {
+          "command": {
+            "depth_m": 0.28,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.38
+          },
+          "phase_action": "none",
+          "predicted_pass": null,
+          "preserve_initial": true,
+          "reason": "preserve_initial_pass",
+          "requires_exact_candidate_preview": true,
+          "use_phase": true
+        },
+        "no_phase": {
+          "command": {
+            "depth_m": 0.28,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.38
+          },
+          "phase_action": "none",
+          "predicted_pass": null,
+          "preserve_initial": true,
+          "reason": "preserve_initial_pass",
+          "requires_exact_candidate_preview": true,
+          "use_phase": false
+        }
+      },
+      "raw_candidate_pass": {
+        "correction": true,
+        "no_phase": true
+      },
+      "scene_id": "a6s02",
+      "search_training_groups": [
+        "astra-a6/s00/u0",
+        "astra-a6/s00/u1",
+        "astra-a6/s00/u2",
+        "astra-a6/s00/u3",
+        "astra-a6/s01/u0",
+        "astra-a6/s01/u1",
+        "astra-a6/s01/u2",
+        "astra-a6/s01/u3",
+        "astra-a6/s03/u0",
+        "astra-a6/s03/u1",
+        "astra-a6/s03/u2",
+        "astra-a6/s03/u3",
+        "astra-a6/s04/u0",
+        "astra-a6/s04/u1",
+        "astra-a6/s04/u2",
+        "astra-a6/s04/u3",
+        "astra-a6/s05/u0",
+        "astra-a6/s05/u1",
+        "astra-a6/s05/u2",
+        "astra-a6/s05/u3",
+        "astra-a6/s06/u0",
+        "astra-a6/s06/u1",
+        "astra-a6/s06/u2",
+        "astra-a6/s06/u3",
+        "astra-a6/s07/u0",
+        "astra-a6/s07/u1",
+        "astra-a6/s07/u2",
+        "astra-a6/s07/u3",
+        "astra-a6/s08/u0",
+        "astra-a6/s08/u1",
+        "astra-a6/s08/u2",
+        "astra-a6/s08/u3",
+        "astra-a6/s09/u0",
+        "astra-a6/s09/u1",
+        "astra-a6/s09/u2",
+        "astra-a6/s09/u3",
+        "astra-a6/s10/u0",
+        "astra-a6/s10/u1",
+        "astra-a6/s10/u2",
+        "astra-a6/s10/u3",
+        "astra-a6/s11/u0",
+        "astra-a6/s11/u1",
+        "astra-a6/s11/u2",
+        "astra-a6/s11/u3"
+      ],
+      "search_variant": "depth_minus",
+      "selections": {
+        "correction": {
+          "development_pass": true,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": "baseline"
+        },
+        "fixed_shallow": {
+          "development_pass": true,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": "baseline"
+        },
+        "no_phase": {
+          "development_pass": true,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": "baseline"
+        },
+        "search": {
+          "development_pass": true,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": "baseline"
+        }
+      },
+      "split_group_id": "astra-a6/s02/u1",
+      "statuses": {
+        "baseline": "observed",
+        "correction": "observed",
+        "free_nominal": "no_arrival",
+        "no_phase": "observed"
+      },
+      "terminated": {
+        "baseline": false,
+        "correction": false,
+        "free_nominal": true,
+        "no_phase": false
+      }
+    },
+    {
+      "baseline_pass": false,
+      "proposals": {
+        "correction": {
+          "command": {
+            "depth_m": 0.26,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.2899999999999998
+          },
+          "phase_action": "earlier_recovery_after_observed_slow_suffix",
+          "predicted_pass": null,
+          "preserve_initial": false,
+          "reason": "reduce_crouch_burden",
+          "requires_exact_candidate_preview": true,
+          "use_phase": true
+        },
+        "no_phase": {
+          "command": {
+            "depth_m": 0.26,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.38
+          },
+          "phase_action": "none",
+          "predicted_pass": null,
+          "preserve_initial": false,
+          "reason": "reduce_crouch_burden",
+          "requires_exact_candidate_preview": true,
+          "use_phase": false
+        }
+      },
+      "raw_candidate_pass": {
+        "correction": true,
+        "no_phase": true
+      },
+      "scene_id": "a6s02",
+      "search_training_groups": [
+        "astra-a6/s00/u0",
+        "astra-a6/s00/u1",
+        "astra-a6/s00/u2",
+        "astra-a6/s00/u3",
+        "astra-a6/s01/u0",
+        "astra-a6/s01/u1",
+        "astra-a6/s01/u2",
+        "astra-a6/s01/u3",
+        "astra-a6/s03/u0",
+        "astra-a6/s03/u1",
+        "astra-a6/s03/u2",
+        "astra-a6/s03/u3",
+        "astra-a6/s04/u0",
+        "astra-a6/s04/u1",
+        "astra-a6/s04/u2",
+        "astra-a6/s04/u3",
+        "astra-a6/s05/u0",
+        "astra-a6/s05/u1",
+        "astra-a6/s05/u2",
+        "astra-a6/s05/u3",
+        "astra-a6/s06/u0",
+        "astra-a6/s06/u1",
+        "astra-a6/s06/u2",
+        "astra-a6/s06/u3",
+        "astra-a6/s07/u0",
+        "astra-a6/s07/u1",
+        "astra-a6/s07/u2",
+        "astra-a6/s07/u3",
+        "astra-a6/s08/u0",
+        "astra-a6/s08/u1",
+        "astra-a6/s08/u2",
+        "astra-a6/s08/u3",
+        "astra-a6/s09/u0",
+        "astra-a6/s09/u1",
+        "astra-a6/s09/u2",
+        "astra-a6/s09/u3",
+        "astra-a6/s10/u0",
+        "astra-a6/s10/u1",
+        "astra-a6/s10/u2",
+        "astra-a6/s10/u3",
+        "astra-a6/s11/u0",
+        "astra-a6/s11/u1",
+        "astra-a6/s11/u2",
+        "astra-a6/s11/u3"
+      ],
+      "search_variant": "depth_minus",
+      "selections": {
+        "correction": {
+          "development_pass": true,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": "correction"
+        },
+        "fixed_shallow": {
+          "development_pass": true,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": "depth_minus"
+        },
+        "no_phase": {
+          "development_pass": true,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": "no_phase"
+        },
+        "search": {
+          "development_pass": true,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": "depth_minus"
+        }
+      },
+      "split_group_id": "astra-a6/s02/u2",
+      "statuses": {
+        "baseline": "observed",
+        "correction": "observed",
+        "free_nominal": "exit_censored",
+        "no_phase": "observed"
+      },
+      "terminated": {
+        "baseline": false,
+        "correction": false,
+        "free_nominal": false,
+        "no_phase": false
+      }
+    },
+    {
+      "baseline_pass": true,
+      "proposals": {
+        "correction": {
+          "command": {
+            "depth_m": 0.28,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.38
+          },
+          "phase_action": "none",
+          "predicted_pass": null,
+          "preserve_initial": true,
+          "reason": "preserve_initial_pass",
+          "requires_exact_candidate_preview": true,
+          "use_phase": true
+        },
+        "no_phase": {
+          "command": {
+            "depth_m": 0.28,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.38
+          },
+          "phase_action": "none",
+          "predicted_pass": null,
+          "preserve_initial": true,
+          "reason": "preserve_initial_pass",
+          "requires_exact_candidate_preview": true,
+          "use_phase": false
+        }
+      },
+      "raw_candidate_pass": {
+        "correction": true,
+        "no_phase": true
+      },
+      "scene_id": "a6s02",
+      "search_training_groups": [
+        "astra-a6/s00/u0",
+        "astra-a6/s00/u1",
+        "astra-a6/s00/u2",
+        "astra-a6/s00/u3",
+        "astra-a6/s01/u0",
+        "astra-a6/s01/u1",
+        "astra-a6/s01/u2",
+        "astra-a6/s01/u3",
+        "astra-a6/s03/u0",
+        "astra-a6/s03/u1",
+        "astra-a6/s03/u2",
+        "astra-a6/s03/u3",
+        "astra-a6/s04/u0",
+        "astra-a6/s04/u1",
+        "astra-a6/s04/u2",
+        "astra-a6/s04/u3",
+        "astra-a6/s05/u0",
+        "astra-a6/s05/u1",
+        "astra-a6/s05/u2",
+        "astra-a6/s05/u3",
+        "astra-a6/s06/u0",
+        "astra-a6/s06/u1",
+        "astra-a6/s06/u2",
+        "astra-a6/s06/u3",
+        "astra-a6/s07/u0",
+        "astra-a6/s07/u1",
+        "astra-a6/s07/u2",
+        "astra-a6/s07/u3",
+        "astra-a6/s08/u0",
+        "astra-a6/s08/u1",
+        "astra-a6/s08/u2",
+        "astra-a6/s08/u3",
+        "astra-a6/s09/u0",
+        "astra-a6/s09/u1",
+        "astra-a6/s09/u2",
+        "astra-a6/s09/u3",
+        "astra-a6/s10/u0",
+        "astra-a6/s10/u1",
+        "astra-a6/s10/u2",
+        "astra-a6/s10/u3",
+        "astra-a6/s11/u0",
+        "astra-a6/s11/u1",
+        "astra-a6/s11/u2",
+        "astra-a6/s11/u3"
+      ],
+      "search_variant": "depth_minus",
+      "selections": {
+        "correction": {
+          "development_pass": true,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": "baseline"
+        },
+        "fixed_shallow": {
+          "development_pass": true,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": "baseline"
+        },
+        "no_phase": {
+          "development_pass": true,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": "baseline"
+        },
+        "search": {
+          "development_pass": true,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": "baseline"
+        }
+      },
+      "split_group_id": "astra-a6/s02/u3",
+      "statuses": {
+        "baseline": "observed",
+        "correction": "observed",
+        "free_nominal": "no_arrival",
+        "no_phase": "observed"
+      },
+      "terminated": {
+        "baseline": false,
+        "correction": false,
+        "free_nominal": false,
+        "no_phase": false
+      }
+    },
+    {
+      "baseline_pass": false,
+      "proposals": {
+        "correction": {
+          "command": {
+            "depth_m": 0.26,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.38
+          },
+          "phase_action": "none",
+          "predicted_pass": null,
+          "preserve_initial": false,
+          "reason": "reduce_crouch_burden",
+          "requires_exact_candidate_preview": true,
+          "use_phase": true
+        },
+        "no_phase": {
+          "command": {
+            "depth_m": 0.26,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.38
+          },
+          "phase_action": "none",
+          "predicted_pass": null,
+          "preserve_initial": false,
+          "reason": "reduce_crouch_burden",
+          "requires_exact_candidate_preview": true,
+          "use_phase": false
+        }
+      },
+      "raw_candidate_pass": {
+        "correction": false,
+        "no_phase": false
+      },
+      "scene_id": "a6s03",
+      "search_training_groups": [
+        "astra-a6/s00/u0",
+        "astra-a6/s00/u1",
+        "astra-a6/s00/u2",
+        "astra-a6/s00/u3",
+        "astra-a6/s01/u0",
+        "astra-a6/s01/u1",
+        "astra-a6/s01/u2",
+        "astra-a6/s01/u3",
+        "astra-a6/s02/u0",
+        "astra-a6/s02/u1",
+        "astra-a6/s02/u2",
+        "astra-a6/s02/u3",
+        "astra-a6/s04/u0",
+        "astra-a6/s04/u1",
+        "astra-a6/s04/u2",
+        "astra-a6/s04/u3",
+        "astra-a6/s05/u0",
+        "astra-a6/s05/u1",
+        "astra-a6/s05/u2",
+        "astra-a6/s05/u3",
+        "astra-a6/s06/u0",
+        "astra-a6/s06/u1",
+        "astra-a6/s06/u2",
+        "astra-a6/s06/u3",
+        "astra-a6/s07/u0",
+        "astra-a6/s07/u1",
+        "astra-a6/s07/u2",
+        "astra-a6/s07/u3",
+        "astra-a6/s08/u0",
+        "astra-a6/s08/u1",
+        "astra-a6/s08/u2",
+        "astra-a6/s08/u3",
+        "astra-a6/s09/u0",
+        "astra-a6/s09/u1",
+        "astra-a6/s09/u2",
+        "astra-a6/s09/u3",
+        "astra-a6/s10/u0",
+        "astra-a6/s10/u1",
+        "astra-a6/s10/u2",
+        "astra-a6/s10/u3",
+        "astra-a6/s11/u0",
+        "astra-a6/s11/u1",
+        "astra-a6/s11/u2",
+        "astra-a6/s11/u3"
+      ],
+      "search_variant": "depth_minus",
+      "selections": {
+        "correction": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "fixed_shallow": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "no_phase": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "search": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        }
+      },
+      "split_group_id": "astra-a6/s03/u0",
+      "statuses": {
+        "baseline": "observed",
+        "correction": "observed",
+        "free_nominal": "exit_censored",
+        "no_phase": "observed"
+      },
+      "terminated": {
+        "baseline": false,
+        "correction": false,
+        "free_nominal": false,
+        "no_phase": false
+      }
+    },
+    {
+      "baseline_pass": false,
+      "proposals": {
+        "correction": {
+          "command": {
+            "depth_m": 0.26,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.38
+          },
+          "phase_action": "none",
+          "predicted_pass": null,
+          "preserve_initial": false,
+          "reason": "reduce_crouch_burden",
+          "requires_exact_candidate_preview": true,
+          "use_phase": true
+        },
+        "no_phase": {
+          "command": {
+            "depth_m": 0.26,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.38
+          },
+          "phase_action": "none",
+          "predicted_pass": null,
+          "preserve_initial": false,
+          "reason": "reduce_crouch_burden",
+          "requires_exact_candidate_preview": true,
+          "use_phase": false
+        }
+      },
+      "raw_candidate_pass": {
+        "correction": false,
+        "no_phase": false
+      },
+      "scene_id": "a6s03",
+      "search_training_groups": [
+        "astra-a6/s00/u0",
+        "astra-a6/s00/u1",
+        "astra-a6/s00/u2",
+        "astra-a6/s00/u3",
+        "astra-a6/s01/u0",
+        "astra-a6/s01/u1",
+        "astra-a6/s01/u2",
+        "astra-a6/s01/u3",
+        "astra-a6/s02/u0",
+        "astra-a6/s02/u1",
+        "astra-a6/s02/u2",
+        "astra-a6/s02/u3",
+        "astra-a6/s04/u0",
+        "astra-a6/s04/u1",
+        "astra-a6/s04/u2",
+        "astra-a6/s04/u3",
+        "astra-a6/s05/u0",
+        "astra-a6/s05/u1",
+        "astra-a6/s05/u2",
+        "astra-a6/s05/u3",
+        "astra-a6/s06/u0",
+        "astra-a6/s06/u1",
+        "astra-a6/s06/u2",
+        "astra-a6/s06/u3",
+        "astra-a6/s07/u0",
+        "astra-a6/s07/u1",
+        "astra-a6/s07/u2",
+        "astra-a6/s07/u3",
+        "astra-a6/s08/u0",
+        "astra-a6/s08/u1",
+        "astra-a6/s08/u2",
+        "astra-a6/s08/u3",
+        "astra-a6/s09/u0",
+        "astra-a6/s09/u1",
+        "astra-a6/s09/u2",
+        "astra-a6/s09/u3",
+        "astra-a6/s10/u0",
+        "astra-a6/s10/u1",
+        "astra-a6/s10/u2",
+        "astra-a6/s10/u3",
+        "astra-a6/s11/u0",
+        "astra-a6/s11/u1",
+        "astra-a6/s11/u2",
+        "astra-a6/s11/u3"
+      ],
+      "search_variant": "depth_minus",
+      "selections": {
+        "correction": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "fixed_shallow": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "no_phase": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "search": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        }
+      },
+      "split_group_id": "astra-a6/s03/u1",
+      "statuses": {
+        "baseline": "exit_censored",
+        "correction": "observed",
+        "free_nominal": "exit_censored",
+        "no_phase": "observed"
+      },
+      "terminated": {
+        "baseline": true,
+        "correction": false,
+        "free_nominal": true,
+        "no_phase": false
+      }
+    },
+    {
+      "baseline_pass": true,
+      "proposals": {
+        "correction": {
+          "command": {
+            "depth_m": 0.28,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.38
+          },
+          "phase_action": "none",
+          "predicted_pass": null,
+          "preserve_initial": true,
+          "reason": "preserve_initial_pass",
+          "requires_exact_candidate_preview": true,
+          "use_phase": true
+        },
+        "no_phase": {
+          "command": {
+            "depth_m": 0.28,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.38
+          },
+          "phase_action": "none",
+          "predicted_pass": null,
+          "preserve_initial": true,
+          "reason": "preserve_initial_pass",
+          "requires_exact_candidate_preview": true,
+          "use_phase": false
+        }
+      },
+      "raw_candidate_pass": {
+        "correction": false,
+        "no_phase": false
+      },
+      "scene_id": "a6s03",
+      "search_training_groups": [
+        "astra-a6/s00/u0",
+        "astra-a6/s00/u1",
+        "astra-a6/s00/u2",
+        "astra-a6/s00/u3",
+        "astra-a6/s01/u0",
+        "astra-a6/s01/u1",
+        "astra-a6/s01/u2",
+        "astra-a6/s01/u3",
+        "astra-a6/s02/u0",
+        "astra-a6/s02/u1",
+        "astra-a6/s02/u2",
+        "astra-a6/s02/u3",
+        "astra-a6/s04/u0",
+        "astra-a6/s04/u1",
+        "astra-a6/s04/u2",
+        "astra-a6/s04/u3",
+        "astra-a6/s05/u0",
+        "astra-a6/s05/u1",
+        "astra-a6/s05/u2",
+        "astra-a6/s05/u3",
+        "astra-a6/s06/u0",
+        "astra-a6/s06/u1",
+        "astra-a6/s06/u2",
+        "astra-a6/s06/u3",
+        "astra-a6/s07/u0",
+        "astra-a6/s07/u1",
+        "astra-a6/s07/u2",
+        "astra-a6/s07/u3",
+        "astra-a6/s08/u0",
+        "astra-a6/s08/u1",
+        "astra-a6/s08/u2",
+        "astra-a6/s08/u3",
+        "astra-a6/s09/u0",
+        "astra-a6/s09/u1",
+        "astra-a6/s09/u2",
+        "astra-a6/s09/u3",
+        "astra-a6/s10/u0",
+        "astra-a6/s10/u1",
+        "astra-a6/s10/u2",
+        "astra-a6/s10/u3",
+        "astra-a6/s11/u0",
+        "astra-a6/s11/u1",
+        "astra-a6/s11/u2",
+        "astra-a6/s11/u3"
+      ],
+      "search_variant": "depth_minus",
+      "selections": {
+        "correction": {
+          "development_pass": true,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": "baseline"
+        },
+        "fixed_shallow": {
+          "development_pass": true,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": "baseline"
+        },
+        "no_phase": {
+          "development_pass": true,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": "baseline"
+        },
+        "search": {
+          "development_pass": true,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": "baseline"
+        }
+      },
+      "split_group_id": "astra-a6/s03/u2",
+      "statuses": {
+        "baseline": "observed",
+        "correction": "observed",
+        "free_nominal": "observed",
+        "no_phase": "observed"
+      },
+      "terminated": {
+        "baseline": false,
+        "correction": false,
+        "free_nominal": false,
+        "no_phase": false
+      }
+    },
+    {
+      "baseline_pass": false,
+      "proposals": {
+        "correction": {
+          "command": {
+            "depth_m": 0.26,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.2899999999999998
+          },
+          "phase_action": "earlier_recovery_after_observed_slow_suffix",
+          "predicted_pass": null,
+          "preserve_initial": false,
+          "reason": "reduce_crouch_burden",
+          "requires_exact_candidate_preview": true,
+          "use_phase": true
+        },
+        "no_phase": {
+          "command": {
+            "depth_m": 0.26,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.38
+          },
+          "phase_action": "none",
+          "predicted_pass": null,
+          "preserve_initial": false,
+          "reason": "reduce_crouch_burden",
+          "requires_exact_candidate_preview": true,
+          "use_phase": false
+        }
+      },
+      "raw_candidate_pass": {
+        "correction": false,
+        "no_phase": true
+      },
+      "scene_id": "a6s03",
+      "search_training_groups": [
+        "astra-a6/s00/u0",
+        "astra-a6/s00/u1",
+        "astra-a6/s00/u2",
+        "astra-a6/s00/u3",
+        "astra-a6/s01/u0",
+        "astra-a6/s01/u1",
+        "astra-a6/s01/u2",
+        "astra-a6/s01/u3",
+        "astra-a6/s02/u0",
+        "astra-a6/s02/u1",
+        "astra-a6/s02/u2",
+        "astra-a6/s02/u3",
+        "astra-a6/s04/u0",
+        "astra-a6/s04/u1",
+        "astra-a6/s04/u2",
+        "astra-a6/s04/u3",
+        "astra-a6/s05/u0",
+        "astra-a6/s05/u1",
+        "astra-a6/s05/u2",
+        "astra-a6/s05/u3",
+        "astra-a6/s06/u0",
+        "astra-a6/s06/u1",
+        "astra-a6/s06/u2",
+        "astra-a6/s06/u3",
+        "astra-a6/s07/u0",
+        "astra-a6/s07/u1",
+        "astra-a6/s07/u2",
+        "astra-a6/s07/u3",
+        "astra-a6/s08/u0",
+        "astra-a6/s08/u1",
+        "astra-a6/s08/u2",
+        "astra-a6/s08/u3",
+        "astra-a6/s09/u0",
+        "astra-a6/s09/u1",
+        "astra-a6/s09/u2",
+        "astra-a6/s09/u3",
+        "astra-a6/s10/u0",
+        "astra-a6/s10/u1",
+        "astra-a6/s10/u2",
+        "astra-a6/s10/u3",
+        "astra-a6/s11/u0",
+        "astra-a6/s11/u1",
+        "astra-a6/s11/u2",
+        "astra-a6/s11/u3"
+      ],
+      "search_variant": "depth_minus",
+      "selections": {
+        "correction": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "fixed_shallow": {
+          "development_pass": true,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": "depth_minus"
+        },
+        "no_phase": {
+          "development_pass": true,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": "no_phase"
+        },
+        "search": {
+          "development_pass": true,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": "depth_minus"
+        }
+      },
+      "split_group_id": "astra-a6/s03/u3",
+      "statuses": {
+        "baseline": "observed",
+        "correction": "observed",
+        "free_nominal": "exit_censored",
+        "no_phase": "observed"
+      },
+      "terminated": {
+        "baseline": false,
+        "correction": false,
+        "free_nominal": false,
+        "no_phase": false
+      }
+    },
+    {
+      "baseline_pass": false,
+      "proposals": {
+        "correction": {
+          "command": {
+            "depth_m": 0.26,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.38
+          },
+          "phase_action": "none",
+          "predicted_pass": null,
+          "preserve_initial": false,
+          "reason": "reduce_crouch_burden",
+          "requires_exact_candidate_preview": true,
+          "use_phase": true
+        },
+        "no_phase": {
+          "command": {
+            "depth_m": 0.26,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.38
+          },
+          "phase_action": "none",
+          "predicted_pass": null,
+          "preserve_initial": false,
+          "reason": "reduce_crouch_burden",
+          "requires_exact_candidate_preview": true,
+          "use_phase": false
+        }
+      },
+      "raw_candidate_pass": {
+        "correction": false,
+        "no_phase": false
+      },
+      "scene_id": "a6s04",
+      "search_training_groups": [
+        "astra-a6/s00/u0",
+        "astra-a6/s00/u1",
+        "astra-a6/s00/u2",
+        "astra-a6/s00/u3",
+        "astra-a6/s01/u0",
+        "astra-a6/s01/u1",
+        "astra-a6/s01/u2",
+        "astra-a6/s01/u3",
+        "astra-a6/s02/u0",
+        "astra-a6/s02/u1",
+        "astra-a6/s02/u2",
+        "astra-a6/s02/u3",
+        "astra-a6/s03/u0",
+        "astra-a6/s03/u1",
+        "astra-a6/s03/u2",
+        "astra-a6/s03/u3",
+        "astra-a6/s05/u0",
+        "astra-a6/s05/u1",
+        "astra-a6/s05/u2",
+        "astra-a6/s05/u3",
+        "astra-a6/s06/u0",
+        "astra-a6/s06/u1",
+        "astra-a6/s06/u2",
+        "astra-a6/s06/u3",
+        "astra-a6/s07/u0",
+        "astra-a6/s07/u1",
+        "astra-a6/s07/u2",
+        "astra-a6/s07/u3",
+        "astra-a6/s08/u0",
+        "astra-a6/s08/u1",
+        "astra-a6/s08/u2",
+        "astra-a6/s08/u3",
+        "astra-a6/s09/u0",
+        "astra-a6/s09/u1",
+        "astra-a6/s09/u2",
+        "astra-a6/s09/u3",
+        "astra-a6/s10/u0",
+        "astra-a6/s10/u1",
+        "astra-a6/s10/u2",
+        "astra-a6/s10/u3",
+        "astra-a6/s11/u0",
+        "astra-a6/s11/u1",
+        "astra-a6/s11/u2",
+        "astra-a6/s11/u3"
+      ],
+      "search_variant": "depth_minus",
+      "selections": {
+        "correction": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "fixed_shallow": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "no_phase": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "search": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        }
+      },
+      "split_group_id": "astra-a6/s04/u0",
+      "statuses": {
+        "baseline": "observed",
+        "correction": "exit_censored",
+        "free_nominal": "exit_censored",
+        "no_phase": "exit_censored"
+      },
+      "terminated": {
+        "baseline": false,
+        "correction": false,
+        "free_nominal": false,
+        "no_phase": false
+      }
+    },
+    {
+      "baseline_pass": false,
+      "proposals": {
+        "correction": {
+          "command": {
+            "depth_m": 0.26,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.38
+          },
+          "phase_action": "none",
+          "predicted_pass": null,
+          "preserve_initial": false,
+          "reason": "reduce_crouch_burden",
+          "requires_exact_candidate_preview": true,
+          "use_phase": true
+        },
+        "no_phase": {
+          "command": {
+            "depth_m": 0.26,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.38
+          },
+          "phase_action": "none",
+          "predicted_pass": null,
+          "preserve_initial": false,
+          "reason": "reduce_crouch_burden",
+          "requires_exact_candidate_preview": true,
+          "use_phase": false
+        }
+      },
+      "raw_candidate_pass": {
+        "correction": false,
+        "no_phase": false
+      },
+      "scene_id": "a6s04",
+      "search_training_groups": [
+        "astra-a6/s00/u0",
+        "astra-a6/s00/u1",
+        "astra-a6/s00/u2",
+        "astra-a6/s00/u3",
+        "astra-a6/s01/u0",
+        "astra-a6/s01/u1",
+        "astra-a6/s01/u2",
+        "astra-a6/s01/u3",
+        "astra-a6/s02/u0",
+        "astra-a6/s02/u1",
+        "astra-a6/s02/u2",
+        "astra-a6/s02/u3",
+        "astra-a6/s03/u0",
+        "astra-a6/s03/u1",
+        "astra-a6/s03/u2",
+        "astra-a6/s03/u3",
+        "astra-a6/s05/u0",
+        "astra-a6/s05/u1",
+        "astra-a6/s05/u2",
+        "astra-a6/s05/u3",
+        "astra-a6/s06/u0",
+        "astra-a6/s06/u1",
+        "astra-a6/s06/u2",
+        "astra-a6/s06/u3",
+        "astra-a6/s07/u0",
+        "astra-a6/s07/u1",
+        "astra-a6/s07/u2",
+        "astra-a6/s07/u3",
+        "astra-a6/s08/u0",
+        "astra-a6/s08/u1",
+        "astra-a6/s08/u2",
+        "astra-a6/s08/u3",
+        "astra-a6/s09/u0",
+        "astra-a6/s09/u1",
+        "astra-a6/s09/u2",
+        "astra-a6/s09/u3",
+        "astra-a6/s10/u0",
+        "astra-a6/s10/u1",
+        "astra-a6/s10/u2",
+        "astra-a6/s10/u3",
+        "astra-a6/s11/u0",
+        "astra-a6/s11/u1",
+        "astra-a6/s11/u2",
+        "astra-a6/s11/u3"
+      ],
+      "search_variant": "depth_minus",
+      "selections": {
+        "correction": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "fixed_shallow": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "no_phase": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "search": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        }
+      },
+      "split_group_id": "astra-a6/s04/u1",
+      "statuses": {
+        "baseline": "no_arrival",
+        "correction": "no_arrival",
+        "free_nominal": "observed",
+        "no_phase": "no_arrival"
+      },
+      "terminated": {
+        "baseline": true,
+        "correction": true,
+        "free_nominal": false,
+        "no_phase": true
+      }
+    },
+    {
+      "baseline_pass": false,
+      "proposals": {
+        "correction": {
+          "command": {
+            "depth_m": 0.26,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.38
+          },
+          "phase_action": "none",
+          "predicted_pass": null,
+          "preserve_initial": false,
+          "reason": "reduce_crouch_burden",
+          "requires_exact_candidate_preview": true,
+          "use_phase": true
+        },
+        "no_phase": {
+          "command": {
+            "depth_m": 0.26,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.38
+          },
+          "phase_action": "none",
+          "predicted_pass": null,
+          "preserve_initial": false,
+          "reason": "reduce_crouch_burden",
+          "requires_exact_candidate_preview": true,
+          "use_phase": false
+        }
+      },
+      "raw_candidate_pass": {
+        "correction": false,
+        "no_phase": false
+      },
+      "scene_id": "a6s04",
+      "search_training_groups": [
+        "astra-a6/s00/u0",
+        "astra-a6/s00/u1",
+        "astra-a6/s00/u2",
+        "astra-a6/s00/u3",
+        "astra-a6/s01/u0",
+        "astra-a6/s01/u1",
+        "astra-a6/s01/u2",
+        "astra-a6/s01/u3",
+        "astra-a6/s02/u0",
+        "astra-a6/s02/u1",
+        "astra-a6/s02/u2",
+        "astra-a6/s02/u3",
+        "astra-a6/s03/u0",
+        "astra-a6/s03/u1",
+        "astra-a6/s03/u2",
+        "astra-a6/s03/u3",
+        "astra-a6/s05/u0",
+        "astra-a6/s05/u1",
+        "astra-a6/s05/u2",
+        "astra-a6/s05/u3",
+        "astra-a6/s06/u0",
+        "astra-a6/s06/u1",
+        "astra-a6/s06/u2",
+        "astra-a6/s06/u3",
+        "astra-a6/s07/u0",
+        "astra-a6/s07/u1",
+        "astra-a6/s07/u2",
+        "astra-a6/s07/u3",
+        "astra-a6/s08/u0",
+        "astra-a6/s08/u1",
+        "astra-a6/s08/u2",
+        "astra-a6/s08/u3",
+        "astra-a6/s09/u0",
+        "astra-a6/s09/u1",
+        "astra-a6/s09/u2",
+        "astra-a6/s09/u3",
+        "astra-a6/s10/u0",
+        "astra-a6/s10/u1",
+        "astra-a6/s10/u2",
+        "astra-a6/s10/u3",
+        "astra-a6/s11/u0",
+        "astra-a6/s11/u1",
+        "astra-a6/s11/u2",
+        "astra-a6/s11/u3"
+      ],
+      "search_variant": "depth_minus",
+      "selections": {
+        "correction": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "fixed_shallow": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "no_phase": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "search": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        }
+      },
+      "split_group_id": "astra-a6/s04/u2",
+      "statuses": {
+        "baseline": "no_arrival",
+        "correction": "no_arrival",
+        "free_nominal": "observed",
+        "no_phase": "no_arrival"
+      },
+      "terminated": {
+        "baseline": true,
+        "correction": true,
+        "free_nominal": false,
+        "no_phase": true
+      }
+    },
+    {
+      "baseline_pass": false,
+      "proposals": {
+        "correction": {
+          "command": {
+            "depth_m": 0.26,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.38
+          },
+          "phase_action": "none",
+          "predicted_pass": null,
+          "preserve_initial": false,
+          "reason": "reduce_crouch_burden",
+          "requires_exact_candidate_preview": true,
+          "use_phase": true
+        },
+        "no_phase": {
+          "command": {
+            "depth_m": 0.26,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.38
+          },
+          "phase_action": "none",
+          "predicted_pass": null,
+          "preserve_initial": false,
+          "reason": "reduce_crouch_burden",
+          "requires_exact_candidate_preview": true,
+          "use_phase": false
+        }
+      },
+      "raw_candidate_pass": {
+        "correction": false,
+        "no_phase": false
+      },
+      "scene_id": "a6s04",
+      "search_training_groups": [
+        "astra-a6/s00/u0",
+        "astra-a6/s00/u1",
+        "astra-a6/s00/u2",
+        "astra-a6/s00/u3",
+        "astra-a6/s01/u0",
+        "astra-a6/s01/u1",
+        "astra-a6/s01/u2",
+        "astra-a6/s01/u3",
+        "astra-a6/s02/u0",
+        "astra-a6/s02/u1",
+        "astra-a6/s02/u2",
+        "astra-a6/s02/u3",
+        "astra-a6/s03/u0",
+        "astra-a6/s03/u1",
+        "astra-a6/s03/u2",
+        "astra-a6/s03/u3",
+        "astra-a6/s05/u0",
+        "astra-a6/s05/u1",
+        "astra-a6/s05/u2",
+        "astra-a6/s05/u3",
+        "astra-a6/s06/u0",
+        "astra-a6/s06/u1",
+        "astra-a6/s06/u2",
+        "astra-a6/s06/u3",
+        "astra-a6/s07/u0",
+        "astra-a6/s07/u1",
+        "astra-a6/s07/u2",
+        "astra-a6/s07/u3",
+        "astra-a6/s08/u0",
+        "astra-a6/s08/u1",
+        "astra-a6/s08/u2",
+        "astra-a6/s08/u3",
+        "astra-a6/s09/u0",
+        "astra-a6/s09/u1",
+        "astra-a6/s09/u2",
+        "astra-a6/s09/u3",
+        "astra-a6/s10/u0",
+        "astra-a6/s10/u1",
+        "astra-a6/s10/u2",
+        "astra-a6/s10/u3",
+        "astra-a6/s11/u0",
+        "astra-a6/s11/u1",
+        "astra-a6/s11/u2",
+        "astra-a6/s11/u3"
+      ],
+      "search_variant": "depth_minus",
+      "selections": {
+        "correction": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "fixed_shallow": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "no_phase": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "search": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        }
+      },
+      "split_group_id": "astra-a6/s04/u3",
+      "statuses": {
+        "baseline": "exit_censored",
+        "correction": "observed",
+        "free_nominal": "no_arrival",
+        "no_phase": "observed"
+      },
+      "terminated": {
+        "baseline": false,
+        "correction": false,
+        "free_nominal": false,
+        "no_phase": false
+      }
+    },
+    {
+      "baseline_pass": false,
+      "proposals": {
+        "correction": {
+          "command": {
+            "depth_m": 0.26,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.38
+          },
+          "phase_action": "none",
+          "predicted_pass": null,
+          "preserve_initial": false,
+          "reason": "reduce_crouch_burden",
+          "requires_exact_candidate_preview": true,
+          "use_phase": true
+        },
+        "no_phase": {
+          "command": {
+            "depth_m": 0.26,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.38
+          },
+          "phase_action": "none",
+          "predicted_pass": null,
+          "preserve_initial": false,
+          "reason": "reduce_crouch_burden",
+          "requires_exact_candidate_preview": true,
+          "use_phase": false
+        }
+      },
+      "raw_candidate_pass": {
+        "correction": false,
+        "no_phase": false
+      },
+      "scene_id": "a6s05",
+      "search_training_groups": [
+        "astra-a6/s00/u0",
+        "astra-a6/s00/u1",
+        "astra-a6/s00/u2",
+        "astra-a6/s00/u3",
+        "astra-a6/s01/u0",
+        "astra-a6/s01/u1",
+        "astra-a6/s01/u2",
+        "astra-a6/s01/u3",
+        "astra-a6/s02/u0",
+        "astra-a6/s02/u1",
+        "astra-a6/s02/u2",
+        "astra-a6/s02/u3",
+        "astra-a6/s03/u0",
+        "astra-a6/s03/u1",
+        "astra-a6/s03/u2",
+        "astra-a6/s03/u3",
+        "astra-a6/s04/u0",
+        "astra-a6/s04/u1",
+        "astra-a6/s04/u2",
+        "astra-a6/s04/u3",
+        "astra-a6/s06/u0",
+        "astra-a6/s06/u1",
+        "astra-a6/s06/u2",
+        "astra-a6/s06/u3",
+        "astra-a6/s07/u0",
+        "astra-a6/s07/u1",
+        "astra-a6/s07/u2",
+        "astra-a6/s07/u3",
+        "astra-a6/s08/u0",
+        "astra-a6/s08/u1",
+        "astra-a6/s08/u2",
+        "astra-a6/s08/u3",
+        "astra-a6/s09/u0",
+        "astra-a6/s09/u1",
+        "astra-a6/s09/u2",
+        "astra-a6/s09/u3",
+        "astra-a6/s10/u0",
+        "astra-a6/s10/u1",
+        "astra-a6/s10/u2",
+        "astra-a6/s10/u3",
+        "astra-a6/s11/u0",
+        "astra-a6/s11/u1",
+        "astra-a6/s11/u2",
+        "astra-a6/s11/u3"
+      ],
+      "search_variant": "depth_minus",
+      "selections": {
+        "correction": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "fixed_shallow": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "no_phase": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "search": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        }
+      },
+      "split_group_id": "astra-a6/s05/u0",
+      "statuses": {
+        "baseline": "exit_censored",
+        "correction": "exit_censored",
+        "free_nominal": "observed",
+        "no_phase": "exit_censored"
+      },
+      "terminated": {
+        "baseline": true,
+        "correction": true,
+        "free_nominal": false,
+        "no_phase": true
+      }
+    },
+    {
+      "baseline_pass": false,
+      "proposals": {
+        "correction": {
+          "command": {
+            "depth_m": 0.26,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.38
+          },
+          "phase_action": "none",
+          "predicted_pass": null,
+          "preserve_initial": false,
+          "reason": "reduce_crouch_burden",
+          "requires_exact_candidate_preview": true,
+          "use_phase": true
+        },
+        "no_phase": {
+          "command": {
+            "depth_m": 0.26,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.38
+          },
+          "phase_action": "none",
+          "predicted_pass": null,
+          "preserve_initial": false,
+          "reason": "reduce_crouch_burden",
+          "requires_exact_candidate_preview": true,
+          "use_phase": false
+        }
+      },
+      "raw_candidate_pass": {
+        "correction": false,
+        "no_phase": false
+      },
+      "scene_id": "a6s05",
+      "search_training_groups": [
+        "astra-a6/s00/u0",
+        "astra-a6/s00/u1",
+        "astra-a6/s00/u2",
+        "astra-a6/s00/u3",
+        "astra-a6/s01/u0",
+        "astra-a6/s01/u1",
+        "astra-a6/s01/u2",
+        "astra-a6/s01/u3",
+        "astra-a6/s02/u0",
+        "astra-a6/s02/u1",
+        "astra-a6/s02/u2",
+        "astra-a6/s02/u3",
+        "astra-a6/s03/u0",
+        "astra-a6/s03/u1",
+        "astra-a6/s03/u2",
+        "astra-a6/s03/u3",
+        "astra-a6/s04/u0",
+        "astra-a6/s04/u1",
+        "astra-a6/s04/u2",
+        "astra-a6/s04/u3",
+        "astra-a6/s06/u0",
+        "astra-a6/s06/u1",
+        "astra-a6/s06/u2",
+        "astra-a6/s06/u3",
+        "astra-a6/s07/u0",
+        "astra-a6/s07/u1",
+        "astra-a6/s07/u2",
+        "astra-a6/s07/u3",
+        "astra-a6/s08/u0",
+        "astra-a6/s08/u1",
+        "astra-a6/s08/u2",
+        "astra-a6/s08/u3",
+        "astra-a6/s09/u0",
+        "astra-a6/s09/u1",
+        "astra-a6/s09/u2",
+        "astra-a6/s09/u3",
+        "astra-a6/s10/u0",
+        "astra-a6/s10/u1",
+        "astra-a6/s10/u2",
+        "astra-a6/s10/u3",
+        "astra-a6/s11/u0",
+        "astra-a6/s11/u1",
+        "astra-a6/s11/u2",
+        "astra-a6/s11/u3"
+      ],
+      "search_variant": "depth_minus",
+      "selections": {
+        "correction": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "fixed_shallow": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "no_phase": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "search": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        }
+      },
+      "split_group_id": "astra-a6/s05/u1",
+      "statuses": {
+        "baseline": "exit_censored",
+        "correction": "exit_censored",
+        "free_nominal": "observed",
+        "no_phase": "exit_censored"
+      },
+      "terminated": {
+        "baseline": false,
+        "correction": false,
+        "free_nominal": false,
+        "no_phase": false
+      }
+    },
+    {
+      "baseline_pass": false,
+      "proposals": {
+        "correction": {
+          "command": {
+            "depth_m": 0.26,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.38
+          },
+          "phase_action": "none",
+          "predicted_pass": null,
+          "preserve_initial": false,
+          "reason": "reduce_crouch_burden",
+          "requires_exact_candidate_preview": true,
+          "use_phase": true
+        },
+        "no_phase": {
+          "command": {
+            "depth_m": 0.26,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.38
+          },
+          "phase_action": "none",
+          "predicted_pass": null,
+          "preserve_initial": false,
+          "reason": "reduce_crouch_burden",
+          "requires_exact_candidate_preview": true,
+          "use_phase": false
+        }
+      },
+      "raw_candidate_pass": {
+        "correction": false,
+        "no_phase": false
+      },
+      "scene_id": "a6s05",
+      "search_training_groups": [
+        "astra-a6/s00/u0",
+        "astra-a6/s00/u1",
+        "astra-a6/s00/u2",
+        "astra-a6/s00/u3",
+        "astra-a6/s01/u0",
+        "astra-a6/s01/u1",
+        "astra-a6/s01/u2",
+        "astra-a6/s01/u3",
+        "astra-a6/s02/u0",
+        "astra-a6/s02/u1",
+        "astra-a6/s02/u2",
+        "astra-a6/s02/u3",
+        "astra-a6/s03/u0",
+        "astra-a6/s03/u1",
+        "astra-a6/s03/u2",
+        "astra-a6/s03/u3",
+        "astra-a6/s04/u0",
+        "astra-a6/s04/u1",
+        "astra-a6/s04/u2",
+        "astra-a6/s04/u3",
+        "astra-a6/s06/u0",
+        "astra-a6/s06/u1",
+        "astra-a6/s06/u2",
+        "astra-a6/s06/u3",
+        "astra-a6/s07/u0",
+        "astra-a6/s07/u1",
+        "astra-a6/s07/u2",
+        "astra-a6/s07/u3",
+        "astra-a6/s08/u0",
+        "astra-a6/s08/u1",
+        "astra-a6/s08/u2",
+        "astra-a6/s08/u3",
+        "astra-a6/s09/u0",
+        "astra-a6/s09/u1",
+        "astra-a6/s09/u2",
+        "astra-a6/s09/u3",
+        "astra-a6/s10/u0",
+        "astra-a6/s10/u1",
+        "astra-a6/s10/u2",
+        "astra-a6/s10/u3",
+        "astra-a6/s11/u0",
+        "astra-a6/s11/u1",
+        "astra-a6/s11/u2",
+        "astra-a6/s11/u3"
+      ],
+      "search_variant": "depth_minus",
+      "selections": {
+        "correction": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "fixed_shallow": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "no_phase": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "search": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        }
+      },
+      "split_group_id": "astra-a6/s05/u2",
+      "statuses": {
+        "baseline": "exit_censored",
+        "correction": "exit_censored",
+        "free_nominal": "no_arrival",
+        "no_phase": "exit_censored"
+      },
+      "terminated": {
+        "baseline": true,
+        "correction": false,
+        "free_nominal": true,
+        "no_phase": false
+      }
+    },
+    {
+      "baseline_pass": false,
+      "proposals": {
+        "correction": {
+          "command": {
+            "depth_m": 0.26,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.38
+          },
+          "phase_action": "none",
+          "predicted_pass": null,
+          "preserve_initial": false,
+          "reason": "reduce_crouch_burden",
+          "requires_exact_candidate_preview": true,
+          "use_phase": true
+        },
+        "no_phase": {
+          "command": {
+            "depth_m": 0.26,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.38
+          },
+          "phase_action": "none",
+          "predicted_pass": null,
+          "preserve_initial": false,
+          "reason": "reduce_crouch_burden",
+          "requires_exact_candidate_preview": true,
+          "use_phase": false
+        }
+      },
+      "raw_candidate_pass": {
+        "correction": false,
+        "no_phase": false
+      },
+      "scene_id": "a6s05",
+      "search_training_groups": [
+        "astra-a6/s00/u0",
+        "astra-a6/s00/u1",
+        "astra-a6/s00/u2",
+        "astra-a6/s00/u3",
+        "astra-a6/s01/u0",
+        "astra-a6/s01/u1",
+        "astra-a6/s01/u2",
+        "astra-a6/s01/u3",
+        "astra-a6/s02/u0",
+        "astra-a6/s02/u1",
+        "astra-a6/s02/u2",
+        "astra-a6/s02/u3",
+        "astra-a6/s03/u0",
+        "astra-a6/s03/u1",
+        "astra-a6/s03/u2",
+        "astra-a6/s03/u3",
+        "astra-a6/s04/u0",
+        "astra-a6/s04/u1",
+        "astra-a6/s04/u2",
+        "astra-a6/s04/u3",
+        "astra-a6/s06/u0",
+        "astra-a6/s06/u1",
+        "astra-a6/s06/u2",
+        "astra-a6/s06/u3",
+        "astra-a6/s07/u0",
+        "astra-a6/s07/u1",
+        "astra-a6/s07/u2",
+        "astra-a6/s07/u3",
+        "astra-a6/s08/u0",
+        "astra-a6/s08/u1",
+        "astra-a6/s08/u2",
+        "astra-a6/s08/u3",
+        "astra-a6/s09/u0",
+        "astra-a6/s09/u1",
+        "astra-a6/s09/u2",
+        "astra-a6/s09/u3",
+        "astra-a6/s10/u0",
+        "astra-a6/s10/u1",
+        "astra-a6/s10/u2",
+        "astra-a6/s10/u3",
+        "astra-a6/s11/u0",
+        "astra-a6/s11/u1",
+        "astra-a6/s11/u2",
+        "astra-a6/s11/u3"
+      ],
+      "search_variant": "depth_minus",
+      "selections": {
+        "correction": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "fixed_shallow": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "no_phase": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "search": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        }
+      },
+      "split_group_id": "astra-a6/s05/u3",
+      "statuses": {
+        "baseline": "exit_censored",
+        "correction": "exit_censored",
+        "free_nominal": "no_arrival",
+        "no_phase": "exit_censored"
+      },
+      "terminated": {
+        "baseline": false,
+        "correction": false,
+        "free_nominal": false,
+        "no_phase": false
+      }
+    },
+    {
+      "baseline_pass": false,
+      "proposals": {
+        "correction": {
+          "command": {
+            "depth_m": 0.26,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.38
+          },
+          "phase_action": "none",
+          "predicted_pass": null,
+          "preserve_initial": false,
+          "reason": "reduce_crouch_burden",
+          "requires_exact_candidate_preview": true,
+          "use_phase": true
+        },
+        "no_phase": {
+          "command": {
+            "depth_m": 0.26,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.38
+          },
+          "phase_action": "none",
+          "predicted_pass": null,
+          "preserve_initial": false,
+          "reason": "reduce_crouch_burden",
+          "requires_exact_candidate_preview": true,
+          "use_phase": false
+        }
+      },
+      "raw_candidate_pass": {
+        "correction": false,
+        "no_phase": false
+      },
+      "scene_id": "a6s06",
+      "search_training_groups": [
+        "astra-a6/s00/u0",
+        "astra-a6/s00/u1",
+        "astra-a6/s00/u2",
+        "astra-a6/s00/u3",
+        "astra-a6/s01/u0",
+        "astra-a6/s01/u1",
+        "astra-a6/s01/u2",
+        "astra-a6/s01/u3",
+        "astra-a6/s02/u0",
+        "astra-a6/s02/u1",
+        "astra-a6/s02/u2",
+        "astra-a6/s02/u3",
+        "astra-a6/s03/u0",
+        "astra-a6/s03/u1",
+        "astra-a6/s03/u2",
+        "astra-a6/s03/u3",
+        "astra-a6/s04/u0",
+        "astra-a6/s04/u1",
+        "astra-a6/s04/u2",
+        "astra-a6/s04/u3",
+        "astra-a6/s05/u0",
+        "astra-a6/s05/u1",
+        "astra-a6/s05/u2",
+        "astra-a6/s05/u3",
+        "astra-a6/s07/u0",
+        "astra-a6/s07/u1",
+        "astra-a6/s07/u2",
+        "astra-a6/s07/u3",
+        "astra-a6/s08/u0",
+        "astra-a6/s08/u1",
+        "astra-a6/s08/u2",
+        "astra-a6/s08/u3",
+        "astra-a6/s09/u0",
+        "astra-a6/s09/u1",
+        "astra-a6/s09/u2",
+        "astra-a6/s09/u3",
+        "astra-a6/s10/u0",
+        "astra-a6/s10/u1",
+        "astra-a6/s10/u2",
+        "astra-a6/s10/u3",
+        "astra-a6/s11/u0",
+        "astra-a6/s11/u1",
+        "astra-a6/s11/u2",
+        "astra-a6/s11/u3"
+      ],
+      "search_variant": "depth_minus",
+      "selections": {
+        "correction": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "fixed_shallow": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "no_phase": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "search": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        }
+      },
+      "split_group_id": "astra-a6/s06/u0",
+      "statuses": {
+        "baseline": "observed",
+        "correction": "observed",
+        "free_nominal": "no_arrival",
+        "no_phase": "observed"
+      },
+      "terminated": {
+        "baseline": false,
+        "correction": false,
+        "free_nominal": false,
+        "no_phase": false
+      }
+    },
+    {
+      "baseline_pass": false,
+      "proposals": {
+        "correction": {
+          "command": {
+            "depth_m": 0.26,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.38
+          },
+          "phase_action": "none",
+          "predicted_pass": null,
+          "preserve_initial": false,
+          "reason": "reduce_crouch_burden",
+          "requires_exact_candidate_preview": true,
+          "use_phase": true
+        },
+        "no_phase": {
+          "command": {
+            "depth_m": 0.26,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.38
+          },
+          "phase_action": "none",
+          "predicted_pass": null,
+          "preserve_initial": false,
+          "reason": "reduce_crouch_burden",
+          "requires_exact_candidate_preview": true,
+          "use_phase": false
+        }
+      },
+      "raw_candidate_pass": {
+        "correction": false,
+        "no_phase": false
+      },
+      "scene_id": "a6s06",
+      "search_training_groups": [
+        "astra-a6/s00/u0",
+        "astra-a6/s00/u1",
+        "astra-a6/s00/u2",
+        "astra-a6/s00/u3",
+        "astra-a6/s01/u0",
+        "astra-a6/s01/u1",
+        "astra-a6/s01/u2",
+        "astra-a6/s01/u3",
+        "astra-a6/s02/u0",
+        "astra-a6/s02/u1",
+        "astra-a6/s02/u2",
+        "astra-a6/s02/u3",
+        "astra-a6/s03/u0",
+        "astra-a6/s03/u1",
+        "astra-a6/s03/u2",
+        "astra-a6/s03/u3",
+        "astra-a6/s04/u0",
+        "astra-a6/s04/u1",
+        "astra-a6/s04/u2",
+        "astra-a6/s04/u3",
+        "astra-a6/s05/u0",
+        "astra-a6/s05/u1",
+        "astra-a6/s05/u2",
+        "astra-a6/s05/u3",
+        "astra-a6/s07/u0",
+        "astra-a6/s07/u1",
+        "astra-a6/s07/u2",
+        "astra-a6/s07/u3",
+        "astra-a6/s08/u0",
+        "astra-a6/s08/u1",
+        "astra-a6/s08/u2",
+        "astra-a6/s08/u3",
+        "astra-a6/s09/u0",
+        "astra-a6/s09/u1",
+        "astra-a6/s09/u2",
+        "astra-a6/s09/u3",
+        "astra-a6/s10/u0",
+        "astra-a6/s10/u1",
+        "astra-a6/s10/u2",
+        "astra-a6/s10/u3",
+        "astra-a6/s11/u0",
+        "astra-a6/s11/u1",
+        "astra-a6/s11/u2",
+        "astra-a6/s11/u3"
+      ],
+      "search_variant": "depth_minus",
+      "selections": {
+        "correction": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "fixed_shallow": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "no_phase": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "search": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        }
+      },
+      "split_group_id": "astra-a6/s06/u1",
+      "statuses": {
+        "baseline": "no_arrival",
+        "correction": "no_arrival",
+        "free_nominal": "observed",
+        "no_phase": "no_arrival"
+      },
+      "terminated": {
+        "baseline": true,
+        "correction": false,
+        "free_nominal": false,
+        "no_phase": false
+      }
+    },
+    {
+      "baseline_pass": false,
+      "proposals": {
+        "correction": {
+          "command": {
+            "depth_m": 0.26,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.2899999999999998
+          },
+          "phase_action": "earlier_recovery_after_observed_slow_suffix",
+          "predicted_pass": null,
+          "preserve_initial": false,
+          "reason": "reduce_crouch_burden",
+          "requires_exact_candidate_preview": true,
+          "use_phase": true
+        },
+        "no_phase": {
+          "command": {
+            "depth_m": 0.26,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.38
+          },
+          "phase_action": "none",
+          "predicted_pass": null,
+          "preserve_initial": false,
+          "reason": "reduce_crouch_burden",
+          "requires_exact_candidate_preview": true,
+          "use_phase": false
+        }
+      },
+      "raw_candidate_pass": {
+        "correction": true,
+        "no_phase": true
+      },
+      "scene_id": "a6s06",
+      "search_training_groups": [
+        "astra-a6/s00/u0",
+        "astra-a6/s00/u1",
+        "astra-a6/s00/u2",
+        "astra-a6/s00/u3",
+        "astra-a6/s01/u0",
+        "astra-a6/s01/u1",
+        "astra-a6/s01/u2",
+        "astra-a6/s01/u3",
+        "astra-a6/s02/u0",
+        "astra-a6/s02/u1",
+        "astra-a6/s02/u2",
+        "astra-a6/s02/u3",
+        "astra-a6/s03/u0",
+        "astra-a6/s03/u1",
+        "astra-a6/s03/u2",
+        "astra-a6/s03/u3",
+        "astra-a6/s04/u0",
+        "astra-a6/s04/u1",
+        "astra-a6/s04/u2",
+        "astra-a6/s04/u3",
+        "astra-a6/s05/u0",
+        "astra-a6/s05/u1",
+        "astra-a6/s05/u2",
+        "astra-a6/s05/u3",
+        "astra-a6/s07/u0",
+        "astra-a6/s07/u1",
+        "astra-a6/s07/u2",
+        "astra-a6/s07/u3",
+        "astra-a6/s08/u0",
+        "astra-a6/s08/u1",
+        "astra-a6/s08/u2",
+        "astra-a6/s08/u3",
+        "astra-a6/s09/u0",
+        "astra-a6/s09/u1",
+        "astra-a6/s09/u2",
+        "astra-a6/s09/u3",
+        "astra-a6/s10/u0",
+        "astra-a6/s10/u1",
+        "astra-a6/s10/u2",
+        "astra-a6/s10/u3",
+        "astra-a6/s11/u0",
+        "astra-a6/s11/u1",
+        "astra-a6/s11/u2",
+        "astra-a6/s11/u3"
+      ],
+      "search_variant": "depth_minus",
+      "selections": {
+        "correction": {
+          "development_pass": true,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": "correction"
+        },
+        "fixed_shallow": {
+          "development_pass": true,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": "depth_minus"
+        },
+        "no_phase": {
+          "development_pass": true,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": "no_phase"
+        },
+        "search": {
+          "development_pass": true,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": "depth_minus"
+        }
+      },
+      "split_group_id": "astra-a6/s06/u2",
+      "statuses": {
+        "baseline": "observed",
+        "correction": "observed",
+        "free_nominal": "observed",
+        "no_phase": "observed"
+      },
+      "terminated": {
+        "baseline": false,
+        "correction": false,
+        "free_nominal": false,
+        "no_phase": false
+      }
+    },
+    {
+      "baseline_pass": true,
+      "proposals": {
+        "correction": {
+          "command": {
+            "depth_m": 0.28,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.38
+          },
+          "phase_action": "none",
+          "predicted_pass": null,
+          "preserve_initial": true,
+          "reason": "preserve_initial_pass",
+          "requires_exact_candidate_preview": true,
+          "use_phase": true
+        },
+        "no_phase": {
+          "command": {
+            "depth_m": 0.28,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.38
+          },
+          "phase_action": "none",
+          "predicted_pass": null,
+          "preserve_initial": true,
+          "reason": "preserve_initial_pass",
+          "requires_exact_candidate_preview": true,
+          "use_phase": false
+        }
+      },
+      "raw_candidate_pass": {
+        "correction": true,
+        "no_phase": true
+      },
+      "scene_id": "a6s06",
+      "search_training_groups": [
+        "astra-a6/s00/u0",
+        "astra-a6/s00/u1",
+        "astra-a6/s00/u2",
+        "astra-a6/s00/u3",
+        "astra-a6/s01/u0",
+        "astra-a6/s01/u1",
+        "astra-a6/s01/u2",
+        "astra-a6/s01/u3",
+        "astra-a6/s02/u0",
+        "astra-a6/s02/u1",
+        "astra-a6/s02/u2",
+        "astra-a6/s02/u3",
+        "astra-a6/s03/u0",
+        "astra-a6/s03/u1",
+        "astra-a6/s03/u2",
+        "astra-a6/s03/u3",
+        "astra-a6/s04/u0",
+        "astra-a6/s04/u1",
+        "astra-a6/s04/u2",
+        "astra-a6/s04/u3",
+        "astra-a6/s05/u0",
+        "astra-a6/s05/u1",
+        "astra-a6/s05/u2",
+        "astra-a6/s05/u3",
+        "astra-a6/s07/u0",
+        "astra-a6/s07/u1",
+        "astra-a6/s07/u2",
+        "astra-a6/s07/u3",
+        "astra-a6/s08/u0",
+        "astra-a6/s08/u1",
+        "astra-a6/s08/u2",
+        "astra-a6/s08/u3",
+        "astra-a6/s09/u0",
+        "astra-a6/s09/u1",
+        "astra-a6/s09/u2",
+        "astra-a6/s09/u3",
+        "astra-a6/s10/u0",
+        "astra-a6/s10/u1",
+        "astra-a6/s10/u2",
+        "astra-a6/s10/u3",
+        "astra-a6/s11/u0",
+        "astra-a6/s11/u1",
+        "astra-a6/s11/u2",
+        "astra-a6/s11/u3"
+      ],
+      "search_variant": "depth_minus",
+      "selections": {
+        "correction": {
+          "development_pass": true,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": "baseline"
+        },
+        "fixed_shallow": {
+          "development_pass": true,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": "baseline"
+        },
+        "no_phase": {
+          "development_pass": true,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": "baseline"
+        },
+        "search": {
+          "development_pass": true,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": "baseline"
+        }
+      },
+      "split_group_id": "astra-a6/s06/u3",
+      "statuses": {
+        "baseline": "observed",
+        "correction": "observed",
+        "free_nominal": "observed",
+        "no_phase": "observed"
+      },
+      "terminated": {
+        "baseline": false,
+        "correction": false,
+        "free_nominal": false,
+        "no_phase": false
+      }
+    },
+    {
+      "baseline_pass": true,
+      "proposals": {
+        "correction": {
+          "command": {
+            "depth_m": 0.28,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.38
+          },
+          "phase_action": "none",
+          "predicted_pass": null,
+          "preserve_initial": true,
+          "reason": "preserve_initial_pass",
+          "requires_exact_candidate_preview": true,
+          "use_phase": true
+        },
+        "no_phase": {
+          "command": {
+            "depth_m": 0.28,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.38
+          },
+          "phase_action": "none",
+          "predicted_pass": null,
+          "preserve_initial": true,
+          "reason": "preserve_initial_pass",
+          "requires_exact_candidate_preview": true,
+          "use_phase": false
+        }
+      },
+      "raw_candidate_pass": {
+        "correction": true,
+        "no_phase": true
+      },
+      "scene_id": "a6s07",
+      "search_training_groups": [
+        "astra-a6/s00/u0",
+        "astra-a6/s00/u1",
+        "astra-a6/s00/u2",
+        "astra-a6/s00/u3",
+        "astra-a6/s01/u0",
+        "astra-a6/s01/u1",
+        "astra-a6/s01/u2",
+        "astra-a6/s01/u3",
+        "astra-a6/s02/u0",
+        "astra-a6/s02/u1",
+        "astra-a6/s02/u2",
+        "astra-a6/s02/u3",
+        "astra-a6/s03/u0",
+        "astra-a6/s03/u1",
+        "astra-a6/s03/u2",
+        "astra-a6/s03/u3",
+        "astra-a6/s04/u0",
+        "astra-a6/s04/u1",
+        "astra-a6/s04/u2",
+        "astra-a6/s04/u3",
+        "astra-a6/s05/u0",
+        "astra-a6/s05/u1",
+        "astra-a6/s05/u2",
+        "astra-a6/s05/u3",
+        "astra-a6/s06/u0",
+        "astra-a6/s06/u1",
+        "astra-a6/s06/u2",
+        "astra-a6/s06/u3",
+        "astra-a6/s08/u0",
+        "astra-a6/s08/u1",
+        "astra-a6/s08/u2",
+        "astra-a6/s08/u3",
+        "astra-a6/s09/u0",
+        "astra-a6/s09/u1",
+        "astra-a6/s09/u2",
+        "astra-a6/s09/u3",
+        "astra-a6/s10/u0",
+        "astra-a6/s10/u1",
+        "astra-a6/s10/u2",
+        "astra-a6/s10/u3",
+        "astra-a6/s11/u0",
+        "astra-a6/s11/u1",
+        "astra-a6/s11/u2",
+        "astra-a6/s11/u3"
+      ],
+      "search_variant": "depth_minus",
+      "selections": {
+        "correction": {
+          "development_pass": true,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": "baseline"
+        },
+        "fixed_shallow": {
+          "development_pass": true,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": "baseline"
+        },
+        "no_phase": {
+          "development_pass": true,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": "baseline"
+        },
+        "search": {
+          "development_pass": true,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": "baseline"
+        }
+      },
+      "split_group_id": "astra-a6/s07/u0",
+      "statuses": {
+        "baseline": "observed",
+        "correction": "observed",
+        "free_nominal": "no_arrival",
+        "no_phase": "observed"
+      },
+      "terminated": {
+        "baseline": false,
+        "correction": false,
+        "free_nominal": true,
+        "no_phase": false
+      }
+    },
+    {
+      "baseline_pass": false,
+      "proposals": {
+        "correction": {
+          "command": {
+            "depth_m": 0.26,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.38
+          },
+          "phase_action": "none",
+          "predicted_pass": null,
+          "preserve_initial": false,
+          "reason": "reduce_crouch_burden",
+          "requires_exact_candidate_preview": true,
+          "use_phase": true
+        },
+        "no_phase": {
+          "command": {
+            "depth_m": 0.26,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.38
+          },
+          "phase_action": "none",
+          "predicted_pass": null,
+          "preserve_initial": false,
+          "reason": "reduce_crouch_burden",
+          "requires_exact_candidate_preview": true,
+          "use_phase": false
+        }
+      },
+      "raw_candidate_pass": {
+        "correction": false,
+        "no_phase": false
+      },
+      "scene_id": "a6s07",
+      "search_training_groups": [
+        "astra-a6/s00/u0",
+        "astra-a6/s00/u1",
+        "astra-a6/s00/u2",
+        "astra-a6/s00/u3",
+        "astra-a6/s01/u0",
+        "astra-a6/s01/u1",
+        "astra-a6/s01/u2",
+        "astra-a6/s01/u3",
+        "astra-a6/s02/u0",
+        "astra-a6/s02/u1",
+        "astra-a6/s02/u2",
+        "astra-a6/s02/u3",
+        "astra-a6/s03/u0",
+        "astra-a6/s03/u1",
+        "astra-a6/s03/u2",
+        "astra-a6/s03/u3",
+        "astra-a6/s04/u0",
+        "astra-a6/s04/u1",
+        "astra-a6/s04/u2",
+        "astra-a6/s04/u3",
+        "astra-a6/s05/u0",
+        "astra-a6/s05/u1",
+        "astra-a6/s05/u2",
+        "astra-a6/s05/u3",
+        "astra-a6/s06/u0",
+        "astra-a6/s06/u1",
+        "astra-a6/s06/u2",
+        "astra-a6/s06/u3",
+        "astra-a6/s08/u0",
+        "astra-a6/s08/u1",
+        "astra-a6/s08/u2",
+        "astra-a6/s08/u3",
+        "astra-a6/s09/u0",
+        "astra-a6/s09/u1",
+        "astra-a6/s09/u2",
+        "astra-a6/s09/u3",
+        "astra-a6/s10/u0",
+        "astra-a6/s10/u1",
+        "astra-a6/s10/u2",
+        "astra-a6/s10/u3",
+        "astra-a6/s11/u0",
+        "astra-a6/s11/u1",
+        "astra-a6/s11/u2",
+        "astra-a6/s11/u3"
+      ],
+      "search_variant": "depth_minus",
+      "selections": {
+        "correction": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "fixed_shallow": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "no_phase": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "search": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        }
+      },
+      "split_group_id": "astra-a6/s07/u1",
+      "statuses": {
+        "baseline": "no_arrival",
+        "correction": "no_arrival",
+        "free_nominal": "observed",
+        "no_phase": "no_arrival"
+      },
+      "terminated": {
+        "baseline": true,
+        "correction": true,
+        "free_nominal": false,
+        "no_phase": true
+      }
+    },
+    {
+      "baseline_pass": false,
+      "proposals": {
+        "correction": {
+          "command": {
+            "depth_m": 0.26,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.38
+          },
+          "phase_action": "none",
+          "predicted_pass": null,
+          "preserve_initial": false,
+          "reason": "reduce_crouch_burden",
+          "requires_exact_candidate_preview": true,
+          "use_phase": true
+        },
+        "no_phase": {
+          "command": {
+            "depth_m": 0.26,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.38
+          },
+          "phase_action": "none",
+          "predicted_pass": null,
+          "preserve_initial": false,
+          "reason": "reduce_crouch_burden",
+          "requires_exact_candidate_preview": true,
+          "use_phase": false
+        }
+      },
+      "raw_candidate_pass": {
+        "correction": false,
+        "no_phase": false
+      },
+      "scene_id": "a6s07",
+      "search_training_groups": [
+        "astra-a6/s00/u0",
+        "astra-a6/s00/u1",
+        "astra-a6/s00/u2",
+        "astra-a6/s00/u3",
+        "astra-a6/s01/u0",
+        "astra-a6/s01/u1",
+        "astra-a6/s01/u2",
+        "astra-a6/s01/u3",
+        "astra-a6/s02/u0",
+        "astra-a6/s02/u1",
+        "astra-a6/s02/u2",
+        "astra-a6/s02/u3",
+        "astra-a6/s03/u0",
+        "astra-a6/s03/u1",
+        "astra-a6/s03/u2",
+        "astra-a6/s03/u3",
+        "astra-a6/s04/u0",
+        "astra-a6/s04/u1",
+        "astra-a6/s04/u2",
+        "astra-a6/s04/u3",
+        "astra-a6/s05/u0",
+        "astra-a6/s05/u1",
+        "astra-a6/s05/u2",
+        "astra-a6/s05/u3",
+        "astra-a6/s06/u0",
+        "astra-a6/s06/u1",
+        "astra-a6/s06/u2",
+        "astra-a6/s06/u3",
+        "astra-a6/s08/u0",
+        "astra-a6/s08/u1",
+        "astra-a6/s08/u2",
+        "astra-a6/s08/u3",
+        "astra-a6/s09/u0",
+        "astra-a6/s09/u1",
+        "astra-a6/s09/u2",
+        "astra-a6/s09/u3",
+        "astra-a6/s10/u0",
+        "astra-a6/s10/u1",
+        "astra-a6/s10/u2",
+        "astra-a6/s10/u3",
+        "astra-a6/s11/u0",
+        "astra-a6/s11/u1",
+        "astra-a6/s11/u2",
+        "astra-a6/s11/u3"
+      ],
+      "search_variant": "depth_minus",
+      "selections": {
+        "correction": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "fixed_shallow": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "no_phase": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "search": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        }
+      },
+      "split_group_id": "astra-a6/s07/u2",
+      "statuses": {
+        "baseline": "recovery_censored",
+        "correction": "recovery_censored",
+        "free_nominal": "observed",
+        "no_phase": "recovery_censored"
+      },
+      "terminated": {
+        "baseline": false,
+        "correction": false,
+        "free_nominal": false,
+        "no_phase": false
+      }
+    },
+    {
+      "baseline_pass": false,
+      "proposals": {
+        "correction": {
+          "command": {
+            "depth_m": 0.26,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.38
+          },
+          "phase_action": "none",
+          "predicted_pass": null,
+          "preserve_initial": false,
+          "reason": "reduce_crouch_burden",
+          "requires_exact_candidate_preview": true,
+          "use_phase": true
+        },
+        "no_phase": {
+          "command": {
+            "depth_m": 0.26,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.38
+          },
+          "phase_action": "none",
+          "predicted_pass": null,
+          "preserve_initial": false,
+          "reason": "reduce_crouch_burden",
+          "requires_exact_candidate_preview": true,
+          "use_phase": false
+        }
+      },
+      "raw_candidate_pass": {
+        "correction": false,
+        "no_phase": false
+      },
+      "scene_id": "a6s07",
+      "search_training_groups": [
+        "astra-a6/s00/u0",
+        "astra-a6/s00/u1",
+        "astra-a6/s00/u2",
+        "astra-a6/s00/u3",
+        "astra-a6/s01/u0",
+        "astra-a6/s01/u1",
+        "astra-a6/s01/u2",
+        "astra-a6/s01/u3",
+        "astra-a6/s02/u0",
+        "astra-a6/s02/u1",
+        "astra-a6/s02/u2",
+        "astra-a6/s02/u3",
+        "astra-a6/s03/u0",
+        "astra-a6/s03/u1",
+        "astra-a6/s03/u2",
+        "astra-a6/s03/u3",
+        "astra-a6/s04/u0",
+        "astra-a6/s04/u1",
+        "astra-a6/s04/u2",
+        "astra-a6/s04/u3",
+        "astra-a6/s05/u0",
+        "astra-a6/s05/u1",
+        "astra-a6/s05/u2",
+        "astra-a6/s05/u3",
+        "astra-a6/s06/u0",
+        "astra-a6/s06/u1",
+        "astra-a6/s06/u2",
+        "astra-a6/s06/u3",
+        "astra-a6/s08/u0",
+        "astra-a6/s08/u1",
+        "astra-a6/s08/u2",
+        "astra-a6/s08/u3",
+        "astra-a6/s09/u0",
+        "astra-a6/s09/u1",
+        "astra-a6/s09/u2",
+        "astra-a6/s09/u3",
+        "astra-a6/s10/u0",
+        "astra-a6/s10/u1",
+        "astra-a6/s10/u2",
+        "astra-a6/s10/u3",
+        "astra-a6/s11/u0",
+        "astra-a6/s11/u1",
+        "astra-a6/s11/u2",
+        "astra-a6/s11/u3"
+      ],
+      "search_variant": "depth_minus",
+      "selections": {
+        "correction": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "fixed_shallow": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "no_phase": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "search": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        }
+      },
+      "split_group_id": "astra-a6/s07/u3",
+      "statuses": {
+        "baseline": "exit_censored",
+        "correction": "observed",
+        "free_nominal": "observed",
+        "no_phase": "observed"
+      },
+      "terminated": {
+        "baseline": false,
+        "correction": false,
+        "free_nominal": false,
+        "no_phase": false
+      }
+    },
+    {
+      "baseline_pass": true,
+      "proposals": {
+        "correction": {
+          "command": {
+            "depth_m": 0.28,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.38
+          },
+          "phase_action": "none",
+          "predicted_pass": null,
+          "preserve_initial": true,
+          "reason": "preserve_initial_pass",
+          "requires_exact_candidate_preview": true,
+          "use_phase": true
+        },
+        "no_phase": {
+          "command": {
+            "depth_m": 0.28,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.38
+          },
+          "phase_action": "none",
+          "predicted_pass": null,
+          "preserve_initial": true,
+          "reason": "preserve_initial_pass",
+          "requires_exact_candidate_preview": true,
+          "use_phase": false
+        }
+      },
+      "raw_candidate_pass": {
+        "correction": true,
+        "no_phase": true
+      },
+      "scene_id": "a6s08",
+      "search_training_groups": [
+        "astra-a6/s00/u0",
+        "astra-a6/s00/u1",
+        "astra-a6/s00/u2",
+        "astra-a6/s00/u3",
+        "astra-a6/s01/u0",
+        "astra-a6/s01/u1",
+        "astra-a6/s01/u2",
+        "astra-a6/s01/u3",
+        "astra-a6/s02/u0",
+        "astra-a6/s02/u1",
+        "astra-a6/s02/u2",
+        "astra-a6/s02/u3",
+        "astra-a6/s03/u0",
+        "astra-a6/s03/u1",
+        "astra-a6/s03/u2",
+        "astra-a6/s03/u3",
+        "astra-a6/s04/u0",
+        "astra-a6/s04/u1",
+        "astra-a6/s04/u2",
+        "astra-a6/s04/u3",
+        "astra-a6/s05/u0",
+        "astra-a6/s05/u1",
+        "astra-a6/s05/u2",
+        "astra-a6/s05/u3",
+        "astra-a6/s06/u0",
+        "astra-a6/s06/u1",
+        "astra-a6/s06/u2",
+        "astra-a6/s06/u3",
+        "astra-a6/s07/u0",
+        "astra-a6/s07/u1",
+        "astra-a6/s07/u2",
+        "astra-a6/s07/u3",
+        "astra-a6/s09/u0",
+        "astra-a6/s09/u1",
+        "astra-a6/s09/u2",
+        "astra-a6/s09/u3",
+        "astra-a6/s10/u0",
+        "astra-a6/s10/u1",
+        "astra-a6/s10/u2",
+        "astra-a6/s10/u3",
+        "astra-a6/s11/u0",
+        "astra-a6/s11/u1",
+        "astra-a6/s11/u2",
+        "astra-a6/s11/u3"
+      ],
+      "search_variant": "depth_minus",
+      "selections": {
+        "correction": {
+          "development_pass": true,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": "baseline"
+        },
+        "fixed_shallow": {
+          "development_pass": true,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": "baseline"
+        },
+        "no_phase": {
+          "development_pass": true,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": "baseline"
+        },
+        "search": {
+          "development_pass": true,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": "baseline"
+        }
+      },
+      "split_group_id": "astra-a6/s08/u0",
+      "statuses": {
+        "baseline": "observed",
+        "correction": "observed",
+        "free_nominal": "no_arrival",
+        "no_phase": "observed"
+      },
+      "terminated": {
+        "baseline": false,
+        "correction": false,
+        "free_nominal": true,
+        "no_phase": false
+      }
+    },
+    {
+      "baseline_pass": false,
+      "proposals": {
+        "correction": {
+          "command": {
+            "depth_m": 0.26,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.38
+          },
+          "phase_action": "none",
+          "predicted_pass": null,
+          "preserve_initial": false,
+          "reason": "reduce_crouch_burden",
+          "requires_exact_candidate_preview": true,
+          "use_phase": true
+        },
+        "no_phase": {
+          "command": {
+            "depth_m": 0.26,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.38
+          },
+          "phase_action": "none",
+          "predicted_pass": null,
+          "preserve_initial": false,
+          "reason": "reduce_crouch_burden",
+          "requires_exact_candidate_preview": true,
+          "use_phase": false
+        }
+      },
+      "raw_candidate_pass": {
+        "correction": false,
+        "no_phase": false
+      },
+      "scene_id": "a6s08",
+      "search_training_groups": [
+        "astra-a6/s00/u0",
+        "astra-a6/s00/u1",
+        "astra-a6/s00/u2",
+        "astra-a6/s00/u3",
+        "astra-a6/s01/u0",
+        "astra-a6/s01/u1",
+        "astra-a6/s01/u2",
+        "astra-a6/s01/u3",
+        "astra-a6/s02/u0",
+        "astra-a6/s02/u1",
+        "astra-a6/s02/u2",
+        "astra-a6/s02/u3",
+        "astra-a6/s03/u0",
+        "astra-a6/s03/u1",
+        "astra-a6/s03/u2",
+        "astra-a6/s03/u3",
+        "astra-a6/s04/u0",
+        "astra-a6/s04/u1",
+        "astra-a6/s04/u2",
+        "astra-a6/s04/u3",
+        "astra-a6/s05/u0",
+        "astra-a6/s05/u1",
+        "astra-a6/s05/u2",
+        "astra-a6/s05/u3",
+        "astra-a6/s06/u0",
+        "astra-a6/s06/u1",
+        "astra-a6/s06/u2",
+        "astra-a6/s06/u3",
+        "astra-a6/s07/u0",
+        "astra-a6/s07/u1",
+        "astra-a6/s07/u2",
+        "astra-a6/s07/u3",
+        "astra-a6/s09/u0",
+        "astra-a6/s09/u1",
+        "astra-a6/s09/u2",
+        "astra-a6/s09/u3",
+        "astra-a6/s10/u0",
+        "astra-a6/s10/u1",
+        "astra-a6/s10/u2",
+        "astra-a6/s10/u3",
+        "astra-a6/s11/u0",
+        "astra-a6/s11/u1",
+        "astra-a6/s11/u2",
+        "astra-a6/s11/u3"
+      ],
+      "search_variant": "depth_minus",
+      "selections": {
+        "correction": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "fixed_shallow": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "no_phase": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "search": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        }
+      },
+      "split_group_id": "astra-a6/s08/u1",
+      "statuses": {
+        "baseline": "no_arrival",
+        "correction": "exit_censored",
+        "free_nominal": "exit_censored",
+        "no_phase": "exit_censored"
+      },
+      "terminated": {
+        "baseline": true,
+        "correction": true,
+        "free_nominal": false,
+        "no_phase": true
+      }
+    },
+    {
+      "baseline_pass": false,
+      "proposals": {
+        "correction": {
+          "command": {
+            "depth_m": 0.26,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.38
+          },
+          "phase_action": "none",
+          "predicted_pass": null,
+          "preserve_initial": false,
+          "reason": "reduce_crouch_burden",
+          "requires_exact_candidate_preview": true,
+          "use_phase": true
+        },
+        "no_phase": {
+          "command": {
+            "depth_m": 0.26,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.38
+          },
+          "phase_action": "none",
+          "predicted_pass": null,
+          "preserve_initial": false,
+          "reason": "reduce_crouch_burden",
+          "requires_exact_candidate_preview": true,
+          "use_phase": false
+        }
+      },
+      "raw_candidate_pass": {
+        "correction": false,
+        "no_phase": false
+      },
+      "scene_id": "a6s08",
+      "search_training_groups": [
+        "astra-a6/s00/u0",
+        "astra-a6/s00/u1",
+        "astra-a6/s00/u2",
+        "astra-a6/s00/u3",
+        "astra-a6/s01/u0",
+        "astra-a6/s01/u1",
+        "astra-a6/s01/u2",
+        "astra-a6/s01/u3",
+        "astra-a6/s02/u0",
+        "astra-a6/s02/u1",
+        "astra-a6/s02/u2",
+        "astra-a6/s02/u3",
+        "astra-a6/s03/u0",
+        "astra-a6/s03/u1",
+        "astra-a6/s03/u2",
+        "astra-a6/s03/u3",
+        "astra-a6/s04/u0",
+        "astra-a6/s04/u1",
+        "astra-a6/s04/u2",
+        "astra-a6/s04/u3",
+        "astra-a6/s05/u0",
+        "astra-a6/s05/u1",
+        "astra-a6/s05/u2",
+        "astra-a6/s05/u3",
+        "astra-a6/s06/u0",
+        "astra-a6/s06/u1",
+        "astra-a6/s06/u2",
+        "astra-a6/s06/u3",
+        "astra-a6/s07/u0",
+        "astra-a6/s07/u1",
+        "astra-a6/s07/u2",
+        "astra-a6/s07/u3",
+        "astra-a6/s09/u0",
+        "astra-a6/s09/u1",
+        "astra-a6/s09/u2",
+        "astra-a6/s09/u3",
+        "astra-a6/s10/u0",
+        "astra-a6/s10/u1",
+        "astra-a6/s10/u2",
+        "astra-a6/s10/u3",
+        "astra-a6/s11/u0",
+        "astra-a6/s11/u1",
+        "astra-a6/s11/u2",
+        "astra-a6/s11/u3"
+      ],
+      "search_variant": "depth_minus",
+      "selections": {
+        "correction": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "fixed_shallow": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "no_phase": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "search": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        }
+      },
+      "split_group_id": "astra-a6/s08/u2",
+      "statuses": {
+        "baseline": "no_arrival",
+        "correction": "no_arrival",
+        "free_nominal": "observed",
+        "no_phase": "no_arrival"
+      },
+      "terminated": {
+        "baseline": true,
+        "correction": false,
+        "free_nominal": false,
+        "no_phase": false
+      }
+    },
+    {
+      "baseline_pass": false,
+      "proposals": {
+        "correction": {
+          "command": {
+            "depth_m": 0.26,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.2899999999999998
+          },
+          "phase_action": "earlier_recovery_after_observed_slow_suffix",
+          "predicted_pass": null,
+          "preserve_initial": false,
+          "reason": "reduce_crouch_burden",
+          "requires_exact_candidate_preview": true,
+          "use_phase": true
+        },
+        "no_phase": {
+          "command": {
+            "depth_m": 0.26,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.38
+          },
+          "phase_action": "none",
+          "predicted_pass": null,
+          "preserve_initial": false,
+          "reason": "reduce_crouch_burden",
+          "requires_exact_candidate_preview": true,
+          "use_phase": false
+        }
+      },
+      "raw_candidate_pass": {
+        "correction": false,
+        "no_phase": false
+      },
+      "scene_id": "a6s08",
+      "search_training_groups": [
+        "astra-a6/s00/u0",
+        "astra-a6/s00/u1",
+        "astra-a6/s00/u2",
+        "astra-a6/s00/u3",
+        "astra-a6/s01/u0",
+        "astra-a6/s01/u1",
+        "astra-a6/s01/u2",
+        "astra-a6/s01/u3",
+        "astra-a6/s02/u0",
+        "astra-a6/s02/u1",
+        "astra-a6/s02/u2",
+        "astra-a6/s02/u3",
+        "astra-a6/s03/u0",
+        "astra-a6/s03/u1",
+        "astra-a6/s03/u2",
+        "astra-a6/s03/u3",
+        "astra-a6/s04/u0",
+        "astra-a6/s04/u1",
+        "astra-a6/s04/u2",
+        "astra-a6/s04/u3",
+        "astra-a6/s05/u0",
+        "astra-a6/s05/u1",
+        "astra-a6/s05/u2",
+        "astra-a6/s05/u3",
+        "astra-a6/s06/u0",
+        "astra-a6/s06/u1",
+        "astra-a6/s06/u2",
+        "astra-a6/s06/u3",
+        "astra-a6/s07/u0",
+        "astra-a6/s07/u1",
+        "astra-a6/s07/u2",
+        "astra-a6/s07/u3",
+        "astra-a6/s09/u0",
+        "astra-a6/s09/u1",
+        "astra-a6/s09/u2",
+        "astra-a6/s09/u3",
+        "astra-a6/s10/u0",
+        "astra-a6/s10/u1",
+        "astra-a6/s10/u2",
+        "astra-a6/s10/u3",
+        "astra-a6/s11/u0",
+        "astra-a6/s11/u1",
+        "astra-a6/s11/u2",
+        "astra-a6/s11/u3"
+      ],
+      "search_variant": "depth_minus",
+      "selections": {
+        "correction": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "fixed_shallow": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "no_phase": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "search": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        }
+      },
+      "split_group_id": "astra-a6/s08/u3",
+      "statuses": {
+        "baseline": "observed",
+        "correction": "exit_censored",
+        "free_nominal": "observed",
+        "no_phase": "exit_censored"
+      },
+      "terminated": {
+        "baseline": false,
+        "correction": false,
+        "free_nominal": false,
+        "no_phase": false
+      }
+    },
+    {
+      "baseline_pass": false,
+      "proposals": {
+        "correction": {
+          "command": {
+            "depth_m": 0.26,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.38
+          },
+          "phase_action": "none",
+          "predicted_pass": null,
+          "preserve_initial": false,
+          "reason": "reduce_crouch_burden",
+          "requires_exact_candidate_preview": true,
+          "use_phase": true
+        },
+        "no_phase": {
+          "command": {
+            "depth_m": 0.26,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.38
+          },
+          "phase_action": "none",
+          "predicted_pass": null,
+          "preserve_initial": false,
+          "reason": "reduce_crouch_burden",
+          "requires_exact_candidate_preview": true,
+          "use_phase": false
+        }
+      },
+      "raw_candidate_pass": {
+        "correction": false,
+        "no_phase": false
+      },
+      "scene_id": "a6s09",
+      "search_training_groups": [
+        "astra-a6/s00/u0",
+        "astra-a6/s00/u1",
+        "astra-a6/s00/u2",
+        "astra-a6/s00/u3",
+        "astra-a6/s01/u0",
+        "astra-a6/s01/u1",
+        "astra-a6/s01/u2",
+        "astra-a6/s01/u3",
+        "astra-a6/s02/u0",
+        "astra-a6/s02/u1",
+        "astra-a6/s02/u2",
+        "astra-a6/s02/u3",
+        "astra-a6/s03/u0",
+        "astra-a6/s03/u1",
+        "astra-a6/s03/u2",
+        "astra-a6/s03/u3",
+        "astra-a6/s04/u0",
+        "astra-a6/s04/u1",
+        "astra-a6/s04/u2",
+        "astra-a6/s04/u3",
+        "astra-a6/s05/u0",
+        "astra-a6/s05/u1",
+        "astra-a6/s05/u2",
+        "astra-a6/s05/u3",
+        "astra-a6/s06/u0",
+        "astra-a6/s06/u1",
+        "astra-a6/s06/u2",
+        "astra-a6/s06/u3",
+        "astra-a6/s07/u0",
+        "astra-a6/s07/u1",
+        "astra-a6/s07/u2",
+        "astra-a6/s07/u3",
+        "astra-a6/s08/u0",
+        "astra-a6/s08/u1",
+        "astra-a6/s08/u2",
+        "astra-a6/s08/u3",
+        "astra-a6/s10/u0",
+        "astra-a6/s10/u1",
+        "astra-a6/s10/u2",
+        "astra-a6/s10/u3",
+        "astra-a6/s11/u0",
+        "astra-a6/s11/u1",
+        "astra-a6/s11/u2",
+        "astra-a6/s11/u3"
+      ],
+      "search_variant": "depth_minus",
+      "selections": {
+        "correction": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "fixed_shallow": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "no_phase": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "search": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        }
+      },
+      "split_group_id": "astra-a6/s09/u0",
+      "statuses": {
+        "baseline": "exit_censored",
+        "correction": "observed",
+        "free_nominal": "observed",
+        "no_phase": "observed"
+      },
+      "terminated": {
+        "baseline": true,
+        "correction": false,
+        "free_nominal": false,
+        "no_phase": false
+      }
+    },
+    {
+      "baseline_pass": false,
+      "proposals": {
+        "correction": {
+          "command": {
+            "depth_m": 0.26,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.38
+          },
+          "phase_action": "none",
+          "predicted_pass": null,
+          "preserve_initial": false,
+          "reason": "reduce_crouch_burden",
+          "requires_exact_candidate_preview": true,
+          "use_phase": true
+        },
+        "no_phase": {
+          "command": {
+            "depth_m": 0.26,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.38
+          },
+          "phase_action": "none",
+          "predicted_pass": null,
+          "preserve_initial": false,
+          "reason": "reduce_crouch_burden",
+          "requires_exact_candidate_preview": true,
+          "use_phase": false
+        }
+      },
+      "raw_candidate_pass": {
+        "correction": false,
+        "no_phase": false
+      },
+      "scene_id": "a6s09",
+      "search_training_groups": [
+        "astra-a6/s00/u0",
+        "astra-a6/s00/u1",
+        "astra-a6/s00/u2",
+        "astra-a6/s00/u3",
+        "astra-a6/s01/u0",
+        "astra-a6/s01/u1",
+        "astra-a6/s01/u2",
+        "astra-a6/s01/u3",
+        "astra-a6/s02/u0",
+        "astra-a6/s02/u1",
+        "astra-a6/s02/u2",
+        "astra-a6/s02/u3",
+        "astra-a6/s03/u0",
+        "astra-a6/s03/u1",
+        "astra-a6/s03/u2",
+        "astra-a6/s03/u3",
+        "astra-a6/s04/u0",
+        "astra-a6/s04/u1",
+        "astra-a6/s04/u2",
+        "astra-a6/s04/u3",
+        "astra-a6/s05/u0",
+        "astra-a6/s05/u1",
+        "astra-a6/s05/u2",
+        "astra-a6/s05/u3",
+        "astra-a6/s06/u0",
+        "astra-a6/s06/u1",
+        "astra-a6/s06/u2",
+        "astra-a6/s06/u3",
+        "astra-a6/s07/u0",
+        "astra-a6/s07/u1",
+        "astra-a6/s07/u2",
+        "astra-a6/s07/u3",
+        "astra-a6/s08/u0",
+        "astra-a6/s08/u1",
+        "astra-a6/s08/u2",
+        "astra-a6/s08/u3",
+        "astra-a6/s10/u0",
+        "astra-a6/s10/u1",
+        "astra-a6/s10/u2",
+        "astra-a6/s10/u3",
+        "astra-a6/s11/u0",
+        "astra-a6/s11/u1",
+        "astra-a6/s11/u2",
+        "astra-a6/s11/u3"
+      ],
+      "search_variant": "depth_minus",
+      "selections": {
+        "correction": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "fixed_shallow": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "no_phase": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "search": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        }
+      },
+      "split_group_id": "astra-a6/s09/u1",
+      "statuses": {
+        "baseline": "no_arrival",
+        "correction": "no_arrival",
+        "free_nominal": "observed",
+        "no_phase": "no_arrival"
+      },
+      "terminated": {
+        "baseline": true,
+        "correction": true,
+        "free_nominal": false,
+        "no_phase": true
+      }
+    },
+    {
+      "baseline_pass": false,
+      "proposals": {
+        "correction": {
+          "command": {
+            "depth_m": 0.26,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.38
+          },
+          "phase_action": "none",
+          "predicted_pass": null,
+          "preserve_initial": false,
+          "reason": "reduce_crouch_burden",
+          "requires_exact_candidate_preview": true,
+          "use_phase": true
+        },
+        "no_phase": {
+          "command": {
+            "depth_m": 0.26,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.38
+          },
+          "phase_action": "none",
+          "predicted_pass": null,
+          "preserve_initial": false,
+          "reason": "reduce_crouch_burden",
+          "requires_exact_candidate_preview": true,
+          "use_phase": false
+        }
+      },
+      "raw_candidate_pass": {
+        "correction": false,
+        "no_phase": false
+      },
+      "scene_id": "a6s09",
+      "search_training_groups": [
+        "astra-a6/s00/u0",
+        "astra-a6/s00/u1",
+        "astra-a6/s00/u2",
+        "astra-a6/s00/u3",
+        "astra-a6/s01/u0",
+        "astra-a6/s01/u1",
+        "astra-a6/s01/u2",
+        "astra-a6/s01/u3",
+        "astra-a6/s02/u0",
+        "astra-a6/s02/u1",
+        "astra-a6/s02/u2",
+        "astra-a6/s02/u3",
+        "astra-a6/s03/u0",
+        "astra-a6/s03/u1",
+        "astra-a6/s03/u2",
+        "astra-a6/s03/u3",
+        "astra-a6/s04/u0",
+        "astra-a6/s04/u1",
+        "astra-a6/s04/u2",
+        "astra-a6/s04/u3",
+        "astra-a6/s05/u0",
+        "astra-a6/s05/u1",
+        "astra-a6/s05/u2",
+        "astra-a6/s05/u3",
+        "astra-a6/s06/u0",
+        "astra-a6/s06/u1",
+        "astra-a6/s06/u2",
+        "astra-a6/s06/u3",
+        "astra-a6/s07/u0",
+        "astra-a6/s07/u1",
+        "astra-a6/s07/u2",
+        "astra-a6/s07/u3",
+        "astra-a6/s08/u0",
+        "astra-a6/s08/u1",
+        "astra-a6/s08/u2",
+        "astra-a6/s08/u3",
+        "astra-a6/s10/u0",
+        "astra-a6/s10/u1",
+        "astra-a6/s10/u2",
+        "astra-a6/s10/u3",
+        "astra-a6/s11/u0",
+        "astra-a6/s11/u1",
+        "astra-a6/s11/u2",
+        "astra-a6/s11/u3"
+      ],
+      "search_variant": "depth_minus",
+      "selections": {
+        "correction": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "fixed_shallow": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "no_phase": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "search": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        }
+      },
+      "split_group_id": "astra-a6/s09/u2",
+      "statuses": {
+        "baseline": "observed",
+        "correction": "exit_censored",
+        "free_nominal": "observed",
+        "no_phase": "exit_censored"
+      },
+      "terminated": {
+        "baseline": false,
+        "correction": false,
+        "free_nominal": false,
+        "no_phase": false
+      }
+    },
+    {
+      "baseline_pass": false,
+      "proposals": {
+        "correction": {
+          "command": {
+            "depth_m": 0.26,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.38
+          },
+          "phase_action": "none",
+          "predicted_pass": null,
+          "preserve_initial": false,
+          "reason": "reduce_crouch_burden",
+          "requires_exact_candidate_preview": true,
+          "use_phase": true
+        },
+        "no_phase": {
+          "command": {
+            "depth_m": 0.26,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.38
+          },
+          "phase_action": "none",
+          "predicted_pass": null,
+          "preserve_initial": false,
+          "reason": "reduce_crouch_burden",
+          "requires_exact_candidate_preview": true,
+          "use_phase": false
+        }
+      },
+      "raw_candidate_pass": {
+        "correction": false,
+        "no_phase": false
+      },
+      "scene_id": "a6s09",
+      "search_training_groups": [
+        "astra-a6/s00/u0",
+        "astra-a6/s00/u1",
+        "astra-a6/s00/u2",
+        "astra-a6/s00/u3",
+        "astra-a6/s01/u0",
+        "astra-a6/s01/u1",
+        "astra-a6/s01/u2",
+        "astra-a6/s01/u3",
+        "astra-a6/s02/u0",
+        "astra-a6/s02/u1",
+        "astra-a6/s02/u2",
+        "astra-a6/s02/u3",
+        "astra-a6/s03/u0",
+        "astra-a6/s03/u1",
+        "astra-a6/s03/u2",
+        "astra-a6/s03/u3",
+        "astra-a6/s04/u0",
+        "astra-a6/s04/u1",
+        "astra-a6/s04/u2",
+        "astra-a6/s04/u3",
+        "astra-a6/s05/u0",
+        "astra-a6/s05/u1",
+        "astra-a6/s05/u2",
+        "astra-a6/s05/u3",
+        "astra-a6/s06/u0",
+        "astra-a6/s06/u1",
+        "astra-a6/s06/u2",
+        "astra-a6/s06/u3",
+        "astra-a6/s07/u0",
+        "astra-a6/s07/u1",
+        "astra-a6/s07/u2",
+        "astra-a6/s07/u3",
+        "astra-a6/s08/u0",
+        "astra-a6/s08/u1",
+        "astra-a6/s08/u2",
+        "astra-a6/s08/u3",
+        "astra-a6/s10/u0",
+        "astra-a6/s10/u1",
+        "astra-a6/s10/u2",
+        "astra-a6/s10/u3",
+        "astra-a6/s11/u0",
+        "astra-a6/s11/u1",
+        "astra-a6/s11/u2",
+        "astra-a6/s11/u3"
+      ],
+      "search_variant": "depth_minus",
+      "selections": {
+        "correction": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "fixed_shallow": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "no_phase": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "search": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        }
+      },
+      "split_group_id": "astra-a6/s09/u3",
+      "statuses": {
+        "baseline": "exit_censored",
+        "correction": "exit_censored",
+        "free_nominal": "observed",
+        "no_phase": "exit_censored"
+      },
+      "terminated": {
+        "baseline": false,
+        "correction": false,
+        "free_nominal": false,
+        "no_phase": false
+      }
+    },
+    {
+      "baseline_pass": false,
+      "proposals": {
+        "correction": {
+          "command": {
+            "depth_m": 0.26,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.38
+          },
+          "phase_action": "none",
+          "predicted_pass": null,
+          "preserve_initial": false,
+          "reason": "reduce_crouch_burden",
+          "requires_exact_candidate_preview": true,
+          "use_phase": true
+        },
+        "no_phase": {
+          "command": {
+            "depth_m": 0.26,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.38
+          },
+          "phase_action": "none",
+          "predicted_pass": null,
+          "preserve_initial": false,
+          "reason": "reduce_crouch_burden",
+          "requires_exact_candidate_preview": true,
+          "use_phase": false
+        }
+      },
+      "raw_candidate_pass": {
+        "correction": true,
+        "no_phase": true
+      },
+      "scene_id": "a6s10",
+      "search_training_groups": [
+        "astra-a6/s00/u0",
+        "astra-a6/s00/u1",
+        "astra-a6/s00/u2",
+        "astra-a6/s00/u3",
+        "astra-a6/s01/u0",
+        "astra-a6/s01/u1",
+        "astra-a6/s01/u2",
+        "astra-a6/s01/u3",
+        "astra-a6/s02/u0",
+        "astra-a6/s02/u1",
+        "astra-a6/s02/u2",
+        "astra-a6/s02/u3",
+        "astra-a6/s03/u0",
+        "astra-a6/s03/u1",
+        "astra-a6/s03/u2",
+        "astra-a6/s03/u3",
+        "astra-a6/s04/u0",
+        "astra-a6/s04/u1",
+        "astra-a6/s04/u2",
+        "astra-a6/s04/u3",
+        "astra-a6/s05/u0",
+        "astra-a6/s05/u1",
+        "astra-a6/s05/u2",
+        "astra-a6/s05/u3",
+        "astra-a6/s06/u0",
+        "astra-a6/s06/u1",
+        "astra-a6/s06/u2",
+        "astra-a6/s06/u3",
+        "astra-a6/s07/u0",
+        "astra-a6/s07/u1",
+        "astra-a6/s07/u2",
+        "astra-a6/s07/u3",
+        "astra-a6/s08/u0",
+        "astra-a6/s08/u1",
+        "astra-a6/s08/u2",
+        "astra-a6/s08/u3",
+        "astra-a6/s09/u0",
+        "astra-a6/s09/u1",
+        "astra-a6/s09/u2",
+        "astra-a6/s09/u3",
+        "astra-a6/s11/u0",
+        "astra-a6/s11/u1",
+        "astra-a6/s11/u2",
+        "astra-a6/s11/u3"
+      ],
+      "search_variant": "depth_minus",
+      "selections": {
+        "correction": {
+          "development_pass": true,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": "correction"
+        },
+        "fixed_shallow": {
+          "development_pass": true,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": "depth_minus"
+        },
+        "no_phase": {
+          "development_pass": true,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": "no_phase"
+        },
+        "search": {
+          "development_pass": true,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": "depth_minus"
+        }
+      },
+      "split_group_id": "astra-a6/s10/u0",
+      "statuses": {
+        "baseline": "observed",
+        "correction": "observed",
+        "free_nominal": "observed",
+        "no_phase": "observed"
+      },
+      "terminated": {
+        "baseline": false,
+        "correction": false,
+        "free_nominal": false,
+        "no_phase": false
+      }
+    },
+    {
+      "baseline_pass": true,
+      "proposals": {
+        "correction": {
+          "command": {
+            "depth_m": 0.28,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.38
+          },
+          "phase_action": "none",
+          "predicted_pass": null,
+          "preserve_initial": true,
+          "reason": "preserve_initial_pass",
+          "requires_exact_candidate_preview": true,
+          "use_phase": true
+        },
+        "no_phase": {
+          "command": {
+            "depth_m": 0.28,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.38
+          },
+          "phase_action": "none",
+          "predicted_pass": null,
+          "preserve_initial": true,
+          "reason": "preserve_initial_pass",
+          "requires_exact_candidate_preview": true,
+          "use_phase": false
+        }
+      },
+      "raw_candidate_pass": {
+        "correction": true,
+        "no_phase": true
+      },
+      "scene_id": "a6s10",
+      "search_training_groups": [
+        "astra-a6/s00/u0",
+        "astra-a6/s00/u1",
+        "astra-a6/s00/u2",
+        "astra-a6/s00/u3",
+        "astra-a6/s01/u0",
+        "astra-a6/s01/u1",
+        "astra-a6/s01/u2",
+        "astra-a6/s01/u3",
+        "astra-a6/s02/u0",
+        "astra-a6/s02/u1",
+        "astra-a6/s02/u2",
+        "astra-a6/s02/u3",
+        "astra-a6/s03/u0",
+        "astra-a6/s03/u1",
+        "astra-a6/s03/u2",
+        "astra-a6/s03/u3",
+        "astra-a6/s04/u0",
+        "astra-a6/s04/u1",
+        "astra-a6/s04/u2",
+        "astra-a6/s04/u3",
+        "astra-a6/s05/u0",
+        "astra-a6/s05/u1",
+        "astra-a6/s05/u2",
+        "astra-a6/s05/u3",
+        "astra-a6/s06/u0",
+        "astra-a6/s06/u1",
+        "astra-a6/s06/u2",
+        "astra-a6/s06/u3",
+        "astra-a6/s07/u0",
+        "astra-a6/s07/u1",
+        "astra-a6/s07/u2",
+        "astra-a6/s07/u3",
+        "astra-a6/s08/u0",
+        "astra-a6/s08/u1",
+        "astra-a6/s08/u2",
+        "astra-a6/s08/u3",
+        "astra-a6/s09/u0",
+        "astra-a6/s09/u1",
+        "astra-a6/s09/u2",
+        "astra-a6/s09/u3",
+        "astra-a6/s11/u0",
+        "astra-a6/s11/u1",
+        "astra-a6/s11/u2",
+        "astra-a6/s11/u3"
+      ],
+      "search_variant": "depth_minus",
+      "selections": {
+        "correction": {
+          "development_pass": true,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": "baseline"
+        },
+        "fixed_shallow": {
+          "development_pass": true,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": "baseline"
+        },
+        "no_phase": {
+          "development_pass": true,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": "baseline"
+        },
+        "search": {
+          "development_pass": true,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": "baseline"
+        }
+      },
+      "split_group_id": "astra-a6/s10/u1",
+      "statuses": {
+        "baseline": "observed",
+        "correction": "observed",
+        "free_nominal": "no_arrival",
+        "no_phase": "observed"
+      },
+      "terminated": {
+        "baseline": false,
+        "correction": false,
+        "free_nominal": true,
+        "no_phase": false
+      }
+    },
+    {
+      "baseline_pass": false,
+      "proposals": {
+        "correction": {
+          "command": {
+            "depth_m": 0.26,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.38
+          },
+          "phase_action": "none",
+          "predicted_pass": null,
+          "preserve_initial": false,
+          "reason": "reduce_crouch_burden",
+          "requires_exact_candidate_preview": true,
+          "use_phase": true
+        },
+        "no_phase": {
+          "command": {
+            "depth_m": 0.26,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.38
+          },
+          "phase_action": "none",
+          "predicted_pass": null,
+          "preserve_initial": false,
+          "reason": "reduce_crouch_burden",
+          "requires_exact_candidate_preview": true,
+          "use_phase": false
+        }
+      },
+      "raw_candidate_pass": {
+        "correction": false,
+        "no_phase": false
+      },
+      "scene_id": "a6s10",
+      "search_training_groups": [
+        "astra-a6/s00/u0",
+        "astra-a6/s00/u1",
+        "astra-a6/s00/u2",
+        "astra-a6/s00/u3",
+        "astra-a6/s01/u0",
+        "astra-a6/s01/u1",
+        "astra-a6/s01/u2",
+        "astra-a6/s01/u3",
+        "astra-a6/s02/u0",
+        "astra-a6/s02/u1",
+        "astra-a6/s02/u2",
+        "astra-a6/s02/u3",
+        "astra-a6/s03/u0",
+        "astra-a6/s03/u1",
+        "astra-a6/s03/u2",
+        "astra-a6/s03/u3",
+        "astra-a6/s04/u0",
+        "astra-a6/s04/u1",
+        "astra-a6/s04/u2",
+        "astra-a6/s04/u3",
+        "astra-a6/s05/u0",
+        "astra-a6/s05/u1",
+        "astra-a6/s05/u2",
+        "astra-a6/s05/u3",
+        "astra-a6/s06/u0",
+        "astra-a6/s06/u1",
+        "astra-a6/s06/u2",
+        "astra-a6/s06/u3",
+        "astra-a6/s07/u0",
+        "astra-a6/s07/u1",
+        "astra-a6/s07/u2",
+        "astra-a6/s07/u3",
+        "astra-a6/s08/u0",
+        "astra-a6/s08/u1",
+        "astra-a6/s08/u2",
+        "astra-a6/s08/u3",
+        "astra-a6/s09/u0",
+        "astra-a6/s09/u1",
+        "astra-a6/s09/u2",
+        "astra-a6/s09/u3",
+        "astra-a6/s11/u0",
+        "astra-a6/s11/u1",
+        "astra-a6/s11/u2",
+        "astra-a6/s11/u3"
+      ],
+      "search_variant": "depth_minus",
+      "selections": {
+        "correction": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "fixed_shallow": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "no_phase": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "search": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        }
+      },
+      "split_group_id": "astra-a6/s10/u2",
+      "statuses": {
+        "baseline": "no_arrival",
+        "correction": "no_arrival",
+        "free_nominal": "observed",
+        "no_phase": "no_arrival"
+      },
+      "terminated": {
+        "baseline": true,
+        "correction": true,
+        "free_nominal": false,
+        "no_phase": true
+      }
+    },
+    {
+      "baseline_pass": false,
+      "proposals": {
+        "correction": {
+          "command": {
+            "depth_m": 0.26,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.38
+          },
+          "phase_action": "none",
+          "predicted_pass": null,
+          "preserve_initial": false,
+          "reason": "reduce_crouch_burden",
+          "requires_exact_candidate_preview": true,
+          "use_phase": true
+        },
+        "no_phase": {
+          "command": {
+            "depth_m": 0.26,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.38
+          },
+          "phase_action": "none",
+          "predicted_pass": null,
+          "preserve_initial": false,
+          "reason": "reduce_crouch_burden",
+          "requires_exact_candidate_preview": true,
+          "use_phase": false
+        }
+      },
+      "raw_candidate_pass": {
+        "correction": false,
+        "no_phase": false
+      },
+      "scene_id": "a6s10",
+      "search_training_groups": [
+        "astra-a6/s00/u0",
+        "astra-a6/s00/u1",
+        "astra-a6/s00/u2",
+        "astra-a6/s00/u3",
+        "astra-a6/s01/u0",
+        "astra-a6/s01/u1",
+        "astra-a6/s01/u2",
+        "astra-a6/s01/u3",
+        "astra-a6/s02/u0",
+        "astra-a6/s02/u1",
+        "astra-a6/s02/u2",
+        "astra-a6/s02/u3",
+        "astra-a6/s03/u0",
+        "astra-a6/s03/u1",
+        "astra-a6/s03/u2",
+        "astra-a6/s03/u3",
+        "astra-a6/s04/u0",
+        "astra-a6/s04/u1",
+        "astra-a6/s04/u2",
+        "astra-a6/s04/u3",
+        "astra-a6/s05/u0",
+        "astra-a6/s05/u1",
+        "astra-a6/s05/u2",
+        "astra-a6/s05/u3",
+        "astra-a6/s06/u0",
+        "astra-a6/s06/u1",
+        "astra-a6/s06/u2",
+        "astra-a6/s06/u3",
+        "astra-a6/s07/u0",
+        "astra-a6/s07/u1",
+        "astra-a6/s07/u2",
+        "astra-a6/s07/u3",
+        "astra-a6/s08/u0",
+        "astra-a6/s08/u1",
+        "astra-a6/s08/u2",
+        "astra-a6/s08/u3",
+        "astra-a6/s09/u0",
+        "astra-a6/s09/u1",
+        "astra-a6/s09/u2",
+        "astra-a6/s09/u3",
+        "astra-a6/s11/u0",
+        "astra-a6/s11/u1",
+        "astra-a6/s11/u2",
+        "astra-a6/s11/u3"
+      ],
+      "search_variant": "depth_minus",
+      "selections": {
+        "correction": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "fixed_shallow": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "no_phase": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "search": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        }
+      },
+      "split_group_id": "astra-a6/s10/u3",
+      "statuses": {
+        "baseline": "exit_censored",
+        "correction": "observed",
+        "free_nominal": "no_arrival",
+        "no_phase": "observed"
+      },
+      "terminated": {
+        "baseline": true,
+        "correction": false,
+        "free_nominal": false,
+        "no_phase": false
+      }
+    },
+    {
+      "baseline_pass": false,
+      "proposals": {
+        "correction": {
+          "command": {
+            "depth_m": 0.26,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.38
+          },
+          "phase_action": "none",
+          "predicted_pass": null,
+          "preserve_initial": false,
+          "reason": "reduce_crouch_burden",
+          "requires_exact_candidate_preview": true,
+          "use_phase": true
+        },
+        "no_phase": {
+          "command": {
+            "depth_m": 0.26,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.38
+          },
+          "phase_action": "none",
+          "predicted_pass": null,
+          "preserve_initial": false,
+          "reason": "reduce_crouch_burden",
+          "requires_exact_candidate_preview": true,
+          "use_phase": false
+        }
+      },
+      "raw_candidate_pass": {
+        "correction": true,
+        "no_phase": true
+      },
+      "scene_id": "a6s11",
+      "search_training_groups": [
+        "astra-a6/s00/u0",
+        "astra-a6/s00/u1",
+        "astra-a6/s00/u2",
+        "astra-a6/s00/u3",
+        "astra-a6/s01/u0",
+        "astra-a6/s01/u1",
+        "astra-a6/s01/u2",
+        "astra-a6/s01/u3",
+        "astra-a6/s02/u0",
+        "astra-a6/s02/u1",
+        "astra-a6/s02/u2",
+        "astra-a6/s02/u3",
+        "astra-a6/s03/u0",
+        "astra-a6/s03/u1",
+        "astra-a6/s03/u2",
+        "astra-a6/s03/u3",
+        "astra-a6/s04/u0",
+        "astra-a6/s04/u1",
+        "astra-a6/s04/u2",
+        "astra-a6/s04/u3",
+        "astra-a6/s05/u0",
+        "astra-a6/s05/u1",
+        "astra-a6/s05/u2",
+        "astra-a6/s05/u3",
+        "astra-a6/s06/u0",
+        "astra-a6/s06/u1",
+        "astra-a6/s06/u2",
+        "astra-a6/s06/u3",
+        "astra-a6/s07/u0",
+        "astra-a6/s07/u1",
+        "astra-a6/s07/u2",
+        "astra-a6/s07/u3",
+        "astra-a6/s08/u0",
+        "astra-a6/s08/u1",
+        "astra-a6/s08/u2",
+        "astra-a6/s08/u3",
+        "astra-a6/s09/u0",
+        "astra-a6/s09/u1",
+        "astra-a6/s09/u2",
+        "astra-a6/s09/u3",
+        "astra-a6/s10/u0",
+        "astra-a6/s10/u1",
+        "astra-a6/s10/u2",
+        "astra-a6/s10/u3"
+      ],
+      "search_variant": "depth_minus",
+      "selections": {
+        "correction": {
+          "development_pass": true,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": "correction"
+        },
+        "fixed_shallow": {
+          "development_pass": true,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": "depth_minus"
+        },
+        "no_phase": {
+          "development_pass": true,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": "no_phase"
+        },
+        "search": {
+          "development_pass": true,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": "depth_minus"
+        }
+      },
+      "split_group_id": "astra-a6/s11/u0",
+      "statuses": {
+        "baseline": "exit_censored",
+        "correction": "observed",
+        "free_nominal": "no_arrival",
+        "no_phase": "observed"
+      },
+      "terminated": {
+        "baseline": true,
+        "correction": false,
+        "free_nominal": false,
+        "no_phase": false
+      }
+    },
+    {
+      "baseline_pass": false,
+      "proposals": {
+        "correction": {
+          "command": {
+            "depth_m": 0.26,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.38
+          },
+          "phase_action": "none",
+          "predicted_pass": null,
+          "preserve_initial": false,
+          "reason": "reduce_crouch_burden",
+          "requires_exact_candidate_preview": true,
+          "use_phase": true
+        },
+        "no_phase": {
+          "command": {
+            "depth_m": 0.26,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.38
+          },
+          "phase_action": "none",
+          "predicted_pass": null,
+          "preserve_initial": false,
+          "reason": "reduce_crouch_burden",
+          "requires_exact_candidate_preview": true,
+          "use_phase": false
+        }
+      },
+      "raw_candidate_pass": {
+        "correction": false,
+        "no_phase": false
+      },
+      "scene_id": "a6s11",
+      "search_training_groups": [
+        "astra-a6/s00/u0",
+        "astra-a6/s00/u1",
+        "astra-a6/s00/u2",
+        "astra-a6/s00/u3",
+        "astra-a6/s01/u0",
+        "astra-a6/s01/u1",
+        "astra-a6/s01/u2",
+        "astra-a6/s01/u3",
+        "astra-a6/s02/u0",
+        "astra-a6/s02/u1",
+        "astra-a6/s02/u2",
+        "astra-a6/s02/u3",
+        "astra-a6/s03/u0",
+        "astra-a6/s03/u1",
+        "astra-a6/s03/u2",
+        "astra-a6/s03/u3",
+        "astra-a6/s04/u0",
+        "astra-a6/s04/u1",
+        "astra-a6/s04/u2",
+        "astra-a6/s04/u3",
+        "astra-a6/s05/u0",
+        "astra-a6/s05/u1",
+        "astra-a6/s05/u2",
+        "astra-a6/s05/u3",
+        "astra-a6/s06/u0",
+        "astra-a6/s06/u1",
+        "astra-a6/s06/u2",
+        "astra-a6/s06/u3",
+        "astra-a6/s07/u0",
+        "astra-a6/s07/u1",
+        "astra-a6/s07/u2",
+        "astra-a6/s07/u3",
+        "astra-a6/s08/u0",
+        "astra-a6/s08/u1",
+        "astra-a6/s08/u2",
+        "astra-a6/s08/u3",
+        "astra-a6/s09/u0",
+        "astra-a6/s09/u1",
+        "astra-a6/s09/u2",
+        "astra-a6/s09/u3",
+        "astra-a6/s10/u0",
+        "astra-a6/s10/u1",
+        "astra-a6/s10/u2",
+        "astra-a6/s10/u3"
+      ],
+      "search_variant": "depth_minus",
+      "selections": {
+        "correction": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "fixed_shallow": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "no_phase": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "search": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        }
+      },
+      "split_group_id": "astra-a6/s11/u1",
+      "statuses": {
+        "baseline": "no_arrival",
+        "correction": "exit_censored",
+        "free_nominal": "observed",
+        "no_phase": "exit_censored"
+      },
+      "terminated": {
+        "baseline": true,
+        "correction": false,
+        "free_nominal": false,
+        "no_phase": false
+      }
+    },
+    {
+      "baseline_pass": false,
+      "proposals": {
+        "correction": {
+          "command": {
+            "depth_m": 0.26,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.38
+          },
+          "phase_action": "none",
+          "predicted_pass": null,
+          "preserve_initial": false,
+          "reason": "reduce_crouch_burden",
+          "requires_exact_candidate_preview": true,
+          "use_phase": true
+        },
+        "no_phase": {
+          "command": {
+            "depth_m": 0.26,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.38
+          },
+          "phase_action": "none",
+          "predicted_pass": null,
+          "preserve_initial": false,
+          "reason": "reduce_crouch_burden",
+          "requires_exact_candidate_preview": true,
+          "use_phase": false
+        }
+      },
+      "raw_candidate_pass": {
+        "correction": false,
+        "no_phase": false
+      },
+      "scene_id": "a6s11",
+      "search_training_groups": [
+        "astra-a6/s00/u0",
+        "astra-a6/s00/u1",
+        "astra-a6/s00/u2",
+        "astra-a6/s00/u3",
+        "astra-a6/s01/u0",
+        "astra-a6/s01/u1",
+        "astra-a6/s01/u2",
+        "astra-a6/s01/u3",
+        "astra-a6/s02/u0",
+        "astra-a6/s02/u1",
+        "astra-a6/s02/u2",
+        "astra-a6/s02/u3",
+        "astra-a6/s03/u0",
+        "astra-a6/s03/u1",
+        "astra-a6/s03/u2",
+        "astra-a6/s03/u3",
+        "astra-a6/s04/u0",
+        "astra-a6/s04/u1",
+        "astra-a6/s04/u2",
+        "astra-a6/s04/u3",
+        "astra-a6/s05/u0",
+        "astra-a6/s05/u1",
+        "astra-a6/s05/u2",
+        "astra-a6/s05/u3",
+        "astra-a6/s06/u0",
+        "astra-a6/s06/u1",
+        "astra-a6/s06/u2",
+        "astra-a6/s06/u3",
+        "astra-a6/s07/u0",
+        "astra-a6/s07/u1",
+        "astra-a6/s07/u2",
+        "astra-a6/s07/u3",
+        "astra-a6/s08/u0",
+        "astra-a6/s08/u1",
+        "astra-a6/s08/u2",
+        "astra-a6/s08/u3",
+        "astra-a6/s09/u0",
+        "astra-a6/s09/u1",
+        "astra-a6/s09/u2",
+        "astra-a6/s09/u3",
+        "astra-a6/s10/u0",
+        "astra-a6/s10/u1",
+        "astra-a6/s10/u2",
+        "astra-a6/s10/u3"
+      ],
+      "search_variant": "depth_minus",
+      "selections": {
+        "correction": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "fixed_shallow": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "no_phase": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "search": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        }
+      },
+      "split_group_id": "astra-a6/s11/u2",
+      "statuses": {
+        "baseline": "no_arrival",
+        "correction": "no_arrival",
+        "free_nominal": "no_arrival",
+        "no_phase": "no_arrival"
+      },
+      "terminated": {
+        "baseline": false,
+        "correction": false,
+        "free_nominal": false,
+        "no_phase": false
+      }
+    },
+    {
+      "baseline_pass": false,
+      "proposals": {
+        "correction": {
+          "command": {
+            "depth_m": 0.26,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.2899999999999998
+          },
+          "phase_action": "earlier_recovery_after_observed_slow_suffix",
+          "predicted_pass": null,
+          "preserve_initial": false,
+          "reason": "reduce_crouch_burden",
+          "requires_exact_candidate_preview": true,
+          "use_phase": true
+        },
+        "no_phase": {
+          "command": {
+            "depth_m": 0.26,
+            "onset_lead_m": 1.08,
+            "recovery_offset_m": 1.38
+          },
+          "phase_action": "none",
+          "predicted_pass": null,
+          "preserve_initial": false,
+          "reason": "reduce_crouch_burden",
+          "requires_exact_candidate_preview": true,
+          "use_phase": false
+        }
+      },
+      "raw_candidate_pass": {
+        "correction": false,
+        "no_phase": false
+      },
+      "scene_id": "a6s11",
+      "search_training_groups": [
+        "astra-a6/s00/u0",
+        "astra-a6/s00/u1",
+        "astra-a6/s00/u2",
+        "astra-a6/s00/u3",
+        "astra-a6/s01/u0",
+        "astra-a6/s01/u1",
+        "astra-a6/s01/u2",
+        "astra-a6/s01/u3",
+        "astra-a6/s02/u0",
+        "astra-a6/s02/u1",
+        "astra-a6/s02/u2",
+        "astra-a6/s02/u3",
+        "astra-a6/s03/u0",
+        "astra-a6/s03/u1",
+        "astra-a6/s03/u2",
+        "astra-a6/s03/u3",
+        "astra-a6/s04/u0",
+        "astra-a6/s04/u1",
+        "astra-a6/s04/u2",
+        "astra-a6/s04/u3",
+        "astra-a6/s05/u0",
+        "astra-a6/s05/u1",
+        "astra-a6/s05/u2",
+        "astra-a6/s05/u3",
+        "astra-a6/s06/u0",
+        "astra-a6/s06/u1",
+        "astra-a6/s06/u2",
+        "astra-a6/s06/u3",
+        "astra-a6/s07/u0",
+        "astra-a6/s07/u1",
+        "astra-a6/s07/u2",
+        "astra-a6/s07/u3",
+        "astra-a6/s08/u0",
+        "astra-a6/s08/u1",
+        "astra-a6/s08/u2",
+        "astra-a6/s08/u3",
+        "astra-a6/s09/u0",
+        "astra-a6/s09/u1",
+        "astra-a6/s09/u2",
+        "astra-a6/s09/u3",
+        "astra-a6/s10/u0",
+        "astra-a6/s10/u1",
+        "astra-a6/s10/u2",
+        "astra-a6/s10/u3"
+      ],
+      "search_variant": "depth_minus",
+      "selections": {
+        "correction": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "fixed_shallow": {
+          "development_pass": true,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": "depth_minus"
+        },
+        "no_phase": {
+          "development_pass": false,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": null
+        },
+        "search": {
+          "development_pass": true,
+          "scope": "exact absent-preview development descriptor; no present result",
+          "selected": "depth_minus"
+        }
+      },
+      "split_group_id": "astra-a6/s11/u3",
+      "statuses": {
+        "baseline": "observed",
+        "correction": "observed",
+        "free_nominal": "exit_censored",
+        "no_phase": "observed"
+      },
+      "terminated": {
+        "baseline": false,
+        "correction": false,
+        "free_nominal": false,
+        "no_phase": false
+      }
+    }
+  ],
+  "scenes": 12,
+  "schema_version": "astra-a12-development-comparison-v1",
+  "scientific_previews": 192,
+  "source_hashes": {
+    "/home/linjiw/scene2motion/outputs/astra_a10_half_step_v1/response_group0.json": "d49f86e0c3ef084a151e33d42c404683831fde3f6c2cf287c416418b79a9e6b6",
+    "/home/linjiw/scene2motion/outputs/astra_a10_half_step_v1/response_group1.json": "3f1aaca701680e615cf9283f3bba5d894cbd66036592d749384f7c13e35f2cb5",
+    "/home/linjiw/scene2motion/outputs/astra_a12_progress_correction_v1/response_group0.json": "1e7b16b292b3de5c5eecad9c4e9950b2303ea55d1f41d01abc686b1ead45385a",
+    "/home/linjiw/scene2motion/outputs/astra_a12_progress_correction_v1/response_group1.json": "e7631f2dc7b76ab1730e28557225bfc683769bf02cd628f3fcbbd68a01838e95",
+    "/tmp/s2m-a12-f00b4a5/docs/astra-a12-progress-correction-protocol.md": "ff13b70ca57cc672fa02dd71a2b27fc556adc975365fe290f3f827afd41fc2a2",
+    "/tmp/s2m-a12-f00b4a5/experiments/analyze_astra_a12_progress_correction.py": "6eb7d26ebdc60f463c98fdefb576d30896680ff7a7b07de914cf0c8207fcdfb1",
+    "/tmp/s2m-a12-f00b4a5/experiments/astra_a12_progress_correction.py": "2b81c2427a1536457bfa0cd57bda10b7e2f63862cd7b11a8026d691b784f9969",
+    "/tmp/s2m-a12-f00b4a5/scene2motion/progress_duck_correction.py": "29ca707566a3ba2fe182b801db0f4cbce574b7b072b93c67b9c78a0336a15012"
+  },
+  "statuses": {
+    "baseline": {
+      "exit_censored": 12,
+      "no_arrival": 12,
+      "observed": 22,
+      "recovery_censored": 2
+    },
+    "correction": {
+      "exit_censored": 10,
+      "no_arrival": 9,
+      "observed": 28,
+      "recovery_censored": 1
+    },
+    "free_nominal": {
+      "exit_censored": 7,
+      "no_arrival": 14,
+      "observed": 27
+    },
+    "no_phase": {
+      "exit_censored": 10,
+      "no_arrival": 9,
+      "observed": 28,
+      "recovery_censored": 1
+    }
+  }
+}

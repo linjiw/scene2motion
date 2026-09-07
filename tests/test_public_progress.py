@@ -87,3 +87,29 @@ def test_static_assets_and_internal_anchors_exist(page):
         assert allowed(target.resolve().relative_to(ROOT).as_posix()), ("missing from publication allowlist", page, url)
         if not value.path and value.fragment:
             assert value.fragment in parsed.ids, (page, url)
+
+
+def test_recent_progress_keeps_partial_gate_separate_from_pilot_rate():
+    data = progress.snapshot()['recent']
+    assert data['a16']['arms']['no_phase']['selected_passes'] == 5
+    assert data['a16']['arms']['fixed_shallow']['selected_passes'] == 4
+    assert data['a17']['arms'] is None
+    assert data['a17']['full_cohort_executed'] is False
+    assert data['a17']['development_lead_gate']['selected_net_gain_over36'] == 0
+    assert data['a17']['new_unique_scientific_previews'] == 2
+    assert data['a17']['new_context_workload_executions'] == 62
+    assert data['a17']['unexecuted_planned_jobs'] == 35
+
+
+@pytest.mark.parametrize('mutation', ['gate', 'absolute_rates', 'tier'])
+def test_recent_narrative_refuses_changed_evidence(mutation):
+    import json
+    data = {name: json.loads((ROOT/path).read_text()) for name, path in progress.SOURCES.items()}
+    if mutation == 'gate':
+        data['a17']['development_lead_gate']['pass'] = True
+    elif mutation == 'absolute_rates':
+        data['a17']['arms'] = {'no_phase': {'assigned': 36, 'passes': 0}}
+    else:
+        data['a17']['present_evaluations'] = 64
+    with pytest.raises(ValueError):
+        progress.recent_snapshot(data, ROOT)

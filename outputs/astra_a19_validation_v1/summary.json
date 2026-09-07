@@ -1,0 +1,33 @@
+{
+  "full_cpu_suite": {
+    "passed": 1352,
+    "elapsed_s": 205.32,
+    "note": "Collected before the final added canonical-batch test; that test passed in the focused follow-up."
+  },
+  "focused_research_and_page_tests": {
+    "passed": 42
+  },
+  "native_figure_visually_inspected": true,
+  "desktop_and_mobile_visually_inspected": true,
+  "viewport_and_document_width_px": {
+    "desktop": [
+      1440,
+      1440
+    ],
+    "mobile": [
+      390,
+      390
+    ]
+  },
+  "a18_status": "closed_failed_force_gate",
+  "a19_status": "stopped_resource_abort",
+  "joint_performance_improvement_established": false,
+  "source_hashes": {
+    "outputs/astra_a18_g1_contact_v1/summary.json": "ec7de62d6090e37f2d7ae36146d24c0a232a5d2b154697432417b1cad88e3790",
+    "outputs/astra_a19_prefix_audit_v1/summary.json": "8fec78b98b1b1ba13b2697ee92bc567a16db217986f8395229c6358a692b5e08",
+    "outputs/astra_a19_native_figures_v1/receipt.json": "6b01cca5dc2311d7ac90a5c0cd9d3d1b41c05c8cdbe2c865cc5b0cf352e78b5c",
+    "outputs/astra_a19_validation_v1/cpu_tests.log": "3b6d0d9339e349415919e12d935d25a78c538d3a989ee46fad7a9c4b75fb535c",
+    "outputs/astra_a19_validation_v1/desktop.png": "824a35ed64ad774b45f06102c79a8bcffef7d53310d152f730f791c7810b9998",
+    "outputs/astra_a19_validation_v1/mobile.png": "aed677d714d795832df6f24323f00017fc8d3306fbccb4d45f5b9831922c0fbf"
+  }
+}

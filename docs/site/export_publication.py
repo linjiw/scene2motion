@@ -14,6 +14,8 @@ from build_progress import SOURCES
 
 ROOT = Path(__file__).resolve().parents[2]
 EXTRA = {
+    "experiments/analyze_astra_a18_contact.py", "scene2motion/joint_duck_timing.py",
+    "outputs/astra_a19_validation_v1/summary.json",
     "astra.md", "docs/.nojekyll", "docs/index.html", "docs/progress.json",
     "docs/ramp-exp031-constructive-step-repair-result-2026-09-04.md",
     "docs/ramp-exp024-reference-contract-result-2026-09-04.md",

@@ -1,0 +1,574 @@
+{
+  "capacity_doubling_tested": false,
+  "detection_table": [
+    {
+      "all_robot_pair_point_observations": 200,
+      "live_collider_path": "/World/envs/env_0/Robot/left_ankle_roll_link/collisions/mesh_3/capsule",
+      "nominal_surface_gap_m": -0.002,
+      "pass": false,
+      "probe_local_center_m": [
+        0.16499767447948646,
+        0.11850645393133163,
+        0.2181366187971514
+      ],
+      "probe_radius_m": 0.025,
+      "slot": 0,
+      "source_collider": "/g1/left_ankle_roll_link/collisions/mesh_3/capsule",
+      "target_body": "left_ankle_roll_link",
+      "target_normal_impulse_ns": 0.0,
+      "target_point_observations": 200
+    },
+    {
+      "all_robot_pair_point_observations": 200,
+      "live_collider_path": "/World/envs/env_1/Robot/left_knee_link/collisions/mesh_0/capsule",
+      "nominal_surface_gap_m": -0.002,
+      "pass": false,
+      "probe_local_center_m": [
+        0.09299767199158668,
+        0.11860089749097824,
+        0.5607042610645294
+      ],
+      "probe_radius_m": 0.025,
+      "slot": 1,
+      "source_collider": "/g1/left_knee_link/collisions/mesh_0/capsule",
+      "target_body": "left_knee_link",
+      "target_normal_impulse_ns": 0.0,
+      "target_point_observations": 200
+    },
+    {
+      "all_robot_pair_point_observations": 200,
+      "live_collider_path": "/World/envs/env_2/Robot/torso_link/collisions/mesh_3/capsule",
+      "nominal_surface_gap_m": -0.002,
+      "pass": false,
+      "probe_local_center_m": [
+        0.09703650367632508,
+        3.619990057753078e-08,
+        1.4539999915288209
+      ],
+      "probe_radius_m": 0.025,
+      "slot": 2,
+      "source_collider": "/g1/torso_link/collisions/mesh_3/capsule",
+      "target_body": "torso_link",
+      "target_normal_impulse_ns": 0.0,
+      "target_point_observations": 200
+    },
+    {
+      "all_robot_pair_point_observations": 13,
+      "live_collider_path": "/World/envs/env_3/Robot/left_ankle_roll_link/collisions/mesh_3/capsule",
+      "nominal_surface_gap_m": -0.01,
+      "pass": false,
+      "probe_local_center_m": [
+        0.15699767447948648,
+        0.11850645393133163,
+        0.2181366187971514
+      ],
+      "probe_radius_m": 0.025,
+      "slot": 3,
+      "source_collider": "/g1/left_ankle_roll_link/collisions/mesh_3/capsule",
+      "target_body": "left_ankle_roll_link",
+      "target_normal_impulse_ns": 0.0,
+      "target_point_observations": 13
+    },
+    {
+      "all_robot_pair_point_observations": 50,
+      "live_collider_path": "/World/envs/env_4/Robot/left_knee_link/collisions/mesh_0/capsule",
+      "nominal_surface_gap_m": -0.01,
+      "pass": false,
+      "probe_local_center_m": [
+        0.08499767199158668,
+        0.11860089749097824,
+        0.5607042610645294
+      ],
+      "probe_radius_m": 0.025,
+      "slot": 4,
+      "source_collider": "/g1/left_knee_link/collisions/mesh_0/capsule",
+      "target_body": "left_knee_link",
+      "target_normal_impulse_ns": 0.0,
+      "target_point_observations": 50
+    },
+    {
+      "all_robot_pair_point_observations": 200,
+      "live_collider_path": "/World/envs/env_5/Robot/torso_link/collisions/mesh_3/capsule",
+      "nominal_surface_gap_m": -0.01,
+      "pass": false,
+      "probe_local_center_m": [
+        0.08903650367632508,
+        3.619990057753078e-08,
+        1.4539999915288209
+      ],
+      "probe_radius_m": 0.025,
+      "slot": 5,
+      "source_collider": "/g1/torso_link/collisions/mesh_3/capsule",
+      "target_body": "torso_link",
+      "target_normal_impulse_ns": 0.0,
+      "target_point_observations": 200
+    },
+    {
+      "all_robot_pair_point_observations": 200,
+      "live_collider_path": "/World/envs/env_6/Robot/left_ankle_roll_link/collisions/mesh_3/capsule",
+      "nominal_surface_gap_m": -0.002,
+      "pass": false,
+      "probe_local_center_m": [
+        0.16499767447948646,
+        0.11850645393133163,
+        0.2181366187971514
+      ],
+      "probe_radius_m": 0.025,
+      "slot": 6,
+      "source_collider": "/g1/left_ankle_roll_link/collisions/mesh_3/capsule",
+      "target_body": "left_ankle_roll_link",
+      "target_normal_impulse_ns": 0.0,
+      "target_point_observations": 200
+    },
+    {
+      "all_robot_pair_point_observations": 200,
+      "live_collider_path": "/World/envs/env_7/Robot/left_knee_link/collisions/mesh_0/capsule",
+      "nominal_surface_gap_m": -0.002,
+      "pass": false,
+      "probe_local_center_m": [
+        0.09299767199158668,
+        0.11860089749097824,
+        0.5607042610645294
+      ],
+      "probe_radius_m": 0.025,
+      "slot": 7,
+      "source_collider": "/g1/left_knee_link/collisions/mesh_0/capsule",
+      "target_body": "left_knee_link",
+      "target_normal_impulse_ns": 0.0,
+      "target_point_observations": 200
+    },
+    {
+      "all_robot_pair_point_observations": 200,
+      "live_collider_path": "/World/envs/env_8/Robot/torso_link/collisions/mesh_3/capsule",
+      "nominal_surface_gap_m": -0.002,
+      "pass": false,
+      "probe_local_center_m": [
+        0.09703650367632508,
+        3.619990057753078e-08,
+        1.4539999915288209
+      ],
+      "probe_radius_m": 0.025,
+      "slot": 8,
+      "source_collider": "/g1/torso_link/collisions/mesh_3/capsule",
+      "target_body": "torso_link",
+      "target_normal_impulse_ns": 0.0,
+      "target_point_observations": 200
+    },
+    {
+      "all_robot_pair_point_observations": 13,
+      "live_collider_path": "/World/envs/env_9/Robot/left_ankle_roll_link/collisions/mesh_3/capsule",
+      "nominal_surface_gap_m": -0.01,
+      "pass": false,
+      "probe_local_center_m": [
+        0.15699767447948648,
+        0.11850645393133163,
+        0.2181366187971514
+      ],
+      "probe_radius_m": 0.025,
+      "slot": 9,
+      "source_collider": "/g1/left_ankle_roll_link/collisions/mesh_3/capsule",
+      "target_body": "left_ankle_roll_link",
+      "target_normal_impulse_ns": 0.0,
+      "target_point_observations": 13
+    },
+    {
+      "all_robot_pair_point_observations": 50,
+      "live_collider_path": "/World/envs/env_10/Robot/left_knee_link/collisions/mesh_0/capsule",
+      "nominal_surface_gap_m": -0.01,
+      "pass": false,
+      "probe_local_center_m": [
+        0.08499767199158668,
+        0.11860089749097824,
+        0.5607042610645294
+      ],
+      "probe_radius_m": 0.025,
+      "slot": 10,
+      "source_collider": "/g1/left_knee_link/collisions/mesh_0/capsule",
+      "target_body": "left_knee_link",
+      "target_normal_impulse_ns": 0.0,
+      "target_point_observations": 50
+    },
+    {
+      "all_robot_pair_point_observations": 200,
+      "live_collider_path": "/World/envs/env_11/Robot/torso_link/collisions/mesh_3/capsule",
+      "nominal_surface_gap_m": -0.01,
+      "pass": false,
+      "probe_local_center_m": [
+        0.08903650367632508,
+        3.619990057753078e-08,
+        1.4539999915288209
+      ],
+      "probe_radius_m": 0.025,
+      "slot": 11,
+      "source_collider": "/g1/torso_link/collisions/mesh_3/capsule",
+      "target_body": "torso_link",
+      "target_normal_impulse_ns": 0.0,
+      "target_point_observations": 200
+    },
+    {
+      "all_robot_pair_point_observations": 200,
+      "live_collider_path": "/World/envs/env_12/Robot/left_ankle_roll_link/collisions/mesh_3/capsule",
+      "nominal_surface_gap_m": -0.002,
+      "pass": false,
+      "probe_local_center_m": [
+        0.16499767447948646,
+        0.11850645393133163,
+        0.2181366187971514
+      ],
+      "probe_radius_m": 0.025,
+      "slot": 12,
+      "source_collider": "/g1/left_ankle_roll_link/collisions/mesh_3/capsule",
+      "target_body": "left_ankle_roll_link",
+      "target_normal_impulse_ns": 0.0,
+      "target_point_observations": 200
+    },
+    {
+      "all_robot_pair_point_observations": 200,
+      "live_collider_path": "/World/envs/env_13/Robot/left_knee_link/collisions/mesh_0/capsule",
+      "nominal_surface_gap_m": -0.002,
+      "pass": false,
+      "probe_local_center_m": [
+        0.09299767199158668,
+        0.11860089749097824,
+        0.5607042610645294
+      ],
+      "probe_radius_m": 0.025,
+      "slot": 13,
+      "source_collider": "/g1/left_knee_link/collisions/mesh_0/capsule",
+      "target_body": "left_knee_link",
+      "target_normal_impulse_ns": 0.0,
+      "target_point_observations": 200
+    },
+    {
+      "all_robot_pair_point_observations": 200,
+      "live_collider_path": "/World/envs/env_14/Robot/torso_link/collisions/mesh_3/capsule",
+      "nominal_surface_gap_m": -0.002,
+      "pass": false,
+      "probe_local_center_m": [
+        0.09703650367632508,
+        3.619990057753078e-08,
+        1.4539999915288209
+      ],
+      "probe_radius_m": 0.025,
+      "slot": 14,
+      "source_collider": "/g1/torso_link/collisions/mesh_3/capsule",
+      "target_body": "torso_link",
+      "target_normal_impulse_ns": 0.0,
+      "target_point_observations": 200
+    },
+    {
+      "all_robot_pair_point_observations": 13,
+      "live_collider_path": "/World/envs/env_15/Robot/left_ankle_roll_link/collisions/mesh_3/capsule",
+      "nominal_surface_gap_m": -0.01,
+      "pass": false,
+      "probe_local_center_m": [
+        0.15699767447948648,
+        0.11850645393133163,
+        0.2181366187971514
+      ],
+      "probe_radius_m": 0.025,
+      "slot": 15,
+      "source_collider": "/g1/left_ankle_roll_link/collisions/mesh_3/capsule",
+      "target_body": "left_ankle_roll_link",
+      "target_normal_impulse_ns": 0.0,
+      "target_point_observations": 13
+    },
+    {
+      "all_robot_pair_point_observations": 50,
+      "live_collider_path": "/World/envs/env_16/Robot/left_knee_link/collisions/mesh_0/capsule",
+      "nominal_surface_gap_m": -0.01,
+      "pass": false,
+      "probe_local_center_m": [
+        0.08499767199158668,
+        0.11860089749097824,
+        0.5607042610645294
+      ],
+      "probe_radius_m": 0.025,
+      "slot": 16,
+      "source_collider": "/g1/left_knee_link/collisions/mesh_0/capsule",
+      "target_body": "left_knee_link",
+      "target_normal_impulse_ns": 0.0,
+      "target_point_observations": 50
+    },
+    {
+      "all_robot_pair_point_observations": 200,
+      "live_collider_path": "/World/envs/env_17/Robot/torso_link/collisions/mesh_3/capsule",
+      "nominal_surface_gap_m": -0.01,
+      "pass": false,
+      "probe_local_center_m": [
+        0.08903650367632508,
+        3.619990057753078e-08,
+        1.4539999915288209
+      ],
+      "probe_radius_m": 0.025,
+      "slot": 17,
+      "source_collider": "/g1/torso_link/collisions/mesh_3/capsule",
+      "target_body": "torso_link",
+      "target_normal_impulse_ns": 0.0,
+      "target_point_observations": 200
+    },
+    {
+      "all_robot_pair_point_observations": 200,
+      "live_collider_path": "/World/envs/env_18/Robot/left_ankle_roll_link/collisions/mesh_3/capsule",
+      "nominal_surface_gap_m": -0.002,
+      "pass": false,
+      "probe_local_center_m": [
+        0.16499767447948646,
+        0.11850645393133163,
+        0.2181366187971514
+      ],
+      "probe_radius_m": 0.025,
+      "slot": 18,
+      "source_collider": "/g1/left_ankle_roll_link/collisions/mesh_3/capsule",
+      "target_body": "left_ankle_roll_link",
+      "target_normal_impulse_ns": 0.0,
+      "target_point_observations": 200
+    },
+    {
+      "all_robot_pair_point_observations": 200,
+      "live_collider_path": "/World/envs/env_19/Robot/left_knee_link/collisions/mesh_0/capsule",
+      "nominal_surface_gap_m": -0.002,
+      "pass": false,
+      "probe_local_center_m": [
+        0.09299767199158668,
+        0.11860089749097824,
+        0.5607042610645294
+      ],
+      "probe_radius_m": 0.025,
+      "slot": 19,
+      "source_collider": "/g1/left_knee_link/collisions/mesh_0/capsule",
+      "target_body": "left_knee_link",
+      "target_normal_impulse_ns": 0.0,
+      "target_point_observations": 200
+    },
+    {
+      "all_robot_pair_point_observations": 200,
+      "live_collider_path": "/World/envs/env_20/Robot/torso_link/collisions/mesh_3/capsule",
+      "nominal_surface_gap_m": -0.002,
+      "pass": false,
+      "probe_local_center_m": [
+        0.09703650367632508,
+        3.619990057753078e-08,
+        1.4539999915288209
+      ],
+      "probe_radius_m": 0.025,
+      "slot": 20,
+      "source_collider": "/g1/torso_link/collisions/mesh_3/capsule",
+      "target_body": "torso_link",
+      "target_normal_impulse_ns": 0.0,
+      "target_point_observations": 200
+    },
+    {
+      "all_robot_pair_point_observations": 13,
+      "live_collider_path": "/World/envs/env_21/Robot/left_ankle_roll_link/collisions/mesh_3/capsule",
+      "nominal_surface_gap_m": -0.01,
+      "pass": false,
+      "probe_local_center_m": [
+        0.15699767447948648,
+        0.11850645393133163,
+        0.2181366187971514
+      ],
+      "probe_radius_m": 0.025,
+      "slot": 21,
+      "source_collider": "/g1/left_ankle_roll_link/collisions/mesh_3/capsule",
+      "target_body": "left_ankle_roll_link",
+      "target_normal_impulse_ns": 0.0,
+      "target_point_observations": 13
+    },
+    {
+      "all_robot_pair_point_observations": 50,
+      "live_collider_path": "/World/envs/env_22/Robot/left_knee_link/collisions/mesh_0/capsule",
+      "nominal_surface_gap_m": -0.01,
+      "pass": false,
+      "probe_local_center_m": [
+        0.08499767199158668,
+        0.11860089749097824,
+        0.5607042610645294
+      ],
+      "probe_radius_m": 0.025,
+      "slot": 22,
+      "source_collider": "/g1/left_knee_link/collisions/mesh_0/capsule",
+      "target_body": "left_knee_link",
+      "target_normal_impulse_ns": 0.0,
+      "target_point_observations": 50
+    },
+    {
+      "all_robot_pair_point_observations": 200,
+      "live_collider_path": "/World/envs/env_23/Robot/torso_link/collisions/mesh_3/capsule",
+      "nominal_surface_gap_m": -0.01,
+      "pass": false,
+      "probe_local_center_m": [
+        0.08903650367632508,
+        3.619990057753078e-08,
+        1.4539999915288209
+      ],
+      "probe_radius_m": 0.025,
+      "slot": 23,
+      "source_collider": "/g1/torso_link/collisions/mesh_3/capsule",
+      "target_body": "torso_link",
+      "target_normal_impulse_ns": 0.0,
+      "target_point_observations": 200
+    },
+    {
+      "all_robot_pair_point_observations": 200,
+      "live_collider_path": "/World/envs/env_24/Robot/left_ankle_roll_link/collisions/mesh_3/capsule",
+      "nominal_surface_gap_m": -0.002,
+      "pass": false,
+      "probe_local_center_m": [
+        0.16499767447948646,
+        0.11850645393133163,
+        0.2181366187971514
+      ],
+      "probe_radius_m": 0.025,
+      "slot": 24,
+      "source_collider": "/g1/left_ankle_roll_link/collisions/mesh_3/capsule",
+      "target_body": "left_ankle_roll_link",
+      "target_normal_impulse_ns": 0.0,
+      "target_point_observations": 200
+    },
+    {
+      "all_robot_pair_point_observations": 200,
+      "live_collider_path": "/World/envs/env_25/Robot/left_knee_link/collisions/mesh_0/capsule",
+      "nominal_surface_gap_m": -0.002,
+      "pass": false,
+      "probe_local_center_m": [
+        0.09299767199158668,
+        0.11860089749097824,
+        0.5607042610645294
+      ],
+      "probe_radius_m": 0.025,
+      "slot": 25,
+      "source_collider": "/g1/left_knee_link/collisions/mesh_0/capsule",
+      "target_body": "left_knee_link",
+      "target_normal_impulse_ns": 0.0,
+      "target_point_observations": 200
+    },
+    {
+      "all_robot_pair_point_observations": 200,
+      "live_collider_path": "/World/envs/env_26/Robot/torso_link/collisions/mesh_3/capsule",
+      "nominal_surface_gap_m": -0.002,
+      "pass": false,
+      "probe_local_center_m": [
+        0.09703650367632508,
+        3.619990057753078e-08,
+        1.4539999915288209
+      ],
+      "probe_radius_m": 0.025,
+      "slot": 26,
+      "source_collider": "/g1/torso_link/collisions/mesh_3/capsule",
+      "target_body": "torso_link",
+      "target_normal_impulse_ns": 0.0,
+      "target_point_observations": 200
+    },
+    {
+      "all_robot_pair_point_observations": 13,
+      "live_collider_path": "/World/envs/env_27/Robot/left_ankle_roll_link/collisions/mesh_3/capsule",
+      "nominal_surface_gap_m": -0.01,
+      "pass": false,
+      "probe_local_center_m": [
+        0.15699767447948648,
+        0.11850645393133163,
+        0.2181366187971514
+      ],
+      "probe_radius_m": 0.025,
+      "slot": 27,
+      "source_collider": "/g1/left_ankle_roll_link/collisions/mesh_3/capsule",
+      "target_body": "left_ankle_roll_link",
+      "target_normal_impulse_ns": 0.0,
+      "target_point_observations": 13
+    },
+    {
+      "all_robot_pair_point_observations": 50,
+      "live_collider_path": "/World/envs/env_28/Robot/left_knee_link/collisions/mesh_0/capsule",
+      "nominal_surface_gap_m": -0.01,
+      "pass": false,
+      "probe_local_center_m": [
+        0.08499767199158668,
+        0.11860089749097824,
+        0.5607042610645294
+      ],
+      "probe_radius_m": 0.025,
+      "slot": 28,
+      "source_collider": "/g1/left_knee_link/collisions/mesh_0/capsule",
+      "target_body": "left_knee_link",
+      "target_normal_impulse_ns": 0.0,
+      "target_point_observations": 50
+    },
+    {
+      "all_robot_pair_point_observations": 200,
+      "live_collider_path": "/World/envs/env_29/Robot/torso_link/collisions/mesh_3/capsule",
+      "nominal_surface_gap_m": -0.01,
+      "pass": false,
+      "probe_local_center_m": [
+        0.08903650367632508,
+        3.619990057753078e-08,
+        1.4539999915288209
+      ],
+      "probe_radius_m": 0.025,
+      "slot": 29,
+      "source_collider": "/g1/torso_link/collisions/mesh_3/capsule",
+      "target_body": "torso_link",
+      "target_normal_impulse_ns": 0.0,
+      "target_point_observations": 200
+    },
+    {
+      "all_robot_pair_point_observations": 200,
+      "live_collider_path": "/World/envs/env_30/Robot/left_ankle_roll_link/collisions/mesh_3/capsule",
+      "nominal_surface_gap_m": -0.002,
+      "pass": false,
+      "probe_local_center_m": [
+        0.16499767447948646,
+        0.11850645393133163,
+        0.2181366187971514
+      ],
+      "probe_radius_m": 0.025,
+      "slot": 30,
+      "source_collider": "/g1/left_ankle_roll_link/collisions/mesh_3/capsule",
+      "target_body": "left_ankle_roll_link",
+      "target_normal_impulse_ns": 0.0,
+      "target_point_observations": 200
+    },
+    {
+      "all_robot_pair_point_observations": 200,
+      "live_collider_path": "/World/envs/env_31/Robot/left_knee_link/collisions/mesh_0/capsule",
+      "nominal_surface_gap_m": -0.002,
+      "pass": false,
+      "probe_local_center_m": [
+        0.09299767199158668,
+        0.11860089749097824,
+        0.5607042610645294
+      ],
+      "probe_radius_m": 0.025,
+      "slot": 31,
+      "source_collider": "/g1/left_knee_link/collisions/mesh_0/capsule",
+      "target_body": "left_knee_link",
+      "target_normal_impulse_ns": 0.0,
+      "target_point_observations": 200
+    }
+  ],
+  "force_sensitivity_validated": false,
+  "interpretation": "Points were reported on all32 induced-overlap placements, but reported impulses were zero. Force sensitivity remains unresolved; this does not distinguish stimulus insufficiency from reader behavior.",
+  "jobs_launched": 2,
+  "jobs_unlaunched": 4,
+  "observer_states_exact": true,
+  "operational_instrument_exposures": 64,
+  "schema_version": "astra-a18-bounded-closure-v1",
+  "source_hashes": {
+    "/home/linjiw/scene2motion/outputs/astra_a18_g1_contact_v1/identity.json": "096d75fc5c9b622a3c5f7ec3c46423a7739713dc7d83024ff5eea87930228988",
+    "/home/linjiw/scene2motion/outputs/astra_a18_g1_contact_v1/positive_base/eval/contacts.json": "a3e72d5dd7ccb9ae56d09798d676506f222ad38d6274bad6d1591aa460ca7aab",
+    "/home/linjiw/scene2motion/outputs/astra_a18_g1_contact_v1/positive_base/eval/states.npz": "617d15ef5004562252ece8b8d9e3264b9ae2958fbfacfae316525f6729fc79c1",
+    "/home/linjiw/scene2motion/outputs/astra_a18_g1_contact_v1/positive_base/launch.json": "ad851efb2a524300ba2f8bef4219cd8fa6a5e2b9573c99daa4396b3d6d368794",
+    "/home/linjiw/scene2motion/outputs/astra_a18_g1_contact_v1/positive_base/process.json": "58301b9e38d5a80ff63e2bd765885f8f5bbea918e98b98a9be61e63f99aa3c78",
+    "/home/linjiw/scene2motion/outputs/astra_a18_g1_contact_v1/positive_base/verification.json": "f75cb92ab4a21c3c36e30c764237a5f66d6df18721464ec728d1a0f5f9020ef2",
+    "/home/linjiw/scene2motion/outputs/astra_a18_g1_contact_v1/positive_off/eval/contacts.json": "b6e59af283ed55f88a61fdc0f957bcca7430e24feb6a73c26b958682ea779b66",
+    "/home/linjiw/scene2motion/outputs/astra_a18_g1_contact_v1/positive_off/eval/states.npz": "617d15ef5004562252ece8b8d9e3264b9ae2958fbfacfae316525f6729fc79c1",
+    "/home/linjiw/scene2motion/outputs/astra_a18_g1_contact_v1/positive_off/launch.json": "a089c845d4970764150d956b83b958b0276c74a8c8a6aa1cac16545ea63dedff",
+    "/home/linjiw/scene2motion/outputs/astra_a18_g1_contact_v1/positive_off/process.json": "2e37dfd4e41af20b3e3718f9e2ea1972c7e1528881d783586e2f30c8d81ddd83",
+    "/home/linjiw/scene2motion/outputs/astra_a18_g1_contact_v1/positive_off/verification.json": "512ba6bd28c836f39747090e909315fcf9a17351b41968d04c1f31c1c59b0b1c"
+  },
+  "specificity_tested": false,
+  "status": "closed_failed_force_gate",
+  "target_placements_with_nonzero_reported_impulse": 0,
+  "target_placements_with_points": 32,
+  "whole_body_contact_validated": false
+}

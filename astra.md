@@ -1,14 +1,16 @@
 # Scene2Motion: active research plan
 
-**Updated 2026-09-06 following the user's new research guidance.** This plan supersedes
+**Updated 2026-09-07 following the user's new research guidance.** This plan supersedes
 method closure in the September 1 plan and the two-backend/bank direction in the
 [previous ASTRA plan](docs/astra-plan-through-2026-09-05.md). Historical endpoints and
 receipts remain unchanged. Campaign-specific protocols govern already assigned work.
 
 ## Objective
 
-Build a bounded execution-aware correction of generator-native duck depth, onset and
-recovery for new beam scenes, keeping ARDY-G1 and SONIC frozen in default mode.
+Test a joint native height–forward-timing control space for single-beam ducking,
+then build a bounded two-preview compiler only if candidate supply improves. Keep
+ARDY-G1 and SONIC frozen in default mode. A17 closes the specific depth-only rule,
+not native correction or depth adjustment in general.
 The research question is whether measured execution response improves qualified local
 passage with continued locomotion over strong scene-aware and budget-matched controls.
 Call the system offline simulation-assisted compilation. Fitting a response model is
@@ -29,9 +31,12 @@ approach–duck–clear–continue in the present duck study.
 
 ## Method and computational contract
 
-Only theta=(depth, onset lead, recovery offset) may change. Keep smooth ramps, route,
-prompt, checkpoints and controller mode fixed. Change native root-height conditioning
-and regenerate; do not shift/stretch the generated joint trajectory.
+The latest user guidance supersedes the old three-variable contract for new work.
+Optimize only depth d and one forward-timing parameter beta; freeze spatial windows
+from geometry and nominal achieved envelope events. Keep route endpoints, horizon,
+prompt, checkpoints and controller mode fixed. Emit native root-position and
+root-height constraints before generation; never time-rescale generated joints.
+Historical A6–A17 protocols and their failed gates remain unchanged.
 
 At deployment: initial generation+absent preview, one bounded correction+regeneration,
 exact edited-candidate absent preview, then one present evaluation of the selected
@@ -39,7 +44,9 @@ output. Maximum two generated candidates and two previews; no present outcome ma
 influence command selection. Refusals count among all assigned attempts. A selected
 output must have its own complete qualification measurement.
 
-Estimate regularized local execution response on paired development perturbations.
+First measure joint-control candidate coverage on fresh development scenes. Do not
+fit another response predictor until timing supplies useful new achieved outcomes.
+Only then estimate a small scene-held-out execution response model.
 Use achieved whole-body footprint overlap, clearance, rear-body exit and one-second
 continuation. Preserve non-arrival and incomplete recovery. Require clearance, exit
 and continuation separately; minimize edit size and duck burden within studied bounds.
@@ -47,6 +54,35 @@ Use grouped development residual allowances; these are empirical engineering est
 not safety certificates. Do not add the40 mm geometry inflation twice.
 
 ## Ordered work
+
+**A18 now closed:** two of six jobs launched,64 instrument exposures. Contact
+points on32/32 overlap placements, nonzero reported impulses0/32; exact observer
+states. Force sensitivity unresolved; specificity/capacity doubling untested.
+See [bounded result](docs/astra-a18-result-2026-09-07.md). No force-based clearance claim.
+
+**A19 interrupted after verified prefix:** [protocol](docs/astra-a19-joint-control-protocol.md),
+preparation `/tmp/s2m-a19-b7f9733`, outputs `outputs/astra_a19_joint_control_v1`.
+Eight fresh geometries,16 carriers,176 scientific absent previews; maximum162
+32-env jobs including a fresh exact nominal replay,5184 operational rollouts.
+Nominal4/16,32 exact replay slots; two shallow targets verified. Fifth job aborted
+at2495MiB RAM below2500MiB floor; no retry, joint previews0.
+[Prefix result](docs/astra-a19-prefix-2026-09-07.md).
+Nine native commands per unit; historical nominal/shallow remain exact comparators.
+Do not fit a predictor before the repeated timing-supply gate passes.
+[Updated claim–evidence plan](docs/astra-icra-joint-control-plan-2026-09-07.md).
+
+**Current assignment from the new guidance:** close A18 as a six-job instrument
+exercise, then A19 candidate coverage on8 fresh geometries×2 seeds×(9 joint controls
++2 exact historical command comparators). The new control module separates spatial
+height from forward timing and preserves the old native endpoint arrays. A18 maps
+three selected colliders among30 bodies/45 colliders; its detection claim will be
+limited to tested surfaces. A19 may run independently of contact calibration because
+its obstacle is absent. A19's9-candidate discovery search is not two-preview method
+evidence. A later present capability bridge uses up to48 target executions; a frozen
+practical rule and prospective scene pilot come only after useful supply is shown.
+The best fixed joint command and matched-space search must remain strong comparators.
+Preserving nominal never guarantees preserving unseen fixed-shallow successes.
+
 
 **A10 complete; predictor readiness failed.** [Results](docs/astra-a10-results-2026-09-06.md):
 384 generations and512 absent executions across12 scenes/48 units;96 generation

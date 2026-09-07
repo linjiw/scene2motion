@@ -13,6 +13,9 @@ ROOT = Path(__file__).resolve().parents[2]
 BEGIN = "<!-- BEGIN RECEIPT-DERIVED PROGRESS -->"
 END = "<!-- END RECEIPT-DERIVED PROGRESS -->"
 SOURCES = {
+    "a18": "outputs/astra_a18_g1_contact_v1/summary.json",
+    "a19_prefix": "outputs/astra_a19_prefix_audit_v1/summary.json",
+    "a19_native_figure": "outputs/astra_a19_native_figures_v1/receipt.json",
     "a10": "outputs/astra_a10_analysis_v1/summary.json",
     "a12": "outputs/astra_a12_analysis_v1/summary.json",
     "a13": "outputs/astra_a13_batch_observer_v1/summary.json",
@@ -79,7 +82,18 @@ def snapshot(root=ROOT):
             or data["contact_validation"]["G1_controlled_positive_contact_probe_completed"]):
         raise ValueError("new outcomes require revising the dated narrative")
     recent = recent_snapshot(data, root)
-    return {"schema_version": "scene2motion-public-progress-v2", "updated": "2026-09-06",
+    a18, a19 = data['a18'], data['a19_prefix']
+    if (a18['status'] != 'closed_failed_force_gate' or a18['target_placements_with_points'] != 32
+            or a18['target_placements_with_nonzero_reported_impulse'] != 0
+            or a19['status'] != 'stopped_resource_abort' or a19['joint_previews'] != 0
+            or a19['verified_scientific_previews'] != 18 or a19['joint_supply_gate'] is not None
+            or a19['nominal'] != {'qualified': 4, 'assigned': 16}
+            or a19['shallow']['full_arm_rate'] is not None):
+        raise ValueError('revise bounded A18/A19 narrative for changed evidence')
+    if sha(root/'docs/figures/astra_a19_native_requests.png') != data['a19_native_figure']['files']['native_requests.png']:
+        raise ValueError('native request figure changed')
+    return {"schema_version": "scene2motion-public-progress-v3", "updated": "2026-09-07",
+        "a18": a18, "a19_prefix": a19,
         "recent": recent,
         "source_receipts": {p: sha(root / p) for p in SOURCES.values()},
         "scope": "simulation development evidence; no hardware, geometry holdout or high-quality dataset claim",
@@ -177,6 +191,8 @@ def render(data):
         for a, r in recent["a17_pair"].items())
     replacements["RECENT_FIGURE"] = "data:image/png;base64,"+base64.b64encode(
         (ROOT/"docs/figures/astra_a17_clearance_progress.png").read_bytes()).decode()
+    replacements['NATIVE_FIGURE'] = 'data:image/png;base64,'+base64.b64encode(
+        (ROOT/'docs/figures/astra_a19_native_requests.png').read_bytes()).decode()
     replacements["A17_SECONDS"] = f'{recent["a17_resource"]["simulator_elapsed_sum_s"]:.2f}'
     replacements["A10_RAW"] = str(recent["a10"]["shallow_raw"])
     html = (ROOT / "docs/site/_progress.html").read_text()

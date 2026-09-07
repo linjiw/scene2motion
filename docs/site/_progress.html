@@ -1,12 +1,12 @@
 <section id="latest-progress" aria-labelledby="progress-title">
 <div class="wrap progress-content">
-  <p class="kicker">Latest research · September 6, 2026 · simulation development</p>
+  <p class="kicker">Latest research · September 7, 2026 · simulation development</p>
   <h2 id="progress-title">Clear the beam—and keep moving.</h2>
-  <p class="lede">Native motion controls can produce local beam passage with frozen ARDY-G1 and
-    SONIC. Our latest experiments ask whether execution-aware correction improves on a simple
-    shallow duck. <strong>Depth-only correction gained one pilot case in A16, but A17 found no
-    additional gain on the remaining development comparison.</strong> We retain the negative result
-    and close this correction rule before expanding the benchmark.</p>
+  <p class="lede">We have implemented a joint height–forward-timing native compiler for frozen
+    ARDY-G1 and SONIC. <strong>A19's fresh nominal baseline qualified 4 / 16 units, and all 32
+    replay slots matched exactly. The campaign then stopped at its RAM floor before testing
+    any joint candidate.</strong> The new control space is implemented; improved candidate
+    supply and obstacle-present benefit remain untested.</p>
   <div class="progress-stats" aria-label="Separate evidence levels; these denominators are not pooled">
     <div><strong>17 / 32</strong><span>A5 obstacle-present local passages<br>one reused beam geometry</span></div>
     <div><strong>5 vs 4 / 12</strong><span>A16 depth-only vs shallow<br>absent-preview qualification</span></div>
@@ -17,15 +17,37 @@
     the full 36-unit candidate cohort: its absolute edited-method success rates remain unknown.
     None of these numbers is a hardware or held-out scene result.</p>
 
+  <h3 id="a19-current">A18 closed; A19 stopped at an infrastructure gate</h3>
+  <div class="progress-table"><table>
+    <caption>Completed evidence and unfinished work are kept separate.</caption>
+    <thead><tr><th scope="col">Work package</th><th scope="col">Measured progress</th><th scope="col">Boundary</th></tr></thead>
+    <tbody>
+      <tr><th scope="row">A18 contact instrument</th><td>Contact points: 32 / 32 placements. Nonzero reported impulse: 0 / 32. Logging states exact.</td><td>Stopped after 2 of 6 jobs; force sensitivity, specificity and whole-body coverage unvalidated.</td></tr>
+      <tr><th scope="row">A19 fresh nominal</th><td>4 / 16 qualify across 8 fresh geometries; 32 / 32 exact replay slots.</td><td>Obstacle-absent baseline, not a method gain.</td></tr>
+      <tr><th scope="row">A19 shallow prefix</th><td>Two targets verified; one qualifies. The third target aborted at 2,495 MiB available RAM.</td><td>2,500 MiB runtime floor preserved; failed job not retried. Full-arm rate unknown.</td></tr>
+      <tr><th scope="row">Joint native controls</th><td>Nine distinct requests per carrier: 3 depths × 3 forward-timing levels.</td><td>No joint reference generated or previewed. The 176-preview supply test remains incomplete.</td></tr>
+    </tbody>
+  </table></div>
+  <figure><img src="{{NATIVE_FIGURE}}" alt="Archived native requests for the first assigned carrier: forward timing and time-sampled height differ while the spatial crouch profile remains the same. These are inputs, not executed motions.">
+    <figcaption>New control direction: adjust forward timing independently of spatial crouch depth.
+      These curves show native requests before generation, not joint-candidate execution.</figcaption></figure>
+  <p>Four A19 jobs completed and a fifth aborted: 160 operational exposures launched, 128 verified
+    rollouts, and 18 distinct scientific measurements. The remaining work cannot be called a
+    failed control mechanism. Resource stabilization and an explicit replacement allocation must
+    precede further collection; the original attempt and thresholds remain preserved.</p>
+  <p><a href="https://github.com/linjiw/scene2motion/blob/gh-pages/docs/astra-a18-result-2026-09-07.md">A18 bounded result</a> ·
+    <a href="https://github.com/linjiw/scene2motion/blob/gh-pages/docs/astra-a19-prefix-2026-09-07.md">A19 result and design</a> ·
+    <a href="https://github.com/linjiw/scene2motion/blob/gh-pages/docs/astra-icra-joint-control-plan-2026-09-07.md">ICRA claim–evidence plan</a></p>
+
   <h3 id="current-method">The system we are testing</h3>
   <ol class="progress-pipeline">
     <li><b>Describe the obstacle-relative motion</b><p>Known beam geometry and a forward route set
-      native root-height constraints. Depth, onset lead and recovery offset control the duck.
+      native root-position and root-height constraints. Depth and one forward-timing parameter control the new duck requests.
       ARDY-G1 produces the motion with frozen weights.</p></li>
     <li><b>Measure the actual tracked preview</b><p>SONIC tracks with the obstacle absent. Replay
       achieved whole-body states against the beam and measure clearance, exit time and continued
       forward motion. Keep one target in a fixed 31-reference background.</p></li>
-    <li><b>Correct once, verify, select or abstain</b><p>Preserve a qualified nominal preview.
+    <li><b>Future method: correct once, verify, select or abstain</b><p>Preserve a qualified nominal preview.
       Otherwise test one bounded native correction and measure that exact candidate. A selected
       preview still needs an obstacle-present evaluation.</p></li>
   </ol>
@@ -100,15 +122,15 @@
     <thead><tr><th scope="col">Paper component</th><th scope="col">Current evidence</th><th scope="col">Next decisive test</th></tr></thead>
     <tbody>
       <tr><th scope="row">Clearance–progress problem</th><td>Measured in stepping and ducking</td><td>Retain joint metrics and negative comparisons</td></tr>
-      <tr><th scope="row">Constructive compiler</th><td>Local passage baseline; correction lead did not extend</td><td>Freeze strongest supported compiler; compare obstacle-present execution</td></tr>
-      <tr><th scope="row">Physical contact measurement</th><td>Simple-body controls and event attribution; G1 positive sensitivity open</td><td>Known-contact foot, shin and torso controls before contact-free claims</td></tr>
-      <tr><th scope="row">Scene generalization</th><td>12 reused development geometries; no held-out result</td><td>Fresh height/length/position groups, then multi-beam routes</td></tr>
+      <tr><th scope="row">Constructive compiler</th><td>Local passage baseline; correction lead did not extend</td><td>Establish joint candidate supply, then present capability, then equal-budget selection</td></tr>
+      <tr><th scope="row">Physical contact measurement</th><td>A18 points detected; nonzero force gate failed; observer states exact</td><td>Keep force claims limited; do not reopen instrumentation as an unbounded branch</td></tr>
+      <tr><th scope="row">Scene generalization</th><td>12 historical geometries plus A19 fresh baseline on 8; no held-out method result</td><td>Whole-scene pilot and confirmation after candidate supply; uninterrupted two-beam extension</td></tr>
       <tr><th scope="row">Other motions and utility</th><td>Stepping repair 0 / 2; learner utility unmeasured</td><td>Separate carrier-aware stepping protocol; utility test if claiming a data contribution</td></tr>
     </tbody>
   </table></div>
   <p>ARDY already demonstrates integration with SONIC, and CLoSD already connects diffusion to
     physics feedback. Our paper must explain the narrower algorithmic change and prove its benefit.
-    More experiment receipts alone do not establish that benefit.
+    The comparison must include the best fixed joint command and matched-space search. A recent <a href="https://arxiv.org/html/2604.17335v2">terrain-conditioned generation-and-tracking system</a> also reports G1 traversal; our proposed distinction is useful adaptation with both released models frozen at a declared query cost.
     <a href="https://research.nvidia.com/labs/sil/projects/ardy/">ARDY primary source</a> ·
     <a href="https://arxiv.org/abs/2410.03441">CLoSD primary source</a>.</p>
   <p><a href="https://github.com/linjiw/scene2motion/blob/gh-pages/docs/astra-icra-research-story-2026-09-06.md"><b>Read the paper framing, claim–evidence map and staged experiments</b></a>.
